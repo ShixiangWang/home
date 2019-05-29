@@ -1,0 +1,131 @@
+baseurl = "https://likan.info/"
+languageCode = "en-us"
+title = "Shixiang, Wang | 王诗翔"
+theme = "hugo-ivy"
+#googleAnalytics = "UA-112592341-1"
+disqusShortname = "https-likanzhan-github-io"
+ignoreFiles = ["\\.Rmd$", "_files$", "_cache$"]
+hasCJKLanguage = true  # .WordCount works correctly for chinese
+enableEmoji = true
+footnotereturnlinkcontents = "↩"
+MetaDataFormat = "yaml" # format of a new post
+enableGitInfo = false
+publishDir = "docs"
+
+[[menu.main]]
+    name = "English"
+    url = "/en／"
+    weight = 1
+
+[[menu.main]]
+    name = "中文"
+    url = "/cn/"
+    weight = 2
+
+[[menu.en]]
+    name = "Home"
+    url = "/"
+    weight = 1
+
+[[menu.en]]
+    name = "About"
+    url = "/en/about/"
+    weight = 2
+
+[[menu.en]]
+    name = "CV"
+    url = "/en/cv-en/LZhanEN"
+    weight = 3
+
+[[menu.en]]
+    name = "Teach"
+    url = "/en/teach/"
+    weight = 4
+
+[[menu.en]]
+    name = "Blog"
+    url = "/en/post/"
+    weight = 5
+
+[[menu.en]]
+    name = "Paradigm"
+    url = "/en/paradigm/"
+    weight = 6
+
+[[menu.en]]
+    name = "中文"
+    url = "/cn/"
+    weight = 7
+
+[[menu.cn]]
+    name = "首页"
+    url = "/"
+    weight = 1
+
+[[menu.cn]]
+    name = "关于"
+    url = "/cn/about/"
+    weight = 2
+
+[[menu.cn]]
+    name = "读书"
+    url = "/cn/read/"
+    weight = 3
+
+[[menu.cn]]
+    name = "博客"
+    url = "/cn/post/"
+    weight = 4
+
+[[menu.cn]]
+    name = "写作"
+    url = "http://appendix.likan.info/probstatr"
+    weight = 5
+
+[[menu.cn]]
+    name = "研究"
+    url = "/cn/research/"
+    weight = 6
+
+[[menu.cn]]
+    name = "简历"
+    url = "/cn/cv-cn/LZhanCN"
+    weight = 7
+
+[[menu.cn]]
+    name = "English"
+    url = "/en/"
+    weight = 8
+
+[params]
+    description = "The personal website of Likan Zhan"
+    disqusURL = "https://likanzhan.github.io"
+    customJS = ["js/center-img.js", "js/right-quote.js", "js/no-highlight.js", "js/fix-footnote.js"]
+    githubContentURL = "https://github.com/rbind/likan/edit/master/content/"
+    # options for highlight.js (version, additional languages, and theme)
+    highlightjsVersion = "9.12.0"
+    highlightjsLang = ["r", "yaml", "tex"]
+    highlightjsTheme = "github"
+    dateFormat = "2006-01-02" # "2006-01-02, Mon, "
+
+[params.footer]
+    home = "Powered by [Hugo](https://gohugo.io) and [Blogdown](https://bookdown.org/yihui/blogdown/) &copy; [Likan Zhan](/) 2017 - 2019"
+    en   = "[<i class='far fa-envelope fa-1x'></i>](mailto:zhanlikan@hotmail.com) &middot; [<i class='fab fa-github fa-1x'></i>](https://github.com/likanzhan) &middot; [<i class='fab fa-stack-overflow fa-1x'></i>](https://stackoverflow.com/users/2263930/likan-zhan) &middot; [<i class='ai ai-osf ai-1x'></i>](https://osf.io/j8wrg) &middot; [<i class='ai ai-google-scholar ai-1x'></i>](https://scholar.google.com/citations?user=QvyaktcAAAAJ&hl=en) &middot; [<i class='ai ai-academia ai-1x'></i>](https://blcu.academia.edu/likanzhan) &middot; [<i class='ai ai-orcid ai-1x'></i>](https://orcid.org/0000-0002-9275-3557) &middot; [<i class='ai ai-researcherid ai-1x'></i>](https://www.researcherid.com/rid/B-5684-2019) &middot; [<i class='ai ai-researchgate ai-1x'></i>](https://www.researchgate.net/profile/Likan_Zhan) &middot; [<i class='fab fa-weibo'></i>](http://weibo.com/1763551555) <br> Powered by [Hugo](https://gohugo.io) and [Blogdown](https://bookdown.org/yihui/blogdown/) &copy; [Likan Zhan](/) 2017 - 2019"
+    cn   = "[<i class='far fa-envelope fa-1x'></i>](mailto:zhanlikan@hotmail.com) &middot; [<i class='fab fa-github fa-1x'></i>](https://github.com/likanzhan) &middot; [<i class='fab fa-stack-overflow fa-1x'></i>](https://stackoverflow.com/users/2263930/likan-zhan) &middot; [<i class='ai ai-osf ai-1x'></i>](https://osf.io/j8wrg) &middot; [<i class='ai ai-google-scholar ai-1x'></i>](https://scholar.google.com/citations?user=QvyaktcAAAAJ&hl=en) &middot; [<i class='ai ai-academia ai-1x'></i>](https://blcu.academia.edu/likanzhan) &middot; [<i class='ai ai-orcid ai-1x'></i>](https://orcid.org/0000-0002-9275-3557) &middot; [<i class='ai ai-researcherid ai-1x'></i>](https://www.researcherid.com/rid/B-5684-2019) &middot; [<i class='ai ai-researchgate ai-1x'></i>](https://www.researchgate.net/profile/Likan_Zhan) &middot; [<i class='fab fa-weibo'></i>](http://weibo.com/1763551555) <br> 本站由 [Hugo](https://gohugo.io) 和 [Blogdown](https://bookdown.org/yihui/blogdown/) 强力驱动 &copy; [战立侃](/) 2017 - 2019"
+
+[params.author]
+    en = "Likan Zhan"
+    cn = "战立侃"
+
+[params.logo.en]
+    img = "/logo/bodhi.png"
+    url = "/"
+    alt = "Likan Zhan"
+    tag = ""
+
+[params.lang.edit]
+    cn = "编辑"
+[params.lang.license]
+    cn = "版权"
+[params.lang.subscribe]
+    cn = "订阅"

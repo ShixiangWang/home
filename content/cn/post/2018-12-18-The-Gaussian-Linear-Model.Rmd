@@ -1,0 +1,95 @@
+---
+title: "高斯线性模型"
+author: "Likan Zhan"
+date: '2018-12-18'
+lastmod: "`r Sys.Date()`"
+slug: ""
+tags: []
+categories: []
+---
+
+1. QR 分解
+
+```{r, results = "hold"}
+(lm1 <- lm(optden ~ carb, data = Formaldehyde))
+(X <- model.matrix(lm1))
+(class(qrlm1 <- lm1$qr))
+
+(R  <- qr.R(qrlm1))
+(Q1 <- qr.Q(qrlm1))
+
+(Q1R <- Q1 %*% R)
+
+all.equal(X, Q1R, check.attributes = FALSE)
+all(X == Q1R)
+
+(y <- model.response(model.frame(lm1)))
+(Q <- qr.Q(qrlm1, complete = TRUE))
+
+qty1 <- lm1$effects
+qty2 <- crossprod(Q, y)
+qty3  <- qr.qty(qrlm1, y)
+all.equal(cbind(qty1), qty2, check.attributes = FALSE)
+all.equal(qty1, qty3, check.attributes = FALSE)
+```
+
+2.  Q 的正交性
+
+```{r, results = "hold"}
+crsQ1 <- crossprod(Q1)
+crsQ  <- crossprod(Q)
+crsQt <- tcrossprod(Q)
+
+all.equal(crsQ1, diag(nrow = ncol(Q1)))
+all.equal(crsQ,  diag(nrow = ncol(Q)))
+all.equal(crsQt, diag(nrow = ncol(Q)))
+```
+
+查看 Q 的内容
+
+```{r, results = "hold"}
+crsQ1
+crsQ
+```
+
+用 `zapsmall()` 进行优化
+
+```{r, results = "hold"}
+zapsmall(crsQ1)
+zapsmall(crsQ)
+```
+
+回归系数的计算
+
+```{r, results = "hold"}
+coef1 <- backsolve(R, crossprod(Q1, y))
+coef2 <- qr.coef(qrlm1, y)
+coef3 <- coef(lm1)
+all.equal(coef3, as.vector(coef1), check.attributes = FALSE)
+```
+
+列的重新组合，例如
+```{r}
+set.seed(1234)
+badDat <- within(data.frame(
+  x1 = 1:20,
+  x2 = rnorm(20, mean = 6, sd = 0.2),
+  x4 = rexp(20, rate = 0.02),
+  y  = runif(20, min = 18, max = 24)),
+  {x3 = x1 + 2 * x2} # 一个存在完美共线性的回归因子
+  )
+badDat
+```
+建构回归模型
+
+```{r}
+lm2 <- lm(y ~ x1 + x2 + x3 + x4, data = badDat)
+summary(lm2)
+```
+查看分解结果
+
+```{r}
+(lm2qr <- lm2$qr)$rank
+qr.R(lm2qr) # 矩阵的列进行了重新组合
+lm2qr$pivot # 用于排列的数组
+```

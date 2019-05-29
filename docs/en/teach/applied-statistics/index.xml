@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Applied Statistics on Shixiang, Wang | 王诗翔</title>
+    <link>/en/teach/applied-statistics/</link>
+    <description>Recent content in Applied Statistics on Shixiang, Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 01 Mar 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/en/teach/applied-statistics/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+  </channel>
+</rss>

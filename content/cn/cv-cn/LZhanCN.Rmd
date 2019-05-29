@@ -1,0 +1,150 @@
+---
+title: "简历"
+disable_comments: yes
+date: '2016-01-22'
+lastmod: "`r Sys.Date()`"
+output:
+  pdf_document:
+    includes:
+      in_header: cv-cn-header.tex
+    latex_engine: xelatex
+    md_extensions: -autolink_bare_uris+hard_line_breaks
+    template: cv-cn-template.latex
+  html_document:
+    df_print: paged
+  word_document: default
+geometry: margin=1in
+pdf: /cn/cv-cn/LZhanCN.pdf
+type: cv
+urlcolor: blue
+fontsize: 10pt
+---
+
+# 战立侃
+
+- 地址：北京市海淀区学院路15号，北京语言大学，综合楼1235室
+- 电话：+ 86 10 8230 3468
+- 邮箱：zhanlikan AT hotmail DOT com
+- 个人网站：<https://likan.info>
+
+## 职业经历
+
+- 2014.10 ~ 现在<br>
+  北京语言大学语言康复学院<br>
+  语言病理与脑科学研究所，助理研究员
+
+## 教育经历
+
+- 2010.10 ~ 2014.09 <br>
+  澳大利亚麦考瑞大学，认知科学专业，哲学博士
+
+
+- 2007.09 ~ 2010.07 <br>
+  北京语言大学，认知心理学专业，教育学硕士
+
+- 2000.09 ~ 2004.07 <br>
+  北京语言大学，对外汉语教学专业，文学学士
+
+## 教学经历
+
+- 行为科学统计学（本科生+硕士研究生）, <i class="fa fa-file-text-o"> [更多...](https://likan.info/en/teach/Statistics-for-the-Behavioral-Sciences/)</i>
+
+- R语言与数据统计和数据可视化（硕士研究生+博士研究生）, <i class="fa fa-file-text-o"> [更多...](https://likan.info/en/teach/R-for-Statistics-Data-Visualization/)</i>
+
+- 认知神经科学导论（硕士研究生+博士研究生）, <i class="fa fa-file-text-o"> [更多...](https://likan.info/en/teach/Introduction-to-Cognitive-Neuroscience/)</i>
+
+- 医学文献检索与导读（本科生）, <i class="fa fa-file-text-o"> [更多...](https://likan.info/en/teach/Science-and-Scientific-Research/)</i>
+
+## 专业技能
+
+- 统计。我讲授了两门面向研究生和本科生的统计学课程。我有丰富 R 语言使用经验，尤其是 R 语言统计分析和统计作图。下面是一些我经常使用的 R 语言拓展包：[*data.table*](http://r-datatable.com)、[*dplyr*](http://dplyr.tidyverse.org), [*ggplot2*](http://ggplot2.tidyverse.org)、[*car*](https://cran.r-project.org/web/packages/car/index.html)、[*lme4*](https://github.com/lme4/lme4)、和 [*gam*](https://cran.r-project.org/web/packages/gam/index.html) 等。在教学和研究的过程中，我还自己编写了一个 R 语言拓展包  [*acqr*](https://github.com/likanzhan/acqr)。
+
+- 实验技能。我熟悉用于刺激呈现的各类行为科学研究软件，如 [E-prime](https://www.pstnet.com/eprime.cfm)、 [Psychopy](http://www.psychopy.org)、 [Psychtoolbox](http://psychtoolbox.org)、和 [Presentation](https://www.neurobs.com/presentation) 等。我有近十年的眼动仪使用经验，尤其是加拿大 *SR Research* 公司生产的 *Eyelink II/1000 plus* 型眼动仪和相关软件系统如 *Experiment Builder* 和 *Data Viewer*。我还负责建立了中国第一台儿童脑磁图仪系统，熟悉日本 *Yokogawa* 脑磁图仪的硬件系统、系统维护和数据收集。脑磁图仪数据分析方面，我熟悉 *BESA* 系统和 Matlab下 的分析软件包 [*fieldtrip*](http://www.fieldtriptoolbox.org) 和  [*SPM12*](https://github.com/neurodebian/spm12)。
+
+- 写作技能。我喜欢用 Latex、Markdown、和R Markdown 等现代书写工具写作。我还用 [*hugo*](https://gohugo.io) 和 [*blogdown*](https://github.com/rstudio/blogdown) 两种软件系统创建了我自己的个人网站：[https://likan.info](https://likan.info)。
+
+## 研究项目和奖励
+
+1. 项目
+
+- 2015 - 2016：可能世界语义学的实验研究，北京语言大学博士科研启动金（15YBB29），2 万元
+
+- 2015 - 2016：普通心理学，北京语言大学新任教师支持基金（FD201530），0.7 万元
+
+- 2015 - 2016：现代汉语声调习得研究，北京语言大学院级项目（15YJ050003），7 万元
+
+- 2010 - 2014：自然语言中条件句的理解，麦考瑞大学认知科学博士生项目，1 万澳元
+
+- 2013.10：自然语言中条件句假设特征研究，麦考瑞大学博士生研究基金，0.46 万澳元
+
+2. 奖励
+
+- 2013.11：第38届波士顿儿童语言发展研讨会，旅行奖励 300 美元
+
+- 2013.04：第26届纽约城市大学句子加工会议，旅行奖励 350 美元
+
+## 出版物
+
+1. 专著
+
+- **Zhan, L.** (2015). *The Interpretation of Conditionals in Natural Language*. Saarbrucken, Germany: Lap Lambert Academic Publishing.
+
+2. 杂志论文
+
+- Zhou, P., **Zhan, L.**, & Ma, H. (2018). Predictive language processing in preschool children with Autism Spectrum Disorder: An eye-tracking study. *Journal of Psycholinguistic Research*. doi:10.1007/s10936-018-9612-5 <i class="fa fa-file-pdf-o"> [(PDF)](https://publications.likan.info/Periodicals/JPsycholinguistRes2018.pdf)</i>
+
+- **Zhan, L.** (2018). Using eye movements recorded in the visual world paradigm to explore the online processing of spoken language. *Journal of Visualized Experiments, 140*, e58086. doi: 10.3791/58086 <i class="fa fa-file-pdf-o"> [(PDF)](https://publications.likan.info/Periodicals/jove-protocol-58086.pdf)</i>
+
+- Zhou, P., Ma, W., **Zhan, L.**, & Ma, H (2018). Using the visual world paradigm to study sentence comprehension in Mandarin-speaking children with autism. *Journal of Visualized Experiments, 140*, e58452. doi: 10.3791/58452 <i class="fa fa-file-pdf-o"> [(PDF)](https://publications.likan.info/Periodicals/jove-protocol-58452.pdf)</i>
+
+- **Zhan, L.**, Zhou, P., & Crain, S. (2018). Using the visual-world paradigm to explore the meaning of conditionals in natural language. *Language, Cognition and Neuroscience, 33*(8), 1049-1062. doi: 10.1080/23273798.2018.1448935 <i class="fa fa-file-pdf-o"> [(PDF)](https://publications.likan.info/Periodicals/LangCognNeurosci2018.pdf)</i>
+
+- **Zhan, L.** (2018). Scalar and ignorance inferences are both computed immediately upon encountering the sentential connective: The online processing of sentences with disjunction using the visual world paradigm. *Frontiers in Psychology, 9*. doi: 10.3389/fpsyg.2018.00061  <i class="fa fa-file-pdf-o"> [(PDF)](https://www.frontiersin.org/articles/10.3389/fpsyg.2018.00061/full)</i>
+
+- Moscati, V., **Zhan, L.**, & Zhou, P. (2017). Children's on-line processing of epistemic modals. *Journal of Child Language, 44*(5), 1025-1040. doi: 10.1017/S0305000916000313
+<i class="fa fa-file-pdf-o"> [(PDF)](https://publications.likan.info/Periodicals/JChildLang2016.pdf)</i>
+
+- **Zhan, L.**, Crain, S., & Zhou, P. (2015). The online processing of only if- and even if- conditional statements: Implications for mental models. *Journal of Cognitive Psychology, 26*(7), 367-379. doi: 10.1080/ 20445911.2015.1016527 <i class="fa fa-file-pdf-o"> [(PDF)](https://publications.likan.info/Periodicals/JCognPsychol2015.pdf)</i>
+
+- Zhou, P., Crain, S., & **Zhan, L.** (2014). Grammatical aspect and event recognition in children's online sentence comprehension. *Cognition, 133*(1), 262-276. doi: 10.1016/j.cognition.2014.06.018 <i class="fa fa-file-pdf-o"> [(PDF)](http://publications.likan.info/Periodicals/Cognition2014.pdf)</i>
+
+- Zhou, P., Crain, S., & **Zhan, L.** (2012). Sometimes children are as good as adults: The pragmatic use of prosody in children’s on-line sentence processing. *Journal of Memory and Language, 67*(1), 149-164. doi: 10.1016/j.jml.2012.03.005 <i class="fa fa-file-pdf-o"> [(PDF)](https://publications.likan.info/Periodicals/JMemLang2012.pdf)</i>
+
+- Zhou, P., Su, Y., Crain, S., Gao, L., & **Zhan, L.** (2012). Children's use of phonological information in ambiguity resolution: a view from Mandarin Chinese. *Journal of Child Language, 39*(04), 687-730. doi: 10.1017/S0305000911000249 <i class="fa fa-file-pdf-o"> [(PDF)](https://publications.likan.info/Periodicals/JChildLang2012.pdf)</i>
+
+3. 会议论文集
+
+- **Zhan, L.** (2018). Magnetoencephalography (MEG) as a Technique for Imaging Brain Function and Dysfunction. In *Top 10 Contributions on Psychology* (Chapter 4, pp. 1-38). Telangana, India: Avid Science
+
+- **Zhan, L.**, Crain, S., & Zhou, P. (2013). The anticipatory e ects of focus operators: A visual- world paradigm eye-tracking study of “only if” and “even if” conditionals. In N. Goto, K. Otaki, A. Sato, & K. Takita (Eds.), *Proceedings of GLOW in Asia IX 2012*. Mie University, Japan.
+
+
+4. 大会报告或受邀报告
+
+- **Zhan, L.** (2018, December). *Sentential Reasoning and Sentential Connectives: Conditional, Disjunction, Negation, and Modality*. Inivted presentation given at the Workshop of Theoretical and Experimental Linguistics, Tsinghua University, Beijing, China. [<i class="fa fa-download" style="font-size:1em"> (PDF) </i>](https://publications.likan.info/Talks/Sentential_Reasoning_Sentential_Connectives.pdf)
+
+- **Zhan, L.** (2018, November). *Methods of Cognitive Neuroscience: Focus on Language*. Inivted presentation given at the Child Cognition Laboratory, Department of Foreign Languages and Literatures, Tsinghua University, Beijing, China. [<i class="fa fa-download" style="font-size:1em"> (PDF) </i>](https://publications.likan.info/Talks/MethodsCognNeurosciLang2018NOV.pdf)
+
+- **Zhan, L.** (2018, November). *Visual world paradigm: An eye-tracking technique to study the real time processing of spoken Language*. Inivted presentation given at the Center for Studies of Chinese as a Second Language, Beijing Language and Culture University, Beijing, China. [<i class="fa fa-download" style="font-size:1em"> (PDF) </i>](https://publications.likan.info/Talks/Visual_World_Paradigm.pdf)
+
+- **Zhan, L.** (2018, October). *Experimental Builder: A What-You-See-Is-What-You-Get tool to build experiment scripts*. Inivted presentation given at the Center for Studies of Chinese as a Second Language, Beijing Language and Culture University, Beijing, China. [<i class="fa fa-download" style="font-size:1em"> (Example materials) </i>](https://publications.likan.info/Eyelink_Experiment_Builder_Training_Materials/)
+
+- **Zhan, L.** (2017, September). *Scalar implicature and ignorance inference are both locally computed: Evidence from the online processing of disjunctions using the visual world paradigm*. Paper presented at the Second High-level Forum on Cognitive Linguistics, University of International Business and Economics, Beijing, China. [<i class="fa fa-download" style="font-size:1em"> (PDF) </i>](https://publications.likan.info/Talks/ZhanL2017UIBE.pdf)
+
+- **Zhan, L.**, Crain, S., & Zhou, P. (2013, November). *Going beyond the information that is perceived: The hypothetical property of if-conditionals in Mandarin Chinese*. Paper session presented at the Second International Conference on Psycholinguistics in China, Fuzhou, China.
+
+- Moscati, V., **Zhan, L.**, & Zhou, P. (2013, November). *Reasoning on possibilities: An eye tracking study on modal knowledge*. Poster session presented at the 38th Annual Boston University Conference on Language Development, Boston University, MA.
+
+- Zhou, P., Crain, S., & **Zhan, L.** (2013, November). *Anticipatory eye movements in children’s processing of grammatical aspect*. Poster session presented at the 38th Annual Boston University Conference on Language Development, Boston University, MA.
+
+- **Zhan, L.**, Crain, S., & Zhou, P. (2013, March). *The hypothetical property of “if”-statements: A visual- world paradigm eye-tracking study*. Poster session presented at CUNY2013: The 26th annual CUNY Sentence Processing Conference, Columbia, SC.
+
+- **Zhan, L.**, Crain, S., & Zhou, P. (2012, July). *The interpretation of conditionals*. Paper presented at the 7th International Conference on Thinking (ICT2012), Birkbeck/UCL, London, UK.
+
+- Zhou, P., Crain, S., & **Zhan, L.** (2012, March). *Children’s pragmatic use of prosody in sentence processing*. Poster session presented at the 35th Generative Linguistics in the Old World (GLOW) Workshop: Production and Perception of Prosodically-Encoded Information Structure, University of Potsdam, Potsdam, Germany.
+
+- **Zhan, L.**, Crain, S., & Khlentzos, D. (2011, August). *The basic semantics of conditionals in natural language*. Paper presented at the Harvard-Australia Workshop on: Language, Learning and Logic, Macquarie University, Sydney, Australia.
+
+- Zhou, P., Crain, S., Gao, L., & **Zhan, L.** (2010, September). *The role of prosody in children’s focus identification*. Paper presented at the Generative Approaches to Language Acquisition - North America 4 (GALANA- 4), Toronto, Canada.
+
+- Zhou, P., Su, Y., Crain, S., Gao, L., & **Zhan, L.** (2010, August). *Children’s use of prosodic information in ambiguity resolution*. Paper presented at the 8th Conference of Generative Linguistics in the Old World Asia (GLOW-in-Asia 8), Beijing, China.

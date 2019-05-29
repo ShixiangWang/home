@@ -1,0 +1,20 @@
+---
+title: "An interactive learning widget for R"
+disable_comments: yes
+author: "Likan Zhan"
+date: "`r Sys.Date()`"
+lastmod: '2017-09-01'
+---
+
+```{r, include = FALSE}
+tutorial::go_interactive(height = 600)
+```
+
+```{r}
+a <- "Hello"
+b <- "World"
+c <- "!"
+
+paste(a, b, c)
+
+```

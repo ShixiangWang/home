@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>About on Shixiang, Wang | 王诗翔</title>
+    <link>/</link>
+    <description>Recent content in About on Shixiang, Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 05 May 2016 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>An interactive learning widget for R</title>
+      <link>/en/teach/r-for-statistics-data-visualization/interactiver/</link>
+      <pubDate>Fri, 04 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/en/teach/r-for-statistics-data-visualization/interactiver/</guid>
+      <description>  eyJsYW5ndWFnZSI6InIiLCJzYW1wbGUiOiJhIDwtIFwiSGVsbG9cIlxuYiA8LSBcIldvcmxkXCJcbmMgPC0gXCIhXCJcblxucGFzdGUoYSwgYiwgYykifQ==  </description>
+    </item>
+    
+    <item>
+      <title>高斯线性模型</title>
+      <link>/cn/post/2018-12-18-the-gaussian-linear-model/</link>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2018-12-18-the-gaussian-linear-model/</guid>
+      <description>QR 分解 (lm1 &amp;lt;- lm(optden ~ carb, data = Formaldehyde)) (X &amp;lt;- model.matrix(lm1)) (class(qrlm1 &amp;lt;- lm1$qr)) (R &amp;lt;- qr.R(qrlm1)) (Q1 &amp;lt;- qr.Q(qrlm1)) (Q1R &amp;lt;- Q1 %*% R) all.equal(X, Q1R, check.attributes = FALSE) all(X == Q1R) (y &amp;lt;- model.response(model.frame(lm1))) (Q &amp;lt;- qr.Q(qrlm1, complete = TRUE)) qty1 &amp;lt;- lm1$effects qty2 &amp;lt;- crossprod(Q, y) qty3 &amp;lt;- qr.qty(qrlm1, y) all.equal(cbind(qty1), qty2, check.attributes = FALSE) all.equal(qty1, qty3, check.attributes = FALSE) ## ## Call: ##</description>
+    </item>
+    
+    <item>
+      <title>Linear model and t test</title>
+      <link>/en/paradigm/r-programming-language/linear-model-and-test/</link>
+      <pubDate>Fri, 12 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/en/paradigm/r-programming-language/linear-model-and-test/</guid>
+      <description>1. A brief description 2. Recent Applications 3. References   1. A brief description This post will summarize the advancement of using R to analyze data obtained in behavioral and relevant areas.
+ 2. Recent Applications   myDat ## Y X Subj ## 1 0.38677486 x1 S1 ## 2 0.58257989 x1 S2 ## 3 -2.33588446 x1 S3 ## 4 -0.08739159 x1 S4 ## 5 0.63968083 x1 S5 ## 6 -0.</description>
+    </item>
+    
+    <item>
+      <title>R Used in Literature</title>
+      <link>/en/paradigm/r-programming-language/r-in-literature/</link>
+      <pubDate>Fri, 12 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/en/paradigm/r-programming-language/r-in-literature/</guid>
+      <description>1. A brief description 2. Recent Applications 3. References   1. A brief description This post will summarize the advancement of using R to analyze data obtained in behavioral and relevant areas.
+ 2. Recent Applications Use null model to do the statistics (Benitez &amp;amp; Saffran, 2018)  str(Cnd_Prdct) ## &amp;#39;data.frame&amp;#39;: 30 obs. of 1 variable: ## $ Prop: num 0.396 0.701 0.61 0.558 0.425 ... Prop &amp;lt;- Cnd_Prdct$Prop ptp &amp;lt;- car::powerTransform(Prop) summary(ptp) ## bcPower Transformation to Normality ## Est Power Rounded Pwr Wald Lwr Bnd Wald Upr Bnd ## Prop 1.</description>
+    </item>
+    
+    <item>
+      <title>Theory of mind</title>
+      <link>/en/paradigm/reasoning/theory-of-mind/</link>
+      <pubDate>Wed, 06 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/en/paradigm/reasoning/theory-of-mind/</guid>
+      <description>1. Theory of Mind (TOM) 2. False belief task 2.1 Change-of-location false belief task 2.2 Recent Applications  3. References   1. Theory of Mind (TOM) Theory of Mind is the human capacity to comprehend that other people hold beliefs and desires and that these may differ from one’s own beliefs and desires. Understanding others’ mental states is a crucial skill that enables the complex social relationships that characterize human societies.</description>
+    </item>
+    
+    <item>
+      <title>Visual World Paradigm</title>
+      <link>/en/paradigm/language/visual-world-paradigm/</link>
+      <pubDate>Wed, 07 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/en/paradigm/language/visual-world-paradigm/</guid>
+      <description>1. A brief description 2. Recent Applications 3. References   1. A brief description This paradigm relies on two seminal work published by Cooper (1974) and by Tanenhaus, Spivey-Knowlton, Eberhard, &amp;amp; Sedivy (1995). In a typical eye tracking study using the visual world paradigm, participants’ eye movements to objects or pictures in the visual workspace are recorded via an eye tracker as the participant produces or comprehends a spoken language describing the concurrent visual world.</description>
+    </item>
+    
+    <item>
+      <title>领域特异性新解：以社会神经科学为例</title>
+      <link>/post/2017-07-16-a-new-look-at-domain-specificity-insigths-from-social-neuroscience/</link>
+      <pubDate>Sun, 16 Jul 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2017-07-16-a-new-look-at-domain-specificity-insigths-from-social-neuroscience/</guid>
+      <description>大脑有不同的结构 (architecture)，而不是同质的 (equipotential) 领域特异性 (domain specificity) 认知领域 (cognitive domain): 从一般意义上来讲，一项认知功能的领域，指的是这项认知功</description>
+    </item>
+    
+    <item>
+      <title>行列式 (Determinant)</title>
+      <link>/post/linear-algebra/</link>
+      <pubDate>Fri, 16 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/post/linear-algebra/</guid>
+      <description>1. 二阶和三阶行列式 (Determinant) det() 和 determinant() 函数 args(det) ## function (x, ...) ## NULL args(determinant) ## function (x, logarithm = TRUE, ...) ## NULL 一个例子 data &amp;lt;- c(3, 2, -2, 1, 12, 1) data &amp;lt;- matrix(data, nrow = 2) data ## [,1] [,2] [,3] ## [1,] 3 -2 12 ## [2,] 2 1 1 D &amp;lt;- det(data[, c(1, 2)])</description>
+    </item>
+    
+    <item>
+      <title>数字能力真的有进化学根源吗?</title>
+      <link>/post/2017-05-27-is-there-really-an-evolved-capacity-for-number/</link>
+      <pubDate>Sat, 27 May 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2017-05-27-is-there-really-an-evolved-capacity-for-number/</guid>
+      <description>数字需要满足的几个特征 涉及的数量是准确和非连续的； 是抽象的，因为它与特定的刺激类型无关； 有基数含义（用于数数）； 有序数含义（）； 是关联性的；</description>
+    </item>
+    
+    <item>
+      <title>人如何区分虚幻与现实？</title>
+      <link>/post/2017-05-02-reality-monitoring-brain-mechanisms/</link>
+      <pubDate>Tue, 02 May 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2017-05-02-reality-monitoring-brain-mechanisms/</guid>
+      <description>1. 信息源监控理论 信息源监控理论 (Source Monitoring Framework) 2. 前额叶区域 前端前额叶区域(anterior prefrontal cortex, PFC)。该区域的神经元密度较低、树突结构比其他区域复杂</description>
+    </item>
+    
+    <item>
+      <title>第 01 章、简介</title>
+      <link>/cn/read/advanced-r/ch-01/</link>
+      <pubDate>Wed, 15 Feb 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/read/advanced-r/ch-01/</guid>
+      <description>1. 适用人群 2. 主要内容 3. 元技术 4. 推荐阅读 5. 获取帮助 6. 致谢 7. 遵循的惯例 8. 编写方法 原文链接 1. 适用人群 2. 主要内容 3. 元技术 4. 推荐阅读 5. 获取帮助 6. 致谢 7.</description>
+    </item>
+    
+    <item>
+      <title>第 02 章、数据探索</title>
+      <link>/cn/read/prob-stat-r/ch-02/</link>
+      <pubDate>Wed, 15 Feb 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/read/prob-stat-r/ch-02/</guid>
+      <description>2.1. 什么是统计学 2.2. 数据 2.3. 定性数据 2.3.1. 频率分析表 2.3.2. 盒状图 2.3.3. 点状图 2.3.3. 饼状图 2.4. 定量数据 2.4.1 茎叶图 2.4.2 Strip Charts 2.4.3 密度曲线 2.4.3.1 直方图 2.4.3.2 概率密度 2.5 集中量数 2.5.1. 平均值 2.5.2 中</description>
+    </item>
+    
+    <item>
+      <title>第 1 章、对象、函数和接口</title>
+      <link>/cn/read/extending-r/extr-ch01/</link>
+      <pubDate>Wed, 15 Feb 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/read/extending-r/extr-ch01/</guid>
+      <description>1.1 三个原则 1.2. 任何存在于R中的都是R的对象 1.3. 任何发生于R中的都是R的函数调用 1.4. 与其他软件的接口是R的一部分 1.5. 函数式编程 1.6. 面向对象的编程 作者希望</description>
+    </item>
+    
+    <item>
+      <title>reshape</title>
+      <link>/en/post/2017-02-12-reshape/</link>
+      <pubDate>Sun, 12 Feb 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/en/post/2017-02-12-reshape/</guid>
+      <description>1. reshape a data frame from wide format to long format d1 &amp;lt;- data.frame(subject = c(&amp;quot;id1&amp;quot;, &amp;quot;id2&amp;quot;), x0 = c(&amp;quot;male&amp;quot;, &amp;quot;female&amp;quot;), x1_2000 = 1:2, x1_2005 = 5:6, x2_2000 = 1:2, x2_2005 = 5:6 ) d1 ## subject x0 x1_2000 x1_2005 x2_2000 x2_2005 ## 1 id1 male 1 5 1 5 ## 2 id2 female 2 6 2 6 rs1 &amp;lt;- reshape(d1, dir = &amp;quot;long&amp;quot;, varying = 3:6, sep = &amp;quot;_&amp;quot;) rs1 ## subject x0 time x1 x2 id ## 1.</description>
+    </item>
+    
+    <item>
+      <title>自闭症视觉认知的神经模式研究</title>
+      <link>/cn/research/asd_vision/</link>
+      <pubDate>Sun, 01 Jan 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/research/asd_vision/</guid>
+      <description>1. 研究背景 自闭症是一种社交性的障碍。该项目想知道自闭症孩子在处理社会性视觉刺激时，其脑活动状态是什么。这些状态与正常孩子有什么不同。基于此研</description>
+    </item>
+    
+    <item>
+      <title>Curriculum Vitae</title>
+      <link>/en/cv-en/lzhanen/</link>
+      <pubDate>Fri, 22 Jan 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/en/cv-en/lzhanen/</guid>
+      <description>Likan Zhan  Add: 15, Xueyuan Rd., Haidian District, Beijing 100083, China Tel: +86 10 8230 3468 Email: zhanlikan AT hotmail DOT com Personal website: https://likan.info  Academic appointment  2014.10 ~ Now, Assistant professor,
+MEG Laboratory for Brain Sciences, Institute for Speech Pathology and the Brain Science,
+Beijing Language and Culture University, Beijing, China   Education  2010.10 ~ 2014.09, Ph.D. Cognitive Science, Macquarie University, Sydney, Australia</description>
+    </item>
+    
+    <item>
+      <title>简历</title>
+      <link>/cn/cv-cn/lzhancn/</link>
+      <pubDate>Fri, 22 Jan 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/cv-cn/lzhancn/</guid>
+      <description>战立侃 地址：北京市海淀区学院路15号，北京语言大学，综合楼1235室 电话：+ 86 10 8230 3468 邮箱：zhanlikan AT hotmail DOT com 个人网站：https:/</description>
+    </item>
+    
+  </channel>
+</rss>

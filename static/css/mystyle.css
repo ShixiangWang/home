@@ -1,0 +1,126 @@
+/* hr style: Gradient color1 - color2 - color1 */
+
+hr.style-one {
+border: 0;
+height: 1px;
+background: #333;
+background-image: -webkit-linear-gradient(left, #ccc, #333, #ccc);
+background-image: -moz-linear-gradient(left, #ccc, #333, #ccc);
+background-image: -ms-linear-gradient(left, #ccc, #333, #ccc);
+background-image: -o-linear-gradient(left, #ccc, #333, #ccc);
+}
+
+
+/*  Make the format of the TOC from Rmd the same as md  */
+#TOC {
+/*  background-color: #f8f8f8; */
+  padding: .5em;
+}
+
+/* Change the height of the left border, 20180205 by Likan Zhan*/
+body {
+  width: 960px;
+  margin: 0 auto;
+  padding: 30px 0;
+}
+
+.main {
+  width: 700px;
+  padding: 32px 10px 20px 50px;
+  margin-left: 260px;
+  border-left: 2px solid black; /* Change weight from 3 to 2 */
+  border-color: WhiteSmoke; /* Change the color to WiteSmoke */
+  min-height: calc(100vh - 60px);
+}
+
+.masthead {
+  width: 260px;
+  padding: 20px 50px 20px 10px;
+  float: left;
+  position: fixed; /* Change to Fixed Position */
+}
+
+@media screen and (max-width: 960px) {
+
+  body {
+    width: auto;
+    max-width: 824px;
+  }
+
+  .masthead {
+    width: auto;
+    float: none;
+    padding: 20px 0 60px;
+    text-align: center;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-bottom: 3px solid black;
+    border-color: White; /* Change to White */
+    position: static;  /* Change to Fixed Position */
+  }
+
+  .main {
+    width: auto;
+    padding: 40px 10px;
+    margin-left: 0;
+    border-left: none;
+    min-height: auto;
+  }
+
+}
+
+/* Change the format of Links 20180210 By Likan Zhan*/
+
+a {
+  color: black;
+  text-decoration: none;
+  padding-bottom: 2px;
+  border-bottom: none;
+}
+
+a:hover {
+  color: black;
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+sup a {
+  border-bottom: none;
+}
+
+
+/*  Text in the middle of a hr line, 20180126 by Likan Zhan */
+
+.strike {
+    display: block;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 300px;
+    margin: auto;
+}
+
+.strike > span {
+    position: relative;
+    display: inline-block;
+}
+
+.strike > span:before,
+.strike > span:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 9999px;
+    height: 1px;
+    border-top: 1px solid gray;
+}
+
+.strike > span:before {
+    right: 100%;
+    margin-right: 15px;
+}
+
+.strike > span:after {
+    left: 100%;
+    margin-left: 15px;
+}

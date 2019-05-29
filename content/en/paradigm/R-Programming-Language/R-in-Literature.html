@@ -1,0 +1,149 @@
+---
+title: "R Used in Literature"
+# subtitle: "A Programming Language"
+author: "Likan Zhan"
+date: '2018-10-12'
+lastmod: "2018-11-15"
+bibliography: [../bibliography/paradigm.bib]
+link-citations: yes
+csl: [../bibliography/apa-old-doi-prefix.csl]
+output:
+  blogdown::html_page:
+    toc: true
+slug: []
+tags: []
+categories: []
+---
+
+
+<div id="TOC">
+<ul>
+<li><a href="#a-brief-description">1. A brief description</a></li>
+<li><a href="#recent-applications">2. Recent Applications</a></li>
+<li><a href="#references">3. References</a></li>
+</ul>
+</div>
+
+<div id="a-brief-description" class="section level1">
+<h1>1. A brief description</h1>
+<p>This post will summarize the advancement of using R to analyze data obtained in behavioral and relevant areas.</p>
+</div>
+<div id="recent-applications" class="section level1">
+<h1>2. Recent Applications</h1>
+<ol style="list-style-type: decimal">
+<li>Use null model to do the statistics <span class="citation">(Benitez &amp; Saffran, <a href="#ref-RN1544">2018</a>)</span></li>
+</ol>
+<pre class="r"><code>str(Cnd_Prdct)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    30 obs. of  1 variable:
+##  $ Prop: num  0.396 0.701 0.61 0.558 0.425 ...</code></pre>
+<pre class="r"><code>Prop  &lt;- Cnd_Prdct$Prop
+ptp &lt;- car::powerTransform(Prop)
+summary(ptp)</code></pre>
+<pre><code>## bcPower Transformation to Normality 
+##      Est Power Rounded Pwr Wald Lwr Bnd Wald Upr Bnd
+## Prop    1.4004           1       0.2077        2.593
+## 
+## Likelihood ratio test that transformation parameter is equal to 0
+##  (log transformation)
+##                            LRT df      pval
+## LR test, lambda = (0) 6.760718  1 0.0093186
+## 
+## Likelihood ratio test that no transformation is needed
+##                             LRT df    pval
+## LR test, lambda = (1) 0.4629567  1 0.49625</code></pre>
+<pre class="r"><code>Prop  &lt;- Cnd_Prdct$Prop
+n     &lt;- length(Prop)
+Y_Bar &lt;- 0.5
+Y_Hat &lt;- ave(Prop)
+SST   &lt;- sum((Prop  - Y_Bar) ^ 2)
+SSR   &lt;- sum((Y_Bar - Y_Hat) ^ 2)
+SSE   &lt;- sum((Prop  - Y_Hat) ^ 2)
+MSR   &lt;- SSR / 1
+MSE   &lt;- SSE / (n - 1)
+F_val &lt;- MSR / MSE
+p_val &lt;- pf(F_val, 1, n - 1, lower.tail = FALSE)
+data.frame(
+  Soource = c(&quot;Regression&quot;, &quot;Residual&quot;, &quot;Total&quot;),
+  Sum_of_Squares = c(SSR, SSE, SST),
+  df = c(1, n - 1, n),
+  Mean_Square = c(MSR, MSE, NA),
+  F_Value = c(F_val, NA, NA),
+  p_Value = c(p_val, NA, NA)
+)</code></pre>
+<pre><code>##      Soource Sum_of_Squares df Mean_Square  F_Value     p_Value
+## 1 Regression      0.1809633  1  0.18096330 8.131123 0.007936818
+## 2   Residual      0.6454134 29  0.02225563       NA          NA
+## 3      Total      0.8263767 30          NA       NA          NA</code></pre>
+<pre class="r"><code>Cnd_Prdct $ Prop1  &lt;- Cnd_Prdct $ Prop - 0.5
+Cnd_Prdct $ Priori  &lt;- 0.5</code></pre>
+<pre class="r"><code>fm1 &lt;- lm(Prop1 ~ 1, data = Cnd_Prdct)
+car::Anova(fm1, type = 3)</code></pre>
+<pre><code>## Anova Table (Type III tests)
+## 
+## Response: Prop1
+##              Sum Sq Df F value   Pr(&gt;F)   
+## (Intercept) 0.18096  1  8.1311 0.007937 **
+## Residuals   0.64541 29                    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>fm2 &lt;- lm(Prop - 0.5 ~ 1, data = Cnd_Prdct)
+car::Anova(fm2, type = 3)</code></pre>
+<pre><code>## Anova Table (Type III tests)
+## 
+## Response: Prop - 0.5
+##              Sum Sq Df F value   Pr(&gt;F)   
+## (Intercept) 0.18096  1  8.1311 0.007937 **
+## Residuals   0.64541 29                    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>fm3 &lt;- lm(Prop ~ 1, offset = Priori, data = Cnd_Prdct)
+summary(fm3)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Prop ~ 1, data = Cnd_Prdct, offset = Priori)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -0.3731 -0.1142  0.0065  0.1207  0.2393 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)   
+## (Intercept)  0.07767    0.02724   2.852  0.00794 **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.1492 on 29 degrees of freedom</code></pre>
+<pre class="r"><code>car::Anova(fm3, type = 3)</code></pre>
+<pre><code>## Anova Table (Type III tests)
+## 
+## Response: Prop
+##              Sum Sq Df F value   Pr(&gt;F)   
+## (Intercept) 0.18096  1  8.1311 0.007937 **
+## Residuals   0.64541 29                    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>To be added</p>
+<ol start="2" style="list-style-type: decimal">
+<li>To be added</li>
+</ol>
+<p>Appendix</p>
+<pre class="r"><code>Cnd_Prdct &lt;- structure(list(Prop = c(0.39585635359116, 0.70073664825046,
+0.610405156537753, 0.557918968692449, 0.425111812680873, 0.460589318600368,
+0.533519553072626, 0.816942909760589, 0.675046040515654, 0.691252302025783,
+0.378453038674033, 0.620461720599842, 0.472296764009471, 0.204590897132334,
+0.786266771902131, 0.610497237569061, 0.752617732175743, 0.547697974217311,
+0.433149171270718, 0.707044198895028, 0.713351749539595, 0.72744014732965,
+0.529281767955801, 0.66798210997106, 0.387845303867403, 0.532136279926335,
+0.804307116104869, 0.652394106813996, 0.489134438305709, 0.445672191528545
+)), row.names = c(4L, 6L, 10L, 12L, 16L, 18L, 20L, 22L, 24L,
+26L, 28L, 30L, 34L, 36L, 38L, 40L, 42L, 44L, 46L, 48L, 50L, 52L,
+54L, 56L, 58L, 60L, 62L, 66L, 70L, 72L), class = &quot;data.frame&quot;)</code></pre>
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1>3. References</h1>
+<div id="refs" class="references">
+<div id="ref-RN1544">
+<p>Benitez, V. L., &amp; Saffran, J. R. (2018). Predictable events enhance word learning in toddlers. <em>Current Biology</em>. Journal Article. doi:<a href="https://doi.org/10.1016/j.cub.2018.06.017">10.1016/j.cub.2018.06.017</a></p>
+</div>
+</div>
+</div>

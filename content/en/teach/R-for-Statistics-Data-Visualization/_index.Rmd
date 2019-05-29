@@ -1,0 +1,149 @@
+---
+title: "R for Statistics and Data Visualization"
+author: "Likan Zhan"
+date: '2017-09-01'
+lastmod: "`r Sys.Date()`"
+disable_comments: true
+output:
+  blogdown::html_page:
+    toc: yes
+---
+# 1. Lecture Time and Location
+
+- Time: 08:00 - 11:00, Each Friday, Start from Sep 21.
+- Location: 206, Teaching Building 2.
+
+# 2. Prerequisites
+
+Students of this course should be familiar with the basic concepts used in statistics, such as *Mean*, *Standard Deviation*, *Normal Distribution*, *t-statistic*, *ANOVA*, *F-ratio*, [*p-value*](https://likan.info/cn/post/2017-08-11-p-values-bayes-factor/), *Hypothesis Testing* etc. To acheive this, Students should have already finished some introductory courses in statistics, such as [Statistics for the Behavioral Sciences](/en/teach/Statistics-for-the-Behavioral-Sciences/), or other courses at the same level. Students can also learn these basic concepts by themselves.
+
+# 3. Course Information
+
+![](TB1.jpg)
+
+[R](https://cran.r-project.org) is a language and environment for **statistical computing** and **graphics**. It is a GNU project which is similar to the S language and environment which was developed at Bell Laboratories by John Chambers and colleagues. R provides a wide variety of statistical (linear and nonlinear modeling, classical statistical tests, time-series analysis, classification, clustering, …) and graphical techniques, and is highly extensible. One of R's strengths is the ease with which well-designed publication-quality plots can be produced, including mathematical symbols and formulae where needed.
+
+Linear models, their variants, and extensions are among the most useful and widely used statistical tools for social research. This course aims to provide an accessible, in-depth, modern treatment of *regression analysis*, *linear models*, *generalized linear models*, and closely related methods.
+
+# 4. Syllabus and Lecture Notes
+
+- Part 0: Introduction
+    - 01. Course introduction [<i class="fa fa-download" style="font-size:1em"></i>](https://appendix.likan.info/R-for-Statistics-Data-Visualization/2018_CH_01.pdf)
+    - 02. R foundations [<i class="fa fa-download" style="font-size:1em"></i>](https://appendix.likan.info/R-for-Statistics-Data-Visualization/2018_CH_02.pdf)
+- Part I: Data craft
+    - 03. Data wrangling [<i class="fa fa-download" style="font-size:1em"></i>](https://appendix.likan.info/R-for-Statistics-Data-Visualization/2018_CH_03A.pdf)
+    - 04. Examining Data [<i class="fa fa-download" style="font-size:1em"></i>](https://appendix.likan.info/R-for-Statistics-Data-Visualization/2018_CH_03B.pdf)
+    - 05. Transforming Data [<i class="fa fa-download" style="font-size:1em"></i>](https://appendix.likan.info/R-for-Statistics-Data-Visualization/2018_CH_04.pdf)
+- Part II: Linear models and least squares
+    - 06. Linear least-squares regression [<i class="fa fa-download" style="font-size:1em"></i>](https://appendix.likan.info/R-for-Statistics-Data-Visualization/2018_CH_05.pdf)
+    - 07. Statistical Inference for Regression [<i class="fa fa-download" style="font-size:1em"></i>](https://appendix.likan.info/R-for-Statistics-Data-Visualization/2018_CH_06.pdf)
+    - 08. Dummy-variable regression [<i class="fa fa-download" style="font-size:1em"></i>](https://appendix.likan.info/R-for-Statistics-Data-Visualization/2018_CH_07.pdf)
+    - 09. Analysis of variance  [<i class="fa fa-download" style="font-size:1em"></i>](https://appendix.likan.info/R-for-Statistics-Data-Visualization/2018_CH_08.pdf)
+- Part III: Linear-model diagnostics
+    - 10. Unusual and influential data
+    - 11. Non-Normality, Nonconstant Error Variance, and Nonlinearity
+    - 12. Collinearity and Its Purported Remedies
+- Part IV: Generalized linear models
+    - 13. Logit and Probit Models for Categorical Response Variables
+    - 14. Generalized Linear Models
+- Part V. Extending Linear and Generalized Linear Models
+    - 15. Time-Series Regression and Generalized Least Squares
+    - 16. Nonlinear Regression
+    - 17. Nonparametric Regression
+    - 18. Bootstrapping Regression Models
+- Part VI: Mixed-Effects Models
+    - 19. Linear Mixed-Effects Models [<i class="fa fa-download" style="font-size:1em"></i>](https://appendix.likan.info/R-for-Statistics-Data-Visualization/2018_CH_23.pdf)
+    - 20. Generalized Linear and Nonlinear Mixed-Effects Models
+
+# 5. Bibliographies
+
+- R manuals
+    - An Introduction to R, [Full text](https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf)
+    - R Data Import/Export, [Full text](https://cran.r-project.org/doc/manuals/r-release/R-data.pdf)
+    - R Installation and Administration, [Full text](https://cran.r-project.org/doc/manuals/r-release/R-admin.pdf)
+    - Writing R Extensions, [Full text](https://cran.r-project.org/doc/manuals/r-release/R-exts.pdf)
+    - The R language definition, [Full text](https://cran.r-project.org/doc/manuals/r-release/R-lang.pdf)
+    - R Internals, [Full text](https://cran.r-project.org/doc/manuals/r-release/R-ints.pdf)
+    - The R reference Index, [Full text](https://cran.r-project.org/doc/manuals/r-release/fullrefman.pdf)
+
+- R language in General
+    - Becker, R. A., Chambers, J. M., & Wilks, A. R. (1988). *The New S Language: A Programming Environment for Data Analysis and Statistics*. Pacific Grove , CA : Wadsworth. (The **Blue** book)
+    - Chambers, J. M. (1998). *Programming with data: A guide to the S language*. New York, NY: Springer. (The **Green** book)
+    - Chambers, J. M. (2016). *Extending R*. Boca Baton, UK: CRC Press.
+    - Wickham, H. (2015). *Advanced R*. Boca Baton, UK: CRC Press. [Full text](http://adv-r.had.co.nz)
+    - Wickham, H. (In Progress). *Advanced R* (2 ed.). Boca Baton, UK: CRC Press. [Full text](https://adv-r.hadley.nz)
+    - Wickham, H. (2016). *R Packages: Organize, Test, Document, and Share Your Code*. Sebastopol, CA: O'Reilly Media.
+    - Wickham, H., & Grolemund, G. (2016). *R for Data Science: Import, Tidy, Transform, Visualize, and Model Data*. Sebastopol, CA: O’Reilly Media. [Full text](http://r4ds.had.co.nz)
+
+- R graphics
+    - Murrell, P. (2011). *R Graphics* (2 ed.). Boca Raton, FL: CRC Press.
+    - Kassambara, A. (2015). *Complete Guide to 3D Plots in R*: STHDA.
+    - Sarkar, D. (2008). *Lattice: Multivariate Data Visualization with R*. New York, NY: Springer.
+    - Wickham, H. (2016). *ggplot2: Elegant Graphics for Data Analysis* (2 ed.). New York, NY: Springer.
+
+- Statistical models
+    - Chambers, J. M., & Hastie, T. J. (Eds.). (1993). *Statistical Models in S*. London, UK: Champman & Hall. (The **White** book)
+    - **Fox, J. (2016). *Applied Regression Analysis and Generalized Linear Models* (3 ed.). Thousand Oaks, CA: SAGE.**
+    - Hastie, T. J., & Tibshirani, R. J. (1990). *Generalized additive models*. Landon, UK: Chapman and Hall.
+    - Venables, W. N., & Ripley, B. D. (2002).  *Modern Applied Statistics with S*. Springer.
+    - Wood, S. N. (2006). *Generalized Additive Models: an introduction with R*: CRC Press.
+    - Bates, D., Mächler, M., Bolker, B., & Walker, S. (2015). Fitting Linear Mixed-Effects Models Using lme4. *Journal of Statistical Software, 67*(1). doi:10.18637/jss.v067.i01
+
+- Probability and statistics
+    - Fieller, N. (2016). *Basics of matrix algebra for statistics with R*. Boca Raton, FL: CRC Press.
+    - Poole, D. (2015). *Linear Algebra: A Modern Introduction* (4 ed.). Stamford, CT: Gengage Learning.
+    - Ugarte, M. D., Militino, A. F., & Arnholt, A. T. (2016). *Probability and statistics with R* (2 ed.). Boca Raton, UK: CRC Press.
+    - Stewart, J. (2016). *Calculus: Early transcendentals* (8 ed.). Boston, MA: Cengage Learning.
+
+- Dynamic documenting
+    - Xie, Y. (2014). *Dynamic Documents with R and knitr* (2 ed.). Boca Raton, FL: CRC Press.
+    - Xie, Y., Allaire, J. J., & Grolemund, G. (2018). *R Markdown: The Definitive Guide*. Boca Raton, FL: CRC Press. [Full text](https://bookdown.org/yihui/rmarkdown/)
+
+# 6. Final Examination
+
+  - To sucessfully complete the examination, your computer should have already installed the *R* software and at least two extra R packages: *rmarkdown* and *car*.
+
+  - Download the file from the following link: [*Final_Exam.Rmd*](https://appendix.likan.info/R-for-Statistics-Data-Visualization/Final_Exam/Final_Exam.Rmd), [*Final_Exam.html*](https://appendix.likan.info/R-for-Statistics-Data-Visualization/Final_Exam/Final_Exam.html), as well as [*Final_Exam.pdf*](https://appendix.likan.info/R-for-Statistics-Data-Visualization/Final_Exam/Final_Exam.pdf). The link is avaliable from **2019-01-04, 0900** to **2019-01-05, 0900**.
+
+  - Rename the `Rmd` file into the following format *`SurnameGivenname_Student number.Rmd`* in Pinyin, such as *`ZhangSan_20170708.Rmd`*.
+
+  - Open the renamed *`.Rmd`* file with *`R`* and change the *`Name-Number`* region in the front matter of the *`Rmd`* file to your own name in Chinese characters and your student number, such as *`张三 - 20181030`*.
+
+  ```yaml
+---
+  title: "期末考试试卷"
+  subtitle: "R语言与数据可视化和统计"
+  author: "张三 - 20181030"    # <- Your name and student number
+  lastmod: "`r Sys.Date()`"
+  date: '2019-01-04'
+  output:
+    html_document
+---                       # <- You can write any text after this
+```
+
+  - A *Rmd* document can include both normal texts and legal R code. The *R* code should be enclosed by ```` ```{r} XXX ``` ````, i.e., the XXX region; and the normal texts that do not include the R code should be out of those regions. For example,
+
+  ````markdown
+  a. You can add any text here.
+
+  `r ''````{r}
+  # You can add comments here
+  str(Titanic) # <- This should be eligible R code.
+  ```
+  b. You can also add any text here.
+  ````
+
+  - After finishing all your answers, use R to render the Rmd file into a html file with the function:
+
+  ```{r eval = FALSE}
+install.packages("rmarkdown", dependencies = TRUE)
+rmarkdown::render(
+    "directory/to/your/file/ZhangSan_20181030.rmd",
+    output_format = "html_document")
+  ```
+
+  - Send both the finished *.Rmd* file, such as [*ZhangSan_20181030.Rmd*](https://appendix.likan.info/R-for-Statistics-Data-Visualization/ZhangSan_20181030.Rmd)  and the knitted *.html* file， such as [*ZhangSan_20181030.html*](https://appendix.likan.info/R-for-Statistics-Data-Visualization/ZhangSan_20181030.html) to the following email address: `zhanlikan@blcu.edu.cn` before **2019-01-05, 0900**.
+
+# 7. Tools
+
+  - [An interactive learning widget for R](/en/teach/R-for-Statistics-Data-Visualization/InteractiveR/)

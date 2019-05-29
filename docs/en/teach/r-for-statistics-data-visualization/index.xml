@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>R for Statistics and Data Visualization on Shixiang, Wang | 王诗翔</title>
+    <link>/en/teach/r-for-statistics-data-visualization/</link>
+    <description>Recent content in R for Statistics and Data Visualization on Shixiang, Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 01 Sep 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/en/teach/r-for-statistics-data-visualization/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>An interactive learning widget for R</title>
+      <link>/en/teach/r-for-statistics-data-visualization/interactiver/</link>
+      <pubDate>Fri, 04 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/en/teach/r-for-statistics-data-visualization/interactiver/</guid>
+      <description>  eyJsYW5ndWFnZSI6InIiLCJzYW1wbGUiOiJhIDwtIFwiSGVsbG9cIlxuYiA8LSBcIldvcmxkXCJcbmMgPC0gXCIhXCJcblxucGFzdGUoYSwgYiwgYykifQ==  </description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    
+    <link rel="stylesheet" href="/fonts/academicons-1.8.6/css/academicons.min.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="/logo/bodhi.png"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    
+    <title>自闭症视觉认知的神经模式研究 - 战立侃</title>
+    
+     
+    <meta property="og:title" content="自闭症视觉认知的神经模式研究 - Shixiang, Wang | 王诗翔">
+    
+
+    
+      
+    
+
+    
+
+    
+    
+
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/mystyle.css" /> 
+    <link rel="stylesheet" href="/css/fonts.css" />
+    
+<script async src="/js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="/css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="/"><img src="/logo/bodhi.png" alt="Likan Zhan" /></a></h1>
+
+
+
+      <nav class="menu">
+        <input id="menu-check" type="checkbox" />
+        <label id="menu-label" for="menu-check" class="unselectable">
+          <span class="icon close-icon">✕</span>
+          <span class="icon open-icon">☰</span>
+          <span class="text">Menu</span>
+        </label>
+        <ul>
+        
+        
+        <li><a href="/">首页</a></li>
+        
+        <li><a href="/cn/about/">关于</a></li>
+        
+        <li><a href="/cn/read/">读书</a></li>
+        
+        <li><a href="/cn/post/">博客</a></li>
+        
+        <li><a href="http://appendix.likan.info/probstatr">写作</a></li>
+        
+        <li><a href="/cn/research/">研究</a></li>
+        
+        <li><a href="/cn/cv-cn/lzhancn">简历</a></li>
+        
+        <li><a href="/en/">English</a></li>
+        
+        
+
+<li class="meu-extra"></li>
+
+
+
+<li><a href="https://github.com/rbind/likan/edit/master/content/cn/research/asd_vision.md" target="_blank">编辑</a></li>
+
+
+<li><a href="/cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+        </ul>
+      </nav>
+    </header>
+
+    <article class="main">
+      <header class="title">
+        
+
+<h1>自闭症视觉认知的神经模式研究</h1>
+
+
+
+<h3>战立侃 &middot 
+2017-01-01</h3> 
+
+
+   
+  
+
+
+      </header>
+
+
+
+
+<h1 id="1-研究背景">1. 研究背景</h1>
+
+<p>自闭症是一种社交性的障碍。该项目想知道自闭症孩子在处理社会性视觉刺激时，其脑活动状态是什么。这些状态与正常孩子有什么不同。基于此研究，我们进一步希望找到自闭症孩子早期诊断和早期康复的脑部活动指标。</p>
+
+<p>具体到本研究，我们将用脑磁图仪记录自闭症孩子和正常孩子在看一系列包含社会性活动或不包含社会性活动的视频时的大脑活动方式。因为考虑到自闭症孩子跟正常孩子兴趣点可能完全不同，我们希望该研究的实验刺激尽可能多样化。这样我们就不得不提谷歌的<strong>深心</strong> (DeepMind) 项目。</p>
+
+<h1 id="2-深心项目">2. 深心项目</h1>
+
+<p>谷歌的深心项目 <a href="https://deepmind.com/research/open-source/open-source-datasets/kinetics/">DeepMind</a> 通过<strong>机器学习</strong>的方式把来自 YouTube 的 30 万段视频进行了归类，发现人类行为大体上可以划分为 400 小类，大约 60 个大类。我们研究希望从这 60 个大类视频中选取最终选取 60 段视频作为我们的实验刺激。</p>
+
+<p>在跟研究合作者协商后，我们把这 400 类视频分成了三组，每组 133 类。对方从其中 267 段视频中选取 100 段。 <strong>咱们从余下的 133 类视频中选取 60 段</strong>。等三方把这 160 段视频下载完毕后，我们再汇总协商，<strong>敲定 60 段视频作为实验刺激</strong>。由于这些视频均来自 YouTube 有长有短，我们的实验刺激实际上只使用任何一段视频中的<strong>一秒钟</strong>。</p>
+
+<p>深心项目中其中的 24 万段视频的相关信息可以从这个<a href="https://deepmind.com/documents/66/kinetics_train.zip">链接</a>下载。下载后的压缩文件解压缩后是一个 Excel 表。该表的每一行均代表一个视频。该表有下面几列： &ldquo;label&rdquo; 表示视频所属类别 (400类中的一类), &ldquo;youtube_id&rdquo; (表示该视频在 Youtobe 中的地址), &ldquo;time_start&rdquo; (实验刺激的开始位置), &ldquo;time_end&rdquo; (实验刺激的结束位置)。表中的另外两列可以暂时不管，&rdquo;split&rdquo;, &ldquo;is_cc&rdquo;。</p>
+
+<h1 id="3-你需要完成的工作">3. 你需要完成的工作</h1>
+
+<p>点击下载下面的<a href="http://webimages.netlify.com/Movie_Stimulus.csv">文件</a>， 你可以看到我把 133 类视频按咱们三位同学的首字母分成了三组。每个人的任务是从自己分配的类别中，到深心项目中的 24 万段视频中选取 <strong>20</strong> 段并下载下来 (总共 20 段)。</p>
+
+<h1 id="4-视频如何下载">4. 视频如何下载</h1>
+
+<p>要进入 Youtube 网站和下载视频，你首先必须处于<strong>翻墙状态</strong>。另外，你需要用下面的地址打开一个视频 “ <a href="https://www.youtube.com/watch?v={youtube_id}&quot;。例如，如果一个视频的">https://www.youtube.com/watch?v={youtube_id}&quot;。例如，如果一个视频的</a> YouTube_id 是 ”1Qj6Mu_CpnM”， 那么我们在地址栏输入下面地址即可打开该视频 ”<a href="https://www.youtube.com/watch?v=1Qj6Mu_CpnM”。">https://www.youtube.com/watch?v=1Qj6Mu_CpnM”。</a></p>
+
+<p>youtube_id 为 &ldquo;1Qj6Mu_CpnM&rdquo; 的视频的 &ldquo;time_start&rdquo; 和 &ldquo;time_end&rdquo; 分别是 42 和 52，说明我们实验真正用到的刺激是该视频的 42-52 秒。所以，你要仔细看该视频的 42-52 秒钟处，并决定是否下载该视频。该视频是否适合作为我们实验材料的一个重要标准是：<strong>这十秒钟的视频是否有趣，是否可能吸引孩子的注意力</strong>。</p>
+
+<p>如果你决定下载某个视频了，你要确定这个视频的关键十秒钟中，是否有如下特征，并尽量保证这些特征在不同的视频中是不一样的：有无动物；没人 &amp; 一个人 &amp; 两个人 &amp; 多个人；是否有人脸；有无社会交流。例如有的视频中有一个人，有的视频中有两个人等等。</p>
+
+<p>要下载上述视频，首先打开下面的网站 <a href="http://www.clipconverter.cc">http://www.clipconverter.cc</a>； 其次把视频地址，如 “<a href="https://www.youtube.com/watch?v=1Qj6Mu_CpnM”">https://www.youtube.com/watch?v=1Qj6Mu_CpnM”</a> 复制到上述网站的 Video URL to Download 位置；点击 &ldquo;contunue&rdquo;，再点 &ldquo;Start!&ldquo;，再点 &ldquo;Download&rdquo;，就搞定了。</p>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev"></span>
+  <span class="nav-next"></span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+  } else if (e.which == 39) {  
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+
+
+
+<script async src="/js/center-img.js"></script>
+
+<script async src="/js/right-quote.js"></script>
+
+<script async src="/js/no-highlight.js"></script>
+
+<script async src="/js/fix-footnote.js"></script>
+
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+  
+
+
+  
+  
+  
+
+  <div class="copyright"><a href="mailto:zhanlikan@hotmail.com"><i class='far fa-envelope fa-1x'></i></a> &middot; <a href="https://github.com/likanzhan"><i class='fab fa-github fa-1x'></i></a> &middot; <a href="https://stackoverflow.com/users/2263930/likan-zhan"><i class='fab fa-stack-overflow fa-1x'></i></a> &middot; <a href="https://osf.io/j8wrg"><i class='ai ai-osf ai-1x'></i></a> &middot; <a href="https://scholar.google.com/citations?user=QvyaktcAAAAJ&amp;hl=en"><i class='ai ai-google-scholar ai-1x'></i></a> &middot; <a href="https://blcu.academia.edu/likanzhan"><i class='ai ai-academia ai-1x'></i></a> &middot; <a href="https://orcid.org/0000-0002-9275-3557"><i class='ai ai-orcid ai-1x'></i></a> &middot; <a href="https://www.researcherid.com/rid/B-5684-2019"><i class='ai ai-researcherid ai-1x'></i></a> &middot; <a href="https://www.researchgate.net/profile/Likan_Zhan"><i class='ai ai-researchgate ai-1x'></i></a> &middot; <a href="http://weibo.com/1763551555"><i class='fab fa-weibo'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 &copy; <a href="/">战立侃</a> 2017 - 2019 </div>
+  
+  
+
+  </footer>
+  </article>
+  
+  </body>
+</html>
+
