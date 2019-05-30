@@ -3,5 +3,5 @@
 .Rhistory
 .RData
 .Ruserdata
-public
 blogdown
+.DS_Store
