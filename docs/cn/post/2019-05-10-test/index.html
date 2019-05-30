@@ -12,10 +12,10 @@
     
     
     
-    <title>R语言进阶 - 王诗翔</title>
+    <title>测试 - 王诗翔</title>
     
      
-    <meta property="og:title" content="R语言进阶 - Shixiang Wang | 王诗翔">
+    <meta property="og:title" content="测试 - Shixiang Wang | 王诗翔">
     
 
     
@@ -24,8 +24,6 @@
 
     
 
-    
-    <link href="../../../cn/read/advanced-r/index.xml" rel="alternate" type="application/rss+xml" title="Shixiang Wang | 王诗翔" />
     
     
 
@@ -83,7 +81,10 @@
 
 
 
-<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/read/Advanced-R/_index.md" target="_blank">编辑</a></li>
+
+
+
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2019-05-10-test.Rmd" target="_blank">编辑</a></li>
 
 
 <li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
@@ -99,7 +100,12 @@
       <header class="title">
         
 
-<h1>R语言进阶</h1>
+<h1>测试</h1>
+
+
+
+<h3>王诗翔 &middot 
+2019-05-10</h3> 
 
 
    
@@ -112,61 +118,13 @@
 
 
 
-
-<p>原书地址：<a href="http://adv-r.had.co.nz">Advanded R</a>
-<br>
-练习答案：<a href="https://bookdown.org/Tazinho/Advanced-R-Solutions/">Advanded R Solutions</a></p>
-
-<ul>
-<li><p>第 01 章、<a href="../../../cn/read/advanced-r/ch-01/">简介</a></p></li>
-
-<li><p>第一部分、基础知识</p>
-
-<ul>
-<li>第 02 章、数据结构</li>
-<li>第 03 章、数据筛选</li>
-<li>第 04 章、词汇</li>
-<li>第 05 章、代码风格</li>
-<li>第 06 章、<a href="../../../cn/read/advanced-r/ch-06/">函数</a></li>
-<li>第 07 章、<a href="../../../cn/read/advanced-r/ch-07/">面向对象编程</a></li>
-<li>第 08 章、运行环境</li>
-<li>第 09 章、调试和纠错</li>
-</ul></li>
-
-<li><p>第二部分、函数性编码</p>
-
-<ul>
-<li>第 10 章、函数编程</li>
-<li>第 11 章、函数</li>
-<li>第 12 章、功能算子</li>
-</ul></li>
-
-<li><p>第三部分、计算语言</p>
-
-<ul>
-<li>第 13 章、非标准计算</li>
-<li>第 14 章、表达式</li>
-<li>第 15 章、特殊领域语言</li>
-</ul></li>
-
-<li><p>第四部分、性能改善</p>
-
-<ul>
-<li>第 16 章、性能</li>
-<li>第 17 章、代码优化</li>
-<li>第 18 章、内存</li>
-<li>第 19 章、使用 Rcpp</li>
-<li>第 20 章、R 的 C 语言接口</li>
-</ul></li>
-</ul>
-
-
+<p>昨天看到一则有点意思的维基条目，叫库里肖夫效应。这应该不是关于脑补的最早理论，但可能是最早反映人们对同一幅画面在不同对比条件的迥异解读（或脑补）。这给我两点启示：一是我们对他人情绪的判断可能很不靠谱，会过度解读；二是电影只是一种艺术手法，它通过视觉片段的排列组合来刺激我们联想，有时候这种刺激的意图是很明显的，有时候则在不同人脑中有不同的效果。</p>
 
 
   <footer>
   
 <nav class="post-nav">
-  <span class="nav-prev"></span>
+  <span class="nav-prev">&larr; <a href="../../../cn/post/2018-08-10-r-installation/">R的安装与配置</a></span>
   <span class="nav-next"></span>
 </nav>
 <script type="text/javascript">
@@ -174,6 +132,8 @@ document.addEventListener('keyup', function(e) {
   if (e.target.nodeName.toUpperCase() != 'BODY') return;
   var url = false;
   if (e.which == 37) {  
+    
+    url = '\/cn\/post\/2018-08-10-r-installation\/';
     
   } else if (e.which == 39) {  
     
@@ -183,6 +143,39 @@ document.addEventListener('keyup', function(e) {
 </script>
 
 
+
+<section class="comments">
+  <div id="disqus_thread"></div>
+  <script src="../../../js/disqusloader.min.js"></script>
+  <script>
+  var disqus_config = function () {
+  
+    this.page.url = "https:\/\/shixiangwang.github.io\/home\/" + location.pathname;
+  
+  };
+  (function() {
+    var inIFrame = function() {
+      var iframe = true;
+      try { iframe = window.self !== window.top; } catch (e) {}
+      return iframe;
+    };
+    if (inIFrame()) return;
+    var disqus_js = '//home-xjdzylqrzp.disqus.com/embed.js';
+    
+    if (location.hash.match(/^#comment/)) {
+      var d = document, s = d.createElement('script');
+      s.src = disqus_js; s.async = true;
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    } else {
+      disqusLoader('#disqus_thread', {
+        scriptUrl: disqus_js, laziness: 0, disqusConfig: disqus_config
+      });
+    }
+  })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
 
 
 
