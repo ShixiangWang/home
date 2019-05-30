@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>研究项目 on Shixiang, Wang | 王诗翔</title>
-    <link>/webshow/cn/research/</link>
+    <link>/home/cn/research/</link>
     <description>Recent content in 研究项目 on Shixiang, Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 01 Jan 2017 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/webshow/cn/research/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/home/cn/research/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>自闭症视觉认知的神经模式研究</title>
-      <link>/webshow/cn/research/asd_vision/</link>
+      <link>/home/cn/research/asd_vision/</link>
       <pubDate>Sun, 01 Jan 2017 00:00:00 +0000</pubDate>
       
-      <guid>/webshow/cn/research/asd_vision/</guid>
+      <guid>/home/cn/research/asd_vision/</guid>
       <description>1. 研究背景 自闭症是一种社交性的障碍。该项目想知道自闭症孩子在处理社会性视觉刺激时，其脑活动状态是什么。这些状态与正常孩子有什么不同。基于此研</description>
     </item>
     

@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>中文博客 on Shixiang, Wang | 王诗翔</title>
-    <link>/webshow/cn/post/</link>
+    <link>/home/cn/post/</link>
     <description>Recent content in 中文博客 on Shixiang, Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 31 Jan 2017 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/webshow/cn/post/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/home/cn/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>高斯线性模型</title>
-      <link>/webshow/cn/post/2018-12-18-the-gaussian-linear-model/</link>
+      <link>/home/cn/post/2018-12-18-the-gaussian-linear-model/</link>
       <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/webshow/cn/post/2018-12-18-the-gaussian-linear-model/</guid>
+      <guid>/home/cn/post/2018-12-18-the-gaussian-linear-model/</guid>
       <description>QR 分解 (lm1 &amp;lt;- lm(optden ~ carb, data = Formaldehyde)) (X &amp;lt;- model.matrix(lm1)) (class(qrlm1 &amp;lt;- lm1$qr)) (R &amp;lt;- qr.R(qrlm1)) (Q1 &amp;lt;- qr.Q(qrlm1)) (Q1R &amp;lt;- Q1 %*% R) all.equal(X, Q1R, check.attributes = FALSE) all(X == Q1R) (y &amp;lt;- model.response(model.frame(lm1))) (Q &amp;lt;- qr.Q(qrlm1, complete = TRUE)) qty1 &amp;lt;- lm1$effects qty2 &amp;lt;- crossprod(Q, y) qty3 &amp;lt;- qr.qty(qrlm1, y) all.equal(cbind(qty1), qty2, check.attributes = FALSE) all.equal(qty1, qty3, check.attributes = FALSE) ## ## Call: ##</description>
     </item>
     

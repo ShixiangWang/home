@@ -1,9 +1,9 @@
-baseurl = "https://shixiangwang.github.io/webshow/"
+baseurl = "https://shixiangwang.github.io/home/"
 languageCode = "en-us"
 title = "Shixiang, Wang | 王诗翔"
 theme = "hugo-ivy"
 #googleAnalytics = "UA-112592341-1"
-disqusShortname = "https-likanzhan-github-io"
+disqusShortname = "home-xjdzylqrzp"
 ignoreFiles = ["\\.Rmd$", "_files$", "_cache$"]
 hasCJKLanguage = true  # .WordCount works correctly for chinese
 enableEmoji = true
@@ -98,10 +98,10 @@ publishDir = "docs"
     weight = 8
 
 [params]
-    description = "The personal website of Likan Zhan"
-    disqusURL = "https://likanzhan.github.io"
+    description = "The personal website of Shixiang Wang"
+    disqusURL = "https://github.com/ShixiangWang"
     customJS = ["js/center-img.js", "js/right-quote.js", "js/no-highlight.js", "js/fix-footnote.js"]
-    githubContentURL = "https://github.com/rbind/likan/edit/master/content/"
+    githubContentURL = "https://github.com/ShixiangWang/home/edit/master/content/"
     # options for highlight.js (version, additional languages, and theme)
     highlightjsVersion = "9.12.0"
     highlightjsLang = ["r", "yaml", "tex"]
@@ -109,18 +109,18 @@ publishDir = "docs"
     dateFormat = "2006-01-02" # "2006-01-02, Mon, "
 
 [params.footer]
-    home = "Powered by [Hugo](https://gohugo.io) and [Blogdown](https://bookdown.org/yihui/blogdown/) &copy; [Likan Zhan](/) 2017 - 2019"
+    home = "Powered by [Hugo](https://gohugo.io) and [Blogdown](https://bookdown.org/yihui/blogdown/) &copy; [Shixiang Wang](/) 2019"
     en   = "[<i class='far fa-envelope fa-1x'></i>](mailto:zhanlikan@hotmail.com) &middot; [<i class='fab fa-github fa-1x'></i>](https://github.com/likanzhan) &middot; [<i class='fab fa-stack-overflow fa-1x'></i>](https://stackoverflow.com/users/2263930/likan-zhan) &middot; [<i class='ai ai-osf ai-1x'></i>](https://osf.io/j8wrg) &middot; [<i class='ai ai-google-scholar ai-1x'></i>](https://scholar.google.com/citations?user=QvyaktcAAAAJ&hl=en) &middot; [<i class='ai ai-academia ai-1x'></i>](https://blcu.academia.edu/likanzhan) &middot; [<i class='ai ai-orcid ai-1x'></i>](https://orcid.org/0000-0002-9275-3557) &middot; [<i class='ai ai-researcherid ai-1x'></i>](https://www.researcherid.com/rid/B-5684-2019) &middot; [<i class='ai ai-researchgate ai-1x'></i>](https://www.researchgate.net/profile/Likan_Zhan) &middot; [<i class='fab fa-weibo'></i>](http://weibo.com/1763551555) <br> Powered by [Hugo](https://gohugo.io) and [Blogdown](https://bookdown.org/yihui/blogdown/) &copy; [Likan Zhan](/) 2017 - 2019"
     cn   = "[<i class='far fa-envelope fa-1x'></i>](mailto:zhanlikan@hotmail.com) &middot; [<i class='fab fa-github fa-1x'></i>](https://github.com/likanzhan) &middot; [<i class='fab fa-stack-overflow fa-1x'></i>](https://stackoverflow.com/users/2263930/likan-zhan) &middot; [<i class='ai ai-osf ai-1x'></i>](https://osf.io/j8wrg) &middot; [<i class='ai ai-google-scholar ai-1x'></i>](https://scholar.google.com/citations?user=QvyaktcAAAAJ&hl=en) &middot; [<i class='ai ai-academia ai-1x'></i>](https://blcu.academia.edu/likanzhan) &middot; [<i class='ai ai-orcid ai-1x'></i>](https://orcid.org/0000-0002-9275-3557) &middot; [<i class='ai ai-researcherid ai-1x'></i>](https://www.researcherid.com/rid/B-5684-2019) &middot; [<i class='ai ai-researchgate ai-1x'></i>](https://www.researchgate.net/profile/Likan_Zhan) &middot; [<i class='fab fa-weibo'></i>](http://weibo.com/1763551555) <br> 本站由 [Hugo](https://gohugo.io) 和 [Blogdown](https://bookdown.org/yihui/blogdown/) 强力驱动 &copy; [战立侃](/) 2017 - 2019"
 
 [params.author]
-    en = "Likan Zhan"
-    cn = "战立侃"
+    en = "Shixiang Wang"
+    cn = "王诗翔"
 
 [params.logo.en]
-    img = "/logo/bodhi.png"
+    img = "https://avatars1.githubusercontent.com/u/25057508?s=460&v=4"
     url = "/"
-    alt = "Likan Zhan"
+    alt = "Shixiang Wang"
     tag = ""
 
 [params.lang.edit]
