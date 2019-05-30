@@ -30,15 +30,6 @@
     </item>
     
     <item>
-      <title>高斯线性模型</title>
-      <link>/cn/post/2018-12-18-the-gaussian-linear-model/</link>
-      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/cn/post/2018-12-18-the-gaussian-linear-model/</guid>
-      <description>QR 分解 (lm1 &amp;lt;- lm(optden ~ carb, data = Formaldehyde)) (X &amp;lt;- model.matrix(lm1)) (class(qrlm1 &amp;lt;- lm1$qr)) (R &amp;lt;- qr.R(qrlm1)) (Q1 &amp;lt;- qr.Q(qrlm1)) (Q1R &amp;lt;- Q1 %*% R) all.equal(X, Q1R, check.attributes = FALSE) all(X == Q1R) (y &amp;lt;- model.response(model.frame(lm1))) (Q &amp;lt;- qr.Q(qrlm1, complete = TRUE)) qty1 &amp;lt;- lm1$effects qty2 &amp;lt;- crossprod(Q, y) qty3 &amp;lt;- qr.qty(qrlm1, y) all.equal(cbind(qty1), qty2, check.attributes = FALSE) all.equal(qty1, qty3, check.attributes = FALSE) ## ## Call: ##</description>
-    </item>
-    
-    <item>
       <title>Linear model and t test</title>
       <link>/en/paradigm/r-programming-language/linear-model-and-test/</link>
       <pubDate>Fri, 12 Oct 2018 00:00:00 +0000</pubDate>
@@ -56,6 +47,15 @@
       <guid>/en/paradigm/r-programming-language/r-in-literature/</guid>
       <description>1. A brief description 2. Recent Applications 3. References   1. A brief description This post will summarize the advancement of using R to analyze data obtained in behavioral and relevant areas.
  2. Recent Applications Use null model to do the statistics (Benitez &amp;amp; Saffran, 2018)  str(Cnd_Prdct) ## &amp;#39;data.frame&amp;#39;: 30 obs. of 1 variable: ## $ Prop: num 0.396 0.701 0.61 0.558 0.425 ... Prop &amp;lt;- Cnd_Prdct$Prop ptp &amp;lt;- car::powerTransform(Prop) summary(ptp) ## bcPower Transformation to Normality ## Est Power Rounded Pwr Wald Lwr Bnd Wald Upr Bnd ## Prop 1.</description>
+    </item>
+    
+    <item>
+      <title>R的安装与配置</title>
+      <link>/cn/post/2018-08-10-r-installation/</link>
+      <pubDate>Fri, 10 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2018-08-10-r-installation/</guid>
+      <description>Windows R安装好后配置是本文的重点。关于Windows R的安装，百度有一大堆的教程。其中重点有3： 安装R，下载https://mirrors.tu</description>
     </item>
     
     <item>
@@ -166,30 +166,6 @@
       <description>Likan Zhan  Add: 15, Xueyuan Rd., Haidian District, Beijing 100083, China Tel: +86 10 8230 3468 Email: zhanlikan AT hotmail DOT com Personal website: https://likan.info  Academic appointment  2014.10 ~ Now, Assistant professor,
 MEG Laboratory for Brain Sciences, Institute for Speech Pathology and the Brain Science,
 Beijing Language and Culture University, Beijing, China   Education  2010.10 ~ 2014.09, Ph.D. Cognitive Science, Macquarie University, Sydney, Australia</description>
-    </item>
-    
-    <item>
-      <title>Curriculum Vitae</title>
-      <link>/en/cv-en/shixiang.knit/</link>
-      <pubDate>Fri, 22 Jan 2016 00:00:00 +0000</pubDate>
-      
-      <guid>/en/cv-en/shixiang.knit/</guid>
-      <description>Likan Zhan  Add: 15, Xueyuan Rd., Haidian District, Beijing 100083, China Tel: +86 10 8230 3468 Email: zhanlikan AT hotmail DOT com Personal website: https://likan.info  Academic appointment  2014.10 ~ Now, Assistant professor,
-MEG Laboratory for Brain Sciences, Institute for Speech Pathology and the Brain Science,
-Beijing Language and Culture University, Beijing, China  Education  2010.10 ~ 2014.09, Ph.D. Cognitive Science, Macquarie University, Sydney, Australia
- 2007.</description>
-    </item>
-    
-    <item>
-      <title>Curriculum Vitae</title>
-      <link>/en/cv-en/shixiang.utf8/</link>
-      <pubDate>Fri, 22 Jan 2016 00:00:00 +0000</pubDate>
-      
-      <guid>/en/cv-en/shixiang.utf8/</guid>
-      <description>Likan Zhan  Add: 15, Xueyuan Rd., Haidian District, Beijing 100083, China Tel: +86 10 8230 3468 Email: zhanlikan AT hotmail DOT com Personal website: https://likan.info  Academic appointment  2014.10 ~ Now, Assistant professor,
-MEG Laboratory for Brain Sciences, Institute for Speech Pathology and the Brain Science,
-Beijing Language and Culture University, Beijing, China  Education  2010.10 ~ 2014.09, Ph.D. Cognitive Science, Macquarie University, Sydney, Australia
- 2007.</description>
     </item>
     
   </channel>

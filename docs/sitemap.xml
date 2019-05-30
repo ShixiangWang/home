@@ -13,11 +13,6 @@
   </url>
   
   <url>
-    <loc>/cn/post/2018-12-18-the-gaussian-linear-model/</loc>
-    <lastmod>2018-12-18T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/en/paradigm/r-programming-language/linear-model-and-test/</loc>
     <lastmod>2018-11-27T00:00:00+00:00</lastmod>
   </url>
@@ -30,6 +25,11 @@
   <url>
     <loc>/en/paradigm/r-programming-language/r-in-literature/</loc>
     <lastmod>2018-11-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/cn/post/2018-08-10-r-installation/</loc>
+    <lastmod>2019-05-30T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -190,16 +190,6 @@
   
   <url>
     <loc>/en/cv-en/shixiang/</loc>
-    <lastmod>2019-05-30T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/en/cv-en/shixiang.knit/</loc>
-    <lastmod>2019-05-30T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/en/cv-en/shixiang.utf8/</loc>
     <lastmod>2019-05-30T00:00:00+00:00</lastmod>
   </url>
   
