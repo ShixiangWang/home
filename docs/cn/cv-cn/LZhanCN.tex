@@ -1,0 +1,150 @@
+\documentclass[10pt,]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage[]{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\PassOptionsToPackage{hyphens}{url} % url is loaded by hyperref
+\usepackage[unicode=true]{hyperref}
+\PassOptionsToPackage{usenames,dvipsnames}{color} % color is loaded by hyperref
+\hypersetup{
+            pdftitle={简历},
+            colorlinks=true,
+            linkcolor=Maroon,
+            citecolor=Blue,
+            urlcolor=blue,
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage[margin=1in]{geometry}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+% set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+\usepackage[fontsize=13pt]{scrextend}
+\usepackage{ctex}
+\usepackage{fontspec}
+\setmainfont{Optima} % English font
+\setCJKmainfont{STKaiti} % Chinese serif font: Source Han Serif SC
+\usepackage{hyperref}
+%% 2. Change page style
+\usepackage{datetime2}
+\usepackage{fancyhdr}
+\usepackage{lastpage} % LastPage
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0pt}
+\lhead{}
+\rhead{战立侃的简历}
+\rfoot{最近更新：\today}
+\fancyfoot[C]{--~\thepage/\pageref*{LastPage}~--}
+
+\title{简历}
+\date{2019-05-30}
+
+\begin{document}
+%\maketitle
+
+\section{王诗翔}
+
+\begin{itemize}
+\tightlist
+\item
+  地址：上海市浦东新区上海科技大学生命学院L楼A406
+\item
+  邮箱：\href{mailto:w_shixiang@163.com}{\nolinkurl{w\_shixiang@163.com}}
+\item
+  个人网站：\url{https://shixiangwang.github.io}
+\end{itemize}
+
+\subsection{教育经历}
+
+\begin{itemize}
+\item
+  2016.09 \textasciitilde{} 现在 \\
+  上海科技大学，生物学专业，肿瘤信息学博士在读
+\item
+  2012.09 \textasciitilde{} 2016.07 \\
+  电子科技大学，工学学士
+\end{itemize}
+
+\subsection{教学经历}
+
+助教：
+
+\begin{itemize}
+\tightlist
+\item
+  细胞生物学II（研究生）
+\end{itemize}
+
+教学：
+
+\begin{itemize}
+\tightlist
+\item
+  贵州支教（小学生，半个月）
+\end{itemize}
+
+\subsection{专业技能}
+
+\begin{itemize}
+\tightlist
+\item
+  统计。我有丰富 R 语言使用经验，尤其是 R 语言统计分析和统计作图。
+\item
+  写作技能。我喜欢用 Markdown、和R Markdown 等现代书写工具写作。
+\end{itemize}
+
+\subsection{出版物}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  杂志论文
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  Zhou, P., \textbf{Zhan, L.}, \& Ma, H. (2018). Predictive language
+  processing in preschool children with Autism Spectrum Disorder: An
+  eye-tracking study. \emph{Journal of Psycholinguistic Research}.
+  doi:10.1007/s10936-018-9612-5
+  \href{https://publications.likan.info/Periodicals/JPsycholinguistRes2018.pdf}{(PDF)}
+\end{itemize}
+
+\end{document}

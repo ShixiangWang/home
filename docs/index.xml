@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>简历</title>
+      <link>/cn/cv-cn/shixiang/</link>
+      <pubDate>Thu, 30 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/cv-cn/shixiang/</guid>
+      <description>王诗翔 地址：上海市浦东新区上海科技大学生命学院L楼A406 邮箱：w_shixiang@163.com 个人网站：https://shixian</description>
+    </item>
+    
+    <item>
       <title>An interactive learning widget for R</title>
       <link>/en/teach/r-for-statistics-data-visualization/interactiver/</link>
       <pubDate>Fri, 04 Jan 2019 00:00:00 +0000</pubDate>
@@ -150,22 +159,37 @@
     
     <item>
       <title>Curriculum Vitae</title>
-      <link>/en/cv-en/lzhanen/</link>
+      <link>/en/cv-en/shixiang/</link>
       <pubDate>Fri, 22 Jan 2016 00:00:00 +0000</pubDate>
       
-      <guid>/en/cv-en/lzhanen/</guid>
+      <guid>/en/cv-en/shixiang/</guid>
       <description>Likan Zhan  Add: 15, Xueyuan Rd., Haidian District, Beijing 100083, China Tel: +86 10 8230 3468 Email: zhanlikan AT hotmail DOT com Personal website: https://likan.info  Academic appointment  2014.10 ~ Now, Assistant professor,
 MEG Laboratory for Brain Sciences, Institute for Speech Pathology and the Brain Science,
 Beijing Language and Culture University, Beijing, China   Education  2010.10 ~ 2014.09, Ph.D. Cognitive Science, Macquarie University, Sydney, Australia</description>
     </item>
     
     <item>
-      <title>简历</title>
-      <link>/cn/cv-cn/lzhancn/</link>
+      <title>Curriculum Vitae</title>
+      <link>/en/cv-en/shixiang.knit/</link>
       <pubDate>Fri, 22 Jan 2016 00:00:00 +0000</pubDate>
       
-      <guid>/cn/cv-cn/lzhancn/</guid>
-      <description>战立侃 地址：北京市海淀区学院路15号，北京语言大学，综合楼1235室 电话：+ 86 10 8230 3468 邮箱：zhanlikan AT hotmail DOT com 个人网站：https:/</description>
+      <guid>/en/cv-en/shixiang.knit/</guid>
+      <description>Likan Zhan  Add: 15, Xueyuan Rd., Haidian District, Beijing 100083, China Tel: +86 10 8230 3468 Email: zhanlikan AT hotmail DOT com Personal website: https://likan.info  Academic appointment  2014.10 ~ Now, Assistant professor,
+MEG Laboratory for Brain Sciences, Institute for Speech Pathology and the Brain Science,
+Beijing Language and Culture University, Beijing, China  Education  2010.10 ~ 2014.09, Ph.D. Cognitive Science, Macquarie University, Sydney, Australia
+ 2007.</description>
+    </item>
+    
+    <item>
+      <title>Curriculum Vitae</title>
+      <link>/en/cv-en/shixiang.utf8/</link>
+      <pubDate>Fri, 22 Jan 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/en/cv-en/shixiang.utf8/</guid>
+      <description>Likan Zhan  Add: 15, Xueyuan Rd., Haidian District, Beijing 100083, China Tel: +86 10 8230 3468 Email: zhanlikan AT hotmail DOT com Personal website: https://likan.info  Academic appointment  2014.10 ~ Now, Assistant professor,
+MEG Laboratory for Brain Sciences, Institute for Speech Pathology and the Brain Science,
+Beijing Language and Culture University, Beijing, China  Education  2010.10 ~ 2014.09, Ph.D. Cognitive Science, Macquarie University, Sydney, Australia
+ 2007.</description>
     </item>
     
   </channel>

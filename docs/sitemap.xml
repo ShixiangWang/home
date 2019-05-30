@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/cn/cv-cn/shixiang/</loc>
+    <lastmod>2019-05-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/en/teach/r-for-statistics-data-visualization/interactiver/</loc>
     <lastmod>2017-09-01T00:00:00+00:00</lastmod>
   </url>
@@ -184,13 +189,18 @@
   </url>
   
   <url>
-    <loc>/en/cv-en/lzhanen/</loc>
-    <lastmod>2019-03-06T00:00:00+00:00</lastmod>
+    <loc>/en/cv-en/shixiang/</loc>
+    <lastmod>2019-05-30T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/cn/cv-cn/lzhancn/</loc>
-    <lastmod>2018-12-16T00:00:00+00:00</lastmod>
+    <loc>/en/cv-en/shixiang.knit/</loc>
+    <lastmod>2019-05-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/en/cv-en/shixiang.utf8/</loc>
+    <lastmod>2019-05-30T00:00:00+00:00</lastmod>
   </url>
   
   <url>
