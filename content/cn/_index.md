@@ -4,7 +4,9 @@ date: "2016-05-05"
 disable_comments: true
 ---
 
-网站的中文版本包含了一份作者[个人简介](/cn/about/)、一本[正在写的书](http://appendix.likan.info/probstatr)(立了个flag)、一组[读书笔记](/cn/read/)、和一个[中文博客](/cn/post/)。
+参考 https://yihui.name/
+
+网站的中文版本包含了一份作者个人简介、中文博客、读书笔记、翻译写作、研究摘要以及开发的工具列表与教程。
 
 ***
 

@@ -1,22 +1,32 @@
 @media screen and (min-width: 960px) {
-  html {
+  .masthead {
+    position: sticky;
+    top: 0;
+    min-height: 100vh;
+    border-right: 3px solid #ddd;
     background: #fafafa;
+    width: 200px;
+    padding: 2em 1em;
   }
-  body {
-    background: #fff;
+  .main {
+    margin-left: calc(50% - 250px);
   }
+}
+body {
+  width: auto;
+  padding: 0;
+}
+.main {
+  padding: 2em 40px;
+  hyphens: auto;
+  border-left: none;
 }
 .menu li:not([class]) a, a:hover, .copyright a {
   border-bottom: none;
 }
-.main {
-  hyphens: auto;
+.menu-extra {
+  list-style: circle;
 }
-.main, .masthead {
-  padding: 1em 40px;
-}
-
-/*
 .en .main header ~ p:first-of-type::first-line {
   font-variant: small-caps;
   letter-spacing: .05em;
@@ -28,8 +38,6 @@
   float: left;
   line-height: 1em;
 }
-*/  /* < ---- Remove first line format and first letter format ---> */
-
 code {
   hyphens: none;
 }
@@ -61,6 +69,76 @@ pre .nohighlight {
 }
 .masthead img {
   max-width: 80px;
+}
+img[src$="#border"] {
+  border: 1px solid #ddd;
+  box-shadow: 5px 5px 5px #eee;
+}
+.cn del {
+  background-color: #444;
+}
+.cn del:hover {
+  background-color: inherit;
+  text-decoration: inherit;
+}
+.home blockquote, .cn blockquote:not(:hover) {
+  border-left-color: transparent;
+}
+.anchor {
+  display: none;
+}
+:hover > .anchor {
+  display: inline;
+}
+#disqus_thread a {
+  color: steelblue;
+}
+
+@media screen and (max-width: 960px) {
+  h1, h2, h3, h4, h5, h6 {
+    margin: 2em auto 1.5em auto;
+  }
+  .title h2, .title h3 {
+    margin: 1.5em auto;
+  }
+  .main .title h1 {
+    margin: 1em auto 0 auto;
+  }
+  .title hr {
+    margin: 2em auto;
+  }
+  .masthead {
+    padding: 1em;
+  }
+  .masthead .menu {
+    max-width: inherit;
+  }
+  .masthead h1 {
+    margin-bottom: 10px;
+  }
+  .masthead .menu ul {
+    text-align: center;
+  }
+  .masthead .menu a {
+    display: inline-block;
+    padding: 5px 10px;
+    background: #444;
+    color: #fff;
+    border-radius: 5px;
+  }
+  .masthead .menu .active a {
+    background: none;
+    border: 1px solid #444;
+    color: #000;
+  }
+  .masthead .menu li, .masthead .menu li:first-child {
+    border: none;
+    display: inline-block;
+    margin-top: 5px;
+  }
+  .masthead .menu .menu-extra {
+    display: none;
+  }
 }
 
 @media print {
