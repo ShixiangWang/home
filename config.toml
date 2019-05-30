@@ -1,4 +1,6 @@
-baseurl = "/"
+baseurl = "https://shixiangwang.github.io/home/"
+RelativeURLs=true
+CanonifyURLs=true
 languageCode = "en-us"
 title = "Shixiang, Wang | 王诗翔"
 theme = "hugo-ivy"
