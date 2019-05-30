@@ -45,9 +45,14 @@ publishDir = "docs"
     weight = 4
 
 [[menu.en]]
+    name = "List"
+    url = "/en/list/"
+    weight = 5
+
+[[menu.en]]
     name = "CV"
     url = "/en/cv-en/Shixiang"
-    weight = 5
+    weight = 6
 
 
 [[menu.en]]
