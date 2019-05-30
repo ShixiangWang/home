@@ -1,7 +1,7 @@
 ---
 title: 研究项目
-author: "侃侃迩行"
-date: '2017-01-01'
+author: "王诗翔"
+date: '2019-01-01'
 disable_comments: true
 ---
 

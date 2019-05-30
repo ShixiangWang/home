@@ -11,14 +11,5 @@
 	<atom:link href="/cn/read/advanced-r/index.xml" rel="self" type="application/rss+xml" />
     
     
-    <item>
-      <title>第 01 章、简介</title>
-      <link>/cn/read/advanced-r/ch-01/</link>
-      <pubDate>Wed, 15 Feb 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/cn/read/advanced-r/ch-01/</guid>
-      <description>1. 适用人群 2. 主要内容 3. 元技术 4. 推荐阅读 5. 获取帮助 6. 致谢 7. 遵循的惯例 8. 编写方法 原文链接 1. 适用人群 2. 主要内容 3. 元技术 4. 推荐阅读 5. 获取帮助 6. 致谢 7.</description>
-    </item>
-    
   </channel>
 </rss>
