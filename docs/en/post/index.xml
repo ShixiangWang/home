@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>English blog on Shixiang, Wang | 王诗翔</title>
-    <link>/home/en/post/</link>
+    <link>/en/post/</link>
     <description>Recent content in English blog on Shixiang, Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 31 Jan 2017 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/home/en/post/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/en/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>reshape</title>
-      <link>/home/en/post/2017-02-12-reshape/</link>
+      <link>/en/post/2017-02-12-reshape/</link>
       <pubDate>Sun, 12 Feb 2017 00:00:00 +0000</pubDate>
       
-      <guid>/home/en/post/2017-02-12-reshape/</guid>
+      <guid>/en/post/2017-02-12-reshape/</guid>
       <description>1. reshape a data frame from wide format to long format d1 &amp;lt;- data.frame(subject = c(&amp;quot;id1&amp;quot;, &amp;quot;id2&amp;quot;), x0 = c(&amp;quot;male&amp;quot;, &amp;quot;female&amp;quot;), x1_2000 = 1:2, x1_2005 = 5:6, x2_2000 = 1:2, x2_2005 = 5:6 ) d1 ## subject x0 x1_2000 x1_2005 x2_2000 x2_2005 ## 1 id1 male 1 5 1 5 ## 2 id2 female 2 6 2 6 rs1 &amp;lt;- reshape(d1, dir = &amp;quot;long&amp;quot;, varying = 3:6, sep = &amp;quot;_&amp;quot;) rs1 ## subject x0 time x1 x2 id ## 1.</description>
     </item>
     
