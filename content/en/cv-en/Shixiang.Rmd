@@ -14,7 +14,7 @@ output:
     df_print: paged
   word_document: default
 geometry: margin=1in
-pdf: /en/cv-en/Shixiang.pdf
+pdf: ../Shixiang.pdf
 type: cv
 urlcolor: blue
 fontsize: 10pt
