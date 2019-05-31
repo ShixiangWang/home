@@ -155,3 +155,12 @@ img[src$="#border"] {
     padding-left: 10px;
   }
 }
+
+/* Links */
+
+a {
+  color: black;
+  text-decoration: none;
+  padding-bottom: 2px;
+  border-bottom: 1px solid;
+}
