@@ -4,14 +4,28 @@ date: "2016-05-05"
 disable_comments: true
 ---
 
-王诗翔，上海科技大学博士研究生。
+王诗翔，2016年于成都电子科大清水寺毕业。目前是上海科技大学博士研究生，从事癌症免疫治疗基因组学方向的分析工作。
 
-现在从事的研究
+熟悉的编程语言：
 
-现在的兴趣
+1. R
+2. Shell
+3. Python
+
+想要“搞懂”：
+
+- Golang
+- 使用Python（R？）进行机器学习与深度学习
+- 硬件编程与驱动？？？
+
+最爱做的事情是偷懒，最喜欢的人是周小丹。有5年以上LOL史，不过打游戏不行。中学一直打篮球，不过现在腰宽臀肥。以前喜欢写两首小诗，不过现在提笔难下。以前爱说几句忧郁感伤的话语，不过现在疲惫摧残，无心思考。回想前程往事，都成了记忆里的词句，随风凌乱。
+
+所以，人生到底是什么？从前我在书中追寻，现在，让时间去书写吧。
+
+> 千古声名，百年担负，事事违初意。心头阁住，儿时那种情味。
 
 
-Shixiang Wang is a Ph.D. student of Cancer Informatics at ShanghaiTech. University. Shixiang Wang's interests include immunotherapy genomics, development of R/Python/Linux tools, knowledge sharing, and machine learning etc.
+***
 
-
+这个个人网站是参考[谢益辉的主页](https://yihui.name/)构建的，如果读者是想搭建一样主题的网站，请移步[GitHub](https://github.com/ShixiangWang/home/releases)下载并参考 Hugo 与 Blogdown 的使用方法，然后删改关于我的信息。
 
