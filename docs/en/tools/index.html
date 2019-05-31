@@ -72,6 +72,18 @@
         
         
 
+<li class="menu-extra"></li>
+
+
+
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/en/tools/_index.md" target="_blank">Edit Me</a></li>
+
+
+<li><a href="../../en/index.xml" type="application/rss+xml" title="RSS feed">Subscribe</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">License</a></li>
+
+
         </ul>
       </nav>
     </header>
@@ -96,9 +108,78 @@
 
 
 
-<div class="archive">
-  
-</div>
+<p>This page lists all softwares and tools I developed.</p>
+
+<h2 id="r-packages">R packages</h2>
+
+<h3 id="doabsolute">DoAbsolute</h3>
+
+<p><strong>Homepage</strong>: <a href="https://github.com/ShixiangWang/DoAbsolute">https://github.com/ShixiangWang/DoAbsolute</a></p>
+
+<p>The goal of <strong>DoAbsolute</strong> is to automate ABSOLUTE calling for multiple
+samples in parallel way.</p>
+
+<p><a href="https://www.nature.com/articles/nbt.2203">ABSOLUTE</a> is a famous
+software developed by Broad Institute, however, the <strong>RunAbsolute</strong>
+function is designed for computing one sample each time and set no
+default values. <strong>DoAbsolute</strong> helps user set default parameters
+according to <a href="http://software.broadinstitute.org/cancer/software/genepattern/modules/docs/ABSOLUTE">ABSOLUTE
+documentation</a>,
+provides a uniform interface to input data easily and runs <strong>RunAbsolute</strong>
+parallelly.</p>
+
+<h3 id="metawho">metawho</h3>
+
+<p><strong>Homepage</strong>: <a href="https://github.com/ShixiangWang/metawho">https://github.com/ShixiangWang/metawho</a></p>
+
+<p>The goal of <strong>metawho</strong> is to provide simple R implementation of
+&ldquo;Meta-analytical method to Identify Who Benefits Most from Treatments&rdquo;.</p>
+
+<p><strong>metawho</strong> is powered by R package <strong>metafor</strong> and does not support
+dataset contains individuals for now. Please use Stata package
+<strong>ipdmetan</strong> if you are more familiar with Stata code.</p>
+
+<h3 id="sigminer">sigminer</h3>
+
+<p><strong>Homepage</strong>: <a href="https://github.com/ShixiangWang/sigminer">https://github.com/ShixiangWang/sigminer</a></p>
+
+<p>The goal of <strong>sigminer</strong> is to provide a uniform interface for genomic variation signature analysis and visualization.</p>
+
+<h3 id="ucscxenatools">UCSCXenaTools</h3>
+
+<p><strong>Homepage</strong>: <a href="https://github.com/ShixiangWang/UCSCXenaTools">https://github.com/ShixiangWang/UCSCXenaTools</a></p>
+
+<p><strong>UCSCXenaTools</strong> is an R package for downloading and exploring data
+from <a href="https://xenabrowser.net/datapages/"><strong>UCSC Xena data hubs</strong></a>,
+which are a collection of UCSC-hosted public databases such as TCGA,
+ICGC, TARGET, GTEx, CCLE, and others. Databases are normalized so they
+can be combined, linked, filtered, explored and downloaded.</p>
+
+<h3 id="ucscxenashiny">UCSCXenaShiny</h3>
+
+<p><strong>Homepage</strong>: <a href="https://github.com/openbiox/XenaShiny">https://github.com/openbiox/XenaShiny</a></p>
+
+<p><strong>UCSCXenaShiny</strong> is Shiny app for <a href="https://xenabrowser.net/">UCSC Xena</a>, this package is built on the
+top of <strong>Shiny</strong> and <strong>UCSCXenaTools</strong> etc..</p>
+
+<h2 id="linux-tools">Linux tools</h2>
+
+<h3 id="sync-deploy">sync-deploy</h3>
+
+<p><strong>Homepage</strong>: <a href="https://github.com/ShixiangWang/sync-deploy">https://github.com/ShixiangWang/sync-deploy</a></p>
+
+<p><strong>sync-deploy</strong> is a shell toolkit for deploying script/command task on a remote host, including up/download files, run script and more.</p>
+
+<h3 id="variants2neoanitgen">Variants2Neoanitgen</h3>
+
+<p><strong>Homepage</strong>: <a href="https://github.com/ShixiangWang/Variants2Neoantigen">https://github.com/ShixiangWang/Variants2Neoantigen</a></p>
+
+<p><strong>Variants2Neoanitgen</strong> is a neoantigen calling pipeline begins from variants record file (MAF).</p>
+
+<blockquote>
+<p>Of note, VCF file as input is not supported</p>
+</blockquote>
+
 
 
 
@@ -122,6 +203,39 @@ document.addEventListener('keyup', function(e) {
 </script>
 
 
+
+<section class="comments">
+  <div id="disqus_thread"></div>
+  <script src="../../js/disqusloader.min.js"></script>
+  <script>
+  var disqus_config = function () {
+  
+    this.page.url = "https:\/\/shixiangwang.github.io\/home\/" + location.pathname;
+  
+  };
+  (function() {
+    var inIFrame = function() {
+      var iframe = true;
+      try { iframe = window.self !== window.top; } catch (e) {}
+      return iframe;
+    };
+    if (inIFrame()) return;
+    var disqus_js = '//home-xjdzylqrzp.disqus.com/embed.js';
+    
+    if (location.hash.match(/^#comment/)) {
+      var d = document, s = d.createElement('script');
+      s.src = disqus_js; s.async = true;
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    } else {
+      disqusLoader('#disqus_thread', {
+        scriptUrl: disqus_js, laziness: 0, disqusConfig: disqus_config
+      });
+    }
+  })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
 
 
 
