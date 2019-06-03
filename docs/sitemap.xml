@@ -3,6 +3,16 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/en/tools/ucscxenatools-intro/</loc>
+    <lastmod>2019-06-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/en/tools/ucscxenatools-api/</loc>
+    <lastmod>2019-06-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/cn/cv-cn/shixiang/</loc>
     <lastmod>2019-05-31T00:00:00+00:00</lastmod>
   </url>
@@ -44,7 +54,7 @@
   
   <url>
     <loc>/cn/post/2018-08-10-r-installation/</loc>
-    <lastmod>2019-05-31T00:00:00+00:00</lastmod>
+    <lastmod>2019-06-03T00:00:00+00:00</lastmod>
   </url>
   
   <url>
