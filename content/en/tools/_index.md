@@ -51,6 +51,11 @@ which are a collection of UCSC-hosted public databases such as TCGA,
 ICGC, TARGET, GTEx, CCLE, and others. Databases are normalized so they
 can be combined, linked, filtered, explored and downloaded.
 
+#### Documentation
+
+- [Introduction and basic usage of **UCSCXenaTools**](../tools/ucscxenatools-intro)
+- [APIs of **UCSCXenaTools**](../tools/ucscxenatools-api)
+
 ### UCSCXenaShiny
 
 **Homepage**: <https://github.com/openbiox/XenaShiny>
