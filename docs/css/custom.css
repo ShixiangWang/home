@@ -18,7 +18,7 @@ body {
   padding: 0;
 }
 .main {
-  padding: 2em 40px;
+  padding: 2em 0px;
   hyphens: auto;
   border-left: none;
 }
@@ -164,3 +164,4 @@ a {
   padding-bottom: 2px;
   border-bottom: 1px solid;
 }
+

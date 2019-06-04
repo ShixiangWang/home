@@ -1,0 +1,30 @@
+---
+title: "100系列: 适合每个人的 R 和 Bioconductor 介绍"
+author: "王诗翔"
+date: "2019-06-04"
+lastmod: "`r Sys.Date()`"
+slug: ""
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, dev = "png", comment = "#>")
+#Sys.setlocale('LC_ALL','C') # Embed this directly in the Rmarkdown script that contains the Chinese character comment
+options(digits=3)
+options(max.print=200)
+```
+
+来源：<https://bioconductor.github.io/BiocWorkshops/r-and-bioconductor-for-everyone-an-introduction.html>
+
+## 准备
+
+学习之前需要安装好依赖包：
+
+```r
+if (!require("BiocManager"))
+    install.packages("BiocManager")
+BiocManager::install("Bioconductor/BiocWorkshops")
+```
+
+> 这个比较难装，慢慢摸索和解决报错问题。或者参考[介绍部分](https://bioconductor.github.io/BiocWorkshops/index.html)获取已经弄好的环境，我没仔细研究，不会弄。
+
+

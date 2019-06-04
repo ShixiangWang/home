@@ -103,7 +103,7 @@
 
 
 <h3>Shixiang Wang &middot 
-2019-06-03</h3> 
+2019-06-04</h3> 
 
 
    
@@ -153,7 +153,7 @@ remotes::install_github(&quot;ShixiangWang/UCSCXenaTools&quot;, build_vignettes 
 <li>ATAC-seq Hub: <a href="https://atacseq.xenahubs.net" class="uri">https://atacseq.xenahubs.net</a></li>
 <li>Singel Cell Xena hub: <a href="https://singlecell.xenahubs.net" class="uri">https://singlecell.xenahubs.net</a></li>
 </ul>
-<p>If any url of data hubs are changed or a new data hub is online, please remind me by emailing to <a href="mailto:w_shixiang@163.com">w_shixiang@163.com</a> or <a href="https://github.com/ShixiangWang/UCSCXenaTools/issues">opening an issue on GitHub</a>.</p>
+<p>If any url of data hubs are changed or a new data hub is online, please remind me by emailing to <a href="mailto:w_shixiang@163.com" class="email">w_shixiang@163.com</a> or <a href="https://github.com/ShixiangWang/UCSCXenaTools/issues">opening an issue on GitHub</a>.</p>
 </div>
 <div id="usage" class="section level2">
 <h2>Usage</h2>
@@ -165,14 +165,13 @@ remotes::install_github(&quot;ShixiangWang/UCSCXenaTools&quot;, build_vignettes 
 <p>You can load <code>XenaData</code> after loading <code>UCSCXenaTools</code> into R.</p>
 <pre class="r"><code>library(UCSCXenaTools)
 #&gt; =========================================================================
-#&gt; UCSCXenaTools version 1.2.1.9000
+#&gt; UCSCXenaTools version 1.2.1
 #&gt; Github page: https://github.com/ShixiangWang/UCSCXenaTools
 #&gt; Documentation: https://shixiangwang.github.io/UCSCXenaTools/
-#&gt; 
 #&gt; If you use it in published research, please cite:
-#&gt; Wang, Shixiang, et al. &quot;The predictive power of tumor mutational burden
-#&gt;     in lung cancer immunotherapy response is influenced by patients&#39; sex.&quot;
-#&gt;     International journal of cancer (2019).
+#&gt; Wang, Shixiang, et al. &quot;APOBEC3B and APOBEC mutational signature
+#&gt;     as potential predictive markers for immunotherapy
+#&gt;     response in non-small cell lung cancer.&quot; Oncogene (2018).
 #&gt; =========================================================================
 #&gt; 
 data(XenaData)
@@ -406,7 +405,7 @@ xe2_query
 <p>Default, data will be downloaded to system temp directory. You can specify the path.</p>
 <p>If the data exists, command will not run to download them, but you can force it by <code>force</code> option.</p>
 <pre class="r"><code>xe2_download = XenaDownload(xe2_query)
-#&gt; All downloaded files will under directory /tmp/RtmpGdnUWj.
+#&gt; All downloaded files will under directory /var/folders/mx/rfkl27z90c96wbmn3_kjk8c80000gn/T//RtmpKZUSFu.
 #&gt; The &#39;trans_slash&#39; option is FALSE, keep same directory structure as Xena.
 #&gt; Creating directories for datasets...
 #&gt; Downloading TCGA.LUAD.sampleMap/LUAD_clinicalMatrix.gz
@@ -656,43 +655,37 @@ downloadTCGA(project = &quot;UVM&quot;,
 <div id="sessioninfo" class="section level2">
 <h2>SessionInfo</h2>
 <pre class="r"><code>sessionInfo()
-#&gt; R version 3.5.1 (2018-07-02)
-#&gt; Platform: x86_64-pc-linux-gnu (64-bit)
-#&gt; Running under: Deepin 15
+#&gt; R version 3.6.0 RC (2019-04-21 r76409)
+#&gt; Platform: x86_64-apple-darwin15.6.0 (64-bit)
+#&gt; Running under: macOS High Sierra 10.13.6
 #&gt; 
 #&gt; Matrix products: default
-#&gt; BLAS: /opt/microsoft/ropen/3.5.1/lib64/R/lib/libRblas.so
-#&gt; LAPACK: /opt/microsoft/ropen/3.5.1/lib64/R/lib/libRlapack.so
+#&gt; BLAS:   /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRblas.0.dylib
+#&gt; LAPACK: /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRlapack.dylib
 #&gt; 
 #&gt; locale:
-#&gt;  [1] LC_CTYPE=zh_CN.UTF-8       LC_NUMERIC=C              
-#&gt;  [3] LC_TIME=zh_CN.UTF-8        LC_COLLATE=zh_CN.UTF-8    
-#&gt;  [5] LC_MONETARY=zh_CN.UTF-8    LC_MESSAGES=zh_CN.UTF-8   
-#&gt;  [7] LC_PAPER=zh_CN.UTF-8       LC_NAME=C                 
-#&gt;  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
-#&gt; [11] LC_MEASUREMENT=zh_CN.UTF-8 LC_IDENTIFICATION=C       
+#&gt; [1] zh_CN.UTF-8/zh_CN.UTF-8/zh_CN.UTF-8/C/zh_CN.UTF-8/zh_CN.UTF-8
 #&gt; 
 #&gt; attached base packages:
 #&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     
 #&gt; 
 #&gt; other attached packages:
-#&gt; [1] dplyr_0.8.0.1            UCSCXenaTools_1.2.1.9000
-#&gt; [3] RevoUtils_11.0.1         RevoUtilsMath_11.0.0    
+#&gt; [1] dplyr_0.8.0.1       UCSCXenaTools_1.2.1
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
-#&gt;  [1] Rcpp_1.0.1           pillar_1.3.1         compiler_3.5.1      
-#&gt;  [4] later_0.8.0          tools_3.5.1          digest_0.6.18       
-#&gt;  [7] evaluate_0.13        tibble_2.1.1         pkgconfig_2.0.2     
-#&gt; [10] rlang_0.3.4          shiny_1.3.2          cli_1.1.0           
-#&gt; [13] curl_3.3             yaml_2.2.0           blogdown_0.10       
-#&gt; [16] xfun_0.4             stringr_1.4.0        httr_1.4.0          
-#&gt; [19] knitr_1.21           hms_0.4.2            shinydashboard_0.7.1
-#&gt; [22] tidyselect_0.2.5     glue_1.3.1           R6_2.4.0            
-#&gt; [25] fansi_0.4.0          rmarkdown_1.11       bookdown_0.9        
-#&gt; [28] purrr_0.3.2          readr_1.3.1          magrittr_1.5        
-#&gt; [31] promises_1.0.1       htmltools_0.3.6      assertthat_0.2.1    
-#&gt; [34] mime_0.6             xtable_1.8-4         httpuv_1.5.1        
-#&gt; [37] utf8_1.1.4           stringi_1.4.3        crayon_1.3.4</code></pre>
+#&gt;  [1] Rcpp_1.0.1           knitr_1.22           magrittr_1.5        
+#&gt;  [4] hms_0.4.2            tidyselect_0.2.5     xtable_1.8-4        
+#&gt;  [7] R6_2.4.0             rlang_0.3.4          fansi_0.4.0         
+#&gt; [10] httr_1.4.0           stringr_1.4.0        tools_3.6.0         
+#&gt; [13] shinydashboard_0.7.1 xfun_0.6             utf8_1.1.4          
+#&gt; [16] cli_1.1.0            htmltools_0.3.6      yaml_2.2.0          
+#&gt; [19] digest_0.6.18        assertthat_0.2.1     tibble_2.1.1        
+#&gt; [22] crayon_1.3.4         bookdown_0.9         shiny_1.3.2         
+#&gt; [25] readr_1.3.1          purrr_0.3.2          later_0.8.0         
+#&gt; [28] promises_1.0.1       curl_3.3             mime_0.6            
+#&gt; [31] glue_1.3.1           evaluate_0.13        rmarkdown_1.12      
+#&gt; [34] blogdown_0.12        stringi_1.4.3        compiler_3.6.0      
+#&gt; [37] pillar_1.3.1         httpuv_1.5.1         pkgconfig_2.0.2</code></pre>
 </div>
 <div id="bug-report" class="section level2">
 <h2>Bug Report</h2>
