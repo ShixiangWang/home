@@ -98,7 +98,7 @@ library(dplyr)
 library(UCSCXenaTools)
 load(system.file("api.RData", package = "UCSCXenaTools"))
 api_df = arrange(api_df, Level)
-knitr::kable(api_df, caption = "API functions in UCSCXenaTools")
+DT::datatable(api_df, caption = "API functions in UCSCXenaTools")
 ```
 
 Of note, I don't know test all functions generated from `.xq` files, most of them works.
@@ -123,13 +123,112 @@ at `.xq_all_cohorts` object.
 cat(.xq_all_cohorts)
 ```
 
-## Use case
+## Use cases
 
-More to do, if you have any suggestion, you can open issue on GitHub.
+Several use cases are modified from [README](https://github.com/ucscXena/xenaPython) of **xenaPython** package. 
+
+Load package firstly.
+
+```{r}
+library(UCSCXenaTools)
+```
+
+
+You can find out host id and dataset id from <https://xenabrowser.net/datapages/>, a more recommened way is use `XenaData` in **UCSCXenaTools**.
+
+```{r}
+head(XenaData)[,1:5]
+```
+
+The host id is stored at `XenaHosts` column, and dataset id is stored at `XenaDatasets` column.
+
+**Of note, when you want to query single sample or gene with function starts with `.p_`, you must transform id of sample or gene into a `list`**
+
+### Query four samples and three identifers expression
+
+```{r}
+hub = "https://toil.xenahubs.net"
+dataset = "tcga_RSEM_gene_tpm"
+samples = c("TCGA-02-0047-01","TCGA-02-0055-01","TCGA-02-2483-01","TCGA-02-2485-01")
+probes = c('ENSG00000282740.1', 'ENSG00000000005.5', 'ENSG00000000419.12')
+.p_dataset_probe_values(hub, dataset, samples, probes)
+```
+
+
+Query one probe. As metioned above, one must transform id of proble or sample int a `list` when he wants to query only one sample/probe.
+
+**Bad query**:
+
+```{r}
+.p_dataset_probe_values(hub, dataset, samples, 'ENSG00000282740.1')
+```
+
+**Good query**:
+
+```{r}
+.p_dataset_probe_values(hub, dataset, samples, as.list('ENSG00000282740.1'))
+```
+
+### Query four samples and three genes expression, when the dataset you want to query has a identifier-to-gene mapping
+
+> identifier-to-gene mapping (i.e. xena probeMap)
+
+```{r}
+genes =c("TP53", "RB1", "PIK3CA")
+.p_dataset_gene_probe_avg(hub, dataset, samples, genes)
+```
+
+### If the dataset does not have id-to-gene mapping, but the dataset used gene names as its identifier
+
+In this situation, you can query gene expression like two ways above will not work.
+
+```{r}
+hub = "https://toil.xenahubs.net"
+dataset = "tcga_RSEM_Hugo_norm_count"
+samples = c("TCGA-02-0047-01","TCGA-02-0055-01","TCGA-02-2483-01","TCGA-02-2485-01")
+probes =c("TP53", "RB1", "PIK3CA")
+
+.p_dataset_probe_values(hub, dataset, samples, probes)
+```
+
+### Find out the samples in a dataset
+
+```{r}
+hub = "https://tcga.xenahubs.net"
+dataset = "TCGA.BLCA.sampleMap/HiSeqV2"
+.p_dataset_samples(hub, dataset, 10)
+# obtain all samples
+.p_dataset_samples(hub, dataset, NULL) %>% head()
+```
+
+Higher API function `samples()` has more features. It can use to do set operation for samples in a host.
+
+```{r, eval=FALSE}
+xe = XenaHub(cohorts = "Cancer Cell Line Encyclopedia (CCLE)")
+# samples in each dataset, first host
+x = samples(xe, by="datasets", how="each")[[1]]
+lengths(x)        # data sets in ccle cohort on first (only) host
+```
+
+### Find out the identifiers in a dataset
+
+```{r}
+hub = "https://tcga.xenahubs.net"
+dataset = "TCGA.BLCA.sampleMap/HiSeqV2"
+.p_dataset_field(hub, dataset) %>% head()
+```
+
+### Find out the number of idnetifiers in a dataset
+
+```{r}
+hub = "https://tcga.xenahubs.net"
+dataset = "TCGA.BLCA.sampleMap/HiSeqV2"
+.p_dataset_field_n(hub, dataset)
+```
 
 
 ## LICENSE
 
 GPL-3
 
-Please note, code from XenaR package under Apache 2.0 license.
+Please note, code from **XenaR** package under Apache 2.0 license.

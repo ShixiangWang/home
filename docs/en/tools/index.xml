@@ -12,6 +12,19 @@
     
     
     <item>
+      <title>UCSCXenaTools: R API for UCSC Xena Hubs</title>
+      <link>/en/tools/ucscxenatools-api/</link>
+      <pubDate>Wed, 05 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/en/tools/ucscxenatools-api/</guid>
+      <description>This vignette gives users the summary information of API functions provided by UCSCXenaTools for UCSC Xena.
+Before using API, user should know some concepts about Xena elements. Following description is copied from xenaPython __init__.py.
+ Data rows are associated with “sample” IDs.
+Sample IDs are unique within a “cohort”. s A “dataset” is a particular assay of a cohort, e.g. gene expression.
+Datasets have associated metadata, specifying their data type and cohort.</description>
+    </item>
+    
+    <item>
       <title>UCSCXenaTools: Download Public Cancer Genomic Data from UCSC Xena Hubs</title>
       <link>/en/tools/ucscxenatools-intro/</link>
       <pubDate>Tue, 04 Jun 2019 00:00:00 +0000</pubDate>
@@ -22,19 +35,6 @@
 – UCSC Xena
  If you use this package in academic field, please cite:
 Wang, Shixiang, et al. &amp;quot;The predictive power of tumor mutational burden in lung cancer immunotherapy response is influenced by patients&amp;#39; sex.</description>
-    </item>
-    
-    <item>
-      <title>UCSCXenaTools: R API for UCSC Xena Hubs</title>
-      <link>/en/tools/ucscxenatools-api/</link>
-      <pubDate>Tue, 04 Jun 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/en/tools/ucscxenatools-api/</guid>
-      <description>This vignette gives users the summary information of API functions provided by UCSCXenaTools for UCSC Xena.
-Before using API, user should know some concepts about Xena elements. Following description is copied from xenaPython __init__.py.
- Data rows are associated with “sample” IDs.
-Sample IDs are unique within a “cohort”. s A “dataset” is a particular assay of a cohort, e.g. gene expression.
-Datasets have associated metadata, specifying their data type and cohort.</description>
     </item>
     
   </channel>
