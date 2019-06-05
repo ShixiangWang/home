@@ -27,5 +27,5 @@ disable_comments: true
 
 ***
 
-这个个人网站是参考[谢益辉的主页](https://yihui.name/)构建的，如果读者是想搭建一样主题的网站，请移步[GitHub](https://github.com/ShixiangWang/home/releases)下载并参考 Hugo 与 Blogdown 的使用方法，然后删改关于我的信息。
+这个个人网站是参考[谢益辉的主页](https://yihui.name/)构建的，如果读者想搭建一样主题的网站，请移步[GitHub](https://github.com/ShixiangWang/home/releases)下载并参考 Hugo 与 Blogdown 的使用方法，然后删改关于我的信息。
 

@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/en/post/2019-06-05-balderdash/</loc>
+    <lastmod>2019-06-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/cn/read/biocworkshop-100-r-and-bioconductor-intro/</loc>
     <lastmod>2019-06-04T00:00:00+00:00</lastmod>
   </url>
@@ -60,11 +65,6 @@
   <url>
     <loc>/cn/post/2018-08-10-r-installation/</loc>
     <lastmod>2019-06-04T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/en/post/2017-02-12-reshape/</loc>
-    <lastmod>2017-02-12T00:00:00+00:00</lastmod>
   </url>
   
   <url>

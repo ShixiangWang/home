@@ -6,9 +6,12 @@ date: '2019-01-01'
 
 # 翻译
 
-## Cookbook for R
+## Cookbook for R 中文版
 
 项目地址：<https://github.com/openbiox/Cookbook-for-R-Chinese>
 在线阅读：<https://openbiox.github.io/Cookbook-for-R-Chinese/>
 
+## 使用Bioconda辅助生物信息学软件安装：一个简短的教程
 
+项目地址：<https://github.com/XSLiuLab/bioconda-tutorial>
+在线阅读：<https://xsliulab.github.io/bioconda-tutorial/>
