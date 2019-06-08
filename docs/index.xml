@@ -12,18 +12,9 @@
     
     
     <item>
-      <title>Balderdash</title>
-      <link>/en/post/2019-06-05-balderdash/</link>
-      <pubDate>Wed, 05 Jun 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/en/post/2019-06-05-balderdash/</guid>
-      <description>2019-06-05 Learning programming languages after serveral years, it suddenly dawned on me that they are just tools we express our ideas.</description>
-    </item>
-    
-    <item>
       <title>UCSCXenaTools: R API for UCSC Xena Hubs</title>
       <link>/en/tools/ucscxenatools-api/</link>
-      <pubDate>Wed, 05 Jun 2019 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 08 Jun 2019 00:00:00 +0000</pubDate>
       
       <guid>/en/tools/ucscxenatools-api/</guid>
       <description>This vignette gives users the summary information of API functions provided by UCSCXenaTools for UCSC Xena.
@@ -31,6 +22,15 @@ Before using API, user should know some concepts about Xena elements. Following 
  Data rows are associated with “sample” IDs.
 Sample IDs are unique within a “cohort”. s A “dataset” is a particular assay of a cohort, e.g. gene expression.
 Datasets have associated metadata, specifying their data type and cohort.</description>
+    </item>
+    
+    <item>
+      <title>Balderdash</title>
+      <link>/en/post/2019-06-05-balderdash/</link>
+      <pubDate>Wed, 05 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/en/post/2019-06-05-balderdash/</guid>
+      <description>2019-06-05 Learning programming languages after serveral years, it suddenly dawned on me that they are just tools we express our ideas.</description>
     </item>
     
     <item>

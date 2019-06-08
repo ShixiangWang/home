@@ -1,6 +1,7 @@
 ---
 title: "UCSCXenaTools: R API for UCSC Xena Hubs"
 author: "Shixiang Wang"
+show_toc: true
 date: "`r Sys.Date()`"
 ---
 
