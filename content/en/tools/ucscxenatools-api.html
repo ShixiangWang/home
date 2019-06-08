@@ -28,6 +28,17 @@ A “<strong>dataset</strong>” is a particular assay of a cohort, e.g. gene e
 <p>Dense matrices can be genotypic or phenotypic. Phenotypic matrices have associated <strong>field metadata</strong> (descriptive names, codes, etc.).
 Genotypic matricies may have an associated <strong>probeMap</strong>, which maps probes to genomic locations. If a matrix has hugo probeMap, the probes themselves are gene names. Otherwise, a probeMap is used to map a gene location to a set of probes.</p>
 </blockquote>
+<div id="new-features" class="section level2">
+<h2>New features</h2>
+<p>A new series of functions (mostly) starting with <code>fetch_</code> have been introduced to help fetch a small amount of data by Xena APIs.</p>
+<p>Now three are available:</p>
+<ul>
+<li><code>fetch_dense_values()</code>: fetches values from a dense matrix.</li>
+<li><code>fetch_dataset_samples()</code>: fetches samples from a dataset</li>
+<li><code>fetch_dataset_identifiers()</code>: fetches identifies from a dataset.</li>
+</ul>
+<p>They have similar arguments and all the details can be viewed by running <code>?fetch</code> in R console after <code>library(UCSCXenaTools)</code>.</p>
+</div>
 <div id="api-categories" class="section level2">
 <h2>API categories</h2>
 <p>API functions can be divided into two classes: <strong>lower API functions</strong> and <strong>higher API functions</strong>.
@@ -281,7 +292,7 @@ dataset = &quot;TCGA.BLCA.sampleMap/HiSeqV2&quot;
 .p_dataset_samples(hub, dataset, NULL) %&gt;% head()
 #&gt; [1] &quot;TCGA-BT-A20R-11&quot; &quot;TCGA-DK-AA6S-01&quot; &quot;TCGA-DK-A6B2-01&quot; &quot;TCGA-GU-A763-01&quot;
 #&gt; [5] &quot;TCGA-XF-A9T4-01&quot; &quot;TCGA-FD-A5C1-01&quot;</code></pre>
-<p>Higher API function <code>samples()</code> has more features. It can use to do set operation for samples in a host.</p>
+<p>Higher API function <code>samples()</code> has more features. It can be used to do set operation for samples in a host.</p>
 <pre class="r"><code>xe = XenaHub(cohorts = &quot;Cancer Cell Line Encyclopedia (CCLE)&quot;)
 # samples in each dataset, first host
 x = samples(xe, by=&quot;datasets&quot;, how=&quot;each&quot;)[[1]]

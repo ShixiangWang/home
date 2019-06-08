@@ -29,6 +29,18 @@ Before using API, user should know some concepts about Xena elements. Following 
 > Dense matrices can be genotypic or phenotypic. Phenotypic matrices have associated **field metadata** (descriptive names, codes, etc.).
 Genotypic matricies may have an associated **probeMap**, which maps probes to genomic locations. If a matrix has hugo probeMap, the probes themselves are gene names. Otherwise, a probeMap is used to map a gene location to a set of probes.
 
+## New features
+
+A new series of functions (mostly) starting with `fetch_` have been introduced to help fetch a small amount of data by Xena APIs.
+
+Now three are available:
+
+- `fetch_dense_values()`: fetches values from a dense matrix.
+- `fetch_dataset_samples()`: fetches samples from a dataset
+- `fetch_dataset_identifiers()`: fetches identifies from a dataset.
+
+They have similar arguments and all the details can be viewed by running `?fetch` in R console after `library(UCSCXenaTools)`.
+
 ## API categories
 
 API functions can be divided into two classes: **lower API functions** and **higher API functions**. 
@@ -202,7 +214,7 @@ dataset = "TCGA.BLCA.sampleMap/HiSeqV2"
 .p_dataset_samples(hub, dataset, NULL) %>% head()
 ```
 
-Higher API function `samples()` has more features. It can use to do set operation for samples in a host.
+Higher API function `samples()` has more features. It can be used to do set operation for samples in a host.
 
 ```{r, eval=FALSE}
 xe = XenaHub(cohorts = "Cancer Cell Line Encyclopedia (CCLE)")
