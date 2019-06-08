@@ -10,6 +10,10 @@ This page lists all softwares and tools I developed.
 
 ### DoAbsolute
 
+[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![GitHub
+tag](https://img.shields.io/github/tag/ShixiangWang/DoAbsolute.svg?label=Github)](https://github.com/ShixiangWang/DoAbsolute)
+
 **Homepage**: <https://github.com/ShixiangWang/DoAbsolute>
 
 The goal of **DoAbsolute** is to automate ABSOLUTE calling for multiple
@@ -26,6 +30,22 @@ parallelly.
 
 ### metawho
 
+<!-- badges: start -->
+
+[![CRAN
+status](https://www.r-pkg.org/badges/version/metawho)](https://cran.r-project.org/package=metawho)
+[![](http://cranlogs.r-pkg.org/badges/grand-total/metawho?color=blue)](https://cran.r-project.org/package=metawho)
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![AppVeyor build
+status](https://ci.appveyor.com/api/projects/status/github/ShixiangWang/metawho?branch=master&svg=true)](https://ci.appveyor.com/project/ShixiangWang/metawho)
+[![Travis build
+status](https://travis-ci.org/ShixiangWang/metawho.svg?branch=master)](https://travis-ci.org/ShixiangWang/metawho)
+[![Coverage
+status](https://codecov.io/gh/ShixiangWang/metawho/branch/master/graph/badge.svg)](https://codecov.io/github/ShixiangWang/metawho?branch=master)
+
+<!-- badges: end -->
+
 **Homepage**: <https://github.com/ShixiangWang/metawho>
 
 The goal of **metawho** is to provide simple R implementation of
@@ -37,11 +57,43 @@ dataset contains individuals for now. Please use Stata package
 
 ### sigminer
 
+<!-- badges: start -->
+[![CRAN
+status](https://www.r-pkg.org/badges/version/sigminer)](https://cran.r-project.org/package=sigminer)
+[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![AppVeyor build
+status](https://ci.appveyor.com/api/projects/status/github/ShixiangWang/sigminer?branch=master&svg=true)](https://ci.appveyor.com/project/ShixiangWang/sigminer)
+[![Travis build
+status](https://travis-ci.org/ShixiangWang/sigminer.svg?branch=master)](https://travis-ci.org/ShixiangWang/sigminer)
+[![Coverage
+status](https://codecov.io/gh/ShixiangWang/sigminer/branch/master/graph/badge.svg)](https://codecov.io/github/ShixiangWang/sigminer?branch=master)
+[![](http://cranlogs.r-pkg.org/badges/grand-total/sigminer?color=orange)](https://cran.r-project.org/package=sigminer)
+
+<!-- badges: end -->
+
 **Homepage**: <https://github.com/ShixiangWang/sigminer>
 
 The goal of **sigminer** is to provide a uniform interface for genomic variation signature analysis and visualization.
 
 ### UCSCXenaTools
+
+<!-- badges: start -->
+
+[![CRAN](http://www.r-pkg.org/badges/version-last-release/UCSCXenaTools)](https://cran.r-project.org/package=UCSCXenaTools)
+[![AppVeyor Build
+Status](https://ci.appveyor.com/api/projects/status/github/ShixiangWang/UCSCXenaTools?branch=master&svg=true)](https://ci.appveyor.com/project/ShixiangWang/UCSCXenaTools)
+[![Travis build
+status](https://travis-ci.org/ShixiangWang/UCSCXenaTools.svg?branch=master)](https://travis-ci.org/ShixiangWang/UCSCXenaTools)
+
+![](http://cranlogs.r-pkg.org/badges/UCSCXenaTools)
+![](http://cranlogs.r-pkg.org/badges/grand-total/UCSCXenaTools)
+[![Coverage
+Status](https://img.shields.io/codecov/c/github/ShixiangWang/UCSCXenaTools/master.svg)](https://codecov.io/github/ShixiangWang/UCSCXenaTools?branch=master)
+[![GitHub
+issues](https://img.shields.io/github/issues/ShixiangWang/UCSCXenaTools.svg)](https://github.com/ShixiangWang/UCSCXenaTools/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+)
+[![Closed
+issues](https://img.shields.io/github/issues-closed/ShixiangWang/UCSCXenaTools.svg)](https://github.com/ShixiangWang/UCSCXenaTools/issues?q=is%3Aissue+is%3Aclosed)
+<!-- badges: end -->
 
 **Homepage**: <https://github.com/ShixiangWang/UCSCXenaTools>
 
@@ -51,12 +103,25 @@ which are a collection of UCSC-hosted public databases such as TCGA,
 ICGC, TARGET, GTEx, CCLE, and others. Databases are normalized so they
 can be combined, linked, filtered, explored and downloaded.
 
-#### Documentation
+**Documentation**:
 
 - [Introduction and basic usage of **UCSCXenaTools**](../tools/ucscxenatools-intro)
 - [APIs of **UCSCXenaTools**](../tools/ucscxenatools-api)
 
 ### UCSCXenaShiny
+
+<!-- badges: start -->
+[![CRAN
+status](https://www.r-pkg.org/badges/version/UCSCXenaShiny)](https://cran.r-project.org/package=UCSCXenaShiny)
+[![](http://cranlogs.r-pkg.org/badges/grand-total/UCSCXenaShiny?color=orange)](https://cran.r-project.org/package=UCSCXenaShiny)
+[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![Travis build
+status](https://travis-ci.org/openbiox/XenaShiny.svg?branch=master)](https://travis-ci.org/openbiox/XenaShiny)
+[![AppVeyor build
+status](https://ci.appveyor.com/api/projects/status/github/openbiox/XenaShiny?branch=master&svg=true)](https://ci.appveyor.com/project/openbiox/XenaShiny)
+[![Coverage
+status](https://codecov.io/gh/openbiox/XenaShiny/branch/master/graph/badge.svg)](https://codecov.io/github/openbiox/XenaShiny?branch=master)
+<!-- badges: end -->
 
 **Homepage**: <https://github.com/openbiox/XenaShiny>
 
@@ -66,6 +131,8 @@ top of **Shiny** and **UCSCXenaTools** etc..
 ## Linux tools
 
 ### sync-deploy
+
+[![DOI](https://zenodo.org/badge/119467219.svg)](https://zenodo.org/badge/latestdoi/119467219) [![Open Source Love svg1](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/) [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://raw.githubusercontent.com/ShixiangWang/sync-deploy/master/LICENSE) [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/ShixiangWang/sync-deploy/graphs/commit-activity)
 
 **Homepage**: <https://github.com/ShixiangWang/sync-deploy>
 
