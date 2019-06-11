@@ -99,11 +99,14 @@ publishDir = "docs"
     name = "简历"
     url = "/cn/cv-cn/Shixiang"
     weight = 8
-
+[[menu.cn]]
+    name = "ToDo"
+    url = "/cn/todo"
+    weight = 9
 [[menu.cn]]
     name = "English"
     url = "/en/"
-    weight = 9
+    weight = 10
 
 [params]
     description = "Personal website of Shixiang Wang; 王诗翔的个人网站"
