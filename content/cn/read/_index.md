@@ -25,6 +25,16 @@ if (!require("BiocManager"))
 BiocManager::install("Bioconductor/BiocWorkshops")
 ```
 
+> 安装可能不太容易，根据自己学习的内容情况安装对应的包更加容易和恰当。
+
 ### 目录
 
 - [100系列: 适合每个人的 R 和 Bioconductor 介绍](../read/biocworkshop-100-r-and-bioconductor-intro)
+
+
+# 学术写作
+
+## Successful scientific wrting
+
+- [创作草稿：遵循标准结构](../read/sci-writing-composing-a-first-draft)
+

@@ -15,16 +15,4 @@ options(max.print=200)
 
 来源：<https://bioconductor.github.io/BiocWorkshops/r-and-bioconductor-for-everyone-an-introduction.html>
 
-## 准备
-
-学习之前需要安装好依赖包：
-
-```r
-if (!require("BiocManager"))
-    install.packages("BiocManager")
-BiocManager::install("Bioconductor/BiocWorkshops")
-```
-
-> 这个比较难装，慢慢摸索和解决报错问题。或者参考[介绍部分](https://bioconductor.github.io/BiocWorkshops/index.html)获取已经弄好的环境，我没仔细研究，不会弄。
-
 
