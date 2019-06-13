@@ -21,3 +21,11 @@ date: '2019-01-01'
 - 英文在线阅读：<https://tidyeval.tidyverse.org/>
 - 中文项目地址：<https://github.com/ShixiangWang/tidyeval>
 - 中文在线阅读：<To be done>
+
+## drake R 包用户手册
+
+- 工具包地址：<https://github.com/ropensci/drake>
+- 英文在线阅读：<https://ropenscilabs.github.io/drake-manual/>
+- 英文项目地址：<https://github.com/ropenscilabs/drake-manual>
+- 中文项目地址：<To be done>
+- 中文在线阅读：<To be done>
