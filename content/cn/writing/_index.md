@@ -8,10 +8,16 @@ date: '2019-01-01'
 
 ## Cookbook for R 中文版
 
-项目地址：<https://github.com/openbiox/Cookbook-for-R-Chinese>
-在线阅读：<https://openbiox.github.io/Cookbook-for-R-Chinese/>
+- 项目地址：<https://github.com/openbiox/Cookbook-for-R-Chinese>
+- 在线阅读：<https://openbiox.github.io/Cookbook-for-R-Chinese/>
 
 ## 使用Bioconda辅助生物信息学软件安装：一个简短的教程
 
-项目地址：<https://github.com/XSLiuLab/bioconda-tutorial>
-在线阅读：<https://xsliulab.github.io/bioconda-tutorial/>
+- 项目地址：<https://github.com/XSLiuLab/bioconda-tutorial>
+- 在线阅读：<https://xsliulab.github.io/bioconda-tutorial/>
+
+## Tidy evaluation（惰性求值）
+
+- 英文在线阅读：<https://tidyeval.tidyverse.org/>
+- 中文项目地址：<https://github.com/ShixiangWang/tidyeval>
+- 中文在线阅读：<To be done>
