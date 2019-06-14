@@ -24,7 +24,7 @@ GitHub 组织：<https://github.com/tidyverse>
 
 - 英文在线阅读：<https://tidyeval.tidyverse.org/>
 - 中文项目地址：<https://github.com/ShixiangWang/tidyeval>
-- 中文在线阅读：<To be done>
+- 中文在线阅读：<https://shixiangwang.github.io/tidyeval-chinese/>
 
 ## r-lib 库
 
