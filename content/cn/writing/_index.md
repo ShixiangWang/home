@@ -16,11 +16,19 @@ date: '2019-01-01'
 - 项目地址：<https://github.com/XSLiuLab/bioconda-tutorial>
 - 在线阅读：<https://xsliulab.github.io/bioconda-tutorial/>
 
-## Tidy evaluation（惰性求值）
+## tidyverse 生态
+
+GitHub 组织：<https://github.com/tidyverse>
+
+### Tidy evaluation（非标准计算）
 
 - 英文在线阅读：<https://tidyeval.tidyverse.org/>
 - 中文项目地址：<https://github.com/ShixiangWang/tidyeval>
 - 中文在线阅读：<To be done>
+
+## r-lib 库
+
+GitHub 组织：<https://github.com/r-lib>
 
 ## drake R 包用户手册
 
