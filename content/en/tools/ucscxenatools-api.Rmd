@@ -3,11 +3,17 @@ title: "UCSCXenaTools: R API for UCSC Xena Hubs"
 author: "Shixiang Wang"
 show_toc: true
 date: "`r Sys.Date()`"
+output: 
+  tint::tintPdf
+type: cv
+pdf: ../ucscxenatools-api.pdf
 ---
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
+  tidy = TRUE,
+  strip.white = TRUE,
   comment = "#>"
 )
 ```
@@ -29,7 +35,7 @@ Before using API, user should know some concepts about Xena elements. Following 
 > Dense matrices can be genotypic or phenotypic. Phenotypic matrices have associated **field metadata** (descriptive names, codes, etc.).
 Genotypic matricies may have an associated **probeMap**, which maps probes to genomic locations. If a matrix has hugo probeMap, the probes themselves are gene names. Otherwise, a probeMap is used to map a gene location to a set of probes.
 
-## New features
+# New features
 
 A new series of functions (mostly) starting with `fetch_` have been introduced to help fetch a small amount of data by Xena APIs.
 
@@ -41,7 +47,7 @@ Now three are available:
 
 They have similar arguments and all the details can be viewed by running `?fetch` in R console after `library(UCSCXenaTools)`.
 
-## API categories
+# API categories
 
 API functions can be divided into two classes: **lower API functions** and **higher API functions**. 
 They have following difference:
@@ -50,7 +56,7 @@ They have following difference:
 a S4 class built in R. While the targets of lower API functions are Xena hub urls, cohort names or 
 dataset names with character format. The `XenaHub` object can provide more uniform operation methods and can be
 used to download corresponding datasets quickly and easily 
-(detail see [another vignette](https://shixiangwang.github.io/UCSCXenaTools/)).
+(detail see [another vignette](https://shixiangwang.github.io/home/en/tools/ucscxenatools-intro/)).
 - Lower API functions are not registered in package 
 [NAMESPACE](https://github.com/ShixiangWang/UCSCXenaTools/blob/master/NAMESPACE), so user may not access them
 after `library(UCSCXenaTools)`, user need to use `UCSCXenaTools:::fun_name` instead.
@@ -60,7 +66,7 @@ their short description.
 - Higher API functions are built on lower API functions, they return more meaningful and easy results for operation. Most of lower API functions return nested lists as results, user need to tidy them before using them in next step.
 
 
-### Lower API functions
+## Lower API functions
 
 Lower API functions also have 2 classes: 
 
@@ -102,7 +108,7 @@ I don't know how to write these query sentence for Xena Hubs. So here I want to
 say thanks to authors of [**xenaPython**](https://github.com/ucscXena/xenaPython) 
 and [**xenaR**](https://github.com/mtmorgan/XenaR) packages.
 
-## API report
+# API report
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
@@ -136,7 +142,7 @@ at `.xq_all_cohorts` object.
 cat(.xq_all_cohorts)
 ```
 
-## Use cases
+# Use cases
 
 Several use cases are modified from [README](https://github.com/ucscXena/xenaPython) of **xenaPython** package. 
 
@@ -157,7 +163,7 @@ The host id is stored at `XenaHosts` column, and dataset id is stored at `XenaDa
 
 **Of note, when you want to query single sample or gene with function starts with `.p_`, you must transform id of sample or gene into a `list`**
 
-### Query four samples and three identifers expression
+## Query four samples and three identifers expression
 
 ```{r}
 hub = "https://toil.xenahubs.net"
@@ -182,7 +188,7 @@ Query one probe. As metioned above, one must transform id of proble or sample in
 .p_dataset_probe_values(hub, dataset, samples, as.list('ENSG00000282740.1'))
 ```
 
-### Query four samples and three genes expression, when the dataset you want to query has a identifier-to-gene mapping
+## Query four samples and three genes expression, when the dataset you want to query has a identifier-to-gene mapping
 
 > identifier-to-gene mapping (i.e. xena probeMap)
 
@@ -191,7 +197,7 @@ genes =c("TP53", "RB1", "PIK3CA")
 .p_dataset_gene_probe_avg(hub, dataset, samples, genes)
 ```
 
-### If the dataset does not have id-to-gene mapping, but the dataset used gene names as its identifier
+## If the dataset does not have id-to-gene mapping, but the dataset used gene names as its identifier
 
 In this situation, you can query gene expression like two ways above will not work.
 
@@ -204,7 +210,7 @@ probes =c("TP53", "RB1", "PIK3CA")
 .p_dataset_probe_values(hub, dataset, samples, probes)
 ```
 
-### Find out the samples in a dataset
+## Find out the samples in a dataset
 
 ```{r}
 hub = "https://tcga.xenahubs.net"
@@ -223,7 +229,7 @@ x = samples(xe, by="datasets", how="each")[[1]]
 lengths(x)        # data sets in ccle cohort on first (only) host
 ```
 
-### Find out the identifiers in a dataset
+## Find out the identifiers in a dataset
 
 ```{r}
 hub = "https://tcga.xenahubs.net"
@@ -231,7 +237,7 @@ dataset = "TCGA.BLCA.sampleMap/HiSeqV2"
 .p_dataset_field(hub, dataset) %>% head()
 ```
 
-### Find out the number of idnetifiers in a dataset
+## Find out the number of idnetifiers in a dataset
 
 ```{r}
 hub = "https://tcga.xenahubs.net"
@@ -240,7 +246,7 @@ dataset = "TCGA.BLCA.sampleMap/HiSeqV2"
 ```
 
 
-## LICENSE
+# LICENSE
 
 GPL-3
 

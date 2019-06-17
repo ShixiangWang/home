@@ -12,7 +12,6 @@ output:
     template: cv-cn-template.latex
   html_document:
     df_print: paged
-  word_document: default
 geometry: margin=1in
 pdf: ../Shixiang.pdf
 type: cv

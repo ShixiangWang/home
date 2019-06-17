@@ -96,22 +96,14 @@
 
     <article class="main">
       <header class="title">
-        
-
-<h1>UCSCXenaTools: Download Public Cancer Genomic Data from UCSC Xena Hubs</h1>
-
-
-
-<h3>Shixiang Wang &middot 
-2019-06-04</h3> 
-
-
-   
-  
-
+      
 
       </header>
 
+
+<div style="text-align: center; width: 150px; float:right;">
+<a href = "../ucscxenatools-intro.pdf" class = "fa fa-file-pdf-o" title = "PDF version "> PDF </a>
+</div>
 
 
 
@@ -125,20 +117,20 @@
 <pre><code>Wang, Shixiang, et al. &quot;The predictive power of tumor mutational burden 
     in lung cancer immunotherapy response is influenced by patients&#39; sex.&quot; 
     International journal of cancer (2019).</code></pre>
-<div id="installation" class="section level2">
-<h2>Installation</h2>
+<div id="installation" class="section level1">
+<h1>Installation</h1>
 <p>Install stable release from CRAN with:</p>
 <pre class="r"><code>install.packages(&quot;UCSCXenaTools&quot;)</code></pre>
 <p>You can also install devel version of <strong>UCSCXenaTools</strong> from github with:</p>
-<pre class="r"><code># install.packages(&quot;remotes&quot;)
-remotes::install_github(&quot;ShixiangWang/UCSCXenaTools&quot;, build_vignettes = TRUE)</code></pre>
+<pre class="r"><code># install.packages(&#39;remotes&#39;)
+remotes::install_github(&quot;ShixiangWang/UCSCXenaTools&quot;)</code></pre>
 <p>Read this vignettes.</p>
 <pre class="r"><code>browseVignettes(&quot;UCSCXenaTools&quot;)
 # or
-??UCSCXenaTools</code></pre>
+`?`(`?`(UCSCXenaTools))</code></pre>
 </div>
-<div id="data-hub-list" class="section level2">
-<h2>Data Hub List</h2>
+<div id="data-hub-list" class="section level1">
+<h1>Data Hub List</h1>
 <p>All datasets are available at <a href="https://xenabrowser.net/datapages/" class="uri">https://xenabrowser.net/datapages/</a>.</p>
 <p>Currently, <strong>UCSCXenaTools</strong> supports 10 data hubs of UCSC Xena.</p>
 <ul>
@@ -155,23 +147,24 @@ remotes::install_github(&quot;ShixiangWang/UCSCXenaTools&quot;, build_vignettes 
 </ul>
 <p>If any url of data hubs are changed or a new data hub is online, please remind me by emailing to <a href="mailto:w_shixiang@163.com" class="email">w_shixiang@163.com</a> or <a href="https://github.com/ShixiangWang/UCSCXenaTools/issues">opening an issue on GitHub</a>.</p>
 </div>
-<div id="usage" class="section level2">
-<h2>Usage</h2>
+<div id="usage" class="section level1">
+<h1>Usage</h1>
 <p>Download UCSC Xena Datasets and load them into R by <strong>UCSCXenaTools</strong> is a workflow with <code>generate</code>, <code>filter</code>, <code>query</code>, <code>download</code> and <code>prepare</code> 5 steps, which are implemented as <code>XenaGenerate</code>, <code>XenaFilter</code>, <code>XenaQuery</code>, <code>XenaDownload</code> and <code>XenaPrepare</code> functions, respectively. They are very clear and easy to use and combine with other packages like <code>dplyr</code>.</p>
 <p>To show the basic usage of <strong>UCSCXenaTools</strong>, we will download clinical data of LUNG, LUAD, LUSC from TCGA (hg19 version) data hub.</p>
-<div id="xenadata-data.frame" class="section level3">
-<h3>XenaData data.frame</h3>
+<div id="xenadata-data.frame" class="section level2">
+<h2>XenaData data.frame</h2>
 <p>Begin from version <code>0.2.0</code>, <strong>UCSCXenaTools</strong> uses a <code>data.frame</code> object (built in package, someone may call it <code>tibble</code>) <code>XenaData</code> to generate an instance of <code>XenaHub</code> class to record general information of all datasets of UCSC Xena Data Hubs.</p>
 <p>You can load <code>XenaData</code> after loading <code>UCSCXenaTools</code> into R.</p>
 <pre class="r"><code>library(UCSCXenaTools)
 #&gt; =========================================================================
-#&gt; UCSCXenaTools version 1.2.1
+#&gt; UCSCXenaTools version 1.2.2
 #&gt; Github page: https://github.com/ShixiangWang/UCSCXenaTools
 #&gt; Documentation: https://shixiangwang.github.io/UCSCXenaTools/
+#&gt; 
 #&gt; If you use it in published research, please cite:
-#&gt; Wang, Shixiang, et al. &quot;APOBEC3B and APOBEC mutational signature
-#&gt;     as potential predictive markers for immunotherapy
-#&gt;     response in non-small cell lung cancer.&quot; Oncogene (2018).
+#&gt; Wang, Shixiang, et al. &quot;The predictive power of tumor mutational burden
+#&gt;     in lung cancer immunotherapy response is influenced by patients&#39; sex.&quot;
+#&gt;     International journal of cancer (2019).
 #&gt; =========================================================================
 #&gt; 
 data(XenaData)
@@ -203,8 +196,8 @@ head(XenaData)
 #&gt;       https://atacseq.xenahubs.net    https://singlecell.xenahubs.net 
 #&gt;                       &quot;atacseqHub&quot;                    &quot;singlecellHub&quot;</code></pre>
 </div>
-<div id="generate-a-xenahub-object" class="section level3">
-<h3>Generate a XenaHub object</h3>
+<div id="generate-a-xenahub-object" class="section level2">
+<h2>Generate a XenaHub object</h2>
 <p>This can be implemented by <code>XenaGenerate</code> function, which generates <code>XenaHub</code> object from <code>XenaData</code> data frame.</p>
 <pre class="r"><code>XenaGenerate()
 #&gt; class: XenaHub 
@@ -234,7 +227,7 @@ head(XenaData)
 #&gt;   Zeisel/Zeisel_expression_mRNA_log2
 #&gt;   Zeisel/Zeisel_expression_phenotype</code></pre>
 <p>You can set <code>subset</code> argument to narrow datasets.</p>
-<pre class="r"><code>XenaGenerate(subset = XenaHostNames==&quot;tcgaHub&quot;)
+<pre class="r"><code>XenaGenerate(subset = XenaHostNames == &quot;tcgaHub&quot;)
 #&gt; class: XenaHub 
 #&gt; hosts():
 #&gt;   https://tcga.xenahubs.net
@@ -256,7 +249,7 @@ head(XenaData)
 <p>You can also use <code>XenaHub()</code> to generate a <code>XenaHub</code> object for API communication, but it is not recommended.</p>
 </blockquote>
 <p>It’s possible to extract info from <code>XenaHub</code> object by <code>hosts()</code>, <code>cohorts()</code> and <code>datasets()</code>.</p>
-<pre class="r"><code>xe = XenaGenerate(subset = XenaHostNames==&quot;tcgaHub&quot;)
+<pre class="r"><code>xe = XenaGenerate(subset = XenaHostNames == &quot;tcgaHub&quot;)
 # get hosts
 hosts(xe)
 #&gt; [1] &quot;https://tcga.xenahubs.net&quot;
@@ -278,9 +271,8 @@ head(datasets(xe))
 #&gt; [6] &quot;TCGA.LAML.sampleMap/HiSeqV2_percentile&quot;</code></pre>
 <p>Pipe operator <code>%&gt;%</code> can also be used here.</p>
 <pre class="r"><code>library(dplyr)
-XenaData %&gt;% 
-    filter(XenaHostNames == &quot;tcgaHub&quot;, grepl(&quot;BRCA&quot;, XenaCohorts), grepl(&quot;Path&quot;, XenaDatasets)) %&gt;%
-    XenaGenerate()
+XenaData %&gt;% filter(XenaHostNames == &quot;tcgaHub&quot;, grepl(&quot;BRCA&quot;, XenaCohorts), 
+    grepl(&quot;Path&quot;, XenaDatasets)) %&gt;% XenaGenerate()
 #&gt; class: XenaHub 
 #&gt; hosts():
 #&gt;   https://tcga.xenahubs.net
@@ -292,10 +284,10 @@ XenaData %&gt;%
 #&gt;   TCGA.BRCA.sampleMap/Pathway_Paradigm_RNASeq_And_Copy_Number
 #&gt;   TCGA.BRCA.sampleMap/Pathway_Paradigm_mRNA</code></pre>
 </div>
-<div id="filter" class="section level3">
-<h3>Filter</h3>
+<div id="filter" class="section level2">
+<h2>Filter</h2>
 <p>There are too many datasets in <code>xe</code>, you can filter them by <code>XenaFilter</code> function. Regular expression can be used here.</p>
-<pre class="r"><code>(XenaFilter(xe, filterDatasets = &quot;clinical&quot;) -&gt; xe2)
+<pre class="r"><code>(xe2 &lt;- XenaFilter(xe, filterDatasets = &quot;clinical&quot;))
 #&gt; class: XenaHub 
 #&gt; hosts():
 #&gt;   https://tcga.xenahubs.net
@@ -314,11 +306,9 @@ XenaData %&gt;%
 #&gt;   TCGA.THCA.sampleMap/THCA_clinicalMatrix
 #&gt;   TCGA.UCS.sampleMap/UCS_clinicalMatrix</code></pre>
 <p>Then select <code>LUAD</code>, <code>LUSC</code> and <code>LUNG</code> 3 datasets.</p>
-<pre class="r"><code>XenaFilter(xe2, filterDatasets = &quot;LUAD|LUSC|LUNG&quot;) -&gt; xe2</code></pre>
+<pre class="r"><code>xe2 &lt;- XenaFilter(xe2, filterDatasets = &quot;LUAD|LUSC|LUNG&quot;)</code></pre>
 <p>Pipe can be used here.</p>
-<pre class="r"><code>xe %&gt;% 
-    XenaFilter(filterDatasets = &quot;clinical&quot;) %&gt;% 
-    XenaFilter(filterDatasets = &quot;luad|lusc|lung&quot;)
+<pre class="r"><code>xe %&gt;% XenaFilter(filterDatasets = &quot;clinical&quot;) %&gt;% XenaFilter(filterDatasets = &quot;luad|lusc|lung&quot;)
 #&gt; class: XenaHub 
 #&gt; hosts():
 #&gt;   https://tcga.xenahubs.net
@@ -331,8 +321,8 @@ XenaData %&gt;%
 #&gt;   TCGA.LUNG.sampleMap/LUNG_clinicalMatrix
 #&gt;   TCGA.LUSC.sampleMap/LUSC_clinicalMatrix</code></pre>
 </div>
-<div id="browse-datasets" class="section level3">
-<h3>Browse datasets</h3>
+<div id="browse-datasets" class="section level2">
+<h2>Browse datasets</h2>
 <p>Sometimes, you may want to check data before you query and download data.
 A new feature <code>XenaBrowse</code> is implemented in <strong>UCSCXenaTools</strong>.</p>
 <p>Create two XenaHub objects:</p>
@@ -340,9 +330,8 @@ A new feature <code>XenaBrowse</code> is implemented in <strong>UCSCXenaTools</s
 <li><code>to_browse</code> - a XenaHub object contains a cohort and a dataset.</li>
 <li><code>to_browse2</code> - a XenaHub object contains 2 cohorts and 2 datasets.</li>
 </ul>
-<pre class="r"><code>XenaGenerate(subset = XenaHostNames==&quot;tcgaHub&quot;) %&gt;%
-    XenaFilter(filterDatasets = &quot;clinical&quot;) %&gt;%
-    XenaFilter(filterDatasets = &quot;LUAD&quot;) -&gt; to_browse
+<pre class="r"><code>to_browse &lt;- XenaGenerate(subset = XenaHostNames == &quot;tcgaHub&quot;) %&gt;% XenaFilter(filterDatasets = &quot;clinical&quot;) %&gt;% 
+    XenaFilter(filterDatasets = &quot;LUAD&quot;)
 
 to_browse
 #&gt; class: XenaHub 
@@ -353,9 +342,8 @@ to_browse
 #&gt; datasets() (1 total):
 #&gt;   TCGA.LUAD.sampleMap/LUAD_clinicalMatrix
 
-XenaGenerate(subset = XenaHostNames==&quot;tcgaHub&quot;) %&gt;%
-    XenaFilter(filterDatasets = &quot;clinical&quot;) %&gt;%
-    XenaFilter(filterDatasets = &quot;LUAD|LUSC&quot;) -&gt; to_browse2
+to_browse2 &lt;- XenaGenerate(subset = XenaHostNames == &quot;tcgaHub&quot;) %&gt;% XenaFilter(filterDatasets = &quot;clinical&quot;) %&gt;% 
+    XenaFilter(filterDatasets = &quot;LUAD|LUSC&quot;)
 
 to_browse2
 #&gt; class: XenaHub 
@@ -385,8 +373,8 @@ XenaBrowse(to_browse2, type = &quot;cohort&quot;)
 <pre class="r"><code>XenaBrowse(to_browse2, multiple = TRUE)
 XenaBrowse(to_browse2, type = &quot;cohort&quot;, multiple = TRUE)</code></pre>
 </div>
-<div id="query" class="section level3">
-<h3>Query</h3>
+<div id="query" class="section level2">
+<h2>Query</h2>
 <p>Create a query before downloading data.</p>
 <pre class="r"><code>xe2_query = XenaQuery(xe2)
 #&gt; This will check url status, please be patient.
@@ -400,12 +388,12 @@ xe2_query
 #&gt; 2 https://tcga.xenahubs.net/download/TCGA.LUNG.sampleMap/LUNG_clinicalMatrix.gz
 #&gt; 3 https://tcga.xenahubs.net/download/TCGA.LUSC.sampleMap/LUSC_clinicalMatrix.gz</code></pre>
 </div>
-<div id="download" class="section level3">
-<h3>Download</h3>
+<div id="download" class="section level2">
+<h2>Download</h2>
 <p>Default, data will be downloaded to system temp directory. You can specify the path.</p>
 <p>If the data exists, command will not run to download them, but you can force it by <code>force</code> option.</p>
 <pre class="r"><code>xe2_download = XenaDownload(xe2_query)
-#&gt; All downloaded files will under directory /var/folders/mx/rfkl27z90c96wbmn3_kjk8c80000gn/T//RtmpKZUSFu.
+#&gt; All downloaded files will under directory /var/folders/mx/rfkl27z90c96wbmn3_kjk8c80000gn/T//RtmpjCxgwN.
 #&gt; The &#39;trans_slash&#39; option is FALSE, keep same directory structure as Xena.
 #&gt; Creating directories for datasets...
 #&gt; Downloading TCGA.LUAD.sampleMap/LUAD_clinicalMatrix.gz
@@ -414,8 +402,8 @@ xe2_query
 <p>Of note, at default, the downloaded files will keep same directory structure as Xena. You can set <code>trans_slash</code> to TRUE, it will transform
 <code>/</code> in dataset id to <code>__</code>, this will make all downloaded files are under same directory.</p>
 </div>
-<div id="prepare" class="section level3">
-<h3>Prepare</h3>
+<div id="prepare" class="section level2">
+<h2>Prepare</h2>
 <p>There are 4 ways to prepare data to R.</p>
 <pre><code># way1:  directory
 cli1 = XenaPrepare(&quot;E:/Github/XenaData/test/&quot;)
@@ -452,10 +440,10 @@ testRNA = UCSCXenaTools::XenaPrepare(&quot;~/Download/HiSeqV2.gz&quot;, use_chun
 testRNA = UCSCXenaTools::XenaPrepare(&quot;~/Download/HiSeqV2.gz&quot;, use_chunk = TRUE, select_cols = colnames(x)[1:3])</code></pre>
 </div>
 </div>
-<div id="download-tcga-data-with-readable-options" class="section level2">
-<h2>Download TCGA data with readable options</h2>
-<div id="gettcgadata" class="section level3">
-<h3>getTCGAdata</h3>
+<div id="download-tcga-data-with-readable-options" class="section level1">
+<h1>Download TCGA data with readable options</h1>
+<div id="gettcgadata" class="section level2">
+<h2>getTCGAdata</h2>
 <p><code>getTCGAdata</code> provides a more readable way for downloading TCGA (hg19 version, different from <code>gdcHub</code>) datasets, user can specify multiple options to select data and corresponding file type to download. Default this function will return a list include <code>XenaHub</code> object and selected datasets information. Once you are sure the datasets are exactly what you want, <code>download</code> can be set to <code>TRUE</code> to download the data.</p>
 <p>Check arguments of <code>getTCGAdata</code>:</p>
 <pre class="r"><code>args(getTCGAdata)
@@ -469,8 +457,7 @@ testRNA = UCSCXenaTools::XenaPrepare(&quot;~/Download/HiSeqV2.gz&quot;, use_chun
 #&gt;     ...) 
 #&gt; NULL
 
-# or run
-# ??getTCGAdata to read documentation</code></pre>
+# or run ??getTCGAdata to read documentation</code></pre>
 <p>Select one or more projects, default will select only clinical datasets:</p>
 <pre class="r"><code>getTCGAdata(c(&quot;UVM&quot;, &quot;LUAD&quot;))
 #&gt; $Xena
@@ -523,8 +510,7 @@ tcga_data$DataInfo
 <p>Set <code>download=TRUE</code> to download data, default data will be downloaded to system temp directory (you can specify the path with <code>destdir</code> option):</p>
 <pre class="r"><code># only download clinical data
 getTCGAdata(c(&quot;UVM&quot;, &quot;LUAD&quot;), download = TRUE)</code></pre>
-<div id="support-data-type-and-options" class="section level4">
-<h4>Support Data Type and Options</h4>
+<p><strong>Support Data Type and Options</strong>:</p>
 <ul>
 <li>clinical information: <code>clinical</code></li>
 <li>mRNA Sequencing: <code>mRNASeq</code></li>
@@ -543,14 +529,11 @@ getTCGAdata(c(&quot;UVM&quot;, &quot;LUAD&quot;), download = TRUE)</code></pre>
 </blockquote>
 <p><strong>NOTE</strong>: Sequencing data are all based on Illumina Hiseq platform, other platform (Illumina GA) data supported by Xena cannot download using this function. This is for building consistent data download flow. Mutation use <code>broad automated</code> version (except <code>PANCAN</code> use <code>MC3 Public Version</code>). If you wan to download other datasets, please refer to <code>downloadTCGA</code> function or <code>XenaGenerate</code> function.</p>
 </div>
-</div>
-<div id="download-any-tcga-data-by-datatypes-and-filetypes" class="section level3">
-<h3>Download any TCGA data by datatypes and filetypes</h3>
+<div id="download-any-tcga-data-by-datatypes-and-filetypes" class="section level2">
+<h2>Download any TCGA data by datatypes and filetypes</h2>
 <p><code>downloadTCGA</code> function can be used to download any TCGA data supported by Xena, but in a way different from <code>getTCGAdata</code> function.</p>
 <pre class="r"><code># download RNASeq data (use UVM as an example)
-downloadTCGA(project = &quot;UVM&quot;,
-                 data_type = &quot;Gene Expression RNASeq&quot;,
-                  file_type = &quot;IlluminaHiSeq RNASeqV2&quot;)</code></pre>
+downloadTCGA(project = &quot;UVM&quot;, data_type = &quot;Gene Expression RNASeq&quot;, file_type = &quot;IlluminaHiSeq RNASeqV2&quot;)</code></pre>
 <p>See the arguments:</p>
 <pre class="r"><code>args(downloadTCGA)
 #&gt; function (project = NULL, data_type = NULL, file_type = NULL, 
@@ -652,8 +635,8 @@ downloadTCGA(project = &quot;UVM&quot;,
 <pre class="r"><code>UCSCXenaTools::XenaShiny()</code></pre>
 </div>
 </div>
-<div id="sessioninfo" class="section level2">
-<h2>SessionInfo</h2>
+<div id="sessioninfo" class="section level1">
+<h1>SessionInfo</h1>
 <pre class="r"><code>sessionInfo()
 #&gt; R version 3.6.0 RC (2019-04-21 r76409)
 #&gt; Platform: x86_64-apple-darwin15.6.0 (64-bit)
@@ -670,33 +653,35 @@ downloadTCGA(project = &quot;UVM&quot;,
 #&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     
 #&gt; 
 #&gt; other attached packages:
-#&gt; [1] dplyr_0.8.0.1       UCSCXenaTools_1.2.1
+#&gt; [1] dplyr_0.8.1         UCSCXenaTools_1.2.2 pacman_0.5.1       
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
-#&gt;  [1] Rcpp_1.0.1           knitr_1.22           magrittr_1.5        
-#&gt;  [4] hms_0.4.2            tidyselect_0.2.5     xtable_1.8-4        
-#&gt;  [7] R6_2.4.0             rlang_0.3.4          fansi_0.4.0         
-#&gt; [10] httr_1.4.0           stringr_1.4.0        tools_3.6.0         
-#&gt; [13] shinydashboard_0.7.1 xfun_0.6             utf8_1.1.4          
-#&gt; [16] cli_1.1.0            htmltools_0.3.6      yaml_2.2.0          
-#&gt; [19] digest_0.6.18        assertthat_0.2.1     tibble_2.1.1        
-#&gt; [22] crayon_1.3.4         bookdown_0.9         shiny_1.3.2         
-#&gt; [25] readr_1.3.1          purrr_0.3.2          later_0.8.0         
-#&gt; [28] promises_1.0.1       curl_3.3             mime_0.6            
-#&gt; [31] glue_1.3.1           evaluate_0.13        rmarkdown_1.12      
-#&gt; [34] blogdown_0.12        stringi_1.4.3        compiler_3.6.0      
-#&gt; [37] pillar_1.3.1         httpuv_1.5.1         pkgconfig_2.0.2</code></pre>
+#&gt;  [1] Rcpp_1.0.1           pillar_1.4.1         compiler_3.6.0      
+#&gt;  [4] formatR_1.7          later_0.8.0          tools_3.6.0         
+#&gt;  [7] zeallot_0.1.0        digest_0.6.19        evaluate_0.14       
+#&gt; [10] tibble_2.1.3         pkgconfig_2.0.2      rlang_0.3.4         
+#&gt; [13] cli_1.1.0            shiny_1.3.2          curl_3.3            
+#&gt; [16] yaml_2.2.0           blogdown_0.13        xfun_0.7            
+#&gt; [19] stringr_1.4.0        httr_1.4.0           knitr_1.23          
+#&gt; [22] vctrs_0.1.0          hms_0.4.2            shinydashboard_0.7.1
+#&gt; [25] tidyselect_0.2.5     glue_1.3.1           R6_2.4.0            
+#&gt; [28] fansi_0.4.0          rmarkdown_1.13       bookdown_0.11       
+#&gt; [31] purrr_0.3.2          readr_1.3.1          magrittr_1.5        
+#&gt; [34] backports_1.1.4      promises_1.0.1       htmltools_0.3.6     
+#&gt; [37] assertthat_0.2.1     mime_0.7             xtable_1.8-4        
+#&gt; [40] httpuv_1.5.1         utf8_1.1.4           stringi_1.4.3       
+#&gt; [43] crayon_1.3.4</code></pre>
 </div>
-<div id="bug-report" class="section level2">
-<h2>Bug Report</h2>
+<div id="bug-report" class="section level1">
+<h1>Bug Report</h1>
 <p>I have no time to test if all conditions are right and all datasets can normally be downloaded. So if you have any question or suggestion, please open an issue on Github at <a href="https://github.com/ShixiangWang/UCSCXenaTools/issues" class="uri">https://github.com/ShixiangWang/UCSCXenaTools/issues</a>.</p>
 </div>
-<div id="acknowledgement" class="section level2">
-<h2>Acknowledgement</h2>
+<div id="acknowledgement" class="section level1">
+<h1>Acknowledgement</h1>
 <p>This package is based on <a href="https://github.com/mtmorgan/XenaR">XenaR</a>, thanks <a href="https://github.com/mtmorgan">Martin Morgan</a> for his work.</p>
 </div>
-<div id="license" class="section level2">
-<h2>LICENSE</h2>
+<div id="license" class="section level1">
+<h1>LICENSE</h1>
 <p>GPL-3</p>
 <p>Please note, code from XenaR package under Apache 2.0 license.</p>
 </div>
@@ -705,8 +690,8 @@ downloadTCGA(project = &quot;UVM&quot;,
   <footer>
   
 <nav class="post-nav">
-  <span class="nav-prev"></span>
-  <span class="nav-next"><a href="../../../en/tools/ucscxenatools-api/">UCSCXenaTools: R API for UCSC Xena Hubs</a> &rarr;</span>
+  <span class="nav-prev">&larr; <a href="../../../en/tools/ucscxenatools-api/">UCSCXenaTools: R API for UCSC Xena Hubs</a></span>
+  <span class="nav-next"></span>
 </nav>
 <script type="text/javascript">
 document.addEventListener('keyup', function(e) {
@@ -714,9 +699,9 @@ document.addEventListener('keyup', function(e) {
   var url = false;
   if (e.which == 37) {  
     
-  } else if (e.which == 39) {  
-    
     url = '\/en\/tools\/ucscxenatools-api\/';
+    
+  } else if (e.which == 39) {  
     
   }
   if (url) window.location = url;

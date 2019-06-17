@@ -105,8 +105,8 @@ can be combined, linked, filtered, explored and downloaded.
 
 **Documentation**:
 
-- [Introduction and basic usage of **UCSCXenaTools**](../tools/ucscxenatools-intro)
-- [APIs of **UCSCXenaTools**](../tools/ucscxenatools-api)
+- [Introduction and basic usage of **UCSCXenaTools**](../../en/tools/ucscxenatools-intro)
+- [APIs of **UCSCXenaTools**](../../en/tools/ucscxenatools-api)
 
 ### UCSCXenaShiny
 

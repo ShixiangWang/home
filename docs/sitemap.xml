@@ -3,8 +3,23 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/en/tools/ucscxenatools-intro/</loc>
+    <lastmod>2019-06-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/en/tools/ucscxenatools-api/</loc>
-    <lastmod>2019-06-08T00:00:00+00:00</lastmod>
+    <lastmod>2019-06-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/en/tools/ucscxenatools-api.knit/</loc>
+    <lastmod>2019-06-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/en/tools/ucscxenatools-api.utf8/</loc>
+    <lastmod>2019-06-17T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -18,18 +33,13 @@
   </url>
   
   <url>
-    <loc>/en/tools/ucscxenatools-intro/</loc>
-    <lastmod>2019-06-04T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/cn/todo/</loc>
     <lastmod>2019-06-11T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/cn/cv-cn/shixiang/</loc>
-    <lastmod>2019-06-04T00:00:00+00:00</lastmod>
+    <lastmod>2019-06-17T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -109,7 +119,7 @@
   
   <url>
     <loc>/en/cv-en/shixiang/</loc>
-    <lastmod>2019-06-04T00:00:00+00:00</lastmod>
+    <lastmod>2019-06-17T00:00:00+00:00</lastmod>
   </url>
   
   <url>

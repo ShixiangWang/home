@@ -12,15 +12,54 @@
     
     
     <item>
+      <title>UCSCXenaTools: Download Public Cancer Genomic Data from UCSC Xena Hubs</title>
+      <link>/en/tools/ucscxenatools-intro/</link>
+      <pubDate>Mon, 17 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/en/tools/ucscxenatools-intro/</guid>
+      <description>UCSCXenaTools is an R package for downloading and exploring data from UCSC Xena data hubs, which are
+ a collection of UCSC-hosted public databases such as TCGA, ICGC, TARGET, GTEx, CCLE, and others. Databases are normalized so they can be combined, linked, filtered, explored and downloaded.
+– UCSC Xena
+ If you use this package in academic field, please cite:
+Wang, Shixiang, et al. &amp;quot;The predictive power of tumor mutational burden in lung cancer immunotherapy response is influenced by patients&amp;#39; sex.</description>
+    </item>
+    
+    <item>
       <title>UCSCXenaTools: R API for UCSC Xena Hubs</title>
       <link>/en/tools/ucscxenatools-api/</link>
-      <pubDate>Sat, 08 Jun 2019 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 17 Jun 2019 00:00:00 +0000</pubDate>
       
       <guid>/en/tools/ucscxenatools-api/</guid>
       <description>This vignette gives users the summary information of API functions provided by UCSCXenaTools for UCSC Xena.
 Before using API, user should know some concepts about Xena elements. Following description is copied from xenaPython __init__.py.
  Data rows are associated with “sample” IDs.
 Sample IDs are unique within a “cohort”. s A “dataset” is a particular assay of a cohort, e.g. gene expression.
+Datasets have associated metadata, specifying their data type and cohort.</description>
+    </item>
+    
+    <item>
+      <title>UCSCXenaTools: R API for UCSC Xena Hubs</title>
+      <link>/en/tools/ucscxenatools-api.knit/</link>
+      <pubDate>Mon, 17 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/en/tools/ucscxenatools-api.knit/</guid>
+      <description>This vignette gives users the summary information of API functions provided by UCSCXenaTools for UCSC Xena.
+Before using API, user should know some concepts about Xena elements. Following description is copied from xenaPython __init__.py.
+ Data rows are associated with &amp;ldquo;sample&amp;rdquo; IDs.
+Sample IDs are unique within a &amp;ldquo;cohort&amp;rdquo;. s A &amp;ldquo;dataset&amp;rdquo; is a particular assay of a cohort, e.g. gene expression.
+Datasets have associated metadata, specifying their data type and cohort.</description>
+    </item>
+    
+    <item>
+      <title>UCSCXenaTools: R API for UCSC Xena Hubs</title>
+      <link>/en/tools/ucscxenatools-api.utf8/</link>
+      <pubDate>Mon, 17 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/en/tools/ucscxenatools-api.utf8/</guid>
+      <description>This vignette gives users the summary information of API functions provided by UCSCXenaTools for UCSC Xena.
+Before using API, user should know some concepts about Xena elements. Following description is copied from xenaPython __init__.py.
+ Data rows are associated with &amp;ldquo;sample&amp;rdquo; IDs.
+Sample IDs are unique within a &amp;ldquo;cohort&amp;rdquo;. s A &amp;ldquo;dataset&amp;rdquo; is a particular assay of a cohort, e.g. gene expression.
 Datasets have associated metadata, specifying their data type and cohort.</description>
     </item>
     
@@ -40,19 +79,6 @@ Datasets have associated metadata, specifying their data type and cohort.</descr
       
       <guid>/cn/read/biocworkshop-100-r-and-bioconductor-intro/</guid>
       <description>来源：https://bioconductor.github.io/BiocWorkshops/r-and-bioconductor-for</description>
-    </item>
-    
-    <item>
-      <title>UCSCXenaTools: Download Public Cancer Genomic Data from UCSC Xena Hubs</title>
-      <link>/en/tools/ucscxenatools-intro/</link>
-      <pubDate>Tue, 04 Jun 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/en/tools/ucscxenatools-intro/</guid>
-      <description>UCSCXenaTools is an R package for downloading and exploring data from UCSC Xena data hubs, which are
- a collection of UCSC-hosted public databases such as TCGA, ICGC, TARGET, GTEx, CCLE, and others. Databases are normalized so they can be combined, linked, filtered, explored and downloaded.
-– UCSC Xena
- If you use this package in academic field, please cite:
-Wang, Shixiang, et al. &amp;quot;The predictive power of tumor mutational burden in lung cancer immunotherapy response is influenced by patients&amp;#39; sex.</description>
     </item>
     
     <item>

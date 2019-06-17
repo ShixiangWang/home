@@ -1,64 +1,178 @@
----
-title: "UCSCXenaTools: Download Public Cancer Genomic Data from UCSC Xena Hubs"
-author: "Shixiang Wang"
-show_toc: true
-date: "2019-06-17"
-output: 
-  tint::tintPdf
-type: cv
-pdf: ../ucscxenatools-intro.pdf
----
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    
+    <link rel="stylesheet" href="../../../fonts/academicons-1.8.6/css/academicons.min.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../logo/bodhi.png"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    
+    <title>UCSCXenaTools: Download Public Cancer Genomic Data from UCSC Xena Hubs - Shixiang Wang</title>
+    
+     
+    <meta property="og:title" content="UCSCXenaTools: Download Public Cancer Genomic Data from UCSC Xena Hubs - Shixiang Wang | 王诗翔">
+    
+
+    
+      
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="../../../css/style.css" />
+    <link rel="stylesheet" href="../../../css/mystyle.css" /> 
+    <link rel="stylesheet" href="../../../css/fonts.css" />
+    
+<link rel="stylesheet" href="../../../css/custom.css" />
+
+  </head>
+
+  
+  <body class="en">
+    <header class="masthead">
+      
+
+<h1><a href="../../../"><img src="https://avatars1.githubusercontent.com/u/25057508?s=460&amp;v=4" alt="Shixiang Wang" /></a></h1>
+
+
+
+      <nav class="menu">
+        <input id="menu-check" type="checkbox" />
+        <label id="menu-label" for="menu-check" class="unselectable">
+          <span class="icon close-icon">✕</span>
+          <span class="icon open-icon">☰</span>
+          <span class="text">Menu</span>
+        </label>
+        <ul>
+        
+        
+        <li><a href="../../../">Home</a></li>
+        
+        <li><a href="../../../en/about/">About</a></li>
+        
+        <li><a href="../../../en/post/">Blog</a></li>
+        
+        <li><a href="../../../en/tools/">Software</a></li>
+        
+        <li><a href="../../../en/list/">List</a></li>
+        
+        <li><a href="../../../en/cv-en/shixiang">CV</a></li>
+        
+        <li><a href="../../../cn/">中文</a></li>
+        
+        
+
+<li class="menu-extra"></li>
+
+
+
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/en/tools/ucscxenatools-intro.utf8.md" target="_blank">Edit Me</a></li>
+
+
+<li><a href="../../../en/index.xml" type="application/rss+xml" title="RSS feed">Subscribe</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">License</a></li>
+
+
+        </ul>
+      </nav>
+    </header>
+
+    <article class="main">
+      <header class="title">
+      
+
+      </header>
+
+
+<div style="text-align: center; width: 150px; float:right;">
+<a href = "../ucscxenatools-intro.pdf" class = "fa fa-file-pdf-o" title = "PDF version "> PDF </a>
+</div>
 
 
 
 <p><strong>UCSCXenaTools</strong> is an R package for downloading and exploring data from <strong>UCSC Xena data hubs</strong>, which are</p>
+
 <blockquote>
 <p>a collection of UCSC-hosted public databases such as TCGA, ICGC, TARGET, GTEx, CCLE, and others. Databases are normalized so they can be combined, linked, filtered, explored and downloaded.</p>
-<p>– <a href="https://xena.ucsc.edu/">UCSC Xena</a></p>
+
+<p>&ndash; <a href="https://xena.ucsc.edu/">UCSC Xena</a></p>
 </blockquote>
+
 <p>If you use this package in academic field, please cite:</p>
+
 <pre><code>Wang, Shixiang, et al. &quot;The predictive power of tumor mutational burden 
-    in lung cancer immunotherapy response is influenced by patients&#39; sex.&quot; 
-    International journal of cancer (2019).</code></pre>
-<div id="installation" class="section level1">
-<h1>Installation</h1>
+    in lung cancer immunotherapy response is influenced by patients' sex.&quot; 
+    International journal of cancer (2019).
+</code></pre>
+
+<h1 id="installation">Installation</h1>
+
 <p>Install stable release from CRAN with:</p>
-<pre class="r"><code>install.packages(&quot;UCSCXenaTools&quot;)</code></pre>
+
+<pre><code class="language-r">install.packages(&quot;UCSCXenaTools&quot;)
+</code></pre>
+
 <p>You can also install devel version of <strong>UCSCXenaTools</strong> from github with:</p>
-<pre class="r"><code># install.packages(&#39;remotes&#39;)
-remotes::install_github(&quot;ShixiangWang/UCSCXenaTools&quot;)</code></pre>
+
+<pre><code class="language-r"># install.packages('remotes')
+remotes::install_github(&quot;ShixiangWang/UCSCXenaTools&quot;)
+</code></pre>
+
 <p>Read this vignettes.</p>
-<pre class="r"><code>browseVignettes(&quot;UCSCXenaTools&quot;)
+
+<pre><code class="language-r">browseVignettes(&quot;UCSCXenaTools&quot;)
 # or
-`?`(`?`(UCSCXenaTools))</code></pre>
-</div>
-<div id="data-hub-list" class="section level1">
-<h1>Data Hub List</h1>
-<p>All datasets are available at <a href="https://xenabrowser.net/datapages/" class="uri">https://xenabrowser.net/datapages/</a>.</p>
+`?`(`?`(UCSCXenaTools))
+</code></pre>
+
+<h1 id="data-hub-list">Data Hub List</h1>
+
+<p>All datasets are available at <a href="https://xenabrowser.net/datapages/">https://xenabrowser.net/datapages/</a>.</p>
+
 <p>Currently, <strong>UCSCXenaTools</strong> supports 10 data hubs of UCSC Xena.</p>
+
 <ul>
-<li>UCSC Public Hub: <a href="https://ucscpublic.xenahubs.net" class="uri">https://ucscpublic.xenahubs.net</a></li>
-<li>TCGA Hub: <a href="https://tcga.xenahubs.net" class="uri">https://tcga.xenahubs.net</a></li>
-<li>GDC Xena Hub: <a href="https://gdc.xenahubs.net" class="uri">https://gdc.xenahubs.net</a></li>
-<li>ICGC Xena Hub: <a href="https://icgc.xenahubs.net" class="uri">https://icgc.xenahubs.net</a></li>
-<li>Pan-Cancer Atlas Hub: <a href="https://pancanatlas.xenahubs.net" class="uri">https://pancanatlas.xenahubs.net</a></li>
-<li>GA4GH (TOIL) Hub: <a href="https://toil.xenahubs.net" class="uri">https://toil.xenahubs.net</a></li>
-<li>Treehouse Hub: <a href="https://xena.treehouse.gi.ucsc.edu" class="uri">https://xena.treehouse.gi.ucsc.edu</a></li>
-<li>PCAWG Hub: <a href="https://pcawg.xenahubs.net" class="uri">https://pcawg.xenahubs.net</a></li>
-<li>ATAC-seq Hub: <a href="https://atacseq.xenahubs.net" class="uri">https://atacseq.xenahubs.net</a></li>
-<li>Singel Cell Xena hub: <a href="https://singlecell.xenahubs.net" class="uri">https://singlecell.xenahubs.net</a></li>
+<li>UCSC Public Hub: <a href="https://ucscpublic.xenahubs.net">https://ucscpublic.xenahubs.net</a></li>
+<li>TCGA Hub: <a href="https://tcga.xenahubs.net">https://tcga.xenahubs.net</a></li>
+<li>GDC Xena Hub: <a href="https://gdc.xenahubs.net">https://gdc.xenahubs.net</a></li>
+<li>ICGC Xena Hub: <a href="https://icgc.xenahubs.net">https://icgc.xenahubs.net</a></li>
+<li>Pan-Cancer Atlas Hub: <a href="https://pancanatlas.xenahubs.net">https://pancanatlas.xenahubs.net</a></li>
+<li>GA4GH (TOIL) Hub: <a href="https://toil.xenahubs.net">https://toil.xenahubs.net</a></li>
+<li>Treehouse Hub: <a href="https://xena.treehouse.gi.ucsc.edu">https://xena.treehouse.gi.ucsc.edu</a></li>
+<li>PCAWG Hub: <a href="https://pcawg.xenahubs.net">https://pcawg.xenahubs.net</a></li>
+<li>ATAC-seq Hub: <a href="https://atacseq.xenahubs.net">https://atacseq.xenahubs.net</a></li>
+<li>Singel Cell Xena hub: <a href="https://singlecell.xenahubs.net">https://singlecell.xenahubs.net</a></li>
 </ul>
-<p>If any url of data hubs are changed or a new data hub is online, please remind me by emailing to <a href="mailto:w_shixiang@163.com" class="email">w_shixiang@163.com</a> or <a href="https://github.com/ShixiangWang/UCSCXenaTools/issues">opening an issue on GitHub</a>.</p>
-</div>
-<div id="usage" class="section level1">
-<h1>Usage</h1>
+
+<p>If any url of data hubs are changed or a new data hub is online, please remind me by emailing to <w_shixiang@163.com> or <a href="https://github.com/ShixiangWang/UCSCXenaTools/issues">opening an issue on GitHub</a>.</p>
+
+<h1 id="usage">Usage</h1>
+
 <p>Download UCSC Xena Datasets and load them into R by <strong>UCSCXenaTools</strong> is a workflow with <code>generate</code>, <code>filter</code>, <code>query</code>, <code>download</code> and <code>prepare</code> 5 steps, which are implemented as <code>XenaGenerate</code>, <code>XenaFilter</code>, <code>XenaQuery</code>, <code>XenaDownload</code> and <code>XenaPrepare</code> functions, respectively. They are very clear and easy to use and combine with other packages like <code>dplyr</code>.</p>
+
 <p>To show the basic usage of <strong>UCSCXenaTools</strong>, we will download clinical data of LUNG, LUAD, LUSC from TCGA (hg19 version) data hub.</p>
-<div id="xenadata-data.frame" class="section level2">
-<h2>XenaData data.frame</h2>
+
+<h2 id="xenadata-data-frame">XenaData data.frame</h2>
+
 <p>Begin from version <code>0.2.0</code>, <strong>UCSCXenaTools</strong> uses a <code>data.frame</code> object (built in package, someone may call it <code>tibble</code>) <code>XenaData</code> to generate an instance of <code>XenaHub</code> class to record general information of all datasets of UCSC Xena Data Hubs.</p>
+
 <p>You can load <code>XenaData</code> after loading <code>UCSCXenaTools</code> into R.</p>
-<pre class="r"><code>library(UCSCXenaTools)
+
+<pre><code class="language-r">library(UCSCXenaTools)
 #&gt; =========================================================================
 #&gt; UCSCXenaTools version 1.2.2
 #&gt; Github page: https://github.com/ShixiangWang/UCSCXenaTools
@@ -66,7 +180,7 @@ remotes::install_github(&quot;ShixiangWang/UCSCXenaTools&quot;)</code></pre>
 #&gt; 
 #&gt; If you use it in published research, please cite:
 #&gt; Wang, Shixiang, et al. &quot;The predictive power of tumor mutational burden
-#&gt;     in lung cancer immunotherapy response is influenced by patients&#39; sex.&quot;
+#&gt;     in lung cancer immunotherapy response is influenced by patients' sex.&quot;
 #&gt;     International journal of cancer (2019).
 #&gt; =========================================================================
 #&gt; 
@@ -74,35 +188,54 @@ data(XenaData)
 
 head(XenaData)
 #&gt; # A tibble: 6 x 17
-#&gt;   XenaHosts XenaHostNames XenaCohorts XenaDatasets SampleCount DataSubtype
-#&gt;   &lt;chr&gt;     &lt;chr&gt;         &lt;chr&gt;       &lt;chr&gt;        &lt;chr&gt;       &lt;chr&gt;      
-#&gt; 1 https://… publicHub     Acute lymp… mullighan20… 30          copy number
-#&gt; 2 https://… publicHub     Acute lymp… mullighan20… 159         phenotype  
-#&gt; 3 https://… publicHub     Acute lymp… mullighan20… 129         copy number
-#&gt; 4 https://… publicHub     Breast Can… Caldas2007/… 242         phenotype  
-#&gt; 5 https://… publicHub     Breast Can… Caldas2007/… 220         copy number
-#&gt; 6 https://… publicHub     Breast Can… Caldas2007/… 135         gene expre…
-#&gt; # … with 11 more variables: Label &lt;chr&gt;, Type &lt;chr&gt;,
-#&gt; #   AnatomicalOrigin &lt;chr&gt;, SampleType &lt;chr&gt;, Tags &lt;chr&gt;, ProbeMap &lt;chr&gt;,
-#&gt; #   LongTitle &lt;chr&gt;, Citation &lt;chr&gt;, Version &lt;chr&gt;, Unit &lt;chr&gt;,
-#&gt; #   Platform &lt;chr&gt;</code></pre>
+#&gt;   XenaHosts XenaHostNames XenaCohorts
+#&gt;   &lt;chr&gt;     &lt;chr&gt;         &lt;chr&gt;      
+#&gt; 1 https://~ publicHub     Acute lymp~
+#&gt; 2 https://~ publicHub     Acute lymp~
+#&gt; 3 https://~ publicHub     Acute lymp~
+#&gt; 4 https://~ publicHub     Breast Can~
+#&gt; 5 https://~ publicHub     Breast Can~
+#&gt; 6 https://~ publicHub     Breast Can~
+#&gt; # ... with 14 more variables:
+#&gt; #   XenaDatasets &lt;chr&gt;, SampleCount &lt;chr&gt;,
+#&gt; #   DataSubtype &lt;chr&gt;, Label &lt;chr&gt;,
+#&gt; #   Type &lt;chr&gt;, AnatomicalOrigin &lt;chr&gt;,
+#&gt; #   SampleType &lt;chr&gt;, Tags &lt;chr&gt;,
+#&gt; #   ProbeMap &lt;chr&gt;, LongTitle &lt;chr&gt;,
+#&gt; #   Citation &lt;chr&gt;, Version &lt;chr&gt;,
+#&gt; #   Unit &lt;chr&gt;, Platform &lt;chr&gt;
+</code></pre>
+
 <p>Names of all hub names/urls can be accessed by object <code>.xena_hosts</code>:</p>
-<pre class="r"><code>UCSCXenaTools:::.xena_hosts
-#&gt;    https://ucscpublic.xenahubs.net          https://tcga.xenahubs.net 
-#&gt;                        &quot;publicHub&quot;                          &quot;tcgaHub&quot; 
-#&gt;           https://gdc.xenahubs.net          https://icgc.xenahubs.net 
-#&gt;                           &quot;gdcHub&quot;                          &quot;icgcHub&quot; 
-#&gt;          https://toil.xenahubs.net   https://pancanatlas.xenahubs.net 
-#&gt;                          &quot;toilHub&quot;                   &quot;pancanAtlasHub&quot; 
-#&gt; https://xena.treehouse.gi.ucsc.edu         https://pcawg.xenahubs.net 
-#&gt;                     &quot;treehouseHub&quot;                         &quot;pcawgHub&quot; 
-#&gt;       https://atacseq.xenahubs.net    https://singlecell.xenahubs.net 
-#&gt;                       &quot;atacseqHub&quot;                    &quot;singlecellHub&quot;</code></pre>
-</div>
-<div id="generate-a-xenahub-object" class="section level2">
-<h2>Generate a XenaHub object</h2>
+
+<pre><code class="language-r">UCSCXenaTools:::.xena_hosts
+#&gt;    https://ucscpublic.xenahubs.net 
+#&gt;                        &quot;publicHub&quot; 
+#&gt;          https://tcga.xenahubs.net 
+#&gt;                          &quot;tcgaHub&quot; 
+#&gt;           https://gdc.xenahubs.net 
+#&gt;                           &quot;gdcHub&quot; 
+#&gt;          https://icgc.xenahubs.net 
+#&gt;                          &quot;icgcHub&quot; 
+#&gt;          https://toil.xenahubs.net 
+#&gt;                          &quot;toilHub&quot; 
+#&gt;   https://pancanatlas.xenahubs.net 
+#&gt;                   &quot;pancanAtlasHub&quot; 
+#&gt; https://xena.treehouse.gi.ucsc.edu 
+#&gt;                     &quot;treehouseHub&quot; 
+#&gt;         https://pcawg.xenahubs.net 
+#&gt;                         &quot;pcawgHub&quot; 
+#&gt;       https://atacseq.xenahubs.net 
+#&gt;                       &quot;atacseqHub&quot; 
+#&gt;    https://singlecell.xenahubs.net 
+#&gt;                    &quot;singlecellHub&quot;
+</code></pre>
+
+<h2 id="generate-a-xenahub-object">Generate a XenaHub object</h2>
+
 <p>This can be implemented by <code>XenaGenerate</code> function, which generates <code>XenaHub</code> object from <code>XenaData</code> data frame.</p>
-<pre class="r"><code>XenaGenerate()
+
+<pre><code class="language-r">XenaGenerate()
 #&gt; class: XenaHub 
 #&gt; hosts():
 #&gt;   https://ucscpublic.xenahubs.net
@@ -128,9 +261,12 @@ head(XenaData)
 #&gt;   mullighan2008_public/mullighan2008_SNP6_genomicMatrix
 #&gt;   ...
 #&gt;   Zeisel/Zeisel_expression_mRNA_log2
-#&gt;   Zeisel/Zeisel_expression_phenotype</code></pre>
+#&gt;   Zeisel/Zeisel_expression_phenotype
+</code></pre>
+
 <p>You can set <code>subset</code> argument to narrow datasets.</p>
-<pre class="r"><code>XenaGenerate(subset = XenaHostNames == &quot;tcgaHub&quot;)
+
+<pre><code class="language-r">XenaGenerate(subset = XenaHostNames == &quot;tcgaHub&quot;)
 #&gt; class: XenaHub 
 #&gt; hosts():
 #&gt;   https://tcga.xenahubs.net
@@ -147,12 +283,16 @@ head(XenaData)
 #&gt;   TCGA.LAML.sampleMap/Gistic2_CopyNumber_Gistic2_all_data_by_genes
 #&gt;   ...
 #&gt;   TCGA.UCS.sampleMap/Pathway_Paradigm_RNASeq_And_Copy_Number
-#&gt;   TCGA.UCS.sampleMap/mutation_curated_broad</code></pre>
+#&gt;   TCGA.UCS.sampleMap/mutation_curated_broad
+</code></pre>
+
 <blockquote>
 <p>You can also use <code>XenaHub()</code> to generate a <code>XenaHub</code> object for API communication, but it is not recommended.</p>
 </blockquote>
-<p>It’s possible to extract info from <code>XenaHub</code> object by <code>hosts()</code>, <code>cohorts()</code> and <code>datasets()</code>.</p>
-<pre class="r"><code>xe = XenaGenerate(subset = XenaHostNames == &quot;tcgaHub&quot;)
+
+<p>It&rsquo;s possible to extract info from <code>XenaHub</code> object by <code>hosts()</code>, <code>cohorts()</code> and <code>datasets()</code>.</p>
+
+<pre><code class="language-r">xe = XenaGenerate(subset = XenaHostNames == &quot;tcgaHub&quot;)
 # get hosts
 hosts(xe)
 #&gt; [1] &quot;https://tcga.xenahubs.net&quot;
@@ -171,11 +311,15 @@ head(datasets(xe))
 #&gt; [3] &quot;TCGA.LAML.sampleMap/Gistic2_CopyNumber_Gistic2_all_data_by_genes&quot;
 #&gt; [4] &quot;TCGA.LAML.sampleMap/mutation_wustl_hiseq&quot;                        
 #&gt; [5] &quot;TCGA.LAML.sampleMap/GA&quot;                                          
-#&gt; [6] &quot;TCGA.LAML.sampleMap/HiSeqV2_percentile&quot;</code></pre>
+#&gt; [6] &quot;TCGA.LAML.sampleMap/HiSeqV2_percentile&quot;
+</code></pre>
+
 <p>Pipe operator <code>%&gt;%</code> can also be used here.</p>
-<pre class="r"><code>library(dplyr)
-XenaData %&gt;% filter(XenaHostNames == &quot;tcgaHub&quot;, grepl(&quot;BRCA&quot;, XenaCohorts), 
-    grepl(&quot;Path&quot;, XenaDatasets)) %&gt;% XenaGenerate()
+
+<pre><code class="language-r">library(dplyr)
+XenaData %&gt;% filter(XenaHostNames == &quot;tcgaHub&quot;, 
+    grepl(&quot;BRCA&quot;, XenaCohorts), grepl(&quot;Path&quot;, 
+        XenaDatasets)) %&gt;% XenaGenerate()
 #&gt; class: XenaHub 
 #&gt; hosts():
 #&gt;   https://tcga.xenahubs.net
@@ -185,12 +329,14 @@ XenaData %&gt;% filter(XenaHostNames == &quot;tcgaHub&quot;, grepl(&quot;BRCA&qu
 #&gt;   TCGA.BRCA.sampleMap/Pathway_Paradigm_mRNA_And_Copy_Number
 #&gt;   TCGA.BRCA.sampleMap/Pathway_Paradigm_RNASeq
 #&gt;   TCGA.BRCA.sampleMap/Pathway_Paradigm_RNASeq_And_Copy_Number
-#&gt;   TCGA.BRCA.sampleMap/Pathway_Paradigm_mRNA</code></pre>
-</div>
-<div id="filter" class="section level2">
-<h2>Filter</h2>
+#&gt;   TCGA.BRCA.sampleMap/Pathway_Paradigm_mRNA
+</code></pre>
+
+<h2 id="filter">Filter</h2>
+
 <p>There are too many datasets in <code>xe</code>, you can filter them by <code>XenaFilter</code> function. Regular expression can be used here.</p>
-<pre class="r"><code>(xe2 &lt;- XenaFilter(xe, filterDatasets = &quot;clinical&quot;))
+
+<pre><code class="language-r">(xe2 &lt;- XenaFilter(xe, filterDatasets = &quot;clinical&quot;))
 #&gt; class: XenaHub 
 #&gt; hosts():
 #&gt;   https://tcga.xenahubs.net
@@ -207,11 +353,18 @@ XenaData %&gt;% filter(XenaHostNames == &quot;tcgaHub&quot;, grepl(&quot;BRCA&qu
 #&gt;   TCGA.CHOL.sampleMap/CHOL_clinicalMatrix
 #&gt;   ...
 #&gt;   TCGA.THCA.sampleMap/THCA_clinicalMatrix
-#&gt;   TCGA.UCS.sampleMap/UCS_clinicalMatrix</code></pre>
+#&gt;   TCGA.UCS.sampleMap/UCS_clinicalMatrix
+</code></pre>
+
 <p>Then select <code>LUAD</code>, <code>LUSC</code> and <code>LUNG</code> 3 datasets.</p>
-<pre class="r"><code>xe2 &lt;- XenaFilter(xe2, filterDatasets = &quot;LUAD|LUSC|LUNG&quot;)</code></pre>
+
+<pre><code class="language-r">xe2 &lt;- XenaFilter(xe2, filterDatasets = &quot;LUAD|LUSC|LUNG&quot;)
+</code></pre>
+
 <p>Pipe can be used here.</p>
-<pre class="r"><code>xe %&gt;% XenaFilter(filterDatasets = &quot;clinical&quot;) %&gt;% XenaFilter(filterDatasets = &quot;luad|lusc|lung&quot;)
+
+<pre><code class="language-r">xe %&gt;% XenaFilter(filterDatasets = &quot;clinical&quot;) %&gt;% 
+    XenaFilter(filterDatasets = &quot;luad|lusc|lung&quot;)
 #&gt; class: XenaHub 
 #&gt; hosts():
 #&gt;   https://tcga.xenahubs.net
@@ -222,18 +375,23 @@ XenaData %&gt;% filter(XenaHostNames == &quot;tcgaHub&quot;, grepl(&quot;BRCA&qu
 #&gt; datasets() (3 total):
 #&gt;   TCGA.LUAD.sampleMap/LUAD_clinicalMatrix
 #&gt;   TCGA.LUNG.sampleMap/LUNG_clinicalMatrix
-#&gt;   TCGA.LUSC.sampleMap/LUSC_clinicalMatrix</code></pre>
-</div>
-<div id="browse-datasets" class="section level2">
-<h2>Browse datasets</h2>
+#&gt;   TCGA.LUSC.sampleMap/LUSC_clinicalMatrix
+</code></pre>
+
+<h2 id="browse-datasets">Browse datasets</h2>
+
 <p>Sometimes, you may want to check data before you query and download data.
 A new feature <code>XenaBrowse</code> is implemented in <strong>UCSCXenaTools</strong>.</p>
+
 <p>Create two XenaHub objects:</p>
+
 <ul>
 <li><code>to_browse</code> - a XenaHub object contains a cohort and a dataset.</li>
 <li><code>to_browse2</code> - a XenaHub object contains 2 cohorts and 2 datasets.</li>
 </ul>
-<pre class="r"><code>to_browse &lt;- XenaGenerate(subset = XenaHostNames == &quot;tcgaHub&quot;) %&gt;% XenaFilter(filterDatasets = &quot;clinical&quot;) %&gt;% 
+
+<pre><code class="language-r">to_browse &lt;- XenaGenerate(subset = XenaHostNames == 
+    &quot;tcgaHub&quot;) %&gt;% XenaFilter(filterDatasets = &quot;clinical&quot;) %&gt;% 
     XenaFilter(filterDatasets = &quot;LUAD&quot;)
 
 to_browse
@@ -245,7 +403,8 @@ to_browse
 #&gt; datasets() (1 total):
 #&gt;   TCGA.LUAD.sampleMap/LUAD_clinicalMatrix
 
-to_browse2 &lt;- XenaGenerate(subset = XenaHostNames == &quot;tcgaHub&quot;) %&gt;% XenaFilter(filterDatasets = &quot;clinical&quot;) %&gt;% 
+to_browse2 &lt;- XenaGenerate(subset = XenaHostNames == 
+    &quot;tcgaHub&quot;) %&gt;% XenaFilter(filterDatasets = &quot;clinical&quot;) %&gt;% 
     XenaFilter(filterDatasets = &quot;LUAD|LUSC&quot;)
 
 to_browse2
@@ -257,63 +416,85 @@ to_browse2
 #&gt;   TCGA Lung Squamous Cell Carcinoma (LUSC)
 #&gt; datasets() (2 total):
 #&gt;   TCGA.LUAD.sampleMap/LUAD_clinicalMatrix
-#&gt;   TCGA.LUSC.sampleMap/LUSC_clinicalMatrix</code></pre>
+#&gt;   TCGA.LUSC.sampleMap/LUSC_clinicalMatrix
+</code></pre>
+
 <p><code>XenaBrowse()</code> function can be used to browse dataset/cohort links using your default web browser.
 At default, this function limit one dataset/cohort for preventing user to open too many links at once.</p>
-<pre class="r"><code># This will open you web browser
+
+<pre><code class="language-r"># This will open you web browser
 XenaBrowse(to_browse)
 
-XenaBrowse(to_browse, type = &quot;cohort&quot;)</code></pre>
-<pre class="r"><code># This will throw error
+XenaBrowse(to_browse, type = &quot;cohort&quot;)
+</code></pre>
+
+<pre><code class="language-r"># This will throw error
 XenaBrowse(to_browse2)
 #&gt; Error in XenaBrowse(to_browse2): This function limite 1 dataset to browse.
 #&gt;  Set multiple to TRUE if you want to browse multiple links.
 
 XenaBrowse(to_browse2, type = &quot;cohort&quot;)
 #&gt; Error in XenaBrowse(to_browse2, type = &quot;cohort&quot;): This function limite 1 cohort to browse. 
-#&gt;  Set multiple to TRUE if you want to browse multiple links.</code></pre>
+#&gt;  Set multiple to TRUE if you want to browse multiple links.
+</code></pre>
+
 <p>When you make sure you want to open multiple links, you can set <code>multiple</code> option to <code>TRUE</code>.</p>
-<pre class="r"><code>XenaBrowse(to_browse2, multiple = TRUE)
-XenaBrowse(to_browse2, type = &quot;cohort&quot;, multiple = TRUE)</code></pre>
-</div>
-<div id="query" class="section level2">
-<h2>Query</h2>
+
+<pre><code class="language-r">XenaBrowse(to_browse2, multiple = TRUE)
+XenaBrowse(to_browse2, type = &quot;cohort&quot;, multiple = TRUE)
+</code></pre>
+
+<h2 id="query">Query</h2>
+
 <p>Create a query before downloading data.</p>
-<pre class="r"><code>xe2_query = XenaQuery(xe2)
+
+<pre><code class="language-r">xe2_query = XenaQuery(xe2)
 #&gt; This will check url status, please be patient.
 xe2_query
-#&gt;                       hosts                                datasets
-#&gt; 1 https://tcga.xenahubs.net TCGA.LUAD.sampleMap/LUAD_clinicalMatrix
-#&gt; 2 https://tcga.xenahubs.net TCGA.LUNG.sampleMap/LUNG_clinicalMatrix
-#&gt; 3 https://tcga.xenahubs.net TCGA.LUSC.sampleMap/LUSC_clinicalMatrix
+#&gt;                       hosts
+#&gt; 1 https://tcga.xenahubs.net
+#&gt; 2 https://tcga.xenahubs.net
+#&gt; 3 https://tcga.xenahubs.net
+#&gt;                                  datasets
+#&gt; 1 TCGA.LUAD.sampleMap/LUAD_clinicalMatrix
+#&gt; 2 TCGA.LUNG.sampleMap/LUNG_clinicalMatrix
+#&gt; 3 TCGA.LUSC.sampleMap/LUSC_clinicalMatrix
 #&gt;                                                                             url
 #&gt; 1 https://tcga.xenahubs.net/download/TCGA.LUAD.sampleMap/LUAD_clinicalMatrix.gz
 #&gt; 2 https://tcga.xenahubs.net/download/TCGA.LUNG.sampleMap/LUNG_clinicalMatrix.gz
-#&gt; 3 https://tcga.xenahubs.net/download/TCGA.LUSC.sampleMap/LUSC_clinicalMatrix.gz</code></pre>
-</div>
-<div id="download" class="section level2">
-<h2>Download</h2>
+#&gt; 3 https://tcga.xenahubs.net/download/TCGA.LUSC.sampleMap/LUSC_clinicalMatrix.gz
+</code></pre>
+
+<h2 id="download">Download</h2>
+
 <p>Default, data will be downloaded to system temp directory. You can specify the path.</p>
+
 <p>If the data exists, command will not run to download them, but you can force it by <code>force</code> option.</p>
-<pre class="r"><code>xe2_download = XenaDownload(xe2_query)
-#&gt; All downloaded files will under directory /var/folders/mx/rfkl27z90c96wbmn3_kjk8c80000gn/T//RtmpjCxgwN.
-#&gt; The &#39;trans_slash&#39; option is FALSE, keep same directory structure as Xena.
+
+<pre><code class="language-r">xe2_download = XenaDownload(xe2_query)
+#&gt; All downloaded files will under directory /var/folders/mx/rfkl27z90c96wbmn3_kjk8c80000gn/T//RtmpWLoH68.
+#&gt; The 'trans_slash' option is FALSE, keep same directory structure as Xena.
 #&gt; Creating directories for datasets...
 #&gt; Downloading TCGA.LUAD.sampleMap/LUAD_clinicalMatrix.gz
 #&gt; Downloading TCGA.LUNG.sampleMap/LUNG_clinicalMatrix.gz
-#&gt; Downloading TCGA.LUSC.sampleMap/LUSC_clinicalMatrix.gz</code></pre>
+#&gt; Downloading TCGA.LUSC.sampleMap/LUSC_clinicalMatrix.gz
+</code></pre>
+
 <p>Of note, at default, the downloaded files will keep same directory structure as Xena. You can set <code>trans_slash</code> to TRUE, it will transform
 <code>/</code> in dataset id to <code>__</code>, this will make all downloaded files are under same directory.</p>
-</div>
-<div id="prepare" class="section level2">
-<h2>Prepare</h2>
+
+<h2 id="prepare">Prepare</h2>
+
 <p>There are 4 ways to prepare data to R.</p>
+
 <pre><code># way1:  directory
 cli1 = XenaPrepare(&quot;E:/Github/XenaData/test/&quot;)
 names(cli1)
 ## [1] &quot;TCGA.LUAD.sampleMap__LUAD_clinicalMatrix.gz&quot;
 ## [2] &quot;TCGA.LUNG.sampleMap__LUNG_clinicalMatrix.gz&quot;
-## [3] &quot;TCGA.LUSC.sampleMap__LUSC_clinicalMatrix.gz&quot;</code></pre>
+## [3] &quot;TCGA.LUSC.sampleMap__LUSC_clinicalMatrix.gz&quot;
+</code></pre>
+
 <pre><code># way2: local files
 cli2 = XenaPrepare(&quot;E:/Github/XenaData/test/TCGA.LUAD.sampleMap__LUAD_clinicalMatrix.gz&quot;)
 class(cli2)
@@ -325,31 +506,42 @@ class(cli2)
 ## [1] &quot;list&quot;
 names(cli2)
 ## [1] &quot;TCGA.LUAD.sampleMap__LUAD_clinicalMatrix.gz&quot;
-## [2] &quot;TCGA.LUNG.sampleMap__LUNG_clinicalMatrix.gz&quot;</code></pre>
+## [2] &quot;TCGA.LUNG.sampleMap__LUNG_clinicalMatrix.gz&quot;
+</code></pre>
+
 <pre><code># way3: urls
 cli3 = XenaPrepare(xe2_download$url[1:2])
 names(cli3)
-## [1] &quot;LUSC_clinicalMatrix.gz&quot; &quot;LUNG_clinicalMatrix.gz&quot;</code></pre>
-<pre class="r"><code># way4: xenadownload object
+## [1] &quot;LUSC_clinicalMatrix.gz&quot; &quot;LUNG_clinicalMatrix.gz&quot;
+</code></pre>
+
+<pre><code class="language-r"># way4: xenadownload object
 cli4 = XenaPrepare(xe2_download)
 names(cli4)
-#&gt; [1] &quot;LUAD_clinicalMatrix.gz&quot; &quot;LUNG_clinicalMatrix.gz&quot;
-#&gt; [3] &quot;LUSC_clinicalMatrix.gz&quot;</code></pre>
+#&gt; [1] &quot;LUAD_clinicalMatrix.gz&quot;
+#&gt; [2] &quot;LUNG_clinicalMatrix.gz&quot;
+#&gt; [3] &quot;LUSC_clinicalMatrix.gz&quot;
+</code></pre>
+
 <p>From v0.2.6, <code>XenaPrepare()</code> can enable chunk feature when file is too big and user only need subset of file.</p>
-<p>Following code show how to subset some rows or columns of files, <code>sample</code> is the name of the first column, user can directly use it in logical expression, <code>x</code> can be a representation of data frame user wanna do subset operation. More custom operation can be set as a function and pass to <code>callback</code> option.</p>
+
+<p>Following code show how to subset some rows or columns of files, <code>sample</code> is the name of the first column, user can directly use it in logical expression,  <code>x</code> can be a representation of data frame user wanna do subset operation. More custom operation can be set as a function and pass to <code>callback</code> option.</p>
+
 <pre><code># select rows which sample (gene symbol here) in &quot;HIF3A&quot; or &quot;RNF17&quot;
 testRNA = UCSCXenaTools::XenaPrepare(&quot;~/Download/HiSeqV2.gz&quot;, use_chunk = TRUE, subset_rows = sample %in% c(&quot;HIF3A&quot;, &quot;RNF17&quot;))
 # only keep 1 to 3 columns
-testRNA = UCSCXenaTools::XenaPrepare(&quot;~/Download/HiSeqV2.gz&quot;, use_chunk = TRUE, select_cols = colnames(x)[1:3])</code></pre>
-</div>
-</div>
-<div id="download-tcga-data-with-readable-options" class="section level1">
-<h1>Download TCGA data with readable options</h1>
-<div id="gettcgadata" class="section level2">
-<h2>getTCGAdata</h2>
+testRNA = UCSCXenaTools::XenaPrepare(&quot;~/Download/HiSeqV2.gz&quot;, use_chunk = TRUE, select_cols = colnames(x)[1:3])
+</code></pre>
+
+<h1 id="download-tcga-data-with-readable-options">Download TCGA data with readable options</h1>
+
+<h2 id="gettcgadata">getTCGAdata</h2>
+
 <p><code>getTCGAdata</code> provides a more readable way for downloading TCGA (hg19 version, different from <code>gdcHub</code>) datasets, user can specify multiple options to select data and corresponding file type to download. Default this function will return a list include <code>XenaHub</code> object and selected datasets information. Once you are sure the datasets are exactly what you want, <code>download</code> can be set to <code>TRUE</code> to download the data.</p>
+
 <p>Check arguments of <code>getTCGAdata</code>:</p>
-<pre class="r"><code>args(getTCGAdata)
+
+<pre><code class="language-r">args(getTCGAdata)
 #&gt; function (project = NULL, clinical = TRUE, download = FALSE, 
 #&gt;     forceDownload = FALSE, destdir = tempdir(), mRNASeq = FALSE, 
 #&gt;     mRNAArray = FALSE, mRNASeqType = &quot;normalized&quot;, miRNASeq = FALSE, 
@@ -360,9 +552,12 @@ testRNA = UCSCXenaTools::XenaPrepare(&quot;~/Download/HiSeqV2.gz&quot;, use_chun
 #&gt;     ...) 
 #&gt; NULL
 
-# or run ??getTCGAdata to read documentation</code></pre>
+# or run ??getTCGAdata to read documentation
+</code></pre>
+
 <p>Select one or more projects, default will select only clinical datasets:</p>
-<pre class="r"><code>getTCGAdata(c(&quot;UVM&quot;, &quot;LUAD&quot;))
+
+<pre><code class="language-r">getTCGAdata(c(&quot;UVM&quot;, &quot;LUAD&quot;))
 #&gt; $Xena
 #&gt; class: XenaHub 
 #&gt; hosts():
@@ -376,14 +571,20 @@ testRNA = UCSCXenaTools::XenaPrepare(&quot;~/Download/HiSeqV2.gz&quot;, use_chun
 #&gt; 
 #&gt; $DataInfo
 #&gt; # A tibble: 2 x 20
-#&gt;   XenaHosts XenaHostNames XenaCohorts XenaDatasets SampleCount DataSubtype
-#&gt;   &lt;chr&gt;     &lt;chr&gt;         &lt;chr&gt;       &lt;chr&gt;        &lt;chr&gt;       &lt;chr&gt;      
-#&gt; 1 https://… tcgaHub       TCGA Lung … TCGA.LUAD.s… 706         phenotype  
-#&gt; 2 https://… tcgaHub       TCGA Ocula… TCGA.UVM.sa… 80          phenotype  
-#&gt; # … with 14 more variables: Label &lt;chr&gt;, Type &lt;chr&gt;,
-#&gt; #   AnatomicalOrigin &lt;chr&gt;, SampleType &lt;chr&gt;, Tags &lt;chr&gt;, ProbeMap &lt;chr&gt;,
-#&gt; #   LongTitle &lt;chr&gt;, Citation &lt;chr&gt;, Version &lt;chr&gt;, Unit &lt;chr&gt;,
-#&gt; #   Platform &lt;chr&gt;, ProjectID &lt;chr&gt;, DataType &lt;chr&gt;, FileType &lt;chr&gt;
+#&gt;   XenaHosts XenaHostNames XenaCohorts
+#&gt;   &lt;chr&gt;     &lt;chr&gt;         &lt;chr&gt;      
+#&gt; 1 https://~ tcgaHub       TCGA Lung ~
+#&gt; 2 https://~ tcgaHub       TCGA Ocula~
+#&gt; # ... with 17 more variables:
+#&gt; #   XenaDatasets &lt;chr&gt;, SampleCount &lt;chr&gt;,
+#&gt; #   DataSubtype &lt;chr&gt;, Label &lt;chr&gt;,
+#&gt; #   Type &lt;chr&gt;, AnatomicalOrigin &lt;chr&gt;,
+#&gt; #   SampleType &lt;chr&gt;, Tags &lt;chr&gt;,
+#&gt; #   ProbeMap &lt;chr&gt;, LongTitle &lt;chr&gt;,
+#&gt; #   Citation &lt;chr&gt;, Version &lt;chr&gt;,
+#&gt; #   Unit &lt;chr&gt;, Platform &lt;chr&gt;,
+#&gt; #   ProjectID &lt;chr&gt;, DataType &lt;chr&gt;,
+#&gt; #   FileType &lt;chr&gt;
 
 tcga_data = getTCGAdata(c(&quot;UVM&quot;, &quot;LUAD&quot;))
 
@@ -402,18 +603,30 @@ tcga_data$Xena
 # only return datasets information
 tcga_data$DataInfo
 #&gt; # A tibble: 2 x 20
-#&gt;   XenaHosts XenaHostNames XenaCohorts XenaDatasets SampleCount DataSubtype
-#&gt;   &lt;chr&gt;     &lt;chr&gt;         &lt;chr&gt;       &lt;chr&gt;        &lt;chr&gt;       &lt;chr&gt;      
-#&gt; 1 https://… tcgaHub       TCGA Lung … TCGA.LUAD.s… 706         phenotype  
-#&gt; 2 https://… tcgaHub       TCGA Ocula… TCGA.UVM.sa… 80          phenotype  
-#&gt; # … with 14 more variables: Label &lt;chr&gt;, Type &lt;chr&gt;,
-#&gt; #   AnatomicalOrigin &lt;chr&gt;, SampleType &lt;chr&gt;, Tags &lt;chr&gt;, ProbeMap &lt;chr&gt;,
-#&gt; #   LongTitle &lt;chr&gt;, Citation &lt;chr&gt;, Version &lt;chr&gt;, Unit &lt;chr&gt;,
-#&gt; #   Platform &lt;chr&gt;, ProjectID &lt;chr&gt;, DataType &lt;chr&gt;, FileType &lt;chr&gt;</code></pre>
+#&gt;   XenaHosts XenaHostNames XenaCohorts
+#&gt;   &lt;chr&gt;     &lt;chr&gt;         &lt;chr&gt;      
+#&gt; 1 https://~ tcgaHub       TCGA Lung ~
+#&gt; 2 https://~ tcgaHub       TCGA Ocula~
+#&gt; # ... with 17 more variables:
+#&gt; #   XenaDatasets &lt;chr&gt;, SampleCount &lt;chr&gt;,
+#&gt; #   DataSubtype &lt;chr&gt;, Label &lt;chr&gt;,
+#&gt; #   Type &lt;chr&gt;, AnatomicalOrigin &lt;chr&gt;,
+#&gt; #   SampleType &lt;chr&gt;, Tags &lt;chr&gt;,
+#&gt; #   ProbeMap &lt;chr&gt;, LongTitle &lt;chr&gt;,
+#&gt; #   Citation &lt;chr&gt;, Version &lt;chr&gt;,
+#&gt; #   Unit &lt;chr&gt;, Platform &lt;chr&gt;,
+#&gt; #   ProjectID &lt;chr&gt;, DataType &lt;chr&gt;,
+#&gt; #   FileType &lt;chr&gt;
+</code></pre>
+
 <p>Set <code>download=TRUE</code> to download data, default data will be downloaded to system temp directory (you can specify the path with <code>destdir</code> option):</p>
-<pre class="r"><code># only download clinical data
-getTCGAdata(c(&quot;UVM&quot;, &quot;LUAD&quot;), download = TRUE)</code></pre>
+
+<pre><code class="language-r"># only download clinical data
+getTCGAdata(c(&quot;UVM&quot;, &quot;LUAD&quot;), download = TRUE)
+</code></pre>
+
 <p><strong>Support Data Type and Options</strong>:</p>
+
 <ul>
 <li>clinical information: <code>clinical</code></li>
 <li>mRNA Sequencing: <code>mRNASeq</code></li>
@@ -427,33 +640,51 @@ getTCGAdata(c(&quot;UVM&quot;, &quot;LUAD&quot;), download = TRUE)</code></pre>
 <li>Gistic2 Copy Number: <code>GisticCopyNumber</code></li>
 <li>Copy Number Segment: <code>CopyNumberSegment</code></li>
 </ul>
+
 <blockquote>
 <p>other data type supported by Xena cannot download use this function. Please refer to <code>downloadTCGA</code> function or <code>XenaGenerate</code> function.</p>
 </blockquote>
+
 <p><strong>NOTE</strong>: Sequencing data are all based on Illumina Hiseq platform, other platform (Illumina GA) data supported by Xena cannot download using this function. This is for building consistent data download flow. Mutation use <code>broad automated</code> version (except <code>PANCAN</code> use <code>MC3 Public Version</code>). If you wan to download other datasets, please refer to <code>downloadTCGA</code> function or <code>XenaGenerate</code> function.</p>
-</div>
-<div id="download-any-tcga-data-by-datatypes-and-filetypes" class="section level2">
-<h2>Download any TCGA data by datatypes and filetypes</h2>
+
+<h2 id="download-any-tcga-data-by-datatypes-and-filetypes">Download any TCGA data by datatypes and filetypes</h2>
+
 <p><code>downloadTCGA</code> function can be used to download any TCGA data supported by Xena, but in a way different from <code>getTCGAdata</code> function.</p>
-<pre class="r"><code># download RNASeq data (use UVM as an example)
-downloadTCGA(project = &quot;UVM&quot;, data_type = &quot;Gene Expression RNASeq&quot;, file_type = &quot;IlluminaHiSeq RNASeqV2&quot;)</code></pre>
+
+<pre><code class="language-r"># download RNASeq data (use UVM as an example)
+downloadTCGA(project = &quot;UVM&quot;, data_type = &quot;Gene Expression RNASeq&quot;, 
+    file_type = &quot;IlluminaHiSeq RNASeqV2&quot;)
+</code></pre>
+
 <p>See the arguments:</p>
-<pre class="r"><code>args(downloadTCGA)
+
+<pre><code class="language-r">args(downloadTCGA)
 #&gt; function (project = NULL, data_type = NULL, file_type = NULL, 
 #&gt;     destdir = tempdir(), force = FALSE, ...) 
-#&gt; NULL</code></pre>
+#&gt; NULL
+</code></pre>
+
 <p>Except <code>destdir</code> option, you only need to select three arguments for downloading data. Even throught the number is far less than <code>getTCGAdata</code>, it is more complex than the latter.</p>
+
 <p>Before you download data, you need spare some time to figure out what data type and file type available and what your datasets have.</p>
+
 <p><code>availTCGA</code> can return all information you need:</p>
-<pre class="r"><code>availTCGA()
+
+<pre><code class="language-r">availTCGA()
 #&gt; Note not all projects have listed data types and file types, you can use showTCGA function to check if exist
 #&gt; $ProjectID
-#&gt;  [1] &quot;LAML&quot;     &quot;ACC&quot;      &quot;CHOL&quot;     &quot;BLCA&quot;     &quot;BRCA&quot;     &quot;CESC&quot;    
-#&gt;  [7] &quot;COADREAD&quot; &quot;COAD&quot;     &quot;UCEC&quot;     &quot;ESCA&quot;     &quot;FPPP&quot;     &quot;GBM&quot;     
-#&gt; [13] &quot;HNSC&quot;     &quot;KICH&quot;     &quot;KIRC&quot;     &quot;KIRP&quot;     &quot;DLBC&quot;     &quot;LIHC&quot;    
-#&gt; [19] &quot;LGG&quot;      &quot;GBMLGG&quot;   &quot;LUAD&quot;     &quot;LUNG&quot;     &quot;LUSC&quot;     &quot;SKCM&quot;    
-#&gt; [25] &quot;MESO&quot;     &quot;UVM&quot;      &quot;OV&quot;       &quot;PANCAN&quot;   &quot;PAAD&quot;     &quot;PCPG&quot;    
-#&gt; [31] &quot;PRAD&quot;     &quot;READ&quot;     &quot;SARC&quot;     &quot;STAD&quot;     &quot;TGCT&quot;     &quot;THYM&quot;    
+#&gt;  [1] &quot;LAML&quot;     &quot;ACC&quot;      &quot;CHOL&quot;    
+#&gt;  [4] &quot;BLCA&quot;     &quot;BRCA&quot;     &quot;CESC&quot;    
+#&gt;  [7] &quot;COADREAD&quot; &quot;COAD&quot;     &quot;UCEC&quot;    
+#&gt; [10] &quot;ESCA&quot;     &quot;FPPP&quot;     &quot;GBM&quot;     
+#&gt; [13] &quot;HNSC&quot;     &quot;KICH&quot;     &quot;KIRC&quot;    
+#&gt; [16] &quot;KIRP&quot;     &quot;DLBC&quot;     &quot;LIHC&quot;    
+#&gt; [19] &quot;LGG&quot;      &quot;GBMLGG&quot;   &quot;LUAD&quot;    
+#&gt; [22] &quot;LUNG&quot;     &quot;LUSC&quot;     &quot;SKCM&quot;    
+#&gt; [25] &quot;MESO&quot;     &quot;UVM&quot;      &quot;OV&quot;      
+#&gt; [28] &quot;PANCAN&quot;   &quot;PAAD&quot;     &quot;PCPG&quot;    
+#&gt; [31] &quot;PRAD&quot;     &quot;READ&quot;     &quot;SARC&quot;    
+#&gt; [34] &quot;STAD&quot;     &quot;TGCT&quot;     &quot;THYM&quot;    
 #&gt; [37] &quot;THCA&quot;     &quot;UCS&quot;     
 #&gt; 
 #&gt; $DataType
@@ -530,17 +761,24 @@ downloadTCGA(project = &quot;UVM&quot;, data_type = &quot;Gene Expression RNASeq
 #&gt; [54] &quot;DNA methylation based StemnessScore&quot;       
 #&gt; [55] &quot;Pancan Gene Programs&quot;                      
 #&gt; [56] &quot;Immune Model Based Subtype&quot;                
-#&gt; [57] &quot;Immune Signature Scores&quot;</code></pre>
+#&gt; [57] &quot;Immune Signature Scores&quot;
+</code></pre>
+
 <p>Note not all datasets have these property, <code>showTCGA</code> can help you to check it. It will return all data in TCGA, you can use following code in RStudio and search your data.</p>
-<pre class="r"><code>View(showTCGA())</code></pre>
+
+<pre><code class="language-r">View(showTCGA())
+</code></pre>
+
 <p><strong>OR you can use shiny app provided by <code>UCSCXenaTools</code> to search</strong>.</p>
+
 <p>Run shiny by:</p>
-<pre class="r"><code>UCSCXenaTools::XenaShiny()</code></pre>
-</div>
-</div>
-<div id="sessioninfo" class="section level1">
-<h1>SessionInfo</h1>
-<pre class="r"><code>sessionInfo()
+
+<pre><code class="language-r">UCSCXenaTools::XenaShiny()
+</code></pre>
+
+<h1 id="sessioninfo">SessionInfo</h1>
+
+<pre><code class="language-r">sessionInfo()
 #&gt; R version 3.6.0 RC (2019-04-21 r76409)
 #&gt; Platform: x86_64-apple-darwin15.6.0 (64-bit)
 #&gt; Running under: macOS High Sierra 10.13.6
@@ -553,38 +791,183 @@ downloadTCGA(project = &quot;UVM&quot;, data_type = &quot;Gene Expression RNASeq
 #&gt; [1] zh_CN.UTF-8/zh_CN.UTF-8/zh_CN.UTF-8/C/zh_CN.UTF-8/zh_CN.UTF-8
 #&gt; 
 #&gt; attached base packages:
-#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     
+#&gt; [1] stats     graphics  grDevices utils    
+#&gt; [5] datasets  methods   base     
 #&gt; 
 #&gt; other attached packages:
-#&gt; [1] dplyr_0.8.1         UCSCXenaTools_1.2.2 pacman_0.5.1       
+#&gt; [1] dplyr_0.8.1         UCSCXenaTools_1.2.2
+#&gt; [3] pacman_0.5.1       
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
-#&gt;  [1] Rcpp_1.0.1           pillar_1.4.1         compiler_3.6.0      
-#&gt;  [4] formatR_1.7          later_0.8.0          tools_3.6.0         
-#&gt;  [7] zeallot_0.1.0        digest_0.6.19        evaluate_0.14       
-#&gt; [10] tibble_2.1.3         pkgconfig_2.0.2      rlang_0.3.4         
-#&gt; [13] cli_1.1.0            shiny_1.3.2          curl_3.3            
-#&gt; [16] yaml_2.2.0           blogdown_0.13        xfun_0.7            
-#&gt; [19] stringr_1.4.0        httr_1.4.0           knitr_1.23          
-#&gt; [22] vctrs_0.1.0          hms_0.4.2            shinydashboard_0.7.1
-#&gt; [25] tidyselect_0.2.5     glue_1.3.1           R6_2.4.0            
-#&gt; [28] fansi_0.4.0          rmarkdown_1.13       bookdown_0.11       
-#&gt; [31] purrr_0.3.2          readr_1.3.1          magrittr_1.5        
-#&gt; [34] backports_1.1.4      promises_1.0.1       htmltools_0.3.6     
-#&gt; [37] assertthat_0.2.1     mime_0.7             xtable_1.8-4        
-#&gt; [40] httpuv_1.5.1         utf8_1.1.4           stringi_1.4.3       
-#&gt; [43] crayon_1.3.4</code></pre>
-</div>
-<div id="bug-report" class="section level1">
-<h1>Bug Report</h1>
-<p>I have no time to test if all conditions are right and all datasets can normally be downloaded. So if you have any question or suggestion, please open an issue on Github at <a href="https://github.com/ShixiangWang/UCSCXenaTools/issues" class="uri">https://github.com/ShixiangWang/UCSCXenaTools/issues</a>.</p>
-</div>
-<div id="acknowledgement" class="section level1">
-<h1>Acknowledgement</h1>
+#&gt;  [1] Rcpp_1.0.1          
+#&gt;  [2] pillar_1.4.1        
+#&gt;  [3] compiler_3.6.0      
+#&gt;  [4] formatR_1.7         
+#&gt;  [5] later_0.8.0         
+#&gt;  [6] tools_3.6.0         
+#&gt;  [7] zeallot_0.1.0       
+#&gt;  [8] digest_0.6.19       
+#&gt;  [9] evaluate_0.14       
+#&gt; [10] tibble_2.1.3        
+#&gt; [11] pkgconfig_2.0.2     
+#&gt; [12] rlang_0.3.4         
+#&gt; [13] cli_1.1.0           
+#&gt; [14] shiny_1.3.2         
+#&gt; [15] curl_3.3            
+#&gt; [16] yaml_2.2.0          
+#&gt; [17] xfun_0.7            
+#&gt; [18] stringr_1.4.0       
+#&gt; [19] httr_1.4.0          
+#&gt; [20] knitr_1.23          
+#&gt; [21] vctrs_0.1.0         
+#&gt; [22] hms_0.4.2           
+#&gt; [23] shinydashboard_0.7.1
+#&gt; [24] tidyselect_0.2.5    
+#&gt; [25] glue_1.3.1          
+#&gt; [26] R6_2.4.0            
+#&gt; [27] fansi_0.4.0         
+#&gt; [28] rmarkdown_1.13      
+#&gt; [29] purrr_0.3.2         
+#&gt; [30] readr_1.3.1         
+#&gt; [31] magrittr_1.5        
+#&gt; [32] backports_1.1.4     
+#&gt; [33] promises_1.0.1      
+#&gt; [34] htmltools_0.3.6     
+#&gt; [35] assertthat_0.2.1    
+#&gt; [36] tint_0.1.2          
+#&gt; [37] mime_0.7            
+#&gt; [38] xtable_1.8-4        
+#&gt; [39] httpuv_1.5.1        
+#&gt; [40] utf8_1.1.4          
+#&gt; [41] stringi_1.4.3       
+#&gt; [42] crayon_1.3.4
+</code></pre>
+
+<h1 id="bug-report">Bug Report</h1>
+
+<p>I have no time to test if all conditions are right and all datasets can normally be downloaded. So if you have any question or suggestion, please open an issue on Github at <a href="https://github.com/ShixiangWang/UCSCXenaTools/issues">https://github.com/ShixiangWang/UCSCXenaTools/issues</a>.</p>
+
+<h1 id="acknowledgement">Acknowledgement</h1>
+
 <p>This package is based on <a href="https://github.com/mtmorgan/XenaR">XenaR</a>, thanks <a href="https://github.com/mtmorgan">Martin Morgan</a> for his work.</p>
-</div>
-<div id="license" class="section level1">
-<h1>LICENSE</h1>
+
+<h1 id="license">LICENSE</h1>
+
 <p>GPL-3</p>
+
 <p>Please note, code from XenaR package under Apache 2.0 license.</p>
-</div>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="../../../en/tools/ucscxenatools-api/">UCSCXenaTools: R API for UCSC Xena Hubs</a></span>
+  <span class="nav-next"><a href="../../../en/tools/ucscxenatools-intro.knit/">UCSCXenaTools: Download Public Cancer Genomic Data from UCSC Xena Hubs</a> &rarr;</span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/en\/tools\/ucscxenatools-api\/';
+    
+  } else if (e.which == 39) {  
+    
+    url = '\/en\/tools\/ucscxenatools-intro.knit\/';
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+<section class="comments">
+  <div id="disqus_thread"></div>
+  <script src="../../../js/disqusloader.min.js"></script>
+  <script>
+  var disqus_config = function () {
+  
+    this.page.url = "https:\/\/shixiangwang.github.io\/home\/" + location.pathname;
+  
+  };
+  (function() {
+    var inIFrame = function() {
+      var iframe = true;
+      try { iframe = window.self !== window.top; } catch (e) {}
+      return iframe;
+    };
+    if (inIFrame()) return;
+    var disqus_js = '//home-xjdzylqrzp.disqus.com/embed.js';
+    
+    if (location.hash.match(/^#comment/)) {
+      var d = document, s = d.createElement('script');
+      s.src = disqus_js; s.async = true;
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    } else {
+      disqusLoader('#disqus_thread', {
+        scriptUrl: disqus_js, laziness: 0, disqusConfig: disqus_config
+      });
+    }
+  })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+
+
+<script async src="../../../js/fix-toc.js"></script>
+
+<script async src="../../../js/center-img.js"></script>
+
+<script async src="../../../js/right-quote.js"></script>
+
+<script async src="../../../js/no-highlight.js"></script>
+
+<script async src="../../../js/fix-footnote.js"></script>
+
+<script async src="../../../js/math-code.js"></script>
+
+<script async src="../../../js/external-link.js"></script>
+
+<script async src="../../../js/alt-title.js"></script>
+
+<script async src="../../../js/header-link.js"></script>
+
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+  
+  
+
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> &middot; <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> &middot; <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> &middot; <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=en"><i class='ai ai-google-scholar ai-1x'></i></a> &middot; <a href="https://orcid.org/0000-0002-9275-3557"><i class='ai ai-orcid ai-1x'></i></a> &middot; <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> Powered by <a href="https://gohugo.io">Hugo</a> and <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> &copy; <a href="../../../">Shixiang Wang</a> 2017 - 2019 </div>
+  
+  
+
+  <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56h9es09xn7&amp;m=6&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=1" async="async"></script>
+  </footer>
+  </article>
+  
+  </body>
+</html>
+
