@@ -37,31 +37,5 @@ Sample IDs are unique within a “cohort”. s A “dataset” is a particular a
 Datasets have associated metadata, specifying their data type and cohort.</description>
     </item>
     
-    <item>
-      <title>UCSCXenaTools: R API for UCSC Xena Hubs</title>
-      <link>/en/tools/ucscxenatools-api.knit/</link>
-      <pubDate>Mon, 17 Jun 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/en/tools/ucscxenatools-api.knit/</guid>
-      <description>This vignette gives users the summary information of API functions provided by UCSCXenaTools for UCSC Xena.
-Before using API, user should know some concepts about Xena elements. Following description is copied from xenaPython __init__.py.
- Data rows are associated with &amp;ldquo;sample&amp;rdquo; IDs.
-Sample IDs are unique within a &amp;ldquo;cohort&amp;rdquo;. s A &amp;ldquo;dataset&amp;rdquo; is a particular assay of a cohort, e.g. gene expression.
-Datasets have associated metadata, specifying their data type and cohort.</description>
-    </item>
-    
-    <item>
-      <title>UCSCXenaTools: R API for UCSC Xena Hubs</title>
-      <link>/en/tools/ucscxenatools-api.utf8/</link>
-      <pubDate>Mon, 17 Jun 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/en/tools/ucscxenatools-api.utf8/</guid>
-      <description>This vignette gives users the summary information of API functions provided by UCSCXenaTools for UCSC Xena.
-Before using API, user should know some concepts about Xena elements. Following description is copied from xenaPython __init__.py.
- Data rows are associated with &amp;ldquo;sample&amp;rdquo; IDs.
-Sample IDs are unique within a &amp;ldquo;cohort&amp;rdquo;. s A &amp;ldquo;dataset&amp;rdquo; is a particular assay of a cohort, e.g. gene expression.
-Datasets have associated metadata, specifying their data type and cohort.</description>
-    </item>
-    
   </channel>
 </rss>
