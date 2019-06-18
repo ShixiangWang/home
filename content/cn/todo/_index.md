@@ -35,8 +35,8 @@ disable_comments: true
   - [ ] 3.TensorFlow入门
   - [ ] 4.深层神经网络
 
-- **Arduino入门经典实例**
-  - [ ] 前10个
+- **Arduino学习例程**
+  - [ ] 前5个
 
 ## 开发
 
