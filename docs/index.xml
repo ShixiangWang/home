@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>Create logo for R package UCSCXenaTools with hexSticker</title>
+      <link>/en/post/2019-06-20-how-i-create-ucscxenatools-logo/</link>
+      <pubDate>Thu, 20 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/en/post/2019-06-20-how-i-create-ucscxenatools-logo/</guid>
+      <description>A few days ago, I asked Tyler about how did he create the logo of R package exoplanets. Figure 1: logo of R package exoplanets I really love this logo because it is very simple and elegant. He told me he used a software called omnigraffle to make the logos. I tried learning this software and still did not know how to use it to create a nice logo because</description>
+    </item>
+    
+    <item>
       <title>UCSCXenaTools: Download Public Cancer Genomic Data from UCSC Xena Hubs</title>
       <link>/en/tools/ucscxenatools-intro/</link>
       <pubDate>Mon, 17 Jun 2019 00:00:00 +0000</pubDate>

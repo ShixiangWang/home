@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    
+    <link rel="stylesheet" href="../../../fonts/academicons-1.8.6/css/academicons.min.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../logo/bodhi.png"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    
+    <title>Create logo for R package UCSCXenaTools with hexSticker - Shixiang Wang</title>
+    
+     
+    <meta property="og:title" content="Create logo for R package UCSCXenaTools with hexSticker - Shixiang Wang | 王诗翔">
+    
+
+    
+      
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="../../../css/style.css" />
+    <link rel="stylesheet" href="../../../css/mystyle.css" /> 
+    <link rel="stylesheet" href="../../../css/fonts.css" />
+    
+<link rel="stylesheet" href="../../../css/custom.css" />
+
+  </head>
+
+  
+  <body class="en">
+    <header class="masthead">
+      
+
+<h1><a href="../../../"><img src="https://avatars1.githubusercontent.com/u/25057508?s=460&amp;v=4" alt="Shixiang Wang" /></a></h1>
+
+
+
+      <nav class="menu">
+        <input id="menu-check" type="checkbox" />
+        <label id="menu-label" for="menu-check" class="unselectable">
+          <span class="icon close-icon">✕</span>
+          <span class="icon open-icon">☰</span>
+          <span class="text">Menu</span>
+        </label>
+        <ul>
+        
+        
+        <li><a href="../../../">Home</a></li>
+        
+        <li><a href="../../../en/about/">About</a></li>
+        
+        <li><a href="../../../en/post/">Blog</a></li>
+        
+        <li><a href="../../../en/tools/">Software</a></li>
+        
+        <li><a href="../../../en/list/">List</a></li>
+        
+        <li><a href="../../../en/cv-en/shixiang">CV</a></li>
+        
+        <li><a href="../../../cn/">中文</a></li>
+        
+        
+
+<li class="menu-extra"></li>
+
+
+
+
+
+
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/en/post/2019-06-20-how-i-create-ucscxenatools-logo.Rmd" target="_blank">Edit Me</a></li>
+
+
+<li><a href="../../../en/index.xml" type="application/rss+xml" title="RSS feed">Subscribe</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">License</a></li>
+
+
+        </ul>
+      </nav>
+    </header>
+
+    <article class="main">
+      <header class="title">
+        
+
+<h1>Create logo for R package UCSCXenaTools with hexSticker</h1>
+
+
+
+<h3>Shixiang Wang &middot 
+2019-06-20</h3> 
+
+
+   
+  
+
+
+      </header>
+
+
+
+
+
+<p>A few days ago, I asked Tyler about how did he create the logo of R package <a href="https://github.com/tyluRp/exoplanets">exoplanets</a>.</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-1"></span>
+<img src="https://raw.githubusercontent.com/tyluRp/exoplanets/master/man/figures/logo.png" alt="logo of R package exoplanets" width="200px" />
+<p class="caption">
+Figure 1: logo of R package exoplanets
+</p>
+</div>
+<p>I really love this logo because it is very simple and elegant.</p>
+<p>He told me he used a software called <strong>omnigraffle</strong> to make the logos. I tried learning this software and still did not know how to use it to create a nice logo because I am not good at creating beautiful things.</p>
+<p>I gave up trying and returned back to use R package <strong>hexSticker</strong>. I used it before to create the first logo
+for <strong>UCSCXenaTools</strong>. Last time I used a figure from web to create logo, the result logo is okay but I think it’s a little ugly.</p>
+<p>This time I want to try something new. I am not good at drawing, after a few minutes of thinking,
+I decided to draw a plot which can represent the datasets information of <strong>UCSC Xena database</strong>.
+R package <strong>ggpubr</strong> based on <strong>ggplot2</strong> is a good tool for doing this.</p>
+<p>First, I loaded all necessary packages.</p>
+<pre class="r"><code>library(hexSticker)
+library(UCSCXenaTools)
+#&gt; =========================================================================
+#&gt; UCSCXenaTools version 1.2.2
+#&gt; Github page: https://github.com/ShixiangWang/UCSCXenaTools
+#&gt; Documentation: https://shixiangwang.github.io/UCSCXenaTools/
+#&gt; 
+#&gt; If you use it in published research, please cite:
+#&gt; Wang, Shixiang, et al. &quot;The predictive power of tumor mutational burden
+#&gt;     in lung cancer immunotherapy response is influenced by patients&#39; sex.&quot;
+#&gt;     International journal of cancer (2019).
+#&gt; =========================================================================
+#&gt; 
+library(dplyr)
+#&gt; 
+#&gt; 载入程辑包：&#39;dplyr&#39;
+#&gt; The following objects are masked from &#39;package:stats&#39;:
+#&gt; 
+#&gt;     filter, lag
+#&gt; The following objects are masked from &#39;package:base&#39;:
+#&gt; 
+#&gt;     intersect, setdiff, setequal, union
+library(ggpubr)
+#&gt; 载入需要的程辑包：ggplot2
+#&gt; 载入需要的程辑包：magrittr
+#&gt; 
+#&gt; 载入程辑包：&#39;ggpubr&#39;
+#&gt; The following object is masked from &#39;package:hexSticker&#39;:
+#&gt; 
+#&gt;     theme_transparent</code></pre>
+<p>Then I calculated dataset counts in each <strong>UCSC Xena Hubs</strong>.</p>
+<pre class="r"><code>df =  XenaData %&gt;%
+    dplyr::group_by(XenaHostNames) %&gt;%
+    dplyr::summarise(count = n())</code></pre>
+<p>Next I drawed a blank dotchart according to reference of <strong>ggpubr</strong> and README of <strong>hexSticker</strong>.</p>
+<pre class="r"><code># reference https://rpkgs.datanovia.com/ggpubr/
+p &lt;- ggdotchart(df, x = &quot;XenaHostNames&quot;, y = &quot;count&quot;,
+           color = &quot;XenaHostNames&quot;,
+           palette = &quot;jco&quot;,
+           sorting = &quot;descending&quot;,                       # Sort value in descending order
+           add = &quot;segments&quot;,                             # Add segments from y = 0 to dots
+           rotate = TRUE,                                # Rotate vertically
+           dot.size = 2,                                 # Large dot size
+           label = round(df$count),                        # Add mpg values as dot labels
+           font.label = list(color = &quot;white&quot;, size = 2,
+                             vjust = 0.5),               # Adjust label parameters
+           ggtheme = theme_void()) +                       # ggplot2 theme
+    theme_transparent() + theme(legend.position = &quot;none&quot;) 
+p</code></pre>
+<p><img src="../../../en/post/2019-06-20-how-i-create-ucscxenatools-logo_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>At the end, I created the logo with <code>sticker()</code> function.
+I tried modifying options several times to make all parts in the logo work well.</p>
+<pre class="r"><code>sticker(p, package=&quot;UCSCXenaTools&quot;, p_size=4.5, s_x=0.9, s_y=1, s_width=1.7, s_height=1.3,
+        p_x = 1.1, p_y = 0.9,
+        url = &quot;https://cran.r-project.org/package=UCSCXenaTools&quot;, u_color = &quot;white&quot;, u_size = 1,
+        h_fill=&quot;black&quot;, h_color=&quot;grey&quot;,
+        filename=&quot;man/figures/logo.png&quot;)</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-6"></span>
+<img src="https://raw.githubusercontent.com/ShixiangWang/UCSCXenaTools/master/man/figures/logo.png" alt="logo of R package UCSCXenaTools" width="200px" />
+<p class="caption">
+Figure 2: logo of R package UCSCXenaTools
+</p>
+</div>
+<p>I think it is not bad, right?</p>
+<hr />
+<p>Thanks all authors of the packages I mentioned at above.</p>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="../../../en/post/2019-06-05-balderdash/">Balderdash</a></span>
+  <span class="nav-next"></span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/en\/post\/2019-06-05-balderdash\/';
+    
+  } else if (e.which == 39) {  
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+<section class="comments">
+  <div id="disqus_thread"></div>
+  <script src="../../../js/disqusloader.min.js"></script>
+  <script>
+  var disqus_config = function () {
+  
+    this.page.url = "https:\/\/shixiangwang.github.io\/home\/" + location.pathname;
+  
+  };
+  (function() {
+    var inIFrame = function() {
+      var iframe = true;
+      try { iframe = window.self !== window.top; } catch (e) {}
+      return iframe;
+    };
+    if (inIFrame()) return;
+    var disqus_js = '//home-xjdzylqrzp.disqus.com/embed.js';
+    
+    if (location.hash.match(/^#comment/)) {
+      var d = document, s = d.createElement('script');
+      s.src = disqus_js; s.async = true;
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    } else {
+      disqusLoader('#disqus_thread', {
+        scriptUrl: disqus_js, laziness: 0, disqusConfig: disqus_config
+      });
+    }
+  })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+
+
+<script async src="../../../js/fix-toc.js"></script>
+
+<script async src="../../../js/center-img.js"></script>
+
+<script async src="../../../js/right-quote.js"></script>
+
+<script async src="../../../js/no-highlight.js"></script>
+
+<script async src="../../../js/fix-footnote.js"></script>
+
+<script async src="../../../js/math-code.js"></script>
+
+<script async src="../../../js/external-link.js"></script>
+
+<script async src="../../../js/alt-title.js"></script>
+
+<script async src="../../../js/header-link.js"></script>
+
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+  
+  
+
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> &middot; <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> &middot; <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> &middot; <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=en"><i class='ai ai-google-scholar ai-1x'></i></a> &middot; <a href="https://orcid.org/0000-0002-9275-3557"><i class='ai ai-orcid ai-1x'></i></a> &middot; <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> Powered by <a href="https://gohugo.io">Hugo</a> and <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> &copy; <a href="../../../">Shixiang Wang</a> 2017 - 2019 </div>
+  
+  
+
+  <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56h9es09xn7&amp;m=6&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=1" async="async"></script>
+  </footer>
+  </article>
+  
+  </body>
+</html>
+

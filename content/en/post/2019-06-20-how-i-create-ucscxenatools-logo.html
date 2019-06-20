@@ -1,0 +1,91 @@
+---
+title: "Create logo for R package UCSCXenaTools with hexSticker"
+author: "Shixiang Wang"
+date: "2019-06-20"
+lastmod: "2019-06-20"
+slug: ""
+---
+
+
+
+<p>A few days ago, I asked Tyler about how did he create the logo of R package <a href="https://github.com/tyluRp/exoplanets">exoplanets</a>.</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-1"></span>
+<img src="https://raw.githubusercontent.com/tyluRp/exoplanets/master/man/figures/logo.png" alt="logo of R package exoplanets" width="200px" />
+<p class="caption">
+Figure 1: logo of R package exoplanets
+</p>
+</div>
+<p>I really love this logo because it is very simple and elegant.</p>
+<p>He told me he used a software called <strong>omnigraffle</strong> to make the logos. I tried learning this software and still did not know how to use it to create a nice logo because I am not good at creating beautiful things.</p>
+<p>I gave up trying and returned back to use R package <strong>hexSticker</strong>. I used it before to create the first logo
+for <strong>UCSCXenaTools</strong>. Last time I used a figure from web to create logo, the result logo is okay but I think it’s a little ugly.</p>
+<p>This time I want to try something new. I am not good at drawing, after a few minutes of thinking,
+I decided to draw a plot which can represent the datasets information of <strong>UCSC Xena database</strong>.
+R package <strong>ggpubr</strong> based on <strong>ggplot2</strong> is a good tool for doing this.</p>
+<p>First, I loaded all necessary packages.</p>
+<pre class="r"><code>library(hexSticker)
+library(UCSCXenaTools)
+#&gt; =========================================================================
+#&gt; UCSCXenaTools version 1.2.2
+#&gt; Github page: https://github.com/ShixiangWang/UCSCXenaTools
+#&gt; Documentation: https://shixiangwang.github.io/UCSCXenaTools/
+#&gt; 
+#&gt; If you use it in published research, please cite:
+#&gt; Wang, Shixiang, et al. &quot;The predictive power of tumor mutational burden
+#&gt;     in lung cancer immunotherapy response is influenced by patients&#39; sex.&quot;
+#&gt;     International journal of cancer (2019).
+#&gt; =========================================================================
+#&gt; 
+library(dplyr)
+#&gt; 
+#&gt; 载入程辑包：&#39;dplyr&#39;
+#&gt; The following objects are masked from &#39;package:stats&#39;:
+#&gt; 
+#&gt;     filter, lag
+#&gt; The following objects are masked from &#39;package:base&#39;:
+#&gt; 
+#&gt;     intersect, setdiff, setequal, union
+library(ggpubr)
+#&gt; 载入需要的程辑包：ggplot2
+#&gt; 载入需要的程辑包：magrittr
+#&gt; 
+#&gt; 载入程辑包：&#39;ggpubr&#39;
+#&gt; The following object is masked from &#39;package:hexSticker&#39;:
+#&gt; 
+#&gt;     theme_transparent</code></pre>
+<p>Then I calculated dataset counts in each <strong>UCSC Xena Hubs</strong>.</p>
+<pre class="r"><code>df =  XenaData %&gt;%
+    dplyr::group_by(XenaHostNames) %&gt;%
+    dplyr::summarise(count = n())</code></pre>
+<p>Next I drawed a blank dotchart according to reference of <strong>ggpubr</strong> and README of <strong>hexSticker</strong>.</p>
+<pre class="r"><code># reference https://rpkgs.datanovia.com/ggpubr/
+p &lt;- ggdotchart(df, x = &quot;XenaHostNames&quot;, y = &quot;count&quot;,
+           color = &quot;XenaHostNames&quot;,
+           palette = &quot;jco&quot;,
+           sorting = &quot;descending&quot;,                       # Sort value in descending order
+           add = &quot;segments&quot;,                             # Add segments from y = 0 to dots
+           rotate = TRUE,                                # Rotate vertically
+           dot.size = 2,                                 # Large dot size
+           label = round(df$count),                        # Add mpg values as dot labels
+           font.label = list(color = &quot;white&quot;, size = 2,
+                             vjust = 0.5),               # Adjust label parameters
+           ggtheme = theme_void()) +                       # ggplot2 theme
+    theme_transparent() + theme(legend.position = &quot;none&quot;) 
+p</code></pre>
+<p><img src="/en/post/2019-06-20-how-i-create-ucscxenatools-logo_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>At the end, I created the logo with <code>sticker()</code> function.
+I tried modifying options several times to make all parts in the logo work well.</p>
+<pre class="r"><code>sticker(p, package=&quot;UCSCXenaTools&quot;, p_size=4.5, s_x=0.9, s_y=1, s_width=1.7, s_height=1.3,
+        p_x = 1.1, p_y = 0.9,
+        url = &quot;https://cran.r-project.org/package=UCSCXenaTools&quot;, u_color = &quot;white&quot;, u_size = 1,
+        h_fill=&quot;black&quot;, h_color=&quot;grey&quot;,
+        filename=&quot;man/figures/logo.png&quot;)</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-6"></span>
+<img src="https://raw.githubusercontent.com/ShixiangWang/UCSCXenaTools/master/man/figures/logo.png" alt="logo of R package UCSCXenaTools" width="200px" />
+<p class="caption">
+Figure 2: logo of R package UCSCXenaTools
+</p>
+</div>
+<p>I think it is not bad, right?</p>
+<hr />
+<p>Thanks all authors of the packages I mentioned at above.</p>
