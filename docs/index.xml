@@ -12,12 +12,30 @@
     
     
     <item>
+      <title>APOBEC3B and APOBEC mutational signature as potential predictive markers for immunotherapy response in non-small cell lung cancer</title>
+      <link>/cn/research/apobec3b_signature/</link>
+      <pubDate>Thu, 20 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/research/apobec3b_signature/</guid>
+      <description>主要发现：APOBEC mutational signature 在 NSCLC 免疫治疗反应组内特异性富集。 摘要 Non-small cell lung cancer (NSCLC) is known to carry heavy mutation load. Besides smoking, cytidine deaminase APOBEC3B plays a key role in the mutation process of NSCLC. APOBEC3B is also reported to be upregulated and predicts bad prognosis in</description>
+    </item>
+    
+    <item>
       <title>Create logo for R package UCSCXenaTools with hexSticker</title>
       <link>/en/post/2019-06-20-how-i-create-ucscxenatools-logo/</link>
       <pubDate>Thu, 20 Jun 2019 00:00:00 +0000</pubDate>
       
       <guid>/en/post/2019-06-20-how-i-create-ucscxenatools-logo/</guid>
       <description>A few days ago, I asked Tyler about how did he create the logo of R package exoplanets. Figure 1: logo of R package exoplanets I really love this logo because it is very simple and elegant. He told me he used a software called omnigraffle to make the logos. I tried learning this software and still did not know how to use it to create a nice logo because</description>
+    </item>
+    
+    <item>
+      <title>The predictive power of tumor mutational burden in lung cancer immunotherapy response is influenced by patients’ sex</title>
+      <link>/cn/research/tmb_diff_in_sex/</link>
+      <pubDate>Thu, 20 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/research/tmb_diff_in_sex/</guid>
+      <description>主要发现：NSCLC 中，TMB 对于免疫治疗反应的预测效果在不同的性别中有差异。 摘要 Immunotherapy, represented by immune checkpoint inhibitors (ICI), is transforming the treatment of cancer. However, only a fraction of patients show response to ICI, and there is an unmet need</description>
     </item>
     
     <item>
@@ -89,15 +107,6 @@ Datasets have associated metadata, specifying their data type and cohort.</descr
       
       <guid>/cn/post/2018-08-10-r-installation/</guid>
       <description>Windows R安装好后配置是本文的重点。关于Windows R的安装，百度有一大堆的教程。其中重点有3： 安装R，下载https://mirrors.tu</description>
-    </item>
-    
-    <item>
-      <title>自闭症视觉认知的神经模式研究</title>
-      <link>/cn/research/asd_vision/</link>
-      <pubDate>Sun, 01 Jan 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/cn/research/asd_vision/</guid>
-      <description>1. 研究背景 自闭症是一种社交性的障碍。该项目想知道自闭症孩子在处理社会性视觉刺激时，其脑活动状态是什么。这些状态与正常孩子有什么不同。基于此研</description>
     </item>
     
     <item>
