@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    
+    <link rel="stylesheet" href="../../../fonts/academicons-1.8.6/css/academicons.min.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../logo/bodhi.png"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    
+    <title>R传统图形绘制多图 - 王诗翔</title>
+    
+     
+    <meta property="og:title" content="R传统图形绘制多图 - Shixiang Wang | 王诗翔">
+    
+
+    
+      
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="../../../css/style.css" />
+    <link rel="stylesheet" href="../../../css/mystyle.css" /> 
+    <link rel="stylesheet" href="../../../css/fonts.css" />
+    
+<script async src="../../../js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="../../../css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="../../../"><img src="https://avatars1.githubusercontent.com/u/25057508?s=460&amp;v=4" alt="Shixiang Wang" /></a></h1>
+
+
+
+      <nav class="menu">
+        <input id="menu-check" type="checkbox" />
+        <label id="menu-label" for="menu-check" class="unselectable">
+          <span class="icon close-icon">✕</span>
+          <span class="icon open-icon">☰</span>
+          <span class="text">Menu</span>
+        </label>
+        <ul>
+        
+        
+        <li><a href="../../../">首页</a></li>
+        
+        <li><a href="../../../cn/about/">关于</a></li>
+        
+        <li><a href="../../../cn/post/">博客</a></li>
+        
+        <li><a href="../../../cn/read/">读书</a></li>
+        
+        <li><a href="../../../cn/writing">写作</a></li>
+        
+        <li><a href="../../../cn/research/">研究</a></li>
+        
+        <li><a href="../../../cn/tools/">工具</a></li>
+        
+        <li><a href="../../../cn/cv-cn/shixiang">简历</a></li>
+        
+        <li><a href="../../../cn/todo">ToDo</a></li>
+        
+        <li><a href="../../../en/">English</a></li>
+        
+        
+
+<li class="menu-extra"></li>
+
+
+
+
+
+
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2019-06-21-baseplot-multiplots.Rmd" target="_blank">编辑</a></li>
+
+
+<li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+        </ul>
+      </nav>
+    </header>
+
+    <article class="main">
+      <header class="title">
+        
+
+<h1>R传统图形绘制多图</h1>
+
+
+
+<h3>王诗翔 &middot 
+2019-06-21</h3> 
+
+
+   
+  
+
+
+      </header>
+
+
+
+
+
+<p>我这里只说 2 种常用方式，它们互相排斥：</p>
+<ul>
+<li>使用 <code>par()</code> 函数设定 <code>mfrow</code> 或者 <code>mfcol</code> 进行控制。</li>
+<li>使用 <code>layout()</code> 函数。</li>
+</ul>
+<div id="par-" class="section level2">
+<h2>par() 函数</h2>
+<p><code>mfrow</code> 和 <code>mfcol</code> 都由 2 个数字指定，一个表示行数、一个表示列数。如果使用 <code>mfrow</code>，那么图像区域会被按行依次使用；
+如果使用 <code>mfcol</code>，那么图像区域会按列依次使用。</p>
+<p>下面进行测试：</p>
+<pre class="r"><code>par(mfrow=c(2,2))
+plot(1:10, main = &quot;1&quot;)
+plot(1:10, main = &quot;2&quot;)
+plot(1:10, main = &quot;3&quot;)
+plot(1:10, main = &quot;4&quot;)</code></pre>
+<p><img src="../../../cn/post/2019-06-21-baseplot-multiplots_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<pre class="r"><code>par(mfcol=c(2,2))
+plot(1:10, main = &quot;1&quot;)
+plot(1:10, main = &quot;2&quot;)
+plot(1:10, main = &quot;3&quot;)
+plot(1:10, main = &quot;4&quot;)</code></pre>
+<p><img src="../../../cn/post/2019-06-21-baseplot-multiplots_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>这区别应该一目了然吧？</p>
+</div>
+<div id="-layout" class="section level2">
+<h2>布局函数 layout()</h2>
+<p>上面的方法创建的子图大小是相同的，而 <code>layout()</code> 就要高级不少。</p>
+<p><code>layout()</code> 将图片内部区域分割为一组行和列，但行高和列宽度可以分别控制，并且每个子图可以占据超过一行或一列的位置。</p>
+<p><code>layout()</code> 用矩阵作为参数来表示上述的思想，矩阵的值就是子图的序号。如果某子图序号多次出现，那么该子图就会占据多个区域。</p>
+<pre class="r"><code>layout(matrix(1:4, byrow=TRUE, ncol=2))
+layout.show(4)</code></pre>
+<p><img src="../../../cn/post/2019-06-21-baseplot-multiplots_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>实现上一种方法的效果很简单：</p>
+<pre class="r"><code>layout(matrix(1:4, byrow=TRUE, ncol=2))
+plot(1:10, main = &quot;1&quot;)
+plot(1:10, main = &quot;2&quot;)
+plot(1:10, main = &quot;3&quot;)
+plot(1:10, main = &quot;4&quot;)</code></pre>
+<p><img src="../../../cn/post/2019-06-21-baseplot-multiplots_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<pre class="r"><code>layout(matrix(1:4, byrow=FALSE, ncol=2))
+plot(1:10, main = &quot;1&quot;)
+plot(1:10, main = &quot;2&quot;)
+plot(1:10, main = &quot;3&quot;)
+plot(1:10, main = &quot;4&quot;)</code></pre>
+<p><img src="../../../cn/post/2019-06-21-baseplot-multiplots_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>再看下不等宽的情况：</p>
+<pre class="r"><code>layout(matrix(c(1, 1:3), byrow=TRUE, ncol=2))
+plot(1:10, main = &quot;1&quot;)
+plot(1:10, main = &quot;2&quot;)
+plot(1:10, main = &quot;3&quot;)</code></pre>
+<p><img src="../../../cn/post/2019-06-21-baseplot-multiplots_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>巧妙地设定矩阵，就可以自由实现多种组图方式了。不过显然到这里，还感觉差一些东西：默认情况下，所有的行高和列宽尺寸都是相同的，
+而且内部也是以这种方式分割。怎么实现自定义的行高或列宽？</p>
+<p>这需要设定 <code>heights</code> 和 <code>widths</code> 2 个选项。</p>
+<pre class="r"><code>layout(matrix(c(1:2)), heights = c(5, 3))
+plot(1:10, main = &quot;1&quot;)
+plot(1:10, main = &quot;2&quot;)</code></pre>
+<p><img src="../../../cn/post/2019-06-21-baseplot-multiplots_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>这里 <code>heights</code> 设定的是一个相对占比，比如子图 1 占 <code>5/(5+3)</code>。同样的操作可以应用到 <code>widths</code> 上。</p>
+<pre class="r"><code>layout(matrix(c(1:2), ncol = 2), widths = c(5, 3))
+plot(1:10, main = &quot;1&quot;)
+plot(1:10, main = &quot;2&quot;)</code></pre>
+<p><img src="../../../cn/post/2019-06-21-baseplot-multiplots_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>0 可以用来进行占位，给图形留出更多的空间。</p>
+<pre class="r"><code>layout(matrix(c(1,0,2), ncol = 3), widths = c(5, 1, 3))
+plot(1:10, main = &quot;1&quot;)
+plot(1:10, main = &quot;2&quot;)</code></pre>
+<p><img src="../../../cn/post/2019-06-21-baseplot-multiplots_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>上述的数字设定都是相对的，使用选项 <code>respect=TRUE</code> 我们可以将它们映射到物理距离上。</p>
+<pre class="r"><code>layout(matrix(c(1,0,2), ncol = 3), widths = c(2, 0.2, 2), respect = TRUE)
+plot(1:10, main = &quot;1&quot;)
+plot(1:10, main = &quot;2&quot;)</code></pre>
+<p><img src="../../../cn/post/2019-06-21-baseplot-multiplots_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>我们也可以使用 <code>lcm()</code> 对某个图形进行厘米大小的设定，如上面的空隙大小。</p>
+<pre class="r"><code>layout(matrix(c(1,0,2), ncol = 1), widths = c(2, lcm(0.2), 1), respect = TRUE)
+plot(1:10, main = &quot;1&quot;)
+plot(1:10, main = &quot;2&quot;)</code></pre>
+<p><img src="../../../cn/post/2019-06-21-baseplot-multiplots_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p>更多的操作查看文档啦~ 这里其实只要知道 <code>layout()</code> 函数，以及通过矩阵设定子图排列的思想使用起来就简单的。</p>
+<p>更复杂的操作就要学习 grid 了，可能未来的某天我会学习并写写。</p>
+<hr />
+<p>资料：《R绘图系统》（第二版）</p>
+</div>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="../../../cn/post/2018-08-10-r-installation/">R的安装与配置</a></span>
+  <span class="nav-next"></span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/post\/2018-08-10-r-installation\/';
+    
+  } else if (e.which == 39) {  
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+<section class="comments">
+  <div id="disqus_thread"></div>
+  <script src="../../../js/disqusloader.min.js"></script>
+  <script>
+  var disqus_config = function () {
+  
+    this.page.url = "https:\/\/shixiangwang.github.io\/home\/" + location.pathname;
+  
+  };
+  (function() {
+    var inIFrame = function() {
+      var iframe = true;
+      try { iframe = window.self !== window.top; } catch (e) {}
+      return iframe;
+    };
+    if (inIFrame()) return;
+    var disqus_js = '//home-xjdzylqrzp.disqus.com/embed.js';
+    
+    if (location.hash.match(/^#comment/)) {
+      var d = document, s = d.createElement('script');
+      s.src = disqus_js; s.async = true;
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    } else {
+      disqusLoader('#disqus_thread', {
+        scriptUrl: disqus_js, laziness: 0, disqusConfig: disqus_config
+      });
+    }
+  })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+
+
+<script async src="../../../js/fix-toc.js"></script>
+
+<script async src="../../../js/center-img.js"></script>
+
+<script async src="../../../js/right-quote.js"></script>
+
+<script async src="../../../js/no-highlight.js"></script>
+
+<script async src="../../../js/fix-footnote.js"></script>
+
+<script async src="../../../js/math-code.js"></script>
+
+<script async src="../../../js/external-link.js"></script>
+
+<script async src="../../../js/alt-title.js"></script>
+
+<script async src="../../../js/header-link.js"></script>
+
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+  
+  
+
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> &middot; <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> &middot; <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> &middot; <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> &middot; <a href="https://orcid.org/0000-0002-9275-3557"><i class='ai ai-orcid ai-1x'></i></a> &middot; <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 &copy; <a href="../../../">王诗翔</a> 2017 - 2019 </div>
+  
+  
+
+  <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56h9es09xn7&amp;m=6&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=1" async="async"></script>
+  </footer>
+  </article>
+  
+  </body>
+</html>
+

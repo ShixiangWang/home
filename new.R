@@ -1,7 +1,7 @@
 # Create posts automatically
 # Author: Shixiang Wang
 # License: MIT
-new_post <- function(post_name = NULL, dir = file.path(getwd(), "content/cn/post/"),
+new_post <- function(post_name = NULL, dir = file.path(getwd(), "content/cn/post"),
                      type = c("rmd", "md"),
                      template_path = getwd(), add_prefix = TRUE, edit_file = TRUE,
                      force = FALSE) {
