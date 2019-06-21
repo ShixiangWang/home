@@ -1,0 +1,146 @@
+---
+title: "R基本绘图：创建与添加图形"
+author: "王诗翔"
+date: "2019-06-21"
+lastmod: "2019-06-21"
+slug: ""
+---
+
+
+
+<p>高级绘图函数 + 低级绘图函数才能让图形丰富多样起来。</p>
+<div class="section level2">
+<h2>基本的低级绘图函数</h2>
+<table>
+<caption><span id="tab:unnamed-chunk-1">Table 1: </span>常见基本低级绘图函数</caption>
+<thead>
+<tr class="header">
+<th align="left">函数</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">points()</td>
+<td align="left">数据符号</td>
+</tr>
+<tr class="even">
+<td align="left">lines()</td>
+<td align="left">线条</td>
+</tr>
+<tr class="odd">
+<td align="left">segments()</td>
+<td align="left">线段</td>
+</tr>
+<tr class="even">
+<td align="left">arrows()</td>
+<td align="left">箭头</td>
+</tr>
+<tr class="odd">
+<td align="left">xspline()</td>
+<td align="left">光滑曲线</td>
+</tr>
+<tr class="even">
+<td align="left">rect()</td>
+<td align="left">矩形</td>
+</tr>
+<tr class="odd">
+<td align="left">polygon()</td>
+<td align="left">多边形</td>
+</tr>
+<tr class="even">
+<td align="left">polypath()</td>
+<td align="left">多边形路径</td>
+</tr>
+<tr class="odd">
+<td align="left">rasterImage()</td>
+<td align="left">位图（在图形上可以添加外部图片）</td>
+</tr>
+<tr class="even">
+<td align="left">text()</td>
+<td align="left">文本</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level2">
+<h2>添加图形</h2>
+<p>还是要一顿操作猛如虎，才能学到本事。</p>
+<pre class="r"><code>x = 1:10
+y = matrix(sort(rnorm(30)), ncol=3)
+plot(x, y[, 1], ylim = range(y), ann=F, axes = F, type=&quot;l&quot;, col=&quot;gray&quot;)
+box(col=&quot;gray&quot;)</code></pre>
+<p><img src="/cn/post/2019-06-21-baseplot-addplot_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>开始加东西。</p>
+<pre class="r"><code>plot(x, y[, 1], ylim = range(y), ann=F, axes = F, type=&quot;l&quot;, col=&quot;gray&quot;)
+box(col=&quot;gray&quot;)
+
+points(x, y[,1])
+lines(x, y[,2], col=&quot;gray&quot;)
+points(x, y[,2], pch=2)
+lines(x, y[,3], col=&quot;gray&quot;)
+points(x, y[,3], pch=3)</code></pre>
+<p><img src="/cn/post/2019-06-21-baseplot-addplot_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>在点旁边添加文本有时候很有用，使用 <code>pos</code> 可以设置数据符号与文本之间的偏移量。</p>
+<pre class="r"><code>y = x = 1:5
+plot(x, y, ann=F, axes=F, col=&quot;gray&quot;, pch=16)
+box(col=&quot;gray&quot;)
+
+text(x[-3], y[-3], c(&quot;right&quot;, &quot;top&quot;, &quot;bottom&quot;, &quot;left&quot;),
+     pos=c(4, 3, 2, 1))
+text(3, 3, &quot;overlay&quot;)</code></pre>
+<p><img src="/cn/post/2019-06-21-baseplot-addplot_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><code>text()</code> 还可以接受 R 表达式。</p>
+<pre class="r"><code>y = x = 1:5
+plot(x, y, ann=F, axes=F, col=&quot;gray&quot;, pch=16)
+box(col=&quot;gray&quot;)
+
+text(x[-3], y[-3], c(&quot;right&quot;, &quot;top&quot;, &quot;bottom&quot;, &quot;left&quot;),
+     pos=c(4, 3, 2, 1))
+text(3, 3, ~ x^2)</code></pre>
+<p><img src="/cn/post/2019-06-21-baseplot-addplot_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>上述处理的都是向量数据，而<code>matplot()</code>、<code>matpoints()</code> 和 <code>matlines()</code>都是处理矩阵形式数据的。</p>
+</div>
+<div class="section level2">
+<h2>绘图工具</h2>
+<p><code>grid()</code> 可以添加网格线； <code>abline()</code> 添加直线； <code>box()</code> 在图形周围绘制矩形；<code>rug()</code> 可以沿着坐标轴绘制“地毯”图。</p>
+<pre class="r"><code>x = runif(20, 1, 10)
+y = x + rnorm(20)
+plot(x, y, ann=F, axes=F, col=&quot;gray&quot;, pch=16)
+box(col=&quot;gray&quot;)
+
+lmfit = lm(y ~ x)
+abline(lmfit)
+arrows(5, 8, 7, predict(lmfit, data.frame(x=7)), 
+       length = 0.1)
+text(5, 8, &quot;Line of best fit&quot;, pos = 2)</code></pre>
+<p><img src="/cn/post/2019-06-21-baseplot-addplot_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<pre class="r"><code>y = rnorm(50)
+hist(y, main=&quot;&quot;, xlab=&quot;&quot;, ylab=&quot;&quot;, axes=F, border=&quot;gray&quot;, col=&quot;light gray&quot;)
+box(col=&quot;gray&quot;)
+rug(y, ticksize = 0.02)</code></pre>
+<p><img src="/cn/post/2019-06-21-baseplot-addplot_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+</div>
+<div class="section level2">
+<h2>在边缘处添加图形</h2>
+</div>
+<div class="section level2">
+<h2>图例</h2>
+</div>
+<div class="section level2">
+<h2>坐标轴</h2>
+</div>
+<div class="section level2">
+<h2>坐标系统</h2>
+</div>
+<div class="section level2">
+<h2>特殊情况</h2>
+</div>
+<div class="section level2">
+<h2>创建新图形</h2>
+</div>
+<div class="section level2">
+<h2>创建绘图函数</h2>
+<hr />
+<p>资料：《R绘图系统》（第二版）</p>
+</div>

@@ -1,0 +1,129 @@
+---
+title: "R基本绘图：创建与添加图形"
+author: "王诗翔"
+date: "2019-06-21"
+lastmod: "`r Sys.Date()`"
+slug: ""
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, dev = "png", comment = "#>")
+#Sys.setlocale('LC_ALL','C') # Embed this directly in the Rmarkdown script that contains the Chinese character comment
+options(digits=3)
+options(max.print=200)
+```
+
+高级绘图函数 + 低级绘图函数才能让图形丰富多样起来。
+
+## 基本的低级绘图函数
+
+```{r, echo=F}
+tibble::tribble(
+  ~函数, ~描述,
+  "points()", "数据符号",
+  "lines()", "线条",
+  "segments()", "线段",
+  "arrows()", "箭头",
+  "xspline()", "光滑曲线",
+  "rect()", "矩形",
+  "polygon()", "多边形",
+  "polypath()", "多边形路径",
+  "rasterImage()", "位图（在图形上可以添加外部图片）",
+  "text()", "文本",
+) -> tb
+
+knitr::kable(tb, caption = "常见基本低级绘图函数")
+```
+
+## 添加图形
+
+还是要一顿操作猛如虎，才能学到本事。
+
+```{r}
+x = 1:10
+y = matrix(sort(rnorm(30)), ncol=3)
+plot(x, y[, 1], ylim = range(y), ann=F, axes = F, type="l", col="gray")
+box(col="gray")
+```
+
+开始加东西。
+
+```{r}
+plot(x, y[, 1], ylim = range(y), ann=F, axes = F, type="l", col="gray")
+box(col="gray")
+
+points(x, y[,1])
+lines(x, y[,2], col="gray")
+points(x, y[,2], pch=2)
+lines(x, y[,3], col="gray")
+points(x, y[,3], pch=3)
+```
+
+在点旁边添加文本有时候很有用，使用 `pos` 可以设置数据符号与文本之间的偏移量。
+
+```{r}
+y = x = 1:5
+plot(x, y, ann=F, axes=F, col="gray", pch=16)
+box(col="gray")
+
+text(x[-3], y[-3], c("right", "top", "bottom", "left"),
+     pos=c(4, 3, 2, 1))
+text(3, 3, "overlay")
+```
+
+`text()` 还可以接受 R 表达式。
+
+```{r}
+y = x = 1:5
+plot(x, y, ann=F, axes=F, col="gray", pch=16)
+box(col="gray")
+
+text(x[-3], y[-3], c("right", "top", "bottom", "left"),
+     pos=c(4, 3, 2, 1))
+text(3, 3, ~ x^2)
+```
+
+
+上述处理的都是向量数据，而`matplot()`、`matpoints()` 和 `matlines()`都是处理矩阵形式数据的。
+
+## 绘图工具
+
+`grid()` 可以添加网格线； `abline()` 添加直线； `box()` 在图形周围绘制矩形；`rug()` 可以沿着坐标轴绘制“地毯”图。
+
+```{r}
+x = runif(20, 1, 10)
+y = x + rnorm(20)
+plot(x, y, ann=F, axes=F, col="gray", pch=16)
+box(col="gray")
+
+lmfit = lm(y ~ x)
+abline(lmfit)
+arrows(5, 8, 7, predict(lmfit, data.frame(x=7)), 
+       length = 0.1)
+text(5, 8, "Line of best fit", pos = 2)
+```
+
+```{r}
+y = rnorm(50)
+hist(y, main="", xlab="", ylab="", axes=F, border="gray", col="light gray")
+box(col="gray")
+rug(y, ticksize = 0.02)
+```
+
+## 在边缘处添加图形
+
+## 图例
+
+## 坐标轴
+
+## 坐标系统
+
+## 特殊情况
+
+## 创建新图形
+
+## 创建绘图函数
+
+***
+
+资料：《R绘图系统》（第二版）

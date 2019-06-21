@@ -12,10 +12,10 @@
     
     
     
-    <title>R传统图形绘制多图 - 王诗翔</title>
+    <title>R基本绘图：创建与添加图形 - 王诗翔</title>
     
      
-    <meta property="og:title" content="R传统图形绘制多图 - Shixiang Wang | 王诗翔">
+    <meta property="og:title" content="R基本绘图：创建与添加图形 - Shixiang Wang | 王诗翔">
     
 
     
@@ -91,7 +91,7 @@
 
 
 
-<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2019-06-21-baseplot-multiplots.Rmd" target="_blank">编辑</a></li>
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2019-06-21-baseplot-addplot.Rmd" target="_blank">编辑</a></li>
 
 
 <li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
@@ -107,7 +107,7 @@
       <header class="title">
         
 
-<h1>R传统图形绘制多图</h1>
+<h1>R基本绘图：创建与添加图形</h1>
 
 
 
@@ -125,86 +125,139 @@
 
 
 
-<p>我这里只说 2 种常用方式，它们互相排斥：</p>
-<ul>
-<li>使用 <code>par()</code> 函数设定 <code>mfrow</code> 或者 <code>mfcol</code> 进行控制。</li>
-<li>使用 <code>layout()</code> 函数。</li>
-</ul>
-<div id="par-" class="section level2">
-<h2>par() 函数</h2>
-<p><code>mfrow</code> 和 <code>mfcol</code> 都由 2 个数字指定，一个表示行数、一个表示列数。如果使用 <code>mfrow</code>，那么图像区域会被按行依次使用；
-如果使用 <code>mfcol</code>，那么图像区域会按列依次使用。</p>
-<p>下面进行测试：</p>
-<pre class="r"><code>par(mfrow=c(2,2))
-plot(1:10, main = &quot;1&quot;)
-plot(1:10, main = &quot;2&quot;)
-plot(1:10, main = &quot;3&quot;)
-plot(1:10, main = &quot;4&quot;)</code></pre>
-<p><img src="../../../cn/post/2019-06-21-baseplot-multiplots_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
-<pre class="r"><code>par(mfcol=c(2,2))
-plot(1:10, main = &quot;1&quot;)
-plot(1:10, main = &quot;2&quot;)
-plot(1:10, main = &quot;3&quot;)
-plot(1:10, main = &quot;4&quot;)</code></pre>
-<p><img src="../../../cn/post/2019-06-21-baseplot-multiplots_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
-<p>这区别应该一目了然吧？</p>
+<p>高级绘图函数 + 低级绘图函数才能让图形丰富多样起来。</p>
+<div class="section level2">
+<h2>基本的低级绘图函数</h2>
+<table>
+<caption><span id="tab:unnamed-chunk-1">Table 1: </span>常见基本低级绘图函数</caption>
+<thead>
+<tr class="header">
+<th align="left">函数</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">points()</td>
+<td align="left">数据符号</td>
+</tr>
+<tr class="even">
+<td align="left">lines()</td>
+<td align="left">线条</td>
+</tr>
+<tr class="odd">
+<td align="left">segments()</td>
+<td align="left">线段</td>
+</tr>
+<tr class="even">
+<td align="left">arrows()</td>
+<td align="left">箭头</td>
+</tr>
+<tr class="odd">
+<td align="left">xspline()</td>
+<td align="left">光滑曲线</td>
+</tr>
+<tr class="even">
+<td align="left">rect()</td>
+<td align="left">矩形</td>
+</tr>
+<tr class="odd">
+<td align="left">polygon()</td>
+<td align="left">多边形</td>
+</tr>
+<tr class="even">
+<td align="left">polypath()</td>
+<td align="left">多边形路径</td>
+</tr>
+<tr class="odd">
+<td align="left">rasterImage()</td>
+<td align="left">位图（在图形上可以添加外部图片）</td>
+</tr>
+<tr class="even">
+<td align="left">text()</td>
+<td align="left">文本</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div id="-layout" class="section level2">
-<h2>布局函数 layout()</h2>
-<p>上面的方法创建的子图大小是相同的，而 <code>layout()</code> 就要高级不少。</p>
-<p><code>layout()</code> 将图片内部区域分割为一组行和列，但行高和列宽度可以分别控制，并且每个子图可以占据超过一行或一列的位置。</p>
-<p><code>layout()</code> 用矩阵作为参数来表示上述的思想，矩阵的值就是子图的序号。如果某子图序号多次出现，那么该子图就会占据多个区域。</p>
-<pre class="r"><code>layout(matrix(1:4, byrow=TRUE, ncol=2))
-layout.show(4)</code></pre>
-<p><img src="../../../cn/post/2019-06-21-baseplot-multiplots_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
-<p>实现上一种方法的效果很简单：</p>
-<pre class="r"><code>layout(matrix(1:4, byrow=TRUE, ncol=2))
-plot(1:10, main = &quot;1&quot;)
-plot(1:10, main = &quot;2&quot;)
-plot(1:10, main = &quot;3&quot;)
-plot(1:10, main = &quot;4&quot;)</code></pre>
-<p><img src="../../../cn/post/2019-06-21-baseplot-multiplots_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
-<pre class="r"><code>layout(matrix(1:4, byrow=FALSE, ncol=2))
-plot(1:10, main = &quot;1&quot;)
-plot(1:10, main = &quot;2&quot;)
-plot(1:10, main = &quot;3&quot;)
-plot(1:10, main = &quot;4&quot;)</code></pre>
-<p><img src="../../../cn/post/2019-06-21-baseplot-multiplots_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
-<p>再看下不等宽的情况：</p>
-<pre class="r"><code>layout(matrix(c(1, 1:3), byrow=TRUE, ncol=2))
-plot(1:10, main = &quot;1&quot;)
-plot(1:10, main = &quot;2&quot;)
-plot(1:10, main = &quot;3&quot;)</code></pre>
-<p><img src="../../../cn/post/2019-06-21-baseplot-multiplots_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
-<p>巧妙地设定矩阵，就可以自由实现多种组图方式了。不过显然到这里，还感觉差一些东西：默认情况下，所有的行高和列宽尺寸都是相同的，
-而且内部也是以这种方式分割。怎么实现自定义的行高或列宽？</p>
-<p>这需要设定 <code>heights</code> 和 <code>widths</code> 2 个选项。</p>
-<pre class="r"><code>layout(matrix(c(1:2)), heights = c(5, 3))
-plot(1:10, main = &quot;1&quot;)
-plot(1:10, main = &quot;2&quot;)</code></pre>
-<p><img src="../../../cn/post/2019-06-21-baseplot-multiplots_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
-<p>这里 <code>heights</code> 设定的是一个相对占比，比如子图 1 占 <code>5/(5+3)</code>。同样的操作可以应用到 <code>widths</code> 上。</p>
-<pre class="r"><code>layout(matrix(c(1:2), ncol = 2), widths = c(5, 3))
-plot(1:10, main = &quot;1&quot;)
-plot(1:10, main = &quot;2&quot;)</code></pre>
-<p><img src="../../../cn/post/2019-06-21-baseplot-multiplots_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
-<p>0 可以用来进行占位，给图形留出更多的空间。</p>
-<pre class="r"><code>layout(matrix(c(1,0,2), ncol = 3), widths = c(5, 1, 3))
-plot(1:10, main = &quot;1&quot;)
-plot(1:10, main = &quot;2&quot;)</code></pre>
-<p><img src="../../../cn/post/2019-06-21-baseplot-multiplots_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
-<p>上述的数字设定都是相对的，使用选项 <code>respect=TRUE</code> 我们可以将它们映射到物理距离上。</p>
-<pre class="r"><code>layout(matrix(c(1,0,2), ncol = 3), widths = c(2, 0.2, 2), respect = TRUE)
-plot(1:10, main = &quot;1&quot;)
-plot(1:10, main = &quot;2&quot;)</code></pre>
-<p><img src="../../../cn/post/2019-06-21-baseplot-multiplots_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
-<p>我们也可以使用 <code>lcm()</code> 对某个图形进行厘米大小的设定，如上面的空隙大小。</p>
-<pre class="r"><code>layout(matrix(c(1,0,2), ncol = 1), widths = c(2, lcm(0.2), 1), respect = TRUE)
-plot(1:10, main = &quot;1&quot;)
-plot(1:10, main = &quot;2&quot;)</code></pre>
-<p><img src="../../../cn/post/2019-06-21-baseplot-multiplots_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
-<p>更多的操作查看文档啦~ 这里其实只要知道 <code>layout()</code> 函数，以及通过矩阵设定子图排列的思想使用起来就简单的。</p>
-<p>更复杂的操作就要学习 grid 了，可能未来的某天我会学习并写写。</p>
+<div class="section level2">
+<h2>添加图形</h2>
+<p>还是要一顿操作猛如虎，才能学到本事。</p>
+<pre class="r"><code>x = 1:10
+y = matrix(sort(rnorm(30)), ncol=3)
+plot(x, y[, 1], ylim = range(y), ann=F, axes = F, type=&quot;l&quot;, col=&quot;gray&quot;)
+box(col=&quot;gray&quot;)</code></pre>
+<p><img src="../../../cn/post/2019-06-21-baseplot-addplot_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>开始加东西。</p>
+<pre class="r"><code>plot(x, y[, 1], ylim = range(y), ann=F, axes = F, type=&quot;l&quot;, col=&quot;gray&quot;)
+box(col=&quot;gray&quot;)
+
+points(x, y[,1])
+lines(x, y[,2], col=&quot;gray&quot;)
+points(x, y[,2], pch=2)
+lines(x, y[,3], col=&quot;gray&quot;)
+points(x, y[,3], pch=3)</code></pre>
+<p><img src="../../../cn/post/2019-06-21-baseplot-addplot_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>在点旁边添加文本有时候很有用，使用 <code>pos</code> 可以设置数据符号与文本之间的偏移量。</p>
+<pre class="r"><code>y = x = 1:5
+plot(x, y, ann=F, axes=F, col=&quot;gray&quot;, pch=16)
+box(col=&quot;gray&quot;)
+
+text(x[-3], y[-3], c(&quot;right&quot;, &quot;top&quot;, &quot;bottom&quot;, &quot;left&quot;),
+     pos=c(4, 3, 2, 1))
+text(3, 3, &quot;overlay&quot;)</code></pre>
+<p><img src="../../../cn/post/2019-06-21-baseplot-addplot_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><code>text()</code> 还可以接受 R 表达式。</p>
+<pre class="r"><code>y = x = 1:5
+plot(x, y, ann=F, axes=F, col=&quot;gray&quot;, pch=16)
+box(col=&quot;gray&quot;)
+
+text(x[-3], y[-3], c(&quot;right&quot;, &quot;top&quot;, &quot;bottom&quot;, &quot;left&quot;),
+     pos=c(4, 3, 2, 1))
+text(3, 3, ~ x^2)</code></pre>
+<p><img src="../../../cn/post/2019-06-21-baseplot-addplot_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>上述处理的都是向量数据，而<code>matplot()</code>、<code>matpoints()</code> 和 <code>matlines()</code>都是处理矩阵形式数据的。</p>
+</div>
+<div class="section level2">
+<h2>绘图工具</h2>
+<p><code>grid()</code> 可以添加网格线； <code>abline()</code> 添加直线； <code>box()</code> 在图形周围绘制矩形；<code>rug()</code> 可以沿着坐标轴绘制“地毯”图。</p>
+<pre class="r"><code>x = runif(20, 1, 10)
+y = x + rnorm(20)
+plot(x, y, ann=F, axes=F, col=&quot;gray&quot;, pch=16)
+box(col=&quot;gray&quot;)
+
+lmfit = lm(y ~ x)
+abline(lmfit)
+arrows(5, 8, 7, predict(lmfit, data.frame(x=7)), 
+       length = 0.1)
+text(5, 8, &quot;Line of best fit&quot;, pos = 2)</code></pre>
+<p><img src="../../../cn/post/2019-06-21-baseplot-addplot_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<pre class="r"><code>y = rnorm(50)
+hist(y, main=&quot;&quot;, xlab=&quot;&quot;, ylab=&quot;&quot;, axes=F, border=&quot;gray&quot;, col=&quot;light gray&quot;)
+box(col=&quot;gray&quot;)
+rug(y, ticksize = 0.02)</code></pre>
+<p><img src="../../../cn/post/2019-06-21-baseplot-addplot_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+</div>
+<div class="section level2">
+<h2>在边缘处添加图形</h2>
+</div>
+<div class="section level2">
+<h2>图例</h2>
+</div>
+<div class="section level2">
+<h2>坐标轴</h2>
+</div>
+<div class="section level2">
+<h2>坐标系统</h2>
+</div>
+<div class="section level2">
+<h2>特殊情况</h2>
+</div>
+<div class="section level2">
+<h2>创建新图形</h2>
+</div>
+<div class="section level2">
+<h2>创建绘图函数</h2>
 <hr />
 <p>资料：《R绘图系统》（第二版）</p>
 </div>
@@ -213,8 +266,8 @@ plot(1:10, main = &quot;2&quot;)</code></pre>
   <footer>
   
 <nav class="post-nav">
-  <span class="nav-prev">&larr; <a href="../../../cn/post/2019-06-21-baseplot-addplot/">R基本绘图：创建与添加图形</a></span>
-  <span class="nav-next"></span>
+  <span class="nav-prev">&larr; <a href="../../../cn/post/2018-08-10-r-installation/">R的安装与配置</a></span>
+  <span class="nav-next"><a href="../../../cn/post/2019-06-21-baseplot-multiplots/">R传统图形绘制多图</a> &rarr;</span>
 </nav>
 <script type="text/javascript">
 document.addEventListener('keyup', function(e) {
@@ -222,9 +275,11 @@ document.addEventListener('keyup', function(e) {
   var url = false;
   if (e.which == 37) {  
     
-    url = '\/cn\/post\/2019-06-21-baseplot-addplot\/';
+    url = '\/cn\/post\/2018-08-10-r-installation\/';
     
   } else if (e.which == 39) {  
+    
+    url = '\/cn\/post\/2019-06-21-baseplot-multiplots\/';
     
   }
   if (url) window.location = url;
