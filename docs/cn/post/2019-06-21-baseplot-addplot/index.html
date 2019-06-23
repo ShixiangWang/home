@@ -341,19 +341,66 @@ ycm = diff(usr[3:4])/(pin[2]*2.54)
 # 现在绘制的图形是根据厘米表示的
 par(xpd=NA)
 rect(0 + 0.2*xcm, 0-0.2*ycm,
-     1 + 0.2*xcm, 1-0.2*ycm,
-     col=&quot;gray&quot;, border = NA)
+1 + 0.2*xcm, 0.3-0.2*ycm,
+col=&quot;gray&quot;, border = NA)
 
 # 绘制边框、刻度和标签
-rect(0, 0, 1, 1, col=&quot;white&quot;)
+rect(0, 0, 1, 0.3, col=&quot;white&quot;)
 segments(seq(1, 8, 0.1)*xcm, 0,
-         seq(1, 8, 0.1)*xcm, 
-         c(c(0.5, rep(0.25, 4),
-                0.35, rep(0.25, 4)), 
-           7, 0.5)*ycm)
+seq(1, 8, 0.1)*xcm, 
+c(rep(c(0.5, 
+rep(0.25, 4),
+0.35, 
+rep(0.25, 4)), 7), 
+0.5)*ycm)
 text(1:8*xcm, 0.6*ycm, 0:7, adj=c(0.5, 0))
 text(8.2*xcm, 0.6*ycm, &quot;cm&quot;, adj=c(0, 0))</code></pre>
 <p><img src="../../../cn/post/2019-06-21-baseplot-addplot_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+</div>
+<div class="section level3">
+<h3>覆盖输出</h3>
+<p>有时在同一图中绘制 2 个数据集非常有用，此时数据集共享一个 x 变量，但拥有不同的 y 尺度。</p>
+<p>至少有 2 种方法：</p>
+<ul>
+<li>调用 <code>par(new=TRUE)</code> 实现 2 个不同图形在彼此之上重叠绘制</li>
+<li>在绘制第二个数据之前显式地重置 <code>usr</code> 状态</li>
+</ul>
+<p><strong>方法一</strong></p>
+<pre class="r"><code>drunkness = ts(c(3875, 4846, 5128, 5773, 7327,
+                 6688, 5582, 3473, 3186, rep(NA, 51)),
+               start = 1912, end = 1971)
+
+par(mar = c(5, 6, 2, 4))
+plot(drunkness, lwd=3, col=&quot;gray&quot;, ann=F, las=2)
+mtext(&quot;Drunkness\nRelated Arrest&quot;, side=2, line=3.5)
+par(new=TRUE)
+plot(nhtemp, ann=F, axes=F)
+mtext(&quot;Temperature (F)&quot;, side=4, line=3)
+title(&quot;Using par(new=TRUE)&quot;)
+axis(4)</code></pre>
+<p><img src="../../../cn/post/2019-06-21-baseplot-addplot_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p><strong>方法二</strong></p>
+<p>该方法只绘制一个图形。</p>
+<pre class="r"><code>par(mar=c(5, 6, 2, 4))
+plot(drunkness, lwd=3, col=&quot;gray&quot;, ann=F, las=2)
+mtext(&quot;Drunkness\nRelated Arrest&quot;, side=2, line=3.5)
+usr = par(&quot;usr&quot;)
+par(usr=c(usr[1:2], 47.6, 54.9))
+lines(nhtemp)
+mtext(&quot;Temperature (F)&quot;, side=4, line=3)
+title(&quot;Using par(usr=...)&quot;)
+axis(4)</code></pre>
+<p><img src="../../../cn/post/2019-06-21-baseplot-addplot_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p><strong>方法三</strong></p>
+<p>一些高级函数提供了一个叫 <code>add</code> 的参数，如果设置为 <code>TRUE</code>，将会在现有图形上添加输出。</p>
+<pre class="r"><code>with(trees,
+     expr = {
+     plot(Height, Volume, pch=3, xlab=&quot;Height (ft)&quot;, 
+          ylab=expression(paste(&quot;Volume &quot;, &quot;ft^3&quot;)))
+     symbols(Height, Volume, circles = Girth/12,
+             fg=&quot;gray&quot;, inches = FALSE, add=TRUE)
+       })</code></pre>
+<p><img src="../../../cn/post/2019-06-21-baseplot-addplot_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
 </div>
 </div>
 <div class="section level2">
@@ -365,7 +412,7 @@ text(8.2*xcm, 0.6*ycm, &quot;cm&quot;, adj=c(0, 0))</code></pre>
 <div class="section level2">
 <h2>创建绘图函数</h2>
 <hr />
-<p>资料：《R绘图系统》（第二版）n</p>
+<p>资料：《R绘图系统》（第二版）</p>
 </div>
 
 
