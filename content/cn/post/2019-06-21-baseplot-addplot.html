@@ -2,7 +2,7 @@
 title: "R基本绘图：创建与添加图形"
 author: "王诗翔"
 date: "2019-06-21"
-lastmod: "2019-06-21"
+lastmod: "2019-06-23"
 slug: ""
 ---
 
@@ -123,15 +123,121 @@ rug(y, ticksize = 0.02)</code></pre>
 </div>
 <div class="section level2">
 <h2>在边缘处添加图形</h2>
+<p><code>mtext()</code> 函数可以在边缘区域的任何位置绘制文本，它的 <code>outer</code> 参数控制是在图像区域还是外部区域的边缘处输出。
+<code>side</code> 控制在哪个边缘区域输出，1 - 底部，2 - 左侧，3 - 顶部，4 - 右侧。</p>
+<p>我们也可以在图像区域或外部区域使用一般在绘图区域使用的函数，不过有点麻烦。我们需要先设定 <code>xpd</code> 的状态。
+下面展示了一个例子：将绘制出的一个在两个图像之间穿越的矩形。</p>
+<pre class="r"><code>y1 = rnorm(100)
+y2 = rnorm(100)
+
+par(mfrow=c(2,1), xpd =NA)
+
+# 绘制第一个图形
+plot(y1, type=&quot;l&quot;, axes=FALSE,
+     xlab=&quot;&quot;, ylab=&quot;&quot;, main=&quot;&quot;)
+box(col=&quot;gray&quot;)
+mtext(&quot;Left end of margin&quot;, adj=0, side=3)
+lines(x=c(20,20,40,40), y=c(-7, max(y1), max(y1), -7), lwd=3, col=&quot;gray&quot;)
+
+# 绘制第二个图形
+plot(y2, type=&quot;l&quot;, axes=FALSE, 
+     xlab=&quot;&quot;, ylab=&quot;&quot;, main=&quot;&quot;)
+box(col=&quot;gray&quot;)
+mtext(&quot;Right end of margin&quot;, adj=1, side=3)
+lines(x=c(20, 20, 40, 40), y=c(7, min(y2), min(y2), 7), 
+      lwd=3, col=&quot;gray&quot;)</code></pre>
+<p><img src="/cn/post/2019-06-21-baseplot-addplot_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 </div>
 <div class="section level2">
 <h2>图例</h2>
+<p><code>legend()</code> 函数用于在图像中添加图例或关键字。</p>
+<p>第一个例子展示在散点图中添加图例的方法，图例将不同的组名和对应的符号关联起来。前 2 个参数给定对于用户坐标系统，
+图例左上角的为止。第 3 个参数提供图例需要的标签，此外，通过指定 <code>pch</code> 参数可以在标签旁边绘制符号。</p>
+<pre class="r"><code>with(iris,
+     plot(Sepal.Length, Sepal.Width, pch=as.numeric(Species), cex=1.2))
+legend(6.1, 4.4, c(&quot;setosa&quot;, &quot;versicolor&quot;, &quot;virginica&quot;),
+       cex=1.5, pch=1:3)</code></pre>
+<p><img src="/cn/post/2019-06-21-baseplot-addplot_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>下一个例子展示条形图添加图例，图例中组名对应不同的填充模式。</p>
+<pre class="r"><code>barplot(VADeaths[1:2, ], angle = c(45, 135), density = 20, 
+        col=&quot;gray&quot;, names = c(&quot;RM&quot;, &quot;RF&quot;, &quot;UM&quot;, &quot;UF&quot;))
+legend(0.4, 38, c(&quot;55-59&quot;, &quot;50-54&quot;), cex=1.5, angle = c(135, 45), density = 20, fill = &quot;gray&quot;)</code></pre>
+<p><img src="/cn/post/2019-06-21-baseplot-addplot_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>注意，<strong>怎么将图例符号对应于图形完全是由用户控制的</strong>。所以在绘制时一定要额外注意，相比于传统图形绘制，
+<strong>ggplot2</strong> 和 <strong>lattice</strong> 包会自动映射，更为方便。</p>
 </div>
 <div class="section level2">
 <h2>坐标轴</h2>
+<p>有时候我们想要修改坐标轴，我们第一步需要禁止生成默认的坐标轴，这一点可以通过设置大多数高级函数的
+<code>axes</code> 参数实现。 通过 <code>par()</code> 指定 <code>xaxt = &quot;n&quot;</code> 和 <code>yaxt = &quot;n&quot;</code> 也可以实现该目的。</p>
+<p>下面举一个定制坐标轴的例子：</p>
+<blockquote>
+<p>开始绘制一个初始图形，并且绘制 y 轴的尺度是摄氏度。接下来再绘制一个华氏温度的 y 轴。x 轴使用特殊标签，而不是默认刻度线的数值位置。</p>
+</blockquote>
+<pre class="r"><code># 先生成数据并绘制没有数据符号和坐标轴的空图
+x = 1:2
+y = runif(2, 0, 100)
+par(mar=c(4, 4, 2, 4))
+plot(x, y, type = &quot;n&quot;, xlim = c(0.5, 2.5), ylim = c(-10, 110),
+     axes=FALSE, ann=FALSE)
+
+# 指定主 y 轴摄氏度刻度位置。
+axis(2, at=seq(0, 100, 20))  # 2 表示绘制在左边，at指定刻度线位置
+mtext(&quot;Temperature (Centigrade)&quot;, side = 2, line = 3)
+
+# 绘制有特殊标签的底部坐标轴，以及表示华氏温度的 y 轴
+axis(1, at=1:2, labels = c(&quot;Treatment1&quot;, &quot;Treatment2&quot;))
+axis(4, at=seq(0, 100, 20), labels = seq(0, 100, 20)*9/5 + 32)
+mtext(&quot;Temperature (Fahrenheit)&quot;, side=4, line=3)
+box()
+
+# 最后画一些温度样式的符号表示实际温度
+segments(x, 0, x, 100, lwd=20)
+segments(x, 0, x, 100, lwd=16, col=&quot;white&quot;)
+segments(x, 0, x, y, lwd = 16, col = &quot;gray&quot;)</code></pre>
+<p><img src="/cn/post/2019-06-21-baseplot-addplot_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 </div>
 <div class="section level2">
 <h2>坐标系统</h2>
+<p>在绘图区域内的图形输出是根据坐标轴的尺度自动定位的，而图形边缘处的文本则是根据距离绘图区域边界多少
+文本行定位的。</p>
+<div id="par-" class="section level3">
+<h3>par() 函数</h3>
+<p>一般情况下我们使用 <code>par()</code> 函数获取或设定图形的状态。其中 <code>din</code>、<code>fin</code>和<code>pin</code> 3个状态反映了当前绘图设备、图像区域以及回去区域的尺寸（宽度和高度），以英寸为单位。</p>
+<pre class="r"><code>par(&quot;din&quot;)
+#&gt; [1] 7 5
+par(&quot;fin&quot;)
+#&gt; [1] 7 5
+par(&quot;pin&quot;)
+#&gt; [1] 5.76 3.16</code></pre>
+<p><code>usr</code> 反映坐标轴范围。</p>
+<pre class="r"><code>par(&quot;usr&quot;)
+#&gt; [1] 0 1 0 1</code></pre>
+<p>下面我们画一把与实际物理尺寸对应的尺子。</p>
+<pre class="r"><code># 绘制一个空白图形并进行计算
+plot(0:1, 0:1, type=&quot;n&quot;, axes=F, ann=F)
+usr = par(&quot;usr&quot;)
+pin = par(&quot;pin&quot;)
+xcm = diff(usr[1:2])/(pin[1]*2.54)
+ycm = diff(usr[3:4])/(pin[2]*2.54)
+
+# 现在绘制的图形是根据厘米表示的
+par(xpd=NA)
+rect(0 + 0.2*xcm, 0-0.2*ycm,
+     1 + 0.2*xcm, 1-0.2*ycm,
+     col=&quot;gray&quot;, border = NA)
+
+# 绘制边框、刻度和标签
+rect(0, 0, 1, 1, col=&quot;white&quot;)
+segments(seq(1, 8, 0.1)*xcm, 0,
+         seq(1, 8, 0.1)*xcm, 
+         c(c(0.5, rep(0.25, 4),
+                0.35, rep(0.25, 4)), 
+           7, 0.5)*ycm)
+text(1:8*xcm, 0.6*ycm, 0:7, adj=c(0.5, 0))
+text(8.2*xcm, 0.6*ycm, &quot;cm&quot;, adj=c(0, 0))</code></pre>
+<p><img src="/cn/post/2019-06-21-baseplot-addplot_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+</div>
 </div>
 <div class="section level2">
 <h2>特殊情况</h2>
@@ -142,5 +248,5 @@ rug(y, ticksize = 0.02)</code></pre>
 <div class="section level2">
 <h2>创建绘图函数</h2>
 <hr />
-<p>资料：《R绘图系统》（第二版）</p>
+<p>资料：《R绘图系统》（第二版）n</p>
 </div>

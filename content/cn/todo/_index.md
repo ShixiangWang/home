@@ -18,7 +18,7 @@ disable_comments: true
 
 - [**Go语言四十二章经**](https://www.jianshu.com/nb/29056963)
   - [x] 1-4章
-  - [ ] 5-13章
+  - [x] 5-13章
 
 - **R绘图系统**
   - [ ] 3.定制传统图形
@@ -29,7 +29,7 @@ disable_comments: true
   - [ ] Chapter 3 - Robust Statistics
 
 - **Python 机器学习及实践** 
-  - [ ] 扫读一遍
+  - [ ] ~~扫读一遍~~ （本月完成不了了）
   
 - **TensorFlow - 实战Google深度学习框架**
   - [ ] 3.TensorFlow入门
