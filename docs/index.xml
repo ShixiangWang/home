@@ -26,7 +26,7 @@
       <pubDate>Fri, 21 Jun 2019 00:00:00 +0000</pubDate>
       
       <guid>/cn/post/2019-06-21-baseplot-addplot/</guid>
-      <description>高级绘图函数 + 低级绘图函数才能让图形丰富多样起来。 基本的低级绘图函数 Table 1: 常见基本低级绘图函数 函数 描述 points() 数据符号 lines() 线条 segments() 线段 arrows() 箭头 xspline() 光滑曲线 rect()</description>
+      <description>R 遵循画家模式。 高级绘图函数 + 低级绘图函数才能让图形丰富多样起来。 基本的低级绘图函数 Table 1: 常见基本低级绘图函数 函数 描述 points() 数据符号 lines() 线条 segments() 线段 arrows()</description>
     </item>
     
     <item>

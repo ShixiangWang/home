@@ -21,7 +21,7 @@ disable_comments: true
   - [x] 5-13章
 
 - **R绘图系统**
-  - [ ] 3.定制传统图形
+  - [x] 3.定制传统图形
 
 - [**PH525x series - Biomedical Data Science**](https://genomicsclass.github.io/book/)
   - [ ] Chapter 1 - Inference

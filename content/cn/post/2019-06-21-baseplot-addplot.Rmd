@@ -13,6 +13,8 @@ options(digits=3)
 options(max.print=200)
 ```
 
+> R 遵循画家模式。
+
 高级绘图函数 + 低级绘图函数才能让图形丰富多样起来。
 
 ## 基本的低级绘图函数
@@ -313,11 +315,180 @@ with(trees,
 
 ## 特殊情况
 
+### 隐藏的坐标轴尺度
+
+因为这个原因，在条形图和箱线图中添加图形输出会比较麻烦。为何做到这点，我们需要获取函数的返回值。这个值会给出函数绘制的每一个条形的中点 x 位置。
+
+**条形图例子**：添加水平参考线段
+
+```{r}
+y = sample(1:10)
+midpts = barplot(y, col="lightgray")
+width = diff(midpts[1:2])/4
+left = rep(midpts, y - 1) - width
+right = rep(midpts, y - 1) + width
+heights = unlist(apply(matrix(y, ncol=10),
+                       2, seq))[-cumsum(y)]
+segments(left, heights, right, heights,
+         col="white")
+```
+
+**箱线图例子**：添加抖动点
+
+```{r}
+with(ToothGrowth,
+     {
+       boxplot(len ~ supp, border = "gray",
+               col="lightgray", boxwex=0.5)
+       points(jitter(rep(1:2, each=30), 0.5),
+              unlist(split(len, supp)),
+              cex=0.5, pch=16)
+     })
+```
+
+
+### 绘制三维图像
+
+添加图像步骤：
+
+1. 获取 `persp()` 函数返回的变换矩阵 (本身该函数会绘制三维图像)
+2. 使用 `trans3d()` 函数将三维位置转换为二位位置
+3. 将以上结果传给标准函数，如 `lines()`、`text()`
+
+下面绘制火山并添加等高线。
+
+```{r}
+z = 2*volcano
+x = 10 * (1:nrow(z))
+y = 10 * (1:ncol(z))
+
+trans = persp(x, y, z, zlim=c(0, max(z)),
+              theta=150, phi=12, lwd=.5,
+              scale=F, axes=F)
+
+# 计算等高线
+clines = contourLines(x, y, z)
+# 将等高线 x 与 y 顶点位置传给 trans3d()
+lapply(clines,
+       function(contour) {
+         lines(trans3d(contour$x, contour$y, 0, trans))
+       })
+```
 
 
 ## 创建新图形
 
+`plot.new()` 函数开启一个新的绘图（与 `frame()` 等价），并将 x 与 y 尺度设置为 (0, 1) 区间。
+
+`plot.window()` 函数重置用户坐标系统的尺度。
+
+`plot.xy()` 在绘图区域绘制数据符号和线条。
+
+### 从头创建一个简单图形
+
+```{r}
+plot.new()  # 开启一个空白绘图
+plot.window(range(pressure$temperature),
+            range(pressure$pressure))  # 设定坐标轴尺度
+plot.xy(pressure, type="p")  # 绘制图形
+box()  # 围绕绘图区域绘制矩形
+axis(1) # 添加轴线
+axis(2) # 添加轴线
+```
+
+这和 `plot()` 绘制的散点图完全一致。
+
+### 从头创建一个复杂图形
+
+绘制泰坦尼克号成年男性和女性幸存者数目。
+
+```{r}
+groups = dimnames(Titanic)[[1]]
+males = Titanic[, 1, 2, 2]
+females = Titanic[, 2, 2, 2]
+
+males
+females
+```
+
+```{r}
+# 6 行内容，4行用户绘制条形，1行用于绘制x轴，1行绘制图例（-1）
+par(mar=c(0.5, 3, 0.5, 1))
+plot.new()
+plot.window(xlim = c(-200,200), ylim = c(-1.5, 4.5))
+
+ticks = seq(-200, 200, 100)
+y = 1:4
+h = 0.2
+
+# 开始画图
+# x 轴绘制在绘图区域内部（设置pos=0）
+lines(rep(0,2), c(-1.5, 4.5), col="gray")
+segments(-200, y, 200, y, lty = "dotted")
+rect(-males, y-h, 0, y+h, col="darkgray")
+rect(0, y-h,  females, y+h, col="lightgray")
+mtext(groups, at=y, adj=1, side=2, las=2)
+par(cex.axis=0.5, mex=0.5)
+axis(1, at=ticks, labels=abs(ticks), pos=0)
+
+# 在底部绘制图例
+# 确保矩形能包含文字
+tw = 1.5*strwidth("females")
+rect(-tw, -1-h, 0, -1+h, col="darkgray")
+rect(0, -1-h, tw, -1+h, col="lightgray")
+text(0, -1, "males", pos=2)
+text(0, -1, "females", pos=4)
+```
+
+
+
 ## 创建绘图函数
+
+`xy.coords()`允许在新建的函数中灵活指定 x 与 y 参数。该函数接收 x 参数与 y 参数并且创建一个标准的包含 x 值、y 值以及坐标轴合理标签的对象。
+
+一个新的绘图函数可能需要强制将 `xpd` 状态设定为 `NA`，从而在绘图区域外绘制线条和文本。这种情况下可以在函数的末尾恢复初始的绘图状态。
+
+可以采用以下技术：
+
+```{r}
+# 放在函数的开始部分
+opar = par(no.readonly = TRUE)
+on.exit(par(opar))
+```
+
+下面是一个绘图模板（可以看做 `plot()` 函数的精简版本），提供了一个供他人使用的绘图函数的出发点。
+
+```{r}
+plot.newclass = 
+  function(x, y=NULL, 
+           main="", sub="",
+           xlim=NULL, ylim=NULL,
+           axes=TRUE, ann=par("ann"),
+           col=par("col"), 
+           ...) {
+    xy = xy.coords(x, y)
+    if (is.null(xlim)) {
+      xlim = range(xy$x[is.finite(xy$x)])
+    }
+    if (is.null(ylim)) {
+      ylim = range(xy$y[is.finite(xy$y)])
+    }
+    opar = par(no.readonly = TRUE)
+    on.exit(par(opar))
+    plot.new()
+    plot.window(xlim, ylim, ...)
+    points(xy$x, xy$y, col=col, ...)
+    if (axes) {
+      axis(1)
+      axis(2)
+      box()
+    }
+    if (ann) {
+      title(main=main, sub=sub, xlab=xy$xlab, ylab=xy$ylab, ...)
+    }
+           }
+```
+
 
 ***
 
