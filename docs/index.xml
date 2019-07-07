@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>管道统计分析——rstatix使用指南</title>
+      <link>/cn/post/2019-07-07-use-rstatix/</link>
+      <pubDate>Sun, 07 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-07-07-use-rstatix/</guid>
+      <description>原英文文档地址：https://raw.githubusercontent.com/kassambara/rstatix/master/RE</description>
+    </item>
+    
+    <item>
       <title>Tensorflow-完整神经网络样例程序</title>
       <link>/cn/post/2019-07-04-tensorflow-an-example/</link>
       <pubDate>Thu, 04 Jul 2019 00:00:00 +0000</pubDate>

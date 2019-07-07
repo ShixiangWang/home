@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    
+    <link rel="stylesheet" href="../../../fonts/academicons-1.8.6/css/academicons.min.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../logo/bodhi.png"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    
+    <title>管道统计分析——rstatix使用指南 - 王诗翔</title>
+    
+     
+    <meta property="og:title" content="管道统计分析——rstatix使用指南 - Shixiang Wang | 王诗翔">
+    
+
+    
+      
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="../../../css/style.css" />
+    <link rel="stylesheet" href="../../../css/mystyle.css" /> 
+    <link rel="stylesheet" href="../../../css/fonts.css" />
+    
+<script async src="../../../js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="../../../css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="../../../"><img src="https://avatars1.githubusercontent.com/u/25057508?s=460&amp;v=4" alt="Shixiang Wang" /></a></h1>
+
+
+
+      <nav class="menu">
+        <input id="menu-check" type="checkbox" />
+        <label id="menu-label" for="menu-check" class="unselectable">
+          <span class="icon close-icon">✕</span>
+          <span class="icon open-icon">☰</span>
+          <span class="text">Menu</span>
+        </label>
+        <ul>
+        
+        
+        <li><a href="../../../">首页</a></li>
+        
+        <li><a href="../../../cn/about/">关于</a></li>
+        
+        <li><a href="../../../cn/post/">博客</a></li>
+        
+        <li><a href="../../../cn/read/">读书</a></li>
+        
+        <li><a href="../../../cn/writing">写作</a></li>
+        
+        <li><a href="../../../cn/research/">研究</a></li>
+        
+        <li><a href="../../../cn/tools/">工具</a></li>
+        
+        <li><a href="../../../cn/cv-cn/shixiang">简历</a></li>
+        
+        <li><a href="../../../cn/todo">ToDo</a></li>
+        
+        <li><a href="../../../en/">English</a></li>
+        
+        
+
+<li class="menu-extra"></li>
+
+
+
+
+
+
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2019-07-07-use-rstatix.Rmd" target="_blank">编辑</a></li>
+
+
+<li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+        </ul>
+      </nav>
+    </header>
+
+    <article class="main">
+      <header class="title">
+        
+
+<h1>管道统计分析——rstatix使用指南</h1>
+
+
+
+<h3>王诗翔 &middot 
+2019-07-07</h3> 
+
+
+   
+  
+
+
+      </header>
+
+
+
+
+
+<p>原英文文档地址：<a href="https://raw.githubusercontent.com/kassambara/rstatix/master/README.Rmd" class="uri">https://raw.githubusercontent.com/kassambara/rstatix/master/README.Rmd</a></p>
+<p><strong>rstatix</strong> 包提供了一个与「tidyverse」设计哲学一致的简单且直观的管道友好框架用于执行基本的统计检验，
+包括 t 检验、Wilcoxon 检验、ANOVA、Kruskal-Wallis 以及相关分析。</p>
+<p>每个检验的输出都会自动转换为干净的数据框以便于可视化。</p>
+<p>另外也提供了一些用于重塑、重排、操作以及可视化相关矩阵的函数。也包含一些方便因子实验分析的函数，包括
+‘within-Ss’ 设计 (repeated measures), purely ‘between-Ss’ 设计以及 mixed ‘within-and-between-Ss’ 设计。</p>
+<p>该包也可以用于计算一些效应值度量，包括 “eta squared” for ANOVA, “Cohen’s d” for t-test and “Cramer’s V” for the association between categorical variables。
+该包还包含一些用于识别单变量和多变量离群点、评估变异正态性和异质性的帮助函数。</p>
+<div class="section level2">
+<h2>核心函数</h2>
+<div class="section level3">
+<h3>描述统计量</h3>
+<ul>
+<li><code>get_summary_stats()</code>: Compute summary statistics for one or multiple numeric variables. Can handle grouped data.</li>
+<li><code>freq_table()</code>: Compute frequency table of categorical variables.</li>
+<li><code>get_mode()</code>: Compute the mode of a vector, that is the most frequent values.</li>
+<li><code>identify_outliers()</code>: Detect univariate outliers using boxplot methods.</li>
+<li><code>mahalanobis_distance()</code>: Compute Mahalanobis Distance and Flag Multivariate Outliers.</li>
+<li><code>shapiro_test()</code> and <code>mshapiro_test()</code>: Univariate and multivariate Shapiro-Wilk normality test.</li>
+</ul>
+</div>
+<div class="section level3">
+<h3>比较均值</h3>
+<ul>
+<li><code>t_test()</code>: perform one-sample, two-sample and pairwise t-tests</li>
+<li><code>wilcox_test()</code>: perform one-sample, two-sample and pairwise Wilcoxon tests</li>
+<li><code>sign_test()</code>: perform sign test to determine whether there is a median difference between paired or matched observations.</li>
+<li><code>anova_test()</code>: an easy-to-use wrapper around <code>car::Anova()</code> to perform different types of ANOVA tests, including <strong>independent measures ANOVA</strong>, <strong>repeated measures ANOVA</strong> and <strong>mixed ANOVA</strong>.</li>
+<li><code>kruskal_test()</code>: perform kruskal-wallis rank sum test</li>
+<li><code>tukey_hsd()</code>: performs tukey post-hoc tests. Can handle different inputs formats: aov, lm, formula.</li>
+<li><code>dunn_test()</code>: compute multiple pairwise comparisons following Kruskal-Wallis test.</li>
+<li><code>emmeans_test()</code>: pipe-friendly wrapper arround <code>emmeans</code> function to perform pairwise comparisons of estimated marginal means. Useful for post-hoc analyses following up ANOVA/ANCOVA tests.</li>
+<li><code>get_comparisons()</code>: Create a list of possible pairwise comparisons between groups.</li>
+<li><code>get_pvalue_position</code>: autocompute p-value positions for plotting significance using ggplot2.</li>
+</ul>
+</div>
+<div id="ranova" class="section level3">
+<h3>促进R的ANOVA计算</h3>
+<ul>
+<li><code>factorial_design()</code>: build factorial design for easily computing ANOVA using the <code>car::Anova()</code> function. This might be very useful for repeated measures ANOVA, which is hard to set up with the <code>car</code> package.</li>
+<li><code>anova_summary()</code>: Create beautiful summary tables of ANOVA test results obtained from either <code>car::Anova()</code> or <code>stats::aov()</code>. The results include ANOVA table, generalized effect size and some assumption checks, such as Mauchly’s test for sphericity in the case of repeated measures ANOVA.</li>
+</ul>
+</div>
+<div class="section level3">
+<h3>比较方差</h3>
+<ul>
+<li><code>levene_test()</code>: Pipe-friendly framework to easily compute Levene’s test for homogeneity of variance across groups. Handles grouped data.</li>
+<li><code>box_m()</code>: Box’s M-test for homogeneity of covariance matrices</li>
+</ul>
+</div>
+<div class="section level3">
+<h3>效应值</h3>
+<ul>
+<li><code>cohens_d()</code>: Compute cohen’s d measure of effect size for t-tests.</li>
+<li><code>eta_squared()</code> and <code>partial_eta_squared()</code>: Compute effect size for ANOVA.</li>
+<li><code>cramer_v()</code>: Compute Cramer’s V, which measures the strength of the association between categorical variables.</li>
+</ul>
+</div>
+<div class="section level3">
+<h3>相关分析</h3>
+<p><strong>计算相关性</strong>:</p>
+<ul>
+<li><code>cor_test()</code>: correlation test between two or more variables using Pearson, Spearman or Kendall methods.</li>
+<li><code>cor_mat()</code>: compute correlation matrix with p-values. Returns a data frame containing the matrix of the correlation coefficients. The output has an attribute named “pvalue”, which contains the matrix of the correlation test p-values.</li>
+<li><code>cor_get_pval()</code>: extract a correlation matrix p-values from an object of class <code>cor_mat()</code>.</li>
+<li><code>cor_pmat()</code>: compute the correlation matrix, but returns only the p-values of the correlation tests.</li>
+<li><code>as_cor_mat()</code>: convert a <code>cor_test</code> object into a correlation matrix format.</li>
+</ul>
+<p><strong>重塑相关矩阵</strong>:</p>
+<ul>
+<li><code>cor_reorder()</code>: reorder correlation matrix, according to the coefficients, using the hierarchical clustering method.</li>
+<li><code>cor_gather()</code>: takes a correlation matrix and collapses (or melt) it into long format data frame (paired list)</li>
+<li><code>cor_spread()</code>: spread a long correlation data frame into wide format (correlation matrix).</li>
+</ul>
+<p><strong>取子集</strong>:</p>
+<ul>
+<li><code>cor_select()</code>: subset a correlation matrix by selecting variables of interest.</li>
+<li><code>pull_triangle()</code>, <code>pull_upper_triangle()</code>, <code>pull_lower_triangle()</code>: pull upper and lower triangular parts of a (correlation) matrix.</li>
+<li><code>replace_triangle()</code>, <code>replace_upper_triangle()</code>, <code>replace_lower_triangle()</code>: replace upper and lower triangular parts of a (correlation) matrix.</li>
+</ul>
+<p><strong>可视化相关矩阵</strong>:</p>
+<ul>
+<li><code>cor_as_symbols()</code>: replaces the correlation coefficients, in a matrix, by symbols according to the value.</li>
+<li><code>cor_plot()</code>: visualize correlation matrix using base plot.</li>
+<li><code>cor_mark_significant()</code>: add significance levels to a correlation matrix.</li>
+</ul>
+</div>
+<div id="p" class="section level3">
+<h3>矫正p值和添加显著性标记</h3>
+<ul>
+<li><code>adjust_pvalue()</code>: add an adjusted p-values column to a data frame containing statistical test p-values</li>
+<li><code>add_significance()</code>: add a column containing the p-value significance level</li>
+</ul>
+</div>
+<div class="section level3">
+<h3>其他</h3>
+<ul>
+<li><code>doo()</code>: alternative to dplyr::do for doing anything. Technically it uses <code>nest() + mutate() + map()</code> to apply arbitrary computation to a grouped data frame.</li>
+<li><code>sample_n_by()</code>: sample n rows by group from a table</li>
+<li><code>convert_as_factor(), set_ref_level(), reorder_levels()</code>: Provides pipe-friendly functions to convert simultaneously multiple variables into a factor variable.</li>
+<li><code>make_clean_names()</code>: Pipe-friendly function to make syntactically valid column names (for input data frame) or names (for input vector).</li>
+</ul>
+</div>
+</div>
+<div class="section level2">
+<h2>安装和加载</h2>
+<ul>
+<li>从<a href="https://github.com/kassambara/rstatix">GitHub</a>上安装开发版本：</li>
+</ul>
+<pre class="r"><code>if(!require(devtools)) install.packages(&quot;devtools&quot;)
+devtools::install_github(&quot;kassambara/rstatix&quot;)</code></pre>
+<ul>
+<li>或者从<a href="https://cran.r-project.org/package=ggpubr">CRAN</a>安装稳定版本：</li>
+</ul>
+<pre class="r"><code>install.packages(&quot;rstatix&quot;)</code></pre>
+<ul>
+<li>加载包</li>
+</ul>
+<pre class="r"><code>library(rstatix)  
+#&gt; 
+#&gt; 载入程辑包：&#39;rstatix&#39;
+#&gt; The following object is masked from &#39;package:stats&#39;:
+#&gt; 
+#&gt;     filter
+library(ggpubr)  # For easy data-visualization
+#&gt; 载入需要的程辑包：ggplot2
+#&gt; 载入需要的程辑包：magrittr</code></pre>
+</div>
+<div id="-1" class="section level2">
+<h2>描述统计量</h2>
+<pre class="r"><code># Summary statistics of some selected variables
+#::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+iris %&gt;% 
+  get_summary_stats(Sepal.Length, Sepal.Width, type = &quot;common&quot;)
+#&gt; # A tibble: 2 x 10
+#&gt;   variable         n   min   max median   iqr  mean    sd    se    ci
+#&gt;   &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1 Sepal.Length   150   4.3   7.9    5.8   1.3  5.84 0.828 0.068 0.134
+#&gt; 2 Sepal.Width    150   2     4.4    3     0.5  3.06 0.436 0.036 0.07
+
+# Whole data frame
+#::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+iris %&gt;% get_summary_stats(type = &quot;common&quot;)
+#&gt; # A tibble: 4 x 10
+#&gt;   variable         n   min   max median   iqr  mean    sd    se    ci
+#&gt;   &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1 Petal.Length   150   1     6.9   4.35   3.5  3.76 1.76  0.144 0.285
+#&gt; 2 Petal.Width    150   0.1   2.5   1.3    1.5  1.20 0.762 0.062 0.123
+#&gt; 3 Sepal.Length   150   4.3   7.9   5.8    1.3  5.84 0.828 0.068 0.134
+#&gt; 4 Sepal.Width    150   2     4.4   3      0.5  3.06 0.436 0.036 0.07
+
+
+# Grouped data
+#::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+iris %&gt;%
+  group_by(Species) %&gt;% 
+  get_summary_stats(Sepal.Length, type = &quot;mean_sd&quot;)
+#&gt; # A tibble: 3 x 5
+#&gt;   Species    variable         n  mean    sd
+#&gt;   &lt;fct&gt;      &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1 setosa     Sepal.Length    50  5.01 0.352
+#&gt; 2 versicolor Sepal.Length    50  5.94 0.516
+#&gt; 3 virginica  Sepal.Length    50  6.59 0.636</code></pre>
+</div>
+<div id="-1" class="section level2">
+<h2>比较均值</h2>
+<p>你可以使用 <code>t_test()</code> (parametric) or <code>wilcox_test()</code> (non-parametric，实际比较的是中位数) 比较均值差异。下面使用 t 检验进行示范。</p>
+<div class="section level3">
+<h3>数据</h3>
+<p>导入样例数据集：</p>
+<pre class="r"><code>df &lt;- ToothGrowth
+df$dose &lt;- as.factor(df$dose)
+head(df)
+#&gt;    len supp dose
+#&gt; 1  4.2   VC  0.5
+#&gt; 2 11.5   VC  0.5
+#&gt; 3  7.3   VC  0.5
+#&gt; 4  5.8   VC  0.5
+#&gt; 5  6.4   VC  0.5
+#&gt; 6 10.0   VC  0.5</code></pre>
+</div>
+<div id="2" class="section level3">
+<h3>比较2个独立组别</h3>
+<ul>
+<li>创建一个带p值的箱线图</li>
+</ul>
+<pre class="r"><code># T-test
+stat.test &lt;- df %&gt;% 
+  t_test(len ~ supp, paired = FALSE) 
+stat.test
+#&gt; # A tibble: 1 x 6
+#&gt;   .y.   group1 group2 statistic    df      p
+#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+#&gt; 1 len   OJ     VC          1.92  55.3 0.0606
+
+# Create a box plot
+p &lt;- ggboxplot(
+  df, x = &quot;supp&quot;, y = &quot;len&quot;, 
+  color = &quot;supp&quot;, palette = &quot;jco&quot;, ylim = c(0,40)
+  )
+# Add the p-value manually
+p + stat_pvalue_manual(stat.test, label = &quot;p&quot;, y.position = 35)
+#&gt; Warning: Ignoring unknown aesthetics: xmin, xmax, annotations, y_position</code></pre>
+<p><img src="../../../cn/post/2019-07-07-use-rstatix_files/figure-html/unpaired-two-sample-t-test-1.png" width="336" /></p>
+<ul>
+<li>使用 <a href="https://github.com/tidyverse/glue">glue expression</a> 自定义标签：</li>
+</ul>
+<pre class="r"><code>p +stat_pvalue_manual(stat.test, label = &quot;T-test, p = {p}&quot;, 
+                      y.position = 36)
+#&gt; Warning: Ignoring unknown aesthetics: xmin, xmax, annotations, y_position</code></pre>
+<p><img src="../../../cn/post/2019-07-07-use-rstatix_files/figure-html/custoize-p-value-labels-1.png" width="336" /></p>
+<ul>
+<li>分组数据：在按照「dose」分组后比较 supp 水平：</li>
+</ul>
+<pre class="r"><code># Statistical test
+stat.test &lt;- df %&gt;%
+  group_by(dose) %&gt;%
+  t_test(len ~ supp) %&gt;%
+  adjust_pvalue() %&gt;%
+  add_significance(&quot;p.adj&quot;)
+stat.test
+#&gt; # A tibble: 3 x 9
+#&gt;   dose  .y.   group1 group2 statistic    df       p   p.adj p.adj.signif
+#&gt;   &lt;fct&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;       
+#&gt; 1 0.5   len   OJ     VC        3.17    15.0 0.00636 0.0127  *           
+#&gt; 2 1     len   OJ     VC        4.03    15.4 0.00104 0.00312 **          
+#&gt; 3 2     len   OJ     VC       -0.0461  14.0 0.964   0.964   ns
+
+# Visualization
+ggboxplot(
+  df, x = &quot;supp&quot;, y = &quot;len&quot;,
+  color = &quot;supp&quot;, palette = &quot;jco&quot;, facet.by = &quot;dose&quot;,
+  ylim = c(0, 40)
+  ) +
+  stat_pvalue_manual(stat.test, label = &quot;p.adj&quot;, y.position = 35)
+#&gt; Warning: Ignoring unknown aesthetics: xmin, xmax, annotations, y_position</code></pre>
+<p><img src="../../../cn/post/2019-07-07-use-rstatix_files/figure-html/grouped-two-sample-t-test-1.png" width="576" /></p>
+</div>
+<div class="section level3">
+<h3>比较配对样本</h3>
+<pre class="r"><code># T-test
+stat.test &lt;- df %&gt;% 
+  t_test(len ~ supp, paired = TRUE) 
+stat.test
+#&gt; # A tibble: 1 x 6
+#&gt;   .y.   group1 group2 statistic    df       p
+#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+#&gt; 1 len   OJ     VC          3.30    29 0.00255
+
+# Box plot
+p &lt;- ggpaired(
+  df, x = &quot;supp&quot;, y = &quot;len&quot;, color = &quot;supp&quot;, palette = &quot;jco&quot;, 
+  line.color = &quot;gray&quot;, line.size = 0.4, ylim = c(0, 40)
+  )
+p + stat_pvalue_manual(stat.test, label = &quot;p&quot;, y.position = 36)
+#&gt; Warning: Ignoring unknown aesthetics: xmin, xmax, annotations, y_position</code></pre>
+<p><img src="../../../cn/post/2019-07-07-use-rstatix_files/figure-html/paired-t-test-1.png" width="336" /></p>
+</div>
+<div class="section level3">
+<h3>成对比较</h3>
+<ul>
+<li>成对比较：如果分组变量包含多于2个分类，会自动执行成对比较</li>
+</ul>
+<pre class="r"><code># Pairwise t-test
+pairwise.test &lt;- df %&gt;% t_test(len ~ dose)
+pairwise.test
+#&gt; # A tibble: 3 x 8
+#&gt;   .y.   group1 group2 statistic    df        p    p.adj p.adj.signif
+#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       
+#&gt; 1 len   0.5    1          -6.48  38.0 1.27e- 7 2.54e- 7 ****        
+#&gt; 2 len   0.5    2         -11.8   36.9 4.40e-14 1.32e-13 ****        
+#&gt; 3 len   1      2          -4.90  37.1 1.91e- 5 1.91e- 5 ****
+# Box plot
+ggboxplot(df, x = &quot;dose&quot;, y = &quot;len&quot;)+
+  stat_pvalue_manual(
+    pairwise.test, label = &quot;p.adj&quot;, 
+    y.position = c(29, 35, 39)
+    )
+#&gt; Warning: Ignoring unknown aesthetics: xmin, xmax, annotations, y_position</code></pre>
+<p><img src="../../../cn/post/2019-07-07-use-rstatix_files/figure-html/pairwise-comparisons-1.png" width="336" /></p>
+<ul>
+<li>基于参考组的成对比较</li>
+</ul>
+<pre class="r"><code># Comparison against reference group
+#::::::::::::::::::::::::::::::::::::::::
+# T-test: each level is compared to the ref group
+stat.test &lt;- df %&gt;% t_test(len ~ dose, ref.group = &quot;0.5&quot;)
+stat.test
+#&gt; # A tibble: 2 x 8
+#&gt;   .y.   group1 group2 statistic    df        p    p.adj p.adj.signif
+#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       
+#&gt; 1 len   0.5    1          -6.48  38.0 1.27e- 7 1.27e- 7 ****        
+#&gt; 2 len   0.5    2         -11.8   36.9 4.40e-14 8.80e-14 ****
+# Box plot
+ggboxplot(df, x = &quot;dose&quot;, y = &quot;len&quot;, ylim = c(0, 40)) +
+  stat_pvalue_manual(
+    stat.test, label = &quot;p.adj.signif&quot;, 
+    y.position = c(29, 35)
+    )
+#&gt; Warning: Ignoring unknown aesthetics: xmin, xmax, annotations, y_position</code></pre>
+<p><img src="../../../cn/post/2019-07-07-use-rstatix_files/figure-html/comaprison-against-reference-group-1.png" width="336" /></p>
+<pre class="r"><code># Remove bracket
+ggboxplot(df, x = &quot;dose&quot;, y = &quot;len&quot;, ylim = c(0, 40)) +
+  stat_pvalue_manual(
+    stat.test, label = &quot;p.adj.signif&quot;, 
+    y.position = c(29, 35),
+    remove.bracket = TRUE
+    )</code></pre>
+<p><img src="../../../cn/post/2019-07-07-use-rstatix_files/figure-html/comaprison-against-reference-group-2.png" width="336" /></p>
+<ul>
+<li>基于总体水平的成对比较</li>
+</ul>
+<pre class="r"><code># T-test
+stat.test &lt;- df %&gt;% t_test(len ~ dose, ref.group = &quot;all&quot;)
+stat.test
+#&gt; # A tibble: 3 x 8
+#&gt;   .y.   group1 group2 statistic    df           p      p.adj p.adj.signif
+#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;       &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;       
+#&gt; 1 len   all    0.5        5.82   56.4 0.000000290 0.00000087 ****        
+#&gt; 2 len   all    1         -0.660  57.5 0.512       0.512      ns          
+#&gt; 3 len   all    2         -5.61   66.5 0.000000425 0.00000087 ****
+# Box plot with horizontal mean line
+ggboxplot(df, x = &quot;dose&quot;, y = &quot;len&quot;) +
+  stat_pvalue_manual(
+    stat.test, label = &quot;p.adj.signif&quot;, 
+    y.position = 35,
+    remove.bracket = TRUE
+    ) +
+  geom_hline(yintercept = mean(df$len), linetype = 2)</code></pre>
+<p><img src="../../../cn/post/2019-07-07-use-rstatix_files/figure-html/comparison-against-base-mean-1.png" width="336" /></p>
+</div>
+</div>
+<div id="anova-" class="section level2">
+<h2>ANOVA 检验</h2>
+<pre class="r"><code># One-way ANOVA test
+#:::::::::::::::::::::::::::::::::::::::::
+df %&gt;% anova_test(len ~ dose)
+#&gt; Coefficient covariances computed by hccm()
+#&gt; ANOVA Table (type II tests)
+#&gt; 
+#&gt;   Effect DFn DFd    F        p p&lt;.05   ges
+#&gt; 1   dose   2  57 67.4 9.53e-16     * 0.703
+
+# Two-way ANOVA test
+#:::::::::::::::::::::::::::::::::::::::::
+df %&gt;% anova_test(len ~ supp*dose)
+#&gt; Coefficient covariances computed by hccm()
+#&gt; ANOVA Table (type II tests)
+#&gt; 
+#&gt;      Effect DFn DFd     F        p p&lt;.05   ges
+#&gt; 1      supp   1  54 15.57 2.31e-04     * 0.224
+#&gt; 2      dose   2  54 92.00 4.05e-18     * 0.773
+#&gt; 3 supp:dose   2  54  4.11 2.20e-02     * 0.132
+
+# Two-way repeated measures ANOVA
+#:::::::::::::::::::::::::::::::::::::::::
+df$id &lt;- rep(1:10, 6) # Add individuals id
+# Use formula
+# df %&gt;% anova_test(len ~ supp*dose + Error(id/(supp*dose)))
+# or use character vector
+df %&gt;% anova_test(dv = len, wid = id, within = c(supp, dose))
+#&gt; ANOVA Table (type III tests)
+#&gt; 
+#&gt; $ANOVA
+#&gt;      Effect DFn DFd      F        p p&lt;.05   ges
+#&gt; 1      supp   1   9  34.87 2.28e-04     * 0.224
+#&gt; 2      dose   2  18 106.47 1.06e-10     * 0.773
+#&gt; 3 supp:dose   2  18   2.53 1.07e-01       0.132
+#&gt; 
+#&gt; $`Mauchly&#39;s Test for Sphericity`
+#&gt;      Effect     W     p p&lt;.05
+#&gt; 1      dose 0.807 0.425      
+#&gt; 2 supp:dose 0.934 0.761      
+#&gt; 
+#&gt; $`Sphericity Corrections`
+#&gt;      Effect   GGe      DF[GG]    p[GG] p[GG]&lt;.05  HFe      DF[HF]    p[HF]
+#&gt; 1      dose 0.838 1.68, 15.09 2.79e-09         * 1.01 2.02, 18.15 1.06e-10
+#&gt; 2 supp:dose 0.938 1.88, 16.88 1.12e-01           1.18 2.35, 21.17 1.07e-01
+#&gt;   p[HF]&lt;.05
+#&gt; 1         *
+#&gt; 2
+
+# Use model as arguments
+#:::::::::::::::::::::::::::::::::::::::::
+.my.model &lt;- lm(yield ~ block + N*P*K, npk)
+anova_test(.my.model)
+#&gt; Coefficient covariances computed by hccm()
+#&gt; Note: model has aliased coefficients
+#&gt;       sums of squares computed by model comparison
+#&gt; ANOVA Table (type II tests)
+#&gt; 
+#&gt;   Effect DFn DFd      F     p p&lt;.05   ges
+#&gt; 1  block   4  12  4.959 0.014     * 0.623
+#&gt; 2      N   1  12 12.259 0.004     * 0.505
+#&gt; 3      P   1  12  0.544 0.475       0.043
+#&gt; 4      K   1  12  6.166 0.029     * 0.339
+#&gt; 5    N:P   1  12  1.378 0.263       0.103
+#&gt; 6    N:K   1  12  2.146 0.169       0.152
+#&gt; 7    P:K   1  12  0.031 0.863       0.003
+#&gt; 8  N:P:K   0  12     NA    NA  &lt;NA&gt;    NA</code></pre>
+</div>
+<div class="section level2">
+<h2>相关检验</h2>
+<pre class="r"><code># Data preparation
+mydata &lt;- mtcars %&gt;% 
+  select(mpg, disp, hp, drat, wt, qsec)
+head(mydata, 3)
+#&gt;                mpg disp  hp drat   wt qsec
+#&gt; Mazda RX4     21.0  160 110 3.90 2.62 16.5
+#&gt; Mazda RX4 Wag 21.0  160 110 3.90 2.88 17.0
+#&gt; Datsun 710    22.8  108  93 3.85 2.32 18.6
+
+# Correlation test between two variables
+mydata %&gt;% cor_test(wt, mpg, method = &quot;pearson&quot;)
+#&gt; # A tibble: 1 x 8
+#&gt;   var1  var2    cor statistic        p conf.low conf.high method 
+#&gt; * &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  
+#&gt; 1 wt    mpg   -0.87     -9.56 1.29e-10   -0.934    -0.744 Pearson
+
+# Correlation of one variable against all
+mydata %&gt;% cor_test(mpg, method = &quot;pearson&quot;)
+#&gt; # A tibble: 5 x 8
+#&gt;   var1  var2    cor statistic        p conf.low conf.high method 
+#&gt; * &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  
+#&gt; 1 mpg   disp  -0.85     -8.75 9.38e-10  -0.923     -0.708 Pearson
+#&gt; 2 mpg   hp    -0.78     -6.74 1.79e- 7  -0.885     -0.586 Pearson
+#&gt; 3 mpg   drat   0.68      5.10 1.78e- 5   0.436      0.832 Pearson
+#&gt; 4 mpg   wt    -0.87     -9.56 1.29e-10  -0.934     -0.744 Pearson
+#&gt; 5 mpg   qsec   0.42      2.53 1.71e- 2   0.0820     0.670 Pearson
+
+# Pairwise correlation test between all variables
+mydata %&gt;% cor_test(method = &quot;pearson&quot;)
+#&gt; # A tibble: 36 x 8
+#&gt;    var1  var2    cor statistic        p conf.low conf.high method 
+#&gt;  * &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  
+#&gt;  1 mpg   mpg    1       Inf    0.         1          1     Pearson
+#&gt;  2 mpg   disp  -0.85     -8.75 9.38e-10  -0.923     -0.708 Pearson
+#&gt;  3 mpg   hp    -0.78     -6.74 1.79e- 7  -0.885     -0.586 Pearson
+#&gt;  4 mpg   drat   0.68      5.10 1.78e- 5   0.436      0.832 Pearson
+#&gt;  5 mpg   wt    -0.87     -9.56 1.29e-10  -0.934     -0.744 Pearson
+#&gt;  6 mpg   qsec   0.42      2.53 1.71e- 2   0.0820     0.670 Pearson
+#&gt;  7 disp  mpg   -0.85     -8.75 9.38e-10  -0.923     -0.708 Pearson
+#&gt;  8 disp  disp   1       Inf    0.         1          1     Pearson
+#&gt;  9 disp  hp     0.79      7.08 7.14e- 8   0.611      0.893 Pearson
+#&gt; 10 disp  drat  -0.71     -5.53 5.28e- 6  -0.849     -0.481 Pearson
+#&gt; # … with 26 more rows</code></pre>
+</div>
+<div class="section level2">
+<h2>相关矩阵</h2>
+<pre class="r"><code># Compute correlation matrix
+#::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+cor.mat &lt;- mydata %&gt;% cor_mat()
+cor.mat
+#&gt; # A tibble: 6 x 7
+#&gt;   rowname   mpg  disp    hp   drat    wt   qsec
+#&gt; * &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+#&gt; 1 mpg      1    -0.85 -0.78  0.68  -0.87  0.42 
+#&gt; 2 disp    -0.85  1     0.79 -0.71   0.89 -0.43 
+#&gt; 3 hp      -0.78  0.79  1    -0.45   0.66 -0.71 
+#&gt; 4 drat     0.68 -0.71 -0.45  1     -0.71  0.091
+#&gt; 5 wt      -0.87  0.89  0.66 -0.71   1    -0.17 
+#&gt; 6 qsec     0.42 -0.43 -0.71  0.091 -0.17  1
+
+# Show the significance levels
+#::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+cor.mat %&gt;% cor_get_pval()
+#&gt; # A tibble: 6 x 7
+#&gt;   rowname      mpg     disp           hp       drat        wt       qsec
+#&gt; * &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;
+#&gt; 1 mpg     0.       9.38e-10 0.000000179  0.0000178  1.29e- 10 0.0171    
+#&gt; 2 disp    9.38e-10 0.       0.0000000714 0.00000528 1.22e- 11 0.0131    
+#&gt; 3 hp      1.79e- 7 7.14e- 8 0            0.00999    4.15e-  5 0.00000577
+#&gt; 4 drat    1.78e- 5 5.28e- 6 0.00999      0          4.78e-  6 0.62      
+#&gt; 5 wt      1.29e-10 1.22e-11 0.0000415    0.00000478 2.27e-236 0.339     
+#&gt; 6 qsec    1.71e- 2 1.31e- 2 0.00000577   0.62       3.39e-  1 0
+
+# Replacing correlation coefficients by symbols
+#::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+cor.mat %&gt;%
+  cor_as_symbols() %&gt;%
+  pull_lower_triangle()
+#&gt;   rowname mpg disp hp drat wt qsec
+#&gt; 1     mpg                         
+#&gt; 2    disp   *                     
+#&gt; 3      hp   *    *                
+#&gt; 4    drat   +    +  .             
+#&gt; 5      wt   *    *  +    +        
+#&gt; 6    qsec   .    .  +
+
+# Mark significant correlations
+#::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+cor.mat %&gt;%
+  cor_mark_significant()
+#&gt;   rowname       mpg      disp        hp      drat    wt qsec
+#&gt; 1     mpg                                                   
+#&gt; 2    disp -0.85****                                         
+#&gt; 3      hp -0.78****  0.79****                               
+#&gt; 4    drat  0.68**** -0.71****   -0.45**                     
+#&gt; 5      wt -0.87****  0.89****  0.66**** -0.71****           
+#&gt; 6    qsec     0.42*    -0.43* -0.71****     0.091 -0.17
+
+
+# Draw correlogram using R base plot
+#::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+cor.mat %&gt;%
+  cor_reorder() %&gt;%
+  pull_lower_triangle() %&gt;% 
+  cor_plot()</code></pre>
+<p><img src="../../../cn/post/2019-07-07-use-rstatix_files/figure-html/unnamed-chunk-8-1.png" width="384" /></p>
+</div>
+<div class="section level2">
+<h2>相关文章</h2>
+<ul>
+<li><a href="http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/76-add-p-values-and-significance-levels-to-ggplots/">在ggplot上添加p值和显著性水平</a></li>
+</ul>
+</div>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="../../../cn/post/2019-07-04-tensorflow-an-example/">Tensorflow-完整神经网络样例程序</a></span>
+  <span class="nav-next"></span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/post\/2019-07-04-tensorflow-an-example\/';
+    
+  } else if (e.which == 39) {  
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+<section class="comments">
+  <div id="disqus_thread"></div>
+  <script src="../../../js/disqusloader.min.js"></script>
+  <script>
+  var disqus_config = function () {
+  
+    this.page.url = "https:\/\/shixiangwang.github.io\/home\/" + location.pathname;
+  
+  };
+  (function() {
+    var inIFrame = function() {
+      var iframe = true;
+      try { iframe = window.self !== window.top; } catch (e) {}
+      return iframe;
+    };
+    if (inIFrame()) return;
+    var disqus_js = '//home-xjdzylqrzp.disqus.com/embed.js';
+    
+    if (location.hash.match(/^#comment/)) {
+      var d = document, s = d.createElement('script');
+      s.src = disqus_js; s.async = true;
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    } else {
+      disqusLoader('#disqus_thread', {
+        scriptUrl: disqus_js, laziness: 0, disqusConfig: disqus_config
+      });
+    }
+  })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+
+
+<script async src="../../../js/fix-toc.js"></script>
+
+<script async src="../../../js/center-img.js"></script>
+
+<script async src="../../../js/right-quote.js"></script>
+
+<script async src="../../../js/no-highlight.js"></script>
+
+<script async src="../../../js/fix-footnote.js"></script>
+
+<script async src="../../../js/math-code.js"></script>
+
+<script async src="../../../js/external-link.js"></script>
+
+<script async src="../../../js/alt-title.js"></script>
+
+<script async src="../../../js/header-link.js"></script>
+
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+  
+  
+
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> &middot; <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> &middot; <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> &middot; <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> &middot; <a href="https://orcid.org/0000-0002-9275-3557"><i class='ai ai-orcid ai-1x'></i></a> &middot; <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 &copy; <a href="../../../">王诗翔</a> 2017 - 2019 </div>
+  
+  
+
+  <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56h9es09xn7&amp;m=6&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=1" async="async"></script>
+  </footer>
+  </article>
+  
+  </body>
+</html>
+
