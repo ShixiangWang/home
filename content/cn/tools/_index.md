@@ -103,7 +103,7 @@ which are a collection of UCSC-hosted public databases such as TCGA,
 ICGC, TARGET, GTEx, CCLE, and others. Databases are normalized so they
 can be combined, linked, filtered, explored and downloaded.
 
-**Documentation**:
+**文档**:
 
 - [Introduction and basic usage of **UCSCXenaTools**](../../en/tools/ucscxenatools-intro)
 - [APIs of **UCSCXenaTools**](../../en/tools/ucscxenatools-api)
@@ -127,6 +127,26 @@ status](https://codecov.io/gh/openbiox/XenaShiny/branch/master/graph/badge.svg)]
 
 **UCSCXenaShiny** is Shiny app for [UCSC Xena](https://xenabrowser.net/), this package is built on the
 top of **Shiny** and **UCSCXenaTools** etc..
+
+### contribution
+
+<!-- badges: start -->
+[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/ShixiangWang/contribution?branch=master&svg=true)](https://ci.appveyor.com/project/ShixiangWang/contribution)
+[![Travis build status](https://travis-ci.org/ShixiangWang/contribution.svg?branch=master)](https://travis-ci.org/ShixiangWang/contribution)
+[![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![CRAN status](https://www.r-pkg.org/badges/version/contribution)](https://cran.r-project.org/package=contribution)
+[![](http://cranlogs.r-pkg.org/badges/grand-total/contribution?color=green)](https://cran.r-project.org/package=contribution)
+<!-- badges: end -->
+
+**主页**: <https://github.com/ShixiangWang/contribution>
+
+The goal of **contribution** is to generate **contribution table** for credit assignment in a project. 
+This is inspired by Nick Steinmetz (see twitter <https://twitter.com/SteinmetzNeuro/status/1147241138291527681>). 
+
+**文档**:
+
+- [A Tiny Contribution Table Generator Based on ggplot2](../../en/tools/contribution-table)
+
 
 ## Linux 工具
 
