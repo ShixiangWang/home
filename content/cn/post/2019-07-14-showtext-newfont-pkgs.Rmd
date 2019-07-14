@@ -1,0 +1,203 @@
+---
+title: "showtext：在R图里面更简单地使用字体"
+author: 王诗翔
+date: 2018-09-20
+slug: "showtext-pkg"
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, dev = "png", comment = "#>")
+#Sys.setlocale('LC_ALL','C') # Embed this directly in the Rmarkdown script that contains the Chinese character comment
+options(digits=3)
+options(max.print=200)
+```
+
+在[如何修改画图使用的字体](https://www.jianshu.com/p/466ddc677a94)这篇文章中，我介绍了一种解决R图里字体的方案——extrafont包。今天意外看到另一个解决字体问题的包，再次推荐和介绍一番。
+
+showtext帮助用户在图中更好地使用多种类型字体，包括TrueType、OpenType等。该包主要尝试做以下两件事情：
+
+- 让R知道这些字体
+- 让这些字体绘制文本
+
+该包的动力在于在R图中使用非标准字体不方便，比如中文字体。
+
+## 简单实例
+
+```
+library(showtext)
+## Loading Google fonts (http://www.google.com/fonts)
+font_add_google("Gochi Hand", "gochi")
+font_add_google("Schoolbell", "bell")
+font_add_google("Covered By Your Grace", "grace")
+font_add_google("Rock Salt", "rock")
+## Automatically use showtext to render text for future devices
+showtext_auto()
+## Tell showtext the resolution of the device,
+## only needed for bitmap graphics. Default is 96
+## showtext_opts(dpi = 96)
+set.seed(123)
+x = rnorm(10)
+y = 1 + x + rnorm(10, sd = 0.2)
+y[1] = 5
+mod = lm(y ~ x)
+## Plotting functions as usual
+## Open a graphics device if you want, e.g.
+## png("demo.png", 700, 600, res = 96)
+op = par(cex.lab = 2, cex.axis = 1.5, cex.main = 2)
+plot(x, y, pch = 16, col = "steelblue",
+     xlab = "X variable", ylab = "Y variable", family = "gochi")
+grid()
+title("Draw Plots Before You Fit A Regression", family = "bell")
+text(-0.5, 4.5, "This is the outlier", cex = 2, col = "steelblue",
+     family = "grace")
+abline(coef(mod))
+abline(1, 1, col = "red")
+par(family = "rock")
+text(1, 1, expression(paste("True model: ", y == x + 1)),
+     cex = 1.5, col = "red", srt = 20)
+text(0, 2, expression(paste("OLS: ", hat(y) == 0.79 * x + 1.49)),
+     cex = 1.5, srt = 15)
+legend("topright", legend = c("Truth", "OLS"), col = c("red", "black"), lty = 1)
+par(op)
+```
+
+![](https://camo.githubusercontent.com/6e5955e7bd2e351c4ef073fe19b9e55a91b32a81/687474703a2f2f692e696d6775722e636f6d2f37646d636368492e706e67)
+
+在这个例子中我们首先导入了一些[在线谷歌字体](http://www.google.com/fonts)，然后用`showtext_auto()`函数告诉R控制图的文本字体输出，接下来的所有部分就和平常我们画图一样。
+
+> This example should work on most graphics devices, including pdf(), png(), postscript(), and on-screen devices such as windows() on Windows and x11() on Linux.
+## 用法
+
+分为以下几步：
+
+- 载入字体
+- 打开绘图设备
+- 声明你想要使用showtext画文本图
+- 画图
+- 关闭画图设备
+
+> If you want to use showtext globally, you can call the function showtext_auto() once, and then all the devices after that will automatically use showtext to render text, as the example in the beginning shows.
+>
+> If you want to have finer control on which part of the code should use showtext, functions showtext_begin() and showtext_end() will help.
+## 载入字体
+
+载入字体是通过`sysfonts`包实现的。
+
+> The easy way to load font into showtext is by calling font.add(family, regular), where family is the name that you assign to that font (so that later you can call par(family = …) to use this font in plotting), and regular is the path to the font file. That is to say, only knowing the “font name” is not enough, since they are usually system dependent. On the contrary, font file is the entity that actually provides the character glyphs.
+因为一般系统字体放在标准目录下，所以我们can use font.paths() to check the current search path or add a new one, and use font.files() to list available font files in the search path.
+
+```
+font.paths()
+#> 'fond.paths()' is now renamed to 'font_paths()'
+#> The old version still works, but consider using the new function in future code
+#> [1] "/Library/Fonts"           "/Users/wsx/Library/Fonts"
+font.files()
+#> 'font.files()' is now renamed to 'font_files()'
+#> The old version still works, but consider using the new function in future code
+#>   [1] "Al Nile.ttc"                     "Al Tarikh.ttc"                  
+#>   [3] "AlBayan.ttc"                     "AmericanTypewriter.ttc"         
+#>   [5] "Andale Mono.ttf"                 "Apple Chancery.ttf"             
+#>   [7] "AppleGothic.ttf"                 "AppleMyungjo.ttf"               
+#>   [9] "Arial Black.ttf"                 "Arial Bold Italic.ttf"          
+#>  [11] "Arial Bold.ttf"                  "Arial Italic.ttf"               
+#>  [13] "Arial Narrow Bold Italic.ttf"    "Arial Narrow Bold.ttf"          
+#>  [15] "Arial Narrow Italic.ttf"         "Arial Narrow.ttf"               
+#>  [17] "Arial Rounded Bold.ttf"          "Arial Unicode.ttf"              
+#>  [19] "Arial.ttf"                       "Athelas.ttc"                    
+#>  [21] "Ayuthaya.ttf"                    "Baghdad.ttc"                    
+#>  [23] "Bangla MN.ttc"                   "Bangla Sangam MN.ttc"           
+#>  [25] "Baskerville.ttc"                 "Beirut.ttc"                     
+#>  [27] "BigCaslon.ttf"                   "Bodoni 72 OS.ttc"               
+#>  [29] "Bodoni 72 Smallcaps Book.ttf"    "Bodoni 72.ttc"                  
+#>  [31] "Bodoni Ornaments.ttf"            "Bradley Hand Bold.ttf"          
+#>  [33] "Brush Script.ttf"                "Chalkboard.ttc"                 
+#>  [35] "ChalkboardSE.ttc"                "Chalkduster.ttf"                
+#>  [37] "Charter.ttc"                     "Cochin.ttc"                     
+#>  [39] "Comic Sans MS Bold.ttf"          "Comic Sans MS.ttf"              
+#>  [41] "Copperplate.ttc"                 "Corsiva.ttc"                    
+#>  [43] "Courier New Bold Italic.ttf"     "Courier New Bold.ttf"           
+#>  [45] "Courier New Italic.ttf"          "Courier New.ttf"                
+#>  [47] "Damascus.ttc"                    "DecoTypeNaskh.ttc"              
+#>  [49] "Devanagari Sangam MN.ttc"        "DevanagariMT.ttc"               
+#>  [51] "Didot.ttc"                       "DIN Alternate Bold.ttf"         
+#>  [53] "DIN Condensed Bold.ttf"          "Diwan Kufi.ttc"                 
+#>  [55] "Diwan Thuluth.ttf"               "EuphemiaCAS.ttc"                
+#>  [57] "Farah.ttc"                       "Farisi.ttf"                     
+#>  [59] "Futura.ttc"                      "Georgia Bold Italic.ttf"        
+#>  [61] "Georgia Bold.ttf"                "Georgia Italic.ttf"             
+#>  [63] "Georgia.ttf"                     "GillSans.ttc"                   
+#>  [65] "Gujarati Sangam MN.ttc"          "GujaratiMT.ttc"                 
+#>  [67] "Gurmukhi MN.ttc"                 "Gurmukhi Sangam MN.ttc"         
+#>  [69] "Gurmukhi.ttf"                    "Herculanum.ttf"                 
+#>  [71] "Hoefler Text Ornaments.ttf"      "Hoefler Text.ttc"               
+#>  [73] "Impact.ttf"                      "InaiMathi-MN.ttc"               
+#>  [75] "Iowan Old Style.ttc"             "ITFDevanagari.ttc"              
+#>  [77] "Kailasa.ttc"                     "Kannada MN.ttc"                 
+#>  [79] "Kannada Sangam MN.ttc"           "Kefa.ttc"                       
+#>  [81] "Khmer MN.ttc"                    "Khmer Sangam MN.ttf"            
+#>  [83] "Kokonor.ttf"                     "Krungthep.ttf"                  
+#>  [85] "KufiStandardGK.ttc"              "Lao MN.ttc"                     
+#>  [87] "Lao Sangam MN.ttf"               "Luminari.ttf"                   
+#>  [89] "Malayalam MN.ttc"                "Malayalam Sangam MN.ttc"        
+#>  [91] "Marion.ttc"                      "Microsoft Sans Serif.ttf"       
+#>  [93] "Mishafi Gold.ttf"                "Mishafi.ttf"                    
+#>  [95] "Mshtakan.ttc"                    "Muna.ttc"                       
+#>  [97] "Myanmar MN.ttc"                  "Myanmar Sangam MN.ttc"          
+#>  [99] "Nadeem.ttc"                      "NewPeninimMT.ttc"               
+#> [101] "NISC18030.ttf"                   "Oriya MN.ttc"                   
+#> [103] "Oriya Sangam MN.ttc"             "Papyrus.ttc"                    
+#> [105] "Phosphate.ttc"                   "PlantagenetCherokee.ttf"        
+#> [107] "PTMono.ttc"                      "PTSans.ttc"                     
+#> [109] "PTSerif.ttc"                     "PTSerifCaption.ttc"             
+#> [111] "Raanana.ttc"                     "Rockwell.ttc"                   
+#> [113] "Sana.ttc"                        "Sathu.ttf"                      
+#> [115] "Savoye LET.ttc"                  "Seravek.ttc"                    
+#> [117] "Shree714.ttc"                    "SignPainter.ttc"                
+#> [119] "Silom.ttf"                       "Sinhala MN.ttc"                 
+#> [121] "Sinhala Sangam MN.ttc"           "Skia.ttf"                       
+#> [123] "SnellRoundhand.ttc"              "Songti.ttc"                     
+#> [125] "STIXGeneral.otf"                 "STIXGeneralBol.otf"             
+#> [127] "STIXGeneralBolIta.otf"           "STIXGeneralItalic.otf"          
+#> [129] "STIXIntDBol.otf"                 "STIXIntDReg.otf"                
+#> [131] "STIXIntSmBol.otf"                "STIXIntSmReg.otf"               
+#> [133] "STIXIntUpBol.otf"                "STIXIntUpDBol.otf"              
+#> [135] "STIXIntUpDReg.otf"               "STIXIntUpReg.otf"               
+#> [137] "STIXIntUpSmBol.otf"              "STIXIntUpSmReg.otf"             
+#> [139] "STIXNonUni.otf"                  "STIXNonUniBol.otf"              
+#> [141] "STIXNonUniBolIta.otf"            "STIXNonUniIta.otf"              
+#> [143] "STIXSizFiveSymReg.otf"           "STIXSizFourSymBol.otf"          
+#> [145] "STIXSizFourSymReg.otf"           "STIXSizOneSymBol.otf"           
+#> [147] "STIXSizOneSymReg.otf"            "STIXSizThreeSymBol.otf"         
+#> [149] "STIXSizThreeSymReg.otf"          "STIXSizTwoSymBol.otf"           
+#> [151] "STIXSizTwoSymReg.otf"            "STIXVar.otf"                    
+#> [153] "STIXVarBol.otf"                  "SukhumvitSet.ttc"               
+#> [155] "SuperClarendon.ttc"              "Tahoma Bold.ttf"                
+#> [157] "Tahoma.ttf"                      "Tamil MN.ttc"                   
+#> [159] "Tamil Sangam MN.ttc"             "Telugu MN.ttc"                  
+#> [161] "Telugu Sangam MN.ttc"            "Times New Roman Bold Italic.ttf"
+#> [163] "Times New Roman Bold.ttf"        "Times New Roman Italic.ttf"     
+#> [165] "Times New Roman.ttf"             "Trattatello.ttf"                
+#> [167] "Trebuchet MS Bold Italic.ttf"    "Trebuchet MS Bold.ttf"          
+#> [169] "Trebuchet MS Italic.ttf"         "Trebuchet MS.ttf"               
+#> [171] "Verdana Bold Italic.ttf"         "Verdana Bold.ttf"               
+#> [173] "Verdana Italic.ttf"              "Verdana.ttf"                    
+#> [175] "Waseem.ttc"                      "Webdings.ttf"                   
+#> [177] "Wingdings 2.ttf"                 "Wingdings 3.ttf"                
+#> [179] "Wingdings.ttf"                   "Zapfino.ttf"
+```
+
+> At present font.add() supports TrueType fonts(*.ttf/*.ttc) and OpenType fonts(*.otf), and adding new font type is trivial as long as FreeType supports it.
+> Note that showtext includes an open source CJK font WenQuanYi Micro Hei. If you just want to show CJK text in your graph, you do not need to add any extra font at all.
+注意，there are many free fonts available and accessible on the web, for instance the Google Fonts project (<https://www.google.com/fonts>). sysfonts provides an interface to automatically download and register those fonts through the function font_add_google(), as the example below shows.
+```
+library(showtext)
+font_add_google("Lobster", "lobster")
+showtext_auto()
+plot(1, pch = 16, cex = 3)
+text(1, 1.1, "A fancy dot", family = "lobster", col = "steelblue", cex = 3)
+```
+![](https://camo.githubusercontent.com/1e6395c1c823f231e12c517d4d8bb32b15735193/687474703a2f2f692e696d6775722e636f6d2f704f38374c46792e706e67)
+更多例子和用法查看说明文档<https://github.com/yixuan/showtext>
+------
+从使用上看，我更喜欢这个包~

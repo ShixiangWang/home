@@ -1,0 +1,1078 @@
+---
+title: "R-数据操作"
+author: 王诗翔
+date: 2018-08-25
+slug: "r-hight-level-data-operation"
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, dev = "png", comment = "#>")
+#Sys.setlocale('LC_ALL','C') # Embed this directly in the Rmarkdown script that contains the Chinese character comment
+options(digits=3)
+options(max.print=200)
+library(tidyverse)
+```
+
+>本文内容：
+>
+> * 基础函数操作数据框
+> * sqldf包使用SQL查询数据框
+> * data.table包操作数据
+> * dplyr管道操作处理数据
+> * rlist包处理嵌套数据结构
+## 使用内置函数操作数据框
+
+**数据框的本质是一个由向量构成的列表**，由于列长度相同，所以可以当做矩阵进行访问和操作。比如选择满足特定条件的行，使用`[]`符号，第一个参数提供一个逻辑向量，第二个参数留空。
+
+本文大部分的代码都是基于一组产品的虚拟数据。我们先将数据载入，然后学习怎么用不同的方法操作数据。
+
+```{r}
+if(!require(readr)) install.packages("readr")
+product_info = read_csv("../../R/dataset/product-info.csv")
+product_info
+```
+
+当数据以数据框的形式载入内存后，我们可以使用下面的代码查看每一列的类型：
+
+```{r}
+sapply(product_info, class)
+```
+
+
+注意`read_csv`函数载入的数据框与内置函数`read.csv`函数是不同的，主要体现在不会将字符串转换为因子变量，当然前者的速度要快得多。
+
+接下来我们正式学习用R内置的函数操作数据框进行分析和统计的一些方法。
+
+### 内置函数操作数据框
+
+选取`type`为`toy`的行：
+
+```{r}
+product_info[product_info$type == "toy", ]
+```
+
+或选取`released`为`no`的行：
+
+```{r}
+product_info[product_info$released == "no", ]
+```
+
+**对列进行筛选**需要将第1个参数留空，给第2个参数提供字符向量。
+
+```{r}
+product_info[, c("id", "name", "type")]
+```
+
+行列筛选也是可以的，我们只要组合前面的两种情况即可。
+
+```{r}
+product_info[product_info$type == "toy", c("name", "class", "released")]
+```
+
+内置函数`subset()`可以简化取子集操作的过程：
+
+```{r}
+subset(product_info,
+       subset = type == "model" & released == "yes",
+       select = name:class)
+```
+
+使用`with()`函数在数据框的语义中计算表达式，即可以直接使用数据框的列名，而不必重复指定数据框：
+
+```{r}
+with(product_info, name[released == "no"])
+```
+
+除了构建子集，表达式还可以用来统计每列各个可能值出现的频数。
+
+```{r}
+with(product_info, table(type[released == "yes"]))
+```
+
+除了产品信息表，还有一张产品属性的统计表：
+
+```{r}
+product_stats = read_csv("../../R/dataset/product-stats.csv")
+product_stats
+```
+
+**如果现在要获取尺寸最大的前3个产品的名字该怎么办？**
+
+一种方法是将`product_stats`按尺寸降序排列，选择前3个记录的id，然后用id值筛选`product_info`的行：
+
+```{r}
+top3_id = unlist(product_stats[order(product_stats$size, decreasing = TRUE), "id"])[1:3]
+product_info[product_info$id %in% top3_id, ]
+```
+
+我们用比较冗长的方式完成了任务。但仔细在想想，两个数据框是通过`id`连接到一起的，我们可以把它们合并到一起，然后执行提取操作：
+
+```{r}
+product_table = merge(product_info, product_stats, by = "id")
+product_table
+```
+
+现在通过合并的数据框，我们可以根据任意一列排序数据框，而不需要处理其他的表格数据：
+
+```{r}
+product_table[order(product_table$size), ]
+```
+
+前面的问题我们也可以利用合并的数据框加以解决：
+
+```{r}
+product_table[order(product_table$size, decreasing = TRUE), "name"][1:3]
+```
+
+有时候我们需要生成新数据框来对原始数据基础上进行调整和处理，从而避免破坏原始数据。`transform()`函数可以帮助我们完成这类任务，例如：
+
+```{r}
+transform(product_table,
+          released = ifelse(released == "yes", TRUE, FALSE),
+          density = weight / size)
+```
+
+前面数据中我们看到有一些缺失值（用`NA`表示），很多时候我们不希望数据出现任何缺失值，因此需要某种办法处理它们。为了演示处理的方法，我们再载入一张包含缺失值的表，包含每件产品的质量、耐久性、防水性的测试结果。
+
+```{r}
+product_tests = read_csv("../../R/dataset/product-tests.csv")
+product_tests
+```
+
+`na.omit()`可以删除所有包含缺失值的行：
+
+```{r}
+na.omit(product_tests)
+```
+
+另外，函数`complete.cases()`可以返回逻辑向量，表明某行是否完整。
+
+```{r}
+complete.cases(product_tests)
+```
+
+利用该函数可以筛选数据框，比如获得不含缺失值的`id`值：
+
+```{r}
+product_tests[complete.cases(product_tests), "id"]
+```
+
+前面给出的3个表格有共同的`id`列，可惜R里面内置函数只能一次合并2个数据框：
+
+```{r}
+product_full = merge(product_table, product_tests, by = "id")
+product_full
+```
+
+对完全合并好的表格，我们利用`tapply()`函数（`apply`家族成员）可以进行统计，该函数专门用于处理表格数据，使用某些方法根据某列队另一列的数据进行统计。
+
+例如根据type列计算quality列的均值：
+
+```{r}
+mean_quality1 = tapply(product_full$quality,
+                       list(product_full$type),
+                       mean, na.rm=TRUE)
+mean_quality1
+```
+
+返回的结果看起来是个数值向量，我们使用`str()`看看：
+
+```{r}
+str(mean_quality1)
+```
+
+**实际上，这是个一维数组**：
+
+```{r}
+is.array(mean_quality1)
+```
+
+`tapply()`返回的是一个数组，而不是简单的数值向量，因此可以方便地计算多组操作。
+
+例如计算每一对`type`和`class`组合的`quality`均值：
+
+```{r}
+mean_quality2 = tapply(product_full$quality,
+                       list(product_full$type, product_full$class),
+                       mean, na.rm = TRUE)
+mean_quality2
+```
+
+对于二维数组，我们可以使用两个参数来获取其中的值：
+
+```{r}
+typeof(mean_quality2)
+class(mean_quality2)
+mean_quality2["model", "vehicle"]
+```
+
+同理我们可以根据多列分组，使用`with()`可以避免反复输入`product_full`：
+
+```{r}
+mean_quality3 = with(product_full,
+                     tapply(quality, list(type, material, released),
+                            mean, na.rm = TRUE))
+mean_quality3
+```
+
+使用3个参数可以获取单元格中的值：
+
+```{r}
+mean_quality3["model", "Wood", "yes"]
+```
+
+### reshape2重塑数据框
+
+前面我们学习了如何筛选、排序、合并和汇总数据框，有时候我们需要做些更复杂的操作。
+
+例如下面数据包含两种产品不同日期的质量和耐久性的测试结果：
+
+```{r}
+toy_tests = read_csv("../../R/dataset/product-toy-tests.csv")
+toy_tests
+```
+
+如果需要同时比较两种产品的质量和耐久性，这种格式就比较麻烦，如果是下面的格式就好了：
+
+```
+date    T01 T02
+20160201    9   9
+2016    10  9
+```
+
+`reshape2`包就是用来搞定这种任务的，如果没有安装，运行下面代码：
+
+```{r, eval=FALSE}
+install.packages("reshape2")
+```
+
+
+安装成功后，我们就可以使用`dcast()`来转换数据，用于比较：
+
+```{r}
+library(reshape2)
+toy_quality = dcast(toy_tests, date ~ id, value.var = "quality")
+toy_quality
+```
+
+上述代码重塑了`toy_tests`让`date`列被共享，`id`值被单独分割为列，每个`date`与`id`对应的值是`quality`。
+
+可以看到数据中存在缺失值，有一种叫**末次观测值结转法（LOCF）**可以填补缺失值，当非缺失值后面紧跟一个缺失值时，就用该缺失值填补后面的缺失值，直到所有缺失值都被填满。`zoo`包提供了LOCF的一个实现，使用下面代码安装：
+
+```{r, eval = FALSE}
+install.packages("zoo")
+```
+
+下面用一组简单的向量演示：
+
+```{r}
+library(zoo)
+na.locf(c(1, 2, NA, NA, 3, 1, NA, 2, NA))
+```
+
+
+同样的方法我们可以应用于现在处理的数据：
+
+```{r}
+na.locf(toy_quality$T01)
+```
+
+如果需要填补的数据很多，包含上千个产品，更好的做法是使用`lapply`进行自动分配：
+
+```{r}
+toy_quality[-1] = lapply(toy_quality[-1], na.locf )
+toy_quality
+```
+
+这里数据虽然已经没有了缺失值，但每一行数据的含义却发生了变化。原始数据中产品T01在20160303这天并没有测试，所以这一天的值应该被解释为在此之前的最后一次quality的测试值。另一个问题是两种产品都是按月测试的，但重塑后的数据框没有以固定的频率对其date。
+
+下面方法进问题进行修正。
+
+```{r}
+toy_tests$ym = substr(toy_tests$date, 1, 6)
+toy_tests
+```
+
+我们只提取年月信息，然后利用它进行重塑。
+
+```{r}
+toy_quality = dcast(toy_tests, ym ~ id, value.var = "quality")
+toy_quality
+```
+
+现在，两种产品每月的质量得分自然地展示出来，而且每月缺失值。
+
+有时候，我们需要将**许多列合并为1列**，用于表示被测量的对象，另外用1列存储对应的结果值。下面用`melt()`函数将原始数据两种测量组合到一起：
+
+```{r}
+toy_tests2 = melt(toy_tests, id.vars = c("id", "ym"), 
+                  measure.vars = c("quality", "durability"),
+                  variable.name = "measure")
+toy_tests2
+```
+
+这种格式正是`ggplot2`所喜爱的长格式数据，我们可以来画图：
+
+```{r}
+library(ggplot2)
+ggplot(toy_tests2, aes(x = ym, y = value)) + 
+    geom_point() + 
+    facet_grid(id ~ measure)
+```
+
+我们得到了按照产品id和measure分组，以ym为x轴，以value为y轴的散点图，可以清晰对比分组后两种产品质量差异（以年月）。
+
+我们还可以用不同的颜色来表示产品，下图可以给出与上图相同的信息：
+
+```{r}
+ggplot(toy_tests2, aes(x = ym, y = value, color = id)) + 
+    geom_point() + facet_grid(. ~ measure)
+```
+
+
+## 通过sqldf包使用SQL查询数据框
+
+有没有一种方法，能够直接使用SQL进行数据框查询，就像数据框是关系型数据库中的表一样呢？`sqldf`包给出肯定答案。该包吸收了SQLite轻量结构和易于嵌入R会话的优点，可以用下面代码安装：
+
+```{r, eval=FALSE}
+install.packages("sqldf")
+```
+
+首先加载包：
+
+```{r}
+library(sqldf)
+```
+
+注意加载`sqldf`包时，几个依赖包会自动加载进来。**`sql`包的实现依赖这些包，它基本上是在R和SQLite之间传输数据和转换数据类型**。
+
+读入前面使用的产品表格：
+
+```{r}
+product_info = read_csv("../../R/dataset/product-info.csv")
+product_stats = read_csv("../../R/dataset/product-stats.csv")
+product_tests = read_csv("../../R/dataset/product-tests.csv")
+toy_tests = read_csv("../../R/dataset/product-toy-tests.csv")
+```
+
+`sqldf`包的神奇之处在于我们可以使用SQL语句查询工作环境中的数据框，例如：
+
+```{r}
+sqldf("select * from product_info")
+```
+
+sqldf与SQLite一样，支持简单的选择性请求。
+
+比如选择特定列：
+
+```{r}
+sqldf("select id, name, class from product_info")
+```
+
+根据条件筛选记录：
+
+```{r}
+sqldf("select id, name from product_info where released = 'yes' ")
+```
+
+除了基本的数据库操作和分组统计，该包还支持查询多个数据框，比如：
+
+```{r}
+sqldf("select * from product_info join product_stats using (id)")
+```
+
+
+不过sqldf包的缺点也很明显：
+
+1. sqldf默认基于SQLite，因此SQLite的局限性就是该包的局限性，比如内置的分组汇总函数是有限的，而R本身的统计汇总函数要多得多
+2. 不方便动态编程
+3. SQL的限制性也限制了该包，我们难以像操作dplyr包一样用sqldf进行表格数据的操作、变换等等
+
+> 如果你喜欢这个包并想用起来，阅读sqldf更多操作例子：<https://github.com/ggrothendieck/sqldf#examples>
+## 使用data.table包操作数据
+
+**`data.table`包提供了一个加强版的`data.frame`，它运行效率极高，而且能够处理适合内存的大数据集，它使用`[]`实现了一种自然地数据操作语法**。使用下面命令进行安装：
+
+```{r, eval=FALSE}
+install.packages("data.table")
+```
+
+
+载入包：
+
+```{r}
+library(data.table)
+```
+
+注意，`data.table`包提供了加强版的`dcast()`和`melt()`，它们的功能更强大、性能更高，内存使用也更高效。
+
+创建`data.table`与创建`data.frame`类似：
+
+```{r}
+dt = data.table(x = 1:3, y = rnorm(3), z = letters[1:3])
+dt
+```
+
+检查它的结构：
+
+```{r}
+str(dt)
+```
+
+可以看到，`dt`的类是`data.table`和`data.frame`，也就是说`data.table`继承了`data.frame`的一些行为，但增强了其他部分。
+
+**`data.table`的基本语法是`dt[i, j, by]，简单说就是使用`i`选择行，用`by`分组，然后计算`j`**。接下来我们看看`data.table`继承了什么，增强了什么。
+
+首先，我们仍然载入之前用到的产品数据，不过这里我们使用`data.table`包提供的`fread()`函数，它非常高效和智能，默认返回`data.table`。
+
+```{r}
+product_info = fread("../../R/dataset/product-info.csv")
+product_stats = fread("../../R/dataset/product-stats.csv")
+product_tests = fread("../../R/dataset/product-tests.csv")
+toy_tests = fread("../../R/dataset/product-toy-tests.csv")
+```
+
+
+
+如果查看表格信息，你会发现它和`data.frame`没什么两样：
+
+```{r}
+product_info
+```
+
+再看结构：
+
+```{r}
+str(product_info)
+```
+
+与`data.frame`不同，如果只提供一个参数用来构建子集，`data.table`是选择行而不是列：
+
+```{r}
+product_info[1]
+product_info[1:3]
+```
+
+如果提供的是负数，那么将删除指定的行：
+
+```{r}
+product_info[-1]
+```
+
+**data.table提供了许多特殊符号，它们是data.table的重要组成**。`.N`是最常用的符号之一，它表示当前分组中，对象的数目（就不用调用`nrow`函数啦）。在`[]`使用它指提取最后一行。
+
+```{r}
+product_info[.N]
+```
+
+
+```{r}
+product_info[c(1, .N)]
+```
+
+在对`data.table`构建子集时，能够自动根据语义计算表达式，因此可以直接使用列名，像`with()`和`subset()`那样。
+
+比如：
+
+```{r}
+product_info[released == "yes"]
+```
+
+方括号内的第1个参数是行筛选器，第2个则对筛选后的数据进行适当的计算。
+
+例如提取列：
+
+```{r}
+product_info[released == "yes", id]
+```
+
+在这里使用`"id"`结果不同，返回的必然是个data.table。
+
+```{r}
+product_info[released == "yes", "id"]
+```
+
+第二个参数可以是表达式，例如生成一张表，反应每种`type`和`class`组合中`released`取`yes`的数量：
+
+```{r}
+product_info[released == "yes", table(type, class)]
+```
+
+**要注意，给第2个参数提供`list()`，结果仍然转换为`data.table`**：
+
+```{r}
+product_info[released == "yes", list(id, name)]
+```
+
+我们可以替换原有列，生成新的data.table：
+
+```{r}
+product_info[, list(id, name, released = released == "yes")]
+```
+
+还可以创建新列：
+
+```{r}
+product_stats[, list(id, material, size, weight, density = size/weight)]
+```
+
+**为了简化，data.table使用`.()`作为`list()`的缩写，这两者等价**：
+
+```{r}
+product_info[, .(id, name, type, class)]
+product_info[released == "yes", .(id, name)]
+```
+
+提供排序索引可以对记录排序：
+
+```{r}
+product_stats[order(size, decreasing = TRUE)]
+```
+
+**前面都是在构建子集后，又创建新的data.table**。这样挺麻烦的，因此`data.table`包提供了对列进行原地赋值的符号`:=`，例如`product_stats`开始是这样的：
+
+```{r}
+product_stats
+```
+
+使用`:=`直接在上面数据框创建新列：
+
+```{r}
+product_stats[, density := size / weight]
+```
+
+虽然没有任何返回，但数据已经被修改了：
+
+```{r}
+product_stats
+```
+
+使用`:=`替换已有的列：
+
+```{r}
+product_info[, released := released == "yes"]
+product_info
+```
+
+### 使用键获取值
+
+**索引支持**是data.table另一个独特功能，即我们可以创建键（key），使用键获取记录及其高效。
+
+例如，使用`setkey()`将`id`设置为`product_info`中的一个键：
+
+```{r}
+setkey(product_info, id)
+```
+
+同样的，函数无任何返回，但我们已经为原始数据设置了键，而且原来的数据看起来也没变化：
+
+```{r}
+product_info
+```
+
+但键已生成：
+
+```{r}
+key(product_info)
+```
+
+现在我们可以用它来获取数据了，比如提供一个id值：
+
+```{r}
+product_info["M01"]
+```
+
+也可以使用`setkeyv()`来设置键，但它只接受字符向量：
+
+```{r}
+setkeyv(product_stats, "id")
+```
+
+**当`key`是一个动态变化的向量时，这个函数会非常好用**。
+
+```{r}
+product_stats["M02"]
+```
+
+如果两个表格有相同的键，我们可以轻松把他们连接到一起：
+
+```{r}
+product_info[product_stats]
+```
+
+**data.table的键可以不止一个**。例如使用`id`和`date`定位`toy_tests`中的记录：
+
+```{r}
+setkey(toy_tests, id, date)
+```
+
+现在提供key中的两个元素就可以获取记录了
+
+```{r}
+toy_tests[.("T01", 20160201)]
+```
+
+如果提供第一个元素，会返回匹配的多个值：
+
+```{r}
+toy_tests["T01"]
+```
+
+key不能错序，因此不能单独提供第2个元素以及反序排列。
+
+```{r, error=TRUE}
+toy_tests[20160201]
+toy_tests[.(20160202,"T01")]
+```
+
+
+### 对数据进行分组汇总
+
+`by`是data.table中另一个重要参数（即方括号内的第3个参数），它可以将数据按照`by`值进行分组，并对分组计算第2个参数。
+
+接下来，我们学习如何通过by以简便的方式实现数据的分组汇总。
+
+最简单的用法是计算每组的记录条数：
+
+```{r}
+product_info[, .N, by = released]
+```
+
+
+分组的变量可以不止一个，例如由`type`和`class`确定一个分组：
+
+```{r}
+product_info[, .N, by = .(type, class)]
+```
+
+可以对每个分组进行统计计算，这里计算防水和非防水产品的质量得分均值：
+
+```{r}
+product_tests[, mean(quality, na.rm = TRUE), by = .(waterproof)]
+```
+
+可以看到结果存储在V1列中，我们可以手动指定列名：
+
+```{r}
+product_tests[, .(mean_quality = mean(quality, na.rm = TRUE)), by = .(waterproof)]
+```
+
+注意操作需要�放在`list`中进行（`.()`）。
+
+我们可以将多个[]按顺序连接起来，形成工作流（类似管道` %>% `）。
+
+下面的例子中，首先使用通用键id将product_info和product_tests连接起来，然后筛选已发布的产品，再按type和class进行分组，最后计算每组的quality和durability的均值。
+
+```{r}
+type_class_test0 = product_info[product_tests][released == TRUE,
+                                               .(mean_quality = mean(quality, na.rm=TRUE),
+                                                 mean_durability = mean(durability, na.rm=TRUE)),
+                                               by = .(type, class)]
+type_class_test0
+```
+
+
+在返回的data.table中，by所对应的组合中的值是唯一的，虽然实现了目标，但结果中没有设置键：
+
+```{r}
+key(type_class_test0)
+```
+
+**这种情况下，我们可以使用keyby来确保结果的data.table自动将keyby对应的分组向量设置为键**。一般data.table会保持原来的顺序返回，有时候我们想要设定排序，keyby也可以实现，所以是一举两得：
+
+```{r}
+type_class_test = product_info[product_tests][released == TRUE, 
+                                              .(mean_quality = mean(quality, na.rm = TRUE),
+                                                mean_durability = mean(durability, na.rm = TRUE)),
+                                              keyby = .(type, class)]
+type_class_test
+```
+
+```{r}
+key(type_class_test)
+```
+
+下面可以直接用键来获取值：
+
+```{r}
+type_class_test[.("model", "vehicle"), mean_quality]
+```
+
+**对大数据集使用键进行搜索，能够比迭代使用逻辑比较快得多，因为键搜索利用了二进制搜索，而迭代在不必要的计算上浪费了时间**。
+
+下面举例说明，首先创建有1000万行的数据，其中一列是索引列id，其他两列是随机数：
+
+```{r}
+n = 10000000
+test1 = data.frame(id = 1:n, x = rnorm(n), y = rnorm(n))
+```
+
+现在查找id为876543的行，看要花多少时间：
+
+```{r}
+system.time(row <- test1[test1$id == 876543, ])
+```
+
+作为对比，我们使用`data.table`来完成这个任务，使用`setDT()`将数据框转换为`data.table`，该函数可以原地转换，不需要复制，并可以设定键。
+
+```{r}
+setDT(test1, key = "id")
+class(test1)
+```
+
+现在我们搜索相同的元素：
+
+```{r}
+system.time(row <- test1[.(876543)])
+```
+
+结果一致，但data.table用的时间要少得多。
+
+### 重塑data.table
+
+data.table扩展包为data.table对象提供了更强更快得`dcast()`和`melt()`函数。
+
+例如将toy_tests的每个产品质量得分按照年和月进行对齐
+
+```{r}
+toy_tests[, ym := substr(date, 1, 6)]
+toy_quality = dcast(toy_tests, ym ~ id, value.var = "quality")
+toy_quality
+```
+
+`data.table::dcast()`提供了更强大的多变量支持：
+
+```{r}
+toy_tests2 = data.table::dcast(toy_tests, ym ~ id, value.var = c("quality", "durability"))
+toy_tests2
+```
+
+看到没，data.table可以自动将id值与质量分类连接起来。
+
+此时`ym`是键：
+
+```{r}
+key(toy_tests2)
+```
+
+我们可以利用它提取数据：
+
+```{r}
+toy_tests2["201602"]
+```
+
+### 使用原地设置函数
+
+我们知道R存在复制修改机制，这在进行大数据计算时开销很大，`data.table`提供了一系列支持语义的`set`函数，它们可以原地修改data.table，因此避免不必要的复制。
+
+仍以`product_stats`为例，我们可以使用`setDF()`函数不要任何复制就可以将data.table变成data.frame。
+
+```{r}
+product_stats
+setDF(product_stats)
+class(product_stats)
+```
+
+`setDT()`可以将任意的data.frame转换为data.table，并设置键。
+
+```{r}
+setDT(product_stats, key = "id")
+class(product_stats)
+```
+
+使用`setnames()`可以对列重命名：
+
+```{r}
+setnames(product_stats, "size", "volume")
+product_stats
+```
+
+如果给行添加索引，使用：
+
+```{r}
+product_stats[, i := .I]
+product_stats
+```
+
+为方便，索引一般在第1列，所以我们要修改列的顺序：
+
+```{r}
+setcolorder(product_stats, c("i", "id", "material", "weight", "volume", "density"))
+product_stats
+```
+
+### data.table的动态作用域
+
+我们不仅可以直接使用列，也可以提前定义注入`.N`、`.I`和`.SD`来指代数据中的重要部分。
+
+为演示，我们先创建新的data.table，命名为`market_data`，其中date列是连续的。
+
+```{r}
+market_data = data.table(date = as.Date("2015-05-01") + 0:299)
+head(market_data)
+```
+
+向调用函数一样，我们给data.table添加数据列：
+
+```{r}
+set.seed(123)
+market_data[, `:=`(
+    price = round(30 * cumprod(1 + rnorm(300, 0.001, 0.05)), 2),
+    volume = rbinom(300, 5000, 0.8)
+)]
+```
+
+
+注意这里的price和volumn都是服从正态分布的随机数：
+
+```{r}
+head(market_data)
+```
+
+我们以图形的方式展示数据：
+
+```{r}
+plot(price ~ date, data = market_data,
+     type = "l",
+     main = "Market data")
+```
+
+数据准备好后，我们看看动态作用域如何让事情变得简单。
+
+看下时间范围：
+
+```{r}
+market_data[, range(date)]
+```
+
+将数据整合缩减为月度数据：
+
+```{r}
+monthly = market_data[,
+                      .(open = price[[1]], high = max(price),
+                        low = min(price), close = price[[.N]]),
+                      keyby = .(year = year(date), month = month(date))]
+head(monthly)
+```
+
+计算过程为：**先根据by表达式将原始数据分割，分割后的每个部分都是原始数据的一个子集，并且原始数据和子集都是data.table。然后在每个子集data.table的语义中计算j表达式**。
+
+下面代码没有按组聚合数据，而是画了每年的价格图：
+
+```{r, eval=FALSE}
+oldpar = par(mfrow = c(1, 2))
+market_data[, {
+    plot(price ~ date, type = "l",
+         main = sprintf("Market data (%d)", year))
+}, by = .(year = year(date))]
+par(oldpar)
+```
+
+这里我们没有为`plot()`设定data参数，图像也成功绘制，这是因为该操作是在data.table的语义中进行的。
+
+此外,j表达式还可以用于构建模型的代码，下面是一个批量拟合线性模型的例子。这里使用`diamonds`数据集。
+
+
+```{r}
+data("diamonds", package = "ggplot2")
+setDT(diamonds)
+head(diamonds)
+```
+
+该数据集包含超过5万条钻石信息的记录，每条记录了钻石的10个属性，现在我们队cut列中的每种切割类型都你拟合一个线性回归模型，由此观察每种切割类型中carat与depth是如何反映log(price)的信息。
+
+```{r}
+diamonds[, {
+    m = lm(log(price) ~ carat + depth)
+    as.list(coef(m))
+}, keyby = .(cut)]
+```
+
+**动态作用域允许我们组合使用data.table内部或外部预定义的符号**。举例，我们定义一个函数，计算market_data中由用户定义的列的年度均值：
+
+```{r}
+average = function(column){
+    market_data[, .(average = mean(.SD[[column]])),
+                by = .(year = year(date))]
+}
+```
+
+这里我们使用`.SD[[x]]`提取x列的值，这跟通过名字从列表中提取成分或元素相同。
+
+下面计算每年的平均价格：
+
+```{r}
+average("price")
+```
+
+每年平均数量：
+
+```{r}
+average("volume")
+```
+
+我们可以利用此包专门的语法创造一个列数动态变化的组合，并且组合中的列是由动态变化的名称决定的。
+
+这里我们假设添加额外的3列数据，每一列都是原始价格加了随机噪声生成的。不用重复调用`market_date[, price1 := ...]`，而是使用`market_data[, (columns) := list(...)]`来动态设定列，其中`columns`是一个包含列名的字符向量，`list(...)`是每个列对应的值：
+
+```{r}
+price_cols = paste0("price", 1:3)
+market_data[, (price_cols) := lapply(1:3,
+                                     function(i) round(price + rnorm(.N, 0, 5), 2))]
+head(market_data)
+```
+
+另一方面，如果表格有很多列，并且需要对它们的子集进行一些计算，也可以用类似的语法来解决。
+
+举例，我们现在需要对每个价格列调用`na.locf()`以去掉缺失值，先获取所有的价格列：
+
+```{r}
+cols = colnames(market_data)
+price_cols = cols[grep("^price", cols)]
+price_cols
+```
+
+然后我们用类似的语法，并添加一个参数`.SDcols = price_cols`，这是为了让`.SD`中的列只是我们想要的那些价格列。
+
+```{r}
+market_data[, (price_cols) := lapply(.SD, zoo::na.locf), .SDcols =  price_cols]
+head(market_data)
+```
+
+最后，更多操作请前往<https://github.com/Rdatatable/data.table/wiki>查看完整功能列表。
+
+## 使用dplyr操作数据框
+
+关于dplyr的基本操作我已经写过很多笔记了，不再赘述，想学习的读者请参阅下面几篇文章，这部分我只挑没接触过的学习下。
+
+* [r<-基础|分析】初学者学习tidyverse](https://www.jianshu.com/p/f3c21a5ad10a)
+* [【r<-数据分析】使用dplyr（1）：介绍与filter操作](https://www.jianshu.com/p/94faed25ff7a)及后续
+* 高级操作：[【r<-高级|dplyr】dplyr编程，quote与unquote](https://www.jianshu.com/p/5eca388205d4)
+
+与`data.table`类似，`dplyr`也提供了`do()`函数来对每组数据进行任意操作。
+
+例如将`diamonds`按`cut`分组，每组都按`log(price) ~ carat`拟合一个线性模型。和`data.table`不同的是，我们需要为操作指定一个名称，以便将结果存储在列中。而且`do()`表达式不能直接在分组数据的语义下计算 ，我们需要使用`.`来表示数据。
+
+```{r}
+data("diamonds", package = "ggplot2")
+models = diamonds %>% 
+    group_by(cut) %>% 
+    do(lmod = lm(log(price) ~ carat, data = .))
+models
+```
+
+注意结果创建了一个新列，该列不是典型的原子向量，每个元素都是模型的结果，包含线性回归对象的列表。我们可以通过索引来提取模型结果：
+
+```{r}
+models$lmod[[1]]
+```
+
+**在需要完成高度定制的操作时，`do()`的优势非常明显**。下面举例。
+
+**假如我们需要分析`toy_tests`数据，要对每种产品的质量和耐久性进行汇总。如果只需要样本数最多的3个测试记录，并且每个产品的质量和耐久性是经样本数加权的平均数**，下面是做法。
+
+```{r}
+toy_tests %>% 
+    group_by(id) %>% 
+    arrange(desc(sample)) %>% 
+    do(head(., 3)) %>% 
+    summarise(
+        quality = sum(quality * sample) / sum(sample),
+        durability = sum(durability * sample) / sum(sample)
+    )
+```
+
+为了查看中间结果，可以运行`do()`之前的代码：
+
+```{r}
+toy_tests %>% 
+    group_by(id) %>% 
+    arrange(desc(sample))
+```
+
+## 使用rlist包处理嵌套数据结构
+
+在R中，最常见的嵌套数据结构是列表对象，之前关注的都是操作表格数据，这部分我们一起玩转**`rlist`包，它是针对非表格数据设计的包**。
+
+`rlist`的设计与`dplyr`非常相似，它提供了针对列表对象的映射、筛选、选择、排序和聚合功能。
+
+安装：
+
+```{r, eval=FALSE}
+install.packages("rlist")
+```
+
+载入：
+
+```{r}
+library(rlist)
+```
+
+
+**为了把数据以列表形式载入R，我们需要用`jsonlite::fromJSON()`或者直接使用`rlist`提供的`list.load()`函数**（这里我找不到原作者的数据文件，所以自己谷歌找了类似的学习下）：
+
+```{r}
+products = list.load("../../R/dataset/products.json")
+```
+
+`products`的每个成分都包含产品所有信息，使用`list.map()`可以在每个成分的语义中计算表达式：
+
+```{r}
+str(list.map(products, id))
+```
+
+`list.mapv()`简化这个列表，返回一个向量：
+
+```{r}
+list.mapv(products, name)
+```
+
+为了对products进行筛选，我们可以使用`list.filter()`，只有所有条件都为`TRUE`的`products`元素才会被返回：
+
+
+```{r}
+liveTRUE = list.filter(products, livemode = TRUE)
+list.mapv(liveTRUE, name)
+```
+
+注意，`rlist`的设计与`dplyr`函数非常类似，我们可以利用管道符号将数据往下传递：
+
+```{r}
+products %>% 
+    list.filter(livemode = TRUE) %>% 
+    list.mapv(name)
+```
+
+使用`list.select`可以筛选字段以及创建新的字段：
+
+```{r}
+products %>% 
+    list.filter(livemode = TRUE) %>% 
+    list.select(id, name, caption) %>% 
+    str()
+```
+
+创建新字段：
+
+```{r}
+products %>% 
+    list.filter(livemode = TRUE) %>% 
+    list.select(id, name, caption) %>% 
+    list.select(connect = paste(id, name, sep = "-")) %>% 
+    str()
+```
+
+用`list.sort()`函数，可以按照指定字段或值对列表元素进行排序，再用`list.stack()`将所有元素变成数据框：
+
+```{r}
+products %>% 
+    list.filter(livemode = TRUE) %>% 
+    list.select(id, name, caption) %>% 
+    list.sort(id) %>% 
+    list.stack()
+```
+
+除此之外，`list.group()`函数可以用指定变量字段值对元素分组，`list.table()`提供了一个加强版的`table()`用于处理嵌套列表的表格处理。
+
+更多`rlist`函数，请阅读`rlist`教程（<https://renkun.me/rlist-tutorial>），另外`purrr`是基于其他理念处理嵌套数据结构的包，有兴趣可以看看。

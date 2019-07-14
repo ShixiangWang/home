@@ -1,0 +1,244 @@
+---
+title: "使用purrr和broom处理多个模型"
+author: 王诗翔
+date: 2018-10-15
+slug: "purrr-and-broom"
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, dev = "png", comment = "#>")
+#Sys.setlocale('LC_ALL','C') # Embed this directly in the Rmarkdown script that contains the Chinese character comment
+options(digits=3)
+options(max.print=200)
+```
+
+> 整理自《R for data science》
+本文介绍3种方法用于处理大量模型。
+
+* 使用多个简单模型更好地理解复杂数据集。
+* 使用列表列在数据框中保存任意数据结构。
+* 使用broom包将模型转换为整洁数据。
+
+
+## 准备工作
+
+```{r}
+library(modelr)
+library(tidyverse)
+```
+
+## 列表列
+
+**列表列是隐式定义在数据框中的：数据框是由相同长度的向量组成的命名列表。一个列表就是一个向量（嵌套向量），因此完全可以将列表作为数据框的一列**。但在R基础包中创建列表列是非常困难的，且data.frame()函数时将列表作为列的列表来处理的：
+
+```{r}
+data.frame(x = list(1:3, 3:5))
+```
+
+要想不这样处理，可以使用I()函数，但输出结果难以解释：
+
+```{r}
+data.frame(
+    x = I(list(1:3, 3:5)),
+    y = c("1, 2", "3, 4, 5")
+)
+```
+
+tibble更懒惰一些，它不会修改输入，但更容易创建列表列，输出的内容也非常容易理解：
+
+```{r}
+tibble(
+    x = list(1:3, 3:5),
+    y = c("1, 2", "3, 4, 5")
+)
+```
+
+使用tribble()函数则更容易，它可以自动识别：
+
+```{r}
+tribble(
+    ~x, ~y,
+    1:3, "1, 2",
+    3:5, "3, 4, 5"
+    
+)
+```
+
+**列表列的最大用处是作为一种中间数据结构**。想要直接处理列表列比较困难，因为多数R函数都只处理原子向量或数据框。但列表列可以将相关条目统一保存在一个数据框中，光这一点就值得我们学习它。
+
+## 创建列表列
+
+一般我们会使用下面3种方式创建列表列。
+
+* 使用tidyr::nest()函数将分组数据转换为嵌套数据框，嵌套数据框中会包含列表列。
+* 使用mutate()函数以及能够返回列表的向量化函数
+* 使用summarize()函数以及能够返回多个结果的摘要函数
+
+### 使用嵌套
+
+nest()函数有两种使用方式。
+
+一是当用于分组数据时，nest()函数会保留用于分组的列，而其他所有数据归并到列表中。
+
+二是可以在未分组的数据上使用nest()函数，此时需要指定嵌套哪些列。
+
+### 使用向量化函数
+
+一些常用函数接受一个原子向量并返回一个列表。例如stringr::str_split()函数接受一个字符向量，并返回字符向量的一个列表。如果在mutate()中使用该函数，就会得到列表列。
+
+```{r}
+df = tribble(
+    ~x1,
+    "a,b,c",
+    "d,e,f,g"
+)
+df %>% 
+    mutate(x2 = stringr::str_split(x1, ","))
+```
+
+unnest()函数知道如何处理这些向量列表。
+
+```{r}
+df %>% 
+    mutate(x2 = stringr::str_split(x1, ",")) %>% 
+    unnest()
+```
+
+另一个示例是使用purrr包中的map()、map2()以及pmap()函数。
+
+```{r}
+sim = tribble(
+    ~f, ~params,
+    "runif", list(min = -1, max = -1),
+    "rnorm", list(sd = 5),
+    "rpois", list(lambda = 10)
+)
+sim %>% 
+    mutate(sims = invoke_map(f, params, n = 10))
+```
+
+### 使用多值摘要
+
+summarize()函数的一个局限性是，只能使用返回单一值的摘要函数。这意味着我们不能使用像quantile()这样的函数，因为它会返回任意长度的向量：
+
+```{r, error=TRUE}
+mtcars %>% 
+    group_by(cyl) %>% 
+    summarize(q = quantile(mpg))
+```
+
+然而，我们可以将结果包装在一个列表中！这样操作的画，返回的结果就是长度为1的列表（向量）了。
+
+```{r}
+mtcars %>% 
+    group_by(cyl) %>% 
+    summarise(q = list(quantile(mpg)))
+```
+
+想要unnest()函数的结果更可用，添加一个概览列：
+
+```{r}
+probs = c(0.01, 0.25, 0.5, 0.75, 0.99)
+mtcars %>% 
+    group_by(cyl) %>% 
+    summarise(p = list(probs), q = list(quantile(mpg, probs))) %>% 
+    unnest()
+```
+
+### 使用命名列表
+
+带有列表列的数据框可以解决一种常见问题：**如何同时对列表的元素及元素的内容进行迭代**？相对于将所有元素内容塞进一个对象，更容易的方法是创建一个数据框：一列包含元素名称，另一列包含元素中的列表内容。我们可以使用`enframe()`函数实现该数据框。
+
+```{r}
+x = list(
+    a = 1:5,
+    b = 3:4,
+    c = 5:6
+)
+df = enframe(x)
+df
+```
+
+如果想对名称和值进行列表，使用map2()函数。
+
+```{r}
+df %>% 
+    mutate(
+        smry = map2_chr(
+            name,
+            value,
+            ~ stringr::str_c(.x, ": ", .y[1])
+        )
+    )
+```
+
+## 简化列表列
+
+* 如果想得到单个值，就使用mutate()以及map_lgl()、map_int()、map_dbl()和map_chr()函数来创建一个原子向量。
+* 如果想得到多个值，就使用unnest()函数将列表列还原为普通列，这样可以按需要将行执行多次重复
+
+### 列表转换为向量
+
+如果可以将列表缩减为一个原子向量，那么这个原子向量就可以作为普通列。
+
+```{r}
+df = tribble(
+    ~x,
+    letters[1:5],
+    1:3,
+    runif(5)
+)
+df %>% mutate(
+    type = map_chr(x, typeof),
+    length = map_int(x, length)
+)
+```
+
+我们还可以使用map_*快捷方式，例如使用map_chr(x, "apple")从x的每个元素中提取apple中的内容，如果元素存在缺失值，可以使用.null参数提供一个返回值（不是返回NULL）：
+
+```{r}
+df = tribble(
+    ~x,
+    list(a=1, b=2),
+    list(a=2, c=4)
+)
+df %>% 
+    mutate(a = map_dbl(x, "a"),
+           b = map_dbl(x, "b", .null = NA_real_))
+```
+
+### 嵌套还原
+
+unnest()函数将列表列中的每个元素都重复一次为普通列。例如下面的例子第1行重复了4次，而第2行只重复1次：
+
+```{r}
+tibble(x = 1:2, y = list(1:4, 1)) %>% unnest(y)
+```
+
+注意，每行中数据框的行数都要相同，这样才能同时还原多个列表列。
+
+```{r, error=T}
+df2 = tribble(
+    ~x, ~y, ~z,
+    1, "a", 1:2,
+    2, c("b", "c"), 3
+)
+df2
+df2 %>% unnest(y, z)
+```
+
+## 使用broom生成整洁数据
+
+broom包提供了3种常用工具，用于将模型转换为整洁数据框。
+
+* glance(model) 为每个模型返回一行数据，其中每一列都是模型的一个摘要统计量：要么是模型质量的度量方式，要么是模型复杂度，又或者是两者的结合。
+* tidy(model) 为模型的每个系数返回一行数据，每一列都是系数的估计值或变异指标。
+* augment(model, data) 返回data中的每一行，但会添加一些额外信息，如残差以及其他一些有影响的统计量
+
+大部分的模型broom都支持，所以十分有用。
+
+```{r}
+md = lm(mpg ~ cyl, data = mtcars)
+broom::glance(md)
+```

@@ -1,0 +1,292 @@
+---
+title: "Forest Plot（森林图）绘制"
+author: 王诗翔
+date: 2018-09-10
+slug: "use-forestplot"
+---
+
+
+
+<p>森林图常见于元分析，但其使用绝不仅如此，比如我现在想要研究的对象有诸多HR结果，我想要汇总为一张图，森林图就是个非常好的选择。<code>ggpubr</code>包提供的森林图是针对变量分析绘图，我也尝试使用了<code>metafor</code>包的<code>forest</code>画图函数，但太灵活了，我除了感觉文档画的不错，但实际使用却很难得到想要的结果。</p>
+<p>谷歌了一下，找到了<code>forestplot</code>这个包，下面根据<a href="https://cran.r-project.org/web/packages/forestplot/vignettes/forestplot.html">文档</a>学习一波。</p>
+<p>安装：</p>
+<pre class="r"><code>install.packages(&quot;forestplot&quot;)</code></pre>
+<div class="section level2">
+<h2>文本</h2>
+<p>森林图可以与文本连接起来并自定义。</p>
+<div class="section level3">
+<h3>文本表</h3>
+<p>下面是一个使用文本表的例子：</p>
+<pre class="r"><code>library(forestplot)
+#&gt; 载入需要的程辑包：grid
+#&gt; 载入需要的程辑包：magrittr
+#&gt; 载入需要的程辑包：checkmate
+# Cochrane data from the &#39;rmeta&#39;-package
+cochrane_from_rmeta &lt;- 
+  structure(list(
+    mean  = c(NA, NA, 0.578, 0.165, 0.246, 0.700, 0.348, 0.139, 1.017, NA, 0.531), 
+    lower = c(NA, NA, 0.372, 0.018, 0.072, 0.333, 0.083, 0.016, 0.365, NA, 0.386),
+    upper = c(NA, NA, 0.898, 1.517, 0.833, 1.474, 1.455, 1.209, 2.831, NA, 0.731)),
+    .Names = c(&quot;mean&quot;, &quot;lower&quot;, &quot;upper&quot;), 
+    row.names = c(NA, -11L), 
+    class = &quot;data.frame&quot;)
+tabletext&lt;-cbind(
+  c(&quot;&quot;, &quot;Study&quot;, &quot;Auckland&quot;, &quot;Block&quot;, 
+    &quot;Doran&quot;, &quot;Gamsu&quot;, &quot;Morrison&quot;, &quot;Papageorgiou&quot;, 
+    &quot;Tauesch&quot;, NA, &quot;Summary&quot;),
+  c(&quot;Deaths&quot;, &quot;(steroid)&quot;, &quot;36&quot;, &quot;1&quot;, 
+    &quot;4&quot;, &quot;14&quot;, &quot;3&quot;, &quot;1&quot;, 
+    &quot;8&quot;, NA, NA),
+  c(&quot;Deaths&quot;, &quot;(placebo)&quot;, &quot;60&quot;, &quot;5&quot;, 
+    &quot;11&quot;, &quot;20&quot;, &quot;7&quot;, &quot;7&quot;, 
+    &quot;10&quot;, NA, NA),
+  c(&quot;&quot;, &quot;OR&quot;, &quot;0.58&quot;, &quot;0.16&quot;, 
+    &quot;0.25&quot;, &quot;0.70&quot;, &quot;0.35&quot;, &quot;0.14&quot;, 
+    &quot;1.02&quot;, NA, &quot;0.53&quot;))
+forestplot(tabletext, 
+           cochrane_from_rmeta,new_page = TRUE,
+           is.summary=c(TRUE,TRUE,rep(FALSE,8),TRUE),
+           clip=c(0.1,2.5), 
+           xlog=TRUE, 
+           col=fpColors(box=&quot;royalblue&quot;,line=&quot;darkblue&quot;, summary=&quot;royalblue&quot;))</code></pre>
+<p><img src="/cn/post/2019-07-14-forestplot-usage_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+</div>
+<div class="section level3">
+<h3>汇总线</h3>
+<p>在上面基础进行增改：</p>
+<pre class="r"><code>forestplot(tabletext, 
+           hrzl_lines = gpar(col=&quot;#444444&quot;),
+           cochrane_from_rmeta,new_page = TRUE,
+           is.summary=c(TRUE,TRUE,rep(FALSE,8),TRUE),
+           clip=c(0.1,2.5), 
+           xlog=TRUE,
+           col=fpColors(box=&quot;royalblue&quot;,line=&quot;darkblue&quot;, summary=&quot;royalblue&quot;))</code></pre>
+<p><img src="/cn/post/2019-07-14-forestplot-usage_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>我们可以修改线条类型和它所影响的范围：</p>
+<pre class="r"><code>forestplot(tabletext, 
+           hrzl_lines = list(&quot;3&quot; = gpar(lty=2), 
+                             &quot;11&quot; = gpar(lwd=1, columns=1:4, col = &quot;#000044&quot;)),
+           cochrane_from_rmeta,new_page = TRUE,
+           is.summary=c(TRUE,TRUE,rep(FALSE,8),TRUE),
+           clip=c(0.1,2.5), 
+           xlog=TRUE,
+           col=fpColors(box=&quot;royalblue&quot;,line=&quot;darkblue&quot;, summary=&quot;royalblue&quot;, hrz_lines = &quot;#444444&quot;))</code></pre>
+<p><img src="/cn/post/2019-07-14-forestplot-usage_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>为端点增加垂线：</p>
+<pre class="r"><code>forestplot(tabletext, 
+           hrzl_lines = list(&quot;3&quot; = gpar(lty=2), 
+                             &quot;11&quot; = gpar(lwd=1, columns=1:4, col = &quot;#000044&quot;)),
+           cochrane_from_rmeta,new_page = TRUE,
+           is.summary=c(TRUE,TRUE,rep(FALSE,8),TRUE),
+           clip=c(0.1,2.5), 
+           xlog=TRUE,
+           col=fpColors(box=&quot;royalblue&quot;,line=&quot;darkblue&quot;, summary=&quot;royalblue&quot;, hrz_lines = &quot;#444444&quot;),
+           vertices = TRUE)</code></pre>
+<p><img src="/cn/post/2019-07-14-forestplot-usage_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+<div class="section level3">
+<h3>调整图元素的位置</h3>
+<pre class="r"><code>forestplot(tabletext, 
+           graph.pos = 4,
+           hrzl_lines = list(&quot;3&quot; = gpar(lty=2), 
+                             &quot;11&quot; = gpar(lwd=1, columns=c(1:3,5), col = &quot;#000044&quot;),
+                             &quot;12&quot; = gpar(lwd=1, lty=2, columns=c(1:3,5), col = &quot;#000044&quot;)),
+           cochrane_from_rmeta,new_page = TRUE,
+           is.summary=c(TRUE,TRUE,rep(FALSE,8),TRUE),
+           clip=c(0.1,2.5), 
+           xlog=TRUE,
+           col=fpColors(box=&quot;royalblue&quot;,line=&quot;darkblue&quot;, summary=&quot;royalblue&quot;, hrz_lines = &quot;#444444&quot;))</code></pre>
+<p><img src="/cn/post/2019-07-14-forestplot-usage_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+</div>
+<div class="section level3">
+<h3>使用表达式</h3>
+<pre class="r"><code>data(HRQoL)
+clrs &lt;- fpColors(box=&quot;royalblue&quot;,line=&quot;darkblue&quot;, summary=&quot;royalblue&quot;)
+tabletext &lt;- 
+  list(c(NA, rownames(HRQoL$Sweden)),
+       append(list(expression(beta)), sprintf(&quot;%.2f&quot;, HRQoL$Sweden[,&quot;coef&quot;])))
+forestplot(tabletext, 
+           rbind(rep(NA, 3), 
+                 HRQoL$Sweden),
+           col=clrs,
+           xlab=&quot;EQ-5D index&quot;)</code></pre>
+<p><img src="/cn/post/2019-07-14-forestplot-usage_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+</div>
+<div class="section level3">
+<h3>更改字体</h3>
+<pre class="r"><code>tabletext &lt;- cbind(rownames(HRQoL$Sweden),
+                   sprintf(&quot;%.2f&quot;, HRQoL$Sweden[,&quot;coef&quot;]))
+forestplot(tabletext, 
+           txt_gp = fpTxtGp(label = gpar(fontfamily = &quot;HersheyScript&quot;)),
+           rbind(HRQoL$Sweden),
+           col=clrs,
+           xlab=&quot;EQ-5D index&quot;)</code></pre>
+<p><img src="/cn/post/2019-07-14-forestplot-usage_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>还可以更改风格：</p>
+<pre class="r"><code>forestplot(tabletext, 
+           txt_gp = fpTxtGp(label = list(gpar(fontfamily = &quot;HersheyScript&quot;),
+                                         gpar(fontfamily = &quot;&quot;,
+                                              col = &quot;#660000&quot;)),
+                            ticks = gpar(fontfamily = &quot;&quot;, cex=1),
+                            xlab  = gpar(fontfamily = &quot;HersheySerif&quot;, cex = 1.5)),
+           rbind(HRQoL$Sweden),
+           col=clrs,
+           xlab=&quot;EQ-5D index&quot;)</code></pre>
+<p><img src="/cn/post/2019-07-14-forestplot-usage_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+</div>
+</div>
+<div class="section level2">
+<h2>置信区间</h2>
+<p>简单的，给超出范围的区间加箭头（clip）：</p>
+<pre class="r"><code>forestplot(tabletext, 
+           rbind(HRQoL$Sweden),
+           clip =c(-.1, Inf),
+           col=clrs,
+           xlab=&quot;EQ-5D index&quot;)</code></pre>
+<p><img src="/cn/post/2019-07-14-forestplot-usage_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<div class="section level3">
+<h3>多个置信区间范围</h3>
+<p>这在对比时非常有用：</p>
+<pre class="r"><code>tabletext &lt;- tabletext[,1]
+forestplot(tabletext, 
+           mean = cbind(HRQoL$Sweden[, &quot;coef&quot;], HRQoL$Denmark[, &quot;coef&quot;]),
+           lower = cbind(HRQoL$Sweden[, &quot;lower&quot;], HRQoL$Denmark[, &quot;lower&quot;]),
+           upper = cbind(HRQoL$Sweden[, &quot;upper&quot;], HRQoL$Denmark[, &quot;upper&quot;]),
+           clip =c(-.1, 0.075),
+           col=fpColors(box=c(&quot;blue&quot;, &quot;darkred&quot;)),
+           xlab=&quot;EQ-5D index&quot;)</code></pre>
+<p><img src="/cn/post/2019-07-14-forestplot-usage_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+</div>
+<div class="section level3">
+<h3>评估显示器</h3>
+<p>可以用方块、圆圈等：</p>
+<pre class="r"><code>forestplot(tabletext, 
+            fn.ci_norm = c(fpDrawNormalCI, fpDrawCircleCI),
+            boxsize = .25, # We set the box size to better visualize the type
+            line.margin = .1, # We need to add this to avoid crowding
+            mean = cbind(HRQoL$Sweden[, &quot;coef&quot;], HRQoL$Denmark[, &quot;coef&quot;]),
+            lower = cbind(HRQoL$Sweden[, &quot;lower&quot;], HRQoL$Denmark[, &quot;lower&quot;]),
+            upper = cbind(HRQoL$Sweden[, &quot;upper&quot;], HRQoL$Denmark[, &quot;upper&quot;]),
+            clip =c(-.125, 0.075),
+            col=fpColors(box=c(&quot;blue&quot;, &quot;darkred&quot;)),
+            xlab=&quot;EQ-5D index&quot;)</code></pre>
+<p><img src="/cn/post/2019-07-14-forestplot-usage_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+</div>
+<div class="section level3">
+<h3>选择线型</h3>
+<pre class="r"><code>forestplot(tabletext, 
+            fn.ci_norm = c(fpDrawNormalCI, fpDrawCircleCI),
+            boxsize = .25, # We set the box size to better visualize the type
+            line.margin = .1, # We need to add this to avoid crowding
+            mean = cbind(HRQoL$Sweden[, &quot;coef&quot;], HRQoL$Denmark[, &quot;coef&quot;]),
+            lower = cbind(HRQoL$Sweden[, &quot;lower&quot;], HRQoL$Denmark[, &quot;lower&quot;]),
+            upper = cbind(HRQoL$Sweden[, &quot;upper&quot;], HRQoL$Denmark[, &quot;upper&quot;]),
+            clip =c(-.125, 0.075),
+            lty.ci = c(1, 2),
+            col=fpColors(box=c(&quot;blue&quot;, &quot;darkred&quot;)),
+            xlab=&quot;EQ-5D index&quot;)</code></pre>
+<p><img src="/cn/post/2019-07-14-forestplot-usage_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+</div>
+</div>
+<div class="section level2">
+<h2>图例</h2>
+<p>添加一个基本图例：</p>
+<pre class="r"><code>forestplot(tabletext, 
+           legend = c(&quot;Sweden&quot;, &quot;Denmark&quot;),
+           fn.ci_norm = c(fpDrawNormalCI, fpDrawCircleCI),
+           boxsize = .25, # We set the box size to better visualize the type
+           line.margin = .1, # We need to add this to avoid crowding
+           mean = cbind(HRQoL$Sweden[, &quot;coef&quot;], HRQoL$Denmark[, &quot;coef&quot;]),
+           lower = cbind(HRQoL$Sweden[, &quot;lower&quot;], HRQoL$Denmark[, &quot;lower&quot;]),
+           upper = cbind(HRQoL$Sweden[, &quot;upper&quot;], HRQoL$Denmark[, &quot;upper&quot;]),
+           clip =c(-.125, 0.075),
+           col=fpColors(box=c(&quot;blue&quot;, &quot;darkred&quot;)),
+           xlab=&quot;EQ-5D index&quot;)</code></pre>
+<p><img src="/cn/post/2019-07-14-forestplot-usage_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p>通过设定参数可以进一步自定义：</p>
+<pre class="r"><code>forestplot(tabletext, 
+           legend_args = fpLegend(pos = list(x=.85, y=0.25), 
+                                  gp=gpar(col=&quot;#CCCCCC&quot;, fill=&quot;#F9F9F9&quot;)),
+           legend = c(&quot;Sweden&quot;, &quot;Denmark&quot;),
+           fn.ci_norm = c(fpDrawNormalCI, fpDrawCircleCI),
+           boxsize = .25, # We set the box size to better visualize the type
+           line.margin = .1, # We need to add this to avoid crowding
+           mean = cbind(HRQoL$Sweden[, &quot;coef&quot;], HRQoL$Denmark[, &quot;coef&quot;]),
+           lower = cbind(HRQoL$Sweden[, &quot;lower&quot;], HRQoL$Denmark[, &quot;lower&quot;]),
+           upper = cbind(HRQoL$Sweden[, &quot;upper&quot;], HRQoL$Denmark[, &quot;upper&quot;]),
+           clip =c(-.125, 0.075),
+           col=fpColors(box=c(&quot;blue&quot;, &quot;darkred&quot;)),
+           xlab=&quot;EQ-5D index&quot;)</code></pre>
+<p><img src="/cn/post/2019-07-14-forestplot-usage_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+</div>
+<div class="section level2">
+<h2>刻度和网格</h2>
+<p>我们可以手动设定想要的刻度</p>
+<pre class="r"><code>forestplot(tabletext, 
+           legend = c(&quot;Sweden&quot;, &quot;Denmark&quot;),
+           fn.ci_norm = c(fpDrawNormalCI, fpDrawCircleCI),
+           boxsize = .25, # We set the box size to better visualize the type
+           line.margin = .1, # We need to add this to avoid crowding
+           mean = cbind(HRQoL$Sweden[, &quot;coef&quot;], HRQoL$Denmark[, &quot;coef&quot;]),
+           lower = cbind(HRQoL$Sweden[, &quot;lower&quot;], HRQoL$Denmark[, &quot;lower&quot;]),
+           upper = cbind(HRQoL$Sweden[, &quot;upper&quot;], HRQoL$Denmark[, &quot;upper&quot;]),
+           clip =c(-.125, 0.075),
+           col=fpColors(box=c(&quot;blue&quot;, &quot;darkred&quot;)),
+           xticks = c(-.1, -0.05, 0, .05),
+           xlab=&quot;EQ-5D index&quot;)</code></pre>
+<p><img src="/cn/post/2019-07-14-forestplot-usage_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p>我们可以给想要的刻度加标签：</p>
+<pre class="r"><code>xticks &lt;- seq(from = -.1, to = .05, by = 0.025)
+xtlab &lt;- rep(c(TRUE, FALSE), length.out = length(xticks))
+attr(xticks, &quot;labels&quot;) &lt;- xtlab
+forestplot(tabletext, 
+           legend = c(&quot;Sweden&quot;, &quot;Denmark&quot;),
+           fn.ci_norm = c(fpDrawNormalCI, fpDrawCircleCI),
+           boxsize = .25, # We set the box size to better visualize the type
+           line.margin = .1, # We need to add this to avoid crowding
+           mean = cbind(HRQoL$Sweden[, &quot;coef&quot;], HRQoL$Denmark[, &quot;coef&quot;]),
+           lower = cbind(HRQoL$Sweden[, &quot;lower&quot;], HRQoL$Denmark[, &quot;lower&quot;]),
+           upper = cbind(HRQoL$Sweden[, &quot;upper&quot;], HRQoL$Denmark[, &quot;upper&quot;]),
+           clip =c(-.125, 0.075),
+           col=fpColors(box=c(&quot;blue&quot;, &quot;darkred&quot;)),
+           xticks = xticks,
+           xlab=&quot;EQ-5D index&quot;)</code></pre>
+<p><img src="/cn/post/2019-07-14-forestplot-usage_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p>如果图形太高我们可能还需要增加辅助线以显示对应的刻度：</p>
+<pre class="r"><code>forestplot(tabletext, 
+           legend = c(&quot;Sweden&quot;, &quot;Denmark&quot;),
+           fn.ci_norm = c(fpDrawNormalCI, fpDrawCircleCI),
+           boxsize = .25, # We set the box size to better visualize the type
+           line.margin = .1, # We need to add this to avoid crowding
+           mean = cbind(HRQoL$Sweden[, &quot;coef&quot;], HRQoL$Denmark[, &quot;coef&quot;]),
+           lower = cbind(HRQoL$Sweden[, &quot;lower&quot;], HRQoL$Denmark[, &quot;lower&quot;]),
+           upper = cbind(HRQoL$Sweden[, &quot;upper&quot;], HRQoL$Denmark[, &quot;upper&quot;]),
+           clip =c(-.125, 0.075),
+           col=fpColors(box=c(&quot;blue&quot;, &quot;darkred&quot;)),
+           grid = TRUE,
+           xticks = c(-.1, -0.05, 0, .05),
+           xlab=&quot;EQ-5D index&quot;)</code></pre>
+<p><img src="/cn/post/2019-07-14-forestplot-usage_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p>最后我们可以自定义想要的网格：</p>
+<pre class="r"><code>forestplot(tabletext, 
+           legend = c(&quot;Sweden&quot;, &quot;Denmark&quot;),
+           fn.ci_norm = c(fpDrawNormalCI, fpDrawCircleCI),
+           boxsize = .25, # We set the box size to better visualize the type
+           line.margin = .1, # We need to add this to avoid crowding
+           mean = cbind(HRQoL$Sweden[, &quot;coef&quot;], HRQoL$Denmark[, &quot;coef&quot;]),
+           lower = cbind(HRQoL$Sweden[, &quot;lower&quot;], HRQoL$Denmark[, &quot;lower&quot;]),
+           upper = cbind(HRQoL$Sweden[, &quot;upper&quot;], HRQoL$Denmark[, &quot;upper&quot;]),
+           clip =c(-.125, 0.075),
+           col=fpColors(box=c(&quot;blue&quot;, &quot;darkred&quot;)),
+           grid = structure(c(-.1, -.05, .05), 
+                            gp = gpar(lty = 2, col = &quot;#CCCCFF&quot;)), 
+           xlab=&quot;EQ-5D index&quot;)</code></pre>
+<p><img src="/cn/post/2019-07-14-forestplot-usage_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p>下面两种<code>structure</code>的书写方式是一致的：</p>
+<pre class="r"><code>grid_arg &lt;- c(-.1, -.05, .05) 
+attr(grid_arg, &quot;gp&quot;) &lt;- gpar(lty = 2, col = &quot;#CCCCFF&quot;)
+identical(grid_arg, 
+          structure(c(-.1, -.05, .05), 
+                    gp = gpar(lty = 2, col = &quot;#CCCCFF&quot;)))
+#&gt; [1] TRUE</code></pre>
+</div>

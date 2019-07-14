@@ -1,0 +1,188 @@
+---
+title: "高性能计算"
+author: 王诗翔
+date: 2018-08-29
+slug: "hpc-in-r"
+---
+
+
+
+<blockquote>
+<p>《R语言编程指南》
+## 代码性能</p>
+</blockquote>
+<p>简单看函数运行时间，用<code>system.time()</code>函数。</p>
+<p>高级点，使用<code>microbenchmark</code>包的<code>microbenchmark()</code>函数。</p>
+<p>例如：</p>
+<pre class="r"><code>library(microbenchmark)
+x = rnorm(10000)
+microbenchmark(x)
+#&gt; Unit: nanoseconds
+#&gt;  expr min lq mean median uq  max neval
+#&gt;     x  22 22 42.5     23 24 1881   100</code></pre>
+<p>给出了类似<code>summary()</code>函数结果的样子，默认计算100次。</p>
+<div class="section level2">
+<h2>代码性能分析</h2>
+<p>R提供了内置函数<code>Rprof()</code>对代码性能进行分析。</p>
+<p>使用方法：调用Rprof()开始分析，运行想分析的代码，然后调用Rprof(NULL)停止分析，最后调用summaryRprof()查看分析结果：</p>
+<pre class="r"><code>x = rnorm(10000)
+tmp = tempfile(fileext = &quot;.out&quot;)
+Rprof(tmp)
+for (i in 1:1000) {
+    cumsum(x)
+}
+Rprof(NULL)
+summaryRprof(tmp)
+#&gt; $by.self
+#&gt;          self.time self.pct total.time total.pct
+#&gt; &quot;cumsum&quot;      0.04      100       0.04       100
+#&gt; 
+#&gt; $by.total
+#&gt;                       total.time total.pct self.time self.pct
+#&gt; &quot;cumsum&quot;                    0.04       100      0.04      100
+#&gt; &quot;block_exec&quot;                0.04       100      0.00        0
+#&gt; &quot;call_block&quot;                0.04       100      0.00        0
+#&gt; &quot;eval.parent&quot;               0.04       100      0.00        0
+#&gt; &quot;eval&quot;                      0.04       100      0.00        0
+#&gt; &quot;evaluate_call&quot;             0.04       100      0.00        0
+#&gt; &quot;evaluate::evaluate&quot;        0.04       100      0.00        0
+#&gt; &quot;evaluate&quot;                  0.04       100      0.00        0
+#&gt; &quot;handle&quot;                    0.04       100      0.00        0
+#&gt; &quot;in_dir&quot;                    0.04       100      0.00        0
+#&gt; &quot;knitr::knit&quot;               0.04       100      0.00        0
+#&gt; &quot;local&quot;                     0.04       100      0.00        0
+#&gt; &quot;process_file&quot;              0.04       100      0.00        0
+#&gt; &quot;process_group.block&quot;       0.04       100      0.00        0
+#&gt; &quot;process_group&quot;             0.04       100      0.00        0
+#&gt; &quot;rmarkdown::render&quot;         0.04       100      0.00        0
+#&gt; &quot;timing_fn&quot;                 0.04       100      0.00        0
+#&gt; &quot;withCallingHandlers&quot;       0.04       100      0.00        0
+#&gt; &quot;withVisible&quot;               0.04       100      0.00        0
+#&gt; 
+#&gt; $sample.interval
+#&gt; [1] 0.02
+#&gt; 
+#&gt; $sampling.time
+#&gt; [1] 0.04</code></pre>
+<p>当<code>Rprof()</code>设定<code>line.profiling = TRUE</code>时，将改为分析代码行，而不是函数，这有利于分析复杂的计算过程。</p>
+<p>高级点，使用RStudio提供的<code>profvis()</code>，它是一个交互式可视化的工具。</p>
+<pre class="r"><code>install.packages(&quot;profvis&quot;)</code></pre>
+</div>
+<div class="section level2">
+<h2>提供代码性能</h2>
+<ul>
+<li>使用内置函数</li>
+<li>使用向量化</li>
+<li>使用字节码编译器，再写完函数后用<code>cmpfun()</code>函数编译它，然后再使用</li>
+<li>使用微软的多线程计算MRO</li>
+<li>使用并行计算</li>
+<li>使用Rcpp</li>
+</ul>
+<p>前两点不细讲了。</p>
+<div class="section level3">
+<h3>使用字节码编译器</h3>
+<p>如果不是R内置的函数，一般通过字节码进行编译后再使用会提升速度，这里说下流程：</p>
+<pre class="r"><code>#载入包
+library(compiler)
+#调用函数进行编译
+# 假设我们写了一个自定义的sum函数
+sum_cmp = cmpfun(sum)
+# 然后再使用sum_cmp函数</code></pre>
+</div>
+<div class="section level3">
+<h3>使用并行计算</h3>
+<p>由于不同的操作系统有不同的线程和线程模型的实现，因此某些功能在Linux和MacOS系统与Windows系统不同。</p>
+<p>我们先创建一个伪任务，以方便进行并行计算：</p>
+<pre class="r"><code>simulate = function(x) {
+    s = 0
+    for (i in x){
+        while(i &gt;= 1){
+            s = i * (i - 1)
+            i = i - 1
+        }
+    }
+    s
+}</code></pre>
+<pre class="r"><code>system.time(simulate(1:11000))
+#&gt;  用户  系统  流逝 
+#&gt; 4.418 0.041 4.464</code></pre>
+<div id="windows" class="section level4">
+<h4>在Windows下使用</h4>
+<p>Windows下需要先创建多个R会话的本地集群：</p>
+<pre class="r"><code>library(parallel)
+cl = makeCluster(detectCores())</code></pre>
+<p><code>detectCores()</code>返回我们计算机有的CPU核数目，然后调用<code>parLapply()</code>函数，它是并行版本的<code>lapply()</code>函数：</p>
+<pre class="r"><code>system.time(parLapply(cl, 1:11000, simulate))
+#&gt;  用户  系统  流逝 
+#&gt; 0.008 0.001 1.620</code></pre>
+<p>当我们不需要这个集群时，调用<code>stopCluster()</code>终止刚才创建的R会话。</p>
+<p><strong>注意，当我们使用这种方式进行并行计算时，创建了新的R会话，因此环境里没有用户定义的变量。如果有我们自己的数据，需要提前导入</strong>。</p>
+<p>使用<code>clusterExport()</code>可以将数据导入到集群，使用<code>clusterEvalQ()</code>可以在每个集群节点上计算表达式。</p>
+<p>或者使用<code>clusterCall()</code>和<code>&lt;&lt;-</code>在每个节点创建全局变量，而<code>&lt;-</code>创建局部变量。</p>
+<pre class="r"><code>stopCluster()
+#&gt; Error in defaultCluster(cl): no cluster &#39;cl&#39; supplied and none is registered</code></pre>
+</div>
+<div id="linuxmacos" class="section level4">
+<h4>Linux和MacOS使用并行计算</h4>
+<p>在这两个系统上使用并行计算要比Windows容易的多，<code>mclapply()</code>可直接将当期R会话分配到多个会话中，保留所有内容，并为每个子会话安排任务，并行运行：</p>
+<pre class="r"><code>system.time( mclapply(1:1100, simulate, mc.cores = detectCores()))
+#&gt;  用户  系统  流逝 
+#&gt; 0.112 0.080 0.046</code></pre>
+<p><strong>我们无需导出变量到集群中，因为在每个分配的进程中，它们是可以直接使用的</strong>。</p>
+<p>我们还可以用非常灵活的方式创建并行作业，例如创建一个生成10个随机数的作业：</p>
+<pre class="r"><code>job1 = mcparallel(rnorm(10), &quot;job1&quot;)</code></pre>
+<p>然后调用<code>mccollect()</code>函数收集作业结果：</p>
+<pre class="r"><code>mccollect(job1)
+#&gt; $`24761`
+#&gt;  [1] -0.90460  0.00624  0.42361  0.48112  1.23539 -0.30302 -0.13057
+#&gt;  [8]  0.92619 -0.01131 -0.76285</code></pre>
+<p>还可以通过编程创建并运行多项作业，例如我们创建8项作业，每个随机休眠一段时间：</p>
+<pre class="r"><code>jobs = lapply(1:8, function(i){
+    mcparallel({
+        t = rbinom(1, 5, 0.6)
+        Sys.sleep(t)
+        t
+    }, paste0(&quot;job&quot;, i))
+    
+})
+system.time(res &lt;- mccollect(jobs))
+#&gt;  用户  系统  流逝 
+#&gt; 0.014 0.023 3.771</code></pre>
+</div>
+</div>
+<div id="rcpp" class="section level3">
+<h3>使用Rcpp</h3>
+<p>并行计算只有在每次迭代都是独立的情况下才可行，这样最终结果才不会依赖运行顺序，然后并非所有的任务都像这样理想。另一种让算法更快的方式是使用Rcpp（<a href="http://www.rcpp.org" class="uri">http://www.rcpp.org</a>）。</p>
+<p><strong>Rcpp是一个扩展包，它使我们能够利用R和C++的无缝整合来编写C++代码。使用Rcpp可以编写C++代码，并且代码中还可以调用R函数，利用R数据结构的优势</strong>。</p>
+<blockquote>
+<p>使用Rcpp，先要使用正确的工具链，在Windows系统下使用Rtools，在Linux和MacOS下也需要安装正确的C/C++工具链。
+然后我们就安装<code>Rcpp</code>包：</p>
+</blockquote>
+<pre class="r"><code>install.packages(&quot;Rcpp&quot;)</code></pre>
+<p>先在Rcpp目录下创建一个C++源文件：</p>
+<pre class="r"><code>#include &lt;Rcpp.h&gt;
+usingnamespace Rcpp;
+// [[Rcpp::export]]
+NumericVector timesTwo (NumericVector x){
+    return x * 2;
+}</code></pre>
+<p>如果你不熟悉C++语法，可以通过<a href="http://www.learncpp.com" class="uri">http://www.learncpp.com</a>学习最简单的部分。</p>
+<p><strong>C++是强类型语言，需要指定函数参数的类型和函数返回的类型。使用<code>[[Rcpp::export]]</code>注释的函数会被Rcpp捕获，当在RStudio中执行一个脚本文件，或者直接使用<code>Rcpp::sourceCpp</code>，这些C++函数将被自动编译并移植到R的工作环境中</strong>。</p>
+<pre class="r"><code>Rcpp::sourceCpp(&quot;../../R/Rcpp/rcpp-demo.cpp&quot;)
+#&gt; Warning in normalizePath(dirname(file)): path[1]=&quot;../../R/Rcpp&quot;: No such
+#&gt; file or directory
+#&gt; Warning in normalizePath(file, winslash = &quot;/&quot;): path[1]=&quot;../../R/Rcpp/rcpp-
+#&gt; demo.cpp&quot;: No such file or directory
+#&gt; Error in Rcpp::sourceCpp(&quot;../../R/Rcpp/rcpp-demo.cpp&quot;): file not found: &#39;../../R/Rcpp/rcpp-demo.cpp&#39;
+timesTwo
+#&gt; Error in eval(expr, envir, enclos): 找不到对象&#39;timesTwo&#39;</code></pre>
+<blockquote>
+<p>Rcpp官网：<a href="http://www.rcpp.org/" class="uri">http://www.rcpp.org/</a>
+一些相关技术与包：</p>
+</blockquote>
+<ul>
+<li>OpenMP</li>
+<li>RcppParallel</li>
+</ul>
+</div>
+</div>

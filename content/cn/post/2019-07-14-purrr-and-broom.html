@@ -1,0 +1,290 @@
+---
+title: "使用purrr和broom处理多个模型"
+author: 王诗翔
+date: 2018-10-15
+slug: "purrr-and-broom"
+---
+
+
+
+<blockquote>
+<p>整理自《R for data science》
+本文介绍3种方法用于处理大量模型。</p>
+</blockquote>
+<ul>
+<li>使用多个简单模型更好地理解复杂数据集。</li>
+<li>使用列表列在数据框中保存任意数据结构。</li>
+<li>使用broom包将模型转换为整洁数据。</li>
+</ul>
+<div class="section level2">
+<h2>准备工作</h2>
+<pre class="r"><code>library(modelr)
+library(tidyverse)
+#&gt; ─ Attaching packages ──────────── tidyverse 1.2.1 ─
+#&gt; ✔ ggplot2 3.2.0     ✔ purrr   0.3.2
+#&gt; ✔ tibble  2.1.3     ✔ dplyr   0.8.1
+#&gt; ✔ tidyr   0.8.3     ✔ stringr 1.4.0
+#&gt; ✔ readr   1.3.1     ✔ forcats 0.4.0
+#&gt; ─ Conflicts ───────────── tidyverse_conflicts() ─
+#&gt; ✖ dplyr::filter() masks stats::filter()
+#&gt; ✖ dplyr::lag()    masks stats::lag()</code></pre>
+</div>
+<div class="section level2">
+<h2>列表列</h2>
+<p><strong>列表列是隐式定义在数据框中的：数据框是由相同长度的向量组成的命名列表。一个列表就是一个向量（嵌套向量），因此完全可以将列表作为数据框的一列</strong>。但在R基础包中创建列表列是非常困难的，且data.frame()函数时将列表作为列的列表来处理的：</p>
+<pre class="r"><code>data.frame(x = list(1:3, 3:5))
+#&gt;   x.1.3 x.3.5
+#&gt; 1     1     3
+#&gt; 2     2     4
+#&gt; 3     3     5</code></pre>
+<p>要想不这样处理，可以使用I()函数，但输出结果难以解释：</p>
+<pre class="r"><code>data.frame(
+    x = I(list(1:3, 3:5)),
+    y = c(&quot;1, 2&quot;, &quot;3, 4, 5&quot;)
+)
+#&gt;         x       y
+#&gt; 1 1, 2, 3    1, 2
+#&gt; 2 3, 4, 5 3, 4, 5</code></pre>
+<p>tibble更懒惰一些，它不会修改输入，但更容易创建列表列，输出的内容也非常容易理解：</p>
+<pre class="r"><code>tibble(
+    x = list(1:3, 3:5),
+    y = c(&quot;1, 2&quot;, &quot;3, 4, 5&quot;)
+)
+#&gt; # A tibble: 2 x 2
+#&gt;   x         y      
+#&gt;   &lt;list&gt;    &lt;chr&gt;  
+#&gt; 1 &lt;int [3]&gt; 1, 2   
+#&gt; 2 &lt;int [3]&gt; 3, 4, 5</code></pre>
+<p>使用tribble()函数则更容易，它可以自动识别：</p>
+<pre class="r"><code>tribble(
+    ~x, ~y,
+    1:3, &quot;1, 2&quot;,
+    3:5, &quot;3, 4, 5&quot;
+    
+)
+#&gt; # A tibble: 2 x 2
+#&gt;   x         y      
+#&gt;   &lt;list&gt;    &lt;chr&gt;  
+#&gt; 1 &lt;int [3]&gt; 1, 2   
+#&gt; 2 &lt;int [3]&gt; 3, 4, 5</code></pre>
+<p><strong>列表列的最大用处是作为一种中间数据结构</strong>。想要直接处理列表列比较困难，因为多数R函数都只处理原子向量或数据框。但列表列可以将相关条目统一保存在一个数据框中，光这一点就值得我们学习它。</p>
+</div>
+<div class="section level2">
+<h2>创建列表列</h2>
+<p>一般我们会使用下面3种方式创建列表列。</p>
+<ul>
+<li>使用tidyr::nest()函数将分组数据转换为嵌套数据框，嵌套数据框中会包含列表列。</li>
+<li>使用mutate()函数以及能够返回列表的向量化函数</li>
+<li>使用summarize()函数以及能够返回多个结果的摘要函数</li>
+</ul>
+<div class="section level3">
+<h3>使用嵌套</h3>
+<p>nest()函数有两种使用方式。</p>
+<p>一是当用于分组数据时，nest()函数会保留用于分组的列，而其他所有数据归并到列表中。</p>
+<p>二是可以在未分组的数据上使用nest()函数，此时需要指定嵌套哪些列。</p>
+</div>
+<div class="section level3">
+<h3>使用向量化函数</h3>
+<p>一些常用函数接受一个原子向量并返回一个列表。例如stringr::str_split()函数接受一个字符向量，并返回字符向量的一个列表。如果在mutate()中使用该函数，就会得到列表列。</p>
+<pre class="r"><code>df = tribble(
+    ~x1,
+    &quot;a,b,c&quot;,
+    &quot;d,e,f,g&quot;
+)
+df %&gt;% 
+    mutate(x2 = stringr::str_split(x1, &quot;,&quot;))
+#&gt; # A tibble: 2 x 2
+#&gt;   x1      x2       
+#&gt;   &lt;chr&gt;   &lt;list&gt;   
+#&gt; 1 a,b,c   &lt;chr [3]&gt;
+#&gt; 2 d,e,f,g &lt;chr [4]&gt;</code></pre>
+<p>unnest()函数知道如何处理这些向量列表。</p>
+<pre class="r"><code>df %&gt;% 
+    mutate(x2 = stringr::str_split(x1, &quot;,&quot;)) %&gt;% 
+    unnest()
+#&gt; # A tibble: 7 x 2
+#&gt;   x1      x2   
+#&gt;   &lt;chr&gt;   &lt;chr&gt;
+#&gt; 1 a,b,c   a    
+#&gt; 2 a,b,c   b    
+#&gt; 3 a,b,c   c    
+#&gt; 4 d,e,f,g d    
+#&gt; 5 d,e,f,g e    
+#&gt; 6 d,e,f,g f    
+#&gt; 7 d,e,f,g g</code></pre>
+<p>另一个示例是使用purrr包中的map()、map2()以及pmap()函数。</p>
+<pre class="r"><code>sim = tribble(
+    ~f, ~params,
+    &quot;runif&quot;, list(min = -1, max = -1),
+    &quot;rnorm&quot;, list(sd = 5),
+    &quot;rpois&quot;, list(lambda = 10)
+)
+sim %&gt;% 
+    mutate(sims = invoke_map(f, params, n = 10))
+#&gt; # A tibble: 3 x 3
+#&gt;   f     params     sims      
+#&gt;   &lt;chr&gt; &lt;list&gt;     &lt;list&gt;    
+#&gt; 1 runif &lt;list [2]&gt; &lt;dbl [10]&gt;
+#&gt; 2 rnorm &lt;list [1]&gt; &lt;dbl [10]&gt;
+#&gt; 3 rpois &lt;list [1]&gt; &lt;int [10]&gt;</code></pre>
+</div>
+<div class="section level3">
+<h3>使用多值摘要</h3>
+<p>summarize()函数的一个局限性是，只能使用返回单一值的摘要函数。这意味着我们不能使用像quantile()这样的函数，因为它会返回任意长度的向量：</p>
+<pre class="r"><code>mtcars %&gt;% 
+    group_by(cyl) %&gt;% 
+    summarize(q = quantile(mpg))
+#&gt; Error: Column `q` must be length 1 (a summary value), not 5</code></pre>
+<p>然而，我们可以将结果包装在一个列表中！这样操作的画，返回的结果就是长度为1的列表（向量）了。</p>
+<pre class="r"><code>mtcars %&gt;% 
+    group_by(cyl) %&gt;% 
+    summarise(q = list(quantile(mpg)))
+#&gt; # A tibble: 3 x 2
+#&gt;     cyl q        
+#&gt;   &lt;dbl&gt; &lt;list&gt;   
+#&gt; 1     4 &lt;dbl [5]&gt;
+#&gt; 2     6 &lt;dbl [5]&gt;
+#&gt; 3     8 &lt;dbl [5]&gt;</code></pre>
+<p>想要unnest()函数的结果更可用，添加一个概览列：</p>
+<pre class="r"><code>probs = c(0.01, 0.25, 0.5, 0.75, 0.99)
+mtcars %&gt;% 
+    group_by(cyl) %&gt;% 
+    summarise(p = list(probs), q = list(quantile(mpg, probs))) %&gt;% 
+    unnest()
+#&gt; # A tibble: 15 x 3
+#&gt;      cyl     p     q
+#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+#&gt;  1     4  0.01  21.4
+#&gt;  2     4  0.25  22.8
+#&gt;  3     4  0.5   26  
+#&gt;  4     4  0.75  30.4
+#&gt;  5     4  0.99  33.8
+#&gt;  6     6  0.01  17.8
+#&gt;  7     6  0.25  18.6
+#&gt;  8     6  0.5   19.7
+#&gt;  9     6  0.75  21  
+#&gt; 10     6  0.99  21.4
+#&gt; 11     8  0.01  10.4
+#&gt; 12     8  0.25  14.4
+#&gt; 13     8  0.5   15.2
+#&gt; 14     8  0.75  16.2
+#&gt; 15     8  0.99  19.1</code></pre>
+</div>
+<div class="section level3">
+<h3>使用命名列表</h3>
+<p>带有列表列的数据框可以解决一种常见问题：<strong>如何同时对列表的元素及元素的内容进行迭代</strong>？相对于将所有元素内容塞进一个对象，更容易的方法是创建一个数据框：一列包含元素名称，另一列包含元素中的列表内容。我们可以使用<code>enframe()</code>函数实现该数据框。</p>
+<pre class="r"><code>x = list(
+    a = 1:5,
+    b = 3:4,
+    c = 5:6
+)
+df = enframe(x)
+df
+#&gt; # A tibble: 3 x 2
+#&gt;   name  value    
+#&gt;   &lt;chr&gt; &lt;list&gt;   
+#&gt; 1 a     &lt;int [5]&gt;
+#&gt; 2 b     &lt;int [2]&gt;
+#&gt; 3 c     &lt;int [2]&gt;</code></pre>
+<p>如果想对名称和值进行列表，使用map2()函数。</p>
+<pre class="r"><code>df %&gt;% 
+    mutate(
+        smry = map2_chr(
+            name,
+            value,
+            ~ stringr::str_c(.x, &quot;: &quot;, .y[1])
+        )
+    )
+#&gt; # A tibble: 3 x 3
+#&gt;   name  value     smry 
+#&gt;   &lt;chr&gt; &lt;list&gt;    &lt;chr&gt;
+#&gt; 1 a     &lt;int [5]&gt; a: 1 
+#&gt; 2 b     &lt;int [2]&gt; b: 3 
+#&gt; 3 c     &lt;int [2]&gt; c: 5</code></pre>
+</div>
+</div>
+<div class="section level2">
+<h2>简化列表列</h2>
+<ul>
+<li>如果想得到单个值，就使用mutate()以及map_lgl()、map_int()、map_dbl()和map_chr()函数来创建一个原子向量。</li>
+<li>如果想得到多个值，就使用unnest()函数将列表列还原为普通列，这样可以按需要将行执行多次重复</li>
+</ul>
+<div class="section level3">
+<h3>列表转换为向量</h3>
+<p>如果可以将列表缩减为一个原子向量，那么这个原子向量就可以作为普通列。</p>
+<pre class="r"><code>df = tribble(
+    ~x,
+    letters[1:5],
+    1:3,
+    runif(5)
+)
+df %&gt;% mutate(
+    type = map_chr(x, typeof),
+    length = map_int(x, length)
+)
+#&gt; # A tibble: 3 x 3
+#&gt;   x         type      length
+#&gt;   &lt;list&gt;    &lt;chr&gt;      &lt;int&gt;
+#&gt; 1 &lt;chr [5]&gt; character      5
+#&gt; 2 &lt;int [3]&gt; integer        3
+#&gt; 3 &lt;dbl [5]&gt; double         5</code></pre>
+<p>我们还可以使用map_*快捷方式，例如使用map_chr(x, “apple”)从x的每个元素中提取apple中的内容，如果元素存在缺失值，可以使用.null参数提供一个返回值（不是返回NULL）：</p>
+<pre class="r"><code>df = tribble(
+    ~x,
+    list(a=1, b=2),
+    list(a=2, c=4)
+)
+df %&gt;% 
+    mutate(a = map_dbl(x, &quot;a&quot;),
+           b = map_dbl(x, &quot;b&quot;, .null = NA_real_))
+#&gt; # A tibble: 2 x 3
+#&gt;   x              a     b
+#&gt;   &lt;list&gt;     &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1 &lt;list [2]&gt;     1     2
+#&gt; 2 &lt;list [2]&gt;     2    NA</code></pre>
+</div>
+<div class="section level3">
+<h3>嵌套还原</h3>
+<p>unnest()函数将列表列中的每个元素都重复一次为普通列。例如下面的例子第1行重复了4次，而第2行只重复1次：</p>
+<pre class="r"><code>tibble(x = 1:2, y = list(1:4, 1)) %&gt;% unnest(y)
+#&gt; # A tibble: 5 x 2
+#&gt;       x     y
+#&gt;   &lt;int&gt; &lt;dbl&gt;
+#&gt; 1     1     1
+#&gt; 2     1     2
+#&gt; 3     1     3
+#&gt; 4     1     4
+#&gt; 5     2     1</code></pre>
+<p>注意，每行中数据框的行数都要相同，这样才能同时还原多个列表列。</p>
+<pre class="r"><code>df2 = tribble(
+    ~x, ~y, ~z,
+    1, &quot;a&quot;, 1:2,
+    2, c(&quot;b&quot;, &quot;c&quot;), 3
+)
+df2
+#&gt; # A tibble: 2 x 3
+#&gt;       x y         z        
+#&gt;   &lt;dbl&gt; &lt;list&gt;    &lt;list&gt;   
+#&gt; 1     1 &lt;chr [1]&gt; &lt;int [2]&gt;
+#&gt; 2     2 &lt;chr [2]&gt; &lt;dbl [1]&gt;
+df2 %&gt;% unnest(y, z)
+#&gt; All nested columns must have the same number of elements.</code></pre>
+</div>
+</div>
+<div id="broom" class="section level2">
+<h2>使用broom生成整洁数据</h2>
+<p>broom包提供了3种常用工具，用于将模型转换为整洁数据框。</p>
+<ul>
+<li>glance(model) 为每个模型返回一行数据，其中每一列都是模型的一个摘要统计量：要么是模型质量的度量方式，要么是模型复杂度，又或者是两者的结合。</li>
+<li>tidy(model) 为模型的每个系数返回一行数据，每一列都是系数的估计值或变异指标。</li>
+<li>augment(model, data) 返回data中的每一行，但会添加一些额外信息，如残差以及其他一些有影响的统计量</li>
+</ul>
+<p>大部分的模型broom都支持，所以十分有用。</p>
+<pre class="r"><code>md = lm(mpg ~ cyl, data = mtcars)
+broom::glance(md)
+#&gt; # A tibble: 1 x 11
+#&gt;   r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC
+#&gt;       &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1     0.726         0.717  3.21      79.6 6.11e-10     2  -81.7  169.  174.
+#&gt; # … with 2 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;</code></pre>
+</div>

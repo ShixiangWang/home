@@ -13,8 +13,8 @@ disable_comments: true
 ## 技术书籍阅读
 
 - [**PH525x series - Biomedical Data Science**](https://genomicsclass.github.io/book/)
-  - [ ] Chapter 2 - Exploratory Data Analysis
-  - [ ] Chapter 3 - Robust Statistics
+  - [x] Chapter 2 - Exploratory Data Analysis
+  - [x] Chapter 3 - Robust Statistics
 
 - **Python 机器学习及实践** 
   - [ ] 扫读一遍 
