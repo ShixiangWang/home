@@ -1,0 +1,596 @@
+---
+title: "stringr——处理字符串"
+author: 王诗翔
+date: 2018-09-17
+slug: "stringr-operation"
+---
+
+<script src="/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
+<link href="/rmarkdown-libs/str_view/str_view.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/str_view-binding/str_view.js"></script>
+
+
+<p>导入包：</p>
+<pre class="r"><code>library(tidyverse)
+#&gt; Registered S3 methods overwritten by &#39;ggplot2&#39;:
+#&gt;   method         from 
+#&gt;   [.quosures     rlang
+#&gt;   c.quosures     rlang
+#&gt;   print.quosures rlang
+#&gt; Registered S3 method overwritten by &#39;rvest&#39;:
+#&gt;   method            from
+#&gt;   read_xml.response xml2
+#&gt; ─ Attaching packages ──────────────────────────────────── tidyverse 1.2.1 ─
+#&gt; ✔ ggplot2 3.1.1       ✔ purrr   0.3.2  
+#&gt; ✔ tibble  2.1.1       ✔ dplyr   0.8.0.1
+#&gt; ✔ tidyr   0.8.3       ✔ stringr 1.4.0  
+#&gt; ✔ readr   1.3.1       ✔ forcats 0.4.0
+#&gt; ─ Conflicts ───────────────────────────────────── tidyverse_conflicts() ─
+#&gt; ✖ dplyr::filter() masks stats::filter()
+#&gt; ✖ dplyr::lag()    masks stats::lag()
+library(stringr)</code></pre>
+<pre class="r"><code>x = c(&quot;\&quot;&quot;, &quot;\\&quot;)</code></pre>
+<p>显示字符串原始内容：</p>
+<pre class="r"><code>writeLines(x)
+#&gt; &quot;
+#&gt; \</code></pre>
+<div class="section level3">
+<h3>字符串长度</h3>
+<pre class="r"><code>str_length(c(&quot;a&quot;, &quot;R for data science&quot;, NA))
+#&gt; [1]  1 18 NA</code></pre>
+</div>
+<div class="section level3">
+<h3>字符串组合</h3>
+<p>组合两个或多个：</p>
+<pre class="r"><code>str_c(&quot;x&quot;, &quot;y&quot;)
+#&gt; [1] &quot;xy&quot;
+str_c(&quot;x&quot;, &quot;y&quot;, &quot;z&quot;)
+#&gt; [1] &quot;xyz&quot;</code></pre>
+<p>控制分隔：</p>
+<pre class="r"><code>str_c(&quot;x&quot;, &quot;y&quot;, sep = &quot;,&quot;)
+#&gt; [1] &quot;x,y&quot;</code></pre>
+<p>缺失值是可以传染的，我们可以将<code>NA</code>输出为<code>&quot;NA&quot;</code>：</p>
+<pre class="r"><code>x = c(&quot;abc&quot;, NA)
+str_c(&quot;|-&quot;, x, &quot;-|&quot;)
+#&gt; [1] &quot;|-abc-|&quot; NA
+str_c(&quot;|-&quot;, str_replace_na(x), &quot;-|&quot;)
+#&gt; [1] &quot;|-abc-|&quot; &quot;|-NA-|&quot;</code></pre>
+<p>组合函数是向量化的：</p>
+<pre class="r"><code>str_c(&quot;prefix-&quot;, c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;), &quot;-suffix&quot;)
+#&gt; [1] &quot;prefix-a-suffix&quot; &quot;prefix-b-suffix&quot; &quot;prefix-c-suffix&quot;</code></pre>
+<p>将字符向量合并为字符串：</p>
+<pre class="r"><code>str_c(c(&quot;x&quot;, &quot;y&quot;, &quot;z&quot;), collapse = &quot;, &quot;)
+#&gt; [1] &quot;x, y, z&quot;</code></pre>
+</div>
+<div class="section level3">
+<h3>字符串取子集</h3>
+<pre class="r"><code>x = c(&quot;Apple&quot;, &quot;Banana&quot;, &quot;Pear&quot;)
+str_sub(x, 1, 3)
+#&gt; [1] &quot;App&quot; &quot;Ban&quot; &quot;Pea&quot;</code></pre>
+<p>负数表示从后到前：</p>
+<pre class="r"><code>str_sub(x, -3, -1)
+#&gt; [1] &quot;ple&quot; &quot;ana&quot; &quot;ear&quot;</code></pre>
+<p>注意如果字符串过短函数也会返回尽可能多的字符：</p>
+<pre class="r"><code>str_sub(&quot;a&quot;, 1, 5)
+#&gt; [1] &quot;a&quot;</code></pre>
+<p>以赋值的形式修改字符串：</p>
+<pre class="r"><code>str_sub(x, 1, 1) = str_to_lower(str_sub(x, 1, 1))
+x
+#&gt; [1] &quot;apple&quot;  &quot;banana&quot; &quot;pear&quot;</code></pre>
+</div>
+<div class="section level3">
+<h3>区域设置</h3>
+<p>字符串的使用因国家地区不同可能有所不同。</p>
+<pre class="r"><code>str_to_upper(c(&quot;i&quot;, &quot;l&quot;))
+#&gt; [1] &quot;I&quot; &quot;L&quot;
+str_to_upper(c(&quot;i&quot;, &quot;l&quot;), locale = &quot;tr&quot;)
+#&gt; [1] &quot;İ&quot; &quot;L&quot;</code></pre>
+<p>排序：</p>
+<pre class="r"><code>x = c(&quot;apple&quot;, &quot;eggplant&quot;, &quot;banana&quot;)
+str_sort(x, locale = &quot;en&quot;)
+#&gt; [1] &quot;apple&quot;    &quot;banana&quot;   &quot;eggplant&quot;
+str_sort(x, locale = &quot;haw&quot;)
+#&gt; [1] &quot;apple&quot;    &quot;eggplant&quot; &quot;banana&quot;</code></pre>
+</div>
+<div class="section level2">
+<h2>使用正则表达式</h2>
+<p>我们可以通过<code>str_view()</code>和<code>str_view_all()</code>函数学习正则表达式。函数接受一个字符向量和一个正则表达式。</p>
+<div class="section level3">
+<h3>基础匹配</h3>
+<p>精确匹配字符串：</p>
+<pre class="r"><code>x = c(&quot;apple&quot;, &quot;banana&quot;, &quot;pear&quot;)
+str_view(x, &quot;an&quot;)</code></pre>
+<div id="htmlwidget-1" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"html":"<ul>\n  <li>apple<\/li>\n  <li>b<span class='match'>an<\/span>ana<\/li>\n  <li>pear<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<p>另一个复杂的模式是使用<code>.</code>，它可以匹配除换行符外的任意字符：</p>
+<pre class="r"><code>str_view(x, &quot;.a.&quot;)</code></pre>
+<div id="htmlwidget-2" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2">{"x":{"html":"<ul>\n  <li>apple<\/li>\n  <li><span class='match'>ban<\/span>ana<\/li>\n  <li>p<span class='match'>ear<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div class="section level3">
+<h3>锚点</h3>
+<ul>
+<li><code>^</code>从字符串开头进行匹配</li>
+<li><code>$</code>从字符串末尾进行匹配</li>
+</ul>
+<pre class="r"><code>str_view(x, &quot;^a&quot;)</code></pre>
+<div id="htmlwidget-3" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3">{"x":{"html":"<ul>\n  <li><span class='match'>a<\/span>pple<\/li>\n  <li>banana<\/li>\n  <li>pear<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>str_view(x, &quot;a$&quot;)</code></pre>
+<div id="htmlwidget-4" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-4">{"x":{"html":"<ul>\n  <li>apple<\/li>\n  <li>banan<span class='match'>a<\/span><\/li>\n  <li>pear<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div class="section level3">
+<h3>字符串类与字符选项</h3>
+<p>除了<code>.</code>，还有4种常见的字符类：</p>
+<ul>
+<li><code>\d</code>匹配任意数字</li>
+<li><code>\s</code>匹配任意空白符</li>
+<li><code>[abc]</code>匹配a、b或c</li>
+<li><code>[^abc]</code>匹配除a、b、c之外的任意字符</li>
+</ul>
+<p>因为要对<code>\</code>转义，在R中使用正则需要<code>\\s</code>来匹配空白符，其他也一样。</p>
+<p><code>|</code>可以获取可选模式，比如<code>abc|xyz</code>匹配<code>abc</code>或<code>xyz</code>，该操作符的优先级很低。</p>
+<pre class="r"><code>str_view(c(&quot;grey&quot;, &quot;gray&quot;), &quot;gr(e|a)y&quot;)</code></pre>
+<div id="htmlwidget-5" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-5">{"x":{"html":"<ul>\n  <li><span class='match'>grey<\/span><\/li>\n  <li><span class='match'>gray<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div class="section level3">
+<h3>重复</h3>
+<p>该操作用来控制某个模式能够匹配多少次：</p>
+<ul>
+<li><code>?</code>- 0次或一次</li>
+<li><code>+</code>- 1次或多次</li>
+<li><code>*</code>- 0次或多次</li>
+</ul>
+<pre class="r"><code>x = &quot;1888 is the longest year in Roman numerals: MDCCCLXXXVIII&quot;
+str_view(x, &quot;CC?&quot;)</code></pre>
+<div id="htmlwidget-6" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6">{"x":{"html":"<ul>\n  <li>1888 is the longest year in Roman numerals: MD<span class='match'>CC<\/span>CLXXXVIII<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>str_view(x ,&quot;CC+&quot;)</code></pre>
+<div id="htmlwidget-7" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-7">{"x":{"html":"<ul>\n  <li>1888 is the longest year in Roman numerals: MD<span class='match'>CCC<\/span>LXXXVIII<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<p>精确匹配次数：</p>
+<ul>
+<li><code>{n}</code>- 匹配n次</li>
+<li><code>{n,}</code>- 匹配n次或更多次</li>
+<li><code>{,m}</code>- 最多匹配m次</li>
+<li><code>{n, m}</code>- 匹配n到m次</li>
+</ul>
+<pre class="r"><code>str_view(x, &quot;C{2}&quot;)</code></pre>
+<div id="htmlwidget-8" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8">{"x":{"html":"<ul>\n  <li>1888 is the longest year in Roman numerals: MD<span class='match'>CC<\/span>CLXXXVIII<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>str_view(x, &quot;C{2,}&quot;)</code></pre>
+<div id="htmlwidget-9" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-9">{"x":{"html":"<ul>\n  <li>1888 is the longest year in Roman numerals: MD<span class='match'>CCC<\/span>LXXXVIII<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>str_view(x, &quot;C{2,3}&quot;)</code></pre>
+<div id="htmlwidget-10" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-10">{"x":{"html":"<ul>\n  <li>1888 is the longest year in Roman numerals: MD<span class='match'>CCC<\/span>LXXXVIII<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<blockquote>
+<p>默认的匹配方式是贪婪的，正则表达式会匹配尽量长的字符串，在后面添加<code>?</code>可以将匹配方式更改为懒惰的，即匹配尽量短的字符串。</p>
+</blockquote>
+<pre class="r"><code>str_view(x, &quot;C{2,3}?&quot;)</code></pre>
+<div id="htmlwidget-11" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-11">{"x":{"html":"<ul>\n  <li>1888 is the longest year in Roman numerals: MD<span class='match'>CC<\/span>CLXXXVIII<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>str_view(x, &quot;C[LX]+?&quot;)</code></pre>
+<div id="htmlwidget-12" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-12">{"x":{"html":"<ul>\n  <li>1888 is the longest year in Roman numerals: MDCC<span class='match'>CL<\/span>XXXVIII<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div class="section level3">
+<h3>分组与回溯引用</h3>
+<p>括号除了可以消除复杂表达式的歧义，还可以定义分组，我们可以通过<strong>回溯引用</strong>（如<code>\1</code>,<code>\2</code>等）来引用这些分组。</p>
+<pre class="r"><code>str_view(fruit, &quot;(..)\\1&quot;, match = TRUE)</code></pre>
+<div id="htmlwidget-13" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-13">{"x":{"html":"<ul>\n  <li>b<span class='match'>anan<\/span>a<\/li>\n  <li><span class='match'>coco<\/span>nut<\/li>\n  <li><span class='match'>cucu<\/span>mber<\/li>\n  <li><span class='match'>juju<\/span>be<\/li>\n  <li><span class='match'>papa<\/span>ya<\/li>\n  <li>s<span class='match'>alal<\/span> berry<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div class="section level2">
+<h2>工具</h2>
+<p>学习stringr多种函数，可以：</p>
+<ul>
+<li>确定与某种模式相匹配的字符串</li>
+<li>找出匹配的位置</li>
+<li>提取出匹配的内容</li>
+<li>使用新值替换匹配内容</li>
+<li>基于匹配拆分字符串</li>
+</ul>
+<div class="section level3">
+<h3>匹配检测</h3>
+<p>要想知道一个字符向量能否匹配一种模式，可以使用<code>str_detect()</code>：</p>
+<pre class="r"><code>x = c(&quot;apple&quot;, &quot;banana&quot;, &quot;pear&quot;)
+str_detect(x, &quot;e&quot;)
+#&gt; [1]  TRUE FALSE  TRUE</code></pre>
+<p>因为在数学意义上<code>F</code>为0,<code>T</code>为1，所以我们可以使用求和和求均值函数等，它们有时候可以发挥巨大用处。</p>
+<pre class="r"><code>sum(str_detect(words, &quot;^t&quot;))
+#&gt; [1] 65
+mean(str_detect(words, &quot;[aeiou]$&quot;))
+#&gt; [1] 0.277</code></pre>
+<p><strong>当逻辑条件非常复杂时，相对于创建单个正则表达式，使用逻辑运算符进行调用组合会更容易</strong>。</p>
+<p>例如下面可以找不包含元音字母的所有单词：</p>
+<pre class="r"><code>no_vowel_1 = !str_detect(words, &quot;[aeiou]&quot;)
+no_vowel_2 = str_detect(words, &quot;^[^aeiou]+$&quot;)
+identical(no_vowel_1, no_vowel_2)
+#&gt; [1] TRUE</code></pre>
+<p>两种方法结果一致，但第一种更容易理解。</p>
+<p><code>str_detect</code>一种常见用法是选取匹配某种模式的元素，然后取子集，也可以使用<code>str_subset()</code>包装函数完全两步操作：</p>
+<pre class="r"><code>words[str_detect(words, &quot;x$&quot;)]
+#&gt; [1] &quot;box&quot; &quot;sex&quot; &quot;six&quot; &quot;tax&quot;
+str_subset(words, &quot;x$&quot;)
+#&gt; [1] &quot;box&quot; &quot;sex&quot; &quot;six&quot; &quot;tax&quot;</code></pre>
+<p>字符串通常是数据框的一列，我们可以联合<code>filter()</code>操作：</p>
+<pre class="r"><code>df = tibble(
+    word = words,
+    i = seq_along(words)
+)
+df %&gt;% 
+    filter(str_detect(words, &quot;x$&quot;))
+#&gt; # A tibble: 4 x 2
+#&gt;   word      i
+#&gt;   &lt;chr&gt; &lt;int&gt;
+#&gt; 1 box     108
+#&gt; 2 sex     747
+#&gt; 3 six     772
+#&gt; 4 tax     841</code></pre>
+<p><code>str_detect()</code>函数的变体<code>str_count()</code>返回字符串中匹配的数量：</p>
+<pre class="r"><code>str_count(x, &quot;a&quot;)
+#&gt; [1] 1 3 1</code></pre>
+<p><code>str_count()</code>完全可以和<code>mutate()</code>联合使用：</p>
+<pre class="r"><code>df %&gt;% 
+    mutate(
+        vowels = str_count(word, &quot;[aeiou]&quot;),
+        consonants = str_count(word, &quot;[^aeiou]&quot;)
+    )
+#&gt; # A tibble: 980 x 4
+#&gt;    word         i vowels consonants
+#&gt;    &lt;chr&gt;    &lt;int&gt;  &lt;int&gt;      &lt;int&gt;
+#&gt;  1 a            1      1          0
+#&gt;  2 able         2      2          2
+#&gt;  3 about        3      3          2
+#&gt;  4 absolute     4      4          4
+#&gt;  5 accept       5      2          4
+#&gt;  6 account      6      3          4
+#&gt;  7 achieve      7      4          3
+#&gt;  8 across       8      2          4
+#&gt;  9 act          9      1          2
+#&gt; 10 active      10      3          3
+#&gt; # … with 970 more rows</code></pre>
+<p>注意，匹配的模式不会重叠，比如<code>abababa</code>中<code>aba</code>只会匹配2次而不是3次：</p>
+<pre class="r"><code>str_count(&quot;abababa&quot;, &quot;aba&quot;)
+#&gt; [1] 2
+str_view_all(&quot;abababa&quot;, &quot;aba&quot;)</code></pre>
+<div id="htmlwidget-14" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-14">{"x":{"html":"<ul>\n  <li><span class='match'>aba<\/span>b<span class='match'>aba<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<p><code>str_view_all()</code>用于全部匹配。</p>
+</div>
+<div class="section level3">
+<h3>提取匹配内容</h3>
+<p>我们可以使用<code>str_extract()</code>函数来提取匹配的实际文本。这里使用维基百科的Harvard sentences作为复杂的示例。</p>
+<pre class="r"><code>length(sentences)
+#&gt; [1] 720
+head(sentences)
+#&gt; [1] &quot;The birch canoe slid on the smooth planks.&quot; 
+#&gt; [2] &quot;Glue the sheet to the dark blue background.&quot;
+#&gt; [3] &quot;It&#39;s easy to tell the depth of a well.&quot;     
+#&gt; [4] &quot;These days a chicken leg is a rare dish.&quot;   
+#&gt; [5] &quot;Rice is often served in round bowls.&quot;       
+#&gt; [6] &quot;The juice of lemons makes fine punch.&quot;</code></pre>
+<p>假如现在我们想找出包含一种颜色的所有句子。我们先创建颜色名称向量，然后转换为正则表达式：</p>
+<pre class="r"><code>colors = c(
+    &quot;red&quot;, &quot;orange&quot;, &quot;yellow&quot;, &quot;green&quot;, &quot;blue&quot;, &quot;purple&quot;
+)
+color_match = str_c(colors, collapse = &quot;|&quot;)
+color_match
+#&gt; [1] &quot;red|orange|yellow|green|blue|purple&quot;</code></pre>
+<p>现在我们选取出包含一种颜色的句子，然后再提取出颜色：</p>
+<pre class="r"><code>has_color = str_subset(sentences, color_match)
+matches = str_extract(has_color, color_match)
+head(matches)
+#&gt; [1] &quot;blue&quot; &quot;blue&quot; &quot;red&quot;  &quot;red&quot;  &quot;red&quot;  &quot;blue&quot;</code></pre>
+<p><strong>注意，<code>str_extract()</code>只提取第一个匹配</strong>。我们可以选取多余一种匹配的所有句子，这样我们更容易看到所有的匹配。</p>
+<pre class="r"><code>more = sentences[str_count(sentences, color_match) &gt; 1]
+str_view_all(more, color_match)</code></pre>
+<div id="htmlwidget-15" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-15">{"x":{"html":"<ul>\n  <li>It is hard to erase <span class='match'>blue<\/span> or <span class='match'>red<\/span> ink.<\/li>\n  <li>The <span class='match'>green<\/span> light in the brown box flicke<span class='match'>red<\/span>.<\/li>\n  <li>The sky in the west is tinged with <span class='match'>orange<\/span> <span class='match'>red<\/span>.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>str_extract(more, color_match)
+#&gt; [1] &quot;blue&quot;   &quot;green&quot;  &quot;orange&quot;</code></pre>
+<p><strong>这是<code>stringr</code>函数的一种通用模式，单个匹配可以使用更简单的数据结构，想要得到所有的匹配，使用<code>str_extract_all()</code>函数，它会返回一个列表</strong>。</p>
+<pre class="r"><code>str_extract_all(more, color_match)
+#&gt; [[1]]
+#&gt; [1] &quot;blue&quot; &quot;red&quot; 
+#&gt; 
+#&gt; [[2]]
+#&gt; [1] &quot;green&quot; &quot;red&quot;  
+#&gt; 
+#&gt; [[3]]
+#&gt; [1] &quot;orange&quot; &quot;red&quot;</code></pre>
+<p>如果设置了<code>simplify = TRUE</code>，那么结果会是一个矩阵，其中短的匹配会和最长的匹配有一样的长度。</p>
+<pre class="r"><code>str_extract_all(more, color_match, simplify = TRUE)
+#&gt;      [,1]     [,2] 
+#&gt; [1,] &quot;blue&quot;   &quot;red&quot;
+#&gt; [2,] &quot;green&quot;  &quot;red&quot;
+#&gt; [3,] &quot;orange&quot; &quot;red&quot;</code></pre>
+<pre class="r"><code>x = c(&quot;a&quot;, &quot;a b&quot;, &quot;a b c&quot;)
+str_extract_all(x, &quot;[a-z]&quot;, simplify = TRUE)
+#&gt;      [,1] [,2] [,3]
+#&gt; [1,] &quot;a&quot;  &quot;&quot;   &quot;&quot;  
+#&gt; [2,] &quot;a&quot;  &quot;b&quot;  &quot;&quot;  
+#&gt; [3,] &quot;a&quot;  &quot;b&quot;  &quot;c&quot;</code></pre>
+</div>
+<div class="section level3">
+<h3>分组匹配</h3>
+<p>括号在正则表达式中科院阐明优先级，还能对正则表达式进行分组，分组可以在匹配时回溯引用。我们因而可以用括号来提取复杂匹配的各个部分。</p>
+<p>举例说明：加入我们想从句子中提取名词，我们可以先进行一种启发式实验，找出a或the后面的所有单词。使用正则表达式定义“单词”概念有点难度，我们使用一种简单的近似——至少有1个非空格字符的字符序列。</p>
+<pre class="r"><code>noun = &quot;(a|the) ([^ ]+)&quot;
+has_noun = sentences %&gt;% 
+    str_subset(noun) %&gt;% 
+    head(10)
+has_noun %&gt;% 
+    str_extract(noun)
+#&gt;  [1] &quot;the smooth&quot; &quot;the sheet&quot;  &quot;the depth&quot;  &quot;a chicken&quot;  &quot;the parked&quot;
+#&gt;  [6] &quot;the sun&quot;    &quot;the huge&quot;   &quot;the ball&quot;   &quot;the woman&quot;  &quot;a helps&quot;</code></pre>
+<p><strong><code>str_extract()</code>函数给出完整匹配，<code>str_match()</code>函数给出每个独立分组</strong>。后面函数返回的不是字符向量而是矩阵：其中一列是完整匹配，后面的列是每个分组的匹配：</p>
+<pre class="r"><code>has_noun %&gt;% 
+    str_match(noun)
+#&gt;       [,1]         [,2]  [,3]     
+#&gt;  [1,] &quot;the smooth&quot; &quot;the&quot; &quot;smooth&quot; 
+#&gt;  [2,] &quot;the sheet&quot;  &quot;the&quot; &quot;sheet&quot;  
+#&gt;  [3,] &quot;the depth&quot;  &quot;the&quot; &quot;depth&quot;  
+#&gt;  [4,] &quot;a chicken&quot;  &quot;a&quot;   &quot;chicken&quot;
+#&gt;  [5,] &quot;the parked&quot; &quot;the&quot; &quot;parked&quot; 
+#&gt;  [6,] &quot;the sun&quot;    &quot;the&quot; &quot;sun&quot;    
+#&gt;  [7,] &quot;the huge&quot;   &quot;the&quot; &quot;huge&quot;   
+#&gt;  [8,] &quot;the ball&quot;   &quot;the&quot; &quot;ball&quot;   
+#&gt;  [9,] &quot;the woman&quot;  &quot;the&quot; &quot;woman&quot;  
+#&gt; [10,] &quot;a helps&quot;    &quot;a&quot;   &quot;helps&quot;</code></pre>
+<blockquote>
+<p>这种启发式名词检测的效果并不好，它找出了一些形容词，比如<code>smooth</code>和<code>parked</code>。
+<strong>如果数据保存在tibble中，使用<code>extract()</code>会更容易，该函数工作方式与<code>str_match()</code>函数类似，只需要为每个分组提供名词以作为结果的新列</strong>。</p>
+</blockquote>
+<pre class="r"><code>tibble(sentences = sentences) %&gt;% 
+    tidyr::extract(
+        sentences, c(&quot;article&quot;, &quot;noun&quot;), &quot;(a|the) ([^ ]+)&quot;,
+        remove = FALSE
+    )
+#&gt; # A tibble: 720 x 3
+#&gt;    sentences                                   article noun   
+#&gt;    &lt;chr&gt;                                       &lt;chr&gt;   &lt;chr&gt;  
+#&gt;  1 The birch canoe slid on the smooth planks.  the     smooth 
+#&gt;  2 Glue the sheet to the dark blue background. the     sheet  
+#&gt;  3 It&#39;s easy to tell the depth of a well.      the     depth  
+#&gt;  4 These days a chicken leg is a rare dish.    a       chicken
+#&gt;  5 Rice is often served in round bowls.        &lt;NA&gt;    &lt;NA&gt;   
+#&gt;  6 The juice of lemons makes fine punch.       &lt;NA&gt;    &lt;NA&gt;   
+#&gt;  7 The box was thrown beside the parked truck. the     parked 
+#&gt;  8 The hogs were fed chopped corn and garbage. &lt;NA&gt;    &lt;NA&gt;   
+#&gt;  9 Four hours of steady work faced us.         &lt;NA&gt;    &lt;NA&gt;   
+#&gt; 10 Large size in stockings is hard to sell.    &lt;NA&gt;    &lt;NA&gt;   
+#&gt; # … with 710 more rows</code></pre>
+<p>同<code>str_extract()</code>函数一样，如果要找出所有的匹配，需要使用<code>str_match_all()</code>函数。</p>
+</div>
+<div class="section level3">
+<h3>替换匹配内容</h3>
+<p><code>str_replace()</code>和<code>str_replace_all()</code>函数可以使用新的字符串替换匹配的内容。最简单的就是使用固定的字符串进行替换：</p>
+<pre class="r"><code>x = c(&quot;apple&quot;, &quot;pear&quot;, &quot;banana&quot;)
+str_replace(x, &quot;[aeiou]&quot;, &quot;-&quot;)
+#&gt; [1] &quot;-pple&quot;  &quot;p-ar&quot;   &quot;b-nana&quot;
+str_replace_all(x, &quot;[aeiou]&quot;, &quot;-&quot;)
+#&gt; [1] &quot;-ppl-&quot;  &quot;p--r&quot;   &quot;b-n-n-&quot;</code></pre>
+<p><strong>通过一个命令向量我们可以同时进行多个替换</strong>：</p>
+<pre class="r"><code>x = c(&quot;1 house&quot;, &quot;2 cars&quot;, &quot;3 people&quot;)
+str_replace_all(x, c(&quot;1&quot; = &quot;one&quot;, &quot;2&quot; = &quot;two&quot;, &quot;3&quot; = &quot;three&quot;))
+#&gt; [1] &quot;one house&quot;    &quot;two cars&quot;     &quot;three people&quot;</code></pre>
+<p>除了使用固定字符串，我们还可以使用引用来插入匹配的分组。下面的代码我们交换第二个单词和第三个单词的顺序：</p>
+<pre class="r"><code>sentences %&gt;% head(5)
+#&gt; [1] &quot;The birch canoe slid on the smooth planks.&quot; 
+#&gt; [2] &quot;Glue the sheet to the dark blue background.&quot;
+#&gt; [3] &quot;It&#39;s easy to tell the depth of a well.&quot;     
+#&gt; [4] &quot;These days a chicken leg is a rare dish.&quot;   
+#&gt; [5] &quot;Rice is often served in round bowls.&quot;
+sentences %&gt;% 
+    str_replace(&quot;([^ ]+) ([^ ]+) ([^ ]+)&quot;, &quot;\\1 \\3 \\2&quot;) %&gt;% 
+    head(5)
+#&gt; [1] &quot;The canoe birch slid on the smooth planks.&quot; 
+#&gt; [2] &quot;Glue sheet the to the dark blue background.&quot;
+#&gt; [3] &quot;It&#39;s to easy tell the depth of a well.&quot;     
+#&gt; [4] &quot;These a days chicken leg is a rare dish.&quot;   
+#&gt; [5] &quot;Rice often is served in round bowls.&quot;</code></pre>
+</div>
+<div class="section level3">
+<h3>拆分</h3>
+<p><code>str_split()</code>函数可以将字符串拆分为多个片段。比如把句子拆分为单词：</p>
+<pre class="r"><code>sentences %&gt;% 
+    head(5) %&gt;% 
+    str_split(&quot; &quot;)
+#&gt; [[1]]
+#&gt; [1] &quot;The&quot;     &quot;birch&quot;   &quot;canoe&quot;   &quot;slid&quot;    &quot;on&quot;      &quot;the&quot;     &quot;smooth&quot; 
+#&gt; [8] &quot;planks.&quot;
+#&gt; 
+#&gt; [[2]]
+#&gt; [1] &quot;Glue&quot;        &quot;the&quot;         &quot;sheet&quot;       &quot;to&quot;          &quot;the&quot;        
+#&gt; [6] &quot;dark&quot;        &quot;blue&quot;        &quot;background.&quot;
+#&gt; 
+#&gt; [[3]]
+#&gt; [1] &quot;It&#39;s&quot;  &quot;easy&quot;  &quot;to&quot;    &quot;tell&quot;  &quot;the&quot;   &quot;depth&quot; &quot;of&quot;    &quot;a&quot;     &quot;well.&quot;
+#&gt; 
+#&gt; [[4]]
+#&gt; [1] &quot;These&quot;   &quot;days&quot;    &quot;a&quot;       &quot;chicken&quot; &quot;leg&quot;     &quot;is&quot;      &quot;a&quot;      
+#&gt; [8] &quot;rare&quot;    &quot;dish.&quot;  
+#&gt; 
+#&gt; [[5]]
+#&gt; [1] &quot;Rice&quot;   &quot;is&quot;     &quot;often&quot;  &quot;served&quot; &quot;in&quot;     &quot;round&quot;  &quot;bowls.&quot;</code></pre>
+<p>因为拆分句子产生的单词数目不一样，所以函数结果返回一个列表。如果我们想要返回一个矩阵，可以通过<code>simplify = TRUE</code>进行指定。</p>
+<pre class="r"><code>sentences %&gt;% 
+    head(5) %&gt;% 
+    str_split(&quot; &quot;, simplify = TRUE)
+#&gt;      [,1]    [,2]    [,3]    [,4]      [,5]  [,6]    [,7]    
+#&gt; [1,] &quot;The&quot;   &quot;birch&quot; &quot;canoe&quot; &quot;slid&quot;    &quot;on&quot;  &quot;the&quot;   &quot;smooth&quot;
+#&gt; [2,] &quot;Glue&quot;  &quot;the&quot;   &quot;sheet&quot; &quot;to&quot;      &quot;the&quot; &quot;dark&quot;  &quot;blue&quot;  
+#&gt; [3,] &quot;It&#39;s&quot;  &quot;easy&quot;  &quot;to&quot;    &quot;tell&quot;    &quot;the&quot; &quot;depth&quot; &quot;of&quot;    
+#&gt; [4,] &quot;These&quot; &quot;days&quot;  &quot;a&quot;     &quot;chicken&quot; &quot;leg&quot; &quot;is&quot;    &quot;a&quot;     
+#&gt; [5,] &quot;Rice&quot;  &quot;is&quot;    &quot;often&quot; &quot;served&quot;  &quot;in&quot;  &quot;round&quot; &quot;bowls.&quot;
+#&gt;      [,8]          [,9]   
+#&gt; [1,] &quot;planks.&quot;     &quot;&quot;     
+#&gt; [2,] &quot;background.&quot; &quot;&quot;     
+#&gt; [3,] &quot;a&quot;           &quot;well.&quot;
+#&gt; [4,] &quot;rare&quot;        &quot;dish.&quot;
+#&gt; [5,] &quot;&quot;            &quot;&quot;</code></pre>
+<p>我们可以设定拆分片段的最大数量：</p>
+<pre class="r"><code>fields = c(&quot;Name:诗翔&quot;, &quot;Country:CN&quot;, &quot;Age:24&quot;)
+fields %&gt;% str_split(&quot;:&quot;, n = 2, simplify = TRUE)
+#&gt;      [,1]      [,2]  
+#&gt; [1,] &quot;Name&quot;    &quot;诗翔&quot;
+#&gt; [2,] &quot;Country&quot; &quot;CN&quot;  
+#&gt; [3,] &quot;Age&quot;     &quot;24&quot;</code></pre>
+<p><strong>我们还可以通过字母、行、句子和单词边界（<code>boundary()</code>函数）来拆分字符串</strong>：</p>
+<pre class="r"><code>x = &quot;This is a sentence. This is another sentence.&quot;
+str_view_all(x, boundary(&quot;word&quot;))</code></pre>
+<div id="htmlwidget-16" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-16">{"x":{"html":"<ul>\n  <li><span class='match'>This<\/span> <span class='match'>is<\/span> <span class='match'>a<\/span> <span class='match'>sentence<\/span>. <span class='match'>This<\/span> <span class='match'>is<\/span> <span class='match'>another<\/span> <span class='match'>sentence<\/span>.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>str_split(x, &quot; &quot;)[[1]]
+#&gt; [1] &quot;This&quot;      &quot;is&quot;        &quot;a&quot;         &quot;sentence.&quot; &quot;This&quot;      &quot;is&quot;       
+#&gt; [7] &quot;another&quot;   &quot;sentence.&quot;
+str_split(x, boundary(&quot;word&quot;))[[1]]
+#&gt; [1] &quot;This&quot;     &quot;is&quot;       &quot;a&quot;        &quot;sentence&quot; &quot;This&quot;     &quot;is&quot;      
+#&gt; [7] &quot;another&quot;  &quot;sentence&quot;</code></pre>
+</div>
+<div class="section level3">
+<h3>定位匹配内容</h3>
+<p><code>str_locate()</code>与<code>str_locate_all()</code>函数可以给出每个匹配的开始位置和结束位置。<strong>当没有其他函数能够精确满足需求时该函数非常有用，我们可以使用<code>str_locate()</code>函数找出匹配的模式，然后使用<code>str_sub()</code>来提取和修改匹配的内容</strong>。</p>
+</div>
+</div>
+<div class="section level2">
+<h2>其他类型模式</h2>
+<p>当一个字符串作为模式时，R内部使用<code>regex()</code>函数进行了包装：</p>
+<pre class="r"><code># 正常调用
+str_view(fruit, &quot;nana&quot;)</code></pre>
+<div id="htmlwidget-17" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-17">{"x":{"html":"<ul>\n  <li>apple<\/li>\n  <li>apricot<\/li>\n  <li>avocado<\/li>\n  <li>ba<span class='match'>nana<\/span><\/li>\n  <li>bell pepper<\/li>\n  <li>bilberry<\/li>\n  <li>blackberry<\/li>\n  <li>blackcurrant<\/li>\n  <li>blood orange<\/li>\n  <li>blueberry<\/li>\n  <li>boysenberry<\/li>\n  <li>breadfruit<\/li>\n  <li>canary melon<\/li>\n  <li>cantaloupe<\/li>\n  <li>cherimoya<\/li>\n  <li>cherry<\/li>\n  <li>chili pepper<\/li>\n  <li>clementine<\/li>\n  <li>cloudberry<\/li>\n  <li>coconut<\/li>\n  <li>cranberry<\/li>\n  <li>cucumber<\/li>\n  <li>currant<\/li>\n  <li>damson<\/li>\n  <li>date<\/li>\n  <li>dragonfruit<\/li>\n  <li>durian<\/li>\n  <li>eggplant<\/li>\n  <li>elderberry<\/li>\n  <li>feijoa<\/li>\n  <li>fig<\/li>\n  <li>goji berry<\/li>\n  <li>gooseberry<\/li>\n  <li>grape<\/li>\n  <li>grapefruit<\/li>\n  <li>guava<\/li>\n  <li>honeydew<\/li>\n  <li>huckleberry<\/li>\n  <li>jackfruit<\/li>\n  <li>jambul<\/li>\n  <li>jujube<\/li>\n  <li>kiwi fruit<\/li>\n  <li>kumquat<\/li>\n  <li>lemon<\/li>\n  <li>lime<\/li>\n  <li>loquat<\/li>\n  <li>lychee<\/li>\n  <li>mandarine<\/li>\n  <li>mango<\/li>\n  <li>mulberry<\/li>\n  <li>nectarine<\/li>\n  <li>nut<\/li>\n  <li>olive<\/li>\n  <li>orange<\/li>\n  <li>pamelo<\/li>\n  <li>papaya<\/li>\n  <li>passionfruit<\/li>\n  <li>peach<\/li>\n  <li>pear<\/li>\n  <li>persimmon<\/li>\n  <li>physalis<\/li>\n  <li>pineapple<\/li>\n  <li>plum<\/li>\n  <li>pomegranate<\/li>\n  <li>pomelo<\/li>\n  <li>purple mangosteen<\/li>\n  <li>quince<\/li>\n  <li>raisin<\/li>\n  <li>rambutan<\/li>\n  <li>raspberry<\/li>\n  <li>redcurrant<\/li>\n  <li>rock melon<\/li>\n  <li>salal berry<\/li>\n  <li>satsuma<\/li>\n  <li>star fruit<\/li>\n  <li>strawberry<\/li>\n  <li>tamarillo<\/li>\n  <li>tangerine<\/li>\n  <li>ugli fruit<\/li>\n  <li>watermelon<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code># 上面实质上是下面的简写
+str_view(fruit, regex(&quot;nana&quot;))</code></pre>
+<div id="htmlwidget-18" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-18">{"x":{"html":"<ul>\n  <li>apple<\/li>\n  <li>apricot<\/li>\n  <li>avocado<\/li>\n  <li>ba<span class='match'>nana<\/span><\/li>\n  <li>bell pepper<\/li>\n  <li>bilberry<\/li>\n  <li>blackberry<\/li>\n  <li>blackcurrant<\/li>\n  <li>blood orange<\/li>\n  <li>blueberry<\/li>\n  <li>boysenberry<\/li>\n  <li>breadfruit<\/li>\n  <li>canary melon<\/li>\n  <li>cantaloupe<\/li>\n  <li>cherimoya<\/li>\n  <li>cherry<\/li>\n  <li>chili pepper<\/li>\n  <li>clementine<\/li>\n  <li>cloudberry<\/li>\n  <li>coconut<\/li>\n  <li>cranberry<\/li>\n  <li>cucumber<\/li>\n  <li>currant<\/li>\n  <li>damson<\/li>\n  <li>date<\/li>\n  <li>dragonfruit<\/li>\n  <li>durian<\/li>\n  <li>eggplant<\/li>\n  <li>elderberry<\/li>\n  <li>feijoa<\/li>\n  <li>fig<\/li>\n  <li>goji berry<\/li>\n  <li>gooseberry<\/li>\n  <li>grape<\/li>\n  <li>grapefruit<\/li>\n  <li>guava<\/li>\n  <li>honeydew<\/li>\n  <li>huckleberry<\/li>\n  <li>jackfruit<\/li>\n  <li>jambul<\/li>\n  <li>jujube<\/li>\n  <li>kiwi fruit<\/li>\n  <li>kumquat<\/li>\n  <li>lemon<\/li>\n  <li>lime<\/li>\n  <li>loquat<\/li>\n  <li>lychee<\/li>\n  <li>mandarine<\/li>\n  <li>mango<\/li>\n  <li>mulberry<\/li>\n  <li>nectarine<\/li>\n  <li>nut<\/li>\n  <li>olive<\/li>\n  <li>orange<\/li>\n  <li>pamelo<\/li>\n  <li>papaya<\/li>\n  <li>passionfruit<\/li>\n  <li>peach<\/li>\n  <li>pear<\/li>\n  <li>persimmon<\/li>\n  <li>physalis<\/li>\n  <li>pineapple<\/li>\n  <li>plum<\/li>\n  <li>pomegranate<\/li>\n  <li>pomelo<\/li>\n  <li>purple mangosteen<\/li>\n  <li>quince<\/li>\n  <li>raisin<\/li>\n  <li>rambutan<\/li>\n  <li>raspberry<\/li>\n  <li>redcurrant<\/li>\n  <li>rock melon<\/li>\n  <li>salal berry<\/li>\n  <li>satsuma<\/li>\n  <li>star fruit<\/li>\n  <li>strawberry<\/li>\n  <li>tamarillo<\/li>\n  <li>tangerine<\/li>\n  <li>ugli fruit<\/li>\n  <li>watermelon<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<p>因而我们可以通过设定<code>regex()</code>的其他参数来控制匹配方式。</p>
+<ul>
+<li><code>ignore_case = TRUE</code>：允许匹配大小写</li>
+<li><code>multline = TRUE</code>可以使<code>^</code>和<code>$</code>锚定每行的开头和末尾，而不是整个字符串的开头和末尾</li>
+<li><p><code>comment = TRUE</code>，这可以让我们在复杂的正则表达式中加入注释和空白字符，以便理解。如要匹配空格，使用<code>\\</code>。</p>
+<pre class="r"><code>phone = regex(&quot;
+              \\(?          # 可选的小括号开头
+              (\\d{3})      # 地区编号
+              [)- ]?        # 可选的小括号结尾、短划线或空格
+              (\\d{3})      # 另外3个数字
+              [ -]?         # 可选的空格或短划线
+              (\\d{3})      # 另外3个数字
+              &quot;, comment = TRUE)
+str_match(&quot;514-791-8141&quot;, phone)
+#&gt;      [,1]          [,2]  [,3]  [,4] 
+#&gt; [1,] &quot;514-791-814&quot; &quot;514&quot; &quot;791&quot; &quot;814&quot;</code></pre></li>
+<li><p><code>dotall = TRUE</code>可以匹配包括<code>\n</code>在内的所有字符</p></li>
+</ul>
+<p>除了<code>regex()</code>，我们还可以使用另外3种函数：</p>
+<ul>
+<li><code>fixed()</code>函数 - 可以按照字符串的字节形式进行精确匹配，它会忽略正则表达式中的所有特殊字符，在非常低的层次上进行操作。这样我们可以不用进行转义，并且速度也要快得多。下面是一个简单的测试示例，它的速度差不多是普通正则表达式的3倍。</li>
+</ul>
+<pre class="r"><code>microbenchmark::microbenchmark(
+    fixed = str_detect(sentences, fixed(&quot;the&quot;)),
+    regex = str_detect(sentences, &quot;the&quot;),
+    times = 20
+)
+#&gt; Unit: microseconds
+#&gt;   expr min  lq mean median  uq  max neval
+#&gt;  fixed 128 149  202    182 208  585    20
+#&gt;  regex 388 452  588    527 695 1171    20</code></pre>
+<ul>
+<li><code>coll()</code>函数使用标准排序规则来比较字符串，<strong>这在进行不区分大小写的匹配时时非常有效的</strong>，但速度很慢。注意，我们可以在<code>coll()</code>中设定locale参数，以确定使用哪种规则来比较字符。世界各地使用的规则是不同的。另外，我们可以使用下面代码查看默认区域设置：</li>
+</ul>
+<pre class="r"><code>stringi::stri_locale_info()
+#&gt; $Language
+#&gt; [1] &quot;zh&quot;
+#&gt; 
+#&gt; $Country
+#&gt; [1] &quot;CN&quot;
+#&gt; 
+#&gt; $Variant
+#&gt; [1] &quot;&quot;
+#&gt; 
+#&gt; $Name
+#&gt; [1] &quot;zh_CN&quot;</code></pre>
+<ul>
+<li><code>boundary()</code>函数可以用来匹配边界，我们可以在其他字符串操作函数中使用它</li>
+</ul>
+<pre class="r"><code>x = &quot;This is  a sentence&quot;
+str_view_all(x, boundary(&quot;word&quot;))</code></pre>
+<div id="htmlwidget-19" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-19">{"x":{"html":"<ul>\n  <li><span class='match'>This<\/span> <span class='match'>is<\/span>  <span class='match'>a<\/span> <span class='match'>sentence<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>str_extract_all(x, boundary(&quot;word&quot;))
+#&gt; [[1]]
+#&gt; [1] &quot;This&quot;     &quot;is&quot;       &quot;a&quot;        &quot;sentence&quot;</code></pre>
+</div>
+<div class="section level2">
+<h2>正则表达式其他应用</h2>
+<p>R基础包中存在2个常用函数，它们可以使用正则表达式：</p>
+<ul>
+<li><code>apropos()</code>函数在全局环境中搜索所有可用对象，当不记得函数名时非常有用：</li>
+</ul>
+<pre class="r"><code>apropos(&quot;replace&quot;)
+#&gt; [1] &quot;%+replace%&quot;       &quot;replace&quot;          &quot;replace_na&quot;      
+#&gt; [4] &quot;setReplaceMethod&quot; &quot;str_replace&quot;      &quot;str_replace_all&quot; 
+#&gt; [7] &quot;str_replace_na&quot;   &quot;theme_replace&quot;</code></pre>
+<ul>
+<li><code>dir()</code>函数列出一个目录下的所有文件，其参数pattern可以是一个正则表达式：</li>
+</ul>
+<pre class="r"><code>head(dir(pattern = &quot;\\.Rmd$&quot;))
+#&gt; [1] &quot;2018-08-10-r-installation.Rmd&quot;     
+#&gt; [2] &quot;2019-06-21-baseplot-addplot.Rmd&quot;   
+#&gt; [3] &quot;2019-06-21-baseplot-multiplots.Rmd&quot;
+#&gt; [4] &quot;2019-07-07-use-rstatix.Rmd&quot;        
+#&gt; [5] &quot;2019-07-14-forestplot-usage.Rmd&quot;   
+#&gt; [6] &quot;2019-07-14-hpc-usage-in-r.Rmd&quot;</code></pre>
+</div>
+<div id="stringi" class="section level2">
+<h2>stringi</h2>
+<p><strong>stringr</strong>是建立于<strong>stringi</strong>基础之上的。stringr比较容易学习（书上写非常容易，我个人并不这样认为）——它只提供少惊醒挑选的函数，可以完成常见大部分的字符串操作。而stringi的设计思想是尽量全面，几乎包含了我们可以用到的所有函数，共234个。</p>
+<p>当我们从stringr过渡到stringi时会比较容易，相应的函数会经历<code>str_</code>到<code>stri_</code>的转变。</p>
+</div>
+<div class="section level2">
+<h2>线程信息</h2>
+<pre class="r"><code>sessionInfo()
+#&gt; R version 3.6.0 (2019-04-26)
+#&gt; Platform: x86_64-apple-darwin15.6.0 (64-bit)
+#&gt; Running under: macOS High Sierra 10.13.5
+#&gt; 
+#&gt; Matrix products: default
+#&gt; BLAS:   /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRblas.0.dylib
+#&gt; LAPACK: /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRlapack.dylib
+#&gt; 
+#&gt; locale:
+#&gt; [1] zh_CN.UTF-8/zh_CN.UTF-8/zh_CN.UTF-8/C/zh_CN.UTF-8/zh_CN.UTF-8
+#&gt; 
+#&gt; attached base packages:
+#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     
+#&gt; 
+#&gt; other attached packages:
+#&gt;  [1] forcats_0.4.0   stringr_1.4.0   dplyr_0.8.0.1   purrr_0.3.2    
+#&gt;  [5] readr_1.3.1     tidyr_0.8.3     tibble_2.1.1    ggplot2_3.1.1  
+#&gt;  [9] tidyverse_1.2.1 pacman_0.5.1   
+#&gt; 
+#&gt; loaded via a namespace (and not attached):
+#&gt;  [1] tidyselect_0.2.5     xfun_0.6             haven_2.1.0         
+#&gt;  [4] lattice_0.20-38      colorspace_1.4-1     generics_0.0.2      
+#&gt;  [7] vctrs_0.1.0          htmltools_0.3.6      yaml_2.2.0          
+#&gt; [10] utf8_1.1.4           rlang_0.4.0          pillar_1.4.0        
+#&gt; [13] glue_1.3.1           withr_2.1.2          modelr_0.1.4        
+#&gt; [16] readxl_1.3.1         plyr_1.8.4           munsell_0.5.0       
+#&gt; [19] blogdown_0.12        gtable_0.3.0         cellranger_1.1.0    
+#&gt; [22] rvest_0.3.3          htmlwidgets_1.3      evaluate_0.13       
+#&gt; [25] knitr_1.22           fansi_0.4.0          broom_0.5.2         
+#&gt; [28] Rcpp_1.0.1           scales_1.0.0         backports_1.1.4     
+#&gt; [31] jsonlite_1.6         microbenchmark_1.4-6 hms_0.4.2           
+#&gt; [34] digest_0.6.18        stringi_1.4.3        bookdown_0.10       
+#&gt; [37] grid_3.6.0           cli_1.1.0            tools_3.6.0         
+#&gt; [40] magrittr_1.5         lazyeval_0.2.2       zeallot_0.1.0       
+#&gt; [43] crayon_1.3.4         pkgconfig_2.0.2      xml2_1.2.0          
+#&gt; [46] lubridate_1.7.4      assertthat_0.2.1     rmarkdown_1.12      
+#&gt; [49] httr_1.4.0           rstudioapi_0.10      R6_2.4.0            
+#&gt; [52] nlme_3.1-139         compiler_3.6.0</code></pre>
+</div>

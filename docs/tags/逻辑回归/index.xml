@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>逻辑回归 on Shixiang Wang | 王诗翔</title>
+    <link>/tags/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/</link>
+    <description>Recent content in 逻辑回归 on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 15 Apr 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Python机器学习基础综合实战</title>
+      <link>/cn/post/python-basic-ml-flow/</link>
+      <pubDate>Sun, 15 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/python-basic-ml-flow/</guid>
+      <description>Python机器学习实例&amp;hellip;</description>
+    </item>
+    
+  </channel>
+</rss>

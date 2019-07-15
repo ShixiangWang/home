@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>数据处理 on Shixiang Wang | 王诗翔</title>
+    <link>/tags/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/</link>
+    <description>Recent content in 数据处理 on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 03 Sep 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Linux数据处理命令工具</title>
+      <link>/cn/post/2017-09-03-linux-data-analysis-tools/</link>
+      <pubDate>Sun, 03 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2017-09-03-linux-data-analysis-tools/</guid>
+      <description>系统介绍Linux会使用到的数据处理命令&amp;hellip;</description>
+    </item>
+    
+  </channel>
+</rss>

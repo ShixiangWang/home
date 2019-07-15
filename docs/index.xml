@@ -155,12 +155,210 @@ Datasets have associated metadata, specifying their data type and cohort.</descr
     </item>
     
     <item>
+      <title>使用purrr和broom处理多个模型</title>
+      <link>/cn/post/purrr-and-broom/</link>
+      <pubDate>Mon, 15 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/purrr-and-broom/</guid>
+      <description>整理自《R for data science》 本文介绍3种方法用于处理大量模型。 使用多个简单模型更好地理解复杂数据集。 使用列表列在数据框中保存任意数据结构。</description>
+    </item>
+    
+    <item>
+      <title>modelr——基础模型实现</title>
+      <link>/cn/post/modelr-base-models/</link>
+      <pubDate>Fri, 05 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/modelr-base-models/</guid>
+      <description>建立模型的目的是提供一个简单的、低纬度的数据集摘要。我们使用模型的目的是将数据划分为模式和残差，借助模型探索数据集，拨开覆盖在数据集结构上的</description>
+    </item>
+    
+    <item>
+      <title>用purrr实现迭代</title>
+      <link>/cn/post/purrr-loop/</link>
+      <pubDate>Thu, 04 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/purrr-loop/</guid>
+      <description>函数有3个好处： 更容易看清代码意图 更容易对需求变化做出反应（改变） 更容易减少程序bug 除了函数，减少重复代码的另一种工具是迭代，它的作用在于</description>
+    </item>
+    
+    <item>
+      <title>模型预测与置信区间</title>
+      <link>/cn/post/linear-model-prediction/</link>
+      <pubDate>Sun, 30 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/linear-model-prediction/</guid>
+      <description>线性回归的主要目的是根据一个或多个预测变量（自变量）预测一个结果值。本文会讨论如何使用R来预测新观测值的结果。你也将学习如何展示置信区间和预</description>
+    </item>
+    
+    <item>
+      <title>showtext：在R图里面更简单地使用字体</title>
+      <link>/cn/post/showtext-pkg/</link>
+      <pubDate>Thu, 20 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/showtext-pkg/</guid>
+      <description>在如何修改画图使用的字体这篇文章中，我介绍了一种解决R图里字体的方案——extrafont包。今天意外看到另一个解决字体问题的包，再次推荐和</description>
+    </item>
+    
+    <item>
+      <title>stringr——处理字符串</title>
+      <link>/cn/post/stringr-operation/</link>
+      <pubDate>Mon, 17 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/stringr-operation/</guid>
+      <description>导入包： library(tidyverse) #&amp;gt; Registered S3 methods overwritten by &amp;#39;ggplot2&amp;#39;: #&amp;gt; method from #&amp;gt; [.quosures rlang #&amp;gt; c.quosures rlang #&amp;gt; print.quosures rlang #&amp;gt; Registered S3 method overwritten by &amp;#39;rvest&amp;#39;: #&amp;gt; method from #&amp;gt; read_xml.response xml2 #&amp;gt; ─ Attaching packages ─────────────────────────────</description>
+    </item>
+    
+    <item>
+      <title>Forest Plot（森林图）绘制</title>
+      <link>/cn/post/use-forestplot/</link>
+      <pubDate>Mon, 10 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/use-forestplot/</guid>
+      <description>森林图常见于元分析，但其使用绝不仅如此，比如我现在想要研究的对象有诸多HR结果，我想要汇总为一张图，森林图就是个非常好的选择。ggpubr包</description>
+    </item>
+    
+    <item>
+      <title>使用shinydashboard</title>
+      <link>/cn/post/use-shinydashboard/</link>
+      <pubDate>Fri, 31 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/use-shinydashboard/</guid>
+      <description>除了shiny包，RStudio还开发了一个shinydashboard扩展包，它呈现数据的方式就是专门用于概览或检测数据。 接下来的例子意在</description>
+    </item>
+    
+    <item>
+      <title>高性能计算</title>
+      <link>/cn/post/hpc-in-r/</link>
+      <pubDate>Wed, 29 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/hpc-in-r/</guid>
+      <description>《R语言编程指南》 代码性能 简单看函数运行时间，用system.time()函数。 高级点，使用microbenchmark包的microben</description>
+    </item>
+    
+    <item>
       <title>R的安装与配置</title>
       <link>/cn/post/2018-08-10-r-installation/</link>
       <pubDate>Fri, 10 Aug 2018 00:00:00 +0000</pubDate>
       
       <guid>/cn/post/2018-08-10-r-installation/</guid>
       <description>Windows R安装好后配置是本文的重点。关于Windows R的安装，百度有一大堆的教程。其中重点有3： 安装R，下载https://mirrors.tu</description>
+    </item>
+    
+    <item>
+      <title>ABSOLUTE 推断框架</title>
+      <link>/cn/post/2018-07-24-absolute-inference/</link>
+      <pubDate>Tue, 24 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2018-07-24-absolute-inference/</guid>
+      <description>样本混合物中Cancer细胞比例：$\alpha$ (假设单染色体组monogenomic，即有同源SCNAs) 样本混合物中Normal细胞比</description>
+    </item>
+    
+    <item>
+      <title>do.call的使用</title>
+      <link>/cn/post/usage-of-docall/</link>
+      <pubDate>Thu, 07 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/usage-of-docall/</guid>
+      <description>学习下R中一个有趣地函数，do.call。 do.call这个函数是我在搜索问题时会看到别人经常使用的一个函数，心生好奇，这次来看看它的用法。</description>
+    </item>
+    
+    <item>
+      <title>Python机器学习基础综合实战</title>
+      <link>/cn/post/python-basic-ml-flow/</link>
+      <pubDate>Sun, 15 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/python-basic-ml-flow/</guid>
+      <description>Python机器学习实例&amp;hellip;</description>
+    </item>
+    
+    <item>
+      <title>初识sed与awk</title>
+      <link>/cn/post/2017-12-25-sed-and-gawk/</link>
+      <pubDate>Mon, 25 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2017-12-25-sed-and-gawk/</guid>
+      <description>简单介绍sed与awk命令&amp;hellip;</description>
+    </item>
+    
+    <item>
+      <title>创建和使用shell函数</title>
+      <link>/cn/post/2017-11-26-shell-create-function/</link>
+      <pubDate>Sun, 26 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2017-11-26-shell-create-function/</guid>
+      <description>讲解Shell该如何创建函数&amp;hellip;</description>
+    </item>
+    
+    <item>
+      <title>Bioconductor分析RNA-seq数据</title>
+      <link>/cn/post/2017-10-27-rnaseq-data-analysis/</link>
+      <pubDate>Fri, 27 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2017-10-27-rnaseq-data-analysis/</guid>
+      <description>参考学习《R语言与Bioconductor生物信息学应用》第六章 前言 Y叔的公众号biobabble发过一篇【听说你想学R？】,七月份发的但昨</description>
+    </item>
+    
+    <item>
+      <title>Bioconductor分析基因芯片数据</title>
+      <link>/cn/post/2017-10-09-microarray-data-analysis/</link>
+      <pubDate>Mon, 09 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2017-10-09-microarray-data-analysis/</guid>
+      <description>*参考学习《R语言与Bioconductor——生物信息学应用》第五章*，根据自己学习有删改，欢迎分享。本文中有些预备知识或一些方法的原理没</description>
+    </item>
+    
+    <item>
+      <title>控制脚本</title>
+      <link>/cn/post/2017-09-04-control_shell/</link>
+      <pubDate>Mon, 04 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2017-09-04-control_shell/</guid>
+      <description>如何控制脚本并实现自动化？&amp;hellip;</description>
+    </item>
+    
+    <item>
+      <title>Linux数据处理命令工具</title>
+      <link>/cn/post/2017-09-03-linux-data-analysis-tools/</link>
+      <pubDate>Sun, 03 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2017-09-03-linux-data-analysis-tools/</guid>
+      <description>系统介绍Linux会使用到的数据处理命令&amp;hellip;</description>
+    </item>
+    
+    <item>
+      <title>Linux脚本编程——呈现数据</title>
+      <link>/cn/post/2017-08-22-shell-show-data/</link>
+      <pubDate>Mon, 21 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2017-08-22-shell-show-data/</guid>
+      <description>怎么通过脚本呈现数据&amp;hellip;包括重定向与日志文件等。</description>
+    </item>
+    
+    <item>
+      <title>Shell脚本之处理用户输入</title>
+      <link>/cn/post/2017-08-19-working-with-user-input/</link>
+      <pubDate>Sat, 19 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2017-08-19-working-with-user-input/</guid>
+      <description>学习如何处理shell的用户输入&amp;hellip;</description>
+    </item>
+    
+    <item>
+      <title>Linux结构化命令</title>
+      <link>/cn/post/2017-08-11-structural-command-of-shell/</link>
+      <pubDate>Fri, 11 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2017-08-11-structural-command-of-shell/</guid>
+      <description>学习shell结构化命令&amp;hellip;</description>
+    </item>
+    
+    <item>
+      <title>构建基本shell脚本</title>
+      <link>/cn/post/2017-08-11-basic-shell/</link>
+      <pubDate>Fri, 11 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2017-08-11-basic-shell/</guid>
+      <description>学习Shell脚本的基本构建方式&amp;hellip;</description>
     </item>
     
     <item>

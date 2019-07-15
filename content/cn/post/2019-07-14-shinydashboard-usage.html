@@ -1,0 +1,100 @@
+---
+title: "使用shinydashboard"
+author: 王诗翔
+date: 2018-08-31
+slug: "use-shinydashboard"
+---
+
+
+
+<p>除了shiny包，RStudio还开发了一个shinydashboard扩展包，它呈现数据的方式就是专门用于概览或检测数据。</p>
+<p>接下来的例子意在说明创建一个简易的仪表板非常简单，这个仪表盘可以按每周和每月的时间刻度显示CRAN上下载量最多的最受欢迎的R扩展包。</p>
+<p>数据源由<code>cranlogs</code>包提供，先下载安装下面的包：</p>
+<pre class="r"><code>install.packages(c(&quot;shinydashboard&quot;, &quot;cranlogs&quot;))</code></pre>
+<p>快速查看下CRAN下载数据的数据源：</p>
+<pre class="r"><code>library(cranlogs)
+cran_top_downloads()
+#&gt;    rank         package count       from         to
+#&gt; 1     1        magrittr 85622 2019-07-13 2019-07-13
+#&gt; 2     2          aws.s3 81004 2019-07-13 2019-07-13
+#&gt; 3     3 aws.ec2metadata 77724 2019-07-13 2019-07-13
+#&gt; 4     4       rsconnect 75700 2019-07-13 2019-07-13
+#&gt; 5     5           rlang 18304 2019-07-13 2019-07-13
+#&gt; 6     6           dplyr 16591 2019-07-13 2019-07-13
+#&gt; 7     7            Rcpp 14064 2019-07-13 2019-07-13
+#&gt; 8     8        ellipsis 12938 2019-07-13 2019-07-13
+#&gt; 9     9         ggplot2 12774 2019-07-13 2019-07-13
+#&gt; 10   10           vctrs 12760 2019-07-13 2019-07-13</code></pre>
+<pre class="r"><code>cran_top_downloads(&quot;last-week&quot;)
+#&gt;    rank         package  count       from         to
+#&gt; 1     1        magrittr 655244 2019-07-07 2019-07-13
+#&gt; 2     2          aws.s3 573492 2019-07-07 2019-07-13
+#&gt; 3     3 aws.ec2metadata 548869 2019-07-07 2019-07-13
+#&gt; 4     4       rsconnect 538892 2019-07-07 2019-07-13
+#&gt; 5     5           rlang 243322 2019-07-07 2019-07-13
+#&gt; 6     6           dplyr 214707 2019-07-07 2019-07-13
+#&gt; 7     7            Rcpp 182036 2019-07-07 2019-07-13
+#&gt; 8     8        ellipsis 178335 2019-07-07 2019-07-13
+#&gt; 9     9           vctrs 177943 2019-07-07 2019-07-13
+#&gt; 10   10          digest 165167 2019-07-07 2019-07-13</code></pre>
+<p>为了充分利用shinydashboard包，最好提前浏览下<a href="https://rstudio.github.io/shinydashboard/structure.html" class="uri">https://rstudio.github.io/shinydashboard/structure.html</a>。</p>
+<p>与创建shiny应用程序类似，我们从用户界面开始，使用<code>dashboardPage</code>、<code>dashboardSidebar</code>和<code>dashboardBody</code>这3个函数。在仪表板中，我们想要展示扩展包的下载动态，以及每周和每月最受欢迎的扩展包。</p>
+<p>我们把月度和周度的菜单放到侧栏中，这样用户可以选择需要查看的数据。在每个标签页，把绘图和表格放在一起。</p>
+<pre class="r"><code>library(shiny)
+library(shinydashboard)
+#&gt; 
+#&gt; 载入程辑包：&#39;shinydashboard&#39;
+#&gt; The following object is masked from &#39;package:graphics&#39;:
+#&gt; 
+#&gt;     box
+library(formattable)
+library(cranlogs)
+ui = dashboardPage(
+    dashboardHeader(title = &quot;CRAN Downloads&quot;),
+    dashboardSidebar(sidebarMenu(
+        menuItem(&quot;Last week&quot;,
+                 tabName = &quot;last_week&quot;, icon = icon(&quot;list&quot;)),
+        menuItem(&quot;Last month&quot;,
+                 tabName = &quot;last_month&quot;, icon = icon(&quot;list&quot;))
+    )),
+    dashboardBody(tabItems(
+        tabItem(tabName = &quot;last_week&quot;,
+                fluidRow(tabBox(title = &quot;Total downloads&quot;,
+                                tabPanel(&quot;Total&quot;, formattableOutput(&quot;last_week_table&quot;))), 
+                         tabBox(title = &quot;Top downloads&quot;, 
+                                tabPanel(&quot;Top&quot;, formattableOutput(&quot;last_week_top_table&quot;))))),
+        tabItem(tabName = &quot;last_month&quot;,
+                fluidRow(tabBox(title = &quot;Top downloads&quot;,
+                                tabPanel(&quot;Total&quot;, plotOutput(&quot;last_month_barplot&quot;))),
+                         tabBox(title = &quot;Top downloads&quot;,
+                                tabPanel(&quot;Top&quot;, formattableOutput(&quot;last_month_top_table&quot;)))))
+    ))
+)</code></pre>
+<p>注意，<code>plotOutput()</code>是shiny包中的函数，而<code>formattableOutput()</code>函数则由<code>formattable</code>包提供。开发人员可以创建各种类型的HTML小工具，只要包恰当地定义了<code>render*</code>函数和<code>Output</code>函数来生成正确的HTML代码，我们就可以把小工具嵌入shiny应用程序。</p>
+<p>接下来我们定义服务器逻辑。因为输出结果完全依赖于数据源，在调用函数<code>formattable()</code>和<code>plot()</code>之前要先下载数据。</p>
+<pre class="r"><code>server = function(input, output){
+    output$last_week_table = renderFormattable({
+        data = cran_downloads(when = &quot;last-week&quot;)
+        formattable(data, list(count = color_bar(&quot;lightblue&quot;)))
+    })
+    output$last_week_top_table = renderFormattable({
+        data = cran_top_downloads(&quot;last-week&quot;)
+        formattable(data, list(count = color_bar(&quot;lightblue&quot;),
+                               package = formatter(&quot;span&quot;,
+                                                   style = &quot;font-family: monospace;&quot;)))
+    })
+    output$last_month_barplot = renderPlot({
+        data = subset(cran_downloads(when = &quot;last-month&quot;), count &gt; 0)
+        with(data, barplot(count, names.arg = date),
+             main = &quot;Last month downloads&quot;)
+    })
+    output$last_month_top_table = renderFormattable({
+        data = cran_top_downloads(&quot;last-month&quot;)
+        formattable(data, list(count = color_bar(&quot;lightblue&quot;),
+                               package = formatter(&quot;span&quot;,
+                                                   style = &quot;font-family: monospace;&quot;)))
+    })
+}</code></pre>
+<p>如果数据持续更新，我们可以创建一个动态的仪表板，其中的表格和图表会定期更新。使用<code>reactiveTimer</code>和<code>reactive</code>是实现该功能的关键。如果有需要请查看帮助文档。</p>
+<p>现在我们可以运行应用程序了：</p>
+<pre class="r"><code>runApp(shinyApp(ui, server))</code></pre>

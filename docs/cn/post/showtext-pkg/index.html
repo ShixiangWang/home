@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    
+    <link rel="stylesheet" href="../../../fonts/academicons-1.8.6/css/academicons.min.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../logo/bodhi.png"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    
+    <title>showtext：在R图里面更简单地使用字体 - 王诗翔</title>
+    
+     
+    <meta property="og:title" content="showtext：在R图里面更简单地使用字体 - Shixiang Wang | 王诗翔">
+    
+
+    
+      
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="../../../css/style.css" />
+    <link rel="stylesheet" href="../../../css/mystyle.css" /> 
+    <link rel="stylesheet" href="../../../css/fonts.css" />
+    
+<script async src="../../../js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="../../../css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="../../../"><img src="https://avatars1.githubusercontent.com/u/25057508?s=460&amp;v=4" alt="Shixiang Wang" /></a></h1>
+
+
+
+      <nav class="menu">
+        <input id="menu-check" type="checkbox" />
+        <label id="menu-label" for="menu-check" class="unselectable">
+          <span class="icon close-icon">✕</span>
+          <span class="icon open-icon">☰</span>
+          <span class="text">Menu</span>
+        </label>
+        <ul>
+        
+        
+        <li><a href="../../../">首页</a></li>
+        
+        <li><a href="../../../cn/about/">关于</a></li>
+        
+        <li><a href="../../../cn/post/">博客</a></li>
+        
+        <li><a href="../../../cn/read/">读书</a></li>
+        
+        <li><a href="../../../cn/writing">写作</a></li>
+        
+        <li><a href="../../../cn/research/">研究</a></li>
+        
+        <li><a href="../../../cn/tools/">工具</a></li>
+        
+        <li><a href="../../../cn/cv-cn/shixiang">简历</a></li>
+        
+        <li><a href="../../../cn/todo">ToDo</a></li>
+        
+        <li><a href="../../../en/">English</a></li>
+        
+        
+
+<li class="menu-extra"></li>
+
+
+
+
+
+
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2019-07-14-showtext-newfont-pkgs.Rmd" target="_blank">编辑</a></li>
+
+
+<li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+        </ul>
+      </nav>
+    </header>
+
+    <article class="main">
+      <header class="title">
+        
+
+<h1>showtext：在R图里面更简单地使用字体</h1>
+
+
+
+<h3>王诗翔 &middot 
+2018-09-20</h3> 
+
+
+   
+  
+
+
+      </header>
+
+
+
+
+
+<p>在<a href="https://www.jianshu.com/p/466ddc677a94">如何修改画图使用的字体</a>这篇文章中，我介绍了一种解决R图里字体的方案——extrafont包。今天意外看到另一个解决字体问题的包，再次推荐和介绍一番。</p>
+<p>showtext帮助用户在图中更好地使用多种类型字体，包括TrueType、OpenType等。该包主要尝试做以下两件事情：</p>
+<ul>
+<li>让R知道这些字体</li>
+<li>让这些字体绘制文本</li>
+</ul>
+<p>该包的动力在于在R图中使用非标准字体不方便，比如中文字体。</p>
+<div class="section level2">
+<h2>简单实例</h2>
+<pre><code>library(showtext)
+## Loading Google fonts (http://www.google.com/fonts)
+font_add_google(&quot;Gochi Hand&quot;, &quot;gochi&quot;)
+font_add_google(&quot;Schoolbell&quot;, &quot;bell&quot;)
+font_add_google(&quot;Covered By Your Grace&quot;, &quot;grace&quot;)
+font_add_google(&quot;Rock Salt&quot;, &quot;rock&quot;)
+## Automatically use showtext to render text for future devices
+showtext_auto()
+## Tell showtext the resolution of the device,
+## only needed for bitmap graphics. Default is 96
+## showtext_opts(dpi = 96)
+set.seed(123)
+x = rnorm(10)
+y = 1 + x + rnorm(10, sd = 0.2)
+y[1] = 5
+mod = lm(y ~ x)
+## Plotting functions as usual
+## Open a graphics device if you want, e.g.
+## png(&quot;demo.png&quot;, 700, 600, res = 96)
+op = par(cex.lab = 2, cex.axis = 1.5, cex.main = 2)
+plot(x, y, pch = 16, col = &quot;steelblue&quot;,
+     xlab = &quot;X variable&quot;, ylab = &quot;Y variable&quot;, family = &quot;gochi&quot;)
+grid()
+title(&quot;Draw Plots Before You Fit A Regression&quot;, family = &quot;bell&quot;)
+text(-0.5, 4.5, &quot;This is the outlier&quot;, cex = 2, col = &quot;steelblue&quot;,
+     family = &quot;grace&quot;)
+abline(coef(mod))
+abline(1, 1, col = &quot;red&quot;)
+par(family = &quot;rock&quot;)
+text(1, 1, expression(paste(&quot;True model: &quot;, y == x + 1)),
+     cex = 1.5, col = &quot;red&quot;, srt = 20)
+text(0, 2, expression(paste(&quot;OLS: &quot;, hat(y) == 0.79 * x + 1.49)),
+     cex = 1.5, srt = 15)
+legend(&quot;topright&quot;, legend = c(&quot;Truth&quot;, &quot;OLS&quot;), col = c(&quot;red&quot;, &quot;black&quot;), lty = 1)
+par(op)</code></pre>
+<p><img src="https://camo.githubusercontent.com/6e5955e7bd2e351c4ef073fe19b9e55a91b32a81/687474703a2f2f692e696d6775722e636f6d2f37646d636368492e706e67" /></p>
+<p>在这个例子中我们首先导入了一些<a href="http://www.google.com/fonts">在线谷歌字体</a>，然后用<code>showtext_auto()</code>函数告诉R控制图的文本字体输出，接下来的所有部分就和平常我们画图一样。</p>
+<blockquote>
+<p>This example should work on most graphics devices, including pdf(), png(), postscript(), and on-screen devices such as windows() on Windows and x11() on Linux.</p>
+</blockquote>
+</div>
+<div class="section level2">
+<h2>用法</h2>
+<p>分为以下几步：</p>
+<ul>
+<li>载入字体</li>
+<li>打开绘图设备</li>
+<li>声明你想要使用showtext画文本图</li>
+<li>画图</li>
+<li>关闭画图设备</li>
+</ul>
+<blockquote>
+<p>If you want to use showtext globally, you can call the function showtext_auto() once, and then all the devices after that will automatically use showtext to render text, as the example in the beginning shows.</p>
+<p>If you want to have finer control on which part of the code should use showtext, functions showtext_begin() and showtext_end() will help.
+## 载入字体</p>
+</blockquote>
+<p>载入字体是通过<code>sysfonts</code>包实现的。</p>
+<blockquote>
+<p>The easy way to load font into showtext is by calling font.add(family, regular), where family is the name that you assign to that font (so that later you can call par(family = …) to use this font in plotting), and regular is the path to the font file. That is to say, only knowing the “font name” is not enough, since they are usually system dependent. On the contrary, font file is the entity that actually provides the character glyphs.
+因为一般系统字体放在标准目录下，所以我们can use font.paths() to check the current search path or add a new one, and use font.files() to list available font files in the search path.</p>
+</blockquote>
+<pre><code>font.paths()
+#&gt; &#39;fond.paths()&#39; is now renamed to &#39;font_paths()&#39;
+#&gt; The old version still works, but consider using the new function in future code
+#&gt; [1] &quot;/Library/Fonts&quot;           &quot;/Users/wsx/Library/Fonts&quot;
+font.files()
+#&gt; &#39;font.files()&#39; is now renamed to &#39;font_files()&#39;
+#&gt; The old version still works, but consider using the new function in future code
+#&gt;   [1] &quot;Al Nile.ttc&quot;                     &quot;Al Tarikh.ttc&quot;                  
+#&gt;   [3] &quot;AlBayan.ttc&quot;                     &quot;AmericanTypewriter.ttc&quot;         
+#&gt;   [5] &quot;Andale Mono.ttf&quot;                 &quot;Apple Chancery.ttf&quot;             
+#&gt;   [7] &quot;AppleGothic.ttf&quot;                 &quot;AppleMyungjo.ttf&quot;               
+#&gt;   [9] &quot;Arial Black.ttf&quot;                 &quot;Arial Bold Italic.ttf&quot;          
+#&gt;  [11] &quot;Arial Bold.ttf&quot;                  &quot;Arial Italic.ttf&quot;               
+#&gt;  [13] &quot;Arial Narrow Bold Italic.ttf&quot;    &quot;Arial Narrow Bold.ttf&quot;          
+#&gt;  [15] &quot;Arial Narrow Italic.ttf&quot;         &quot;Arial Narrow.ttf&quot;               
+#&gt;  [17] &quot;Arial Rounded Bold.ttf&quot;          &quot;Arial Unicode.ttf&quot;              
+#&gt;  [19] &quot;Arial.ttf&quot;                       &quot;Athelas.ttc&quot;                    
+#&gt;  [21] &quot;Ayuthaya.ttf&quot;                    &quot;Baghdad.ttc&quot;                    
+#&gt;  [23] &quot;Bangla MN.ttc&quot;                   &quot;Bangla Sangam MN.ttc&quot;           
+#&gt;  [25] &quot;Baskerville.ttc&quot;                 &quot;Beirut.ttc&quot;                     
+#&gt;  [27] &quot;BigCaslon.ttf&quot;                   &quot;Bodoni 72 OS.ttc&quot;               
+#&gt;  [29] &quot;Bodoni 72 Smallcaps Book.ttf&quot;    &quot;Bodoni 72.ttc&quot;                  
+#&gt;  [31] &quot;Bodoni Ornaments.ttf&quot;            &quot;Bradley Hand Bold.ttf&quot;          
+#&gt;  [33] &quot;Brush Script.ttf&quot;                &quot;Chalkboard.ttc&quot;                 
+#&gt;  [35] &quot;ChalkboardSE.ttc&quot;                &quot;Chalkduster.ttf&quot;                
+#&gt;  [37] &quot;Charter.ttc&quot;                     &quot;Cochin.ttc&quot;                     
+#&gt;  [39] &quot;Comic Sans MS Bold.ttf&quot;          &quot;Comic Sans MS.ttf&quot;              
+#&gt;  [41] &quot;Copperplate.ttc&quot;                 &quot;Corsiva.ttc&quot;                    
+#&gt;  [43] &quot;Courier New Bold Italic.ttf&quot;     &quot;Courier New Bold.ttf&quot;           
+#&gt;  [45] &quot;Courier New Italic.ttf&quot;          &quot;Courier New.ttf&quot;                
+#&gt;  [47] &quot;Damascus.ttc&quot;                    &quot;DecoTypeNaskh.ttc&quot;              
+#&gt;  [49] &quot;Devanagari Sangam MN.ttc&quot;        &quot;DevanagariMT.ttc&quot;               
+#&gt;  [51] &quot;Didot.ttc&quot;                       &quot;DIN Alternate Bold.ttf&quot;         
+#&gt;  [53] &quot;DIN Condensed Bold.ttf&quot;          &quot;Diwan Kufi.ttc&quot;                 
+#&gt;  [55] &quot;Diwan Thuluth.ttf&quot;               &quot;EuphemiaCAS.ttc&quot;                
+#&gt;  [57] &quot;Farah.ttc&quot;                       &quot;Farisi.ttf&quot;                     
+#&gt;  [59] &quot;Futura.ttc&quot;                      &quot;Georgia Bold Italic.ttf&quot;        
+#&gt;  [61] &quot;Georgia Bold.ttf&quot;                &quot;Georgia Italic.ttf&quot;             
+#&gt;  [63] &quot;Georgia.ttf&quot;                     &quot;GillSans.ttc&quot;                   
+#&gt;  [65] &quot;Gujarati Sangam MN.ttc&quot;          &quot;GujaratiMT.ttc&quot;                 
+#&gt;  [67] &quot;Gurmukhi MN.ttc&quot;                 &quot;Gurmukhi Sangam MN.ttc&quot;         
+#&gt;  [69] &quot;Gurmukhi.ttf&quot;                    &quot;Herculanum.ttf&quot;                 
+#&gt;  [71] &quot;Hoefler Text Ornaments.ttf&quot;      &quot;Hoefler Text.ttc&quot;               
+#&gt;  [73] &quot;Impact.ttf&quot;                      &quot;InaiMathi-MN.ttc&quot;               
+#&gt;  [75] &quot;Iowan Old Style.ttc&quot;             &quot;ITFDevanagari.ttc&quot;              
+#&gt;  [77] &quot;Kailasa.ttc&quot;                     &quot;Kannada MN.ttc&quot;                 
+#&gt;  [79] &quot;Kannada Sangam MN.ttc&quot;           &quot;Kefa.ttc&quot;                       
+#&gt;  [81] &quot;Khmer MN.ttc&quot;                    &quot;Khmer Sangam MN.ttf&quot;            
+#&gt;  [83] &quot;Kokonor.ttf&quot;                     &quot;Krungthep.ttf&quot;                  
+#&gt;  [85] &quot;KufiStandardGK.ttc&quot;              &quot;Lao MN.ttc&quot;                     
+#&gt;  [87] &quot;Lao Sangam MN.ttf&quot;               &quot;Luminari.ttf&quot;                   
+#&gt;  [89] &quot;Malayalam MN.ttc&quot;                &quot;Malayalam Sangam MN.ttc&quot;        
+#&gt;  [91] &quot;Marion.ttc&quot;                      &quot;Microsoft Sans Serif.ttf&quot;       
+#&gt;  [93] &quot;Mishafi Gold.ttf&quot;                &quot;Mishafi.ttf&quot;                    
+#&gt;  [95] &quot;Mshtakan.ttc&quot;                    &quot;Muna.ttc&quot;                       
+#&gt;  [97] &quot;Myanmar MN.ttc&quot;                  &quot;Myanmar Sangam MN.ttc&quot;          
+#&gt;  [99] &quot;Nadeem.ttc&quot;                      &quot;NewPeninimMT.ttc&quot;               
+#&gt; [101] &quot;NISC18030.ttf&quot;                   &quot;Oriya MN.ttc&quot;                   
+#&gt; [103] &quot;Oriya Sangam MN.ttc&quot;             &quot;Papyrus.ttc&quot;                    
+#&gt; [105] &quot;Phosphate.ttc&quot;                   &quot;PlantagenetCherokee.ttf&quot;        
+#&gt; [107] &quot;PTMono.ttc&quot;                      &quot;PTSans.ttc&quot;                     
+#&gt; [109] &quot;PTSerif.ttc&quot;                     &quot;PTSerifCaption.ttc&quot;             
+#&gt; [111] &quot;Raanana.ttc&quot;                     &quot;Rockwell.ttc&quot;                   
+#&gt; [113] &quot;Sana.ttc&quot;                        &quot;Sathu.ttf&quot;                      
+#&gt; [115] &quot;Savoye LET.ttc&quot;                  &quot;Seravek.ttc&quot;                    
+#&gt; [117] &quot;Shree714.ttc&quot;                    &quot;SignPainter.ttc&quot;                
+#&gt; [119] &quot;Silom.ttf&quot;                       &quot;Sinhala MN.ttc&quot;                 
+#&gt; [121] &quot;Sinhala Sangam MN.ttc&quot;           &quot;Skia.ttf&quot;                       
+#&gt; [123] &quot;SnellRoundhand.ttc&quot;              &quot;Songti.ttc&quot;                     
+#&gt; [125] &quot;STIXGeneral.otf&quot;                 &quot;STIXGeneralBol.otf&quot;             
+#&gt; [127] &quot;STIXGeneralBolIta.otf&quot;           &quot;STIXGeneralItalic.otf&quot;          
+#&gt; [129] &quot;STIXIntDBol.otf&quot;                 &quot;STIXIntDReg.otf&quot;                
+#&gt; [131] &quot;STIXIntSmBol.otf&quot;                &quot;STIXIntSmReg.otf&quot;               
+#&gt; [133] &quot;STIXIntUpBol.otf&quot;                &quot;STIXIntUpDBol.otf&quot;              
+#&gt; [135] &quot;STIXIntUpDReg.otf&quot;               &quot;STIXIntUpReg.otf&quot;               
+#&gt; [137] &quot;STIXIntUpSmBol.otf&quot;              &quot;STIXIntUpSmReg.otf&quot;             
+#&gt; [139] &quot;STIXNonUni.otf&quot;                  &quot;STIXNonUniBol.otf&quot;              
+#&gt; [141] &quot;STIXNonUniBolIta.otf&quot;            &quot;STIXNonUniIta.otf&quot;              
+#&gt; [143] &quot;STIXSizFiveSymReg.otf&quot;           &quot;STIXSizFourSymBol.otf&quot;          
+#&gt; [145] &quot;STIXSizFourSymReg.otf&quot;           &quot;STIXSizOneSymBol.otf&quot;           
+#&gt; [147] &quot;STIXSizOneSymReg.otf&quot;            &quot;STIXSizThreeSymBol.otf&quot;         
+#&gt; [149] &quot;STIXSizThreeSymReg.otf&quot;          &quot;STIXSizTwoSymBol.otf&quot;           
+#&gt; [151] &quot;STIXSizTwoSymReg.otf&quot;            &quot;STIXVar.otf&quot;                    
+#&gt; [153] &quot;STIXVarBol.otf&quot;                  &quot;SukhumvitSet.ttc&quot;               
+#&gt; [155] &quot;SuperClarendon.ttc&quot;              &quot;Tahoma Bold.ttf&quot;                
+#&gt; [157] &quot;Tahoma.ttf&quot;                      &quot;Tamil MN.ttc&quot;                   
+#&gt; [159] &quot;Tamil Sangam MN.ttc&quot;             &quot;Telugu MN.ttc&quot;                  
+#&gt; [161] &quot;Telugu Sangam MN.ttc&quot;            &quot;Times New Roman Bold Italic.ttf&quot;
+#&gt; [163] &quot;Times New Roman Bold.ttf&quot;        &quot;Times New Roman Italic.ttf&quot;     
+#&gt; [165] &quot;Times New Roman.ttf&quot;             &quot;Trattatello.ttf&quot;                
+#&gt; [167] &quot;Trebuchet MS Bold Italic.ttf&quot;    &quot;Trebuchet MS Bold.ttf&quot;          
+#&gt; [169] &quot;Trebuchet MS Italic.ttf&quot;         &quot;Trebuchet MS.ttf&quot;               
+#&gt; [171] &quot;Verdana Bold Italic.ttf&quot;         &quot;Verdana Bold.ttf&quot;               
+#&gt; [173] &quot;Verdana Italic.ttf&quot;              &quot;Verdana.ttf&quot;                    
+#&gt; [175] &quot;Waseem.ttc&quot;                      &quot;Webdings.ttf&quot;                   
+#&gt; [177] &quot;Wingdings 2.ttf&quot;                 &quot;Wingdings 3.ttf&quot;                
+#&gt; [179] &quot;Wingdings.ttf&quot;                   &quot;Zapfino.ttf&quot;</code></pre>
+<blockquote>
+<p>At present font.add() supports TrueType fonts(<em>.ttf/</em>.ttc) and OpenType fonts(*.otf), and adding new font type is trivial as long as FreeType supports it.
+Note that showtext includes an open source CJK font WenQuanYi Micro Hei. If you just want to show CJK text in your graph, you do not need to add any extra font at all.
+注意，there are many free fonts available and accessible on the web, for instance the Google Fonts project (<a href="https://www.google.com/fonts" class="uri">https://www.google.com/fonts</a>). sysfonts provides an interface to automatically download and register those fonts through the function font_add_google(), as the example below shows.</p>
+</blockquote>
+<pre><code>library(showtext)
+font_add_google(&quot;Lobster&quot;, &quot;lobster&quot;)
+showtext_auto()
+plot(1, pch = 16, cex = 3)
+text(1, 1.1, &quot;A fancy dot&quot;, family = &quot;lobster&quot;, col = &quot;steelblue&quot;, cex = 3)</code></pre>
+<p><img src="https://camo.githubusercontent.com/1e6395c1c823f231e12c517d4d8bb32b15735193/687474703a2f2f692e696d6775722e636f6d2f704f38374c46792e706e67" /></p>
+<p>更多例子和用法查看说明文档 <a href="https://github.com/yixuan/showtext" class="uri">https://github.com/yixuan/showtext</a></p>
+<hr />
+<p>从使用上看，我更喜欢这个包~</p>
+</div>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="../../../cn/post/stringr-operation/">stringr——处理字符串</a></span>
+  <span class="nav-next"><a href="../../../cn/post/linear-model-prediction/">模型预测与置信区间</a> &rarr;</span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/post\/stringr-operation\/';
+    
+  } else if (e.which == 39) {  
+    
+    url = '\/cn\/post\/linear-model-prediction\/';
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+<section class="comments">
+  <div id="disqus_thread"></div>
+  <script src="../../../js/disqusloader.min.js"></script>
+  <script>
+  var disqus_config = function () {
+  
+    this.page.url = "https:\/\/shixiangwang.github.io\/home\/" + location.pathname;
+  
+  };
+  (function() {
+    var inIFrame = function() {
+      var iframe = true;
+      try { iframe = window.self !== window.top; } catch (e) {}
+      return iframe;
+    };
+    if (inIFrame()) return;
+    var disqus_js = '//home-xjdzylqrzp.disqus.com/embed.js';
+    
+    if (location.hash.match(/^#comment/)) {
+      var d = document, s = d.createElement('script');
+      s.src = disqus_js; s.async = true;
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    } else {
+      disqusLoader('#disqus_thread', {
+        scriptUrl: disqus_js, laziness: 0, disqusConfig: disqus_config
+      });
+    }
+  })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+
+
+<script async src="../../../js/fix-toc.js"></script>
+
+<script async src="../../../js/center-img.js"></script>
+
+<script async src="../../../js/right-quote.js"></script>
+
+<script async src="../../../js/no-highlight.js"></script>
+
+<script async src="../../../js/fix-footnote.js"></script>
+
+<script async src="../../../js/math-code.js"></script>
+
+<script async src="../../../js/external-link.js"></script>
+
+<script async src="../../../js/alt-title.js"></script>
+
+<script async src="../../../js/header-link.js"></script>
+
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+  
+  
+
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> &middot; <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> &middot; <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> &middot; <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> &middot; <a href="https://orcid.org/0000-0002-9275-3557"><i class='ai ai-orcid ai-1x'></i></a> &middot; <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 &copy; <a href="../../../">王诗翔</a> 2017 - 2019 </div>
+  
+  
+
+  <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56h9es09xn7&amp;m=6&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=1" async="async"></script>
+  </footer>
+  </article>
+  
+  </body>
+</html>
+

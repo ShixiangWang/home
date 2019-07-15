@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    
+    <link rel="stylesheet" href="../../../fonts/academicons-1.8.6/css/academicons.min.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../logo/bodhi.png"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    
+    <title>模型预测与置信区间 - 王诗翔</title>
+    
+     
+    <meta property="og:title" content="模型预测与置信区间 - Shixiang Wang | 王诗翔">
+    
+
+    
+      
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="../../../css/style.css" />
+    <link rel="stylesheet" href="../../../css/mystyle.css" /> 
+    <link rel="stylesheet" href="../../../css/fonts.css" />
+    
+<script async src="../../../js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="../../../css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="../../../"><img src="https://avatars1.githubusercontent.com/u/25057508?s=460&amp;v=4" alt="Shixiang Wang" /></a></h1>
+
+
+
+      <nav class="menu">
+        <input id="menu-check" type="checkbox" />
+        <label id="menu-label" for="menu-check" class="unselectable">
+          <span class="icon close-icon">✕</span>
+          <span class="icon open-icon">☰</span>
+          <span class="text">Menu</span>
+        </label>
+        <ul>
+        
+        
+        <li><a href="../../../">首页</a></li>
+        
+        <li><a href="../../../cn/about/">关于</a></li>
+        
+        <li><a href="../../../cn/post/">博客</a></li>
+        
+        <li><a href="../../../cn/read/">读书</a></li>
+        
+        <li><a href="../../../cn/writing">写作</a></li>
+        
+        <li><a href="../../../cn/research/">研究</a></li>
+        
+        <li><a href="../../../cn/tools/">工具</a></li>
+        
+        <li><a href="../../../cn/cv-cn/shixiang">简历</a></li>
+        
+        <li><a href="../../../cn/todo">ToDo</a></li>
+        
+        <li><a href="../../../en/">English</a></li>
+        
+        
+
+<li class="menu-extra"></li>
+
+
+
+
+
+
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2019-07-14-linear-model-prediction.Rmd" target="_blank">编辑</a></li>
+
+
+<li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+        </ul>
+      </nav>
+    </header>
+
+    <article class="main">
+      <header class="title">
+        
+
+<h1>模型预测与置信区间</h1>
+
+
+
+<h3>王诗翔 &middot 
+2018-09-30</h3> 
+
+
+   
+  
+
+
+      </header>
+
+
+
+
+
+<p>线性回归的主要目的是根据一个或多个预测变量（自变量）预测一个结果值。本文会讨论如何使用R来预测新观测值的结果。你也将学习如何展示置信区间和预测的区间。</p>
+<div class="section level2">
+<h2>构建线性回归</h2>
+<p>我们首先构建一个基于汽车速度预测刹车距离的线性回归模型。</p>
+<pre class="r"><code># Load the data
+data(&quot;cars&quot;, package = &quot;datasets&quot;)
+# Build the model
+model &lt;- lm(dist ~ speed, data = cars)
+model
+#&gt; 
+#&gt; Call:
+#&gt; lm(formula = dist ~ speed, data = cars)
+#&gt; 
+#&gt; Coefficients:
+#&gt; (Intercept)        speed  
+#&gt;      -17.58         3.93</code></pre>
+<p>因此线性模型公式可以写作： <code>dist = -17.579 + 3.932*speed</code>.</p>
+<blockquote>
+<p>公式中两个变量的单位需要注意
+## 新数据集的预测</p>
+</blockquote>
+<p>使用上面的模型，我们可以为一个新的速度值预测刹车距离。</p>
+<p>首先创建一个新的数据框，它必须包含新的数据值，比如3个新的速度值，变量名要保持一致：</p>
+<pre class="r"><code>new.speeds &lt;- data.frame(
+  speed = c(12, 19, 24)
+)</code></pre>
+<p>通过R函数<code>predict()</code>，我们可以进行新刹车距离的预测：</p>
+<pre class="r"><code>predict(model, newdata = new.speeds)
+#&gt;    1    2    3 
+#&gt; 29.6 57.1 76.8</code></pre>
+</div>
+<div class="section level2">
+<h2>置信区间</h2>
+<p>置信区间反应了均值预测的不确定性。想要展示预测均值的95%置信区间，指定选项<code>interval = &quot;confidence&quot;</code>：</p>
+<pre class="r"><code>predict(model, newdata = new.speeds, interval = &quot;confidence&quot;)
+#&gt;    fit  lwr  upr
+#&gt; 1 29.6 24.4 34.8
+#&gt; 2 57.1 51.8 62.4
+#&gt; 3 76.8 68.4 85.2</code></pre>
+<p>输出包含下面一些列：</p>
+<ul>
+<li><code>fit</code>: 预测的均值</li>
+<li><code>lwr</code>和<code>upr</code>: 预测均值的下边界与上边界，默认是95%置信区间</li>
+</ul>
+<p>该如何解释呢？例如，速度为19时的95%置信区间是 (51.83, 62.44)。这意味着根据我们的模型，一个以19 mph速度行驶的汽车，它的刹车距离平均水平在 51.83到62.44 ft范围内。</p>
+</div>
+<div class="section level2">
+<h2>预测区间</h2>
+<p>预测区间给出了单个值得不确定性。跟计算置信区间方式相同，我们可以用一下代码计算预测区间：</p>
+<pre class="r"><code>predict(model, newdata = new.speeds, interval = &quot;prediction&quot;)
+#&gt;    fit   lwr   upr
+#&gt; 1 29.6 -1.75  61.0
+#&gt; 2 57.1 25.76  88.5
+#&gt; 3 76.8 44.75 108.8</code></pre>
+<p>跟速度为19关联的95%预测区间是(25.76, 88.51)。这意味着，根据我们的模型，95%的以19 mph速度行驶的车的刹车距离在25.76和88.51之间。</p>
+<p>注意预测区间非常依赖残差服从正态分布的假设。因此，如果你确定手里的数据基本满足这个假设才能使用它。</p>
+</div>
+<div class="section level2">
+<h2>预测区间或置信区间？</h2>
+<p><strong>一个预测区间反映了单个数值的不确定性，而一个置信区间反映了预测均值的不确定性</strong>。因此，一般而言，对同样的值，预测区间的范围都比置信区间大。</p>
+<p>我们应该使用哪一种呢？这个问题的答案依赖分析的语境和目的。通常讲，我们队特定的单个预测感兴趣，这时候预测区间会比较合适。在你该使用预测区间时却使用了置信区间会极大地低估给定预测值的不确定性(P. Bruce and Bruce 2017)。</p>
+<p>下面的R代码创建一个散点图，并带有：</p>
+<ul>
+<li>蓝色的回归线</li>
+<li>灰色的置信区间</li>
+<li>红色的预测区间</li>
+</ul>
+<pre class="r"><code># 0. Build linear model 
+data(&quot;cars&quot;, package = &quot;datasets&quot;)
+model &lt;- lm(dist ~ speed, data = cars)
+# 1. Add predictions 
+pred.int &lt;- predict(model, interval = &quot;prediction&quot;)
+#&gt; Warning in predict.lm(model, interval = &quot;prediction&quot;): predictions on current data refer to _future_ responses
+mydata &lt;- cbind(cars, pred.int)
+# 2. Regression line + confidence intervals
+library(&quot;ggplot2&quot;)
+p &lt;- ggplot(mydata, aes(speed, dist)) +
+  geom_point() +
+  stat_smooth(method = lm)
+# 3. Add prediction intervals
+p + geom_line(aes(y = lwr), color = &quot;red&quot;, linetype = &quot;dashed&quot;)+
+    geom_line(aes(y = upr), color = &quot;red&quot;, linetype = &quot;dashed&quot;)</code></pre>
+<p><img src="../../../cn/post/2019-07-14-linear-model-prediction_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+</div>
+<div class="section level2">
+<h2>参考文献</h2>
+<p>Bruce, Peter, and Andrew Bruce. 2017. <em>Practical Statistics for Data Scientists</em>. O’Reilly Media.</p>
+</div>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="../../../cn/post/showtext-pkg/">showtext：在R图里面更简单地使用字体</a></span>
+  <span class="nav-next"><a href="../../../cn/post/purrr-loop/">用purrr实现迭代</a> &rarr;</span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/post\/showtext-pkg\/';
+    
+  } else if (e.which == 39) {  
+    
+    url = '\/cn\/post\/purrr-loop\/';
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+<section class="comments">
+  <div id="disqus_thread"></div>
+  <script src="../../../js/disqusloader.min.js"></script>
+  <script>
+  var disqus_config = function () {
+  
+    this.page.url = "https:\/\/shixiangwang.github.io\/home\/" + location.pathname;
+  
+  };
+  (function() {
+    var inIFrame = function() {
+      var iframe = true;
+      try { iframe = window.self !== window.top; } catch (e) {}
+      return iframe;
+    };
+    if (inIFrame()) return;
+    var disqus_js = '//home-xjdzylqrzp.disqus.com/embed.js';
+    
+    if (location.hash.match(/^#comment/)) {
+      var d = document, s = d.createElement('script');
+      s.src = disqus_js; s.async = true;
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    } else {
+      disqusLoader('#disqus_thread', {
+        scriptUrl: disqus_js, laziness: 0, disqusConfig: disqus_config
+      });
+    }
+  })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+
+
+<script async src="../../../js/fix-toc.js"></script>
+
+<script async src="../../../js/center-img.js"></script>
+
+<script async src="../../../js/right-quote.js"></script>
+
+<script async src="../../../js/no-highlight.js"></script>
+
+<script async src="../../../js/fix-footnote.js"></script>
+
+<script async src="../../../js/math-code.js"></script>
+
+<script async src="../../../js/external-link.js"></script>
+
+<script async src="../../../js/alt-title.js"></script>
+
+<script async src="../../../js/header-link.js"></script>
+
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+  
+  
+
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> &middot; <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> &middot; <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> &middot; <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> &middot; <a href="https://orcid.org/0000-0002-9275-3557"><i class='ai ai-orcid ai-1x'></i></a> &middot; <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 &copy; <a href="../../../">王诗翔</a> 2017 - 2019 </div>
+  
+  
+
+  <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56h9es09xn7&amp;m=6&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=1" async="async"></script>
+  </footer>
+  </article>
+  
+  </body>
+</html>
+

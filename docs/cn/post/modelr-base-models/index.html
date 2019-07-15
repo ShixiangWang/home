@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    
+    <link rel="stylesheet" href="../../../fonts/academicons-1.8.6/css/academicons.min.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../logo/bodhi.png"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    
+    <title>modelr——基础模型实现 - 王诗翔</title>
+    
+     
+    <meta property="og:title" content="modelr——基础模型实现 - Shixiang Wang | 王诗翔">
+    
+
+    
+      
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="../../../css/style.css" />
+    <link rel="stylesheet" href="../../../css/mystyle.css" /> 
+    <link rel="stylesheet" href="../../../css/fonts.css" />
+    
+<script async src="../../../js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="../../../css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="../../../"><img src="https://avatars1.githubusercontent.com/u/25057508?s=460&amp;v=4" alt="Shixiang Wang" /></a></h1>
+
+
+
+      <nav class="menu">
+        <input id="menu-check" type="checkbox" />
+        <label id="menu-label" for="menu-check" class="unselectable">
+          <span class="icon close-icon">✕</span>
+          <span class="icon open-icon">☰</span>
+          <span class="text">Menu</span>
+        </label>
+        <ul>
+        
+        
+        <li><a href="../../../">首页</a></li>
+        
+        <li><a href="../../../cn/about/">关于</a></li>
+        
+        <li><a href="../../../cn/post/">博客</a></li>
+        
+        <li><a href="../../../cn/read/">读书</a></li>
+        
+        <li><a href="../../../cn/writing">写作</a></li>
+        
+        <li><a href="../../../cn/research/">研究</a></li>
+        
+        <li><a href="../../../cn/tools/">工具</a></li>
+        
+        <li><a href="../../../cn/cv-cn/shixiang">简历</a></li>
+        
+        <li><a href="../../../cn/todo">ToDo</a></li>
+        
+        <li><a href="../../../en/">English</a></li>
+        
+        
+
+<li class="menu-extra"></li>
+
+
+
+
+
+
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2019-07-14-modelr-usage.Rmd" target="_blank">编辑</a></li>
+
+
+<li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+        </ul>
+      </nav>
+    </header>
+
+    <article class="main">
+      <header class="title">
+        
+
+<h1>modelr——基础模型实现</h1>
+
+
+
+<h3>王诗翔 &middot 
+2018-10-05</h3> 
+
+
+   
+  
+
+
+      </header>
+
+
+
+
+
+<p><strong>建立模型的目的是提供一个简单的、低纬度的数据集摘要</strong>。我们使用模型的目的是将数据划分为模式和残差，借助模型探索数据集，拨开覆盖在数据集结构上的神秘面纱。</p>
+<p>建模的过程可以分为2个阶段：</p>
+<ol style="list-style-type: decimal">
+<li>首先，我们需要定义一个模型族来表示一种精确但一般性的模式，这种模式是我们想要捕获的。模式可以是一条直线或一条二次曲线。</li>
+<li>接下来我们要生成一个拟合模型，方法是从模型族中找出最接近数据的一个模型。该阶段使得一般的模型族具体化为特定模型。</li>
+</ol>
+<div class="section level4">
+<h4>准备工作</h4>
+<p>这里我们使用<code>modelr</code>将R基础包中的建模函数进行包装，使其支持管道操作。</p>
+<pre class="r"><code>library(tidyverse)
+#&gt; ─ Attaching packages ──────────── tidyverse 1.2.1 ─
+#&gt; ✔ ggplot2 3.2.0     ✔ purrr   0.3.2
+#&gt; ✔ tibble  2.1.3     ✔ dplyr   0.8.1
+#&gt; ✔ tidyr   0.8.3     ✔ stringr 1.4.0
+#&gt; ✔ readr   1.3.1     ✔ forcats 0.4.0
+#&gt; ─ Conflicts ───────────── tidyverse_conflicts() ─
+#&gt; ✖ dplyr::filter() masks stats::filter()
+#&gt; ✖ dplyr::lag()    masks stats::lag()
+library(modelr)
+options(na.action = na.warn)</code></pre>
+</div>
+<div id="model" class="section level2">
+<h2>一个简单Model</h2>
+<p>我们研究一个模拟数据集<code>sim1</code>，它包含两个连续型变量x和y。我们先用点图绘制出二者的关系：</p>
+<pre class="r"><code>ggplot(sim1, aes(x, y)) + 
+    geom_point()</code></pre>
+<p><img src="../../../cn/post/2019-07-14-modelr-usage_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>我们可以看到数据存在一种很强的正相关模式，接下来我们使用模型捕获它，并将其表示出来。在上图中我们可以确定模型的基本形式——线性的，下面我们随机生成一些线性模型，将其覆盖到数据上，以此感受模型族的模型形式。</p>
+<pre class="r"><code>models = tibble(
+    a1 = runif(250, -20, 40),
+    a2 = runif(250, -5, 5)
+)
+ggplot(sim1, aes(x, y)) + 
+    geom_abline(
+        aes(intercept = a1, slope = a2),
+        data = models, alpha = 1/4
+    ) + 
+    geom_point()</code></pre>
+<p><img src="../../../cn/post/2019-07-14-modelr-usage_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>这张图有250个模型，很多都非常糟糕。良好的模型应该与数据非常接近，因而我们需要一种方法来量化数据与模型之间的距离，寻找使得模型与数据距离最近的参数，拟合最优模型。</p>
+<p>其中一个简单的方法是找出每个数据点与模型之间的垂直距离，这个距离是由模型计算出的y值与数据点实际y值之间的差。</p>
+<p>为了计算该距离，我们首先将模型族转换为一个R函数，该函数将模型参数和数据作为输入，并将模型预测值作为输出：</p>
+<pre class="r"><code>model1 = function(a, data) {
+    a[1] + data$x * a[2]
+}
+model1(c(7, 1.5), sim1)
+#&gt;  [1]  8.5  8.5  8.5 10.0 10.0 10.0 11.5 11.5 11.5 13.0 13.0 13.0 14.5 14.5
+#&gt; [15] 14.5 16.0 16.0 16.0 17.5 17.5 17.5 19.0 19.0 19.0 20.5 20.5 20.5 22.0
+#&gt; [29] 22.0 22.0</code></pre>
+<p>接下来我们需要某种方法计算预测值与实际值之间的总体距离，也就是将上面30个距离值转换为一个总体的距离。</p>
+<p>统计学上一种常见的方法为“均方根误差”，先计算实际值与预测值之间的差，求平方，然后求取平均数，最后计算平方根。</p>
+<pre class="r"><code>measure_distance = function(mod, data){
+    diff = data$y - model1(mod, data)
+    sqrt(mean(diff ^2))
+}
+measure_distance(c(7,1.5), sim1)
+#&gt; [1] 2.67</code></pre>
+<p>现在可以使用purrr计算前面定义的所有模型和数据间的距离了。这里我们需要一个辅助函数，因为距离函数希望模型是一个长度为2的数值向量。</p>
+<pre class="r"><code>sim1_dist = function(a1, a2) {
+    measure_distance(c(a1, a2), sim1)
+}
+models = models %&gt;% 
+    mutate(dist = purrr::map2_dbl(a1, a2, sim1_dist))
+models
+#&gt; # A tibble: 250 x 3
+#&gt;        a1     a2  dist
+#&gt;     &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
+#&gt;  1 -11.3  -0.191 28.7 
+#&gt;  2   7.46 -4.73  39.3 
+#&gt;  3  24.1   4.53  34.3 
+#&gt;  4  26.9  -1.85  11.5 
+#&gt;  5  17.5  -2.22  16.1 
+#&gt;  6  -4.25  2.85   5.15
+#&gt;  7 -12.1  -0.346 30.4 
+#&gt;  8 -10.0   3.43   8.04
+#&gt;  9  -2.55  4.64  10.8 
+#&gt; 10 -15.5   3.70  11.8 
+#&gt; # … with 240 more rows</code></pre>
+<p>下一步我们将最好的10个模型覆盖到数据上，使用-dist为模型着色，这样我们可以看出最佳模型具有最明亮的颜色：</p>
+<pre class="r"><code>ggplot(sim1, aes(x, y)) + 
+    geom_point(size = 2, color = &quot;grey30&quot;) + 
+    geom_abline(
+        aes(intercept = a1, slope = a2, color = -dist),
+        data = filter(models, rank(dist) &lt;= 10)
+    )</code></pre>
+<p><img src="../../../cn/post/2019-07-14-modelr-usage_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>我们还可以将这些模型作为观测，使用由a1和a2组成的一张散点图来表示它们，还是使用<code>-dist</code>着色。我们高亮前10个最佳模型，在其下面画出红色圆圈：</p>
+<pre class="r"><code>ggplot(models, aes(a1, a2)) + 
+    geom_point(
+        data = filter(models, rank(dist) &lt;= 10),
+        size = 4, color = &quot;red&quot;
+    ) + 
+    geom_point(aes(color = -dist))</code></pre>
+<p><img src="../../../cn/post/2019-07-14-modelr-usage_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>相比于检查多个随机模型，我们使用一种更加系统化的方法——<strong>网格搜索法</strong>来找出模型参数。首先我们生成一张分布均匀的数据点网格，然后将这个网格与前面图中的10个最佳模型绘制在一张图中，凭借最佳模型在网格中的位置就可以找出模型参数的粗略值。</p>
+<pre class="r"><code>grid = expand.grid(
+    a1 = seq(-5, 20, length = 25),
+    a2 = seq(1, 3, length = 25)
+) %&gt;% 
+    mutate(dist = purrr::map2_dbl(a1, a2, sim1_dist))
+grid %&gt;% 
+    ggplot(aes(a1, a2)) +
+    geom_point(
+        data = filter(grid, rank(dist) &lt;= 10),
+        size = 4, color = &quot;red&quot;
+    ) + 
+    geom_point(aes(color = -dist))</code></pre>
+<p><img src="../../../cn/post/2019-07-14-modelr-usage_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>如果将这10个模型重新覆盖到原始数据上，可以看出效果还是不错的。</p>
+<pre class="r"><code>ggplot(sim1, aes(x, y)) + 
+    geom_point(size = 2, color = &quot;grey30&quot;) + 
+    geom_abline(
+        aes(intercept = a1, slope = a2, color = -dist),
+        data = filter(grid, rank(dist) &lt;= 10)
+    )</code></pre>
+<p><img src="../../../cn/post/2019-07-14-modelr-usage_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>我们可以设想不断细化网格来最终找出最佳模型。但还有个更好的办法解决这个问题，名为“牛顿——拉夫逊搜索”的数值最小化工具（牛顿下坡法）。该方法的直观解释很简单：先选择一个起点，环顾四周找到最陡的斜坡，并沿着这个斜坡向下滑行一小段，然后重复该过程，直到不能下滑为止。在R中，<code>optim()</code>函数可以完成该任务：</p>
+<pre class="r"><code>best = optim(c(0,0), measure_distance, data = sim1)
+best$par
+#&gt; [1] 4.22 2.05</code></pre>
+<pre class="r"><code>ggplot(sim1, aes(x, y)) + 
+    geom_point(size = 2, color = &quot;grey30&quot;) + 
+    geom_abline(intercept = best$par[1], slop = best$par[2])
+#&gt; Warning: Ignoring unknown parameters: slop</code></pre>
+<p><img src="../../../cn/post/2019-07-14-modelr-usage_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>对于这个模型，我们还可以使用另一种方法，它是一个更广泛模型族的特殊情况，即线性模型。</p>
+<p>R有专门用于拟合线性模型的工具，叫<code>lm()</code>函数，它用公式来表示模型族。</p>
+<pre class="r"><code>sim1_mod = lm(y ~ x, data = sim1)
+coef(sim1_mod)
+#&gt; (Intercept)           x 
+#&gt;        4.22        2.05</code></pre>
+<p>这和使用<code>optim()</code>结果完全一致，注意<code>lm()</code>函数使用的不是<code>optim()</code>，而是利用了线性模型的数学结构，实际上利用了一种非常复杂的算法，通过几何学、微积分和线性代数间的一些关系，只需要一个步骤就可以找出最近似的模型。这种方法速度非常快，而且一定能找到全局最小值。</p>
+</div>
+<div class="section level2">
+<h2>模型可视化</h2>
+<p>找出模型未捕获的信息也是非常有用的，即所谓的残差，它是数据去除预测值后剩余的部分，残差是非常强大的，它允许我们使用模型去除数据中显著的模式，以便<strong>对剩余的微妙趋势进行研究</strong>。</p>
+<p>要想对模型的预测进行可视化表示，首先要生成一个分布均匀的数值网格，以便覆盖数据所在区域。最简单的方式是使用<code>modelr::data_grid()</code>函数，第一个参数是一个数据框，它对随后的参数都会找出其中的唯一值，然后生成所有组合：</p>
+<pre class="r"><code>grid = sim1 %&gt;% 
+    data_grid(x)
+grid
+#&gt; # A tibble: 10 x 1
+#&gt;        x
+#&gt;    &lt;int&gt;
+#&gt;  1     1
+#&gt;  2     2
+#&gt;  3     3
+#&gt;  4     4
+#&gt;  5     5
+#&gt;  6     6
+#&gt;  7     7
+#&gt;  8     8
+#&gt;  9     9
+#&gt; 10    10</code></pre>
+<p>接着我们添加预测值，使用<code>modelr::add_predictions()</code>函数，其参数是一个数据框和一个模型。</p>
+<pre class="r"><code>grid = grid %&gt;% 
+    add_predictions(sim1_mod)
+grid
+#&gt; # A tibble: 10 x 2
+#&gt;        x  pred
+#&gt;    &lt;int&gt; &lt;dbl&gt;
+#&gt;  1     1  6.27
+#&gt;  2     2  8.32
+#&gt;  3     3 10.4 
+#&gt;  4     4 12.4 
+#&gt;  5     5 14.5 
+#&gt;  6     6 16.5 
+#&gt;  7     7 18.6 
+#&gt;  8     8 20.6 
+#&gt;  9     9 22.7 
+#&gt; 10    10 24.7</code></pre>
+<p>下一步是绘制预测值，用的是通用模型画法，而不是只考虑线性模型：</p>
+<pre class="r"><code>ggplot(sim1, aes(x)) + 
+    geom_point(aes(y = y)) +
+    geom_line(
+        aes(y = pred),
+        data = grid,
+        color = &quot;red&quot;,
+        size = 1
+    )</code></pre>
+<p><img src="../../../cn/post/2019-07-14-modelr-usage_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<div class="section level3">
+<h3>残差</h3>
+<p>与预测值相对的是<strong>残差</strong>，<strong>预测值可以告诉我们模型捕获的模式，而残差则表示模型漏掉的部分</strong>。残差就是我们前面计算过的观测值与预测值间的距离。</p>
+<p>我们使用<code>add_residuals()</code>将残差添加到数据中，注意我们使用的是原始数据，因为计算残差需要使用实际的y值：</p>
+<pre class="r"><code>sim1 = sim1 %&gt;% 
+    add_residuals(sim1_mod)
+sim1
+#&gt; # A tibble: 30 x 3
+#&gt;        x     y    resid
+#&gt;    &lt;int&gt; &lt;dbl&gt;    &lt;dbl&gt;
+#&gt;  1     1  4.20 -2.07   
+#&gt;  2     1  7.51  1.24   
+#&gt;  3     1  2.13 -4.15   
+#&gt;  4     2  8.99  0.665  
+#&gt;  5     2 10.2   1.92   
+#&gt;  6     2 11.3   2.97   
+#&gt;  7     3  7.36 -3.02   
+#&gt;  8     3 10.5   0.130  
+#&gt;  9     3 10.5   0.136  
+#&gt; 10     4 12.4   0.00763
+#&gt; # … with 20 more rows</code></pre>
+<p>对于残差可以反映出模型的哪些信息，有几种不同的理解方法。其中一种方法是简单地描绘频率多边形图，以帮助我们理解残差的分布：</p>
+<pre class="r"><code>ggplot(sim1, aes(resid)) + 
+    geom_freqpoly(binwidth = 0.5)</code></pre>
+<p><img src="../../../cn/post/2019-07-14-modelr-usage_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p><strong>这种方法可以反映出模型的质量：模型预测值与实际值的差别有多大？注意残差的平均值总为0。</strong></p>
+<p>我们经常会使用残差代替原来的预测变量来重新绘图：</p>
+<pre class="r"><code>ggplot(sim1, aes(x, resid)) + 
+    geom_ref_line(h = 0) + 
+    geom_point()</code></pre>
+<p><img src="../../../cn/post/2019-07-14-modelr-usage_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p>由上图可知，残差应该是随机噪声，这说明我们的模型非常好地捕获了数据集中的模式。</p>
+</div>
+</div>
+<div class="section level2">
+<h2>公式与模型族</h2>
+<p>在R中，公式是表示“特殊行为”的一种通用方式，<strong>公式不对变量立刻进行求值，只是将变量表示为函数能够理解的形式</strong>。</p>
+<p>R中绝大多数建模函数都使用一种标准将公式转换为表示模型族的方程。我们已经见过最简单的转换，即<code>y~x</code>转换为<code>y = a1 + a2*x</code>。如果想看R到底进行了什么转换，可以使用<code>model_matrix()</code>函数，它接受一个数据框和一个公式，并返回一个定义了模型方程的<code>tibble</code>，其中每一列都关联到方程的一个系数，方程的形式总是类似<code>y = a1 * out1  + a2 * out2</code>。对于最简单的情况<code>y ~ x1</code>，函数会返回下面有意思的结果：</p>
+<pre class="r"><code>df = tribble(
+    ~y, ~x1, ~x2,
+    4, 2, 5,
+    5, 1, 6
+)
+model_matrix(df, y ~ x1)
+#&gt; # A tibble: 2 x 2
+#&gt;   `(Intercept)`    x1
+#&gt;           &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1             1     2
+#&gt; 2             1     1</code></pre>
+<p>R向模型加入截距项的方法是，加入一个值全为1的列，默认R会进行。如果不想要截距项，我们必须使用<code>-</code>明确丢弃它：</p>
+<pre class="r"><code>model_matrix(df, y ~ x1 - 1)
+#&gt; # A tibble: 2 x 1
+#&gt;      x1
+#&gt;   &lt;dbl&gt;
+#&gt; 1     2
+#&gt; 2     1</code></pre>
+<p>如果向模型中添加更多变量，那么模型矩阵随之增长：</p>
+<pre class="r"><code>model_matrix(df, y ~ x1 + x2)
+#&gt; # A tibble: 2 x 3
+#&gt;   `(Intercept)`    x1    x2
+#&gt;           &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1             1     2     5
+#&gt; 2             1     1     6</code></pre>
+<p>这种公式表示方法称为“Wilkinson-Rogers”表示法。</p>
+<p>下面我们利用它表示分类变量、交互项以及变量转换。</p>
+<div class="section level3">
+<h3>分类变量</h3>
+<p><strong>如果预测变量是连续的，那么从公式转换为方程式很简单；但当预测变量是分类变量时，事情就变得复杂</strong>。例如存在公式<code>y ~ sex</code>，R的做法是将其转换为<code>y = x_0 + x_1 * sex_male</code>，如果sex是男性，那么sex_male值为1，否则其值就是0。</p>
+<pre class="r"><code>df = tribble(
+    ~ sex, ~ response,
+    &quot;male&quot;, 1, 
+    &quot;female&quot;, 2,
+    &quot;male&quot;, 1
+)
+model_matrix(df, response ~ sex)
+#&gt; # A tibble: 3 x 2
+#&gt;   `(Intercept)` sexmale
+#&gt;           &lt;dbl&gt;   &lt;dbl&gt;
+#&gt; 1             1       1
+#&gt; 2             1       0
+#&gt; 3             1       1</code></pre>
+<p>这里基于构建的是<code>sexmale</code>列，而不是<code>sexfemale</code>列。</p>
+<p>如果我们关注预测值的可视化，那么无须担心具体的参数值。下面使用<code>sim2</code>数据集进行说明：</p>
+<pre class="r"><code>ggplot(sim2) + 
+    geom_point(aes(x, y))</code></pre>
+<p><img src="../../../cn/post/2019-07-14-modelr-usage_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<p>我们可以拟合一个模型，并生成预测：</p>
+<pre class="r"><code>mod2 = lm(y ~ x, data = sim2)
+grid = sim2 %&gt;% 
+    data_grid(x) %&gt;% 
+    add_predictions(mod2)
+grid
+#&gt; # A tibble: 4 x 2
+#&gt;   x      pred
+#&gt;   &lt;chr&gt; &lt;dbl&gt;
+#&gt; 1 a      1.15
+#&gt; 2 b      8.12
+#&gt; 3 c      6.13
+#&gt; 4 d      1.91</code></pre>
+<p><strong>实际上，带有分类变量x的模型会为每个分类预测出均值，这是因为均值会使得均方误差距离最小化</strong>。我们可以通过将预测值覆盖到原始数据上进行观察：</p>
+<pre class="r"><code>ggplot(sim2, aes(x)) + 
+    geom_point(aes(y = y)) + 
+    geom_point(
+        data = grid,
+        aes(y = pred, color = &quot;red&quot;, size = 4)
+    )</code></pre>
+<p><img src="../../../cn/post/2019-07-14-modelr-usage_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+</div>
+<div id="-" class="section level3">
+<h3>交互项 （连续变量与分类变量）</h3>
+<p>sim3数据集包含了一个分类预测变量和一个连续预测变量，我们先简单展示查看该数据：</p>
+<pre class="r"><code>ggplot(sim3, aes(x1, y)) + 
+    geom_point(aes(color = x2))</code></pre>
+<p><img src="../../../cn/post/2019-07-14-modelr-usage_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<p>我们可以使用两种模型进行拟合：</p>
+<pre class="r"><code>mod1 = lm(y ~ x1 + x2, data = sim3)
+mod2 = lm(y ~ x1 * x2, data = sim3)</code></pre>
+<p>要想对模型可视化，需要两种新技巧：</p>
+<ul>
+<li>因为有两个预测变量，所以我们需要将它们都传给<code>data_grid()</code>，它会找出唯一值并进行组合</li>
+<li>要想为以上两个模型同时生成预测，可以使用<code>gather_predictions()</code>函数，它可以将每个预测作为一行加入数据框，互补函数<code>spread_predictions()</code>可以将每个预测作为1列加入数据框。</li>
+</ul>
+<pre class="r"><code>grid = sim3 %&gt;% 
+    data_grid(x1, x2) %&gt;% 
+    gather_predictions(mod1, mod2)
+grid
+#&gt; # A tibble: 80 x 4
+#&gt;    model    x1 x2     pred
+#&gt;    &lt;chr&gt; &lt;int&gt; &lt;fct&gt; &lt;dbl&gt;
+#&gt;  1 mod1      1 a      1.67
+#&gt;  2 mod1      1 b      4.56
+#&gt;  3 mod1      1 c      6.48
+#&gt;  4 mod1      1 d      4.03
+#&gt;  5 mod1      2 a      1.48
+#&gt;  6 mod1      2 b      4.37
+#&gt;  7 mod1      2 c      6.28
+#&gt;  8 mod1      2 d      3.84
+#&gt;  9 mod1      3 a      1.28
+#&gt; 10 mod1      3 b      4.17
+#&gt; # … with 70 more rows</code></pre>
+<p>下面进行可视化：</p>
+<pre class="r"><code>ggplot(sim3, aes(x1, y, color = x2)) + 
+    geom_point() + 
+    geom_line(data = grid, aes(y = pred)) + 
+    facet_wrap( ~ model)</code></pre>
+<p><img src="../../../cn/post/2019-07-14-modelr-usage_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+<p>哪种模型更好呢？我们可以检查一个残差，利用模型和x2变量进行分面，因为这样可以看到每个组的模式：</p>
+<pre class="r"><code>sim3 = sim3 %&gt;% 
+    gather_residuals(mod1, mod2)
+ggplot(sim3, aes(x1, resid, color = x2)) + 
+    geom_point() + 
+    facet_wrap(model ~ x2)</code></pre>
+<p><img src="../../../cn/post/2019-07-14-modelr-usage_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
+<p>mod2的残差几乎看不到明显的模式，而mod1的残差则表明这个模式在b分类中明显漏掉了，在其他分类虽然不明显，但似乎也存在某种模式。</p>
+</div>
+<div id="-" class="section level3">
+<h3>交互项 （两个连续变量）</h3>
+<p>下面模型和上一节基本相同，只不过这里是两个连续变量。前几个步骤和前面一样：</p>
+<pre class="r"><code>mod1 = lm(y ~ x1 + x2, data = sim4)
+mod2 = lm(y ~ x1 + x2, data = sim4)
+grid = sim4 %&gt;% 
+    data_grid(
+        x1 = seq_range(x1, 5),
+        x2 = seq_range(x2, 5)
+    ) %&gt;% 
+    gather_predictions(mod1, mod2)</code></pre>
+<p>这里<code>data_grid()</code>使用了<code>seq_range()</code>函数，我们不使用x变量的所有唯一值，而是使用x变量最小值和最大值之间间隔相等的5个值来生成网格。<code>seq_range()</code>还有其他有用的参数：</p>
+<ul>
+<li><code>pretty = TRUE</code>会生成一个漂亮的序列，让我们看起来比较舒服。</li>
+</ul>
+<pre class="r"><code>seq_range(c(0.0123, 0.923423), n = 5)
+#&gt; [1] 0.0123 0.2401 0.4679 0.6956 0.9234
+seq_range(c(0.0123, 0.923423), n = 5, pretty = TRUE)
+#&gt; [1] 0.0 0.2 0.4 0.6 0.8 1.0</code></pre>
+<ul>
+<li><code>trim = 0.1</code>会截断10%的尾部值。如果变量具有长尾分布，而我们希望尽量生成中心附近的值，那么可以使用该参数。</li>
+</ul>
+<pre class="r"><code>x1 = rcauchy(100)
+seq_range(x1, n = 5)
+#&gt; [1] -59.02 -32.42  -5.81  20.79  47.39
+seq_range(x1, n = 5, trim = 0.10)
+#&gt; [1] -7.14 -2.79  1.56  5.92 10.27
+seq_range(x1, n = 5, trim = 0.25)
+#&gt; [1] -2.013 -0.636  0.741  2.118  3.495
+seq_range(x1, n = 5, trim = 0.50)
+#&gt; [1] -0.852 -0.291  0.270  0.830  1.391</code></pre>
+<ul>
+<li><code>expand = 0.1</code>从某种程度上说是<code>trim</code>的反操作，它可以将取值范围扩大10%。</li>
+</ul>
+<pre class="r"><code>x2 = c(0, 1)
+seq_range(x2, n = 5)
+#&gt; [1] 0.00 0.25 0.50 0.75 1.00
+seq_range(x2, n = 5, expand = 0.10)
+#&gt; [1] -0.050  0.225  0.500  0.775  1.050
+seq_range(x2, n = 5, expand = 0.25)
+#&gt; [1] -0.125  0.188  0.500  0.812  1.125
+seq_range(x2, n = 5, expand = 0.50)
+#&gt; [1] -0.250  0.125  0.500  0.875  1.250</code></pre>
+<p>接下来我们队模型进行可视化，因为有2个连续变量，所以我们可以将模型想象为3维表面，使用<code>geom_tile()</code>函数显示：</p>
+<pre class="r"><code>ggplot(grid, aes(x1, x2)) + 
+    geom_tile(aes(fill = pred)) + 
+    facet_wrap(~ model)</code></pre>
+<p><img src="../../../cn/post/2019-07-14-modelr-usage_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
+<p>直接看颜色我们看不出有什么差别，我们的眼睛和大脑不擅长精确分辨颜色的深浅。我们尝试转换角度，从x1和x2的角度来看：</p>
+<pre class="r"><code>ggplot(grid, aes(x1, pred, color = x2, group = x2)) + 
+    geom_line() + 
+    facet_wrap(~ model)</code></pre>
+<p><img src="../../../cn/post/2019-07-14-modelr-usage_files/figure-html/unnamed-chunk-37-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(grid, aes(x2, pred, color = x1, group = x1)) + 
+    geom_line() + 
+    facet_wrap(~ model)</code></pre>
+<p><img src="../../../cn/post/2019-07-14-modelr-usage_files/figure-html/unnamed-chunk-37-2.png" width="672" /></p>
+<p>这说明两个连续变量的交互项的作用方式与一个分类变量和一个连续变量的交互项基本相同，交互项说明了两个变量是相互影响的，如果要预测y值，我们必须同时考虑x1值和x2的值。</p>
+</div>
+<div class="section level3">
+<h3>变量转换</h3>
+<p>我们还可以在模型公式中进行变量转换。例如<code>log(y) ~ sqrt(x1) + x2</code>可以转换为<code>log(y) = a1 + a2 * sqrt(x1) + a3 * x2</code>。如果想要使用<code>+</code>、<code>*</code>、<code>^</code>或<code>-</code>进行变量转换，那么要使用<code>I()</code>进行包装，以便R处理时不将它看做模型定义的部分。</p>
+<p>如果搞不懂模型在做神马，使用<code>model_matrix()</code>函数查看<code>lm()</code>到底在拟合哪个方程：</p>
+<pre class="r"><code>df = tribble(
+    ~y, ~x,
+    1, 1,
+    2, 2,
+    3, 3
+)
+model_matrix(df, y ~ x^2 + x)
+#&gt; # A tibble: 3 x 2
+#&gt;   `(Intercept)`     x
+#&gt;           &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1             1     1
+#&gt; 2             1     2
+#&gt; 3             1     3
+model_matrix(df, y ~ I(x^2) + x)
+#&gt; # A tibble: 3 x 3
+#&gt;   `(Intercept)` `I(x^2)`     x
+#&gt;           &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1             1        1     1
+#&gt; 2             1        4     2
+#&gt; 3             1        9     3</code></pre>
+<p>变量转换非常有用，我们可以使用它们来近似非线性函数。如果学过微积分，我们就知道泰勒定理，它表示任何平滑函数都可以近似为无限多个多项式之和。即可以使用线性函数任意逼近一个平滑函数，但手动输入这个方程太无聊了，R提供了一个辅助函数<code>poly()</code>。</p>
+<pre class="r"><code>model_matrix(df, y ~ poly(x, 2))
+#&gt; # A tibble: 3 x 3
+#&gt;   `(Intercept)` `poly(x, 2)1` `poly(x, 2)2`
+#&gt;           &lt;dbl&gt;         &lt;dbl&gt;         &lt;dbl&gt;
+#&gt; 1             1     -7.07e- 1         0.408
+#&gt; 2             1     -7.85e-17        -0.816
+#&gt; 3             1      7.07e- 1         0.408</code></pre>
+<p>但使用<code>poly()</code>函数有一个很大的问题：多项式的值会超出数据范围，很容易接近正无穷或负无穷。更安全的方式是使用自然样条法<code>splines::ns()</code>：</p>
+<pre class="r"><code>library(splines)
+model_matrix(df, y ~ ns(x, 2))
+#&gt; # A tibble: 3 x 3
+#&gt;   `(Intercept)` `ns(x, 2)1` `ns(x, 2)2`
+#&gt;           &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;
+#&gt; 1             1       0           0    
+#&gt; 2             1       0.566      -0.211
+#&gt; 3             1       0.344       0.771</code></pre>
+<p>下面看一下近似非线性函数时的情况：</p>
+<pre class="r"><code>sim5 = tibble(
+    x = seq(0, 3.5 * pi, length = 50),
+    y = 4 * sin(x) + rnorm(length(x))
+)
+ggplot(sim5, aes(x, y)) + 
+    geom_point()</code></pre>
+<p><img src="../../../cn/post/2019-07-14-modelr-usage_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
+<p>我们使用这个数据拟合5个模型：</p>
+<pre class="r"><code>mod1 = lm(y ~ ns(x, 1), data = sim5)
+mod2 = lm(y ~ ns(x, 2), data = sim5)
+mod3 = lm(y ~ ns(x, 3), data = sim5)
+mod4 = lm(y ~ ns(x, 4), data = sim5)
+mod5 = lm(y ~ ns(x, 5), data = sim5)</code></pre>
+<pre class="r"><code>grid = sim5 %&gt;% 
+    data_grid(x = seq_range(x, n = 50, expand = 0.1)) %&gt;% 
+    gather_predictions(mod1, mod2, mod3, mod4, mod5, .pred = &quot;y&quot;)
+ggplot(sim5, aes(x, y)) + 
+    geom_point() +
+    geom_line(data = grid, color = &quot;red&quot;) + 
+    facet_grid(~ model)</code></pre>
+<p><img src="../../../cn/post/2019-07-14-modelr-usage_files/figure-html/unnamed-chunk-43-1.png" width="672" /></p>
+</div>
+</div>
+<div class="section level2">
+<h2>缺失值</h2>
+<p>缺失值不能传达任何变量间的关系，因此建模函数会丢弃包含缺失值的所有行。默认R会不声不响将它们扔掉，但使用<code>options(na.action = na.warn)</code>会确保我们收到一条警告信息：</p>
+<pre class="r"><code>df = tribble(
+    ~x, ~y,
+    1, 2.2,
+    2, NA,
+    3, 3.5,
+    4, 8.3,
+    NA, 10
+)
+mod = lm(y ~ x, data = df)
+#&gt; Warning: Dropping 2 rows with missing values</code></pre>
+<p>如果想阻止错误信息，可以设定<code>na.action = na.exclude</code>：</p>
+<pre class="r"><code>mod = lm(y ~ x, data = df, na.action = na.exclude)</code></pre>
+<p>使用<code>nobs()</code>，我们可以知道模型实际使用了多少个观测：</p>
+<pre class="r"><code>nobs(mod)
+#&gt; [1] 3</code></pre>
+</div>
+<div class="section level2">
+<h2>其他模型族</h2>
+<p>上面的学习都是基于线性模型，其实还有很多模型，下面列出名称及其R实现：</p>
+<ul>
+<li>广义线性模型，如<code>stats::glm()</code>函数</li>
+<li>广义可加模型，如<code>mgcv::gam()</code>函数</li>
+<li>带有惩罚项的线性模型，如<code>glmnet::glmnet()</code>函数</li>
+<li>健壮线性模型，如<code>MASS:rlm()</code></li>
+<li>树模型，如<code>rpart::rpart()</code>。本身效率不高，但如果使用随机森林<code>randomForest::randomForest()</code>或梯度提升机<code>xgboost::xgboost()</code>这样的模型将非常强大。</li>
+</ul>
+<hr />
+<p>来源：《R for Data Science》</p>
+</div>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="../../../cn/post/purrr-loop/">用purrr实现迭代</a></span>
+  <span class="nav-next"><a href="../../../cn/post/purrr-and-broom/">使用purrr和broom处理多个模型</a> &rarr;</span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/post\/purrr-loop\/';
+    
+  } else if (e.which == 39) {  
+    
+    url = '\/cn\/post\/purrr-and-broom\/';
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+<section class="comments">
+  <div id="disqus_thread"></div>
+  <script src="../../../js/disqusloader.min.js"></script>
+  <script>
+  var disqus_config = function () {
+  
+    this.page.url = "https:\/\/shixiangwang.github.io\/home\/" + location.pathname;
+  
+  };
+  (function() {
+    var inIFrame = function() {
+      var iframe = true;
+      try { iframe = window.self !== window.top; } catch (e) {}
+      return iframe;
+    };
+    if (inIFrame()) return;
+    var disqus_js = '//home-xjdzylqrzp.disqus.com/embed.js';
+    
+    if (location.hash.match(/^#comment/)) {
+      var d = document, s = d.createElement('script');
+      s.src = disqus_js; s.async = true;
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    } else {
+      disqusLoader('#disqus_thread', {
+        scriptUrl: disqus_js, laziness: 0, disqusConfig: disqus_config
+      });
+    }
+  })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+
+
+<script async src="../../../js/fix-toc.js"></script>
+
+<script async src="../../../js/center-img.js"></script>
+
+<script async src="../../../js/right-quote.js"></script>
+
+<script async src="../../../js/no-highlight.js"></script>
+
+<script async src="../../../js/fix-footnote.js"></script>
+
+<script async src="../../../js/math-code.js"></script>
+
+<script async src="../../../js/external-link.js"></script>
+
+<script async src="../../../js/alt-title.js"></script>
+
+<script async src="../../../js/header-link.js"></script>
+
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+  
+  
+
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> &middot; <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> &middot; <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> &middot; <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> &middot; <a href="https://orcid.org/0000-0002-9275-3557"><i class='ai ai-orcid ai-1x'></i></a> &middot; <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 &copy; <a href="../../../">王诗翔</a> 2017 - 2019 </div>
+  
+  
+
+  <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56h9es09xn7&amp;m=6&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=1" async="async"></script>
+  </footer>
+  </article>
+  
+  </body>
+</html>
+

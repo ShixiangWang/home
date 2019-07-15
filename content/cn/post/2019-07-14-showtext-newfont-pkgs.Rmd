@@ -67,6 +67,7 @@ par(op)
 在这个例子中我们首先导入了一些[在线谷歌字体](http://www.google.com/fonts)，然后用`showtext_auto()`函数告诉R控制图的文本字体输出，接下来的所有部分就和平常我们画图一样。
 
 > This example should work on most graphics devices, including pdf(), png(), postscript(), and on-screen devices such as windows() on Windows and x11() on Linux.
+
 ## 用法
 
 分为以下几步：
@@ -190,6 +191,7 @@ font.files()
 > At present font.add() supports TrueType fonts(*.ttf/*.ttc) and OpenType fonts(*.otf), and adding new font type is trivial as long as FreeType supports it.
 > Note that showtext includes an open source CJK font WenQuanYi Micro Hei. If you just want to show CJK text in your graph, you do not need to add any extra font at all.
 注意，there are many free fonts available and accessible on the web, for instance the Google Fonts project (<https://www.google.com/fonts>). sysfonts provides an interface to automatically download and register those fonts through the function font_add_google(), as the example below shows.
+
 ```
 library(showtext)
 font_add_google("Lobster", "lobster")
@@ -197,7 +199,10 @@ showtext_auto()
 plot(1, pch = 16, cex = 3)
 text(1, 1.1, "A fancy dot", family = "lobster", col = "steelblue", cex = 3)
 ```
+
 ![](https://camo.githubusercontent.com/1e6395c1c823f231e12c517d4d8bb32b15735193/687474703a2f2f692e696d6775722e636f6d2f704f38374c46792e706e67)
-更多例子和用法查看说明文档<https://github.com/yixuan/showtext>
+
+更多例子和用法查看说明文档 <https://github.com/yixuan/showtext>
+
 ------
 从使用上看，我更喜欢这个包~

@@ -1,0 +1,106 @@
+---
+title: "do.call的使用"
+author: 王诗翔
+date: 2018-06-07
+slug: "usage-of-docall"
+---
+
+
+
+<p>学习下R中一个有趣地函数，<code>do.call</code>。</p>
+<p><code>do.call</code>这个函数是我在搜索问题时会看到别人经常使用的一个函数，心生好奇，这次来看看它的用法。</p>
+<p>从文档来看，<code>do.call</code>可以通过名字构建和执行函数，并且将参数以列表的形式传入。</p>
+<blockquote>
+<p><strong>Description</strong></p>
+<p>do.call constructs and executes a function call from a name or a function and a list of arguments to be passed to it.</p>
+<p><strong>Usage</strong></p>
+<p>do.call(what, args, quote = FALSE, envir = parent.frame())</p>
+<p><strong>Arguments</strong></p>
+<p>what</p>
+<p>either a function or a non-empty character string naming the function to be called.</p>
+<p>args</p>
+<p>a list of arguments to the function call. The names attribute of args gives the argument names.</p>
+<p>quote</p>
+<p>a logical value indicating whether to quote the arguments.</p>
+<p>envir</p>
+<p>an environment within which to evaluate the call. This will be most useful if what is a character string and the arguments are symbols or quoted expressions.
+显然，前两个参数很重要，确定了该函数的一般用法，后两个参数涉及一些执行引用与环境的问题，这方面我懂的不多，不过基本也用不到。</p>
+</blockquote>
+<p>下面通过例子学习下使用。</p>
+<div class="section level2">
+<h2>例子</h2>
+<pre class="r"><code># 生成一个复数序列
+do.call(&quot;complex&quot;, list(imag = 1:3))
+## [1] 0+1i 0+2i 0+3i
+# 如果我们有一个列表（比如数据框）
+# 我们需要使用c()添加更多的参数
+tmp &lt;- expand.grid(letters[1:2], 1:3, c(&quot;+&quot;, &quot;-&quot;))
+tmp
+##    Var1 Var2 Var3
+## 1     a    1    +
+## 2     b    1    +
+## 3     a    2    +
+## 4     b    2    +
+## 5     a    3    +
+## 6     b    3    +
+## 7     a    1    -
+## 8     b    1    -
+## 9     a    2    -
+## 10    b    2    -
+## 11    a    3    -
+## 12    b    3    -
+do.call(&quot;paste&quot;, c(tmp, sep=&quot;&quot;))
+##  [1] &quot;a1+&quot; &quot;b1+&quot; &quot;a2+&quot; &quot;b2+&quot; &quot;a3+&quot; &quot;b3+&quot; &quot;a1-&quot; &quot;b1-&quot; &quot;a2-&quot; &quot;b2-&quot; &quot;a3-&quot;
+## [12] &quot;b3-&quot;
+#do.call(&quot;paste&quot;, list(tmp, sep=&quot;&quot;))
+do.call(paste, list(as.name(&quot;A&quot;), as.name(&quot;B&quot;)), quote = TRUE)
+## [1] &quot;A B&quot;
+do.call(paste, list(as.name(&quot;A&quot;), as.name(&quot;B&quot;)), quote = TRUE)
+## [1] &quot;A B&quot;
+# 这个例子中，A、B被转换为了符号对象，如果不quote起来就会报错
+#do.call(paste, list(as.name(&quot;A&quot;), as.name(&quot;B&quot;)), quote = FALSE)
+# 当然你如果直接使用下面这个语句结果是一样的，不过这里是介绍quote的用法
+do.call(paste, list(&quot;A&quot;, &quot;B&quot;))
+## [1] &quot;A B&quot;</code></pre>
+<p>从哪里寻找对象的例子：</p>
+<pre class="r"><code>A &lt;- 2
+f &lt;- function(x) print(x ^ 2)
+env &lt;- new.env()
+assign(&quot;A&quot;, 10, envir = env)
+assign(&quot;f&quot;, f, envir = env)
+f &lt;- function(x) print(x)
+f(A)
+## [1] 2
+# 使用当前环境函数与变量
+do.call(&quot;f&quot;, list(A))
+## [1] 2
+# 使用env环境函数与当前环境变量
+do.call(&quot;f&quot;, list(A), envir = env)
+## [1] 4
+# 使用当前环境函数与变量 
+do.call(f, list(A), envir = env)
+## [1] 2
+# 使用env环境函数与env环境变量
+do.call(&quot;f&quot;, list(quote(A)), envir = env)
+## [1] 100
+# 使用当前环境函数与env环境变量 
+do.call(f, list(quote(A)), envir = env)
+## [1] 10
+# 使用env环境函数与env环境变量
+do.call(&quot;f&quot;, list(as.name(&quot;A&quot;)), envir = env)
+## [1] 100
+eval(call(&quot;f&quot;, A))
+## [1] 2
+eval(call(&quot;f&quot;, quote(A)))
+## [1] 2
+eval(call(&quot;f&quot;, A), envir = env)
+## [1] 4
+eval(call(&quot;f&quot;, quote(A)), envir = env)
+## [1] 100</code></pre>
+<p>上面例子多，需要仔细揣摩参数变化后结果的变化。首先在新环境创建的函数对象是打印输入的平方，<code>A</code>是10。</p>
+<p><code>call</code>函数用来创建和测试对象，不过看起来用法与<code>quote()</code>类似，将东西先存起来不执行，等后续调用。</p>
+<pre class="r"><code>A &lt;- 10.5
+wait &lt;- call(&quot;round&quot;, A)
+eval(wait)
+## [1] 10</code></pre>
+</div>

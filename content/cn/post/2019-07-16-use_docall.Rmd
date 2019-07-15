@@ -1,0 +1,107 @@
+---
+title: "do.call的使用"
+author: 王诗翔
+date: 2018-06-07
+slug: "usage-of-docall"
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, dev = "png")
+#Sys.setlocale('LC_ALL','C') # Embed this directly in the Rmarkdown script that contains the Chinese character comment
+options(digits=3)
+options(max.print=200)
+```
+
+学习下R中一个有趣地函数，`do.call`。
+
+`do.call`这个函数是我在搜索问题时会看到别人经常使用的一个函数，心生好奇，这次来看看它的用法。
+
+从文档来看，`do.call`可以通过名字构建和执行函数，并且将参数以列表的形式传入。
+
+> **Description**
+>
+> do.call constructs and executes a function call from a name or a function and a list of arguments to be passed to it.
+>
+> **Usage**
+>
+> do.call(what, args, quote = FALSE, envir = parent.frame())
+>
+> **Arguments**
+>
+> what
+>
+>either a function or a non-empty character string naming the function to be called.
+>
+>args
+>
+>a list of arguments to the function call. The names attribute of args gives the argument names.
+>
+>quote	
+>
+>a logical value indicating whether to quote the arguments.
+>
+>envir	
+>
+>an environment within which to evaluate the call. This will be most useful if what is a character string and the arguments are symbols or quoted expressions.
+显然，前两个参数很重要，确定了该函数的一般用法，后两个参数涉及一些执行引用与环境的问题，这方面我懂的不多，不过基本也用不到。
+
+下面通过例子学习下使用。
+
+## 例子
+
+```{r}
+# 生成一个复数序列
+do.call("complex", list(imag = 1:3))
+# 如果我们有一个列表（比如数据框）
+# 我们需要使用c()添加更多的参数
+tmp <- expand.grid(letters[1:2], 1:3, c("+", "-"))
+tmp
+do.call("paste", c(tmp, sep=""))
+#do.call("paste", list(tmp, sep=""))
+do.call(paste, list(as.name("A"), as.name("B")), quote = TRUE)
+do.call(paste, list(as.name("A"), as.name("B")), quote = TRUE)
+# 这个例子中，A、B被转换为了符号对象，如果不quote起来就会报错
+#do.call(paste, list(as.name("A"), as.name("B")), quote = FALSE)
+# 当然你如果直接使用下面这个语句结果是一样的，不过这里是介绍quote的用法
+do.call(paste, list("A", "B"))
+```
+
+从哪里寻找对象的例子：
+
+```{r}
+A <- 2
+f <- function(x) print(x ^ 2)
+env <- new.env()
+assign("A", 10, envir = env)
+assign("f", f, envir = env)
+f <- function(x) print(x)
+f(A)
+# 使用当前环境函数与变量
+do.call("f", list(A))
+# 使用env环境函数与当前环境变量
+do.call("f", list(A), envir = env)
+# 使用当前环境函数与变量 
+do.call(f, list(A), envir = env)
+# 使用env环境函数与env环境变量
+do.call("f", list(quote(A)), envir = env)
+# 使用当前环境函数与env环境变量 
+do.call(f, list(quote(A)), envir = env)
+# 使用env环境函数与env环境变量
+do.call("f", list(as.name("A")), envir = env)
+eval(call("f", A))
+eval(call("f", quote(A)))
+eval(call("f", A), envir = env)
+eval(call("f", quote(A)), envir = env)
+```
+
+上面例子多，需要仔细揣摩参数变化后结果的变化。首先在新环境创建的函数对象是打印输入的平方，`A`是10。
+
+
+`call`函数用来创建和测试对象，不过看起来用法与`quote()`类似，将东西先存起来不执行，等后续调用。
+
+```{r}
+A <- 10.5
+wait <- call("round", A)
+eval(wait)
+```
