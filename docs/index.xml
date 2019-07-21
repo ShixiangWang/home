@@ -12,6 +12,19 @@
     
     
     <item>
+      <title>UCSCXenaTools: Download Public Cancer Genomic Data from UCSC Xena Hubs</title>
+      <link>/en/tools/ucscxenatools-intro/</link>
+      <pubDate>Sun, 21 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/en/tools/ucscxenatools-intro/</guid>
+      <description>UCSCXenaTools is an R package for downloading and exploring data from UCSC Xena data hubs, which are
+ a collection of UCSC-hosted public databases such as TCGA, ICGC, TARGET, GTEx, CCLE, and others. Databases are normalized so they can be combined, linked, filtered, explored and downloaded.
+– UCSC Xena
+ If you use this package in academic field, please cite:
+Wang, Shixiang, et al. &amp;quot;The predictive power of tumor mutational burden in lung cancer immunotherapy response is influenced by patients&amp;#39; sex.</description>
+    </item>
+    
+    <item>
       <title>contribution - A Tiny Contribution Table Generator Based on ggplot2</title>
       <link>/en/tools/contribution-table/</link>
       <pubDate>Sat, 13 Jul 2019 00:00:00 +0000</pubDate>
@@ -99,19 +112,6 @@
       
       <guid>/cn/read/sci-writing-composing-a-first-draft/</guid>
       <description>本文是《Successful scientific wrting》一书的阅读笔记之一。 大部分的学术文章都遵循相似的模式，即所谓的 IMRAD 格式——它是Introducti</description>
-    </item>
-    
-    <item>
-      <title>UCSCXenaTools: Download Public Cancer Genomic Data from UCSC Xena Hubs</title>
-      <link>/en/tools/ucscxenatools-intro/</link>
-      <pubDate>Mon, 17 Jun 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/en/tools/ucscxenatools-intro/</guid>
-      <description>UCSCXenaTools is an R package for downloading and exploring data from UCSC Xena data hubs, which are
- a collection of UCSC-hosted public databases such as TCGA, ICGC, TARGET, GTEx, CCLE, and others. Databases are normalized so they can be combined, linked, filtered, explored and downloaded.
-– UCSC Xena
- If you use this package in academic field, please cite:
-Wang, Shixiang, et al. &amp;quot;The predictive power of tumor mutational burden in lung cancer immunotherapy response is influenced by patients&amp;#39; sex.</description>
     </item>
     
     <item>

@@ -140,6 +140,20 @@ XenaData %>%
     XenaGenerate()
 ```
 
+
+Sometimes we only know some keywords, `XenaScan()` can be used to scan all rows to detect if 
+the keywords exist in `XenaData`.
+
+```{r}
+x1 = XenaScan(pattern = 'Blood')
+x2 = XenaScan(pattern = 'LUNG', ignore.case = FALSE)
+
+x1 %>%
+    XenaGenerate()
+x2 %>%
+    XenaGenerate()
+```
+
 ## Filter 
 
 There are too many datasets in `xe`, you can filter them by `XenaFilter` function. Regular expression can be used here.
