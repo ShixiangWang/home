@@ -237,7 +237,7 @@ dataset = "TCGA.BLCA.sampleMap/HiSeqV2"
 .p_dataset_field(hub, dataset) %>% head()
 ```
 
-## Find out the number of idnetifiers in a dataset
+## Find out the number of identifiers in a dataset
 
 ```{r}
 hub = "https://tcga.xenahubs.net"

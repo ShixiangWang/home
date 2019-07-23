@@ -48,14 +48,6 @@ You can also install devel version of **UCSCXenaTools** from github with:
 remotes::install_github("ShixiangWang/UCSCXenaTools")
 ```
 
-Read this vignettes.
-
-```{r, eval=FALSE}
-browseVignettes("UCSCXenaTools")
-# or
-??UCSCXenaTools
-```
-
 
 # Data Hub List
 
@@ -242,7 +234,8 @@ Default, data will be downloaded to system temp directory. You can specify the p
 If the data exists, command will not run to download them, but you can force it by `force` option.
 
 ```{r}
-xe2_download = XenaDownload(xe2_query)
+destdir = file.path(tempdir(), "test")
+xe2_download = XenaDownload(xe2_query, destdir = destdir, trans_slash = TRUE)
 ```
 
 Of note, at default, the downloaded files will keep same directory structure as Xena. You can set `trans_slash` to TRUE, it will transform
@@ -252,28 +245,16 @@ Of note, at default, the downloaded files will keep same directory structure as 
 
 There are 4 ways to prepare data to R.
 
-```
+```{r}
 # way1:  directory
-cli1 = XenaPrepare("E:/Github/XenaData/test/")
+cli1 = XenaPrepare(destdir)
 names(cli1)
-## [1] "TCGA.LUAD.sampleMap__LUAD_clinicalMatrix.gz"
-## [2] "TCGA.LUNG.sampleMap__LUNG_clinicalMatrix.gz"
-## [3] "TCGA.LUSC.sampleMap__LUSC_clinicalMatrix.gz"
 ```
 
-```
+```{r}
 # way2: local files
-cli2 = XenaPrepare("E:/Github/XenaData/test/TCGA.LUAD.sampleMap__LUAD_clinicalMatrix.gz")
+cli2 = XenaPrepare(file.path(destdir,"TCGA.LUAD.sampleMap__LUAD_clinicalMatrix.gz"))
 class(cli2)
-## [1] "tbl_df"     "tbl"        "data.frame"
-
-cli2 = XenaPrepare(c("E:/Github/XenaData/test/TCGA.LUAD.sampleMap__LUAD_clinicalMatrix.gz",
-                     "E:/Github/XenaData/test/TCGA.LUNG.sampleMap__LUNG_clinicalMatrix.gz"))
-class(cli2)
-## [1] "list"
-names(cli2)
-## [1] "TCGA.LUAD.sampleMap__LUAD_clinicalMatrix.gz"
-## [2] "TCGA.LUNG.sampleMap__LUNG_clinicalMatrix.gz"
 ```
 
 ```
@@ -282,7 +263,7 @@ cli3 = XenaPrepare(xe2_download$url[1:2])
 names(cli3)
 ## [1] "LUSC_clinicalMatrix.gz" "LUNG_clinicalMatrix.gz"
 ```
-
+∂∂
 ```{r}
 # way4: xenadownload object
 cli4 = XenaPrepare(xe2_download)

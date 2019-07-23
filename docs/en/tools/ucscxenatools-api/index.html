@@ -407,8 +407,8 @@ dataset = &quot;TCGA.BLCA.sampleMap/HiSeqV2&quot;
 #&gt; [1] &quot;?|100130426&quot; &quot;?|100133144&quot; &quot;?|100134869&quot; &quot;?|10357&quot;     &quot;?|10431&quot;    
 #&gt; [6] &quot;?|136542&quot;</code></pre>
 </div>
-<div id="find-out-the-number-of-idnetifiers-in-a-dataset" class="section level2">
-<h2>Find out the number of idnetifiers in a dataset</h2>
+<div id="find-out-the-number-of-identifiers-in-a-dataset" class="section level2">
+<h2>Find out the number of identifiers in a dataset</h2>
 <pre class="r"><code>hub = &quot;https://tcga.xenahubs.net&quot;
 dataset = &quot;TCGA.BLCA.sampleMap/HiSeqV2&quot;
 .p_dataset_field_n(hub, dataset)
@@ -425,8 +425,8 @@ dataset = &quot;TCGA.BLCA.sampleMap/HiSeqV2&quot;
   <footer>
   
 <nav class="post-nav">
-  <span class="nav-prev"></span>
-  <span class="nav-next"><a href="../../../en/tools/contribution-table/">contribution - A Tiny Contribution Table Generator Based on ggplot2</a> &rarr;</span>
+  <span class="nav-prev">&larr; <a href="../../../en/tools/contribution-table/">contribution - A Tiny Contribution Table Generator Based on ggplot2</a></span>
+  <span class="nav-next"><a href="../../../en/tools/ucscxenatools-intro/">UCSCXenaTools: Download Public Cancer Genomic Data from UCSC Xena Hubs</a> &rarr;</span>
 </nav>
 <script type="text/javascript">
 document.addEventListener('keyup', function(e) {
@@ -434,9 +434,11 @@ document.addEventListener('keyup', function(e) {
   var url = false;
   if (e.which == 37) {  
     
+    url = '\/en\/tools\/contribution-table\/';
+    
   } else if (e.which == 39) {  
     
-    url = '\/en\/tools\/contribution-table\/';
+    url = '\/en\/tools\/ucscxenatools-intro\/';
     
   }
   if (url) window.location = url;
