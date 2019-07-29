@@ -2,11 +2,28 @@
 title: "个人月度任务列表"
 author: "王诗翔"
 date: 2019-06-01
-lastmod: 2019-07-01
+lastmod: 2019-07-29
 hide_article_meta: true
 show_title: false
 disable_comments: true
 ---
+
+# 2019-08
+
+- **Python 机器学习及实践** 
+  - [ ] 扫读一遍 
+
+- [**Mastering Shiny**](https://mastering-shiny.org/)
+  - [ ] 扫读一遍 
+
+
+- [**PH525x series - Biomedical Data Science**](https://genomicsclass.github.io/book/)
+  - [ ] Chapter 4 
+  - [ ] Chapter 5 
+
+
+- **Arduino学习例程**
+  - [ ] 前10个
 
 # 2019-07
 
@@ -33,7 +50,7 @@ disable_comments: true
   - [ ] 解决问题、优化可视化
   - [x] 10号左右发布一个CRAN版本
 - **sigtools**
-  - [ ] 构建一个基本的 S4 对象 sig，设计可以保存任意的变异数据，以长格式。然后去掉无关数据，去掉与maftools底层的关联。
+  - [x] 构建一个基本的 S4 对象 sig，设计可以保存任意的变异数据，以长格式。然后去掉无关数据，去掉与maftools底层的关联。
   
 
 ## 英语学习
