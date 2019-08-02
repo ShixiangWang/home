@@ -81,18 +81,18 @@ The goal of **sigminer** is to provide a uniform interface for genomic variation
 
 [![CRAN](http://www.r-pkg.org/badges/version-last-release/UCSCXenaTools)](https://cran.r-project.org/package=UCSCXenaTools)
 [![AppVeyor Build
-Status](https://ci.appveyor.com/api/projects/status/github/ShixiangWang/UCSCXenaTools?branch=master&svg=true)](https://ci.appveyor.com/project/ShixiangWang/UCSCXenaTools)
+Status](https://ci.appveyor.com/api/projects/status/github/ropensci/UCSCXenaTools?branch=master&svg=true)](https://ci.appveyor.com/project/ShixiangWang/UCSCXenaTools)
 [![Travis build
-status](https://travis-ci.org/ShixiangWang/UCSCXenaTools.svg?branch=master)](https://travis-ci.org/ShixiangWang/UCSCXenaTools)
+status](https://travis-ci.org/ropensci/UCSCXenaTools.svg?branch=master)](https://travis-ci.org/ropensci/UCSCXenaTools)
 
 ![](http://cranlogs.r-pkg.org/badges/UCSCXenaTools)
 ![](http://cranlogs.r-pkg.org/badges/grand-total/UCSCXenaTools)
 [![Coverage
 Status](https://img.shields.io/codecov/c/github/ShixiangWang/UCSCXenaTools/master.svg)](https://codecov.io/github/ShixiangWang/UCSCXenaTools?branch=master)
 [![GitHub
-issues](https://img.shields.io/github/issues/ShixiangWang/UCSCXenaTools.svg)](https://github.com/ShixiangWang/UCSCXenaTools/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+)
+issues](https://img.shields.io/github/issues/ropensci/UCSCXenaTools.svg)](https://github.com/ropensci/UCSCXenaTools/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+)
 [![Closed
-issues](https://img.shields.io/github/issues-closed/ShixiangWang/UCSCXenaTools.svg)](https://github.com/ShixiangWang/UCSCXenaTools/issues?q=is%3Aissue+is%3Aclosed)
+issues](https://img.shields.io/github/issues-closed/ropensci/UCSCXenaTools.svg)](https://github.com/ropensci/UCSCXenaTools/issues?q=is%3Aissue+is%3Aclosed)
 <!-- badges: end -->
 
 **主页**: <https://github.com/ShixiangWang/UCSCXenaTools>
