@@ -12,10 +12,10 @@
     
     
     
-    <title>Grid 网格绘图模型 - 王诗翔</title>
+    <title>tidyverse 新操作符{{}}——更好的非标准计算 - 王诗翔</title>
     
      
-    <meta property="og:title" content="Grid 网格绘图模型 - Shixiang Wang | 王诗翔">
+    <meta property="og:title" content="tidyverse 新操作符{{}}——更好的非标准计算 - Shixiang Wang | 王诗翔">
     
 
     
@@ -26,6 +26,11 @@
 
     
     
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
 
     <link rel="stylesheet" href="../../../css/style.css" />
     <link rel="stylesheet" href="../../../css/mystyle.css" /> 
@@ -83,10 +88,7 @@
 
 
 
-
-
-
-<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2019-07-29-grid-graph-model.Rmd" target="_blank">编辑</a></li>
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2019-08-04-rlang-operator-curly-curly.md" target="_blank">编辑</a></li>
 
 
 <li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
@@ -102,12 +104,12 @@
       <header class="title">
         
 
-<h1>Grid 网格绘图模型</h1>
+<h1>tidyverse 新操作符{{}}——更好的非标准计算</h1>
 
 
 
 <h3>王诗翔 &middot 
-2019-07-29</h3> 
+2019-08-04</h3> 
 
 
    
@@ -117,17 +119,120 @@
       </header>
 
 
+<blockquote>
+<p>本文整理自 <a href="https://www.tidyverse.org/articles/2019/06/rlang-0-4-0/">https://www.tidyverse.org/articles/2019/06/rlang-0-4-0/</a>，有删改</p>
+</blockquote>
 
+<p><code>rlang v0.4.0</code>引入了新的非标准计算操作符 <code>{{</code>。这大大方便了<code>dplyr</code>重编程。</p>
 
+<pre><code class="language-r">library(dplyr)
 
+starwars %&gt;%
+  group_by(gender) %&gt;%
+  summarise(mass_maximum = max(mass, na.rm = TRUE))
+#&gt; # A tibble: 5 x 2
+#&gt;   gender        mass_maximum
+#&gt;   &lt;chr&gt;                &lt;dbl&gt;
+#&gt; 1 &lt;NA&gt;                    75
+#&gt; 2 female                  75
+#&gt; 3 hermaphrodite         1358
+#&gt; 4 male                   159
+#&gt; 5 none                   140
+</code></pre>
 
+<p>将需要执行非标准计算的变量名使用<code>{{}}</code>括起来即可，不再需要<code>enquo()</code>和<code>!!</code>操作符。</p>
+
+<pre><code class="language-r">max_by &lt;- function(data, var, by) {
+  data %&gt;%
+    group_by({{ by }}) %&gt;%
+    summarise(maximum = max({{ var }}, na.rm = TRUE))
+}
+
+starwars %&gt;% max_by(height)
+#&gt; # A tibble: 1 x 1
+#&gt;   maximum
+#&gt;     &lt;int&gt;
+#&gt; 1     264
+
+starwars %&gt;% max_by(height, by = gender)
+#&gt; # A tibble: 5 x 2
+#&gt;   gender        maximum
+#&gt;   &lt;chr&gt;           &lt;int&gt;
+#&gt; 1 &lt;NA&gt;              167
+#&gt; 2 female            213
+#&gt; 3 hermaphrodite     175
+#&gt; 4 male              264
+#&gt; 5 none              200
+</code></pre>
+
+<p>注意这个语法和 glue 包是有区别的：</p>
+
+<pre><code class="language-r">var &lt;- sample(c(&quot;woof&quot;, &quot;meow&quot;, &quot;mooh&quot;), size = 1)
+glue::glue(&quot;Did you just say {var}?&quot;)
+#&gt; Did you just say mooh?
+</code></pre>
+
+<p>如果需要传递多个变量，还是使用<code>...</code>：</p>
+
+<pre><code class="language-r">  summarise_by &lt;- function(data, ..., by) {
+    data %&gt;%
+      group_by({{ by }}) %&gt;%
+      summarise(...)
+  }
+  
+  starwars %&gt;%
+    summarise_by(
+      average = mean(height, na.rm = TRUE),
+      maximum = max(height, na.rm = TRUE),
+      by = gender
+    )
+  #&gt; # A tibble: 5 x 3
+  #&gt;   gender        average maximum
+  #&gt;   &lt;chr&gt;           &lt;dbl&gt;   &lt;int&gt;
+  #&gt; 1 &lt;NA&gt;             120      167
+  #&gt; 2 female           165.     213
+  #&gt; 3 hermaphrodite    175      175
+  #&gt; 4 male             179.     264
+  #&gt; 5 none             200      200
+</code></pre>
+
+<p>现在<code>enquos()</code>和<code>!!!</code>只有在需要修改输入或者名字时才需要用到。</p>
+
+<ul>
+<li>如果有字符串输入，使用 <code>.data</code> 代词：</li>
+</ul>
+
+<pre><code class="language-r">  max_by &lt;- function(data, var, by) {
+    data %&gt;%
+      group_by(.data[[by]]) %&gt;%
+      summarise(maximum = max(.data[[var]], na.rm = TRUE))
+  }
+  
+  starwars %&gt;% max_by(&quot;height&quot;, by = &quot;gender&quot;)
+  #&gt; # A tibble: 5 x 2
+  #&gt;   gender        maximum
+  #&gt;   &lt;chr&gt;           &lt;int&gt;
+  #&gt; 1 &lt;NA&gt;              167
+  #&gt; 2 female            213
+  #&gt; 3 hermaphrodite     175
+  #&gt; 4 male              264
+  #&gt; 5 none              200
+</code></pre>
+
+<p>这里magrittr 提供的 <code>.</code> 代词并不适用，因为它代表整个数据框，但是<code>.data</code>这里代表的是当前的子数据集。</p>
+
+<p>更多阅读：</p>
+
+<ul>
+<li><a href="https://ggplot2.tidyverse.org/dev/articles/ggplot2-in-packages.html#using-aes-and-vars-in-a-package-function">new programming vignette in ggplot2</a></li>
+</ul>
 
 
   <footer>
   
 <nav class="post-nav">
-  <span class="nav-prev">&larr; <a href="../../../cn/post/2019-07-08-dplyr-programming/">dplyr编程</a></span>
-  <span class="nav-next"><a href="../../../cn/post/2019-08-04-rlang-operator-curly-curly/">tidyverse 新操作符{{}}——更好的非标准计算</a> &rarr;</span>
+  <span class="nav-prev">&larr; <a href="../../../cn/post/2019-07-29-grid-graph-model/">Grid 网格绘图模型</a></span>
+  <span class="nav-next"></span>
 </nav>
 <script type="text/javascript">
 document.addEventListener('keyup', function(e) {
@@ -135,11 +240,9 @@ document.addEventListener('keyup', function(e) {
   var url = false;
   if (e.which == 37) {  
     
-    url = '\/cn\/post\/2019-07-08-dplyr-programming\/';
+    url = '\/cn\/post\/2019-07-29-grid-graph-model\/';
     
   } else if (e.which == 39) {  
-    
-    url = '\/cn\/post\/2019-08-04-rlang-operator-curly-curly\/';
     
   }
   if (url) window.location = url;
@@ -206,6 +309,19 @@ document.addEventListener('keyup', function(e) {
 <script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
   
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
 
 
   

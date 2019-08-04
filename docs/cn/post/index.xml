@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>tidyverse 新操作符{{}}——更好的非标准计算</title>
+      <link>/cn/post/2019-08-04-rlang-operator-curly-curly/</link>
+      <pubDate>Sun, 04 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-08-04-rlang-operator-curly-curly/</guid>
+      <description>本文整理自 https://www.tidyverse.org/articles/2019/06/rlang-0-4-0/，有删改 rlang v0.4.</description>
+    </item>
+    
+    <item>
       <title>Grid 网格绘图模型</title>
       <link>/cn/post/2019-07-29-grid-graph-model/</link>
       <pubDate>Mon, 29 Jul 2019 00:00:00 +0000</pubDate>
