@@ -1,0 +1,74 @@
+---
+title: "ggplotify——连接各类R图形"
+author: "王诗翔"
+date: "2019-08-05"
+lastmod: "2019-08-05"
+slug: ""
+---
+
+
+
+<p>在作图的时候想拼接不同的图形对象，如<code>pheatmap</code> 包的热图、<code>ggplot2</code> 对象以及 base 图形等。
+这里找到了Y叔的<code>ggplotify</code>包，以下是对 <a href="https://cran.r-project.org/web/packages/ggplotify/vignettes/ggplotify.html">Vignette</a> 的翻译，以帮助自己理解用法，也希望读者受益。</p>
+<blockquote>
+<p>查看<a href="https://github.com/GuangchuangYu/ggplotify/tree/master/R">源代码</a>发现仅仅 4 个文件，加起来 100 多行代码的样子居然能有如此神效，有空一定要读源码学习下~</p>
+</blockquote>
+<div id="grid" class="section level2">
+<h2>grid</h2>
+<pre class="r"><code>library(&quot;grid&quot;)
+library(&quot;ggplotify&quot;)
+p1 &lt;- as.grob(~barplot(1:10))
+p2 &lt;- as.grob(expression(plot(rnorm(10))))
+p3 &lt;- as.grob(function() plot(sin))
+library(&quot;vcd&quot;)
+data(Titanic)
+p4 &lt;- as.grob(~mosaic(Titanic))
+library(&quot;lattice&quot;)
+data(mtcars)
+p5 &lt;- as.grob(densityplot(~mpg|cyl, data=mtcars))</code></pre>
+<p><code>as.grob</code> 函数接收绘制图形的 <code>expression</code>、公式或者函数等。图形可以由基础图形生成
+(<code>p1</code>, <code>p2</code>, <code>p3</code>) 或者 <code>grid</code> (<code>p4</code>)。如果图形产生了图形对象，它可以直接用于其他
+工具包<code>lattice</code>、<code>meme</code>和<code>UpSetR</code>等的输入。</p>
+<p>因为这里将图形转换为了<code>grob</code>对象，所以它兼容<code>grid</code>图形系统与相关工具包。</p>
+<p>我们现在可以使用<code>grid.draw</code>绘制<code>p1</code>和<code>p2</code>，以及使用<code>pushViewport</code>进行图形嵌入。</p>
+<pre class="r"><code>grid.newpage()
+grid.draw(p1)
+vp = viewport(x=.35, y=.75, width=.35, height=.3)
+pushViewport(vp)
+grid.draw(p2)
+upViewport()</code></pre>
+<p><img src="/cn/post/2019-08-05-ggplotify-intro_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>如果你不熟悉<code>grid</code>，你可以使用<code>ggplot2</code>去完成类似的任务。</p>
+</div>
+<div id="ggplot2" class="section level2">
+<h2>ggplot2</h2>
+<p>所有可以转换为<code>grob</code>对象的图形都可以使用<code>as.ggplot</code>函数转换为<code>ggplot</code>对象。</p>
+<pre class="r"><code>library(ggplot2)
+p1 &lt;- as.ggplot(~barplot(1:10)) +
+    annotate(&quot;text&quot;, x = .6, y = .5,
+             label = &quot;Hello Base Plot&quot;, size = 5,
+             color = &#39;firebrick&#39;, angle=45)
+p2 &lt;- as.ggplot(expression(plot(rnorm(10))))
+p3 &lt;- as.ggplot(function() plot(sin))
+p4 &lt;- as.ggplot(~mosaic(Titanic))
+p5 &lt;- as.ggplot(densityplot(~mpg|cyl, data=mtcars))</code></pre>
+</div>
+<div class="section level2">
+<h2>图形排列</h2>
+<p>现在有了<code>ggplot</code>对象，我们可以利用<code>cowplot</code>或者<code>patchwork</code>包将所有的图形组合起来。</p>
+<pre class="r"><code>library(cowplot)
+library(colorspace)
+col &lt;- rainbow_hcl(3)
+names(col) &lt;- unique(iris$Species)
+color &lt;- col[iris$Species]
+p6 &lt;- as.ggplot(~plot(iris$Sepal.Length, iris$Sepal.Width, col=color, pch=15))
+p7 &lt;- ggplot(iris, aes(Sepal.Length, Sepal.Width, color=Species)) +
+    geom_point(shape=15) + scale_color_manual(values=col, name=&quot;&quot;)
+legend &lt;- get_legend(p7)
+## also able to annotate base or other plots using ggplot2
+library(ggimage)
+p8 &lt;- p6 + geom_subview(x=.7, y=.78, subview=legend)
+p9 &lt;- as.ggplot(~image(volcano))
+plot_grid(p1, p2, p3, p4, p5, p6, p7, p8, p9, ncol=3, labels=LETTERS[1:9])</code></pre>
+<p><img src="/cn/post/2019-08-05-ggplotify-intro_files/figure-html/unnamed-chunk-5-1.png" width="1344" /></p>
+</div>

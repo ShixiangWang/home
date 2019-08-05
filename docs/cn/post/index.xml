@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>ggplotify——连接各类R图形</title>
+      <link>/cn/post/2019-08-05-ggplotify-intro/</link>
+      <pubDate>Mon, 05 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-08-05-ggplotify-intro/</guid>
+      <description>在作图的时候想拼接不同的图形对象，如pheatmap 包的热图、ggplot2 对象以及 base 图形等。 这里找到了Y叔的ggplotify包，以下是对</description>
+    </item>
+    
+    <item>
       <title>tidyverse 新操作符{{}}——更好的非标准计算</title>
       <link>/cn/post/2019-08-04-rlang-operator-curly-curly/</link>
       <pubDate>Sun, 04 Aug 2019 00:00:00 +0000</pubDate>
