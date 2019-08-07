@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>引用UCSCXenaTools</title>
+      <link>/cn/post/2019-08-07-cite-ucscxenatools/</link>
+      <pubDate>Wed, 07 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-08-07-cite-ucscxenatools/</guid>
+      <description>UCSCXenaTools &amp;lt;https://github.com/ropensci/UCSCXenaTools&amp;gt; 是去年10月份左右开始开发的，是我写的第一个R包，目的是有效地选择和下载UCSC Xena提供的公开数据集，有利于分析的流程化和可重复性。</description>
+    </item>
+    
+    <item>
       <title>ggplotify——连接各类R图形</title>
       <link>/cn/post/2019-08-05-ggplotify-intro/</link>
       <pubDate>Mon, 05 Aug 2019 00:00:00 +0000</pubDate>

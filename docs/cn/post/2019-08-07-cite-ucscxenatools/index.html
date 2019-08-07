@@ -12,10 +12,10 @@
     
     
     
-    <title>ggplotify——连接各类R图形 - 王诗翔</title>
+    <title>引用UCSCXenaTools - 王诗翔</title>
     
      
-    <meta property="og:title" content="ggplotify——连接各类R图形 - Shixiang Wang | 王诗翔">
+    <meta property="og:title" content="引用UCSCXenaTools - Shixiang Wang | 王诗翔">
     
 
     
@@ -91,7 +91,7 @@
 
 
 
-<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2019-08-05-ggplotify-intro.Rmd" target="_blank">编辑</a></li>
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2019-08-07-cite-ucscxenatools.Rmd" target="_blank">编辑</a></li>
 
 
 <li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
@@ -107,12 +107,12 @@
       <header class="title">
         
 
-<h1>ggplotify——连接各类R图形</h1>
+<h1>引用UCSCXenaTools</h1>
 
 
 
 <h3>王诗翔 &middot 
-2019-08-05</h3> 
+2019-08-07</h3> 
 
 
    
@@ -125,77 +125,43 @@
 
 
 
-<p>在作图的时候想拼接不同的图形对象，如<code>pheatmap</code> 包的热图、<code>ggplot2</code> 对象以及 base 图形等。
-这里找到了Y叔的<code>ggplotify</code>包，以下是对 <a href="https://cran.r-project.org/web/packages/ggplotify/vignettes/ggplotify.html">Vignette</a> 的翻译，以帮助自己理解用法，也希望读者受益。</p>
+<p>UCSCXenaTools &lt;<a href="https://github.com/ropensci/UCSCXenaTools">https://github.com/ropensci/UCSCXenaTools</a>&gt; 是去年10月份左右开始开发的，是我写的第一个R包，目的是有效地选择和下载UCSC Xena提供的公开数据集，有利于分析的流程化和可重复性。最近该包通过了 <a href="%5Bhttps://ropensci.org/%5D(https://ropensci.org/)">rOpenSci</a> 项目的审核，并极快地发表在了 <a href="%5Bhttps://joss.theoj.org/papers/10.21105/joss.01627#%5D(https://joss.theoj.org/papers/10.21105/joss.01627#)">JOSS</a> 上。</p>
 <blockquote>
-<p>查看<a href="https://github.com/GuangchuangYu/ggplotify/tree/master/R">源代码</a>发现仅仅 4 个文件，加起来 100 多行代码的样子居然能有如此神效，有空一定要读源码学习下~</p>
+<p>JOSS 关注软件文档而不是文章内容，这一点我很喜欢，如果有朋友开发了一些工具不妨考虑下。</p>
 </blockquote>
-<div id="grid" class="section level2">
-<h2>grid</h2>
-<pre class="r"><code>library(&quot;grid&quot;)
-library(&quot;ggplotify&quot;)
-p1 &lt;- as.grob(~barplot(1:10))
-p2 &lt;- as.grob(expression(plot(rnorm(10))))
-p3 &lt;- as.grob(function() plot(sin))
-library(&quot;vcd&quot;)
-data(Titanic)
-p4 &lt;- as.grob(~mosaic(Titanic))
-library(&quot;lattice&quot;)
-data(mtcars)
-p5 &lt;- as.grob(densityplot(~mpg|cyl, data=mtcars))</code></pre>
-<p><code>as.grob</code> 函数接收绘制图形的 <code>expression</code>、公式或者函数等。图形可以由基础图形生成
-(<code>p1</code>, <code>p2</code>, <code>p3</code>) 或者 <code>grid</code> (<code>p4</code>)。如果图形产生了图形对象，它可以直接用于其他
-工具包<code>lattice</code>、<code>meme</code>和<code>UpSetR</code>等的输入。</p>
-<p>因为这里将图形转换为了<code>grob</code>对象，所以它兼容<code>grid</code>图形系统与相关工具包。</p>
-<p>我们现在可以使用<code>grid.draw</code>绘制<code>p1</code>和<code>p2</code>，以及使用<code>pushViewport</code>进行图形嵌入。</p>
-<pre class="r"><code>grid.newpage()
-grid.draw(p1)
-vp = viewport(x=.35, y=.75, width=.35, height=.3)
-pushViewport(vp)
-grid.draw(p2)
-upViewport()</code></pre>
-<p><img src="../../../cn/post/2019-08-05-ggplotify-intro_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
-<p>如果你不熟悉<code>grid</code>，你可以使用<code>ggplot2</code>去完成类似的任务。</p>
-</div>
-<div id="ggplot2" class="section level2">
-<h2>ggplot2</h2>
-<p>所有可以转换为<code>grob</code>对象的图形都可以使用<code>as.ggplot</code>函数转换为<code>ggplot</code>对象。</p>
-<pre class="r"><code>library(ggplot2)
-p1 &lt;- as.ggplot(~barplot(1:10)) +
-    annotate(&quot;text&quot;, x = .6, y = .5,
-             label = &quot;Hello Base Plot&quot;, size = 5,
-             color = &#39;firebrick&#39;, angle=45)
-p2 &lt;- as.ggplot(expression(plot(rnorm(10))))
-p3 &lt;- as.ggplot(function() plot(sin))
-p4 &lt;- as.ggplot(~mosaic(Titanic))
-p5 &lt;- as.ggplot(densityplot(~mpg|cyl, data=mtcars))</code></pre>
-</div>
-<div class="section level2">
-<h2>图形排列</h2>
-<p>现在有了<code>ggplot</code>对象，我们可以利用<code>cowplot</code>或者<code>patchwork</code>包将所有的图形组合起来。</p>
-<pre class="r"><code>library(cowplot)
-library(colorspace)
-col &lt;- rainbow_hcl(3)
-names(col) &lt;- unique(iris$Species)
-color &lt;- col[iris$Species]
-p6 &lt;- as.ggplot(~plot(iris$Sepal.Length, iris$Sepal.Width, col=color, pch=15))
-p7 &lt;- ggplot(iris, aes(Sepal.Length, Sepal.Width, color=Species)) +
-    geom_point(shape=15) + scale_color_manual(values=col, name=&quot;&quot;)
-legend &lt;- get_legend(p7)
-## also able to annotate base or other plots using ggplot2
-library(ggimage)
-p8 &lt;- p6 + geom_subview(x=.7, y=.78, subview=legend)
-p9 &lt;- as.ggplot(~image(volcano))
-plot_grid(p1, p2, p3, p4, p5, p6, p7, p8, p9, ncol=3, labels=LETTERS[1:9])</code></pre>
-<p><img src="../../../cn/post/2019-08-05-ggplotify-intro_files/figure-html/unnamed-chunk-5-1.png" width="1344" /></p>
-</div>
+<p>CRAN Badge 显示 10 个月以来该包有近 8000 次的下载量，虽然完全不能同流行包相比，但编写出来的东西能够有一些用户在使用，偶尔还有一些邮件反馈，这让我觉得比较荣幸和开心。</p>
+<p>我知道使用该包的人大多数都是癌症科学研究者，所以请大家在发表 paper 的同时引用一下本包，这是最好的鼓励😁：</p>
+<pre><code>Wang et al., (2019). The UCSCXenaTools R package: a toolkit for accessing genomics data from UCSC 
+ Xena platform, from cancer multi-omics to single-cell RNA-seq.
+ Journal of Open Source Software, 4(40), 1627, https://doi.org/10.21105/joss.01627
+
+@article{Wang2019UCSCXenaTools,
+    journal = {Journal of Open Source Software},
+    doi = {10.21105/joss.01627},
+    issn = {2475-9066},
+    number = {40},
+    publisher = {The Open Journal},
+    title = {The UCSCXenaTools R package: a toolkit for accessing genomics data from UCSC Xena platform, from cancer multi-omics to single-cell RNA-seq},
+    url = {http://dx.doi.org/10.21105/joss.01627},
+    volume = {4},
+    author = {Wang, Shixiang and Liu, Xuesong},
+    pages = {1627},
+    date = {2019-08-05},
+    year = {2019},
+    month = {8},
+    day = {5},
+}</code></pre>
+<p>最后祝大家七夕节快乐。</p>
+<blockquote>
+<p>春风十里，不如有你~</p>
+</blockquote>
 
 
   <footer>
   
 <nav class="post-nav">
-  <span class="nav-prev">&larr; <a href="../../../cn/post/2019-08-04-rlang-operator-curly-curly/">tidyverse 新操作符{{}}——更好的非标准计算</a></span>
-  <span class="nav-next"><a href="../../../cn/post/2019-08-07-cite-ucscxenatools/">引用UCSCXenaTools</a> &rarr;</span>
+  <span class="nav-prev">&larr; <a href="../../../cn/post/2019-08-05-ggplotify-intro/">ggplotify——连接各类R图形</a></span>
+  <span class="nav-next"></span>
 </nav>
 <script type="text/javascript">
 document.addEventListener('keyup', function(e) {
@@ -203,11 +169,9 @@ document.addEventListener('keyup', function(e) {
   var url = false;
   if (e.which == 37) {  
     
-    url = '\/cn\/post\/2019-08-04-rlang-operator-curly-curly\/';
+    url = '\/cn\/post\/2019-08-05-ggplotify-intro\/';
     
   } else if (e.which == 39) {  
-    
-    url = '\/cn\/post\/2019-08-07-cite-ucscxenatools\/';
     
   }
   if (url) window.location = url;

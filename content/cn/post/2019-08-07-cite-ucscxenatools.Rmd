@@ -1,0 +1,51 @@
+---
+title: "引用UCSCXenaTools"
+author: "王诗翔"
+date: "2019-08-07"
+lastmod: "`r Sys.Date()`"
+slug: ""
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, dev = "png", comment = "#>")
+#Sys.setlocale('LC_ALL','C') # Embed this directly in the Rmarkdown script that contains the Chinese character comment
+options(digits=3)
+options(max.print=200)
+```
+
+
+UCSCXenaTools <[https://github.com/ropensci/UCSCXenaTools](https://github.com/ropensci/UCSCXenaTools)> 是去年10月份左右开始开发的，是我写的第一个R包，目的是有效地选择和下载UCSC Xena提供的公开数据集，有利于分析的流程化和可重复性。最近该包通过了 [rOpenSci]([https://ropensci.org/](https://ropensci.org/)) 项目的审核，并极快地发表在了 [JOSS ]([https://joss.theoj.org/papers/10.21105/joss.01627#](https://joss.theoj.org/papers/10.21105/joss.01627#)
+) 上。
+
+> JOSS 关注软件文档而不是文章内容，这一点我很喜欢，如果有朋友开发了一些工具不妨考虑下。
+
+CRAN Badge 显示 10 个月以来该包有近 8000 次的下载量，虽然完全不能同流行包相比，但编写出来的东西能够有一些用户在使用，偶尔还有一些邮件反馈，这让我觉得比较荣幸和开心。
+
+我知道使用该包的人大多数都是癌症科学研究者，所以请大家在发表 paper 的同时引用一下本包，这是最好的鼓励😁：
+
+```
+Wang et al., (2019). The UCSCXenaTools R package: a toolkit for accessing genomics data from UCSC 
+ Xena platform, from cancer multi-omics to single-cell RNA-seq.
+ Journal of Open Source Software, 4(40), 1627, https://doi.org/10.21105/joss.01627
+
+@article{Wang2019UCSCXenaTools,
+	journal = {Journal of Open Source Software},
+	doi = {10.21105/joss.01627},
+	issn = {2475-9066},
+	number = {40},
+	publisher = {The Open Journal},
+	title = {The UCSCXenaTools R package: a toolkit for accessing genomics data from UCSC Xena platform, from cancer multi-omics to single-cell RNA-seq},
+	url = {http://dx.doi.org/10.21105/joss.01627},
+	volume = {4},
+	author = {Wang, Shixiang and Liu, Xuesong},
+	pages = {1627},
+	date = {2019-08-05},
+	year = {2019},
+	month = {8},
+	day = {5},
+}
+```
+
+最后祝大家七夕节快乐。
+
+> 春风十里，不如有你~
