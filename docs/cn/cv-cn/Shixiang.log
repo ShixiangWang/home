@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019) (preloaded format=xelatex 2019.5.30)  8 AUG 2019 18:29
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019) (preloaded format=xelatex 2019.5.30)  8 AUG 2019 18:34
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1331,6 +1331,8 @@ LaTeX Font Info:    Font shape `TU/Optima(0)/bx/n' will be
 (Font)              scaled to size 13.91513pt on input line 92.
 LaTeX Font Info:    Font shape `TU/STKaiti(0)/bx/n' will be
 (Font)              scaled to size 15.07532pt on input line 92.
+LaTeX Font Info:    Font shape `TU/Optima(0)/bx/n' will be
+(Font)              scaled to size 11.59598pt on input line 143.
 LaTeX Font Info:    Font shape `TU/Optima(0)/m/it' will be
 (Font)              scaled to size 11.86496pt on input line 146.
 LaTeX Font Info:    Font shape `TU/Optima(0)/m/n' will be
@@ -1339,10 +1341,7 @@ LaTeX Font Info:    Font shape `TU/STKaiti(0)/m/n' will be
 (Font)              scaled to size 9.6637pt on input line 149.
 [1
 
-]
-LaTeX Font Info:    Font shape `TU/Optima(0)/bx/n' will be
-(Font)              scaled to size 11.59598pt on input line 149.
-
+] 
 AED: lastpage setting LastPage
 [2]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 167.
