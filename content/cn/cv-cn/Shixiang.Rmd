@@ -54,6 +54,8 @@ fontsize: 10pt
 
 1. 杂志论文
 
+- Wang et al., (2019). The UCSCXenaTools R package: a toolkit for accessing genomics data from UCSC Xena platform, from cancer multi-omics to single-cell RNA-seq. *Journal of Open Source Software*, 4(40), 1627, https://doi.org/10.21105/joss.01627 <i class="fa fa-file-pdf-o"> [(PDF)](https://www.theoj.org/joss-papers/joss.01627/10.21105.joss.01627.pdf)</i>
+- He, Z., **Wang, S.**, Shao, Y., Zhang, J., Wu, X., Chen, Y., ... & Liu, X. S. (2019). Ras downstream effector GGCT alleviates oncogenic stress. **iScience**. <i class="fa fa-file-pdf-o"> [(PDF)](https://www.researchgate.net/publication/334723955_Ras_downstream_effector_GGCT_alleviates_oncogenic_stress)</i>
 - **Wang, S.**, Zhang, J., He, Z., Wu, K., & Liu, X. S. (2019). The predictive power of tumor mutational burden in lung cancer immunotherapy response is influenced by patients’ sex. *International journal of cancer*. <i class="fa fa-file-pdf-o"> [(PDF)](https://www.researchgate.net/publication/332372671_The_predictive_power_of_tumor_mutational_burden_in_lung_cancer_immunotherapy_response_is_influenced_by_patients'_sex)</i>
 - **Wang, S.**, Jia, M., He, Z., & Liu, X. S. (2018). APOBEC3B and APOBEC mutational signature as potential predictive markers for immunotherapy response in non-small cell lung cancer. *Oncogene*, 37(29), 3924. <i class="fa fa-file-pdf-o"> [(PDF)](https://www.researchgate.net/publication/324781475_APOBEC3B_and_APOBEC_mutational_signature_as_potential_predictive_markers_for_immunotherapy_response_in_non-small_cell_lung_cancer)</i>
 

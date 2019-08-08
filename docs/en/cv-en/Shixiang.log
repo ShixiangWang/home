@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019) (preloaded format=xelatex 2019.5.30)  30 MAY 2019 18:10
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019) (preloaded format=xelatex 2019.5.30)  8 AUG 2019 18:29
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1325,30 +1325,30 @@ LaTeX Font Info:    Font shape `TU/Palatino(0)/bx/n' will be
 LaTeX Font Info:    Font shape `TU/Palatino(0)/m/it' will be
 (Font)              scaled to size 11.75705pt on input line 114.
 LaTeX Font Info:    Font shape `TU/Palatino(0)/bx/n' will be
-(Font)              scaled to size 11.89114pt on input line 133.
-
-AED: lastpage setting LastPage
+(Font)              scaled to size 11.89114pt on input line 139.
 LaTeX Font Info:    Font shape `TU/Palatino(0)/m/n' will be
-(Font)              scaled to size 9.14703pt on input line 146.
+(Font)              scaled to size 9.14703pt on input line 155.
 [1
 
-]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 146.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 146.
+] 
+AED: lastpage setting LastPage
+[2]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 157.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 157.
 (./Shixiang.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 146.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 146.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 157.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 157.
 Package rerunfilecheck Info: File `Shixiang.out' has not changed.
 (rerunfilecheck)             Checksum: 6A9992E247ABC43320B616B38AF474D2.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 146.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 157.
  ) 
 Here is how much of TeX's memory you used:
  31605 strings out of 494894
  614282 string characters out of 6173843
- 812463 words of memory out of 5000000
+ 814462 words of memory out of 5000000
  35226 multiletter control sequences out of 15000+600000
  536069 words of font info for 76 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  69i,11n,131p,947b,545s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on Shixiang.pdf (1 page).
+Output written on Shixiang.pdf (2 pages).
