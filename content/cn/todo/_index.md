@@ -10,6 +10,13 @@ disable_comments: true
 
 # 2019-08
 
+- Write a short intro for UCSCXenaTools to rOpenSci
+  - instruction: <https://github.com/ropensci/software-review/issues/315#issuecomment-517783222>
+  - reference:
+      * https://ropensci.org/technotes/
+      * https://github.com/ropensci/roweb2#contributing-a-blog-post
+      * template - <https://github.com/ropensci/rodev/blob/master/inst/rmarkdown/templates/ropensci-blog-post/skeleton/skeleton.Rmd>
+
 - **Python 机器学习及实践** 
   - [ ] 扫读一遍 
 

@@ -1,0 +1,27 @@
+---
+slug: ucscxenatools-201908
+title: UCSCXenaTools Notes
+package_version: 1.2.5
+authors:
+  - Shixiang Wang
+date: 2019-08-20
+categories: technotes
+topicid:
+tags:
+- Software Peer Review
+- R
+- community
+# delete the line below
+# if you have no preferred image
+# for Twitter cards
+#twitterImg: img/blog-images/2019-06-04-post-template/name-of-image.png
+#output: 
+#  html_document:
+#    keep_md: true
+lastmod: "`r Sys.Date()`"
+---
+
+Everywhere in this template (YAML, chunk below), you should change "post-template" to the slug of your post, and "2019-06-04" to the publication date.
+
+This template will generate both an .html and an .md. The .md is what you will submit in your pull request to roweb2.
+

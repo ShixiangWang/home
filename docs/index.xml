@@ -12,6 +12,16 @@
     
     
     <item>
+      <title>UCSCXenaTools Notes</title>
+      <link>/en/post/ucscxenatools-201908/</link>
+      <pubDate>Tue, 20 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/en/post/ucscxenatools-201908/</guid>
+      <description>Everywhere in this template (YAML, chunk below), you should change “post-template” to the slug of your post, and “2019-06-04” to the publication date.
+This template will generate both an .html and an .md. The .md is what you will submit in your pull request to roweb2.</description>
+    </item>
+    
+    <item>
       <title>引用UCSCXenaTools</title>
       <link>/cn/post/2019-08-07-cite-ucscxenatools/</link>
       <pubDate>Wed, 07 Aug 2019 00:00:00 +0000</pubDate>

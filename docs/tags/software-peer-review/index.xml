@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Software Peer Review on Shixiang Wang | 王诗翔</title>
+    <link>/tags/software-peer-review/</link>
+    <description>Recent content in Software Peer Review on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 20 Aug 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/software-peer-review/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>UCSCXenaTools Notes</title>
+      <link>/en/post/ucscxenatools-201908/</link>
+      <pubDate>Tue, 20 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/en/post/ucscxenatools-201908/</guid>
+      <description>Everywhere in this template (YAML, chunk below), you should change “post-template” to the slug of your post, and “2019-06-04” to the publication date.
+This template will generate both an .html and an .md. The .md is what you will submit in your pull request to roweb2.</description>
+    </item>
+    
+  </channel>
+</rss>
