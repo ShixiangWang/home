@@ -12,10 +12,10 @@
     
     
     
-    <title>引用UCSCXenaTools - 王诗翔</title>
+    <title>可视化 deft 方法进行的 subgroup 分析结果 - 王诗翔</title>
     
      
-    <meta property="og:title" content="引用UCSCXenaTools - Shixiang Wang | 王诗翔">
+    <meta property="og:title" content="可视化 deft 方法进行的 subgroup 分析结果 - Shixiang Wang | 王诗翔">
     
 
     
@@ -88,10 +88,7 @@
 
 
 
-
-
-
-<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2019-08-07-cite-ucscxenatools.Rmd" target="_blank">编辑</a></li>
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2019-08-22-metawho-add-deft-show-fun.md" target="_blank">编辑</a></li>
 
 
 <li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
@@ -107,12 +104,12 @@
       <header class="title">
         
 
-<h1>引用UCSCXenaTools</h1>
+<h1>可视化 deft 方法进行的 subgroup 分析结果</h1>
 
 
 
 <h3>王诗翔 &middot 
-2019-08-07</h3> 
+2019-08-22</h3> 
 
 
    
@@ -122,46 +119,35 @@
       </header>
 
 
+<p>在文章<a href="https://www.jianshu.com/p/54eb91473087">《谁更能从治疗中获益？》</a>中我讲过 metawho 包的开发由来，但当时遗留了一个问题，就是如何可视化 deft 元分析方法的结果。</p>
 
+<p>之前我提供了使用 metafor 包绘制结果的方法，但这种方法自定义度极高，绘图需要不断摸索调整。</p>
 
+<p><img src="https://upload-images.jianshu.io/upload_images/3884693-a8db64cad3567fbe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="" /></p>
 
-<p>UCSCXenaTools &lt;<a href="https://github.com/ropensci/UCSCXenaTools">https://github.com/ropensci/UCSCXenaTools</a>&gt; 是去年10月份左右开始开发的，是我写的第一个R包，目的是有效地选择和下载UCSC Xena提供的公开数据集，有利于分析的流程化和可重复性。最近该包通过了 <a href="%5Bhttps://ropensci.org/%5D(https://ropensci.org/)">rOpenSci</a> 项目的审核，并极快地发表在了 <a href="%5Bhttps://joss.theoj.org/papers/10.21105/joss.01627#%5D(https://joss.theoj.org/papers/10.21105/joss.01627#)">JOSS</a> 上。</p>
-<blockquote>
-<p>JOSS 关注软件文档而不是文章内容，这一点我很喜欢，如果有朋友开发了一些工具不妨考虑下。</p>
-</blockquote>
-<p>CRAN Badge 显示 10 个月以来该包有近 8000 次的下载量，虽然完全不能同流行包相比，但编写出来的东西能够有一些用户在使用，偶尔还有一些邮件反馈，这让我觉得比较荣幸和开心。</p>
-<p>我知道使用该包的人大多数都是癌症科学研究者，所以请大家在发表 paper 的同时引用一下本包，这是最好的鼓励😁：</p>
-<pre><code>Wang et al., (2019). The UCSCXenaTools R package: a toolkit for accessing genomics data from UCSC 
- Xena platform, from cancer multi-omics to single-cell RNA-seq.
- Journal of Open Source Software, 4(40), 1627, https://doi.org/10.21105/joss.01627
+<p>刚花费了一天的时间解决这个问题，通过 forestmodel 包用ggplot2实现森林图支持构建了内置于 metawho 包的函数 <code>deft_show()</code>。</p>
 
-@article{Wang2019UCSCXenaTools,
-    journal = {Journal of Open Source Software},
-    doi = {10.21105/joss.01627},
-    issn = {2475-9066},
-    number = {40},
-    publisher = {The Open Journal},
-    title = {The UCSCXenaTools R package: a toolkit for accessing genomics data from UCSC Xena platform, from cancer multi-omics to single-cell RNA-seq},
-    url = {http://dx.doi.org/10.21105/joss.01627},
-    volume = {4},
-    author = {Wang, Shixiang and Liu, Xuesong},
-    pages = {1627},
-    date = {2019-08-05},
-    year = {2019},
-    month = {8},
-    day = {5},
-}</code></pre>
-<p>最后祝大家七夕节快乐。</p>
-<blockquote>
-<p>春风十里，不如有你~</p>
-</blockquote>
+<p><img src="https://upload-images.jianshu.io/upload_images/3884693-dfc89a042090d9e1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="" /></p>
+
+<p>完整的例子见<a href="https://shixiangwang.github.io/metawho/articles/metawho.html">https://shixiangwang.github.io/metawho/articles/metawho.html</a>，我就不翻译了，写博文很费时间。</p>
+
+<p>这个功能需要安装 GitHub 的最新版本，因为我修改了一些 <code>forestmodel</code> 包的代码，该包作者没有合并请求和更新到 CRAN，所以暂时我也不能 push 到CRAN上（如果更新，我会修改本文）。</p>
+
+<pre><code>remotes::install_github(&quot;ShixiangWang/metawho&quot;)
+</code></pre>
+
+<p>deft 方法的原理见文章：</p>
+
+<pre><code>Fisher, David J., et al. “Meta-analytical methods to identify who benefits most from treatments: daft, 
+deluded, or deft approach?.” bmj 356 (2017): j573.
+</code></pre>
 
 
   <footer>
   
 <nav class="post-nav">
-  <span class="nav-prev">&larr; <a href="../../../cn/post/2019-08-05-ggplotify-intro/">ggplotify——连接各类R图形</a></span>
-  <span class="nav-next"><a href="../../../cn/post/2019-08-22-metawho-add-deft-show-fun/">可视化 deft 方法进行的 subgroup 分析结果</a> &rarr;</span>
+  <span class="nav-prev">&larr; <a href="../../../cn/post/2019-08-07-cite-ucscxenatools/">引用UCSCXenaTools</a></span>
+  <span class="nav-next"></span>
 </nav>
 <script type="text/javascript">
 document.addEventListener('keyup', function(e) {
@@ -169,11 +155,9 @@ document.addEventListener('keyup', function(e) {
   var url = false;
   if (e.which == 37) {  
     
-    url = '\/cn\/post\/2019-08-05-ggplotify-intro\/';
+    url = '\/cn\/post\/2019-08-07-cite-ucscxenatools\/';
     
   } else if (e.which == 39) {  
-    
-    url = '\/cn\/post\/2019-08-22-metawho-add-deft-show-fun\/';
     
   }
   if (url) window.location = url;

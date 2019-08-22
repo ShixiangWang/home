@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>可视化 deft 方法进行的 subgroup 分析结果</title>
+      <link>/cn/post/2019-08-22-metawho-add-deft-show-fun/</link>
+      <pubDate>Thu, 22 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-08-22-metawho-add-deft-show-fun/</guid>
+      <description>在文章《谁更能从治疗中获益？》中我讲过 metawho 包的开发由来，但当时遗留了一个问题，就是如何可视化 deft 元分析方法的结果。 之前我提供了使用 metafor 包绘制结果的</description>
+    </item>
+    
+    <item>
       <title>引用UCSCXenaTools</title>
       <link>/cn/post/2019-08-07-cite-ucscxenatools/</link>
       <pubDate>Wed, 07 Aug 2019 00:00:00 +0000</pubDate>
