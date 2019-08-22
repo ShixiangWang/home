@@ -8,6 +8,10 @@ show_title: false
 disable_comments: true
 ---
 
+# 迁移说明
+
+还有什么比 GitHub issue 更好放 plan 的地方呢？此处内容永远迁移至 <https://github.com/ShixiangWang/home/issues>。
+
 # 2019-08
 
 - Write a short intro for UCSCXenaTools to rOpenSci
