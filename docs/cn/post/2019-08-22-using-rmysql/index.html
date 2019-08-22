@@ -12,10 +12,10 @@
     
     
     
-    <title>可视化 deft 方法进行的 subgroup 分析结果 - 王诗翔</title>
+    <title>使用RMySQL简单操作mysql数据库 - 王诗翔</title>
     
      
-    <meta property="og:title" content="可视化 deft 方法进行的 subgroup 分析结果 - Shixiang Wang | 王诗翔">
+    <meta property="og:title" content="使用RMySQL简单操作mysql数据库 - Shixiang Wang | 王诗翔">
     
 
     
@@ -88,7 +88,7 @@
 
 
 
-<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2019-08-22-metawho-add-deft-show-fun.md" target="_blank">编辑</a></li>
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2019-08-22-using-rmysql.md" target="_blank">编辑</a></li>
 
 
 <li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
@@ -104,7 +104,7 @@
       <header class="title">
         
 
-<h1>可视化 deft 方法进行的 subgroup 分析结果</h1>
+<h1>使用RMySQL简单操作mysql数据库</h1>
 
 
 
@@ -119,35 +119,57 @@
       </header>
 
 
-<p>在文章<a href="https://www.jianshu.com/p/54eb91473087">《谁更能从治疗中获益？》</a>中我讲过 metawho 包的开发由来，但当时遗留了一个问题，就是如何可视化 deft 元分析方法的结果。</p>
+<p>使用 MySQL 数据库创建一个用于存储用户信息的数据表：包含 username, email, password 三个字段，并分别使用 SQL 和 Python/R 客户端插入、删除和更新一行数据，密码使用 SHA256 进行加密</p>
 
-<p>之前我提供了使用 metafor 包绘制结果的方法，但这种方法自定义度极高，绘图需要不断摸索调整。</p>
+<pre><code class="language-r">library(RMySQL)
+con = dbConnect(MySQL(), user = &quot;root&quot;, password = &quot;xxx&quot;)
+# creating a database using RMySQL in R
+dbSendQuery(con, &quot;CREATE DATABASE test_user;&quot;)
+dbSendQuery(con, &quot;USE test_user;&quot;)
+dbDisconnect(con)
+# reconnecting to database we just created using following command in R :
+mydb = dbConnect(MySQL(), user = &quot;root&quot;, password = &quot;xxx&quot;, dbname=&quot;test_user&quot;)
 
-<p><img src="https://upload-images.jianshu.io/upload_images/3884693-a8db64cad3567fbe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="" /></p>
+init_table = data.frame(
+    username = &quot;user1&quot;,
+    email = &quot;wxxx@163.com&quot;,
+    password = digest::sha1(&quot;yes&quot;,algo = &quot;sha256&quot;),
+    stringsAsFactors = FALSE
+)
 
-<p>刚花费了一天的时间解决这个问题，通过 forestmodel 包用ggplot2实现森林图支持构建了内置于 metawho 包的函数 <code>deft_show()</code>。</p>
+append_table = data.frame(
+    username = &quot;user2&quot;,
+    email = &quot;wxxx@163.com&quot;,
+    password = digest::sha1(&quot;another password&quot;,algo = &quot;sha256&quot;),
+    stringsAsFactors = FALSE
+)
 
-<p><img src="https://upload-images.jianshu.io/upload_images/3884693-dfc89a042090d9e1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="" /></p>
+dbWriteTable(mydb, name = &quot;test&quot;, value = init_table, row.names = FALSE, overwrite = TRUE)
+dbReadTable(mydb, &quot;test&quot;)
 
-<p>完整的例子见<a href="https://shixiangwang.github.io/metawho/articles/metawho.html">https://shixiangwang.github.io/metawho/articles/metawho.html</a>，我就不翻译了，写博文很费时间。</p>
+# 追加数据
+dbWriteTable(mydb, name = &quot;test&quot;, value = append_table, row.names = FALSE, append = TRUE)
+dbReadTable(mydb, &quot;test&quot;)
 
-<p>这个功能需要安装 GitHub 的最新版本，因为我修改了一些 <code>forestmodel</code> 包的代码，该包作者没有合并请求和更新到 CRAN，所以暂时我也不能 push 到CRAN上（如果更新，我会修改本文）。</p>
+# 更新数据
+dbSendQuery(mydb, &quot;UPDATE test set username = 'user3' where username = 'user2'&quot;)
+dbReadTable(mydb, &quot;test&quot;)
 
-<pre><code>remotes::install_github(&quot;ShixiangWang/metawho&quot;)
+# 删除数据
+dbSendQuery(mydb, &quot;DELETE FROM test where username = 'user1'&quot;)
+dbReadTable(mydb, &quot;test&quot;)
+
+dbDisconnect(mydb)
 </code></pre>
 
-<p>deft 方法的原理见文章：</p>
-
-<pre><code>Fisher, David J., et al. “Meta-analytical methods to identify who benefits most from treatments: daft, 
-deluded, or deft approach?.” bmj 356 (2017): j573.
-</code></pre>
+<p>参考： <a href="https://mkmanu.wordpress.com/2014/07/24/r-and-mysql-a-tutorial-for-beginners/">https://mkmanu.wordpress.com/2014/07/24/r-and-mysql-a-tutorial-for-beginners/</a></p>
 
 
   <footer>
   
 <nav class="post-nav">
-  <span class="nav-prev">&larr; <a href="../../../cn/post/2019-08-07-cite-ucscxenatools/">引用UCSCXenaTools</a></span>
-  <span class="nav-next"><a href="../../../cn/post/2019-08-22-using-rmysql/">使用RMySQL简单操作mysql数据库</a> &rarr;</span>
+  <span class="nav-prev">&larr; <a href="../../../cn/post/2019-08-22-metawho-add-deft-show-fun/">可视化 deft 方法进行的 subgroup 分析结果</a></span>
+  <span class="nav-next"></span>
 </nav>
 <script type="text/javascript">
 document.addEventListener('keyup', function(e) {
@@ -155,11 +177,9 @@ document.addEventListener('keyup', function(e) {
   var url = false;
   if (e.which == 37) {  
     
-    url = '\/cn\/post\/2019-08-07-cite-ucscxenatools\/';
+    url = '\/cn\/post\/2019-08-22-metawho-add-deft-show-fun\/';
     
   } else if (e.which == 39) {  
-    
-    url = '\/cn\/post\/2019-08-22-using-rmysql\/';
     
   }
   if (url) window.location = url;
