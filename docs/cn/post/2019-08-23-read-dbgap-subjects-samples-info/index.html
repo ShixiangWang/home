@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    
+    <link rel="stylesheet" href="../../../fonts/academicons-1.8.6/css/academicons.min.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../logo/bodhi.png"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    
+    <title>读入 dbGap 的表型/注释信息 - 王诗翔</title>
+    
+     
+    <meta property="og:title" content="读入 dbGap 的表型/注释信息 - Shixiang Wang | 王诗翔">
+    
+
+    
+      
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="../../../css/style.css" />
+    <link rel="stylesheet" href="../../../css/mystyle.css" /> 
+    <link rel="stylesheet" href="../../../css/fonts.css" />
+    
+<script async src="../../../js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="../../../css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="../../../"><img src="https://avatars1.githubusercontent.com/u/25057508?s=460&amp;v=4" alt="Shixiang Wang" /></a></h1>
+
+
+
+      <nav class="menu">
+        <input id="menu-check" type="checkbox" />
+        <label id="menu-label" for="menu-check" class="unselectable">
+          <span class="icon close-icon">✕</span>
+          <span class="icon open-icon">☰</span>
+          <span class="text">Menu</span>
+        </label>
+        <ul>
+        
+        
+        <li><a href="../../../">首页</a></li>
+        
+        <li><a href="../../../cn/about/">关于</a></li>
+        
+        <li><a href="../../../cn/post/">博客</a></li>
+        
+        <li><a href="../../../cn/read/">读书</a></li>
+        
+        <li><a href="../../../cn/writing">写作</a></li>
+        
+        <li><a href="../../../cn/research/">研究</a></li>
+        
+        <li><a href="../../../cn/tools/">工具</a></li>
+        
+        <li><a href="../../../cn/cv-cn/shixiang">简历</a></li>
+        
+        <li><a href="../../../cn/todo">ToDo</a></li>
+        
+        <li><a href="../../../en/">English</a></li>
+        
+        
+
+<li class="menu-extra"></li>
+
+
+
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2019-08-23-read-dbGap-subjects-samples-info.md" target="_blank">编辑</a></li>
+
+
+<li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+        </ul>
+      </nav>
+    </header>
+
+    <article class="main">
+      <header class="title">
+        
+
+<h1>读入 dbGap 的表型/注释信息</h1>
+
+
+
+<h3>王诗翔 &middot 
+2019-08-23</h3> 
+
+
+   
+  
+
+
+      </header>
+
+
+<p>dbGaP 表型等信息零散地却有规律地分布在 <code>files/</code> 目录下，为了理解哪些文件存储了数据，我对下载的文件类型进行了查看，包括 xml, pdf 以及 gz 文件。大致有以下整理：</p>
+
+<ul>
+<li>pdf 文件存储的是各种文件的大致说明</li>
+<li>xml 文件存储一些文件的元信息和一些数据</li>
+<li>tar.gz 文件存储的是打包压缩的 xml 文件</li>
+<li>txt.gz 文件基本存储的是数据</li>
+</ul>
+
+<p>xml 文件中的数据很难查看和导入，我也不懂 xml，放弃治疗。</p>
+
+<p>tar.gz 文件存储的 xml 文件包含了 txt.gz 文件列名的描述，如果有这方面的疑问，推荐直接用文本模式看看它们，文件不大，还是比较好查看的。</p>
+
+<p>带 MULTI 字符的 txt 文件虽然汇总了该研究所有的病人或样本信息，但很多信息没有存储！可惜了（如果读者发现自己下载的数据有存储最全面的信息，那还是推荐使用这个，减少麻烦）。</p>
+
+<p><img src="https://upload-images.jianshu.io/upload_images/3884693-d311c4cce527a31d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="" /></p>
+
+<p>实际包含详细信息的病人文件会带 Subject_Phenotypes 字符，而样本带 Sample_Attributes 字符。而它们还能相互补充，所以我要想办法导入 2 种数据，后面再进行合并处理。</p>
+
+<p><img src="https://upload-images.jianshu.io/upload_images/3884693-52d68d36bb542828.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="" /></p>
+
+<p>了解规律之后写函数处理：</p>
+
+<pre><code>read_dbGap = function(accession, destdir=getwd(), 
+                      type = c(&quot;subject&quot;, &quot;sample&quot;), 
+                      col_types = cols(.default = &quot;c&quot;),
+                      pattern_subject_file = &quot;Subject_Phenotypes&quot;, 
+                      pattern_sample_file = &quot;Sample_Attributes&quot;) {
+    # col_types see ?readr::read_tsv
+    # user can set it to dplyr::cols() if no error 'Too many conversion specifiers in format string' returned
+    
+    type = match.arg(type)
+    # append / at the end if user not type it
+    destdir = ifelse(endsWith(destdir, suffix = &quot;/&quot;), destdir, paste0(destdir, &quot;/&quot;))
+    
+    if (type == &quot;subject&quot;) {
+        fl = dir(destdir, paste0(accession, &quot;.*&quot;, pattern_subject_file), full.names = TRUE)
+    } else {
+        fl = dir(destdir, paste0(accession, &quot;.*&quot;, pattern_sample_file), full.names = TRUE)
+    }
+    
+    if (length(fl) &lt; 1) stop(&quot;Cannot find any file! Please check your input.&quot;)
+    
+    message(&quot;==&gt; Finding out files with type &quot;, type)
+    print(fl)
+    
+    if (!require(tidyverse)) {
+        message(&quot;Please install tidyverse package and re-run this function!&quot;)
+    } else {
+        purrr::map(fl, ~readr::read_tsv(., comment = &quot;#&quot;, progress = TRUE, 
+                                        col_types = col_types)) %&gt;% 
+            dplyr::bind_rows() %&gt;% 
+            unique()
+    }
+}
+</code></pre>
+
+<p>用户只要指定前 3 个参数，这里设定 <code>col_types = cols(.default = &quot;c&quot;)</code> 是通过将所有列都读入为字符串以解决报错 <code>Too many conversion specifiers in format string</code>，你可以试试 <code>col_types = dplyr::cols()</code>，如果报错，再使用函数设定的默认参数。</p>
+
+<p>因为我工作要处理的是多个 dbGap Study，所以我再创建一个函数来进行批量处理：</p>
+
+<pre><code>read_dbGapList = function(accession_list, destdir=getwd(),
+                          col_types = cols(.default = &quot;c&quot;),
+                          pattern_subject_file = &quot;Subject_Phenotypes&quot;, 
+                          pattern_sample_file = &quot;Sample_Attributes&quot;) {
+    if (!require(tidyverse)) {
+        message(&quot;Please install tidyverse package and re-run this function!&quot;)
+    } else {
+        purrr::map(accession_list, function(x) {
+            message(&quot;=&gt; Processing accession &quot;, x)
+            type = c(&quot;subject&quot;, &quot;sample&quot;)
+            purrr::map(type, 
+                       ~suppressWarnings(read_dbGap(x, destdir = destdir,type = .))) %&gt;% 
+                setNames(type)
+        }) %&gt;% 
+            setNames(accession_list)
+    }
+}
+</code></pre>
+
+<p>效果如下：</p>
+
+<pre><code>&gt; df_list = read_dbGapList(accession_list = paste0(&quot;phs00&quot;,
++                                                  c(&quot;0447&quot;, &quot;0554&quot;, &quot;0909&quot;, &quot;0915&quot;, &quot;1141&quot;)),
++                          destdir = &quot;dbGap/phenotype/&quot;)
+=&gt; Processing accession phs000447
+==&gt; Finding out files with type subject
+[1] &quot;dbGap/phenotype//phs000447.v1.pht002581.v1.p1.c1.Prostate_CIP_Subject_Phenotypes.GRU.txt.gz&quot;
+[2] &quot;dbGap/phenotype//phs000447.v1.pht002581.v1.p1.c2.Prostate_CIP_Subject_Phenotypes.CRO.txt.gz&quot;
+==&gt; Finding out files with type sample
+[1] &quot;dbGap/phenotype//phs000447.v1.pht002582.v1.p1.c1.Prostate_CIP_Sample_Attributes.GRU.txt.gz&quot;
+[2] &quot;dbGap/phenotype//phs000447.v1.pht002582.v1.p1.c2.Prostate_CIP_Sample_Attributes.CRO.txt.gz&quot;
+=&gt; Processing accession phs000554
+==&gt; Finding out files with type subject
+[1] &quot;dbGap/phenotype//phs000554.v1.pht003196.v1.p1.c1.CRPC_Subject_Phenotypes.DS-CA-MDS.txt.gz&quot;
+==&gt; Finding out files with type sample
+[1] &quot;dbGap/phenotype//phs000554.v1.pht003198.v1.p1.c1.CRPC_Sample_Attributes.DS-CA-MDS.txt.gz&quot;
+=&gt; Processing accession phs000909
+==&gt; Finding out files with type subject
+[1] &quot;dbGap/phenotype//phs000909.v1.pht005250.v1.p1.c1.NEPC_Subject_Phenotypes.GRU.txt.gz&quot;
+==&gt; Finding out files with type sample
+[1] &quot;dbGap/phenotype//phs000909.v1.pht004876.v1.p1.c1.NEPC_Sample_Attributes.GRU.txt.gz&quot;
+=&gt; Processing accession phs000915
+==&gt; Finding out files with type subject
+[1] &quot;dbGap/phenotype//phs000915.v2.pht004946.v2.p2.c1.mCRPC_SU2C_Subject_Phenotypes.DS-PC-MDS.txt.gz&quot;
+[2] &quot;dbGap/phenotype//phs000915.v2.pht004946.v2.p2.c2.mCRPC_SU2C_Subject_Phenotypes.DS-CA-MDS.txt.gz&quot;
+==&gt; Finding out files with type sample
+[1] &quot;dbGap/phenotype//phs000915.v2.pht004947.v2.p2.c1.mCRPC_SU2C_Sample_Attributes.DS-PC-MDS.txt.gz&quot;
+[2] &quot;dbGap/phenotype//phs000915.v2.pht004947.v2.p2.c2.mCRPC_SU2C_Sample_Attributes.DS-CA-MDS.txt.gz&quot;
+=&gt; Processing accession phs001141
+==&gt; Finding out files with type subject
+[1] &quot;dbGap/phenotype//phs001141.v1.pht005601.v1.p1.c1.PROMOTE_Subject_Phenotypes.GRU.txt.gz&quot;
+==&gt; Finding out files with type sample
+[1] &quot;dbGap/phenotype//phs001141.v1.pht005602.v1.p1.c1.PROMOTE_Sample_Attributes.GRU.txt.gz&quot;
+</code></pre>
+
+<p>后续的合并就需要更多的 dirty work 了。。。</p>
+
+<hr />
+
+<p>注：公布的函数是开源的，抄可以，但封装或修改时还是要有点开源精神，以GPL协议附上本人 copyright。如果是发表研究，应当适当引用。</p>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="../../../cn/post/2019-08-22-using-rmysql/">使用RMySQL简单操作mysql数据库</a></span>
+  <span class="nav-next"></span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/post\/2019-08-22-using-rmysql\/';
+    
+  } else if (e.which == 39) {  
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+<section class="comments">
+  <div id="disqus_thread"></div>
+  <script src="../../../js/disqusloader.min.js"></script>
+  <script>
+  var disqus_config = function () {
+  
+    this.page.url = "https:\/\/shixiangwang.github.io\/home\/" + location.pathname;
+  
+  };
+  (function() {
+    var inIFrame = function() {
+      var iframe = true;
+      try { iframe = window.self !== window.top; } catch (e) {}
+      return iframe;
+    };
+    if (inIFrame()) return;
+    var disqus_js = '//home-xjdzylqrzp.disqus.com/embed.js';
+    
+    if (location.hash.match(/^#comment/)) {
+      var d = document, s = d.createElement('script');
+      s.src = disqus_js; s.async = true;
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    } else {
+      disqusLoader('#disqus_thread', {
+        scriptUrl: disqus_js, laziness: 0, disqusConfig: disqus_config
+      });
+    }
+  })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+
+
+<script async src="../../../js/fix-toc.js"></script>
+
+<script async src="../../../js/center-img.js"></script>
+
+<script async src="../../../js/right-quote.js"></script>
+
+<script async src="../../../js/no-highlight.js"></script>
+
+<script async src="../../../js/fix-footnote.js"></script>
+
+<script async src="../../../js/math-code.js"></script>
+
+<script async src="../../../js/external-link.js"></script>
+
+<script async src="../../../js/alt-title.js"></script>
+
+<script async src="../../../js/header-link.js"></script>
+
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+  
+  
+
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> &middot; <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> &middot; <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> &middot; <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> &middot; <a href="https://orcid.org/0000-0002-9275-3557"><i class='ai ai-orcid ai-1x'></i></a> &middot; <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 &copy; <a href="../../../">王诗翔</a> 2017 - 2019 </div>
+  
+  
+
+  <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56h9es09xn7&amp;m=6&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=1" async="async"></script>
+  </footer>
+  </article>
+  
+  </body>
+</html>
+

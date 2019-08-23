@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>读入 dbGap 的表型/注释信息</title>
+      <link>/cn/post/2019-08-23-read-dbgap-subjects-samples-info/</link>
+      <pubDate>Fri, 23 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-08-23-read-dbgap-subjects-samples-info/</guid>
+      <description>dbGaP 表型等信息零散地却有规律地分布在 files/ 目录下，为了理解哪些文件存储了数据，我对下载的文件类型进行了查看，包括 xml, pdf 以及 gz 文件。大致有以下整理： pdf</description>
+    </item>
+    
+    <item>
       <title>使用RMySQL简单操作mysql数据库</title>
       <link>/cn/post/2019-08-22-using-rmysql/</link>
       <pubDate>Thu, 22 Aug 2019 00:00:00 +0000</pubDate>
