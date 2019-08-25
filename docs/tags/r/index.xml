@@ -6,19 +6,22 @@
     <description>Recent content in R on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 20 Aug 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 25 Aug 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/r/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>UCSCXenaTools Notes</title>
+      <title>UCSCXenaTools: Retrieve Gene Expression and Clinical Information from UCSC Xena for Survival Analysis</title>
       <link>/en/post/ucscxenatools-201908/</link>
-      <pubDate>Tue, 20 Aug 2019 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 25 Aug 2019 00:00:00 +0000</pubDate>
       
       <guid>/en/post/ucscxenatools-201908/</guid>
-      <description>Everywhere in this template (YAML, chunk below), you should change “post-template” to the slug of your post, and “2019-06-04” to the publication date.
-This template will generate both an .html and an .md. The .md is what you will submit in your pull request to roweb2.</description>
+      <description>In this technote I will outline how to use UCSCXenaTools package to pull gene expression and clinical data from UCSC Xena for survival analysis.
+For general usage of UCSCXenaTools, please refer to package vignette. Any bug or feature request can be reported in GitHub issues.
+Installation UCSCXenaTools is available from CRAN:
+install.packages(&amp;quot;UCSCXenaTools&amp;quot;) Alternatively, the latest development version can be downloaded from GitHub:
+remotes::install_github(&amp;quot;ropensci/UCSCXenaTools&amp;quot;, build_vignettes = TRUE, dependencies = TRUE)  How it works Before actually pulling data, understand how UCSCXenaTools works will help user locate the most important function to use.</description>
     </item>
     
     <item>

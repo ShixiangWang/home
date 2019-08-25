@@ -6,7 +6,7 @@
     <description>Recent content in Tags on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 20 Aug 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 25 Aug 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>R</title>
       <link>/tags/r/</link>
-      <pubDate>Tue, 20 Aug 2019 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 25 Aug 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/r/</guid>
       <description></description>
@@ -23,18 +23,63 @@
     <item>
       <title>Software Peer Review</title>
       <link>/tags/software-peer-review/</link>
-      <pubDate>Tue, 20 Aug 2019 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 25 Aug 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/software-peer-review/</guid>
       <description></description>
     </item>
     
     <item>
+      <title>bioinformatics</title>
+      <link>/tags/bioinformatics/</link>
+      <pubDate>Sun, 25 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/bioinformatics/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>community</title>
       <link>/tags/community/</link>
-      <pubDate>Tue, 20 Aug 2019 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 25 Aug 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/community/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>data access</title>
+      <link>/tags/data-access/</link>
+      <pubDate>Sun, 25 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/data-access/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>packages</title>
+      <link>/tags/packages/</link>
+      <pubDate>Sun, 25 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/packages/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>software</title>
+      <link>/tags/software/</link>
+      <pubDate>Sun, 25 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/software/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>survival analysis</title>
+      <link>/tags/survival-analysis/</link>
+      <pubDate>Sun, 25 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/survival-analysis/</guid>
       <description></description>
     </item>
     
@@ -125,15 +170,6 @@
       <pubDate>Fri, 27 Oct 2017 00:00:00 +0000</pubDate>
       
       <guid>/tags/bioconductor/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>bioinformatics</title>
-      <link>/tags/bioinformatics/</link>
-      <pubDate>Fri, 27 Oct 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/bioinformatics/</guid>
       <description></description>
     </item>
     

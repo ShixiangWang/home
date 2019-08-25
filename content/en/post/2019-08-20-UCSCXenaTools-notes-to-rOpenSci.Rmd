@@ -1,27 +1,70 @@
 ---
 slug: ucscxenatools-201908
-title: UCSCXenaTools Notes
+title: 'UCSCXenaTools: Retrieve Gene Expression and Clinical Information from UCSC Xena for Survival Analysis'
 package_version: 1.2.5
 authors:
   - Shixiang Wang
-date: 2019-08-20
+date: '2019-08-25'
 categories: technotes
 topicid:
 tags:
-- Software Peer Review
-- R
-- community
-# delete the line below
-# if you have no preferred image
-# for Twitter cards
-#twitterImg: img/blog-images/2019-06-04-post-template/name-of-image.png
-#output: 
-#  html_document:
-#    keep_md: true
+  - R
+  - community
+  - software
+  - Software Peer Review
+  - packages
+  - bioinformatics
+  - data access
+  - survival analysis
+output:
+ html_document:
+   keep_md: true
 lastmod: "`r Sys.Date()`"
 ---
 
-Everywhere in this template (YAML, chunk below), you should change "post-template" to the slug of your post, and "2019-06-04" to the publication date.
+In this technote I will outline how to use **UCSCXenaTools** package to pull gene expression and clinical data from UCSC Xena for survival analysis.
 
-This template will generate both an .html and an .md. The .md is what you will submit in your pull request to roweb2.
+For general usage of **UCSCXenaTools**, please refer to [package vignette](https://cran.r-project.org/web/packages/UCSCXenaTools/vignettes/USCSXenaTools.html). 
+Any bug or feature request can be reported in [GitHub issues](https://github.com/ropensci/UCSCXenaTools/issues).
+
+## Installation
+
+**UCSCXenaTools** is available from CRAN:
+
+```{r, eval=FALSE}
+install.packages("UCSCXenaTools")
+```
+
+Alternatively, the latest development version can be downloaded from GitHub:
+
+```{r, eval=FALSE}
+remotes::install_github("ropensci/UCSCXenaTools", build_vignettes = TRUE, dependencies = TRUE)
+```
+
+## How it works
+
+Before actually pulling data, understand how **UCSCXenaTools** works will help user locate the most important function to use.
+
+Generally, 
+
+* for operating datasets, we use functions start with `Xena`
+* for operating subset of a dataset, we use functions start with `fetch_`
+
+![](https://raw.githubusercontent.com/ropensci/UCSCXenaTools/master/paper/overview.png)
+*Figure 1. The UCSCXenaTools pipeline*
+
+## Download data
+
+```{r, eval=FALSE}
+https://gdc.xenahubs.net
+GDC-PANCAN/Xena_Matrices/GDC-PANCAN.htseq_fpkm.tsv
+
+https://toil.xenahubs.net
+TCGA_survival_data
+```
+
+
+## Survival analysis
+
+
 

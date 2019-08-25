@@ -12,10 +12,10 @@
     
     
     
-    <title>UCSCXenaTools Notes - Shixiang Wang</title>
+    <title>UCSCXenaTools: Retrieve Gene Expression and Clinical Information from UCSC Xena for Survival Analysis - Shixiang Wang</title>
     
      
-    <meta property="og:title" content="UCSCXenaTools Notes - Shixiang Wang | 王诗翔">
+    <meta property="og:title" content="UCSCXenaTools: Retrieve Gene Expression and Clinical Information from UCSC Xena for Survival Analysis - Shixiang Wang | 王诗翔">
     
 
     
@@ -26,6 +26,11 @@
 
     
     
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
 
     <link rel="stylesheet" href="../../../css/style.css" />
     <link rel="stylesheet" href="../../../css/mystyle.css" /> 
@@ -93,12 +98,12 @@
       <header class="title">
         
 
-<h1>UCSCXenaTools Notes</h1>
+<h1>UCSCXenaTools: Retrieve Gene Expression and Clinical Information from UCSC Xena for Survival Analysis</h1>
 
 
 
 <h3>Shixiang Wang &middot 
-2019-08-20</h3> 
+2019-08-25</h3> 
 
 
    
@@ -111,8 +116,38 @@
 
 
 
-<p>Everywhere in this template (YAML, chunk below), you should change “post-template” to the slug of your post, and “2019-06-04” to the publication date.</p>
-<p>This template will generate both an .html and an .md. The .md is what you will submit in your pull request to roweb2.</p>
+<p>In this technote I will outline how to use <strong>UCSCXenaTools</strong> package to pull gene expression and clinical data from UCSC Xena for survival analysis.</p>
+<p>For general usage of <strong>UCSCXenaTools</strong>, please refer to <a href="https://cran.r-project.org/web/packages/UCSCXenaTools/vignettes/USCSXenaTools.html">package vignette</a>.
+Any bug or feature request can be reported in <a href="https://github.com/ropensci/UCSCXenaTools/issues">GitHub issues</a>.</p>
+<div id="installation" class="section level2">
+<h2>Installation</h2>
+<p><strong>UCSCXenaTools</strong> is available from CRAN:</p>
+<pre class="r"><code>install.packages(&quot;UCSCXenaTools&quot;)</code></pre>
+<p>Alternatively, the latest development version can be downloaded from GitHub:</p>
+<pre class="r"><code>remotes::install_github(&quot;ropensci/UCSCXenaTools&quot;, build_vignettes = TRUE, dependencies = TRUE)</code></pre>
+</div>
+<div id="how-it-works" class="section level2">
+<h2>How it works</h2>
+<p>Before actually pulling data, understand how <strong>UCSCXenaTools</strong> works will help user locate the most important function to use.</p>
+<p>Generally,</p>
+<ul>
+<li>for operating datasets, we use functions start with <code>Xena</code></li>
+<li>for operating subset of a dataset, we use functions start with <code>fetch_</code></li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/ropensci/UCSCXenaTools/master/paper/overview.png" />
+<em>Figure 1. The UCSCXenaTools pipeline</em></p>
+</div>
+<div id="download-data" class="section level2">
+<h2>Download data</h2>
+<pre class="r"><code>https://gdc.xenahubs.net
+GDC-PANCAN/Xena_Matrices/GDC-PANCAN.htseq_fpkm.tsv
+
+https://toil.xenahubs.net
+TCGA_survival_data</code></pre>
+</div>
+<div id="survival-analysis" class="section level2">
+<h2>Survival analysis</h2>
+</div>
 
 
   <footer>
@@ -196,6 +231,19 @@ document.addEventListener('keyup', function(e) {
 <script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
   
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
 
 
   

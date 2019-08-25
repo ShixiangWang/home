@@ -12,6 +12,19 @@
     
     
     <item>
+      <title>UCSCXenaTools: Retrieve Gene Expression and Clinical Information from UCSC Xena for Survival Analysis</title>
+      <link>/en/post/ucscxenatools-201908/</link>
+      <pubDate>Sun, 25 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/en/post/ucscxenatools-201908/</guid>
+      <description>In this technote I will outline how to use UCSCXenaTools package to pull gene expression and clinical data from UCSC Xena for survival analysis.
+For general usage of UCSCXenaTools, please refer to package vignette. Any bug or feature request can be reported in GitHub issues.
+Installation UCSCXenaTools is available from CRAN:
+install.packages(&amp;quot;UCSCXenaTools&amp;quot;) Alternatively, the latest development version can be downloaded from GitHub:
+remotes::install_github(&amp;quot;ropensci/UCSCXenaTools&amp;quot;, build_vignettes = TRUE, dependencies = TRUE)  How it works Before actually pulling data, understand how UCSCXenaTools works will help user locate the most important function to use.</description>
+    </item>
+    
+    <item>
       <title>读入 dbGap 的表型/注释信息</title>
       <link>/cn/post/2019-08-23-read-dbgap-subjects-samples-info/</link>
       <pubDate>Fri, 23 Aug 2019 00:00:00 +0000</pubDate>
@@ -36,16 +49,6 @@
       
       <guid>/cn/post/2019-08-22-metawho-add-deft-show-fun/</guid>
       <description>在文章《谁更能从治疗中获益？》中我讲过 metawho 包的开发由来，但当时遗留了一个问题，就是如何可视化 deft 元分析方法的结果。 之前我提供了使用 metafor 包绘制结果的</description>
-    </item>
-    
-    <item>
-      <title>UCSCXenaTools Notes</title>
-      <link>/en/post/ucscxenatools-201908/</link>
-      <pubDate>Tue, 20 Aug 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/en/post/ucscxenatools-201908/</guid>
-      <description>Everywhere in this template (YAML, chunk below), you should change “post-template” to the slug of your post, and “2019-06-04” to the publication date.
-This template will generate both an .html and an .md. The .md is what you will submit in your pull request to roweb2.</description>
     </item>
     
     <item>
