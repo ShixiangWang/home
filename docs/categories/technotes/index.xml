@@ -17,11 +17,11 @@
       <pubDate>Sun, 25 Aug 2019 00:00:00 +0000</pubDate>
       
       <guid>/en/post/ucscxenatools-201908/</guid>
-      <description>In this technote I will outline how to use UCSCXenaTools package to pull gene expression and clinical data from UCSC Xena for survival analysis.
+      <description>knitr::opts_chunk$set(comment = &amp;quot;#&amp;gt;&amp;quot;, collapse = TRUE) In this technote I will outline how to use UCSCXenaTools package to pull gene expression and clinical data from UCSC Xena for survival analysis.
 For general usage of UCSCXenaTools, please refer to package vignette. Any bug or feature request can be reported in GitHub issues.
 Installation UCSCXenaTools is available from CRAN:
 install.packages(&amp;quot;UCSCXenaTools&amp;quot;) Alternatively, the latest development version can be downloaded from GitHub:
-remotes::install_github(&amp;quot;ropensci/UCSCXenaTools&amp;quot;, build_vignettes = TRUE, dependencies = TRUE)  How it works Before actually pulling data, understand how UCSCXenaTools works will help user locate the most important function to use.</description>
+remotes::install_github(&amp;quot;ropensci/UCSCXenaTools&amp;quot;, build_vignettes = TRUE, dependencies = TRUE)  How it works Before actually pulling data, understand how UCSCXenaTools works (see Figure 1) will help user locate the most important function to use.</description>
     </item>
     
   </channel>

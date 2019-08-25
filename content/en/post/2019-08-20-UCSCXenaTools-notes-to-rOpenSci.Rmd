@@ -22,6 +22,11 @@ output:
 lastmod: "`r Sys.Date()`"
 ---
 
+```{r}
+knitr::opts_chunk$set(comment = "#>", collapse = TRUE)
+```
+
+
 In this technote I will outline how to use **UCSCXenaTools** package to pull gene expression and clinical data from UCSC Xena for survival analysis.
 
 For general usage of **UCSCXenaTools**, please refer to [package vignette](https://cran.r-project.org/web/packages/UCSCXenaTools/vignettes/USCSXenaTools.html). 
@@ -43,25 +48,91 @@ remotes::install_github("ropensci/UCSCXenaTools", build_vignettes = TRUE, depend
 
 ## How it works
 
-Before actually pulling data, understand how **UCSCXenaTools** works will help user locate the most important function to use.
+Before actually pulling data, understand how **UCSCXenaTools** works (see Figure 1) will help user locate the most important function to use.
 
 Generally, 
 
-* for operating datasets, we use functions start with `Xena`
-* for operating subset of a dataset, we use functions start with `fetch_`
+* for operating datasets, we use functions whose names start with `Xena`
+* for operating subset of a dataset, we use functions whose names start with `fetch_`
 
 ![](https://raw.githubusercontent.com/ropensci/UCSCXenaTools/master/paper/overview.png)
 *Figure 1. The UCSCXenaTools pipeline*
 
 ## Download data
 
-```{r, eval=FALSE}
-https://gdc.xenahubs.net
-GDC-PANCAN/Xena_Matrices/GDC-PANCAN.htseq_fpkm.tsv
+To illustrate how to download data and do survival analysis, here we use
+expression data of gene [*TP53*](https://ghr.nlm.nih.gov/gene/TP53) (which is a famous tumor suppressor) and survival status from [TCGA Lung Adenocarcinoma (LUAD)](https://xenabrowser.net/datapages/?cohort=TCGA%20Lung%20Adenocarcinoma%20(LUAD)&removeHub=https%3A%2F%2Fxena.treehouse.gi.ucsc.edu%3A443) as example data.
 
-https://toil.xenahubs.net
-TCGA_survival_data
+For obtaining survival status of TCGA LUAD samples, we need to download the TCGA LUAD clinical dataset. 
+For obtaining *TP53* gene expression, we need to download a subset of TCGA LUAD expression matrix.
+
+```{r}
+suppressMessages(library(UCSCXenaTools))
+suppressMessages(library(dplyr))
 ```
+
+```{r}
+luad_cohort = XenaData %>% 
+  filter(XenaHostNames == "tcgaHub") %>% # select TCGA Hub
+  XenaScan("TCGA Lung Adenocarcinoma")   # select LUAD cohort
+
+luad_cohort
+```
+
+`luad_cohort` contains information of all datasets in TCGA LUAD cohort.
+
+### Download clinical dataset
+
+Now we download clinical dataset of TCGA LUAD cohort and load it into R.
+
+```{r}
+cli_query = luad_cohort %>% 
+  filter(DataSubtype == "phenotype") %>%  # select clinical dataset
+  XenaGenerate() %>%  # generate a XenaHub object
+  XenaQuery() %>% 
+  XenaDownload()
+
+cli = XenaPrepare(cli_query)
+
+# See a few rows
+head(cli)
+```
+
+
+### Download *TP53* gene expression
+
+To download gene expression data, we need select the right dataset firstly.
+
+```{r}
+ge = luad_cohort %>% 
+  filter(DataSubtype == "gene expression RNAseq", Label == "IlluminaHiSeq")
+ge
+```
+
+Now we fetch *TP53* gene expression values.
+
+```{r}
+tp53 = fetch_dense_values(host = ge$XenaHosts, 
+                          dataset = ge$XenaDatasets, 
+                          identifiers = "TP53",
+                          use_probeMap = TRUE) %>% 
+  .[1, ]
+
+head(tp53)
+```
+
+### Merge expression data and survival status
+
+```{r}
+merged_data = tibble(sampleID = names(tp53),
+                     tp53_expression = as.numeric(tp53)) %>% 
+  left_join(cli, by = "sampleID") %>% 
+  filter(sample_type == "Primary Tumor")
+  
+
+head(merged_data)
+```
+
 
 
 ## Survival analysis
