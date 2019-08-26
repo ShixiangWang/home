@@ -22,10 +22,10 @@ output:
 lastmod: "`r Sys.Date()`"
 ---
 
-```{r}
+```{r, include=FALSE}
 knitr::opts_chunk$set(comment = "#>", collapse = TRUE)
+Sys.setenv("LANGUAGE"="EN")
 ```
-
 
 In this technote I will outline how to use **UCSCXenaTools** package to pull gene expression and clinical data from UCSC Xena for survival analysis.
 
@@ -48,7 +48,7 @@ remotes::install_github("ropensci/UCSCXenaTools", build_vignettes = TRUE, depend
 
 ## How it works
 
-Before actually pulling data, understand how **UCSCXenaTools** works (see Figure 1) will help user locate the most important function to use.
+Before actually pulling data, understand how **UCSCXenaTools** [^1] works (see Figure 1) will help user locate the most important function to use.
 
 Generally, 
 
@@ -58,13 +58,13 @@ Generally,
 ![](https://raw.githubusercontent.com/ropensci/UCSCXenaTools/master/paper/overview.png)
 *Figure 1. The UCSCXenaTools pipeline*
 
+To illustrate how to download data and combine with other packages for analysis, here we retrieve
+expression data of gene [*KRAS*](https://ghr.nlm.nih.gov/gene/KRAS) (which is a known driver in LUAD) and survival status from [TCGA Lung Adenocarcinoma (LUAD)](https://xenabrowser.net/datapages/?cohort=TCGA%20Lung%20Adenocarcinoma%20(LUAD)&removeHub=https%3A%2F%2Fxena.treehouse.gi.ucsc.edu%3A443) as example data to finish a survival analysis procedure, which is frequently shown in cancer researches.
+
 ## Download data
 
-To illustrate how to download data and do survival analysis, here we use
-expression data of gene [*TP53*](https://ghr.nlm.nih.gov/gene/TP53) (which is a famous tumor suppressor) and survival status from [TCGA Lung Adenocarcinoma (LUAD)](https://xenabrowser.net/datapages/?cohort=TCGA%20Lung%20Adenocarcinoma%20(LUAD)&removeHub=https%3A%2F%2Fxena.treehouse.gi.ucsc.edu%3A443) as example data.
-
 For obtaining survival status of TCGA LUAD samples, we need to download the TCGA LUAD clinical dataset. 
-For obtaining *TP53* gene expression, we need to download a subset of TCGA LUAD expression matrix.
+For obtaining *KRAS* gene expression, we need to download a subset of TCGA LUAD expression matrix.
 
 ```{r}
 suppressMessages(library(UCSCXenaTools))
@@ -99,7 +99,7 @@ head(cli)
 ```
 
 
-### Download *TP53* gene expression
+### Download *KRAS* gene expression
 
 To download gene expression data, we need select the right dataset firstly.
 
@@ -109,33 +109,84 @@ ge = luad_cohort %>%
 ge
 ```
 
-Now we fetch *TP53* gene expression values.
+Now we fetch *KRAS* gene expression values.
 
 ```{r}
-tp53 = fetch_dense_values(host = ge$XenaHosts, 
+KRAS = fetch_dense_values(host = ge$XenaHosts, 
                           dataset = ge$XenaDatasets, 
-                          identifiers = "TP53",
+                          identifiers = "KRAS",
                           use_probeMap = TRUE) %>% 
   .[1, ]
 
-head(tp53)
+head(KRAS)
 ```
 
 ### Merge expression data and survival status
 
+Next, we join the two `data.frame` by `sampleID` and keep necessary columns.
+Here we focus on 'Primary Tumor' for simplicity.
+
 ```{r}
-merged_data = tibble(sampleID = names(tp53),
-                     tp53_expression = as.numeric(tp53)) %>% 
+merged_data = tibble(sampleID = names(KRAS),
+                     KRAS_expression = as.numeric(KRAS)) %>% 
   left_join(cli, by = "sampleID") %>% 
-  filter(sample_type == "Primary Tumor")
+  filter(sample_type == "Primary Tumor") %>%  # Keep only 'Primary Tumor'
+  select(sampleID, KRAS_expression, OS.time, OS) %>% 
+  rename(time = OS.time, 
+         status = OS)
   
 
 head(merged_data)
 ```
 
 
-
 ## Survival analysis
 
+To study the effect of *KRAS* gene expression on prognosis of LUAD patients, we have two ways:
+
+1. use Cox model to determine the function of *KRAS* gene expression increase
+2. use Kaplan-Meier curve and log-rank test to determine the function of different status of 
+*KRAS* gene expression, i.e. high or low
+
+We will use package **survival** and **survminer** to create models and plot survival curves, respectively.
+
+```{r}
+library(survival)
+library(survminer)
+```
+
+### Cox model
+
+```{r}
+fit = coxph(Surv(time, status) ~ KRAS_expression, data = merged_data)
+fit
+```
+
+We can find that patients with higher *KRAS* gene expression have higher risk (`r as.numeric(round(exp(coef(fit)), digits = 2))`),
+and this data is statistically significant.
+
+### Risk between expression groups
+
+We can also divide patients into two groups using KRAS median as a cutoff.
+
+```{r}
+merged_data = merged_data %>% 
+  mutate(group = case_when(
+    KRAS_expression > quantile(KRAS_expression, 0.5) ~ 'KRAS_High',
+    KRAS_expression < quantile(KRAS_expression, 0.5) ~ 'KRAS_Low',
+    TRUE ~ NA_character_
+  ))
+
+fit = survfit(Surv(time, status) ~ group, data = merged_data)
+```
 
 
+Then we can plot the survival curves for each group.
+
+```{r}
+ggsurvplot(fit, pval = TRUE)
+```
+
+We can clearly see that patients in 'KRAS_Low' group have better survival than patients in 'KRAS_High' group.
+
+[^1]: Wang et al., (2019). The UCSCXenaTools R package: a toolkit for accessing genomics data from UCSC Xena platform, from cancer multi-omics to single-cell RNA-seq. Journal of Open Source Software, 4(40), 1627, https://doi.org/10.21105/joss.01627

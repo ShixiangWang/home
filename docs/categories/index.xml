@@ -21,11 +21,11 @@
     </item>
     
     <item>
-      <title>学术</title>
-      <link>/categories/%E5%AD%A6%E6%9C%AF/</link>
-      <pubDate>Tue, 24 Jul 2018 00:00:00 +0000</pubDate>
+      <title>bioinformatics</title>
+      <link>/categories/bioinformatics/</link>
+      <pubDate>Fri, 23 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>/categories/%E5%AD%A6%E6%9C%AF/</guid>
+      <guid>/categories/bioinformatics/</guid>
       <description></description>
     </item>
     
@@ -62,15 +62,6 @@
       <pubDate>Fri, 27 Oct 2017 00:00:00 +0000</pubDate>
       
       <guid>/categories/r/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>bioinformatics</title>
-      <link>/categories/bioinformatics/</link>
-      <pubDate>Fri, 27 Oct 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/bioinformatics/</guid>
       <description></description>
     </item>
     

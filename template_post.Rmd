@@ -4,6 +4,10 @@ author: "王诗翔"
 date: '2018-08-10'
 lastmod: "`r Sys.Date()`"
 slug: ""
+categories:
+- r
+tags:
+- r
 ---
 
 ```{r setup, include=FALSE}
