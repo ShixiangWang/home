@@ -146,7 +146,7 @@
 
 <pre><code class="language-shell">if command
 then
-    commands
+	commands
 fi
 </code></pre>
 
@@ -204,7 +204,7 @@ This is my first command
 This is my second command
 I can even put in other commands besides echo:
 /home/wsx/.bash_history  /home/wsx/.bashrc
-/home/wsx/.bash_logout   /home/wsx/.bashrc-anaconda3.bak
+/home/wsx/.bash_logout	 /home/wsx/.bashrc-anaconda3.bak
 
 </code></pre>
 
@@ -255,10 +255,10 @@ ls: 无法访问'/home/NoSuchUser/': 没有那个文件或目录
 
 <pre><code class="language-shell">if command1
 then
-    commands
+	commands
 elif command2
 then
-    more commands
+	more commands
 fi
 </code></pre>
 
@@ -705,7 +705,7 @@ Sorry, you are not allowed here
 
 <pre><code class="language-shell">for var in list
 do
-    commands
+	commands
 done
 </code></pre>
 
@@ -1258,8 +1258,8 @@ done
 input=&quot;users.csv&quot;
 while IFS=',', read -r userid name
 do
-    echo &quot;adding $userid&quot;
-    useradd -c &quot;$name&quot; -m $userid
+	echo &quot;adding $userid&quot;
+	useradd -c &quot;$name&quot; -m $userid
 done &lt; &quot;$input&quot;
 </code></pre>
 

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>logo on Shixiang Wang | 王诗翔</title>
+    <link>/tags/logo/</link>
+    <description>Recent content in logo on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 20 Jun 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/logo/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Create logo for R package UCSCXenaTools with hexSticker</title>
+      <link>/en/post/2019-06-20-how-i-create-ucscxenatools-logo/</link>
+      <pubDate>Thu, 20 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/en/post/2019-06-20-how-i-create-ucscxenatools-logo/</guid>
+      <description>A few days ago, I asked Tyler about how did he create the logo of R package exoplanets. Figure 1: logo of R package exoplanets I really love this logo because it is very simple and elegant. He told me he used a software called omnigraffle to make the logos. I tried learning this software and still did not know how to use it to create a nice logo because</description>
+    </item>
+    
+  </channel>
+</rss>

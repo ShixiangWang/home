@@ -3,11 +3,10 @@ title: "Python机器学习基础综合实战"
 author: 王诗翔
 date: 2018-04-15
 slug: "python-basic-ml-flow"
-categories: 
-    - Python
+categories: ml
 tags:
+    - python
     - 基础
-    - 机器学习
     - 逻辑回归
 
 summary: "Python机器学习实例..."

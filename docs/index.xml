@@ -12,16 +12,38 @@
     
     
     <item>
+      <title>UCSCXenaTools: Download Public Cancer Genomic Data from UCSC Xena Hubs</title>
+      <link>/en/tools/ucscxenatools-intro/</link>
+      <pubDate>Mon, 26 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/en/tools/ucscxenatools-intro/</guid>
+      <description>UCSCXenaTools is an R package for downloading and exploring data from UCSC Xena data hubs, which are
+ a collection of UCSC-hosted public databases such as TCGA, ICGC, TARGET, GTEx, CCLE, and others. Databases are normalized so they can be combined, linked, filtered, explored and downloaded.
+– UCSC Xena
+ If you use this package in academic field, please cite:
+Wang, Shixiang, et al. &amp;quot;The predictive power of tumor mutational burden in lung cancer immunotherapy response is influenced by patients&amp;#39; sex.</description>
+    </item>
+    
+    <item>
+      <title>UCSCXenaTools: R API for UCSC Xena Hubs</title>
+      <link>/en/tools/ucscxenatools-api/</link>
+      <pubDate>Mon, 26 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/en/tools/ucscxenatools-api/</guid>
+      <description>This vignette gives users the summary information of API functions provided by UCSCXenaTools for UCSC Xena.
+Before using API, user should know some concepts about Xena elements. Following description is copied from xenaPython __init__.py.
+ Data rows are associated with “sample” IDs.
+Sample IDs are unique within a “cohort”. s A “dataset” is a particular assay of a cohort, e.g. gene expression.
+Datasets have associated metadata, specifying their data type and cohort.</description>
+    </item>
+    
+    <item>
       <title>UCSCXenaTools: Retrieve Gene Expression and Clinical Information from UCSC Xena for Survival Analysis</title>
       <link>/en/post/ucscxenatools-201908/</link>
       <pubDate>Sun, 25 Aug 2019 00:00:00 +0000</pubDate>
       
       <guid>/en/post/ucscxenatools-201908/</guid>
-      <description>In this technote I will outline how to use UCSCXenaTools package to pull gene expression and clinical data from UCSC Xena for survival analysis.
-For general usage of UCSCXenaTools, please refer to package vignette. Any bug or feature request can be reported in GitHub issues.
-Installation UCSCXenaTools is available from CRAN:
-install.packages(&amp;quot;UCSCXenaTools&amp;quot;) Alternatively, the latest development version can be downloaded from GitHub:
-remotes::install_github(&amp;quot;ropensci/UCSCXenaTools&amp;quot;, build_vignettes = TRUE, dependencies = TRUE)  How it works Before actually pulling data, understand how UCSCXenaTools 1 works (see Figure 1) will help user locate the most important function to use.</description>
+      <description>In this technote I will outline how to use UCSCXenaTools package to pull gene expression and clinical data from UCSC Xena for survival analysis. For general usage of UCSCXenaTools, please refer to package vignette. Any bug or feature request can be reported in GitHub issues. Installation UCSCXenaTools is available from CRAN: install.packages(&amp;quot;UCSCXenaTools&amp;quot;) Alternatively, the latest development version can be downloaded from GitHub: remotes::install_github(&amp;quot;ropensci/UCSCXenaTools&amp;quot;, build_vignettes = TRUE, dependencies = TRUE) How</description>
     </item>
     
     <item>
@@ -85,32 +107,6 @@ remotes::install_github(&amp;quot;ropensci/UCSCXenaTools&amp;quot;, build_vignet
       
       <guid>/cn/post/2019-07-29-grid-graph-model/</guid>
       <description></description>
-    </item>
-    
-    <item>
-      <title>UCSCXenaTools: Download Public Cancer Genomic Data from UCSC Xena Hubs</title>
-      <link>/en/tools/ucscxenatools-intro/</link>
-      <pubDate>Tue, 23 Jul 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/en/tools/ucscxenatools-intro/</guid>
-      <description>UCSCXenaTools is an R package for downloading and exploring data from UCSC Xena data hubs, which are
- a collection of UCSC-hosted public databases such as TCGA, ICGC, TARGET, GTEx, CCLE, and others. Databases are normalized so they can be combined, linked, filtered, explored and downloaded.
-– UCSC Xena
- If you use this package in academic field, please cite:
-Wang, Shixiang, et al. &amp;quot;The predictive power of tumor mutational burden in lung cancer immunotherapy response is influenced by patients&amp;#39; sex.</description>
-    </item>
-    
-    <item>
-      <title>UCSCXenaTools: R API for UCSC Xena Hubs</title>
-      <link>/en/tools/ucscxenatools-api/</link>
-      <pubDate>Tue, 23 Jul 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/en/tools/ucscxenatools-api/</guid>
-      <description>This vignette gives users the summary information of API functions provided by UCSCXenaTools for UCSC Xena.
-Before using API, user should know some concepts about Xena elements. Following description is copied from xenaPython __init__.py.
- Data rows are associated with “sample” IDs.
-Sample IDs are unique within a “cohort”. s A “dataset” is a particular assay of a cohort, e.g. gene expression.
-Datasets have associated metadata, specifying their data type and cohort.</description>
     </item>
     
     <item>
@@ -281,7 +277,7 @@ Datasets have associated metadata, specifying their data type and cohort.</descr
       <pubDate>Mon, 17 Sep 2018 00:00:00 +0000</pubDate>
       
       <guid>/cn/post/stringr-operation/</guid>
-      <description>导入包： library(tidyverse) #&amp;gt; Registered S3 methods overwritten by &amp;#39;ggplot2&amp;#39;: #&amp;gt; method from #&amp;gt; [.quosures rlang #&amp;gt; c.quosures rlang #&amp;gt; print.quosures rlang #&amp;gt; Registered S3 method overwritten by &amp;#39;rvest&amp;#39;: #&amp;gt; method from #&amp;gt; read_xml.response xml2 #&amp;gt; ─ Attaching packages ─────────────────────────────</description>
+      <description>导入包： library(tidyverse) #&amp;gt; ─ Attaching packages ──────────────────────────────────────────────────── tidyverse 1.2.1 ─ #&amp;gt; ✔ ggplot2 3.2.0 ✔ purrr</description>
     </item>
     
     <item>

@@ -6,10 +6,45 @@
     <description>Recent content in bioinformatics on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 23 Aug 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 26 Aug 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/bioinformatics/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>UCSCXenaTools: Download Public Cancer Genomic Data from UCSC Xena Hubs</title>
+      <link>/en/tools/ucscxenatools-intro/</link>
+      <pubDate>Mon, 26 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/en/tools/ucscxenatools-intro/</guid>
+      <description>UCSCXenaTools is an R package for downloading and exploring data from UCSC Xena data hubs, which are
+ a collection of UCSC-hosted public databases such as TCGA, ICGC, TARGET, GTEx, CCLE, and others. Databases are normalized so they can be combined, linked, filtered, explored and downloaded.
+– UCSC Xena
+ If you use this package in academic field, please cite:
+Wang, Shixiang, et al. &amp;quot;The predictive power of tumor mutational burden in lung cancer immunotherapy response is influenced by patients&amp;#39; sex.</description>
+    </item>
+    
+    <item>
+      <title>UCSCXenaTools: R API for UCSC Xena Hubs</title>
+      <link>/en/tools/ucscxenatools-api/</link>
+      <pubDate>Mon, 26 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/en/tools/ucscxenatools-api/</guid>
+      <description>This vignette gives users the summary information of API functions provided by UCSCXenaTools for UCSC Xena.
+Before using API, user should know some concepts about Xena elements. Following description is copied from xenaPython __init__.py.
+ Data rows are associated with “sample” IDs.
+Sample IDs are unique within a “cohort”. s A “dataset” is a particular assay of a cohort, e.g. gene expression.
+Datasets have associated metadata, specifying their data type and cohort.</description>
+    </item>
+    
+    <item>
+      <title>UCSCXenaTools: Retrieve Gene Expression and Clinical Information from UCSC Xena for Survival Analysis</title>
+      <link>/en/post/ucscxenatools-201908/</link>
+      <pubDate>Sun, 25 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/en/post/ucscxenatools-201908/</guid>
+      <description>In this technote I will outline how to use UCSCXenaTools package to pull gene expression and clinical data from UCSC Xena for survival analysis. For general usage of UCSCXenaTools, please refer to package vignette. Any bug or feature request can be reported in GitHub issues. Installation UCSCXenaTools is available from CRAN: install.packages(&amp;quot;UCSCXenaTools&amp;quot;) Alternatively, the latest development version can be downloaded from GitHub: remotes::install_github(&amp;quot;ropensci/UCSCXenaTools&amp;quot;, build_vignettes = TRUE, dependencies = TRUE) How</description>
+    </item>
     
     <item>
       <title>读入 dbGap 的表型/注释信息</title>
@@ -18,6 +53,33 @@
       
       <guid>/cn/post/2019-08-23-read-dbgap-subjects-samples-info/</guid>
       <description>dbGaP 表型等信息零散地却有规律地分布在 files/ 目录下，为了理解哪些文件存储了数据，我对下载的文件类型进行了查看，包括 xml, pdf 以及 gz 文件。大致有以下整理： pdf</description>
+    </item>
+    
+    <item>
+      <title>可视化 deft 方法进行的 subgroup 分析结果</title>
+      <link>/cn/post/2019-08-22-metawho-add-deft-show-fun/</link>
+      <pubDate>Thu, 22 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-08-22-metawho-add-deft-show-fun/</guid>
+      <description>在文章《谁更能从治疗中获益？》中我讲过 metawho 包的开发由来，但当时遗留了一个问题，就是如何可视化 deft 元分析方法的结果。 之前我提供了使用 metafor 包绘制结果的</description>
+    </item>
+    
+    <item>
+      <title>引用UCSCXenaTools</title>
+      <link>/cn/post/2019-08-07-cite-ucscxenatools/</link>
+      <pubDate>Wed, 07 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-08-07-cite-ucscxenatools/</guid>
+      <description>UCSCXenaTools &amp;lt;https://github.com/ropensci/UCSCXenaTools&amp;gt; 是去年10月份左右开始开发的，是我写的第一个R包，目的是有效地选择和下载UCSC Xena提供的公开数据集，有利于分析的流程化和可重复性。</description>
+    </item>
+    
+    <item>
+      <title>100系列: 适合每个人的 R 和 Bioconductor 介绍</title>
+      <link>/cn/read/biocworkshop-100-r-and-bioconductor-intro/</link>
+      <pubDate>Tue, 04 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/read/biocworkshop-100-r-and-bioconductor-intro/</guid>
+      <description>来源：https://bioconductor.github.io/BiocWorkshops/r-and-bioconductor-for</description>
     </item>
     
     <item>

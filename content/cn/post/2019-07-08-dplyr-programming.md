@@ -4,6 +4,11 @@ author: "王诗翔"
 date: "2019-07-08"
 lastmod: "2019-07-08"
 slug: ""
+categories: r
+tags:
+- dplyr
+- r
+- 元编程
 ---
 
 > 本文首先发布于[简书](https://www.jianshu.com/p/5eca388205d4)，本人在对相关知识有进一步理解后对本文进行修改，以便于中文更好地理解。

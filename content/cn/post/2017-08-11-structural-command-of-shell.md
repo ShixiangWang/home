@@ -3,10 +3,10 @@ title: Linux结构化命令
 author: 王诗翔
 date: 2017-08-11
 categories:
-- Shell
+- shell
 tags:
 - linux
-- shell笔记
+- 笔记
 
 summary: "学习shell结构化命令..."
 ---

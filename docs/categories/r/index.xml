@@ -1,32 +1,194 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>R on Shixiang Wang | 王诗翔</title>
+    <title>r on Shixiang Wang | 王诗翔</title>
     <link>/categories/r/</link>
-    <description>Recent content in R on Shixiang Wang | 王诗翔</description>
+    <description>Recent content in r on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 27 Oct 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 22 Aug 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/r/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Bioconductor分析RNA-seq数据</title>
-      <link>/cn/post/2017-10-27-rnaseq-data-analysis/</link>
-      <pubDate>Fri, 27 Oct 2017 00:00:00 +0000</pubDate>
+      <title>使用RMySQL简单操作mysql数据库</title>
+      <link>/cn/post/2019-08-22-using-rmysql/</link>
+      <pubDate>Thu, 22 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2017-10-27-rnaseq-data-analysis/</guid>
-      <description>参考学习《R语言与Bioconductor生物信息学应用》第六章 前言 Y叔的公众号biobabble发过一篇【听说你想学R？】,七月份发的但昨</description>
+      <guid>/cn/post/2019-08-22-using-rmysql/</guid>
+      <description>使用 MySQL 数据库创建一个用于存储用户信息的数据表：包含 username, email, password 三个字段，并分别使用 SQL 和 Python/R 客户端插入、删除和更新一行数据，密码使用 SHA256 进行加密 library(RMySQL) con = dbConnect(MySQL(),</description>
     </item>
     
     <item>
-      <title>Bioconductor分析基因芯片数据</title>
-      <link>/cn/post/2017-10-09-microarray-data-analysis/</link>
-      <pubDate>Mon, 09 Oct 2017 00:00:00 +0000</pubDate>
+      <title>ggplotify——连接各类R图形</title>
+      <link>/cn/post/2019-08-05-ggplotify-intro/</link>
+      <pubDate>Mon, 05 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2017-10-09-microarray-data-analysis/</guid>
-      <description>*参考学习《R语言与Bioconductor——生物信息学应用》第五章*，根据自己学习有删改，欢迎分享。本文中有些预备知识或一些方法的原理没</description>
+      <guid>/cn/post/2019-08-05-ggplotify-intro/</guid>
+      <description>在作图的时候想拼接不同的图形对象，如pheatmap 包的热图、ggplot2 对象以及 base 图形等。 这里找到了Y叔的ggplotify包，以下是对</description>
+    </item>
+    
+    <item>
+      <title>tidyverse 新操作符{{}}——更好的非标准计算</title>
+      <link>/cn/post/2019-08-04-rlang-operator-curly-curly/</link>
+      <pubDate>Sun, 04 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-08-04-rlang-operator-curly-curly/</guid>
+      <description>本文整理自 https://www.tidyverse.org/articles/2019/06/rlang-0-4-0/，有删改 rlang v0.4.</description>
+    </item>
+    
+    <item>
+      <title>Grid 网格绘图模型</title>
+      <link>/cn/post/2019-07-29-grid-graph-model/</link>
+      <pubDate>Mon, 29 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-07-29-grid-graph-model/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>contribution - A Tiny Contribution Table Generator Based on ggplot2</title>
+      <link>/en/tools/contribution-table/</link>
+      <pubDate>Sat, 13 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/en/tools/contribution-table/</guid>
+      <description>The goal of contribution is to generate contribution table for credit assignment in a project. This is inspired by Nick Steinmetz (see twitter https://twitter.com/SteinmetzNeuro/status/1147241138291527681). Authors contributions sections are new and still don’t appear in major journals, but can be improved. Rather than text listing each author’s contributions, the same data can be presented as a table with rows corresponding</description>
+    </item>
+    
+    <item>
+      <title>dplyr编程</title>
+      <link>/cn/post/2019-07-08-dplyr-programming/</link>
+      <pubDate>Mon, 08 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-07-08-dplyr-programming/</guid>
+      <description>本文首先发布于简书，本人在对相关知识有进一步理解后对本文进行修改，以便于中文更好地理解。 来源：vignettes/programming.R</description>
+    </item>
+    
+    <item>
+      <title>管道统计分析——rstatix使用指南</title>
+      <link>/cn/post/2019-07-07-use-rstatix/</link>
+      <pubDate>Sun, 07 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-07-07-use-rstatix/</guid>
+      <description>原英文文档地址：https://raw.githubusercontent.com/kassambara/rstatix/master/RE</description>
+    </item>
+    
+    <item>
+      <title>R传统图形绘制多图</title>
+      <link>/cn/post/2019-06-21-baseplot-multiplots/</link>
+      <pubDate>Fri, 21 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-06-21-baseplot-multiplots/</guid>
+      <description>我这里只说 2 种常用方式，它们互相排斥： 使用 par() 函数设定 mfrow 或者 mfcol 进行控制。 使用 layout() 函数。 par() 函数 mfrow 和 mfcol 都由 2 个数字指定，一个表示行数、一个表示列数。</description>
+    </item>
+    
+    <item>
+      <title>R基本绘图：创建与添加图形</title>
+      <link>/cn/post/2019-06-21-baseplot-addplot/</link>
+      <pubDate>Fri, 21 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-06-21-baseplot-addplot/</guid>
+      <description>R 遵循画家模式。 高级绘图函数 + 低级绘图函数才能让图形丰富多样起来。 基本的低级绘图函数 Table 1: 常见基本低级绘图函数 函数 描述 points() 数据符号 lines() 线条 segments() 线段 arrows()</description>
+    </item>
+    
+    <item>
+      <title>Create logo for R package UCSCXenaTools with hexSticker</title>
+      <link>/en/post/2019-06-20-how-i-create-ucscxenatools-logo/</link>
+      <pubDate>Thu, 20 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/en/post/2019-06-20-how-i-create-ucscxenatools-logo/</guid>
+      <description>A few days ago, I asked Tyler about how did he create the logo of R package exoplanets. Figure 1: logo of R package exoplanets I really love this logo because it is very simple and elegant. He told me he used a software called omnigraffle to make the logos. I tried learning this software and still did not know how to use it to create a nice logo because</description>
+    </item>
+    
+    <item>
+      <title>使用purrr和broom处理多个模型</title>
+      <link>/cn/post/purrr-and-broom/</link>
+      <pubDate>Mon, 15 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/purrr-and-broom/</guid>
+      <description>整理自《R for data science》 本文介绍3种方法用于处理大量模型。 使用多个简单模型更好地理解复杂数据集。 使用列表列在数据框中保存任意数据结构。</description>
+    </item>
+    
+    <item>
+      <title>modelr——基础模型实现</title>
+      <link>/cn/post/modelr-base-models/</link>
+      <pubDate>Fri, 05 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/modelr-base-models/</guid>
+      <description>建立模型的目的是提供一个简单的、低纬度的数据集摘要。我们使用模型的目的是将数据划分为模式和残差，借助模型探索数据集，拨开覆盖在数据集结构上的</description>
+    </item>
+    
+    <item>
+      <title>模型预测与置信区间</title>
+      <link>/cn/post/linear-model-prediction/</link>
+      <pubDate>Sun, 30 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/linear-model-prediction/</guid>
+      <description>线性回归的主要目的是根据一个或多个预测变量（自变量）预测一个结果值。本文会讨论如何使用R来预测新观测值的结果。你也将学习如何展示置信区间和预</description>
+    </item>
+    
+    <item>
+      <title>showtext：在R图里面更简单地使用字体</title>
+      <link>/cn/post/showtext-pkg/</link>
+      <pubDate>Thu, 20 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/showtext-pkg/</guid>
+      <description>在如何修改画图使用的字体这篇文章中，我介绍了一种解决R图里字体的方案——extrafont包。今天意外看到另一个解决字体问题的包，再次推荐和</description>
+    </item>
+    
+    <item>
+      <title>stringr——处理字符串</title>
+      <link>/cn/post/stringr-operation/</link>
+      <pubDate>Mon, 17 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/stringr-operation/</guid>
+      <description>导入包： library(tidyverse) #&amp;gt; ─ Attaching packages ──────────────────────────────────────────────────── tidyverse 1.2.1 ─ #&amp;gt; ✔ ggplot2 3.2.0 ✔ purrr</description>
+    </item>
+    
+    <item>
+      <title>Forest Plot（森林图）绘制</title>
+      <link>/cn/post/use-forestplot/</link>
+      <pubDate>Mon, 10 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/use-forestplot/</guid>
+      <description>森林图常见于元分析，但其使用绝不仅如此，比如我现在想要研究的对象有诸多HR结果，我想要汇总为一张图，森林图就是个非常好的选择。ggpubr包</description>
+    </item>
+    
+    <item>
+      <title>使用shinydashboard</title>
+      <link>/cn/post/use-shinydashboard/</link>
+      <pubDate>Fri, 31 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/use-shinydashboard/</guid>
+      <description>除了shiny包，RStudio还开发了一个shinydashboard扩展包，它呈现数据的方式就是专门用于概览或检测数据。 接下来的例子意在</description>
+    </item>
+    
+    <item>
+      <title>高性能计算</title>
+      <link>/cn/post/hpc-in-r/</link>
+      <pubDate>Wed, 29 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/hpc-in-r/</guid>
+      <description>《R语言编程指南》 代码性能 简单看函数运行时间，用system.time()函数。 高级点，使用microbenchmark包的microben</description>
+    </item>
+    
+    <item>
+      <title>R的安装与配置</title>
+      <link>/cn/post/2018-08-10-r-installation/</link>
+      <pubDate>Fri, 10 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2018-08-10-r-installation/</guid>
+      <description>Windows R安装好后配置是本文的重点。关于Windows R的安装，百度有一大堆的教程。其中重点有3： 安装R，下载https://mirrors.tu</description>
+    </item>
+    
+    <item>
+      <title>do.call的使用</title>
+      <link>/cn/post/usage-of-docall/</link>
+      <pubDate>Thu, 07 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/usage-of-docall/</guid>
+      <description>学习下R中一个有趣地函数，do.call。 do.call这个函数是我在搜索问题时会看到别人经常使用的一个函数，心生好奇，这次来看看它的用法。</description>
     </item>
     
   </channel>

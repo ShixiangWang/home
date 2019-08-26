@@ -170,7 +170,7 @@
       <pubDate>Mon, 17 Sep 2018 00:00:00 +0000</pubDate>
       
       <guid>/cn/post/stringr-operation/</guid>
-      <description>导入包： library(tidyverse) #&amp;gt; Registered S3 methods overwritten by &amp;#39;ggplot2&amp;#39;: #&amp;gt; method from #&amp;gt; [.quosures rlang #&amp;gt; c.quosures rlang #&amp;gt; print.quosures rlang #&amp;gt; Registered S3 method overwritten by &amp;#39;rvest&amp;#39;: #&amp;gt; method from #&amp;gt; read_xml.response xml2 #&amp;gt; ─ Attaching packages ─────────────────────────────</description>
+      <description>导入包： library(tidyverse) #&amp;gt; ─ Attaching packages ──────────────────────────────────────────────────── tidyverse 1.2.1 ─ #&amp;gt; ✔ ggplot2 3.2.0 ✔ purrr</description>
     </item>
     
     <item>

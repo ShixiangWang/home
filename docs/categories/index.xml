@@ -6,62 +6,71 @@
     <description>Recent content in Categories on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 25 Aug 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 26 Aug 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>technotes</title>
-      <link>/categories/technotes/</link>
-      <pubDate>Sun, 25 Aug 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/technotes/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>bioinformatics</title>
       <link>/categories/bioinformatics/</link>
-      <pubDate>Fri, 23 Aug 2019 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 26 Aug 2019 00:00:00 +0000</pubDate>
       
       <guid>/categories/bioinformatics/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Python</title>
-      <link>/categories/python/</link>
-      <pubDate>Sun, 15 Apr 2018 00:00:00 +0000</pubDate>
+      <title>r</title>
+      <link>/categories/r/</link>
+      <pubDate>Thu, 22 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>/categories/python/</guid>
+      <guid>/categories/r/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Shell</title>
+      <title>ml</title>
+      <link>/categories/ml/</link>
+      <pubDate>Thu, 04 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/ml/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>read</title>
+      <link>/categories/read/</link>
+      <pubDate>Thu, 20 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/read/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>research</title>
+      <link>/categories/research/</link>
+      <pubDate>Thu, 20 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/research/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>life</title>
+      <link>/categories/life/</link>
+      <pubDate>Wed, 05 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/life/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>shell</title>
       <link>/categories/shell/</link>
       <pubDate>Mon, 25 Dec 2017 00:00:00 +0000</pubDate>
       
       <guid>/categories/shell/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>文本处理</title>
-      <link>/categories/%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86/</link>
-      <pubDate>Mon, 25 Dec 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>R</title>
-      <link>/categories/r/</link>
-      <pubDate>Fri, 27 Oct 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/r/</guid>
       <description></description>
     </item>
     

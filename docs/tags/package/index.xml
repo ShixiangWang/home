@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>package on Shixiang Wang | 王诗翔</title>
+    <link>/tags/package/</link>
+    <description>Recent content in package on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 26 Aug 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/package/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>UCSCXenaTools: Download Public Cancer Genomic Data from UCSC Xena Hubs</title>
+      <link>/en/tools/ucscxenatools-intro/</link>
+      <pubDate>Mon, 26 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/en/tools/ucscxenatools-intro/</guid>
+      <description>UCSCXenaTools is an R package for downloading and exploring data from UCSC Xena data hubs, which are
+ a collection of UCSC-hosted public databases such as TCGA, ICGC, TARGET, GTEx, CCLE, and others. Databases are normalized so they can be combined, linked, filtered, explored and downloaded.
+– UCSC Xena
+ If you use this package in academic field, please cite:
+Wang, Shixiang, et al. &amp;quot;The predictive power of tumor mutational burden in lung cancer immunotherapy response is influenced by patients&amp;#39; sex.</description>
+    </item>
+    
+    <item>
+      <title>UCSCXenaTools: R API for UCSC Xena Hubs</title>
+      <link>/en/tools/ucscxenatools-api/</link>
+      <pubDate>Mon, 26 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/en/tools/ucscxenatools-api/</guid>
+      <description>This vignette gives users the summary information of API functions provided by UCSCXenaTools for UCSC Xena.
+Before using API, user should know some concepts about Xena elements. Following description is copied from xenaPython __init__.py.
+ Data rows are associated with “sample” IDs.
+Sample IDs are unique within a “cohort”. s A “dataset” is a particular assay of a cohort, e.g. gene expression.
+Datasets have associated metadata, specifying their data type and cohort.</description>
+    </item>
+    
+    <item>
+      <title>引用UCSCXenaTools</title>
+      <link>/cn/post/2019-08-07-cite-ucscxenatools/</link>
+      <pubDate>Wed, 07 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-08-07-cite-ucscxenatools/</guid>
+      <description>UCSCXenaTools &amp;lt;https://github.com/ropensci/UCSCXenaTools&amp;gt; 是去年10月份左右开始开发的，是我写的第一个R包，目的是有效地选择和下载UCSC Xena提供的公开数据集，有利于分析的流程化和可重复性。</description>
+    </item>
+    
+    <item>
+      <title>contribution - A Tiny Contribution Table Generator Based on ggplot2</title>
+      <link>/en/tools/contribution-table/</link>
+      <pubDate>Sat, 13 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/en/tools/contribution-table/</guid>
+      <description>The goal of contribution is to generate contribution table for credit assignment in a project. This is inspired by Nick Steinmetz (see twitter https://twitter.com/SteinmetzNeuro/status/1147241138291527681). Authors contributions sections are new and still don’t appear in major journals, but can be improved. Rather than text listing each author’s contributions, the same data can be presented as a table with rows corresponding</description>
+    </item>
+    
+    <item>
+      <title>Create logo for R package UCSCXenaTools with hexSticker</title>
+      <link>/en/post/2019-06-20-how-i-create-ucscxenatools-logo/</link>
+      <pubDate>Thu, 20 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/en/post/2019-06-20-how-i-create-ucscxenatools-logo/</guid>
+      <description>A few days ago, I asked Tyler about how did he create the logo of R package exoplanets. Figure 1: logo of R package exoplanets I really love this logo because it is very simple and elegant. He told me he used a software called omnigraffle to make the logos. I tried learning this software and still did not know how to use it to create a nice logo because</description>
+    </item>
+    
+  </channel>
+</rss>

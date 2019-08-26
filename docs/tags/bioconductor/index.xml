@@ -6,10 +6,19 @@
     <description>Recent content in bioconductor on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 27 Oct 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 04 Jun 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/bioconductor/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>100系列: 适合每个人的 R 和 Bioconductor 介绍</title>
+      <link>/cn/read/biocworkshop-100-r-and-bioconductor-intro/</link>
+      <pubDate>Tue, 04 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/read/biocworkshop-100-r-and-bioconductor-intro/</guid>
+      <description>来源：https://bioconductor.github.io/BiocWorkshops/r-and-bioconductor-for</description>
+    </item>
     
     <item>
       <title>Bioconductor分析RNA-seq数据</title>
@@ -18,15 +27,6 @@
       
       <guid>/cn/post/2017-10-27-rnaseq-data-analysis/</guid>
       <description>参考学习《R语言与Bioconductor生物信息学应用》第六章 前言 Y叔的公众号biobabble发过一篇【听说你想学R？】,七月份发的但昨</description>
-    </item>
-    
-    <item>
-      <title>Bioconductor分析基因芯片数据</title>
-      <link>/cn/post/2017-10-09-microarray-data-analysis/</link>
-      <pubDate>Mon, 09 Oct 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/cn/post/2017-10-09-microarray-data-analysis/</guid>
-      <description>*参考学习《R语言与Bioconductor——生物信息学应用》第五章*，根据自己学习有删改，欢迎分享。本文中有些预备知识或一些方法的原理没</description>
     </item>
     
   </channel>

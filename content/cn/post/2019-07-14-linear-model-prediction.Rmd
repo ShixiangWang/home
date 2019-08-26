@@ -3,6 +3,11 @@ title: "模型预测与置信区间"
 author: 王诗翔
 date: 2018-09-30
 slug: "linear-model-prediction"
+categories: r
+tags:
+- 线性回归
+- 预测
+- r
 ---
 
 

@@ -3,6 +3,12 @@ title: "stringr——处理字符串"
 author: 王诗翔
 date: 2018-09-17
 slug: "stringr-operation"
+categories: r
+tags:
+- stringr
+- 字符串
+- 文本处理
+- r
 ---
 
 

@@ -4,6 +4,10 @@ author: "Shixiang Wang"
 date: "2019-06-05"
 lastmod: "2019-06-05"
 slug: ""
+categories: life
+tags:
+- 随笔
+- thinking
 ---
 
 ## 2019-06-05

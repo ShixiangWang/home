@@ -6,10 +6,28 @@
     <description>Recent content in 笔记 on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 24 Jul 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 20 Jun 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/%E7%AC%94%E8%AE%B0/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>创作草稿：遵循标准结构</title>
+      <link>/cn/read/sci-writing-composing-a-first-draft/</link>
+      <pubDate>Thu, 20 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/read/sci-writing-composing-a-first-draft/</guid>
+      <description>本文是《Successful scientific wrting》一书的阅读笔记之一。 大部分的学术文章都遵循相似的模式，即所谓的 IMRAD 格式——它是Introducti</description>
+    </item>
+    
+    <item>
+      <title>100系列: 适合每个人的 R 和 Bioconductor 介绍</title>
+      <link>/cn/read/biocworkshop-100-r-and-bioconductor-intro/</link>
+      <pubDate>Tue, 04 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/read/biocworkshop-100-r-and-bioconductor-intro/</guid>
+      <description>来源：https://bioconductor.github.io/BiocWorkshops/r-and-bioconductor-for</description>
+    </item>
     
     <item>
       <title>ABSOLUTE 推断框架</title>
@@ -18,6 +36,78 @@
       
       <guid>/cn/post/2018-07-24-absolute-inference/</guid>
       <description>样本混合物中Cancer细胞比例：alpha (假设单染色体组monogenomic，即有同源SCNAs) 样本混合物中Normal细胞比例：1</description>
+    </item>
+    
+    <item>
+      <title>初识sed与awk</title>
+      <link>/cn/post/2017-12-25-sed-and-gawk/</link>
+      <pubDate>Mon, 25 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2017-12-25-sed-and-gawk/</guid>
+      <description>简单介绍sed与awk命令&amp;hellip;</description>
+    </item>
+    
+    <item>
+      <title>创建和使用shell函数</title>
+      <link>/cn/post/2017-11-26-shell-create-function/</link>
+      <pubDate>Sun, 26 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2017-11-26-shell-create-function/</guid>
+      <description>讲解Shell该如何创建函数&amp;hellip;</description>
+    </item>
+    
+    <item>
+      <title>控制脚本</title>
+      <link>/cn/post/2017-09-04-control_shell/</link>
+      <pubDate>Mon, 04 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2017-09-04-control_shell/</guid>
+      <description>如何控制脚本并实现自动化？&amp;hellip;</description>
+    </item>
+    
+    <item>
+      <title>Linux数据处理命令工具</title>
+      <link>/cn/post/2017-09-03-linux-data-analysis-tools/</link>
+      <pubDate>Sun, 03 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2017-09-03-linux-data-analysis-tools/</guid>
+      <description>系统介绍Linux会使用到的数据处理命令&amp;hellip;</description>
+    </item>
+    
+    <item>
+      <title>Linux脚本编程——呈现数据</title>
+      <link>/cn/post/2017-08-22-shell-show-data/</link>
+      <pubDate>Mon, 21 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2017-08-22-shell-show-data/</guid>
+      <description>怎么通过脚本呈现数据&amp;hellip;包括重定向与日志文件等。</description>
+    </item>
+    
+    <item>
+      <title>Shell脚本之处理用户输入</title>
+      <link>/cn/post/2017-08-19-working-with-user-input/</link>
+      <pubDate>Sat, 19 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2017-08-19-working-with-user-input/</guid>
+      <description>学习如何处理shell的用户输入&amp;hellip;</description>
+    </item>
+    
+    <item>
+      <title>Linux结构化命令</title>
+      <link>/cn/post/2017-08-11-structural-command-of-shell/</link>
+      <pubDate>Fri, 11 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2017-08-11-structural-command-of-shell/</guid>
+      <description>学习shell结构化命令&amp;hellip;</description>
+    </item>
+    
+    <item>
+      <title>构建基本shell脚本</title>
+      <link>/cn/post/2017-08-11-basic-shell/</link>
+      <pubDate>Fri, 11 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2017-08-11-basic-shell/</guid>
+      <description>学习Shell脚本的基本构建方式&amp;hellip;</description>
     </item>
     
   </channel>

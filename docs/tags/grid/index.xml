@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>grid on Shixiang Wang | 王诗翔</title>
+    <link>/tags/grid/</link>
+    <description>Recent content in grid on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 29 Jul 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/grid/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Grid 网格绘图模型</title>
+      <link>/cn/post/2019-07-29-grid-graph-model/</link>
+      <pubDate>Mon, 29 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-07-29-grid-graph-model/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

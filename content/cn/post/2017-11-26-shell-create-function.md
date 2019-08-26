@@ -3,10 +3,10 @@ title: 创建和使用shell函数
 author: 王诗翔
 date: 2017-11-26
 categories:
-- Shell
+- shell
 tags:
 - linux
-- shell笔记
+- 笔记
 
 summary: "讲解Shell该如何创建函数..."
 ---

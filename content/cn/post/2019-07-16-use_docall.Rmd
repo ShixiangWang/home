@@ -3,6 +3,11 @@ title: "do.call的使用"
 author: 王诗翔
 date: 2018-06-07
 slug: "usage-of-docall"
+categories: r
+tags:
+- docall
+- r
+- 递归调用
 ---
 
 

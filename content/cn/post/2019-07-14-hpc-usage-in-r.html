@@ -3,6 +3,10 @@ title: "高性能计算"
 author: 王诗翔
 date: 2018-08-29
 slug: "hpc-in-r"
+categories: r
+tags:
+- 高性能计算
+- r
 ---
 
 
@@ -19,8 +23,8 @@ slug: "hpc-in-r"
 x = rnorm(10000)
 microbenchmark(x)
 #&gt; Unit: nanoseconds
-#&gt;  expr min lq mean median uq  max neval
-#&gt;     x  28 29 49.8     30 31 1949   100</code></pre>
+#&gt;  expr min lq mean median uq max neval
+#&gt;     x  26 27 36.7     27 27 913   100</code></pre>
 <p>给出了类似<code>summary()</code>函数结果的样子，默认计算100次。</p>
 </div>
 <div class="section level2">
@@ -36,50 +40,36 @@ for (i in 1:1000) {
 Rprof(NULL)
 summaryRprof(tmp)
 #&gt; $by.self
-#&gt;                   self.time self.pct total.time total.pct
-#&gt; &quot;cumsum&quot;               0.04     66.7       0.04      66.7
-#&gt; &quot;lazyLoadDBfetch&quot;      0.02     33.3       0.02      33.3
+#&gt;          self.time self.pct total.time total.pct
+#&gt; &quot;cumsum&quot;      0.04      100       0.04       100
 #&gt; 
 #&gt; $by.total
-#&gt;                         total.time total.pct self.time self.pct
-#&gt; &quot;block_exec&quot;                  0.06     100.0      0.00      0.0
-#&gt; &quot;call_block&quot;                  0.06     100.0      0.00      0.0
-#&gt; &quot;eval.parent&quot;                 0.06     100.0      0.00      0.0
-#&gt; &quot;eval&quot;                        0.06     100.0      0.00      0.0
-#&gt; &quot;evaluate_call&quot;               0.06     100.0      0.00      0.0
-#&gt; &quot;evaluate::evaluate&quot;          0.06     100.0      0.00      0.0
-#&gt; &quot;evaluate&quot;                    0.06     100.0      0.00      0.0
-#&gt; &quot;handle&quot;                      0.06     100.0      0.00      0.0
-#&gt; &quot;in_dir&quot;                      0.06     100.0      0.00      0.0
-#&gt; &quot;knitr::knit&quot;                 0.06     100.0      0.00      0.0
-#&gt; &quot;local&quot;                       0.06     100.0      0.00      0.0
-#&gt; &quot;process_file&quot;                0.06     100.0      0.00      0.0
-#&gt; &quot;process_group.block&quot;         0.06     100.0      0.00      0.0
-#&gt; &quot;process_group&quot;               0.06     100.0      0.00      0.0
-#&gt; &quot;rmarkdown::render&quot;           0.06     100.0      0.00      0.0
-#&gt; &quot;timing_fn&quot;                   0.06     100.0      0.00      0.0
-#&gt; &quot;withCallingHandlers&quot;         0.06     100.0      0.00      0.0
-#&gt; &quot;withVisible&quot;                 0.06     100.0      0.00      0.0
-#&gt; &quot;cumsum&quot;                      0.04      66.7      0.04     66.7
-#&gt; &quot;lazyLoadDBfetch&quot;             0.02      33.3      0.02     33.3
-#&gt; &quot;cmp&quot;                         0.02      33.3      0.00      0.0
-#&gt; &quot;cmpCall&quot;                     0.02      33.3      0.00      0.0
-#&gt; &quot;cmpForBody&quot;                  0.02      33.3      0.00      0.0
-#&gt; &quot;compile&quot;                     0.02      33.3      0.00      0.0
-#&gt; &quot;compiler:::tryCompile&quot;       0.02      33.3      0.00      0.0
-#&gt; &quot;doTryCatch&quot;                  0.02      33.3      0.00      0.0
-#&gt; &quot;genCode&quot;                     0.02      33.3      0.00      0.0
-#&gt; &quot;h&quot;                           0.02      33.3      0.00      0.0
-#&gt; &quot;tryCatch&quot;                    0.02      33.3      0.00      0.0
-#&gt; &quot;tryCatchList&quot;                0.02      33.3      0.00      0.0
-#&gt; &quot;tryCatchOne&quot;                 0.02      33.3      0.00      0.0
-#&gt; &quot;tryInline&quot;                   0.02      33.3      0.00      0.0
+#&gt;                       total.time total.pct self.time self.pct
+#&gt; &quot;cumsum&quot;                    0.04       100      0.04      100
+#&gt; &quot;block_exec&quot;                0.04       100      0.00        0
+#&gt; &quot;call_block&quot;                0.04       100      0.00        0
+#&gt; &quot;eval.parent&quot;               0.04       100      0.00        0
+#&gt; &quot;eval&quot;                      0.04       100      0.00        0
+#&gt; &quot;evaluate_call&quot;             0.04       100      0.00        0
+#&gt; &quot;evaluate::evaluate&quot;        0.04       100      0.00        0
+#&gt; &quot;evaluate&quot;                  0.04       100      0.00        0
+#&gt; &quot;handle&quot;                    0.04       100      0.00        0
+#&gt; &quot;in_dir&quot;                    0.04       100      0.00        0
+#&gt; &quot;knitr::knit&quot;               0.04       100      0.00        0
+#&gt; &quot;local&quot;                     0.04       100      0.00        0
+#&gt; &quot;process_file&quot;              0.04       100      0.00        0
+#&gt; &quot;process_group.block&quot;       0.04       100      0.00        0
+#&gt; &quot;process_group&quot;             0.04       100      0.00        0
+#&gt; &quot;rmarkdown::render&quot;         0.04       100      0.00        0
+#&gt; &quot;timing_fn&quot;                 0.04       100      0.00        0
+#&gt; &quot;withCallingHandlers&quot;       0.04       100      0.00        0
+#&gt; &quot;withVisible&quot;               0.04       100      0.00        0
 #&gt; 
 #&gt; $sample.interval
 #&gt; [1] 0.02
 #&gt; 
 #&gt; $sampling.time
-#&gt; [1] 0.06</code></pre>
+#&gt; [1] 0.04</code></pre>
 <p>当<code>Rprof()</code>设定<code>line.profiling = TRUE</code>时，将改为分析代码行，而不是函数，这有利于分析复杂的计算过程。</p>
 <p>高级点，使用RStudio提供的<code>profvis()</code>，它是一个交互式可视化的工具。</p>
 <pre class="r"><code>install.packages(&quot;profvis&quot;)</code></pre>
@@ -121,7 +111,7 @@ sum_cmp = cmpfun(sum)
 }</code></pre>
 <pre class="r"><code>system.time(simulate(1:11000))
 #&gt;  用户  系统  流逝 
-#&gt; 5.952 0.041 6.025</code></pre>
+#&gt; 4.225 0.035 4.265</code></pre>
 <div id="windows" class="section level4">
 <h4>在Windows下使用</h4>
 <p>Windows下需要先创建多个R会话的本地集群：</p>
@@ -130,7 +120,7 @@ cl = makeCluster(detectCores())</code></pre>
 <p><code>detectCores()</code>返回我们计算机有的CPU核数目，然后调用<code>parLapply()</code>函数，它是并行版本的<code>lapply()</code>函数：</p>
 <pre class="r"><code>system.time(parLapply(cl, 1:11000, simulate))
 #&gt;  用户  系统  流逝 
-#&gt; 0.008 0.001 3.868</code></pre>
+#&gt; 0.008 0.001 1.613</code></pre>
 <p>当我们不需要这个集群时，调用<code>stopCluster()</code>终止刚才创建的R会话。</p>
 <p><strong>注意，当我们使用这种方式进行并行计算时，创建了新的R会话，因此环境里没有用户定义的变量。如果有我们自己的数据，需要提前导入</strong>。</p>
 <p>使用<code>clusterExport()</code>可以将数据导入到集群，使用<code>clusterEvalQ()</code>可以在每个集群节点上计算表达式。</p>
@@ -143,15 +133,14 @@ cl = makeCluster(detectCores())</code></pre>
 <p>在这两个系统上使用并行计算要比Windows容易的多，<code>mclapply()</code>可直接将当期R会话分配到多个会话中，保留所有内容，并为每个子会话安排任务，并行运行：</p>
 <pre class="r"><code>system.time( mclapply(1:1100, simulate, mc.cores = detectCores()))
 #&gt;  用户  系统  流逝 
-#&gt; 0.082 0.045 0.093</code></pre>
+#&gt; 0.114 0.085 0.045</code></pre>
 <p><strong>我们无需导出变量到集群中，因为在每个分配的进程中，它们是可以直接使用的</strong>。</p>
 <p>我们还可以用非常灵活的方式创建并行作业，例如创建一个生成10个随机数的作业：</p>
 <pre class="r"><code>job1 = mcparallel(rnorm(10), &quot;job1&quot;)</code></pre>
 <p>然后调用<code>mccollect()</code>函数收集作业结果：</p>
 <pre class="r"><code>mccollect(job1)
-#&gt; $`5867`
-#&gt;  [1] -0.0352  0.9432 -0.2238  1.5679 -0.9181 -0.9272 -0.6300  0.6973
-#&gt;  [9]  0.2334 -0.5710</code></pre>
+#&gt; $`41433`
+#&gt;  [1]  0.662  0.849 -1.090  0.847 -0.711 -0.277  1.128 -1.472  0.478  0.247</code></pre>
 <p>还可以通过编程创建并运行多项作业，例如我们创建8项作业，每个随机休眠一段时间：</p>
 <pre class="r"><code>jobs = lapply(1:8, function(i){
     mcparallel({
@@ -162,8 +151,8 @@ cl = makeCluster(detectCores())</code></pre>
     
 })
 system.time(res &lt;- mccollect(jobs))
-#&gt; 用户 系统 流逝 
-#&gt; 0.02 0.03 4.90</code></pre>
+#&gt;  用户  系统  流逝 
+#&gt; 0.013 0.020 4.775</code></pre>
 </div>
 </div>
 <div id="rcpp" class="section level3">

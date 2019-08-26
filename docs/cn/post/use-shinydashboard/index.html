@@ -133,28 +133,28 @@
 <pre class="r"><code>library(cranlogs)
 cran_top_downloads()
 #&gt;    rank         package count       from         to
-#&gt; 1     1        magrittr 85622 2019-07-13 2019-07-13
-#&gt; 2     2          aws.s3 81004 2019-07-13 2019-07-13
-#&gt; 3     3 aws.ec2metadata 77724 2019-07-13 2019-07-13
-#&gt; 4     4       rsconnect 75700 2019-07-13 2019-07-13
-#&gt; 5     5           rlang 18304 2019-07-13 2019-07-13
-#&gt; 6     6           dplyr 16591 2019-07-13 2019-07-13
-#&gt; 7     7            Rcpp 14064 2019-07-13 2019-07-13
-#&gt; 8     8        ellipsis 12938 2019-07-13 2019-07-13
-#&gt; 9     9         ggplot2 12774 2019-07-13 2019-07-13
-#&gt; 10   10           vctrs 12760 2019-07-13 2019-07-13</code></pre>
+#&gt; 1     1        magrittr 98995 2019-08-24 2019-08-24
+#&gt; 2     2          aws.s3 93382 2019-08-24 2019-08-24
+#&gt; 3     3 aws.ec2metadata 90010 2019-08-24 2019-08-24
+#&gt; 4     4       rsconnect 88144 2019-08-24 2019-08-24
+#&gt; 5     5            Rcpp 37762 2019-08-24 2019-08-24
+#&gt; 6     6           rlang 19022 2019-08-24 2019-08-24
+#&gt; 7     7           dplyr 16718 2019-08-24 2019-08-24
+#&gt; 8     8         ggplot2 14473 2019-08-24 2019-08-24
+#&gt; 9     9        ellipsis 13257 2019-08-24 2019-08-24
+#&gt; 10   10           vctrs 12963 2019-08-24 2019-08-24</code></pre>
 <pre class="r"><code>cran_top_downloads(&quot;last-week&quot;)
 #&gt;    rank         package  count       from         to
-#&gt; 1     1        magrittr 655244 2019-07-07 2019-07-13
-#&gt; 2     2          aws.s3 573492 2019-07-07 2019-07-13
-#&gt; 3     3 aws.ec2metadata 548869 2019-07-07 2019-07-13
-#&gt; 4     4       rsconnect 538892 2019-07-07 2019-07-13
-#&gt; 5     5           rlang 243322 2019-07-07 2019-07-13
-#&gt; 6     6           dplyr 214707 2019-07-07 2019-07-13
-#&gt; 7     7            Rcpp 182036 2019-07-07 2019-07-13
-#&gt; 8     8        ellipsis 178335 2019-07-07 2019-07-13
-#&gt; 9     9           vctrs 177943 2019-07-07 2019-07-13
-#&gt; 10   10          digest 165167 2019-07-07 2019-07-13</code></pre>
+#&gt; 1     1        magrittr 718447 2019-08-18 2019-08-24
+#&gt; 2     2          aws.s3 630908 2019-08-18 2019-08-24
+#&gt; 3     3 aws.ec2metadata 605770 2019-08-18 2019-08-24
+#&gt; 4     4       rsconnect 598576 2019-08-18 2019-08-24
+#&gt; 5     5            Rcpp 224287 2019-08-18 2019-08-24
+#&gt; 6     6           rlang 219523 2019-08-18 2019-08-24
+#&gt; 7     7           dplyr 184220 2019-08-18 2019-08-24
+#&gt; 8     8         ggplot2 166793 2019-08-18 2019-08-24
+#&gt; 9     9        ellipsis 157110 2019-08-18 2019-08-24
+#&gt; 10   10           vctrs 153636 2019-08-18 2019-08-24</code></pre>
 <p>为了充分利用shinydashboard包，最好提前浏览下<a href="https://rstudio.github.io/shinydashboard/structure.html" class="uri">https://rstudio.github.io/shinydashboard/structure.html</a>。</p>
 <p>与创建shiny应用程序类似，我们从用户界面开始，使用<code>dashboardPage</code>、<code>dashboardSidebar</code>和<code>dashboardBody</code>这3个函数。在仪表板中，我们想要展示扩展包的下载动态，以及每周和每月最受欢迎的扩展包。</p>
 <p>我们把月度和周度的菜单放到侧栏中，这样用户可以选择需要查看的数据。在每个标签页，把绘图和表格放在一起。</p>

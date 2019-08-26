@@ -315,10 +315,10 @@ head(df)
 stat.test &lt;- df %&gt;% 
   t_test(len ~ supp, paired = FALSE) 
 stat.test
-#&gt; # A tibble: 1 x 6
-#&gt;   .y.   group1 group2 statistic    df      p
-#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
-#&gt; 1 len   OJ     VC          1.92  55.3 0.0606
+#&gt; # A tibble: 1 x 8
+#&gt;   .y.   group1 group2    n1    n2 statistic    df      p
+#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+#&gt; 1 len   OJ     VC        30    30      1.92  55.3 0.0606
 
 # Create a box plot
 p &lt;- ggboxplot(
@@ -346,12 +346,13 @@ stat.test &lt;- df %&gt;%
   adjust_pvalue() %&gt;%
   add_significance(&quot;p.adj&quot;)
 stat.test
-#&gt; # A tibble: 3 x 9
-#&gt;   dose  .y.   group1 group2 statistic    df       p   p.adj p.adj.signif
-#&gt;   &lt;fct&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;       
-#&gt; 1 0.5   len   OJ     VC        3.17    15.0 0.00636 0.0127  *           
-#&gt; 2 1     len   OJ     VC        4.03    15.4 0.00104 0.00312 **          
-#&gt; 3 2     len   OJ     VC       -0.0461  14.0 0.964   0.964   ns
+#&gt; # A tibble: 3 x 11
+#&gt;   dose  .y.   group1 group2    n1    n2 statistic    df       p   p.adj
+#&gt;   &lt;fct&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+#&gt; 1 0.5   len   OJ     VC        10    10    3.17    15.0 0.00636 0.0127 
+#&gt; 2 1     len   OJ     VC        10    10    4.03    15.4 0.00104 0.00312
+#&gt; 3 2     len   OJ     VC        10    10   -0.0461  14.0 0.964   0.964  
+#&gt; # … with 1 more variable: p.adj.signif &lt;chr&gt;
 
 # Visualization
 ggboxplot(
@@ -369,10 +370,10 @@ ggboxplot(
 stat.test &lt;- df %&gt;% 
   t_test(len ~ supp, paired = TRUE) 
 stat.test
-#&gt; # A tibble: 1 x 6
-#&gt;   .y.   group1 group2 statistic    df       p
-#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
-#&gt; 1 len   OJ     VC          3.30    29 0.00255
+#&gt; # A tibble: 1 x 8
+#&gt;   .y.   group1 group2    n1    n2 statistic    df       p
+#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+#&gt; 1 len   OJ     VC        30    30      3.30    29 0.00255
 
 # Box plot
 p &lt;- ggpaired(
@@ -391,12 +392,13 @@ p + stat_pvalue_manual(stat.test, label = &quot;p&quot;, y.position = 36)
 <pre class="r"><code># Pairwise t-test
 pairwise.test &lt;- df %&gt;% t_test(len ~ dose)
 pairwise.test
-#&gt; # A tibble: 3 x 8
-#&gt;   .y.   group1 group2 statistic    df        p    p.adj p.adj.signif
-#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       
-#&gt; 1 len   0.5    1          -6.48  38.0 1.27e- 7 2.54e- 7 ****        
-#&gt; 2 len   0.5    2         -11.8   36.9 4.40e-14 1.32e-13 ****        
-#&gt; 3 len   1      2          -4.90  37.1 1.91e- 5 1.91e- 5 ****
+#&gt; # A tibble: 3 x 10
+#&gt;   .y.   group1 group2    n1    n2 statistic    df        p    p.adj
+#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+#&gt; 1 len   0.5    1         20    20     -6.48  38.0 1.27e- 7 2.54e- 7
+#&gt; 2 len   0.5    2         20    20    -11.8   36.9 4.40e-14 1.32e-13
+#&gt; 3 len   1      2         20    20     -4.90  37.1 1.91e- 5 1.91e- 5
+#&gt; # … with 1 more variable: p.adj.signif &lt;chr&gt;
 # Box plot
 ggboxplot(df, x = &quot;dose&quot;, y = &quot;len&quot;)+
   stat_pvalue_manual(
@@ -413,11 +415,12 @@ ggboxplot(df, x = &quot;dose&quot;, y = &quot;len&quot;)+
 # T-test: each level is compared to the ref group
 stat.test &lt;- df %&gt;% t_test(len ~ dose, ref.group = &quot;0.5&quot;)
 stat.test
-#&gt; # A tibble: 2 x 8
-#&gt;   .y.   group1 group2 statistic    df        p    p.adj p.adj.signif
-#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       
-#&gt; 1 len   0.5    1          -6.48  38.0 1.27e- 7 1.27e- 7 ****        
-#&gt; 2 len   0.5    2         -11.8   36.9 4.40e-14 8.80e-14 ****
+#&gt; # A tibble: 2 x 10
+#&gt;   .y.   group1 group2    n1    n2 statistic    df        p    p.adj
+#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+#&gt; 1 len   0.5    1         20    20     -6.48  38.0 1.27e- 7 1.27e- 7
+#&gt; 2 len   0.5    2         20    20    -11.8   36.9 4.40e-14 8.80e-14
+#&gt; # … with 1 more variable: p.adj.signif &lt;chr&gt;
 # Box plot
 ggboxplot(df, x = &quot;dose&quot;, y = &quot;len&quot;, ylim = c(0, 40)) +
   stat_pvalue_manual(
@@ -440,12 +443,6 @@ ggboxplot(df, x = &quot;dose&quot;, y = &quot;len&quot;, ylim = c(0, 40)) +
 <pre class="r"><code># T-test
 stat.test &lt;- df %&gt;% t_test(len ~ dose, ref.group = &quot;all&quot;)
 stat.test
-#&gt; # A tibble: 3 x 8
-#&gt;   .y.   group1 group2 statistic    df           p      p.adj p.adj.signif
-#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;       &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;       
-#&gt; 1 len   all    0.5        5.82   56.4 0.000000290 0.00000087 ****        
-#&gt; 2 len   all    1         -0.660  57.5 0.512       0.512      ns          
-#&gt; 3 len   all    2         -5.61   66.5 0.000000425 0.00000087 ****
 # Box plot with horizontal mean line
 ggboxplot(df, x = &quot;dose&quot;, y = &quot;len&quot;) +
   stat_pvalue_manual(
@@ -454,7 +451,6 @@ ggboxplot(df, x = &quot;dose&quot;, y = &quot;len&quot;) +
     remove.bracket = TRUE
     ) +
   geom_hline(yintercept = mean(df$len), linetype = 2)</code></pre>
-<p><img src="../../../cn/post/2019-07-07-use-rstatix_files/figure-html/comparison-against-base-mean-1.png" width="336" /></p>
 </div>
 </div>
 <div id="anova-" class="section level2">
@@ -541,14 +537,14 @@ head(mydata, 3)
 mydata %&gt;% cor_test(wt, mpg, method = &quot;pearson&quot;)
 #&gt; # A tibble: 1 x 8
 #&gt;   var1  var2    cor statistic        p conf.low conf.high method 
-#&gt; * &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  
+#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  
 #&gt; 1 wt    mpg   -0.87     -9.56 1.29e-10   -0.934    -0.744 Pearson
 
 # Correlation of one variable against all
 mydata %&gt;% cor_test(mpg, method = &quot;pearson&quot;)
 #&gt; # A tibble: 5 x 8
 #&gt;   var1  var2    cor statistic        p conf.low conf.high method 
-#&gt; * &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  
+#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  
 #&gt; 1 mpg   disp  -0.85     -8.75 9.38e-10  -0.923     -0.708 Pearson
 #&gt; 2 mpg   hp    -0.78     -6.74 1.79e- 7  -0.885     -0.586 Pearson
 #&gt; 3 mpg   drat   0.68      5.10 1.78e- 5   0.436      0.832 Pearson
@@ -559,7 +555,7 @@ mydata %&gt;% cor_test(mpg, method = &quot;pearson&quot;)
 mydata %&gt;% cor_test(method = &quot;pearson&quot;)
 #&gt; # A tibble: 36 x 8
 #&gt;    var1  var2    cor statistic        p conf.low conf.high method 
-#&gt;  * &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  
+#&gt;    &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;  
 #&gt;  1 mpg   mpg    1       Inf    0.         1          1     Pearson
 #&gt;  2 mpg   disp  -0.85     -8.75 9.38e-10  -0.923     -0.708 Pearson
 #&gt;  3 mpg   hp    -0.78     -6.74 1.79e- 7  -0.885     -0.586 Pearson
@@ -593,7 +589,7 @@ cor.mat
 cor.mat %&gt;% cor_get_pval()
 #&gt; # A tibble: 6 x 7
 #&gt;   rowname      mpg     disp           hp       drat        wt       qsec
-#&gt; * &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;
+#&gt;   &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;
 #&gt; 1 mpg     0.       9.38e-10 0.000000179  0.0000178  1.29e- 10 0.0171    
 #&gt; 2 disp    9.38e-10 0.       0.0000000714 0.00000528 1.22e- 11 0.0131    
 #&gt; 3 hp      1.79e- 7 7.14e- 8 0            0.00999    4.15e-  5 0.00000577

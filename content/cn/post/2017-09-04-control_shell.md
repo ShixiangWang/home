@@ -3,10 +3,10 @@ title: 控制脚本
 author: 王诗翔
 date: 2017-09-04
 categories:
-- Shell
+- shell
 tags:
 - linux
-- shell笔记
+- 笔记
 
 summary: "如何控制脚本并实现自动化？..."
 ---

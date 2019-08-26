@@ -167,7 +167,7 @@
 factorial=1
 for (( number = 1; number &lt;= $1; number++ ))
 do
-    factorial=$[ $factorial * $number ]
+	factorial=$[ $factorial * $number ]
 done
 echo The factorial of $1 is $factorial
 wsx@wsx-ubuntu:~/script_learn$ ./test1.sh 5
@@ -267,10 +267,10 @@ name=$(basename $0)
 #
 if [ $name = &quot;addem&quot; ]
 then
-    total=$[ $1 + $2 ]
+	total=$[ $1 + $2 ]
 elif [ $name = &quot;multem&quot; ]
 then
-    total=$[ $1 * $2 ]
+	total=$[ $1 * $2 ]
 fi
 #
 echo
@@ -304,9 +304,9 @@ The calculated value is 10.
 #
 if [ -n &quot;$1&quot; ] # -n 选项检查字符是否非空
 then
-    echo Hello $1, glad to meet you.
+	echo Hello $1, glad to meet you.
 else
-    echo &quot;Sorry, you did not identify yourself.&quot;
+	echo &quot;Sorry, you did not identify yourself.&quot;
 fi
 
 wsx@wsx-ubuntu:~/script_learn$ ./test7.sh shixiang

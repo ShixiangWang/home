@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ggplotify on Shixiang Wang | 王诗翔</title>
+    <link>/tags/ggplotify/</link>
+    <description>Recent content in ggplotify on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 05 Aug 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/ggplotify/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>ggplotify——连接各类R图形</title>
+      <link>/cn/post/2019-08-05-ggplotify-intro/</link>
+      <pubDate>Mon, 05 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-08-05-ggplotify-intro/</guid>
+      <description>在作图的时候想拼接不同的图形对象，如pheatmap 包的热图、ggplot2 对象以及 base 图形等。 这里找到了Y叔的ggplotify包，以下是对</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -166,7 +166,7 @@ awk -F &quot;\t&quot; '{print NF; exit}' some_data.bed
 #!genome-date 2009-02
 #!genome-build-accession NCBI:GCA_000001405.14
 #!genebuild-last-updated 2013-09
-1   pseudogene  gene    11869   14412   .   +   .   gene_id &quot;ENSG00000223972&quot;; gene_name &quot;DDX11L1&quot;; gene_source &quot;ensembl_havana&quot;; gene_biotype &quot;pseudogene&quot;;
+1	pseudogene	gene	11869	14412	.	+	.	gene_id &quot;ENSG00000223972&quot;; gene_name &quot;DDX11L1&quot;; gene_source &quot;ensembl_havana&quot;; gene_biotype &quot;pseudogene&quot;;
 </code></pre>
 
 <p>可以看到注释行是5行，我们利用<code>tail</code>试试去掉它</p>
@@ -179,7 +179,7 @@ wsx@wsx-ubuntu:~/Work/research/Promoter_Research$ tail -n +5 Homo_sapiens.GRCh37
 <p>发现还有一行没去掉</p>
 
 <pre><code class="language-shell">wsx@wsx-ubuntu:~/Work/research/Promoter_Research$ tail -n +6 Homo_sapiens.GRCh37.75.gtf | head -n 1
-1   pseudogene  gene    11869   14412   .   +   .   gene_id &quot;ENSG00000223972&quot;; gene_name &quot;DDX11L1&quot;; gene_source &quot;ensembl_havana&quot;; gene_biotype &quot;pseudogene&quot;;
+1	pseudogene	gene	11869	14412	.	+	.	gene_id &quot;ENSG00000223972&quot;; gene_name &quot;DDX11L1&quot;; gene_source &quot;ensembl_havana&quot;; gene_biotype &quot;pseudogene&quot;;
 </code></pre>
 
 <p>成功搞定，然后结合前面提到的<code>awk</code>命令即可计算行数。</p>
@@ -187,7 +187,7 @@ wsx@wsx-ubuntu:~/Work/research/Promoter_Research$ tail -n +5 Homo_sapiens.GRCh37
 <p>上面方法鲁棒性不够（人为地确定行数），一种更为通用的方法是<code>grep</code>结合<code>awk</code>命令</p>
 
 <pre><code class="language-shell">wsx@wsx-ubuntu:~/Work/research/Promoter_Research$ grep -v &quot;^#&quot; Homo_sapiens.GRCh37.75.gtf | head -n 1
-1   pseudogene  gene    11869   14412   .   +   .   gene_id &quot;ENSG00000223972&quot;; gene_name &quot;DDX11L1&quot;; gene_source &quot;ensembl_havana&quot;; gene_biotype &quot;pseudogene&quot;;
+1	pseudogene	gene	11869	14412	.	+	.	gene_id &quot;ENSG00000223972&quot;; gene_name &quot;DDX11L1&quot;; gene_source &quot;ensembl_havana&quot;; gene_biotype &quot;pseudogene&quot;;
 </code></pre>
 
 <p>推荐使用这种。</p>
@@ -208,16 +208,16 @@ exon
 exon
 transcript
 wsx@wsx-ubuntu:~/Work/research/Promoter_Research$ grep -v &quot;^#&quot; Homo_sapiens.GRCh37.75.gtf | head -n 10 | cut -f 3-5
-gene    11869   14412
-transcript  11869   14409
-exon    11869   12227
-exon    12613   12721
-exon    13221   14409
-transcript  11872   14412
-exon    11872   12227
-exon    12613   12721
-exon    13225   14412
-transcript  11874   14409
+gene	11869	14412
+transcript	11869	14409
+exon	11869	12227
+exon	12613	12721
+exon	13221	14409
+transcript	11872	14412
+exon	11872	12227
+exon	12613	12721
+exon	13225	14412
+transcript	11874	14409
 </code></pre>
 
 <p><code>-d</code>选项可以指定分隔符，比如<code>-d,</code>指定<code>,</code>为分隔符。</p>
@@ -316,19 +316,19 @@ regular_express.txt: ASCII text, with CRLF, LF line terminators
 <p>我们先创建一个bed格式文件来试试这个命令：</p>
 
 <pre><code class="language-shell">wsx@wsx-ubuntu:~$ cat test.bed
-chr1    26  39
-chr3    32  47
-chr1    40  50
-chr1    9   28
-chr2    35  54
-chr1    10  19
+chr1	26	39
+chr3	32	47
+chr1	40	50
+chr1	9	28
+chr2	35	54
+chr1	10	19
 wsx@wsx-ubuntu:~$ sort test.bed
-chr1    10  19
-chr1    26  39
-chr1    40  50
-chr1    9   28
-chr2    35  54
-chr3    32  47
+chr1	10	19
+chr1	26	39
+chr1	40	50
+chr1	9	28
+chr2	35	54
+chr3	32	47
 
 </code></pre>
 
@@ -338,12 +338,12 @@ chr3    32  47
 <p>下面是对<code>bed</code>文件最通用的排序命令：</p>
 
 <pre><code class="language-shell">wsx@wsx-ubuntu:~$ sort -k1,1 -k2,2n test.bed
-chr1    9   28
-chr1    10  19
-chr1    26  39
-chr1    40  50
-chr2    35  54
-chr3    32  47
+chr1	9	28
+chr1	10	19
+chr1	26	39
+chr1	40	50
+chr2	35	54
+chr3	32	47
 </code></pre>
 
 <p>基本操作<code>bedtools</code>软件都会先用这个命令对<code>bedtools</code>文件排序。
@@ -352,7 +352,7 @@ chr3    32  47
 <p>我们可以用<code>-c</code>选项检查一个文件是不是已经按照过某种方式排过序了。</p>
 
 <pre><code class="language-shell">wsx@wsx-ubuntu:~$ sort -k1,1 -k2,2n test.bed | sort -k1,1 -k2,2 -c
-sort：-:2：无序： chr1   10  19
+sort：-:2：无序： chr1	10	19
 wsx@wsx-ubuntu:~$ echo $?
 1
 wsx@wsx-ubuntu:~$ sort -k1,1 -k2,2n test.bed | sort -k1,1 -k2,2n -c
@@ -378,48 +378,48 @@ wsx@wsx-ubuntu:~$ echo $?
 <p>反向排序用<code>-r</code>选项。如果你只想反转一列，可以把它加在<code>-k</code>选项后。</p>
 
 <pre><code class="language-shell">wsx@wsx-ubuntu:~$ sort -k1,1 -k2,2nr test.bed
-chr1    40  50
-chr1    26  39
-chr1    10  19
-chr1    9   28
-chr2    35  54
-chr3    32  47
+chr1	40	50
+chr1	26	39
+chr1	10	19
+chr1	9	28
+chr2	35	54
+chr3	32	47
 </code></pre>
 
 <p>现在我给<code>test.bed</code>加一行：</p>
 
 <pre><code class="language-shell">wsx@wsx-ubuntu:~$ cat test.bed
-chr1    26  39
-chr3    32  47
-chr1    40  50
-chr1    9   28
-chr2    35  54
-chr1    10  19
-chr11   22  56
+chr1	26	39
+chr3	32	47
+chr1	40	50
+chr1	9	28
+chr2	35	54
+chr1	10	19
+chr11	22	56
 </code></pre>
 
 <p>你会发现有点奇怪</p>
 
 <pre><code class="language-shell">wsx@wsx-ubuntu:~$ sort -k1,1 -k2,2n test.bed
-chr1    9   28
-chr1    10  19
-chr1    26  39
-chr1    40  50
-chr11   22  56
-chr2    35  54
-chr3    32  47
+chr1	9	28
+chr1	10	19
+chr1	26	39
+chr1	40	50
+chr11	22	56
+chr2	35	54
+chr3	32	47
 </code></pre>
 
 <p>怎么<code>chr11</code>在<code>chr2</code>前面？其实<code>sort</code>排序的方式有点像查字典。例子中，命令先比较<code>c</code>，然后比较<code>h</code>，然后比较<code>r</code>，接着比较<code>1</code>，自然<code>11</code>会在<code>2</code>前面了。这里可以添加<code>V</code>选项修改。</p>
 
 <pre><code class="language-shell">wsx@wsx-ubuntu:~$ sort -k1,1V -k2,2n test.bed
-chr1    9   28
-chr1    10  19
-chr1    26  39
-chr1    40  50
-chr2    35  54
-chr3    32  47
-chr11   22  56
+chr1	9	28
+chr1	10	19
+chr1	26	39
+chr1	40	50
+chr2	35	54
+chr3	32	47
+chr11	22	56
 </code></pre>
 
 <p>是不是觉得这样更可观一些？不过通常在处理数据时不做此处理，符合 规范的数据可以让后续处理程序效率更高。</p>
@@ -522,17 +522,17 @@ D
 假设现在我们有两个文件：</p>
 
 <pre><code class="language-shell">wsx@wsx-ubuntu:/tmp$ cat example.bed
-chr1    26  39
-chr1    32  47
-chr3    11  28
-chr1    40  49
-chr3    16  27
-chr1    9   28
-chr2    35  53
+chr1	26	39
+chr1	32	47
+chr3	11	28
+chr1	40	49
+chr3	16	27
+chr1	9	28
+chr2	35	53
 wsx@wsx-ubuntu:/tmp$ cat example_length.txt
-chr1    53453
-chr2    34356
-chr3    24356
+chr1	53453
+chr2	34356
+chr3	24356
 </code></pre>
 
 <p>我想把第二个文件说明染色体长度添加到第一个文件对应染色体的第三列。
@@ -541,13 +541,13 @@ chr3    24356
 <pre><code class="language-shell">wsx@wsx-ubuntu:/tmp$ sort -k1,1 example.bed &gt; example_sorted.bed
 wsx@wsx-ubuntu:/tmp$ sort -c -k1,1 example_length.txt
 wsx@wsx-ubuntu:/tmp$ cat example_sorted.bed
-chr1    26  39
-chr1    32  47
-chr1    40  49
-chr1    9   28
-chr2    35  53
-chr3    11  28
-chr3    16  27
+chr1	26	39
+chr1	32	47
+chr1	40	49
+chr1	9	28
+chr2	35	53
+chr3	11	28
+chr3	16	27
 wsx@wsx-ubuntu:/tmp$ join -1 1 -2 1 example_sorted.bed  example_length.txt &gt; example_with_length.txt
 wsx@wsx-ubuntu:/tmp$ cat example_with_length.txt
 chr1 26 39 53453
@@ -608,13 +608,13 @@ chr3 16 27
 <p>另一个<code>awk</code>核心是它用<code>$0</code>表示所有列，<code>$1</code>，<code>$2</code>&hellip;等等表示对应的列。我们可以很方便地用它进行操作。</p>
 
 <pre><code class="language-shell">wsx@wsx-ubuntu:/tmp$ awk '{print $0}' example.bed
-chr1    26  39
-chr1    32  47
-chr3    11  28
-chr1    40  49
-chr3    16  27
-chr1    9   28
-chr2    35  53
+chr1	26	39
+chr1	32	47
+chr3	11	28
+chr1	40	49
+chr3	16	27
+chr1	9	28
+chr2	35	53
 wsx@wsx-ubuntu:/tmp$ awk '{print $1}' example.bed
 chr1
 chr1
@@ -635,13 +635,13 @@ wsx@wsx-ubuntu:/tmp$ awk '{print $2}' example.bed
 <p><code>print</code>语句就像动作一样输出你操作的结果。</p>
 
 <pre><code class="language-shell">wsx@wsx-ubuntu:/tmp$ awk '{ print $2 &quot;\t&quot; $3}' example.bed
-26  39
-32  47
-11  28
-40  49
-16  27
-9   28
-35  53
+26	39
+32	47
+11	28
+40	49
+16	27
+9	28
+35	53
 wsx@wsx-ubuntu:/tmp$ awk '{ print $2  $3}' example.bed
 2639
 3247
@@ -696,11 +696,11 @@ chr2
 <p><code>awk</code>作为一门编程语言，它支持各种操作符（运算，逻辑，判断）喔。</p>
 
 <pre><code class="language-shell">wsx@wsx-ubuntu:/tmp$ awk '$3 - $2 &gt;18' example.bed
-chr1    9   28
+chr1	9	28
 wsx@wsx-ubuntu:/tmp$ awk '$1 ~/chr1/ &amp;&amp; $3 - $2 &gt; 10' example.bed
-chr1    26  39
-chr1    32  47
-chr1    9   28
+chr1	26	39
+chr1	32	47
+chr1	9	28
 
 # 这里 ~ 符号用来匹配正则表达式
 </code></pre>
@@ -708,17 +708,17 @@ chr1    9   28
 <p>还有<code>awk</code>存在一些变量，像<code>NR</code>表示行号，<code>OFS</code>表示输出分隔符等。</p>
 
 <pre><code class="language-shell">wsx@wsx-ubuntu:/tmp$ awk 'NR &gt;= 3 &amp;&amp; NR &lt;= 5' example.bed
-chr3    11  28
-chr1    40  49
-chr3    16  27
+chr3	11	28
+chr1	40	49
+chr3	16	27
 </code></pre>
 
 <p>如果我们想把<code>gtf</code>文件转换成为<code>bed</code>格式，可以使用</p>
 
 <pre><code class="language-shell">wsx@wsx-ubuntu:~/Work/research/Promoter_Research$ head -n1000 Homo_sapiens.GRCh37.75.gtf | awk '!/^#/{ print $1 &quot;\t&quot; $4-1 &quot;\t&quot; $5} ' | head -n 3
-1   11868   14412
-1   11868   14409
-1   11868   12227
+1	11868	14412
+1	11868	14409
+1	11868	12227
 </code></pre>
 
 <p>因为篇幅有限，我不可能输出所有结果，所以只取部分数据做了运算。</p>

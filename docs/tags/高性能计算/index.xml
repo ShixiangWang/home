@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>高性能计算 on Shixiang Wang | 王诗翔</title>
+    <link>/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/</link>
+    <description>Recent content in 高性能计算 on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 29 Aug 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>高性能计算</title>
+      <link>/cn/post/hpc-in-r/</link>
+      <pubDate>Wed, 29 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/hpc-in-r/</guid>
+      <description>《R语言编程指南》 代码性能 简单看函数运行时间，用system.time()函数。 高级点，使用microbenchmark包的microben</description>
+    </item>
+    
+  </channel>
+</rss>

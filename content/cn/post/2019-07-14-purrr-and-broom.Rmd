@@ -3,6 +3,12 @@ title: "使用purrr和broom处理多个模型"
 author: 王诗翔
 date: 2018-10-15
 slug: "purrr-and-broom"
+categories: r
+tags:
+- purrr
+- broom
+- r
+- 迭代计算
 ---
 
 

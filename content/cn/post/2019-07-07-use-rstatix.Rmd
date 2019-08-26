@@ -4,6 +4,10 @@ author: "王诗翔"
 date: "2019-07-07"
 lastmod: "`r Sys.Date()`"
 slug: ""
+categories: r
+tags:
+- 统计分析
+- r
 ---
 
 ```{r setup, include=FALSE}
@@ -296,7 +300,7 @@ ggboxplot(df, x = "dose", y = "len", ylim = c(0, 40)) +
 - 基于总体水平的成对比较
    
    
-```{r comparison-against-base-mean, fig.width=3.5, fig.height=3}
+```{r comparison-against-base-mean, fig.width=3.5, fig.height=3, eval=FALSE}
 # T-test
 stat.test <- df %>% t_test(len ~ dose, ref.group = "all")
 stat.test

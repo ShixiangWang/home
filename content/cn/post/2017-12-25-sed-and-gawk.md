@@ -3,11 +3,10 @@ title: "初识sed与awk"
 author: 王诗翔
 date: 2017-12-25
 categories:
-- Shell
-- 文本处理
+- shell
 tags:
 - linux
-- shell笔记
+- 笔记
 
 summary: "简单介绍sed与awk命令..."
 ---

@@ -4,6 +4,12 @@ author: "王诗翔"
 date: "2019-06-20"
 lastmod: "2019-06-20"
 slug: ""
+categories: research
+tags:
+- NSCLC
+- TMB
+- mutational-signature
+- ICB
 ---
 
 主要发现：NSCLC 中，TMB 对于免疫治疗反应的预测效果在不同的性别中有差异。

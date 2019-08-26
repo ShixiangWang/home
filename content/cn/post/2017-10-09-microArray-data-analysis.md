@@ -3,11 +3,9 @@ title: "Bioconductor分析基因芯片数据"
 date: 2017-10-09
 categories: 
 - bioinformatics
-- R
 tags:
 - bioinformatics
-- bioconductor
-- R
+- r
 - DEG
 - GO
 - KEGG

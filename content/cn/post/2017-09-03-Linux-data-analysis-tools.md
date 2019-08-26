@@ -3,13 +3,12 @@ title:  Linux数据处理命令工具
 author: 王诗翔
 date:  2017-09-03
 categories:
-- Shell
-- 文本处理
+- shell
 tags:
 - linux
 - 数据处理
 - 文本处理
-- shell笔记
+- 笔记
 
 summary: "系统介绍Linux会使用到的数据处理命令..."
 ---

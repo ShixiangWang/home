@@ -5,20 +5,16 @@ package_version: 1.2.5
 authors:
   - Shixiang Wang
 date: '2019-08-25'
-categories: technotes
-topicid:
+categories: bioinformatics
 tags:
-  - R
-  - community
+  - r
   - software
-  - Software Peer Review
   - packages
   - bioinformatics
-  - data access
-  - survival analysis
-output:
- html_document:
-   keep_md: true
+  - data-access
+  - survival-analysis
+  - UCSCXenaTools
+  - 生存分析
 lastmod: "`r Sys.Date()`"
 ---
 

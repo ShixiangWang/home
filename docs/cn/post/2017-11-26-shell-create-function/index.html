@@ -152,7 +152,7 @@
 <p>有两种格式可以创建函数。第一种格式是使用关键字<code>function</code>，后跟分配给该代码块的函数名。</p>
 
 <pre><code class="language-shell">funtion name{
-    commands
+	commands
 }
 </code></pre>
 
@@ -214,8 +214,8 @@ Now, this is the end of the script
 # testing the exit status of a function
 
 func1() {
-    echo &quot;trying to display a non-existent file&quot;
-    ls -l badfile
+	echo &quot;trying to display a non-existent file&quot;
+	ls -l badfile
 }
 
 echo &quot;testing the function&quot;
@@ -235,8 +235,8 @@ The exit status is: 2
 # testing the exit status of a function
 
 func1(){
-    ls -l badfile
-    echo &quot;This was a test of a bad command&quot;
+	ls -l badfile
+	echo &quot;This was a test of a bad command&quot;
 }
 
 echo &quot;testing the function:&quot;
@@ -260,9 +260,9 @@ The exit status is: 0
 # using the return command in a function
 
 function db1 {
-    read -p &quot;Enter a value: &quot; value
-    echo &quot;doubling the value&quot;
-    return $[ $value * 2 ]
+	read -p &quot;Enter a value: &quot; value
+	echo &quot;doubling the value&quot;
+	return $[ $value * 2 ]
 }
 
 db1
@@ -302,8 +302,8 @@ The new value is 144
 # using the echo to return a value
 
 function db1 {
-    read -p &quot;Enter a value: &quot; value
-    echo $[ $value * 2 ]
+	read -p &quot;Enter a value: &quot; value
+	echo $[ $value * 2 ]
 }
 
 result=$(db1)
@@ -339,15 +339,15 @@ The new value is 400
 # passing parameters to a function
 
 function addem {
-    if [ $# -eq 0 ] || [ $# -gt 2 ]
-    then
-        echo -1
-    elif [ $# -eq 1 ]
-    then
-        echo $[ $1 + $1 ]
-    else
-        echo $[ $1 + $2 ]
-    fi
+	if [ $# -eq 0 ] || [ $# -gt 2 ]
+	then
+		echo -1
+	elif [ $# -eq 1 ]
+	then
+		echo $[ $1 + $1 ]
+	else
+		echo $[ $1 + $2 ]
+	fi
 }
 
 echo -n &quot;Adding 10 and 15: &quot;
@@ -379,15 +379,15 @@ Finally, try add three numbers: -1
 # trying to access script parameters inside a function
 
 function badfunc1 {
-    echo $[ $1 * $2 ]
+	echo $[ $1 * $2 ]
 }
 
 if [ $# -eq 2 ]
 then
-    value=$(badfunc1)
-    echo &quot;The result is $value&quot;
+	value=$(badfunc1)
+	echo &quot;The result is $value&quot;
 else
-    echo &quot;Usage: badtest1 a b&quot;
+	echo &quot;Usage: badtest1 a b&quot;
 fi
 
 wsx@wsx:~/tmp$ ./badtest1 10 15
@@ -403,15 +403,15 @@ The result is
 # trying to access script parameters inside a function
 
 function func1 {
-    echo $[ $1 * $2 ]
+	echo $[ $1 * $2 ]
 }
 
 if [ $# -eq 2 ]
 then
-    value=$(func1 $1 $2)
-    echo &quot;The result is $value&quot;
+	value=$(func1 $1 $2)
+	echo &quot;The result is $value&quot;
 else
-    echo &quot;Usage: badtest1 a b&quot;
+	echo &quot;Usage: badtest1 a b&quot;
 fi
 
 wsx@wsx:~/tmp$ ./test6
@@ -443,7 +443,7 @@ The result is 150
 # using a global variable to pass a value
 
 function db1 {
-    value=$[ $value * 2 ]
+	value=$[ $value * 2 ]
 }
 
 read -p &quot;Enter a value: &quot; value
@@ -463,8 +463,8 @@ The new value is: 20
 # demonstrating a bad use of variable
 
 function func1 {
-    temp=$[ $value + 5 ]
-    result=$[ $temp * 2 ]
+	temp=$[ $value + 5 ]
+	result=$[ $temp * 2 ]
 }
 
 temp=4
@@ -474,9 +474,9 @@ func1
 echo &quot;The result is $result&quot;
 if [ $temp -gt $value ]
 then
-    echo &quot;temp is larger&quot;
+	echo &quot;temp is larger&quot;
 else
-    echo &quot;temp is smaller&quot;
+	echo &quot;temp is smaller&quot;
 fi
 wsx@wsx:~/tmp$ ./badtest2
 The result is 22
@@ -505,8 +505,8 @@ temp is larger
 # demonstrating the local keyword
 
 function func1 {
-    local temp=$[ $value + 5 ]
-    result=$[ $temp * 2 ]
+	local temp=$[ $value + 5 ]
+	result=$[ $temp * 2 ]
 }
 
 temp=4
@@ -516,9 +516,9 @@ func1
 echo &quot;The result is $result&quot;
 if [ $temp -gt $value ]
 then
-    echo &quot;temp is larger&quot;
+	echo &quot;temp is larger&quot;
 else
-    echo &quot;temp is smaller&quot;
+	echo &quot;temp is smaller&quot;
 fi
 
 wsx@wsx:~/tmp$ ./test8
@@ -540,9 +540,9 @@ temp is smaller
 # trying to pass an array variable
 
 function testit {
-    echo &quot;The parameters are: $@&quot;
-    thisarray=$1
-    echo &quot;The received array is ${thisarray[*]}&quot;
+	echo &quot;The parameters are: $@&quot;
+	thisarray=$1
+	echo &quot;The received array is ${thisarray[*]}&quot;
 }
 
 myarray=(1 2 3 4 5)
@@ -563,9 +563,9 @@ The received array is 1
 # array variable to function test
 
 function testit {
-    local newarray
-    newarray=(`echo &quot;$@&quot;`)
-    echo &quot;The new array value is: ${newarray[*]}&quot;
+	local newarray
+	newarray=(`echo &quot;$@&quot;`)
+	echo &quot;The new array value is: ${newarray[*]}&quot;
 }
 
 myarray=(1 2 3 4 5)
@@ -587,18 +587,18 @@ The new array value is: 1 2 3 4 5
 # returning an array value
 
 function arraydblr {
-    local origarray
-    local newarray
-    local elements
-    local i
-    origarray=($(echo &quot;$@&quot;))
-    newarray=($(echo &quot;$@&quot;))
-    elements=$[ $# - 1 ]
-    for (( i = 0; i &lt;= $elements; i++ ))
-    {
-        newarray[$i]=$[ ${origarray[$i]} * 2]
-    }
-    echo ${newarray[*]}
+	local origarray
+	local newarray
+	local elements
+	local i
+	origarray=($(echo &quot;$@&quot;))
+	newarray=($(echo &quot;$@&quot;))
+	elements=$[ $# - 1 ]
+	for (( i = 0; i &lt;= $elements; i++ ))
+	{
+		newarray[$i]=$[ ${origarray[$i]} * 2]
+	}
+	echo ${newarray[*]}
 }
 
 myarray=(1 2 3 4 5)
@@ -636,11 +636,11 @@ The new array is: 2 4 6 8 10
 <pre><code class="language-shell">function factorial {
   if [ $1 -eq 1 ]
   then
-    echo 1
+  	echo 1
   else
-    local temp=$[ $1 - 1 ]
-    local result=`factorial $temp`
-    echo $[ $result * $1 ]
+  	local temp=$[ $1 - 1 ]
+  	local result=`factorial $temp`
+  	echo $[ $result * $1 ]
   fi
 }
 </code></pre>
@@ -652,14 +652,14 @@ The new array is: 2 4 6 8 10
 # using recursion
 
 function factorial {
-    if [ $1 -eq 1 ]
-    then
-        echo 1
-    else
-        local temp=$[ $1 - 1]
-        local result=`factorial $temp`
-        echo $[ $result * $1 ]
-    fi
+	if [ $1 -eq 1 ]
+	then
+		echo 1
+	else
+		local temp=$[ $1 - 1]
+		local result=`factorial $temp`
+		echo $[ $result * $1 ]
+	fi
 }
 
 read -p &quot;Enter value: &quot; value
@@ -683,20 +683,20 @@ The factorial of 5 is: 120
 # my script functions
 
 function addem {
-    echo $[ $1 + $2 ]
+	echo $[ $1 + $2 ]
 }
 
 function multem {
-    echo $[ $1 * $2 ]
+	echo $[ $1 * $2 ]
 }
 
 function divem {
-    if [ $2 -ne 0 ]
-    then
-        echo $[ $1 / $2 ]
-    else
-        echo -1
-    fi
+	if [ $2 -ne 0 ]
+	then
+		echo $[ $1 / $2 ]
+	else
+		echo -1
+	fi
 }
 </code></pre>
 
