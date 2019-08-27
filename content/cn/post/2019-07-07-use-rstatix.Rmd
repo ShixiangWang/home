@@ -300,7 +300,7 @@ ggboxplot(df, x = "dose", y = "len", ylim = c(0, 40)) +
 - 基于总体水平的成对比较
    
    
-```{r comparison-against-base-mean, fig.width=3.5, fig.height=3, eval=FALSE}
+```{r comparison-against-base-mean, fig.width=3.5, fig.height=3}
 # T-test
 stat.test <- df %>% t_test(len ~ dose, ref.group = "all")
 stat.test

@@ -2,7 +2,7 @@
 title: "管道统计分析——rstatix使用指南"
 author: "王诗翔"
 date: "2019-07-07"
-lastmod: "2019-08-26"
+lastmod: "2019-08-27"
 slug: ""
 categories: r
 tags:
@@ -213,15 +213,13 @@ p &lt;- ggboxplot(
   color = &quot;supp&quot;, palette = &quot;jco&quot;, ylim = c(0,40)
   )
 # Add the p-value manually
-p + stat_pvalue_manual(stat.test, label = &quot;p&quot;, y.position = 35)
-#&gt; Warning: Ignoring unknown aesthetics: xmin, xmax, annotations, y_position</code></pre>
+p + stat_pvalue_manual(stat.test, label = &quot;p&quot;, y.position = 35)</code></pre>
 <p><img src="/cn/post/2019-07-07-use-rstatix_files/figure-html/unpaired-two-sample-t-test-1.png" width="336" /></p>
 <ul>
 <li>使用 <a href="https://github.com/tidyverse/glue">glue expression</a> 自定义标签：</li>
 </ul>
 <pre class="r"><code>p +stat_pvalue_manual(stat.test, label = &quot;T-test, p = {p}&quot;, 
-                      y.position = 36)
-#&gt; Warning: Ignoring unknown aesthetics: xmin, xmax, annotations, y_position</code></pre>
+                      y.position = 36)</code></pre>
 <p><img src="/cn/post/2019-07-07-use-rstatix_files/figure-html/custoize-p-value-labels-1.png" width="336" /></p>
 <ul>
 <li>分组数据：在按照「dose」分组后比较 supp 水平：</li>
@@ -247,8 +245,7 @@ ggboxplot(
   color = &quot;supp&quot;, palette = &quot;jco&quot;, facet.by = &quot;dose&quot;,
   ylim = c(0, 40)
   ) +
-  stat_pvalue_manual(stat.test, label = &quot;p.adj&quot;, y.position = 35)
-#&gt; Warning: Ignoring unknown aesthetics: xmin, xmax, annotations, y_position</code></pre>
+  stat_pvalue_manual(stat.test, label = &quot;p.adj&quot;, y.position = 35)</code></pre>
 <p><img src="/cn/post/2019-07-07-use-rstatix_files/figure-html/grouped-two-sample-t-test-1.png" width="576" /></p>
 </div>
 <div class="section level3">
@@ -267,8 +264,7 @@ p &lt;- ggpaired(
   df, x = &quot;supp&quot;, y = &quot;len&quot;, color = &quot;supp&quot;, palette = &quot;jco&quot;, 
   line.color = &quot;gray&quot;, line.size = 0.4, ylim = c(0, 40)
   )
-p + stat_pvalue_manual(stat.test, label = &quot;p&quot;, y.position = 36)
-#&gt; Warning: Ignoring unknown aesthetics: xmin, xmax, annotations, y_position</code></pre>
+p + stat_pvalue_manual(stat.test, label = &quot;p&quot;, y.position = 36)</code></pre>
 <p><img src="/cn/post/2019-07-07-use-rstatix_files/figure-html/paired-t-test-1.png" width="336" /></p>
 </div>
 <div class="section level3">
@@ -291,8 +287,7 @@ ggboxplot(df, x = &quot;dose&quot;, y = &quot;len&quot;)+
   stat_pvalue_manual(
     pairwise.test, label = &quot;p.adj&quot;, 
     y.position = c(29, 35, 39)
-    )
-#&gt; Warning: Ignoring unknown aesthetics: xmin, xmax, annotations, y_position</code></pre>
+    )</code></pre>
 <p><img src="/cn/post/2019-07-07-use-rstatix_files/figure-html/pairwise-comparisons-1.png" width="336" /></p>
 <ul>
 <li>基于参考组的成对比较</li>
@@ -313,8 +308,7 @@ ggboxplot(df, x = &quot;dose&quot;, y = &quot;len&quot;, ylim = c(0, 40)) +
   stat_pvalue_manual(
     stat.test, label = &quot;p.adj.signif&quot;, 
     y.position = c(29, 35)
-    )
-#&gt; Warning: Ignoring unknown aesthetics: xmin, xmax, annotations, y_position</code></pre>
+    )</code></pre>
 <p><img src="/cn/post/2019-07-07-use-rstatix_files/figure-html/comaprison-against-reference-group-1.png" width="336" /></p>
 <pre class="r"><code># Remove bracket
 ggboxplot(df, x = &quot;dose&quot;, y = &quot;len&quot;, ylim = c(0, 40)) +
@@ -330,6 +324,13 @@ ggboxplot(df, x = &quot;dose&quot;, y = &quot;len&quot;, ylim = c(0, 40)) +
 <pre class="r"><code># T-test
 stat.test &lt;- df %&gt;% t_test(len ~ dose, ref.group = &quot;all&quot;)
 stat.test
+#&gt; # A tibble: 3 x 10
+#&gt;   .y.   group1 group2    n1    n2 statistic    df       p   p.adj
+#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+#&gt; 1 len   all    0.5       60    20     5.82   56.4 2.90e-7 8.70e-7
+#&gt; 2 len   all    1         60    20    -0.660  57.5 5.12e-1 5.12e-1
+#&gt; 3 len   all    2         60    20    -5.61   66.5 4.25e-7 8.70e-7
+#&gt; # … with 1 more variable: p.adj.signif &lt;chr&gt;
 # Box plot with horizontal mean line
 ggboxplot(df, x = &quot;dose&quot;, y = &quot;len&quot;) +
   stat_pvalue_manual(
@@ -338,6 +339,7 @@ ggboxplot(df, x = &quot;dose&quot;, y = &quot;len&quot;) +
     remove.bracket = TRUE
     ) +
   geom_hline(yintercept = mean(df$len), linetype = 2)</code></pre>
+<p><img src="/cn/post/2019-07-07-use-rstatix_files/figure-html/comparison-against-base-mean-1.png" width="336" /></p>
 </div>
 </div>
 <div id="anova-" class="section level2">
