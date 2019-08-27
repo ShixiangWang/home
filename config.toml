@@ -99,14 +99,26 @@ publishDir = "docs"
     name = "简历"
     url = "/cn/cv-cn/Shixiang"
     weight = 8
+
+[[menu.cn]]
+    name = "公众号"
+    url = "/logo/qrcode.jpg"
+    weight = 9
+
+[[menu.cn]]
+    name = "简书"
+    url = "https://www.jianshu.com/u/b6608e27dc74"
+    weight = 10
+
 [[menu.cn]]
     name = "ToDo"
     url = "/cn/todo"
-    weight = 9
+    weight = 11
+
 [[menu.cn]]
     name = "English"
     url = "/en/"
-    weight = 10
+    weight = 12
 
 [params]
     description = "Personal website of Shixiang Wang; 王诗翔的个人网站"
