@@ -23,6 +23,9 @@ knitr::opts_chunk$set(comment = "#>", collapse = TRUE)
 Sys.setenv("LANGUAGE"="EN")
 ```
 
+> This post is published on rOpenSci at <https://ropensci.org/technotes/2019/09/06/ucscxenatools-surv/>,
+> please read it for its better English after editted by [Stefanie Butland](https://github.com/stefaniebutland).
+
 In this technote I will outline how to use **UCSCXenaTools** package to pull gene expression and clinical data from UCSC Xena for survival analysis.
 
 For general usage of **UCSCXenaTools**, please refer to [package vignette](https://cran.r-project.org/web/packages/UCSCXenaTools/vignettes/USCSXenaTools.html). 

@@ -1,0 +1,197 @@
+---
+title: "使用有限混合模型"
+author: "王诗翔"
+date: "2019-09-06"
+lastmod: "`r Sys.Date()`"
+slug: ""
+categories: r
+tags:
+- r
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, dev = "png", comment = "#>")
+#Sys.setenv("LANGUAGE"="EN") # Embed this for outputing English message
+#Sys.setlocale('LC_ALL','C') # Embed this directly in the Rmarkdown script that contains the Chinese character comment
+options(digits=3)
+options(max.print=200)
+```
+
+## 模拟数据
+
+```{r}
+library(ggplot2)
+library(flexmix)
+```
+
+
+```{r}
+m1 <- 0
+m2 <- 50
+sd1 <- sd2 <- 5
+N1 <- 100
+N2 <- 10
+
+a <- rnorm(n=N1, mean=m1, sd=sd1)
+b <- rnorm(n=N2, mean=m2, sd=sd2)
+```
+
+## 绘制数据图形
+
+```{r}
+x <- c(a,b)
+class <- c(rep('a', N1), rep('b', N2))
+data <- data.frame(cbind(x=as.numeric(x), class=as.factor(class)))
+
+library("ggplot2")
+p <- ggplot(data, aes(x = x)) + 
+  geom_histogram(aes(x, ..density..), binwidth = 1, colour = "black", fill = "white") +
+  geom_vline(xintercept = m1, col = "red", size = 2) + 
+  geom_vline(xintercept = m2, col = "blue", size = 2)
+p
+```
+
+## 拟合模型
+
+
+这里我们可以看到应该是由2个分布混合而成，试着去恢复相应分布的参数：
+
+```{r}
+set.seed(0)
+
+mo1 <- FLXMRglm(family = "gaussian")
+mo2 <- FLXMRglm(family = "gaussian")
+flexfit <- flexmix(x ~ 1, data = data, k = 2, model = list(mo1, mo2))
+```
+
+```{r}
+print(table(clusters(flexfit), data$class))
+```
+
+
+区分效果很好（其实可以用这种方法去分类）。
+
+## 查看结果
+
+```{r}
+parameters(flexfit)
+```
+
+输出参数：
+
+```{r}
+c1 <- parameters(flexfit, component=2)[[1]]
+c2 <- parameters(flexfit, component=1)[[1]]
+
+cat('pred:', c1[1], '\n')
+cat('true:', m1, '\n\n')
+cat('pred:', c1[2], '\n')
+cat('true:', sd1, '\n\n')
+
+cat('pred:', c2[1], '\n')
+cat('true:', m2, '\n\n')
+cat('pred:', c2[2], '\n')
+cat('true:', sd2, '\n\n')
+```
+
+基本能拟合出原始分布。
+
+## 可视化拟合
+
+```{r}
+plot_mix_comps <- function(x, mu, sigma, lam) {
+  lam * dnorm(x, mu, sigma)
+}
+
+lam <- table(clusters(flexfit))
+  
+ggplot(data) +
+geom_histogram(aes(x, ..density..), binwidth = 1, colour = "black", fill = "white") +
+stat_function(geom = "line", fun = plot_mix_comps,
+                args = list(c1[1], c1[2], lam[2]/sum(lam)),
+                colour = "red", lwd = 1.5) +
+stat_function(geom = "line", fun = plot_mix_comps,
+                args = list(c2[1], c2[2], lam[1]/sum(lam)),
+                colour = "blue", lwd = 1.5) +
+ylab("Density")
+```
+
+## 新的问题
+
+能否自动推断出有2个分布以及它们的参数？？
+
+```{r}
+flexfit = stepFlexmix(x ~ 1, data = data, k = 1:5, model = FLXMRglm(family = "gaussian"))
+```
+
+```{r}
+flexfit
+```
+
+根据 BIC 选择一个最佳的模型：
+
+```{r}
+fitBest = getModel(flexfit, which = "BIC")
+str(fitBest, max.level = 2)
+```
+
+查看参数：
+
+```{r}
+parameters(fitBest)
+```
+
+这个我们的输入非常接近，但也存在一个不小的误差：
+
+```{r}
+print(paste(m1, sd1))  
+print(paste(m2, sd2))
+```
+
+## 使用不同的接口
+
+Flexmix 这个包的文档看起来让人很蒙蔽，完全搞不懂核心的一些建模函数。我下面测试下不同的接口使用的效果。
+
+```{r}
+set.seed(0)
+
+
+fit1 <- flexmix(x ~ 1, data = data, k = 2, model = FLXMRglm(family = "gaussian"))
+parameters(fit1)
+```
+
+```{r}
+fit2 <- flexmix(x ~ 1, data = data, k = 2, model = FLXMCnorm1())
+parameters(fit2)
+```
+
+使用泊松分布来拟合试试，先生成泊松分布数据：
+
+```{r}
+N1 <- 100
+N2 <- 10
+
+a <- rpois(N1, 0)
+b <- rpois(N2, 50)
+
+x <- c(a,b)
+class <- c(rep('a', N1), rep('b', N2))
+data <- data.frame(cbind(x=as.numeric(x), class=as.factor(class)))
+```
+
+
+```{r}
+fit3 <- flexmix(x ~ 1, data = data, k = 2, model = FLXMCmvpois())
+parameters(fit3)
+```
+
+```{r}
+fit4 <- flexmix(x ~ 1, data = data, k = 2, model = FLXMRglm(family = "poisson"))
+parameters(fit4)
+```
+
+**`FLXMCmvpois()` 显示的是 demo driver，但却比 `FLXMRglm(family = "poisson")` 结果准确的多！！**
+
+不能理解这个包的哲学，尽管它看起来是那么的优秀~
+
+> 本文前半部分示例来自《[A Practical Introduction To Finite Mixture Models](https://jef.works/blog/2017/08/05/a-practical-introduction-to-finite-mixture-models/)》

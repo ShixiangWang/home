@@ -6,10 +6,19 @@
     <description>Recent content in r on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 22 Aug 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 06 Sep 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/r/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>使用有限混合模型</title>
+      <link>/cn/post/2019-09-06-flexmix-model/</link>
+      <pubDate>Fri, 06 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-09-06-flexmix-model/</guid>
+      <description>模拟数据 library(ggplot2) library(flexmix) #&amp;gt; 载入需要的程辑包：lattice m1 &amp;lt;- 0 m2 &amp;lt;- 50 sd1 &amp;lt;- sd2 &amp;lt;- 5 N1 &amp;lt;- 100 N2 &amp;lt;- 10 a &amp;lt;- rnorm(n=N1, mean=m1, sd=sd1) b &amp;lt;- rnorm(n=N2, mean=m2, sd=sd2) 绘制数据图形 x &amp;lt;- c(a,b) class &amp;lt;- c(rep(&amp;#39;a&amp;#39;, N1), rep(&amp;#39;b&amp;#39;, N2)) data &amp;lt;- data.frame(cbind(x=as.numeric(x), class=as.factor(class))) library(&amp;quot;ggplot2&amp;quot;)</description>
+    </item>
     
     <item>
       <title>使用RMySQL简单操作mysql数据库</title>

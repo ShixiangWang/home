@@ -6,10 +6,19 @@
     <description>Recent content in r on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 26 Aug 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 06 Sep 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/r/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>使用有限混合模型</title>
+      <link>/cn/post/2019-09-06-flexmix-model/</link>
+      <pubDate>Fri, 06 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-09-06-flexmix-model/</guid>
+      <description>模拟数据 library(ggplot2) library(flexmix) #&amp;gt; 载入需要的程辑包：lattice m1 &amp;lt;- 0 m2 &amp;lt;- 50 sd1 &amp;lt;- sd2 &amp;lt;- 5 N1 &amp;lt;- 100 N2 &amp;lt;- 10 a &amp;lt;- rnorm(n=N1, mean=m1, sd=sd1) b &amp;lt;- rnorm(n=N2, mean=m2, sd=sd2) 绘制数据图形 x &amp;lt;- c(a,b) class &amp;lt;- c(rep(&amp;#39;a&amp;#39;, N1), rep(&amp;#39;b&amp;#39;, N2)) data &amp;lt;- data.frame(cbind(x=as.numeric(x), class=as.factor(class))) library(&amp;quot;ggplot2&amp;quot;)</description>
+    </item>
     
     <item>
       <title>UCSCXenaTools: Download Public Cancer Genomic Data from UCSC Xena Hubs</title>
@@ -43,7 +52,7 @@ Datasets have associated metadata, specifying their data type and cohort.</descr
       <pubDate>Sun, 25 Aug 2019 00:00:00 +0000</pubDate>
       
       <guid>/en/post/ucscxenatools-201908/</guid>
-      <description>In this technote I will outline how to use UCSCXenaTools package to pull gene expression and clinical data from UCSC Xena for survival analysis. For general usage of UCSCXenaTools, please refer to package vignette. Any bug or feature request can be reported in GitHub issues. Installation UCSCXenaTools is available from CRAN: install.packages(&amp;quot;UCSCXenaTools&amp;quot;) Alternatively, the latest development version can be downloaded from GitHub: remotes::install_github(&amp;quot;ropensci/UCSCXenaTools&amp;quot;, build_vignettes = TRUE, dependencies = TRUE) How</description>
+      <description>This post is published on rOpenSci at https://ropensci.org/technotes/2019/09/06/ucscxenatools-surv/, please read it for its better English after editted by Stefanie Butland. In this technote I will outline how to use UCSCXenaTools package to pull gene expression and clinical data from UCSC Xena for survival analysis. For general usage of UCSCXenaTools, please refer to package vignette. Any bug or feature request can be reported in GitHub issues. Installation UCSCXenaTools is available from</description>
     </item>
     
     <item>

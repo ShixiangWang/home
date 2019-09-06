@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    
+    <link rel="stylesheet" href="../../../fonts/academicons-1.8.6/css/academicons.min.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../logo/bodhi.png"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    
+    <title>使用有限混合模型 - 王诗翔</title>
+    
+     
+    <meta property="og:title" content="使用有限混合模型 - Shixiang Wang | 王诗翔">
+    
+
+    
+      
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="../../../css/style.css" />
+    <link rel="stylesheet" href="../../../css/mystyle.css" /> 
+    <link rel="stylesheet" href="../../../css/fonts.css" />
+    
+<script async src="../../../js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="../../../css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="../../../"><img src="https://avatars1.githubusercontent.com/u/25057508?s=460&amp;v=4" alt="Shixiang Wang" /></a></h1>
+
+
+
+      <nav class="menu">
+        <input id="menu-check" type="checkbox" />
+        <label id="menu-label" for="menu-check" class="unselectable">
+          <span class="icon close-icon">✕</span>
+          <span class="icon open-icon">☰</span>
+          <span class="text">Menu</span>
+        </label>
+        <ul>
+        
+        
+        <li><a href="../../../">首页</a></li>
+        
+        <li><a href="../../../cn/about/">关于</a></li>
+        
+        <li><a href="../../../cn/post/">博客</a></li>
+        
+        <li><a href="../../../cn/read/">读书</a></li>
+        
+        <li><a href="../../../cn/writing">写作</a></li>
+        
+        <li><a href="../../../cn/research/">研究</a></li>
+        
+        <li><a href="../../../cn/tools/">工具</a></li>
+        
+        <li><a href="../../../cn/cv-cn/shixiang">简历</a></li>
+        
+        <li><a href="../../../logo/qrcode.jpg">公众号</a></li>
+        
+        <li><a href="https://www.jianshu.com/u/b6608e27dc74">简书</a></li>
+        
+        <li><a href="../../../cn/todo">ToDo</a></li>
+        
+        <li><a href="../../../en/">English</a></li>
+        
+        
+
+<li class="menu-extra"></li>
+
+
+
+
+
+
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2019-09-06-flexmix-model.Rmd" target="_blank">编辑</a></li>
+
+
+<li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+        </ul>
+      </nav>
+    </header>
+
+    <article class="main">
+      <header class="title">
+        
+
+<h1>使用有限混合模型</h1>
+
+
+
+<h3>王诗翔 &middot 
+2019-09-06</h3> 
+
+
+   
+  
+
+
+      </header>
+
+
+
+
+
+<div class="section level2">
+<h2>模拟数据</h2>
+<pre class="r"><code>library(ggplot2)
+library(flexmix)
+#&gt; 载入需要的程辑包：lattice</code></pre>
+<pre class="r"><code>m1 &lt;- 0
+m2 &lt;- 50
+sd1 &lt;- sd2 &lt;- 5
+N1 &lt;- 100
+N2 &lt;- 10
+
+a &lt;- rnorm(n=N1, mean=m1, sd=sd1)
+b &lt;- rnorm(n=N2, mean=m2, sd=sd2)</code></pre>
+</div>
+<div class="section level2">
+<h2>绘制数据图形</h2>
+<pre class="r"><code>x &lt;- c(a,b)
+class &lt;- c(rep(&#39;a&#39;, N1), rep(&#39;b&#39;, N2))
+data &lt;- data.frame(cbind(x=as.numeric(x), class=as.factor(class)))
+
+library(&quot;ggplot2&quot;)
+p &lt;- ggplot(data, aes(x = x)) + 
+  geom_histogram(aes(x, ..density..), binwidth = 1, colour = &quot;black&quot;, fill = &quot;white&quot;) +
+  geom_vline(xintercept = m1, col = &quot;red&quot;, size = 2) + 
+  geom_vline(xintercept = m2, col = &quot;blue&quot;, size = 2)
+p</code></pre>
+<p><img src="../../../cn/post/2019-09-06-flexmix-model_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+</div>
+<div class="section level2">
+<h2>拟合模型</h2>
+<p>这里我们可以看到应该是由2个分布混合而成，试着去恢复相应分布的参数：</p>
+<pre class="r"><code>set.seed(0)
+
+mo1 &lt;- FLXMRglm(family = &quot;gaussian&quot;)
+mo2 &lt;- FLXMRglm(family = &quot;gaussian&quot;)
+flexfit &lt;- flexmix(x ~ 1, data = data, k = 2, model = list(mo1, mo2))</code></pre>
+<pre class="r"><code>print(table(clusters(flexfit), data$class))
+#&gt;    
+#&gt;       1   2
+#&gt;   1   0  10
+#&gt;   2 100   0</code></pre>
+<p>区分效果很好（其实可以用这种方法去分类）。</p>
+</div>
+<div class="section level2">
+<h2>查看结果</h2>
+<pre class="r"><code>parameters(flexfit)
+#&gt; [[1]]
+#&gt;                  Comp.1 Comp.2
+#&gt; coef.(Intercept)  51.19  0.414
+#&gt; sigma              6.96  5.080
+#&gt; 
+#&gt; [[2]]
+#&gt;                  Comp.1 Comp.2
+#&gt; coef.(Intercept)  51.19  0.414
+#&gt; sigma              6.96  5.080</code></pre>
+<p>输出参数：</p>
+<pre class="r"><code>c1 &lt;- parameters(flexfit, component=2)[[1]]
+c2 &lt;- parameters(flexfit, component=1)[[1]]
+
+cat(&#39;pred:&#39;, c1[1], &#39;\n&#39;)
+#&gt; pred: 0.414
+cat(&#39;true:&#39;, m1, &#39;\n\n&#39;)
+#&gt; true: 0
+cat(&#39;pred:&#39;, c1[2], &#39;\n&#39;)
+#&gt; pred: 5.08
+cat(&#39;true:&#39;, sd1, &#39;\n\n&#39;)
+#&gt; true: 5
+
+cat(&#39;pred:&#39;, c2[1], &#39;\n&#39;)
+#&gt; pred: 51.2
+cat(&#39;true:&#39;, m2, &#39;\n\n&#39;)
+#&gt; true: 50
+cat(&#39;pred:&#39;, c2[2], &#39;\n&#39;)
+#&gt; pred: 6.96
+cat(&#39;true:&#39;, sd2, &#39;\n\n&#39;)
+#&gt; true: 5</code></pre>
+<p>基本能拟合出原始分布。</p>
+</div>
+<div class="section level2">
+<h2>可视化拟合</h2>
+<pre class="r"><code>plot_mix_comps &lt;- function(x, mu, sigma, lam) {
+  lam * dnorm(x, mu, sigma)
+}
+
+lam &lt;- table(clusters(flexfit))
+  
+ggplot(data) +
+geom_histogram(aes(x, ..density..), binwidth = 1, colour = &quot;black&quot;, fill = &quot;white&quot;) +
+stat_function(geom = &quot;line&quot;, fun = plot_mix_comps,
+                args = list(c1[1], c1[2], lam[2]/sum(lam)),
+                colour = &quot;red&quot;, lwd = 1.5) +
+stat_function(geom = &quot;line&quot;, fun = plot_mix_comps,
+                args = list(c2[1], c2[2], lam[1]/sum(lam)),
+                colour = &quot;blue&quot;, lwd = 1.5) +
+ylab(&quot;Density&quot;)</code></pre>
+<p><img src="../../../cn/post/2019-09-06-flexmix-model_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+</div>
+<div class="section level2">
+<h2>新的问题</h2>
+<p>能否自动推断出有2个分布以及它们的参数？？</p>
+<pre class="r"><code>flexfit = stepFlexmix(x ~ 1, data = data, k = 1:5, model = FLXMRglm(family = &quot;gaussian&quot;))
+#&gt; 1 : * * *
+#&gt; 2 : * * *
+#&gt; 3 : * * *
+#&gt; 4 : * * *
+#&gt; 5 : * * *</code></pre>
+<pre class="r"><code>flexfit
+#&gt; 
+#&gt; Call:
+#&gt; stepFlexmix(x ~ 1, data = data, model = FLXMRglm(family = &quot;gaussian&quot;), 
+#&gt;     k = 1:5)
+#&gt; 
+#&gt;   iter converged k k0 logLik AIC BIC ICL
+#&gt; 1    2      TRUE 1  1   -458 919 925 925
+#&gt; 2   14      TRUE 2  2   -371 752 766 766
+#&gt; 3  200     FALSE 3  3   -370 755 777 842
+#&gt; 4  200     FALSE 4  4   -369 760 790 908
+#&gt; 5  169      TRUE 5  5   -369 766 803 950</code></pre>
+<p>根据 BIC 选择一个最佳的模型：</p>
+<pre class="r"><code>fitBest = getModel(flexfit, which = &quot;BIC&quot;)
+str(fitBest, max.level = 2)
+#&gt; Formal class &#39;flexmix&#39; [package &quot;flexmix&quot;] with 18 slots
+#&gt;   ..@ posterior  :List of 2
+#&gt;   ..@ weights    : NULL
+#&gt;   ..@ iter       : int 14
+#&gt;   ..@ cluster    : int [1:110] 1 1 1 1 1 1 1 1 1 1 ...
+#&gt;   ..@ logLik     : num -371
+#&gt;   ..@ df         : num 5
+#&gt;   ..@ control    :Formal class &#39;FLXcontrol&#39; [package &quot;flexmix&quot;] with 6 slots
+#&gt;   ..@ group      : Factor w/ 0 levels: 
+#&gt;   ..@ size       : Named int [1:2] 100 10
+#&gt;   .. ..- attr(*, &quot;names&quot;)= chr [1:2] &quot;1&quot; &quot;2&quot;
+#&gt;   ..@ converged  : logi TRUE
+#&gt;   ..@ k0         : int 2
+#&gt;   ..@ model      :List of 1
+#&gt;   ..@ prior      : num [1:2] 0.9091 0.0909
+#&gt;   ..@ components :List of 2
+#&gt;   ..@ concomitant:Formal class &#39;FLXP&#39; [package &quot;flexmix&quot;] with 7 slots
+#&gt;   ..@ formula    :Class &#39;formula&#39;  language x ~ 1
+#&gt;   .. .. ..- attr(*, &quot;.Environment&quot;)=&lt;environment: R_GlobalEnv&gt; 
+#&gt;   ..@ call       : language stepFlexmix(x ~ 1, data = data, model = FLXMRglm(family = &quot;gaussian&quot;),      k = 2)
+#&gt;   ..@ k          : int 2</code></pre>
+<p>查看参数：</p>
+<pre class="r"><code>parameters(fitBest)
+#&gt;                  Comp.1 Comp.2
+#&gt; coef.(Intercept)  0.414  51.19
+#&gt; sigma             5.080   6.96</code></pre>
+<p>这个我们的输入非常接近，但也存在一个不小的误差：</p>
+<pre class="r"><code>print(paste(m1, sd1))  
+#&gt; [1] &quot;0 5&quot;
+print(paste(m2, sd2))
+#&gt; [1] &quot;50 5&quot;</code></pre>
+</div>
+<div class="section level2">
+<h2>使用不同的接口</h2>
+<p>Flexmix 这个包的文档看起来让人很蒙蔽，完全搞不懂核心的一些建模函数。我下面测试下不同的接口使用的效果。</p>
+<pre class="r"><code>set.seed(0)
+
+
+fit1 &lt;- flexmix(x ~ 1, data = data, k = 2, model = FLXMRglm(family = &quot;gaussian&quot;))
+parameters(fit1)
+#&gt;                  Comp.1 Comp.2
+#&gt; coef.(Intercept)  51.19  0.414
+#&gt; sigma              6.96  5.080</code></pre>
+<pre class="r"><code>fit2 &lt;- flexmix(x ~ 1, data = data, k = 2, model = FLXMCnorm1())
+parameters(fit2)
+#&gt;      Comp.1 Comp.2
+#&gt; mean   51.2  0.414
+#&gt; sd      7.3  5.082</code></pre>
+<p>使用泊松分布来拟合试试，先生成泊松分布数据：</p>
+<pre class="r"><code>N1 &lt;- 100
+N2 &lt;- 10
+
+a &lt;- rpois(N1, 0)
+b &lt;- rpois(N2, 50)
+
+x &lt;- c(a,b)
+class &lt;- c(rep(&#39;a&#39;, N1), rep(&#39;b&#39;, N2))
+data &lt;- data.frame(cbind(x=as.numeric(x), class=as.factor(class)))</code></pre>
+<pre class="r"><code>fit3 &lt;- flexmix(x ~ 1, data = data, k = 2, model = FLXMCmvpois())
+parameters(fit3)
+#&gt; Comp.1.lambda Comp.2.lambda 
+#&gt;          48.3           0.0</code></pre>
+<pre class="r"><code>fit4 &lt;- flexmix(x ~ 1, data = data, k = 2, model = FLXMRglm(family = &quot;poisson&quot;))
+parameters(fit4)
+#&gt; Comp.1.coef.(Intercept) Comp.2.coef.(Intercept) 
+#&gt;                    3.88                  -28.67</code></pre>
+<p><strong><code>FLXMCmvpois()</code> 显示的是 demo driver，但却比 <code>FLXMRglm(family = &quot;poisson&quot;)</code> 结果准确的多！！</strong></p>
+<p>不能理解这个包的哲学，尽管它看起来是那么的优秀~</p>
+<blockquote>
+<p>本文前半部分示例来自《<a href="https://jef.works/blog/2017/08/05/a-practical-introduction-to-finite-mixture-models/">A Practical Introduction To Finite Mixture Models</a>》</p>
+</blockquote>
+</div>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="../../../cn/post/2019-08-23-read-dbgap-subjects-samples-info/">读入 dbGap 的表型/注释信息</a></span>
+  <span class="nav-next"></span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/post\/2019-08-23-read-dbgap-subjects-samples-info\/';
+    
+  } else if (e.which == 39) {  
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+<section class="comments">
+  <div id="disqus_thread"></div>
+  <script src="../../../js/disqusloader.min.js"></script>
+  <script>
+  var disqus_config = function () {
+  
+    this.page.url = "https:\/\/shixiangwang.github.io\/home\/" + location.pathname;
+  
+  };
+  (function() {
+    var inIFrame = function() {
+      var iframe = true;
+      try { iframe = window.self !== window.top; } catch (e) {}
+      return iframe;
+    };
+    if (inIFrame()) return;
+    var disqus_js = '//home-xjdzylqrzp.disqus.com/embed.js';
+    
+    if (location.hash.match(/^#comment/)) {
+      var d = document, s = d.createElement('script');
+      s.src = disqus_js; s.async = true;
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    } else {
+      disqusLoader('#disqus_thread', {
+        scriptUrl: disqus_js, laziness: 0, disqusConfig: disqus_config
+      });
+    }
+  })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+
+
+<script async src="../../../js/fix-toc.js"></script>
+
+<script async src="../../../js/center-img.js"></script>
+
+<script async src="../../../js/right-quote.js"></script>
+
+<script async src="../../../js/no-highlight.js"></script>
+
+<script async src="../../../js/fix-footnote.js"></script>
+
+<script async src="../../../js/math-code.js"></script>
+
+<script async src="../../../js/external-link.js"></script>
+
+<script async src="../../../js/alt-title.js"></script>
+
+<script async src="../../../js/header-link.js"></script>
+
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+  
+  
+
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> &middot; <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> &middot; <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> &middot; <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> &middot; <a href="https://orcid.org/0000-0002-9275-3557"><i class='ai ai-orcid ai-1x'></i></a> &middot; <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 &copy; <a href="../../../">王诗翔</a> 2017 - 2019 </div>
+  
+  
+
+  <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56h9es09xn7&amp;m=6&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=1" async="async"></script>
+  </footer>
+  </article>
+  
+  </body>
+</html>
+
