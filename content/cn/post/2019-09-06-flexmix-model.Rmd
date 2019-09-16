@@ -194,4 +194,38 @@ parameters(fit4)
 
 不能理解这个包的哲学，尽管它看起来是那么的优秀~
 
+## 能否重复分析？
+
+```{r}
+set.seed(1234)
+
+fit <- flexmix(x ~ 1, data = data, k = 2, model = FLXMCmvpois())
+parameters(fit)
+```
+
+```{r}
+set.seed(1234)
+
+fit <- flexmix(x ~ 1, data = data, k = 2, model = FLXMCmvpois())
+parameters(fit)
+```
+
+对于 step 方法？
+
+```{r}
+set.seed(1234)
+stepfit = stepFlexmix(x ~ 1, data = data, k = 1:5, model = FLXMCmvpois())
+fit = getModel(flexfit, which = "BIC")
+parameters(fit)
+```
+
+```{r}
+set.seed(1234)
+stepfit = stepFlexmix(x ~ 1, data = data, k = 1:5, model = FLXMCmvpois())
+fit = getModel(flexfit, which = "BIC")
+parameters(fit)
+```
+
+结果显示一致
+
 > 本文前半部分示例来自《[A Practical Introduction To Finite Mixture Models](https://jef.works/blog/2017/08/05/a-practical-introduction-to-finite-mixture-models/)》
