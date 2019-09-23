@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    
+    <link rel="stylesheet" href="../../../fonts/academicons-1.8.6/css/academicons.min.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../logo/bodhi.png"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    
+    <title>使用NMF包绘制热图 - 王诗翔</title>
+    
+     
+    <meta property="og:title" content="使用NMF包绘制热图 - Shixiang Wang | 王诗翔">
+    
+
+    
+      
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="../../../css/style.css" />
+    <link rel="stylesheet" href="../../../css/mystyle.css" /> 
+    <link rel="stylesheet" href="../../../css/fonts.css" />
+    
+<script async src="../../../js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="../../../css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="../../../"><img src="https://avatars1.githubusercontent.com/u/25057508?s=460&amp;v=4" alt="Shixiang Wang" /></a></h1>
+
+
+
+      <nav class="menu">
+        <input id="menu-check" type="checkbox" />
+        <label id="menu-label" for="menu-check" class="unselectable">
+          <span class="icon close-icon">✕</span>
+          <span class="icon open-icon">☰</span>
+          <span class="text">Menu</span>
+        </label>
+        <ul>
+        
+        
+        <li><a href="../../../">首页</a></li>
+        
+        <li><a href="../../../cn/about/">关于</a></li>
+        
+        <li><a href="../../../cn/post/">博客</a></li>
+        
+        <li><a href="../../../cn/read/">读书</a></li>
+        
+        <li><a href="../../../cn/writing">写作</a></li>
+        
+        <li><a href="../../../cn/research/">研究</a></li>
+        
+        <li><a href="../../../cn/tools/">工具</a></li>
+        
+        <li><a href="../../../cn/cv-cn/shixiang">简历</a></li>
+        
+        <li><a href="../../../logo/qrcode.jpg">公众号</a></li>
+        
+        <li><a href="https://www.jianshu.com/u/b6608e27dc74">简书</a></li>
+        
+        <li><a href="../../../cn/todo">ToDo</a></li>
+        
+        <li><a href="../../../en/">English</a></li>
+        
+        
+
+<li class="menu-extra"></li>
+
+
+
+
+
+
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2019-09-23-use-NMF-aheatmap.Rmd" target="_blank">编辑</a></li>
+
+
+<li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+        </ul>
+      </nav>
+    </header>
+
+    <article class="main">
+      <header class="title">
+        
+
+<h1>使用NMF包绘制热图</h1>
+
+
+
+<h3>王诗翔 &middot 
+2018-12-20</h3> 
+
+
+   
+  
+
+
+      </header>
+
+
+
+
+
+<p>学习文档:<a href="https://cran.r-project.org/web/packages/NMF/vignettes/heatmaps.pdf" class="uri">https://cran.r-project.org/web/packages/NMF/vignettes/heatmaps.pdf</a></p>
+<div id="heatmap" class="section level2">
+<h2>Heatmap引擎</h2>
+<p>NMF包中的热图引擎是由<code>aheatmap</code>函数实现，其余的热图函数都是基于它的修改。而<code>aheatmap</code>函数本身又是<code>pheatmap</code>包<code>pheatmap</code>函数的修改版本。引擎具体的优点作者有在文档是写，我就不唠叨了。</p>
+</div>
+<div class="section level2">
+<h2>数据和模型</h2>
+<p>为了演示热图函数的用法，我们这里创建一个随机的NMF输入矩阵，以及一些注释和协变量。</p>
+<pre class="r"><code>library(NMF)
+#&gt; 载入需要的程辑包：pkgmaker
+#&gt; 载入需要的程辑包：registry
+#&gt; 
+#&gt; 载入程辑包：&#39;pkgmaker&#39;
+#&gt; The following object is masked from &#39;package:base&#39;:
+#&gt; 
+#&gt;     isFALSE
+#&gt; 载入需要的程辑包：rngtools
+#&gt; 载入需要的程辑包：cluster
+#&gt; NMF - BioConductor layer [OK] | Shared memory capabilities [NO: bigmemory] | Cores 7/8
+#&gt;   To enable shared memory capabilities, try: install.extras(&#39;
+#&gt; NMF
+#&gt; &#39;)
+# random data that follow an 3-rank NMF model (with quite some noise: sd=2)
+X &lt;- syntheticNMF(100, 3, 20, noise=2)
+# row annotations and covariates
+n &lt;- nrow(X)
+d &lt;- rnorm(n)
+e &lt;- unlist(mapply(rep, c(&#39;X&#39;, &#39;Y&#39;, &#39;Z&#39;), 10))
+e &lt;- c(e, rep(NA, n-length(e)))
+rdata &lt;- data.frame(Var=d, Type=e)
+# column annotations and covariates
+p &lt;- ncol(X)
+a &lt;- sample(c(&#39;alpha&#39;, &#39;beta&#39;, &#39;gamma&#39;), p, replace=TRUE)
+c &lt;- rnorm(p)
+# gather them in a data.frame
+covariates &lt;- data.frame(a, X$pData, c)</code></pre>
+<p>查看下生成的注释数据：</p>
+<pre class="r"><code>head(rdata)
+#&gt;       Var Type
+#&gt; 1  0.5827    X
+#&gt; 2  0.8211    X
+#&gt; 3 -0.4373    X
+#&gt; 4  0.5508    X
+#&gt; 5 -2.2094    X
+#&gt; 6 -0.0232    X
+head(covariates)
+#&gt;       a Group      c
+#&gt; 1 alpha     1  0.271
+#&gt; 2  beta     1  1.379
+#&gt; 3 alpha     1  1.484
+#&gt; 4  beta     1  0.918
+#&gt; 5  beta     1  1.099
+#&gt; 6 alpha     1 -1.045</code></pre>
+<p>这里<code>X</code>实际是一个矩阵，<code>rdata</code>是行注释，<code>covariates</code>是列注释。</p>
+<p>下面画图：</p>
+<pre class="r"><code>par(mfrow = c(1, 2))
+aheatmap(X, annCol = covariates, annRow = X$fData)
+aheatmap(X)</code></pre>
+<p><img src="../../../cn/post/2019-09-23-use-NMF-aheatmap_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>接着，我们使用NMF模型来分解矩阵。</p>
+<pre class="r"><code>res = nmf(X, 3, nrun = 10)</code></pre>
+</div>
+<div id="coefmap" class="section level2">
+<h2>混合系数矩阵：coefmap</h2>
+<p>NMF结果的混合系数矩阵可以使用<code>coefmap()</code>函数进行绘制。该函数默认添加2个注释通道用来展示<strong>从最佳拟合结果中获得的簇（聚类数）和一致性矩阵的层次聚类</strong>。在图例中，这两个通道分别以_basis_和_consensus_命名。对于一个简单的NMF模型结果，一致性数据是不能显示的，只能通过最佳拟合进行聚类。</p>
+<pre class="r"><code>opar = par(mfrow = c(1, 2))
+# coefmap from multiple run fit: includes a consensus track
+coefmap(res)
+# coefmap of a single run fit: no consensus track
+coefmap(minfit(res))</code></pre>
+<p><img src="../../../cn/post/2019-09-23-use-NMF-aheatmap_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<pre class="r"><code>par(opar)</code></pre>
+<p>默认情况下：</p>
+<ul>
+<li>行没有排序</li>
+<li>列使用<code>aheatmap</code>的默认顺序，不过设置<code>Colv=&quot;basis&quot;</code>就能让列根据由主导的basis组分定义的类进行排序。或者设置<code>Colv=&quot;consensus&quot;</code>让列以consensus矩阵排序</li>
+<li>每一列和为1（刻度化过）</li>
+<li>调色板使用RColorBrewer包提供的“Y10rRd”，有50个刻度</li>
+</ul>
+<p>如果想让<code>coefmap()</code>显示<code>aheatmap()</code>函数的默认形式，设置<code>Rowv=TRUE, Colv=TRUE, scale='none'</code>。</p>
+<p>自动注释的通道可以使用<code>tracks=NA</code>进行隐藏，或者设置一个（<code>tracks=':basis'</code>或<code>tracks='basis:'</code>可以分别设置行注释或列注释），图例名可以以<code>tracks=c(Metagene=':basis', 'consensus')</code>的形式进行修改。除此之外，利用<code>annCol</code>参数可以添加用户设定的手动注释。</p>
+<pre class="r"><code>opar = par(mfrow = c(1,2))
+# removing all automatic annotation tracks
+coefmap(res, tracks = NA)
+# customized plot
+coefmap(res, Colv = &#39;euclidean&#39;,
+        main = &quot;Metagene contributions in each sample&quot;, labCol = NULL,
+        annRow = list(Metagene = &quot;:basis&quot;), annCol = list(&#39;:basis&#39;, Class = a, Index = c),
+        annColors = list(Metagene = &#39;Set2&#39;), 
+        info = TRUE)</code></pre>
+<p><img src="../../../cn/post/2019-09-23-use-NMF-aheatmap_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<pre class="r"><code>par(opar)</code></pre>
+</div>
+<div id="basismap" class="section level2">
+<h2>基底矩阵：basismap</h2>
+<p>基底矩阵可以使用<code>basismap</code>函数进行绘制，默认的行为是添加basis注释通道，每一行显示主导的基底组分，即每一行有最高负载的基底组分。</p>
+<pre class="r"><code>opar &lt;- par(mfrow=c(1,2))
+# default plot
+basismap(res)
+# customized plot: only use row special annotation track.
+basismap(res, main=&quot;Metagenes&quot;, annRow=list(d, e), tracks=c(Metagene=&#39;:basis&#39;))</code></pre>
+<p><img src="../../../cn/post/2019-09-23-use-NMF-aheatmap_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<pre class="r"><code>par(opar)</code></pre>
+<p>默认情况下：</p>
+<ul>
+<li>列没有排序</li>
+<li>行根据默认的层次聚类得到的距离进行排序（<code>eculidean</code>和<code>complete</code>）</li>
+<li>每一行和为1</li>
+<li>调色板使用RColorBrewer包提供的“Y10rRd”，有50个刻度</li>
+</ul>
+</div>
+<div id="consensusmap" class="section level2">
+<h2>一致性矩阵：consensusmap</h2>
+<p>当使用NMF进行矩阵的时候，一种评估基于指定rank评估聚类稳定性的方法是考虑由多个独立NMF运行结果计算得到的连接矩阵。有篇<a href="http://blog.sina.com.cn/s/blog_6f18d6310102wdso.html">不错的中文博文</a>讲的比较清晰，建议看看。</p>
+<div class="section level3">
+<h3>单个拟合</h3>
+<p>我们所用数据<code>res</code>设定的参数是<code>nrun=10</code>，因此包含了10次运行得到的最佳结果以及基于所有运行的一致性矩阵。</p>
+<pre class="r"><code>opar &lt;- par(mfrow=c(1,2))
+# default plot
+consensusmap(res)
+# customized plot
+consensusmap(res, annCol=covariates, annColors=list(c=&#39;blue&#39;)
+, labCol=&#39;sample &#39;, main=&#39;Cluster stability&#39;
+, sub=&#39;Consensus matrix and all covariates&#39;)</code></pre>
+<p><img src="../../../cn/post/2019-09-23-use-NMF-aheatmap_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<pre class="r"><code>par(opar)</code></pre>
+<p>很显然这是一个对称矩阵，结果看上一半或者下一半都可以。</p>
+</div>
+<div id="rank" class="section level3">
+<h3>同一方法，计算多个rank的结果</h3>
+<p>函数<code>nmf</code>可以接受一组<code>rank</code>序列用来拟合多个不同的rank的结果。</p>
+<pre class="r"><code>res2_7 &lt;- nmf(X, 2:7, nrun=10, .options=&#39;v&#39;)</code></pre>
+<p>然后可以同样的画图</p>
+<pre class="r"><code>consensusmap(res2_7)</code></pre>
+</div>
+<div id="rank" class="section level3">
+<h3>单个rank，多种方法</h3>
+<p>可以比较同一rank不同方法的结果。</p>
+<pre class="r"><code>res_methods &lt;- nmf(X, 3, list(&#39;lee&#39;, &#39;brunet&#39;, &#39;nsNMF&#39;), nrun=10)
+class(res_methods)
+consensusmap(res_methods)</code></pre>
+</div>
+</div>
+<div id="aheatmap" class="section level2">
+<h2>通用热图引擎：aheatmap</h2>
+<p>还有很多自定义画热图的例子，使用下面的命令查看。</p>
+<pre class="r"><code>demo(&#39;aheatmap&#39;)
+# or
+demo(&#39;heatmaps&#39;)</code></pre>
+</div>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="../../../cn/post/communicate-with-ggplot2/">图形沟通：ggplot2</a></span>
+  <span class="nav-next"><a href="../../../cn/post/2019-06-21-baseplot-addplot/">R基本绘图：创建与添加图形</a> &rarr;</span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/post\/communicate-with-ggplot2\/';
+    
+  } else if (e.which == 39) {  
+    
+    url = '\/cn\/post\/2019-06-21-baseplot-addplot\/';
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+<section class="comments">
+  <div id="disqus_thread"></div>
+  <script src="../../../js/disqusloader.min.js"></script>
+  <script>
+  var disqus_config = function () {
+  
+    this.page.url = "https:\/\/shixiangwang.github.io\/home\/" + location.pathname;
+  
+  };
+  (function() {
+    var inIFrame = function() {
+      var iframe = true;
+      try { iframe = window.self !== window.top; } catch (e) {}
+      return iframe;
+    };
+    if (inIFrame()) return;
+    var disqus_js = '//home-xjdzylqrzp.disqus.com/embed.js';
+    
+    if (location.hash.match(/^#comment/)) {
+      var d = document, s = d.createElement('script');
+      s.src = disqus_js; s.async = true;
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    } else {
+      disqusLoader('#disqus_thread', {
+        scriptUrl: disqus_js, laziness: 0, disqusConfig: disqus_config
+      });
+    }
+  })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+
+
+<script async src="../../../js/fix-toc.js"></script>
+
+<script async src="../../../js/center-img.js"></script>
+
+<script async src="../../../js/right-quote.js"></script>
+
+<script async src="../../../js/no-highlight.js"></script>
+
+<script async src="../../../js/fix-footnote.js"></script>
+
+<script async src="../../../js/math-code.js"></script>
+
+<script async src="../../../js/external-link.js"></script>
+
+<script async src="../../../js/alt-title.js"></script>
+
+<script async src="../../../js/header-link.js"></script>
+
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+  
+  
+
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> &middot; <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> &middot; <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> &middot; <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> &middot; <a href="https://orcid.org/0000-0002-9275-3557"><i class='ai ai-orcid ai-1x'></i></a> &middot; <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 &copy; <a href="../../../">王诗翔</a> 2017 - 2019 </div>
+  
+  
+
+  <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56h9es09xn7&amp;m=6&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=1" async="async"></script>
+  </footer>
+  </article>
+  
+  </body>
+</html>
+

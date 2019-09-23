@@ -182,6 +182,24 @@ Datasets have associated metadata, specifying their data type and cohort.</descr
     </item>
     
     <item>
+      <title>使用NMF包绘制热图</title>
+      <link>/cn/post/use-nmf-aheatmap/</link>
+      <pubDate>Thu, 20 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/use-nmf-aheatmap/</guid>
+      <description>学习文档:https://cran.r-project.org/web/packages/NMF/vignettes/heatmaps.pd</description>
+    </item>
+    
+    <item>
+      <title>图形沟通：ggplot2</title>
+      <link>/cn/post/communicate-with-ggplot2/</link>
+      <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/communicate-with-ggplot2/</guid>
+      <description>准备工作 library(tidyverse) #&amp;gt; ─ Attaching packages ──────────────────────────────────────────── tidyverse 1.2.1 ─ #&amp;gt; ✔ ggplot2 3.2.1 ✔ purrr 0.3.2 #&amp;gt; ✔ tibble 2.1.3 ✔ dplyr 0.8.3</description>
+    </item>
+    
+    <item>
       <title>使用purrr和broom处理多个模型</title>
       <link>/cn/post/purrr-and-broom/</link>
       <pubDate>Mon, 15 Oct 2018 00:00:00 +0000</pubDate>
@@ -269,6 +287,15 @@ Datasets have associated metadata, specifying their data type and cohort.</descr
       
       <guid>/cn/post/usage-of-docall/</guid>
       <description>学习下R中一个有趣地函数，do.call。 do.call这个函数是我在搜索问题时会看到别人经常使用的一个函数，心生好奇，这次来看看它的用法。</description>
+    </item>
+    
+    <item>
+      <title>基于ggpubr包为ggplot添加p值和显著性标记</title>
+      <link>/cn/post/ggpubr-add-pvalue-and-siglevels/</link>
+      <pubDate>Sat, 19 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/ggpubr-add-pvalue-and-siglevels/</guid>
+      <description>这篇文章我们将讲述 如何简单比较两组或多组的平均值 如何自动化为ggplot添加p值和显著性标记，包括箱线图、点图、条形图、线图等等 准备 安装和导</description>
     </item>
     
     <item>

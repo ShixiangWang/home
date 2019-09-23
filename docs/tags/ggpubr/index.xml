@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ggpubr on Shixiang Wang | 王诗翔</title>
+    <link>/tags/ggpubr/</link>
+    <description>Recent content in ggpubr on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 19 May 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/ggpubr/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>基于ggpubr包为ggplot添加p值和显著性标记</title>
+      <link>/cn/post/ggpubr-add-pvalue-and-siglevels/</link>
+      <pubDate>Sat, 19 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/ggpubr-add-pvalue-and-siglevels/</guid>
+      <description>这篇文章我们将讲述 如何简单比较两组或多组的平均值 如何自动化为ggplot添加p值和显著性标记，包括箱线图、点图、条形图、线图等等 准备 安装和导</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -4,25 +4,25 @@
   
   <url>
     <loc>/categories/</loc>
-    <lastmod>2019-09-17T00:00:00+00:00</lastmod>
+    <lastmod>2019-09-23T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/</loc>
-    <lastmod>2019-09-17T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/r/</loc>
-    <lastmod>2019-09-17T00:00:00+00:00</lastmod>
+    <lastmod>2019-09-23T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/r/</loc>
-    <lastmod>2019-09-17T00:00:00+00:00</lastmod>
+    <lastmod>2019-09-23T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/r/</loc>
+    <lastmod>2019-09-23T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -152,7 +152,7 @@
   
   <url>
     <loc>/tags/ggplot2/</loc>
-    <lastmod>2019-08-26T00:00:00+00:00</lastmod>
+    <lastmod>2019-09-23T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -220,7 +220,7 @@
   
   <url>
     <loc>/tags/dplyr/</loc>
-    <lastmod>2019-07-08T00:00:00+00:00</lastmod>
+    <lastmod>2019-09-23T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -445,6 +445,28 @@
   </url>
   
   <url>
+    <loc>/tags/nmf/</loc>
+    <lastmod>2019-09-23T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/heatmap/</loc>
+    <lastmod>2019-09-23T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/cn/post/use-nmf-aheatmap/</loc>
+    <lastmod>2019-09-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/cn/post/communicate-with-ggplot2/</loc>
+    <lastmod>2019-09-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/tags/broom/</loc>
     <lastmod>2018-10-15T00:00:00+00:00</lastmod>
     <priority>0</priority>
@@ -610,6 +632,17 @@
     <loc>/tags/%E9%80%92%E5%BD%92%E8%B0%83%E7%94%A8/</loc>
     <lastmod>2018-06-07T00:00:00+00:00</lastmod>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/ggpubr/</loc>
+    <lastmod>2019-09-23T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/cn/post/ggpubr-add-pvalue-and-siglevels/</loc>
+    <lastmod>2019-09-23T00:00:00+00:00</lastmod>
   </url>
   
   <url>

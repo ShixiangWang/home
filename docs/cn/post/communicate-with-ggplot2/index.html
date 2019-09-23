@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    
+    <link rel="stylesheet" href="../../../fonts/academicons-1.8.6/css/academicons.min.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../logo/bodhi.png"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    
+    <title>图形沟通：ggplot2 - 王诗翔</title>
+    
+     
+    <meta property="og:title" content="图形沟通：ggplot2 - Shixiang Wang | 王诗翔">
+    
+
+    
+      
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="../../../css/style.css" />
+    <link rel="stylesheet" href="../../../css/mystyle.css" /> 
+    <link rel="stylesheet" href="../../../css/fonts.css" />
+    
+<script async src="../../../js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="../../../css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="../../../"><img src="https://avatars1.githubusercontent.com/u/25057508?s=460&amp;v=4" alt="Shixiang Wang" /></a></h1>
+
+
+
+      <nav class="menu">
+        <input id="menu-check" type="checkbox" />
+        <label id="menu-label" for="menu-check" class="unselectable">
+          <span class="icon close-icon">✕</span>
+          <span class="icon open-icon">☰</span>
+          <span class="text">Menu</span>
+        </label>
+        <ul>
+        
+        
+        <li><a href="../../../">首页</a></li>
+        
+        <li><a href="../../../cn/about/">关于</a></li>
+        
+        <li><a href="../../../cn/post/">博客</a></li>
+        
+        <li><a href="../../../cn/read/">读书</a></li>
+        
+        <li><a href="../../../cn/writing">写作</a></li>
+        
+        <li><a href="../../../cn/research/">研究</a></li>
+        
+        <li><a href="../../../cn/tools/">工具</a></li>
+        
+        <li><a href="../../../cn/cv-cn/shixiang">简历</a></li>
+        
+        <li><a href="../../../logo/qrcode.jpg">公众号</a></li>
+        
+        <li><a href="https://www.jianshu.com/u/b6608e27dc74">简书</a></li>
+        
+        <li><a href="../../../cn/todo">ToDo</a></li>
+        
+        <li><a href="../../../en/">English</a></li>
+        
+        
+
+<li class="menu-extra"></li>
+
+
+
+
+
+
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2019-09-23-communicate-with-ggplot2.Rmd" target="_blank">编辑</a></li>
+
+
+<li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+        </ul>
+      </nav>
+    </header>
+
+    <article class="main">
+      <header class="title">
+        
+
+<h1>图形沟通：ggplot2</h1>
+
+
+
+<h3>王诗翔 &middot 
+2018-10-17</h3> 
+
+
+   
+  
+
+
+      </header>
+
+
+
+
+
+<div class="section level2">
+<h2>准备工作</h2>
+<pre class="r"><code>library(tidyverse)
+#&gt; ─ Attaching packages ──────────────────────────────────────────── tidyverse 1.2.1 ─
+#&gt; ✔ ggplot2 3.2.1     ✔ purrr   0.3.2
+#&gt; ✔ tibble  2.1.3     ✔ dplyr   0.8.3
+#&gt; ✔ tidyr   1.0.0     ✔ stringr 1.4.0
+#&gt; ✔ readr   1.3.1     ✔ forcats 0.4.0
+#&gt; ─ Conflicts ────────────────────────────────────────────── tidyverse_conflicts() ─
+#&gt; ✖ dplyr::filter() masks stats::filter()
+#&gt; ✖ dplyr::lag()    masks stats::lag()</code></pre>
+</div>
+<div class="section level2">
+<h2>标签</h2>
+<p>添加标签就是设置横轴、纵轴的解释文字和标题。我们使用<code>labs()</code>函数实现它。</p>
+<pre class="r"><code>ggplot(mpg, aes(displ, hwy)) + 
+    geom_point(aes(color = class)) + 
+    geom_smooth(se = FALSE) + 
+    labs(
+        title = paste(
+            &quot;Fuel efficiency generally decreases with&quot;,
+            &quot;engine size&quot;
+        )
+    )
+#&gt; `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="../../../cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p><strong>使用标题的目的是概况主要成果。尽量不要使用那些只对图形进行描述的标题，如“发动机排量与燃油效率图”</strong>。（学到了~）</p>
+<p>使用<code>subtitle</code>和<code>caption</code>可以为添加更多的文本，前者添加在标题下，后者一般添加在右下角，用于描述数据来源。</p>
+<pre class="r"><code>ggplot(mpg, aes(displ, hwy)) + 
+    geom_point(aes(color = class)) + 
+    geom_smooth(se = FALSE) + 
+    labs(
+        title = paste(
+            &quot;Fuel efficiency generally decreases with&quot;,
+            &quot;engine size&quot;
+        ),
+        subtitle = paste(
+            &quot;Two seaters (sports car) are an exception&quot;,
+            &quot;because of their light weight&quot;
+        ),
+        caption = &quot;Data from fueleconomy.com&quot;
+    )
+#&gt; `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="../../../cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>我们还可以使用<code>labs()</code>函数替换坐标轴和图例的标题。</p>
+<pre class="r"><code>ggplot(mpg, aes(displ, hwy)) + 
+    geom_point(aes(color = class)) + 
+    geom_smooth(se = FALSE) + 
+    labs(
+        x = &quot;Engine displacement (L)&quot;,
+        y = &quot;Highway fuel economy (mpg)&quot;,
+        color = &quot;Car type&quot;
+    )
+#&gt; `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="../../../cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>我们还可以在标题中使用数学公式代替字符串文本，使用<code>quote()</code>函数代替<code>&quot;&quot;</code>，再使用<code>?plotmath</code>命令查看可用选项：</p>
+<pre class="r"><code>df = tibble(
+    x = runif(10),
+    y = runif(10)
+)
+ggplot(df, aes(x, y)) + 
+    geom_point() +
+    labs(
+        x = quote(sum(x[i] ^ 2, i == 1, n)),
+        y = quote(alpha + beta + frac(delta, theta))
+    )</code></pre>
+<p><img src="../../../cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+<div class="section level2">
+<h2>注释</h2>
+<p>除了为图形的主要部分添加标签，有时我们还想对单个观测或分组观测添加标签。可用使用<code>geom_text()</code>函数，它的用法基本与<code>geom_point()</code>函数相同，但提供了一个额外的图形属性<code>label</code>，我们可以通过该属性添加文字。</p>
+<p>可以通过2种方法提供标签。</p>
+<p>首先，可以使用tibble。下面标记每类汽车中效率最高的型号。</p>
+<pre class="r"><code>best_in_class = mpg %&gt;% 
+    group_by(class) %&gt;% 
+    filter(row_number(desc(hwy)) == 1)
+ggplot(mpg, aes(displ, hwy)) +
+    geom_point(aes(color = class)) + 
+    geom_text(aes(label = model), data = best_in_class)</code></pre>
+<p><img src="../../../cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>上面的图标签重叠，数据点混在一起，所以不是很好看。改进的方式是使用<code>geom_label()</code>替换，它可以给文本加个方框，另外我们可以用<code>nudge_y</code>参数让标签位于数据点的正上方：</p>
+<pre class="r"><code>ggplot(mpg, aes(displ, hwy)) +
+    geom_point(aes(color = class)) + 
+    geom_label(
+        aes(label = model),
+        data = best_in_class,
+        nudge_y =  2,
+        alpha = 0.5
+    )</code></pre>
+<p><img src="../../../cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>这样情况似乎好上不少，但我们可以发现左上角有两个标签重叠了。我们无法通过对每个标签进行转换来解决这问题，但可以使用Kamil Slowikowski开发的ggrepel包，该包可以自动调整标签的位置，使得它们免于重叠。</p>
+<pre class="r"><code>ggplot(mpg, aes(displ, hwy)) +
+    geom_point(aes(color = class)) + 
+    geom_point(size = 3, shape = 1, data = best_in_class) +
+    ggrepel::geom_label_repel(
+        aes(label = model),
+        data = best_in_class
+    )</code></pre>
+<p><img src="../../../cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>这里我们还做了一个贴心的改动：使用较大的空心圆强调添加了标签的数据点。</p>
+<p>有时候我们可以通过相同的方式将标签直接放在图上，以替代图例。</p>
+<pre class="r"><code>class_avg = mpg %&gt;% 
+    group_by(class) %&gt;% 
+    summarise(
+        displ = median(displ),
+        hwy = median(hwy)
+    )
+ggplot(mpg, aes(displ, hwy, color = class)) +
+    ggrepel::geom_label_repel(aes(label = class),
+                              data = class_avg,
+                              size = 6,
+                              label.size = 0,
+                              segment.color = NA) +
+    geom_point() + theme(legend.position = &quot;none&quot;)</code></pre>
+<p><img src="../../../cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>即使只想向图中添加一个标签，也需要创建一个数据库（这就是麻烦之处吧）。通常我们希望标签在图的角落，此时应使用<code>summarise()</code>计算出x和y的最大值，并保存在数据框中。</p>
+<pre class="r"><code>label = mpg %&gt;% 
+    dplyr::summarize(
+        displ = max(displ),
+        hwy = max(hwy),
+        label = paste(
+            &quot;Increasing engine size is \nrelated to&quot;,
+            &quot;decreasing fuel economy&quot;
+        )
+        
+    )
+ggplot(mpg, aes(displ, hwy)) + 
+    geom_point() +
+    geom_text(
+        aes(label = label),
+        data = label,
+        vjust = &quot;top&quot;,
+        hjust = &quot;right&quot;
+    )</code></pre>
+<p><img src="../../../cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>如果想让标签紧贴着图形的边界，可以使用+Inf和-Inf值，这样就不用计算位置了，使用tibble()函数直接创建数据库即可。</p>
+<pre class="r"><code>label = tibble(
+    displ = Inf,
+    hwy = Inf,
+    label = paste(
+            &quot;Increasing engine size is \nrelated to&quot;,
+            &quot;decreasing fuel economy&quot;
+        )
+        
+    )
+ggplot(mpg, aes(displ, hwy)) + 
+    geom_point() +
+    geom_text(
+        aes(label = label),
+        data = label,
+        vjust = &quot;top&quot;,
+        hjust = &quot;right&quot;
+    )</code></pre>
+<p><img src="../../../cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p>前面我们都是使用<code>\n</code>手动切换文本行。另一种方式是用<code>stringr::str_wrap()</code>函数自动换行，不过需要给定每行的字符数。</p>
+<pre class="r"><code>&quot;Increasing engine size is related to decreasing fuel economy.&quot; %&gt;% 
+    stringr::str_wrap(width = 40) %&gt;% 
+    writeLines()
+#&gt; Increasing engine size is related to
+#&gt; decreasing fuel economy.</code></pre>
+<p>除了<code>geom_text()</code>，ggplot2还有很多其他函数可以为图形添加注释。</p>
+<ul>
+<li>使用<code>geom_hline()</code>和<code>geom_vline()</code>函数添加参考线。</li>
+<li>使用<code>geom_rect()</code>函数为感兴趣的数据点周围绘制一个矩形。边界由<code>xmin</code>、<code>xmax</code>、<code>ymin</code>和<code>ymax</code>确定。</li>
+<li>使用<code>geom_segment()</code>函数及arrow参数绘制箭头，指向需要关注的数据点，属性<code>x</code>和<code>y</code>定义开始位置，<code>xend</code>和<code>yend</code>定义结束位置。</li>
+</ul>
+<p><strong>唯一的限制是你的想象力和耐心</strong>。</p>
+</div>
+<div class="section level2">
+<h2>标度</h2>
+<p>标度控制从数据值到图形属性的映射，它可以将数据转换为视觉上可以感知的东西。<strong>默认ggplot2会自动向图表中添加标度</strong>。</p>
+<p>例如，输入下面代码：</p>
+<pre class="r"><code>ggplot(mpg, aes(displ, hwy)) + 
+    geom_point(aes(color = class))</code></pre>
+<p><img src="../../../cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p>ggplot2会自动在后台为代码添加默认标度：</p>
+<pre class="r"><code>ggplot(mpg, aes(displ, hwy)) + 
+    geom_point(aes(color = class)) + 
+    scale_x_continuous() +
+    scale_y_continuous() +
+    scale_color_discrete()</code></pre>
+<p>标度的命名模式为：scale_图形属性名称_标度名称。</p>
+<p>基于以下两种原因，我们可以不使用默认标度。</p>
+<ul>
+<li>对默认标度一些参数进行调整</li>
+<li>整体替换默认标度</li>
+</ul>
+<div class="section level3">
+<h3>坐标轴刻度与图例</h3>
+<p>影响坐标轴和图例外观的主要参数有两个：<code>breaks</code>和<code>labels</code>。<code>breaks</code>控制坐标轴的刻度位置，以及与图例相关的数值显示。<code>labels</code>控制与每个坐标轴或图例相关的文本标签。
+<code>breaks</code>的最常用用途是替换默认刻度。</p>
+<pre class="r"><code>ggplot(mpg, aes(displ, hwy)) + 
+    geom_point() + 
+    scale_y_continuous(breaks = seq(15, 40, by = 5))</code></pre>
+<p><img src="../../../cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-15-1.png" width="672" />
+我们可以用相同方式使用<code>labels</code>（与<code>breaks</code>长度相同的字符向量）。我们可以将其设为NULL，这样不显示刻度标签，对于地图或不适合展示数值的图表来说，这种方式很有用。</p>
+<pre class="r"><code>ggplot(mpg, aes(displ, hwy)) + 
+    geom_point() + 
+    scale_x_continuous(labels = NULL) + 
+    scale_y_continuous(labels = NULL)</code></pre>
+<p><img src="../../../cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p>相应地，我们可以利用这两个参数控制图例外观。坐标轴和图例统称为<strong>引导元素</strong>。坐标轴用于表示x和y图形属性；图例用于表示其他的引导信息。
+需要使用<code>breaks</code>的另一种情况是，数据点少，而我们想强调观测的确切位置。
+下面图形展示每位美国总统任期的开始时间和结束时间。</p>
+<pre class="r"><code>presidential %&gt;% 
+    mutate(id = 33 + row_number()) %&gt;% 
+    ggplot(aes(start, id)) + 
+    geom_point() + 
+    geom_segment(aes(xend = end, yend = id)) + 
+    scale_x_date(
+        NULL,
+        breaks = presidential$start,
+        date_labels = &quot;&#39;%y&quot;
+    )</code></pre>
+<p><img src="../../../cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p>日期型和日期时间型标度的刻度和标签格式对应于<code>date_labels</code>和<code>date_breaks</code>。</p>
+</div>
+<div class="section level3">
+<h3>图例布局</h3>
+<p>如果想要控制图例的位置，需要使用<code>theme()</code>函数设置。简而言之，主题的作用就是控制图形中与数据无关的部分。
+主题设置中的<code>legend.position</code>可以控制图例的位置。</p>
+<pre class="r"><code>base = ggplot(mpg, aes(displ, hwy)) + 
+    geom_point(aes(color = class))
+base + theme(legend.position = &quot;left&quot;)</code></pre>
+<p><img src="../../../cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<pre class="r"><code>base + theme(legend.position = &quot;top&quot;)</code></pre>
+<p><img src="../../../cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-18-2.png" width="672" /></p>
+<pre class="r"><code>base + theme(legend.position = &quot;bottom&quot;)</code></pre>
+<p><img src="../../../cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-18-3.png" width="672" /></p>
+<pre class="r"><code>base + theme(legend.position = &quot;right&quot;)  # 默认设置</code></pre>
+<p><img src="../../../cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-18-4.png" width="672" /></p>
+<p>使用<code>legend.position = &quot;none&quot;</code>可以去掉图例显示。
+要想控制单个图例的显示，可以配合<code>guide_legend()</code>或<code>guide_colorbar()</code>函数来使用<code>guides()</code>函数。
+下面，我们给出两个重要设置：使用<code>nrow</code>设定图例项目的行数，并覆盖一个图形属性，以便数据点更大一些。如果想在一张图表上使用较低的alpha值显示多个数据点，那么这些设置非常重要。</p>
+<pre class="r"><code>ggplot(mpg, aes(displ, hwy)) + 
+    geom_point(aes(color = class)) + 
+    geom_smooth(se = FALSE) +
+    theme(legend.position = &quot;bottom&quot;) +
+    guides(
+        color = guide_legend(
+            nrow = 1,
+            override.aes = list(size = 4)
+        )
+    )
+#&gt; `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="../../../cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+</div>
+<div class="section level3">
+<h3>标度替换</h3>
+<p>我们还可以替换整体标度。最经常进行替换的两种标度是连续型标度和颜色标度。它们的原理适用于其他图形属性。
+绘制出变量转换是非常有用的，比如：</p>
+<pre class="r"><code>ggplot(diamonds, aes(carat, price)) + 
+    geom_bin2d()</code></pre>
+<p><img src="../../../cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(diamonds, aes(log10(carat), log10(price))) + 
+    geom_bin2d()</code></pre>
+<p><img src="../../../cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-20-2.png" width="672" /></p>
+<p>这种变换的缺点是坐标轴是以转换后的值来标记的。除了在图形属性映射中进行转换，我们还可以使用标度进行转换。</p>
+<pre class="r"><code>ggplot(diamonds, aes(carat, price)) +
+    geom_bin2d() +
+    scale_x_log10() + 
+    scale_y_log10()</code></pre>
+<p><img src="../../../cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p>经常需要修改定制的另一种标度是颜色。默认分类标度以一种非常均匀的方式在色环上选择颜色。常用的另一种配色方式是使用ColorBrewer标度，经过手工调整后，这种方式适合那些有色盲症的人。</p>
+<pre class="r"><code>ggplot(mpg, aes(displ, hwy)) + 
+    geom_point(aes(color = drv))</code></pre>
+<p><img src="../../../cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(mpg, aes(displ, hwy)) + 
+    geom_point(aes(color = drv)) +
+    scale_color_brewer(palette = &quot;Set1&quot;)</code></pre>
+<p><img src="../../../cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-22-2.png" width="672" />
+如果只有很少几种颜色，我们完全可以再添加一种形状映射，虽然冗余，但这样可以确保图表在黑白方式下也可以为人所理解。</p>
+<pre class="r"><code>ggplot(mpg, aes(displ, hwy)) + 
+    geom_point(aes(color = drv, shape = drv)) + 
+    scale_color_brewer(palette = &quot;Set1&quot;)</code></pre>
+<p><img src="../../../cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<p>ColorBrewer标度在线网址是<a href="http://colorbrewer2.org/" class="uri">http://colorbrewer2.org/</a>，在R中可以通过RColorBrewer包实现，包的作者是Erich Neuwirth。
+如果预先确定了数据值和颜色间的映射，那么可以使用<code>scale_color_manual()</code>函数。</p>
+<pre class="r"><code>presidential %&gt;% 
+    mutate(id = 33 + row_number()) %&gt;% 
+    ggplot(aes(start, id, color = party)) + 
+    geom_point() + 
+    geom_segment(aes(xend = end, yend = id)) + 
+    scale_color_manual(
+        values = c(Republican = &quot;red&quot;, Democratic = &quot;blue&quot;)
+    )</code></pre>
+<p><img src="../../../cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<p>对于连续的颜色标度，我们可以使用内置函数<code>scale_color_gradient()</code>或<code>scale_fill_gradient()</code>来表示。如果想要发散的颜色标度，可以使用<code>scale_color_gradient2()</code>函数，它可以使用正数和负数表示不同的颜色。这对于区分出位于平均值以上和以下的点非常合适。
+另一个可以选用的函数是由viridis包提供的<code>scale_color_viridis()</code>，它对ColorBrewer分类标度进行了连续模拟。以下是该包使用指南的一个示例：</p>
+<pre class="r"><code>df = tibble(
+    x = rnorm(10000),
+    y = rnorm(10000)
+)
+ggplot(df, aes(x, y)) + 
+    geom_hex() + 
+    coord_fixed()</code></pre>
+<p><img src="../../../cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(df, aes(x,y)) + 
+    geom_hex() +
+    viridis::scale_fill_viridis() + 
+    coord_fixed()</code></pre>
+<p><img src="../../../cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-25-2.png" width="672" /></p>
+</div>
+</div>
+<div class="section level2">
+<h2>缩放</h2>
+<p>控制图形范围的方法有3种：</p>
+<ul>
+<li>调整绘图所用数据</li>
+<li>设置标度范围</li>
+<li>在<code>coord_cartesian()</code>函数中设置xlim和ylim参数值</li>
+</ul>
+<p>如果想放大图形的一篇区域，最好使用<code>coord_cartesian()</code>函数。比较以下两个图形：</p>
+<pre class="r"><code>ggplot(mpg, mapping = aes(displ, hwy)) + 
+    geom_point(aes(color = class)) + 
+    geom_smooth() +
+    coord_cartesian(xlim = c(5, 7), ylim = c(10, 30))
+#&gt; `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="../../../cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<pre class="r"><code>mpg %&gt;% 
+    filter(displ &gt;= 5, displ &lt;= 7, hwy &gt;= 10, hwy &lt;= 30) %&gt;% 
+    ggplot(aes(displ, hwy)) + 
+    geom_point(aes(color = class)) + 
+    geom_smooth()
+#&gt; `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="../../../cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-26-2.png" width="672" /></p>
+</div>
+<div class="section level2">
+<h2>定制</h2>
+<p>最后，我们可以使用主题来定制图形中的非数据元素。</p>
+<pre class="r"><code>ggplot(mpg, aes(displ, hwy)) + 
+    geom_point(aes(color = class)) +
+    geom_smooth(se = FALSE) +
+    theme_bw()
+#&gt; `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="../../../cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<p>ggplot2默认可以使用下面8种主题，在ggthemes包（<a href="https://github.com/jrnold/ggthemes" class="uri">https://github.com/jrnold/ggthemes</a>）中，还可以使用更多主题。</p>
+<ul>
+<li><code>theme_bw()</code> - 带网格线的白背景</li>
+<li><code>theme_light()</code> - 浅色坐标轴和网格线</li>
+<li><code>theme_classic()</code> - 经典主题，只有坐标轴，没有网格线</li>
+<li><code>theme_linedraw()</code> - 只有黑色网格线</li>
+<li><code>theme_dark()</code> - 暗色背景，用于对比</li>
+<li><code>theme_minimal()</code> - 极简主题，无背景</li>
+<li><code>theme_gray()</code> - 灰色背景（默认主题）</li>
+<li><code>theme_void()</code> - 空白主题，只显示几何对象</li>
+</ul>
+<blockquote>
+<p>很多人感到诧异，为什么默认主题要使用灰色背景。这是有意为之，因为这样可以在网格线可见的情况下更加突出数据。白色网格线既是可见的（它们有助于位置判定），又对视觉没有什么严重影响，我们完全可以视而不见。图表的灰色背景不像白色背景那么突兀，与文本印刷颜色非常相近，保证了图形与文档其他部分浑然一体。最后，灰色背景可以创建一片连续的颜色区域，使得图形成为形象鲜明的一个视觉实体。</p>
+</blockquote>
+</div>
+<div class="section level2">
+<h2>保存图形</h2>
+<p>有两种办法将图形从R导入最终报告：</p>
+<ul>
+<li>使用<code>ggsave()</code></li>
+<li>使用<code>knitr</code></li>
+</ul>
+<p><code>ggsave()</code>可以将最近生成的图形保存到磁盘。</p>
+<pre class="r"><code>ggplot(mpg, aes(displ, hwy)) + geom_point()</code></pre>
+<p><img src="../../../cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<p>调用<code>ggsave()</code>：</p>
+<pre class="r"><code>ggsave(&quot;my-plot.pdf&quot;)</code></pre>
+<p><code>ggsave()</code>会使用当前绘图设备的尺寸保存图形。
+然而，我们一般通常用R Markdown生成最终报告，因此我们将重点介绍在生成图形时应该了解的一些重要代码选项。</p>
+<div class="section level3">
+<h3>图形大小</h3>
+<p>在R Markdown中，关于图形的最大问题是如何确定其大小和形状。控制图形大小的选项主要有5个：<code>fig.width</code>、<code>fig.height</code>、<code>fig.asp</code>、<code>out.width</code>和<code>out.height</code>。
+之所以说图形大小是一个难题，是因为图形大小有两种（R生成的图形的大小，以及插入和输出文档中的图形的大小），而且指定图形大小的方法也有多种（即高度、宽度和高宽比；三者任选其二）。</p>
+<p>我们只使用以上5种选项中的3种。</p>
+<ul>
+<li>我们发现，<strong>宽度一致的图形是最令人伤心悦目的</strong>。为了使图形宽度保持一致，我们设置图形的默认参数为<code>fig.width = 6</code>（6英寸）和<code>fig.asp = 0.618</code>（黄金分割）。在单个代码段中，我们只调整<code>fig.asp</code>。</li>
+<li>我们使用<code>out.width</code>控制输出图形的大小，并将其设置为行宽的百分比。默认设置为<code>out.width = &quot;70&quot;</code>和<code>fig.align = &quot;center&quot;</code>。这样图形既不会占用太多空间，也不会显得拥挤。</li>
+<li>如果想在一行中放置多个图形，可以将<code>out.width</code>设置为50%以放置2个图形、设置为33%以放置3个图形。
+如果我们发现必须眯起眼睛才能看清图形的文本，那么久需要调整<code>fig.width</code>参数。<strong>如果<code>fig.width</code>大于最终文档中的图形尺寸，那么文本就会显得过小；如果<code>fig.width</code>小于最终文档中的图形尺寸，那么文本就会显得过大</strong>。一般来说，我们需要试验几次才能找到<code>fig.width</code>和最终文档中的图形的最佳比例。</li>
+</ul>
+<p>为了说明这个问题，我们可以看看一下3幅图形，它们的<code>fig.width</code>分别是4、6、8。</p>
+<p><img src="../../../cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-30-1.png" width="384" />
+<img src="../../../cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-31-1.png" width="576" />
+<img src="../../../cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-32-1.png" width="768" />
+### 其他重要选项</p>
+<p>当代码和文本混合时，我们建议设置<code>fig.show = &quot;hold&quot;</code>，以使图形显示在代码后面。这样做的好处是可以强制使用解释性图形将大块代码分解成更小的部分。
+如果想为图形添加说明文字，可以使用<code>fig.cap</code>。在R Markdown中，这样做会将“内联”模式修改为“浮动”模式。
+如果想要生成PDF格式输出文件，使用默认的图形格式即可。但如果图形包含几千个数据点，速度回非常慢，这时设置<code>dev = 'png'</code>生成png图片将是不错的选择。
+即使通常不为代码段添加标签，但为生成图形的代码段取名也是一种非常好的做法。</p>
+</div>
+</div>
+<div class="section level2">
+<h2>更多学习资源</h2>
+<ul>
+<li>ggplot2教程：《ggplot2：数据分析与图形艺术》</li>
+<li>ggplot2扩展指南网站（<a href="http://www.ggplot2-exts.org" class="uri">http://www.ggplot2-exts.org</a>），该站点列举很多ggplot2扩展包，它们实现了新的几何对象和标度等。</li>
+</ul>
+<hr />
+<p>学习自《R for Data Science》</p>
+</div>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="../../../cn/post/purrr-and-broom/">使用purrr和broom处理多个模型</a></span>
+  <span class="nav-next"><a href="../../../cn/post/use-nmf-aheatmap/">使用NMF包绘制热图</a> &rarr;</span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/post\/purrr-and-broom\/';
+    
+  } else if (e.which == 39) {  
+    
+    url = '\/cn\/post\/use-nmf-aheatmap\/';
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+<section class="comments">
+  <div id="disqus_thread"></div>
+  <script src="../../../js/disqusloader.min.js"></script>
+  <script>
+  var disqus_config = function () {
+  
+    this.page.url = "https:\/\/shixiangwang.github.io\/home\/" + location.pathname;
+  
+  };
+  (function() {
+    var inIFrame = function() {
+      var iframe = true;
+      try { iframe = window.self !== window.top; } catch (e) {}
+      return iframe;
+    };
+    if (inIFrame()) return;
+    var disqus_js = '//home-xjdzylqrzp.disqus.com/embed.js';
+    
+    if (location.hash.match(/^#comment/)) {
+      var d = document, s = d.createElement('script');
+      s.src = disqus_js; s.async = true;
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    } else {
+      disqusLoader('#disqus_thread', {
+        scriptUrl: disqus_js, laziness: 0, disqusConfig: disqus_config
+      });
+    }
+  })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+
+
+<script async src="../../../js/fix-toc.js"></script>
+
+<script async src="../../../js/center-img.js"></script>
+
+<script async src="../../../js/right-quote.js"></script>
+
+<script async src="../../../js/no-highlight.js"></script>
+
+<script async src="../../../js/fix-footnote.js"></script>
+
+<script async src="../../../js/math-code.js"></script>
+
+<script async src="../../../js/external-link.js"></script>
+
+<script async src="../../../js/alt-title.js"></script>
+
+<script async src="../../../js/header-link.js"></script>
+
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+  
+  
+
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> &middot; <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> &middot; <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> &middot; <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> &middot; <a href="https://orcid.org/0000-0002-9275-3557"><i class='ai ai-orcid ai-1x'></i></a> &middot; <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 &copy; <a href="../../../">王诗翔</a> 2017 - 2019 </div>
+  
+  
+
+  <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56h9es09xn7&amp;m=6&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=1" async="async"></script>
+  </footer>
+  </article>
+  
+  </body>
+</html>
+
