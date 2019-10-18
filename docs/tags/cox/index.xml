@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>cox on Shixiang Wang | 王诗翔</title>
+    <link>/tags/cox/</link>
+    <description>Recent content in cox on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 28 Apr 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/cox/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>使用 R 进行生存分析</title>
+      <link>/cn/post/r-survival/</link>
+      <pubDate>Sat, 28 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/r-survival/</guid>
+      <description>学习生存分析预先要求对R有所了解，基本能够操作R数据框和包的使用。要是懂ggplot2和dplyr就更好了。 资料 生存分析备查表 - 会使用到的主</description>
+    </item>
+    
+  </channel>
+</rss>

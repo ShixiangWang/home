@@ -227,5 +227,14 @@
       <description>这篇文章我们将讲述 如何简单比较两组或多组的平均值 如何自动化为ggplot添加p值和显著性标记，包括箱线图、点图、条形图、线图等等 准备 安装和导</description>
     </item>
     
+    <item>
+      <title>使用 R 进行生存分析</title>
+      <link>/cn/post/r-survival/</link>
+      <pubDate>Sat, 28 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/r-survival/</guid>
+      <description>学习生存分析预先要求对R有所了解，基本能够操作R数据框和包的使用。要是懂ggplot2和dplyr就更好了。 资料 生存分析备查表 - 会使用到的主</description>
+    </item>
+    
   </channel>
 </rss>

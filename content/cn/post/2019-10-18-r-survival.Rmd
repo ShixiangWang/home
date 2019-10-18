@@ -1,0 +1,304 @@
+---
+title: "使用 R 进行生存分析"
+author: "王诗翔"
+date: "2018-04-28"
+lastmod: "`r Sys.Date()`"
+slug: "r-survival"
+categories: r
+tags:
+- r
+- 生存分析
+- cox
+- survival
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, dev = "png",highlight = T, warning = FALSE)
+#Sys.setlocale('LC_ALL','C') # Embed this directly in the Rmarkdown script that contains the Chinese character comment
+options(digits=3)
+options(max.print=200)
+```
+
+学习生存分析预先要求对R有所了解，基本能够操作R数据框和包的使用。要是懂`ggplot2`和`dplyr`就更好了。
+
+**资料**
+
+* [生存分析备查表](/files/r-survival-cheatsheet.pdf) - 会使用到的主要函数与包介绍
+* [背景介绍](/files/r-survival-handout.pdf) - 统计知识
+
+# 背景
+
+在纵向研究中，我们需要从一个时间点追踪样本或受试者（例如，进入研究，诊断，开始治疗），直到我们观察到一些结果事件（例如死亡，疾病发作，复发），但不会有意义的假设改变的速率是不变的。例如：手术后心脏手术后的死亡风险最高，术后恢复的患者死亡风险缓慢降低，随着患者年龄的增长，风险再次缓慢上升。或者，不同癌症的复发率随时间变化很大，并且取决于肿瘤遗传学，治疗和其他环境因素。
+
+## 定义
+
+生存分析可让我们分析事件发生的速率，而不会假设速率不变。一般而言，生存分析可以让我们对事件发生之前的时间进行建模[^deathvs]或比较不同组之间的事件时间，或者事件时间与定量变量之间的相关性。
+
+[^deathvs]: 在医学界，我们通常会从字面上思考生存分析 - 追踪直至死亡的时间。 但是，它比这更普遍-生存分析模拟事件发生之前的时间（任何事件）都可以。这可以是生物有机体的死亡。但也可能是机械系统发生硬件故障，恢复时间，失去工作后有人失业的时间，直到成熟的番茄被放牧的鹿吃掉的时间，直到有人在车间里睡着的时间， 生存分析还包括工程可靠性理论，经济学持续时间分析和社会学事件历史分析。
+
+**风险**是特定时间点`t`的瞬时事件发生（死亡）率。生存分析并不认为随着时间的推移危害是不变的。累积风险是直到时间`t`为止经历的总风险。**生存函数**是个体在时间`t`之前存在的概率（或者，不发生感兴趣事件的概率）。这是事件（例如，死亡）尚未发生的可能性。看起来像这样，其中$T$是死亡时间，$Pr(T> t)$是死亡时间大于某个时间$t$的概率。$S$是概率，所以$0\leq S(t)\leq 1$，因为生存期总是正值（$T \geq 0$）。
+
+$$ S(t) = Pr(T>t) $$
+
+**Kaplan-Meier曲线**描述了生存函数。这是一个阶梯函数，说明随着时间的推移累计生存概率。曲线在没有事件发生的时间段内是水平的，然后垂直下降，对应于每次发生事件时生存函数的变化。**截尾**是一种生存分析特有的缺失数据问题。 当我们在研究结束时跟踪样本/主题并且事件从未发生时会发生这种情况。这也可能是由于样本/受试者因死亡以外的原因而退出研究或其他一些失访导致的。样本数据发生截尾是因为你只知道这个人存活到失去跟踪为止，但你不知道任何关于之后他的生存状态[^censoring]。
+
+[^censoring]: 这描述了最常见的截尾类型 - 右截尾。当“开始”未知时，例如当初始诊断或暴露时间未知时，通常不会发生左侧截尾。
+
+**比例风险假设**：生存分析的主要目标是比较不同组别（例如白血病患者与正常对照组）的生存功能。如果两组人都死亡，那么两条生存曲线都将结束于0％，但是其中一组的平均存活时间可能比另一组长。生存分析通过比较观察期间不同时间的风险来做到这一点。生存分析并不假设危害是恒定的，但确实假定组间危害的比率随着时间的推移是恒定的。[^cumhaz]本文不包括处理非比例风险的方法或伴随时间到事件的协变量交互作用。
+
+[^cumhaz]: 而且，按照上述定义，假定两组之间的累积危险比率随着时间的推移保持不变。
+
+**比例风险回归**也称为**Cox回归**，是评估不同变量对生存率影响的最常用方法。
+
+### Cox PH模型
+
+Kaplan-Meier曲线适用于观察两个分类组[^logrank]之间生存率的差异，但对于评估诸如年龄，基因表达，白细胞计数等定量变量的影响，它们不起作用。Cox PH回归可评估分类变量和连续变量的影响，并且可以一次模拟多个变量的影响。
+
+[^logrank]: 对于这些差异，有一个类似卡方的统计检验，称为对数秩检验，比较生存函数分类组。
+
+Cox PH回归模型将时间`t`处的风险自然对数表示为$h(t)$，作为基线危险（$h_0(t)$）的函数（所有暴露变量为0的个体的风险）和多个暴露变量$x_1$，$x_1$，$...$，$x_p$。 Cox PH模型的形式是：
+
+$$ log(h(t)) = log(h_0(t)) + \beta_1 x_1 + \beta_2 x_2 + ... + \beta_p x_p $$
+
+如果对方程的两边进行幂运算，并将右边限制为仅包含两个组（$x_1 = 1$作为暴露变量，$x_1 = 0$作为非暴露变量）的单个分类暴露变量（$ x_1 $），则等式变为：
+
+$$ h_1(t) = h_0(t) \times e^{\beta_1 x_1} $$
+
+重新排列该等式可以估计风险比率，比较时间`t`暴露对于未暴露个体：
+
+$$ HR(t) = \frac{h_1(t)}{h_0(t)} = e^{\beta_1} $$
+
+该模型显示风险比为$e^{\beta_1}$，并且在时间t内保持不变（因此名称比例风险回归）。$\beta$值是根据模型估计的回归系数，并表示相应预测变量中每单位增加的$log(Hazard,Ratio)$。危害比的解释取决于预测变量的测量尺度，但简单地说，正系数表示较差的存活率，负系数表示所讨论的变量存活率较高。
+
+# 用R进行生存分析
+
+核心的分析函数都在`survival`包里，我们这里使用`dplyr`包，然后用`survminer`包进行绘图。
+
+```{r load_pkgs, message=FALSE}
+# 确保在导入前安装好
+library(survival)
+library(dplyr)
+library(survminer)
+```
+
+我们将使用的核心函数包括：
+
+* `Surv()`：创建一个生存对象
+* `survfit()`：使用公式或已构建的Cox模型拟合生存曲线
+* `coxph()`：拟合Cox比例风险回归模型
+
+其他我们可能会用到的函数：
+
+* `cox.zph()`：检验一个Cox回归模型的比例风险假设
+* `survdiff()`：用log-rank/Mantel-Haenszel检验检验生存差异[^survdiff]
+
+[^survdiff]: Cox回归和来自`survdiff`的`logrank`检验将在大多数时间给你类似的结果。对数秩检验是询问两组患者生存曲线是否显著不同。Cox回归是询问许多分类或连续变量中哪一个显著影响生存。
+
+`Surv()`创建响应变量，典型用法是使用事件时间，[^time2]以及事件是否发生（即死亡与截尾）。`survfit()`创建一条生存曲线，然后可以显示或绘图。`coxph()`实现回归分析，并且模型以与常规线性模型中相同的方式指定，但使用`coxph()`函数。
+
+[^time2]: `Surv()`也可以输入开始与截止时间，参见`?Surv`
+
+### 开始
+
+我们将使用内置的肺癌数据集[^lungcite]学习使用`survival`包。你可以通过运行`?lung`获取数据集信息：
+
+```{r, eval=FALSE}
+library(survival)
+?lung
+```
+
+1. `inst`: Institution code
+2. `time`: Survival time in days
+3. `status`: censoring status 1=censored, 2=dead
+4. `age`: Age in years
+5. `sex`: Male=1 Female=2
+6. `ph.ecog`: ECOG performance score (0=good 5=dead)
+7. `ph.karno`: Karnofsky performance score as rated by physician
+8. `pat.karno`: Karnofsky performance score as rated by patient
+9. `meal.cal`: Calories consumed at meals
+10. `wt.loss`: Weight loss in last six months
+
+[^lungcite]: Loprinzi et al. Prospective evaluation of prognostic variables from patient-completed questionnaires. North Central Cancer Treatment Group. *Journal of Clinical Oncology*. 12(3):601-7, 1994.
+
+```{r}
+lung <- as_tibble(lung)
+lung
+```
+
+### 生存曲线
+
+构建生存对象：
+
+```{r}
+s <- Surv(time = lung$time, event = lung$status)
+class(s)
+s
+```
+
+现在，让我们使用`survfit()`函数**拟合一条生存曲线**。这里让我们先创建一条不考虑任何比较的生存曲线，所以我们只需要指定`survfit()`在公式里期望的截距（比如`~1`）。
+
+```{r}
+survfit(s~1)
+# 前面操作可以一步完成
+survfit(Surv(time, status)~1, data=lung)
+```
+
+
+但模型对象本身不会给出太多的价值信息，我们需要使用`summary`函数查看模型汇总结果：
+
+```{r survfitSummary}
+sfit <- survfit(Surv(time, status)~1, data=lung)
+summary(sfit)
+```
+
+这个表格每一行显示了一个（多个）事件或截尾发生了，在风险中的样本数（就是还没死的），以及及时的累积生存率等。
+
+如果我们不使用截距建模，结果会更加有意思：
+
+```{r}
+sfit <- survfit(Surv(time, status)~sex, data=lung)
+sfit
+summary(sfit)
+```
+
+`summary()`函数中可以设定时间参数用来选定一个时间区间，我们可以以此比对男生是不是比女生有更高的风险：
+
+```{r}
+summary(sfit, times=seq(0, 1000, 100))
+```
+
+### Kaplan-Meier生存曲线
+
+现在我们使用**Kaplan-Meier曲线**来可视化这一结果：
+
+```{r}
+plot(sfit)
+```
+
+R的`plot()`函数选项可以用来修改这个图，你可以参加`?plot.survfit`。我们这里不会描述太多细节，因为有另一个叫**survminer**的包提供的一个叫**`ggsurvplot()`**的函数可以帮助我们更简单地做出可以发表的生存曲线，如果你对ggplot2语法很熟悉的话还能更简单地进行修改。让我们导入并尝试一下吧：
+
+```{r survminer}
+library(survminer)
+ggsurvplot(sfit)
+```
+
+这个图比刚才那个图更好看，信息量也更多：它用颜色帮我们区分了组别，并添加了横纵坐标的标签。
+
+让我们添加曲线的置信区间，并增加`long-rank`检验的结果p值以及风险表格：
+
+```{r survminerOptions, fig.height=8}
+ggsurvplot(sfit, conf.int=TRUE, pval=TRUE, risk.table=TRUE, 
+           legend.labs=c("Male", "Female"), legend.title="Sex",  
+           palette=c("dodgerblue2", "orchid2"), 
+           title="Kaplan-Meier Curve for Lung Cancer Survival", 
+           risk.table.height=.15)
+```
+
+
+### Cox回归模型
+
+Kaplan-Meier曲线用来对两个分类变量差异的可视化非常合适，但分类要是多，那就糟透了：
+
+```{r}
+ggsurvplot(survfit(Surv(time, status)~nodes, data=survival::colon))
+```
+
+而且生存曲线另外不能可视化的是**连续型变量**的风险。
+
+**Cox PH回归模型**正好是处理这类问题的一把好手，它同样内置于`survival`包中，语法与`lm()`和`glm()`一致。
+
+让我们再来用肺癌数据集看看不同性别的风险，这次使用Cox模型。
+
+```{r}
+fit <- coxph(Surv(time, status)~sex, data=lung)
+fit
+```
+
+结果中的`exp(coef)`列包含$e^{\beta_1}$。它就是**风险比率**——该变量对风险率的乘数效应（对于该变量每个单位增加的）。因此，对于像性别这样的分类变量，从男性（基线）到女性的结果大约减少约40％的危险。你也可以翻转`coef`列上的符号，并采用`exp(0.531)`，你可以将其解释为男性导致危险增加1.7倍，或者单位时间男性的死亡率约为女性1.7倍（女性死亡率为男性的0.588倍）。
+
+**要记住**：
+
+- HR=1: 没有效应
+- HR>1: 风险增加
+- HR<1: 风险减少 （保护变量）
+
+你还会注意到，“性别”有一个对应的`p`值，整个模型中也有一个`p`值。0.00111的p值非常接近我们在Kaplan-Meier图上看到的`p=0.00131`的p值。这是因为KM曲线显示的是对数秩检验的p值。你可以通过调用`summary(fit)`来获得Cox模型结果。你也可以使用`survdiff()`直接计算log-rank测试p值。
+
+```{r}
+summary(fit)
+survdiff(Surv(time, status)~sex, data=lung)
+```
+
+让我们创建另一个模型，分析数据集中的所有变量！这向我们展示了当所有变量一起考虑时，如何影响生存。一些是非常强大的预测指标（性别，ECOG评分）。有趣的是，医师对Karnofsky表现评分的评分稍高，但患者评分相同。
+
+```{r}
+fit <- coxph(Surv(time, status)~sex+age+ph.ecog+ph.karno+pat.karno+meal.cal+wt.loss, data=lung)
+fit
+```
+
+### 分类画KM曲线
+
+让我们回到肺部数据并查看年龄的Cox模型。看起来年龄在模拟为连续变量时似乎有一点重要。
+
+```{r}
+coxph(Surv(time, status)~age, data=lung)
+```
+
+现在我们的的回归分析显示年龄有重要意义，让我们制作Kaplan-Meier图。但是，正如我们之前所看到的，我们不能这样做，因为我们会为每个独特的年龄值获得单独的曲线！
+
+```{r, eval=FALSE}
+ggsurvplot(survfit(Surv(time, status)~age, data=lung))
+```
+
+你可能在这里看到的一件事是试图将一个连续变量分成不同的组 - 三分位数，上四分位数与下四分位数，中位数分数等 - 这样你就可以生成生存曲线图。但是，你如何进行分组是有意义的！检查`cut`的帮助。`cut()`接受一个连续变量和一些断点，并从中创建一个分类变量。 我们来得到数据集的平均年龄，并绘制一个显示年龄分布的直方图。
+
+```{r, eval=FALSE}
+mean(lung$age)
+hist(lung$age)
+ggplot(lung, aes(age)) + geom_histogram(bins=20)
+```
+
+现在，让我们尝试通过`lung$age`创建一个分类变量，其中0,62（平均值）和正无穷大。我们可以在这里继续添加`labels =`选项来标记我们创建的分组，例如，“年轻”和“老”。最后，我们可以将这个结果分配给肺数据集中的一个新对象。
+
+```{r}
+cut(lung$age, breaks=c(0, 62, Inf))
+cut(lung$age, breaks=c(0, 62, Inf), labels=c("young", "old"))
+# the base r way:
+lung$agecat <- cut(lung$age, breaks=c(0, 62, Inf), labels=c("young", "old"))
+# or the dplyr way:
+lung <- lung %>% 
+  mutate(agecat=cut(age, breaks=c(0, 62, Inf), labels=c("young", "old")))
+head(lung)
+```
+
+现在，当我们用这个新的分类生成KM图时会发生什么？ 看起来“老”和“年轻”患者之间的曲线存在一些差异，老年患者的生存几率稍差。但是`p=0.39`时，62岁以下和62岁以上者的生存率差异不显著。
+
+```{r}
+ggsurvplot(survfit(Surv(time, status)~agecat, data=lung), pval=TRUE)
+```
+
+但是，如果我们选择一个不同的切点，例如70岁，这大概是年龄分布上限的四分之一（见“分位数”）。结果现在非常重要！
+
+```{r}
+# the base r way:
+lung$agecat <- cut(lung$age, breaks=c(0, 70, Inf), labels=c("young", "old"))
+# or the dplyr way:
+lung <- lung %>% 
+  mutate(agecat=cut(age, breaks=c(0, 70, Inf), labels=c("young", "old")))
+# plot!
+ggsurvplot(survfit(Surv(time, status)~agecat, data=lung), pval=TRUE)
+```
+
+**请记住，Cox回归分析整个分布范围内的连续变量，其中Kaplan-Meier图上的对数秩检验可能会根据您对连续变量进行分类而发生变化**。他们以一种不同的方式回答类似的问题：回归模型提出的问题是“年龄对生存有什么影响？”，而对数秩检验和KM图则问：“那些不到70岁和70岁以上的人有差异吗？”。
+
+在新的survminer 0.2.4版本中，新增了可以一次确定一个或多个连续变量最佳分割点的函数`surv_cutpoint()`与`surv_categorize()`。**参阅[这篇博文](http://www.sthda.com/english/wiki/survminer-0-2-4#determine-the-optimal-cutpoint-for-continuous-variables)学习详细的函数用法**。
+
+```{r determineOptimalCutpoints, include=FALSE, eval=FALSE}
+# see http://www.sthda.com/english/wiki/survminer-0-2-4
+cutpoint <- surv_cutpoint(lung, time="time", event="status", variables="age")
+cutpoint
+plot(cutpoint)
+surv_categorize(cutpoint)
+fit <- survfit(Surv(time, status)~age, surv_categorize(cutpoint))
+ggsurvplot(fit, pval=TRUE)
+```
