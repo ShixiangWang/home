@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    
+    <link rel="stylesheet" href="../../../fonts/academicons-1.8.6/css/academicons.min.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../logo/bodhi.png"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    
+    <title>简单丰富的ROC绘制与对比 - 王诗翔</title>
+    
+     
+    <meta property="og:title" content="简单丰富的ROC绘制与对比 - Shixiang Wang | 王诗翔">
+    
+
+    
+      
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="../../../css/style.css" />
+    <link rel="stylesheet" href="../../../css/mystyle.css" /> 
+    <link rel="stylesheet" href="../../../css/fonts.css" />
+    
+<script async src="../../../js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="../../../css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="../../../"><img src="https://avatars1.githubusercontent.com/u/25057508?s=460&amp;v=4" alt="Shixiang Wang" /></a></h1>
+
+
+
+      <nav class="menu">
+        <input id="menu-check" type="checkbox" />
+        <label id="menu-label" for="menu-check" class="unselectable">
+          <span class="icon close-icon">✕</span>
+          <span class="icon open-icon">☰</span>
+          <span class="text">Menu</span>
+        </label>
+        <ul>
+        
+        
+        <li><a href="../../../">首页</a></li>
+        
+        <li><a href="../../../cn/about/">关于</a></li>
+        
+        <li><a href="../../../cn/post/">博客</a></li>
+        
+        <li><a href="../../../cn/read/">读书</a></li>
+        
+        <li><a href="../../../cn/writing">写作</a></li>
+        
+        <li><a href="../../../cn/research/">研究</a></li>
+        
+        <li><a href="../../../cn/tools/">工具</a></li>
+        
+        <li><a href="../../../cn/cv-cn/shixiang">简历</a></li>
+        
+        <li><a href="../../../logo/qrcode.jpg">公众号</a></li>
+        
+        <li><a href="https://www.jianshu.com/u/b6608e27dc74">简书</a></li>
+        
+        <li><a href="../../../cn/todo">ToDo</a></li>
+        
+        <li><a href="../../../en/">English</a></li>
+        
+        
+
+<li class="menu-extra"></li>
+
+
+
+
+
+
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2019-10-18-pROC-for-ROC-comparison.Rmd" target="_blank">编辑</a></li>
+
+
+<li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+        </ul>
+      </nav>
+    </header>
+
+    <article class="main">
+      <header class="title">
+        
+
+<h1>简单丰富的ROC绘制与对比</h1>
+
+
+
+<h3>王诗翔 &middot 
+2019-10-18</h3> 
+
+
+   
+  
+
+
+      </header>
+
+
+
+
+
+<p>我之前在<a href="https://www.jianshu.com/p/b71e548ced3d">《分析与可视化ROC——plotROC、pROC》</a>中介绍了两个包 plotROC 和 pROC，那是一年前的事情了，现在我在处理 ROC 曲线时使用的是什么呢？<strong>pROC</strong> 包，它的理论基础来源于下面这篇文章，并且有非常完备的分析方法、可视化方法。</p>
+<blockquote>
+<p>Xavier Robin, Natacha Turck, Alexandre Hainard, Natalia Tiberti, Frédérique Lisacek, Jean-Charles Sanchez and Markus Müller (2011). <a href="http://www.biomedcentral.com/1471-2105/12/77/">pROC: an open-source package for R and S+ to analyze and compare ROC curves</a>. <em>BMC Bioinformatics</em>, <strong>12</strong>, p. 77. DOI: <a href="http://dx.doi.org/10.1186/1471-2105-12-77">10.1186/1471-2105-12-77</a>.</p>
+</blockquote>
+<p>之前那篇文章着重于介绍 plotROC，这篇文章我主要介绍 pROC 包中我喜欢的功能。</p>
+<p>不妨先载入测试数据：</p>
+<pre class="r"><code>&gt; library(pROC)
+&gt; data(aSAH)
+&gt; head(aSAH)
+   gos6 outcome gender age wfns s100b  ndka
+29    5    Good Female  42    1  0.13  3.01
+30    5    Good Female  37    1  0.14  8.54
+31    5    Good Female  42    1  0.10  8.09
+32    5    Good Female  27    1  0.04 10.42
+33    1    Poor Female  42    3  0.13 17.40
+34    1    Poor   Male  48    2  0.10 12.75</code></pre>
+<div id="-roc" class="section level2">
+<h2>计算 ROC</h2>
+<p>使用变量 <code>s100b</code> 预测 <code>outcome</code>。</p>
+<pre class="r"><code>&gt; rc = roc(aSAH$outcome, aSAH$s100b)
+Setting levels: control = Good, case = Poor
+Setting direction: controls &lt; cases</code></pre>
+<p>默认情况下我们只需要输入预测变量和结果变量，可以看到该包现在能够提示用户它设定了什么为阳性结果，什么为控制结果。</p>
+<p>那怎么设定 <code>Good</code> 为 case 呢？这可以通过 <code>levels</code> 选项实现。</p>
+<pre class="r"><code>&gt; rc2 = roc(aSAH$outcome, aSAH$s100b,
++     levels=c(&quot;Good&quot;, &quot;Poor&quot;))
+Setting direction: controls &lt; cases</code></pre>
+<p>接下来我们观察下返回的结果：</p>
+<pre class="r"><code>&gt; rc
+
+Call:
+roc.default(response = aSAH$outcome, predictor = aSAH$s100b,     levels = c(&quot;Poor&quot;, &quot;Good&quot;))
+
+Data: aSAH$s100b in 41 controls (aSAH$outcome Poor) &gt; 72 cases (aSAH$outcome Good).
+Area under the curve: 0.7314
+&gt; rc2
+
+Call:
+roc.default(response = aSAH$outcome, predictor = aSAH$s100b,     levels = c(&quot;Good&quot;, &quot;Poor&quot;))
+
+Data: aSAH$s100b in 72 controls (aSAH$outcome Good) &lt; 41 cases (aSAH$outcome Poor).
+Area under the curve: 0.7314</code></pre>
+<p>由此可见，<code>levels</code>的第一个元素是设定<code>case</code>，第二个是设定<code>control</code>的。结果显示了两者的 AUC 一致，这没有问题，我们其实也可以通过 <code>auc</code> 函数拿到结果。</p>
+<pre><code>&gt; auc(rc)
+Area under the curve: 0.7314
+&gt; auc(rc2)
+Area under the curve: 0.7314
+&gt; as.numeric(auc(rc))
+[1] 0.7313686</code></pre>
+<p>默认输入的是一个字符结果，可以强制转换为数值。</p>
+<p>除了 AUC，<code>roc()</code>函数结果还有一个细节：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/3884693-2a0d8ca8bae369a6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p>不同的结果存在方向性，我们能修改嘛？</p>
+<p>没有问题，比如将 <code>rc2</code> 变向：</p>
+<pre><code>&gt; rc2 = roc(aSAH$outcome, aSAH$s100b,
++     levels=c(&quot;Good&quot;, &quot;Poor&quot;), direction = &quot;&gt;&quot;)
+&gt; auc(rc2)
+Area under the curve: 0.2686</code></pre>
+<p>可以看到 AUC 变成了 1 减去之前的 AUC，这刚好是反向预测的结果。</p>
+<p>上面其实调用 <code>roc()</code> 函数还可以使用公式：</p>
+<pre><code>&gt; roc(outcome ~ s100b, aSAH)
+Setting levels: control = Good, case = Poor
+Setting direction: controls &lt; cases
+
+Call:
+roc.formula(formula = outcome ~ s100b, data = aSAH)
+
+Data: s100b in 72 controls (outcome Good) &lt; 41 cases (outcome Poor).
+Area under the curve: 0.7314</code></pre>
+</div>
+<div id="-roc" class="section level2">
+<h2>比较 ROC</h2>
+<p>pROC 包提供了比较 ROC 的统计检验方法，我们试一试比较 <code>rc</code> 和 <code>rc2</code>，因为它们的 AUC 差异巨大，因此可以提前估计是有显著性差异的。</p>
+<pre><code>&gt; roc.test(rc, rc2)
+
+    DeLong&#39;s test for two ROC curves
+
+data:  rc and rc2
+D = -6.3339, df = 224, p-value = 1.294e-09
+alternative hypothesis: true difference in AUC is not equal to 0
+sample estimates:
+AUC of roc1 AUC of roc2 
+  0.7313686   0.2686314 </code></pre>
+<p>结果也符合预期。<code>roc.test()</code>支持3种方法：</p>
+<blockquote>
+<p>the method to use, either “delong”, “bootstrap” or “venkatraman”. The first letter is sufficient. If omitted, the appropriate method is selected as explained in details.</p>
+</blockquote>
+</div>
+<div class="section level2">
+<h2>可视化</h2>
+<p>pROC 包不仅支持 base plot，还支持 ggplot2。我倾向于使用后者。</p>
+<p>我们接下来可视化 <code>rc</code> 和 <code>rc2</code>。先拿一个试试：</p>
+<pre class="r"><code>&gt; ggroc(rc, alpha = 0.5, colour = &quot;red&quot;, linetype = 2, size = 2)</code></pre>
+<p><img src="https://upload-images.jianshu.io/upload_images/3884693-094ad77484822206.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p>既然是 ggplot2，那么就想怎么改就能怎么改了，改主题、文字、字体、线条等等都是可以的。</p>
+<pre class="r"><code>&gt; g = ggroc(rc)
+&gt; g + theme_minimal() + ggtitle(&quot;My ROC curve&quot;) + 
++     geom_segment(aes(x = 1, xend = 0, y = 0, yend = 1), color=&quot;grey&quot;, linetype=&quot;dashed&quot;)</code></pre>
+<p><img src="https://upload-images.jianshu.io/upload_images/3884693-c2ccf5bb5eeff934.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p>修改成我们最常见的 ROC 样式：</p>
+<pre class="r"><code>&gt; gl &lt;- ggroc(rc, legacy.axes = TRUE)
+&gt; gl + xlab(&quot;FPR&quot;) + ylab(&quot;TPR&quot;) + 
++     geom_segment(aes(x = 0, xend = 1, y = 0, yend = 1), color=&quot;darkgrey&quot;, linetype=&quot;dashed&quot;)</code></pre>
+<p><img src="https://upload-images.jianshu.io/upload_images/3884693-29d009ea0b64e871.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p>最后看下怎么使用列表结构绘制多条曲线：</p>
+<pre class="r"><code>&gt; g2 &lt;- ggroc(list(s100b_rc=rc, s100b_rc2=rc2, ndka=roc(aSAH$outcome, aSAH$ndka)), legacy.axes = TRUE)
+Setting levels: control = Good, case = Poor
+Setting direction: controls &lt; cases
+&gt; g2</code></pre>
+<p><img src="https://upload-images.jianshu.io/upload_images/3884693-531f772fe4e7766b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p>使用不同的线型：</p>
+<pre class="r"><code>&gt; g2 &lt;- ggroc(list(s100b_rc=rc, s100b_rc2=rc2, ndka=roc(aSAH$outcome, aSAH$ndka)), legacy.axes = TRUE, aes=&quot;linetype&quot;, color=&quot;red&quot;)
+Setting levels: control = Good, case = Poor
+Setting direction: controls &lt; cases
+&gt; g2</code></pre>
+<p><img src="https://upload-images.jianshu.io/upload_images/3884693-fc71e485bfc471ab.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p>甚至分面：</p>
+<pre class="r"><code>&gt; roc.list &lt;- roc(outcome ~ s100b + ndka + wfns, data = aSAH)
+Setting levels: control = Good, case = Poor
+Setting direction: controls &lt; cases
+Setting levels: control = Good, case = Poor
+Setting direction: controls &lt; cases
+Setting levels: control = Good, case = Poor
+Setting direction: controls &lt; cases
+&gt; g.list &lt;- ggroc(roc.list)
+&gt; # OR faceting
+&gt; g.list + facet_grid(.~name) + theme(legend.position=&quot;none&quot;)
+&gt; # To have all the curves of the same color, use aes=&quot;group&quot;:
+&gt; g.group &lt;- ggroc(roc.list, aes=&quot;group&quot;)
+&gt; g.group
+&gt; g.group + facet_grid(.~name)</code></pre>
+<p><img src="https://upload-images.jianshu.io/upload_images/3884693-2b88a3efc2d94c0a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/3884693-cebeafd05e51e2c2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+<p>第一张图颜色不一致，第二张一致。</p>
+<p>这里默认显示黑色，我们可以修改成红色：</p>
+<pre class="r"><code>&gt; ggroc(roc.list, aes=&quot;group&quot;, color=&quot;red&quot;) + facet_grid(.~name)</code></pre>
+<p><img src="https://upload-images.jianshu.io/upload_images/3884693-0e640f27b0d3e3a6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
+</div>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="../../../cn/post/2019-09-06-flexmix-model/">使用有限混合模型</a></span>
+  <span class="nav-next"><a href="../../../cn/post/2019-10-18-use-cascadia-code-font/">使用 Cascadia Code 字体</a> &rarr;</span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/post\/2019-09-06-flexmix-model\/';
+    
+  } else if (e.which == 39) {  
+    
+    url = '\/cn\/post\/2019-10-18-use-cascadia-code-font\/';
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+<section class="comments">
+  <div id="disqus_thread"></div>
+  <script src="../../../js/disqusloader.min.js"></script>
+  <script>
+  var disqus_config = function () {
+  
+    this.page.url = "https:\/\/shixiangwang.github.io\/home\/" + location.pathname;
+  
+  };
+  (function() {
+    var inIFrame = function() {
+      var iframe = true;
+      try { iframe = window.self !== window.top; } catch (e) {}
+      return iframe;
+    };
+    if (inIFrame()) return;
+    var disqus_js = '//home-xjdzylqrzp.disqus.com/embed.js';
+    
+    if (location.hash.match(/^#comment/)) {
+      var d = document, s = d.createElement('script');
+      s.src = disqus_js; s.async = true;
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    } else {
+      disqusLoader('#disqus_thread', {
+        scriptUrl: disqus_js, laziness: 0, disqusConfig: disqus_config
+      });
+    }
+  })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+
+
+<script async src="../../../js/fix-toc.js"></script>
+
+<script async src="../../../js/center-img.js"></script>
+
+<script async src="../../../js/right-quote.js"></script>
+
+<script async src="../../../js/no-highlight.js"></script>
+
+<script async src="../../../js/fix-footnote.js"></script>
+
+<script async src="../../../js/math-code.js"></script>
+
+<script async src="../../../js/external-link.js"></script>
+
+<script async src="../../../js/alt-title.js"></script>
+
+<script async src="../../../js/header-link.js"></script>
+
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+  
+  
+
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> &middot; <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> &middot; <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> &middot; <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> &middot; <a href="https://orcid.org/0000-0001-9855-7357"><i class='ai ai-orcid ai-1x'></i></a> &middot; <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 &copy; <a href="../../../">王诗翔</a> 2017 - 2019 </div>
+  
+  
+
+  <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56h9es09xn7&amp;m=6&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=1" async="async"></script>
+  </footer>
+  </article>
+  
+  </body>
+</html>
+

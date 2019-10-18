@@ -1,0 +1,232 @@
+---
+title: "简单丰富的ROC绘制与对比"
+author: "王诗翔"
+date: "2019-10-18"
+lastmod: "`r Sys.Date()`"
+slug: ""
+categories: r
+tags:
+- r
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, dev = "png", comment = "#>")
+#Sys.setenv("LANGUAGE"="EN") # Embed this for outputing English message
+#Sys.setlocale('LC_ALL','C') # Embed this directly in the Rmarkdown script that contains the Chinese character comment
+options(digits=3)
+options(max.print=200)
+```
+
+我之前在[《分析与可视化ROC——plotROC、pROC》](https://www.jianshu.com/p/b71e548ced3d)中介绍了两个包 plotROC 和 pROC，那是一年前的事情了，现在我在处理 ROC 曲线时使用的是什么呢？**pROC** 包，它的理论基础来源于下面这篇文章，并且有非常完备的分析方法、可视化方法。
+
+>Xavier Robin, Natacha Turck, Alexandre Hainard, Natalia Tiberti, Frédérique Lisacek, Jean-Charles Sanchez and Markus Müller (2011). [pROC: an open-source package for R and S+ to analyze and compare ROC curves](http://www.biomedcentral.com/1471-2105/12/77/). *BMC Bioinformatics*, **12**, p. 77\. DOI: [10.1186/1471-2105-12-77](http://dx.doi.org/10.1186/1471-2105-12-77).
+
+
+之前那篇文章着重于介绍 plotROC，这篇文章我主要介绍 pROC 包中我喜欢的功能。
+
+不妨先载入测试数据：
+
+```r
+> library(pROC)
+> data(aSAH)
+> head(aSAH)
+   gos6 outcome gender age wfns s100b  ndka
+29    5    Good Female  42    1  0.13  3.01
+30    5    Good Female  37    1  0.14  8.54
+31    5    Good Female  42    1  0.10  8.09
+32    5    Good Female  27    1  0.04 10.42
+33    1    Poor Female  42    3  0.13 17.40
+34    1    Poor   Male  48    2  0.10 12.75
+```
+
+## 计算 ROC 
+
+使用变量 `s100b` 预测 `outcome`。
+
+```r
+> rc = roc(aSAH$outcome, aSAH$s100b)
+Setting levels: control = Good, case = Poor
+Setting direction: controls < cases
+```
+
+默认情况下我们只需要输入预测变量和结果变量，可以看到该包现在能够提示用户它设定了什么为阳性结果，什么为控制结果。
+
+那怎么设定 `Good` 为 case 呢？这可以通过 `levels` 选项实现。
+
+```r
+> rc2 = roc(aSAH$outcome, aSAH$s100b,
++     levels=c("Good", "Poor"))
+Setting direction: controls < cases
+```
+
+接下来我们观察下返回的结果：
+
+```r
+> rc
+
+Call:
+roc.default(response = aSAH$outcome, predictor = aSAH$s100b,     levels = c("Poor", "Good"))
+
+Data: aSAH$s100b in 41 controls (aSAH$outcome Poor) > 72 cases (aSAH$outcome Good).
+Area under the curve: 0.7314
+> rc2
+
+Call:
+roc.default(response = aSAH$outcome, predictor = aSAH$s100b,     levels = c("Good", "Poor"))
+
+Data: aSAH$s100b in 72 controls (aSAH$outcome Good) < 41 cases (aSAH$outcome Poor).
+Area under the curve: 0.7314
+```
+
+由此可见，`levels`的第一个元素是设定`case`，第二个是设定`control`的。结果显示了两者的 AUC 一致，这没有问题，我们其实也可以通过 `auc` 函数拿到结果。
+
+```
+> auc(rc)
+Area under the curve: 0.7314
+> auc(rc2)
+Area under the curve: 0.7314
+> as.numeric(auc(rc))
+[1] 0.7313686
+```
+
+默认输入的是一个字符结果，可以强制转换为数值。
+
+除了 AUC，`roc()`函数结果还有一个细节：
+
+![](https://upload-images.jianshu.io/upload_images/3884693-2a0d8ca8bae369a6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+不同的结果存在方向性，我们能修改嘛？
+
+没有问题，比如将 `rc2` 变向：
+
+```
+> rc2 = roc(aSAH$outcome, aSAH$s100b,
++     levels=c("Good", "Poor"), direction = ">")
+> auc(rc2)
+Area under the curve: 0.2686
+```
+
+可以看到 AUC 变成了 1 减去之前的 AUC，这刚好是反向预测的结果。
+
+上面其实调用 `roc()` 函数还可以使用公式：
+
+```
+> roc(outcome ~ s100b, aSAH)
+Setting levels: control = Good, case = Poor
+Setting direction: controls < cases
+
+Call:
+roc.formula(formula = outcome ~ s100b, data = aSAH)
+
+Data: s100b in 72 controls (outcome Good) < 41 cases (outcome Poor).
+Area under the curve: 0.7314
+```
+
+## 比较 ROC
+
+pROC 包提供了比较 ROC 的统计检验方法，我们试一试比较 `rc` 和 `rc2`，因为它们的 AUC 差异巨大，因此可以提前估计是有显著性差异的。
+
+```
+> roc.test(rc, rc2)
+
+	DeLong's test for two ROC curves
+
+data:  rc and rc2
+D = -6.3339, df = 224, p-value = 1.294e-09
+alternative hypothesis: true difference in AUC is not equal to 0
+sample estimates:
+AUC of roc1 AUC of roc2 
+  0.7313686   0.2686314 
+```
+
+结果也符合预期。`roc.test()`支持3种方法：
+
+> the method to use, either “delong”, “bootstrap” or “venkatraman”. The first letter is sufficient. If omitted, the appropriate method is selected as explained in details.
+
+
+## 可视化
+
+pROC 包不仅支持 base plot，还支持 ggplot2。我倾向于使用后者。
+
+我们接下来可视化 `rc` 和 `rc2`。先拿一个试试：
+
+```r
+> ggroc(rc, alpha = 0.5, colour = "red", linetype = 2, size = 2)
+```
+
+![](https://upload-images.jianshu.io/upload_images/3884693-094ad77484822206.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+既然是 ggplot2，那么就想怎么改就能怎么改了，改主题、文字、字体、线条等等都是可以的。
+
+```r
+> g = ggroc(rc)
+> g + theme_minimal() + ggtitle("My ROC curve") + 
++     geom_segment(aes(x = 1, xend = 0, y = 0, yend = 1), color="grey", linetype="dashed")
+```
+
+![](https://upload-images.jianshu.io/upload_images/3884693-c2ccf5bb5eeff934.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+修改成我们最常见的 ROC 样式：
+
+```r
+> gl <- ggroc(rc, legacy.axes = TRUE)
+> gl + xlab("FPR") + ylab("TPR") + 
++     geom_segment(aes(x = 0, xend = 1, y = 0, yend = 1), color="darkgrey", linetype="dashed")
+```
+
+![](https://upload-images.jianshu.io/upload_images/3884693-29d009ea0b64e871.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+最后看下怎么使用列表结构绘制多条曲线：
+
+```r
+> g2 <- ggroc(list(s100b_rc=rc, s100b_rc2=rc2, ndka=roc(aSAH$outcome, aSAH$ndka)), legacy.axes = TRUE)
+Setting levels: control = Good, case = Poor
+Setting direction: controls < cases
+> g2
+```
+
+![](https://upload-images.jianshu.io/upload_images/3884693-531f772fe4e7766b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+使用不同的线型：
+
+```r
+> g2 <- ggroc(list(s100b_rc=rc, s100b_rc2=rc2, ndka=roc(aSAH$outcome, aSAH$ndka)), legacy.axes = TRUE, aes="linetype", color="red")
+Setting levels: control = Good, case = Poor
+Setting direction: controls < cases
+> g2
+```
+
+![](https://upload-images.jianshu.io/upload_images/3884693-fc71e485bfc471ab.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+甚至分面：
+
+```r
+> roc.list <- roc(outcome ~ s100b + ndka + wfns, data = aSAH)
+Setting levels: control = Good, case = Poor
+Setting direction: controls < cases
+Setting levels: control = Good, case = Poor
+Setting direction: controls < cases
+Setting levels: control = Good, case = Poor
+Setting direction: controls < cases
+> g.list <- ggroc(roc.list)
+> # OR faceting
+> g.list + facet_grid(.~name) + theme(legend.position="none")
+> # To have all the curves of the same color, use aes="group":
+> g.group <- ggroc(roc.list, aes="group")
+> g.group
+> g.group + facet_grid(.~name)
+```
+
+![](https://upload-images.jianshu.io/upload_images/3884693-2b88a3efc2d94c0a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+![](https://upload-images.jianshu.io/upload_images/3884693-cebeafd05e51e2c2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+第一张图颜色不一致，第二张一致。
+
+这里默认显示黑色，我们可以修改成红色：
+
+```r
+> ggroc(roc.list, aes="group", color="red") + facet_grid(.~name)
+```
+
+![](https://upload-images.jianshu.io/upload_images/3884693-0e640f27b0d3e3a6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
