@@ -159,7 +159,7 @@ This is inspired by Nick Steinmetz (see twitter <a href="https://twitter.com/Ste
 <pre class="r"><code>install.packages(&quot;contribution&quot;)</code></pre>
 <p>And the development version from <a href="https://github.com/">GitHub</a> with:</p>
 <pre class="r"><code># install.packages(&quot;devtools&quot;)
-devtools::install_github(&quot;ShixiangWang/contribution&quot;)</code></pre>
+devtools::install_github(&quot;openbiox/contribution&quot;)</code></pre>
 </div>
 <div id="basic-example" class="section level2">
 <h2>Basic example</h2>
@@ -215,7 +215,7 @@ contr_tb
 #&gt;   role        `PoisonAlien/maftools` `ShixiangWang/UCSCXenaTools`
 #&gt;   &lt;chr&gt;                        &lt;int&gt;                        &lt;int&gt;
 #&gt; 1 Contributor                      4                            0
-#&gt; 2 Developer                        0                          168</code></pre>
+#&gt; 2 Developer                        0                          176</code></pre>
 <p>Now we have data format the <code>generate()</code> function can accept, show the plot!</p>
 <pre class="r"><code>generate(contr_tb, show_legend = TRUE, hjust_x = 0)</code></pre>
 <p><img src="../../../en/tools/contribution-table_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
@@ -387,8 +387,8 @@ Preparation, creation and/or presentation of the published work by those from th
 my_contr = dplyr::tibble(
            repo = c(&quot;UCSCXenaTools&quot;, &quot;XenaShiny&quot;, &quot;metawho&quot;, 
                     &quot;maftools&quot;, &quot;DoAbsolute&quot;, &quot;contribution&quot;),
-           owner = c(&quot;ShixiangWang&quot;, &quot;Openbiox&quot;, &quot;ShixiangWang&quot;,
-                     &quot;PoisonAlien&quot;, &quot;ShixiangWang&quot;, &quot;ShixiangWang&quot;),
+           owner = c(&quot;ropensci&quot;, &quot;openbiox&quot;, &quot;ShixiangWang&quot;,
+                     &quot;PoisonAlien&quot;, &quot;ShixiangWang&quot;, &quot;openbiox&quot;),
            username = &quot;ShixiangWang&quot;,
            role = c(&quot;Developer&quot;, &quot;Project leader&quot;, &quot;Developer&quot;,
                     &quot;Contributor&quot;, &quot;Developer&quot;, &quot;Developer&quot;))
@@ -396,25 +396,25 @@ my_contr
 #&gt; # A tibble: 6 x 4
 #&gt;   repo          owner        username     role          
 #&gt;   &lt;chr&gt;         &lt;chr&gt;        &lt;chr&gt;        &lt;chr&gt;         
-#&gt; 1 UCSCXenaTools ShixiangWang ShixiangWang Developer     
-#&gt; 2 XenaShiny     Openbiox     ShixiangWang Project leader
+#&gt; 1 UCSCXenaTools ropensci     ShixiangWang Developer     
+#&gt; 2 XenaShiny     openbiox     ShixiangWang Project leader
 #&gt; 3 metawho       ShixiangWang ShixiangWang Developer     
 #&gt; 4 maftools      PoisonAlien  ShixiangWang Contributor   
 #&gt; 5 DoAbsolute    ShixiangWang ShixiangWang Developer     
-#&gt; 6 contribution  ShixiangWang ShixiangWang Developer</code></pre>
+#&gt; 6 contribution  openbiox     ShixiangWang Developer</code></pre>
 <div id="commit-number" class="section level3">
 <h3>Commit number</h3>
 <p>At default, <code>pull_github()</code> function will pull commit number from GitHub API.</p>
 <pre class="r"><code>contr_tb = pull_github(data = my_contr)
 contr_tb
 #&gt; # A tibble: 3 x 7
-#&gt;   role  `Openbiox/XenaS… `PoisonAlien/ma… `ShixiangWang/c… `ShixiangWang/D…
+#&gt;   role  `openbiox/contr… `openbiox/XenaS… `PoisonAlien/ma… `ropensci/UCSCX…
 #&gt;   &lt;chr&gt;            &lt;int&gt;            &lt;int&gt;            &lt;int&gt;            &lt;int&gt;
-#&gt; 1 Cont…                0                4                0                0
-#&gt; 2 Deve…                0                0               13               13
-#&gt; 3 Proj…                0                0                0                0
-#&gt; # … with 2 more variables: `ShixiangWang/metawho` &lt;int&gt;,
-#&gt; #   `ShixiangWang/UCSCXenaTools` &lt;int&gt;</code></pre>
+#&gt; 1 Cont…                0                0                4                0
+#&gt; 2 Deve…                0                0                0              176
+#&gt; 3 Proj…                0               59                0                0
+#&gt; # … with 2 more variables: `ShixiangWang/DoAbsolute` &lt;int&gt;,
+#&gt; #   `ShixiangWang/metawho` &lt;int&gt;</code></pre>
 <pre class="r"><code>generate(contr_tb, show_legend = TRUE, hjust_x = 0,
          palette_name = &quot;indigo&quot;, text_angle_x = 60)</code></pre>
 <p><img src="../../../en/tools/contribution-table_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
@@ -426,37 +426,37 @@ contr_tb
 contr_tb1 = pull_github(data = my_contr, report_lines = T,  type = &#39;all&#39;)
 contr_tb1
 #&gt; # A tibble: 3 x 7
-#&gt;   role  `Openbiox/XenaS… `PoisonAlien/ma… `ShixiangWang/c… `ShixiangWang/D…
+#&gt;   role  `openbiox/contr… `openbiox/XenaS… `PoisonAlien/ma… `ropensci/UCSCX…
 #&gt;   &lt;chr&gt;            &lt;int&gt;            &lt;int&gt;            &lt;int&gt;            &lt;int&gt;
-#&gt; 1 Cont…                0               16                0                0
-#&gt; 2 Deve…                0                0             6512             2289
-#&gt; 3 Proj…            54886                0                0                0
-#&gt; # … with 2 more variables: `ShixiangWang/metawho` &lt;int&gt;,
-#&gt; #   `ShixiangWang/UCSCXenaTools` &lt;int&gt;
+#&gt; 1 Cont…                0                0               16                0
+#&gt; 2 Deve…             7972                0                0            95680
+#&gt; 3 Proj…                0            54918                0                0
+#&gt; # … with 2 more variables: `ShixiangWang/DoAbsolute` &lt;int&gt;,
+#&gt; #   `ShixiangWang/metawho` &lt;int&gt;
 
 # Number of additions
 contr_tb2 = pull_github(data = my_contr, report_lines = T, type = &#39;add&#39;)
 contr_tb2
 #&gt; # A tibble: 3 x 7
-#&gt;   role  `Openbiox/XenaS… `PoisonAlien/ma… `ShixiangWang/c… `ShixiangWang/D…
+#&gt;   role  `openbiox/contr… `openbiox/XenaS… `PoisonAlien/ma… `ropensci/UCSCX…
 #&gt;   &lt;chr&gt;            &lt;int&gt;            &lt;int&gt;            &lt;int&gt;            &lt;int&gt;
-#&gt; 1 Cont…                0                9                0                0
-#&gt; 2 Deve…                0                0             5636             2195
-#&gt; 3 Proj…            28493                0                0                0
-#&gt; # … with 2 more variables: `ShixiangWang/metawho` &lt;int&gt;,
-#&gt; #   `ShixiangWang/UCSCXenaTools` &lt;int&gt;
+#&gt; 1 Cont…                0                0                9                0
+#&gt; 2 Deve…             6396                0                0            50661
+#&gt; 3 Proj…                0            28515                0                0
+#&gt; # … with 2 more variables: `ShixiangWang/DoAbsolute` &lt;int&gt;,
+#&gt; #   `ShixiangWang/metawho` &lt;int&gt;
 
 # Number of deletions
 contr_tb3 = pull_github(data = my_contr, report_lines = T, type = &#39;del&#39;)
 contr_tb3
 #&gt; # A tibble: 3 x 7
-#&gt;   role  `Openbiox/XenaS… `PoisonAlien/ma… `ShixiangWang/c… `ShixiangWang/D…
+#&gt;   role  `openbiox/contr… `openbiox/XenaS… `PoisonAlien/ma… `ropensci/UCSCX…
 #&gt;   &lt;chr&gt;            &lt;int&gt;            &lt;int&gt;            &lt;int&gt;            &lt;int&gt;
-#&gt; 1 Cont…                0                7                0                0
-#&gt; 2 Deve…                0                0              876               94
-#&gt; 3 Proj…            26393                0                0                0
-#&gt; # … with 2 more variables: `ShixiangWang/metawho` &lt;int&gt;,
-#&gt; #   `ShixiangWang/UCSCXenaTools` &lt;int&gt;</code></pre>
+#&gt; 1 Cont…                0                0                7                0
+#&gt; 2 Deve…             1576                0                0            45019
+#&gt; 3 Proj…                0            26403                0                0
+#&gt; # … with 2 more variables: `ShixiangWang/DoAbsolute` &lt;int&gt;,
+#&gt; #   `ShixiangWang/metawho` &lt;int&gt;</code></pre>
 <pre class="r"><code>generate(contr_tb1, show_legend = TRUE, hjust_x = 0,
          palette_name = &quot;pink&quot;, text_angle_x = 60)</code></pre>
 <p><img src="../../../en/tools/contribution-table_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
@@ -476,29 +476,29 @@ contr_tb3
 #&gt;   &quot;resources&quot;: {
 #&gt;     &quot;core&quot;: {
 #&gt;       &quot;limit&quot;: 60,
-#&gt;       &quot;remaining&quot;: 29,
-#&gt;       &quot;reset&quot;: 1566816154
+#&gt;       &quot;remaining&quot;: 28,
+#&gt;       &quot;reset&quot;: 1571714692
 #&gt;     },
 #&gt;     &quot;search&quot;: {
 #&gt;       &quot;limit&quot;: 10,
 #&gt;       &quot;remaining&quot;: 10,
-#&gt;       &quot;reset&quot;: 1566812632
+#&gt;       &quot;reset&quot;: 1571711427
 #&gt;     },
 #&gt;     &quot;graphql&quot;: {
 #&gt;       &quot;limit&quot;: 0,
 #&gt;       &quot;remaining&quot;: 0,
-#&gt;       &quot;reset&quot;: 1566816172
+#&gt;       &quot;reset&quot;: 1571714967
 #&gt;     },
 #&gt;     &quot;integration_manifest&quot;: {
 #&gt;       &quot;limit&quot;: 5000,
 #&gt;       &quot;remaining&quot;: 5000,
-#&gt;       &quot;reset&quot;: 1566816172
+#&gt;       &quot;reset&quot;: 1571714239
 #&gt;     }
 #&gt;   },
 #&gt;   &quot;rate&quot;: {
 #&gt;     &quot;limit&quot;: 60,
-#&gt;     &quot;remaining&quot;: 29,
-#&gt;     &quot;reset&quot;: 1566816154
+#&gt;     &quot;remaining&quot;: 28,
+#&gt;     &quot;reset&quot;: 1571714692
 #&gt;   }
 #&gt; }</code></pre>
 <p>Typically, you can set token to <code>GITHUB_PAT</code> variable in your <code>.Renviron</code> file using the following format:</p>

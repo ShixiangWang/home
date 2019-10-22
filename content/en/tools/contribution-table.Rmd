@@ -67,7 +67,7 @@ And the development version from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("ShixiangWang/contribution")
+devtools::install_github("openbiox/contribution")
 ```
 
 ## Basic example
@@ -192,8 +192,8 @@ library(contribution)
 my_contr = dplyr::tibble(
            repo = c("UCSCXenaTools", "XenaShiny", "metawho", 
                     "maftools", "DoAbsolute", "contribution"),
-           owner = c("ShixiangWang", "Openbiox", "ShixiangWang",
-                     "PoisonAlien", "ShixiangWang", "ShixiangWang"),
+           owner = c("ropensci", "openbiox", "ShixiangWang",
+                     "PoisonAlien", "ShixiangWang", "openbiox"),
            username = "ShixiangWang",
            role = c("Developer", "Project leader", "Developer",
                     "Contributor", "Developer", "Developer"))
