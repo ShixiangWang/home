@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>使用 ezcox 进行批量 Cox 模型处理</title>
+      <link>/cn/post/2019-10-23-ezcox-for-batch-cox-models/</link>
+      <pubDate>Wed, 23 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-10-23-ezcox-for-batch-cox-models/</guid>
+      <description>Cox 模型是我们做生存分析最常用的模型，在实际的分析工作中，我们常常想逐一查看多个变量对生存时间的影响。注意，这与多变量分析不同，后者是通常将多</description>
+    </item>
+    
+    <item>
       <title>使用 Cascadia Code 字体</title>
       <link>/cn/post/2019-10-18-use-cascadia-code-font/</link>
       <pubDate>Fri, 18 Oct 2019 00:00:00 +0000</pubDate>

@@ -6,10 +6,46 @@
     <description>Recent content in Tags on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 18 Oct 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 23 Oct 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>batch</title>
+      <link>/tags/batch/</link>
+      <pubDate>Wed, 23 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/batch/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>cox</title>
+      <link>/tags/cox/</link>
+      <pubDate>Wed, 23 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/cox/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>forestplot</title>
+      <link>/tags/forestplot/</link>
+      <pubDate>Wed, 23 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/forestplot/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>r</title>
+      <link>/tags/r/</link>
+      <pubDate>Wed, 23 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/r/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>font</title>
@@ -17,15 +53,6 @@
       <pubDate>Fri, 18 Oct 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/font/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>r</title>
-      <link>/tags/r/</link>
-      <pubDate>Fri, 18 Oct 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/r/</guid>
       <description></description>
     </item>
     
@@ -507,15 +534,6 @@
     </item>
     
     <item>
-      <title>forestplot</title>
-      <link>/tags/forestplot/</link>
-      <pubDate>Mon, 10 Sep 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/forestplot/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>森林图</title>
       <link>/tags/%E6%A3%AE%E6%9E%97%E5%9B%BE/</link>
       <pubDate>Mon, 10 Sep 2018 00:00:00 +0000</pubDate>
@@ -575,15 +593,6 @@
       <pubDate>Sat, 19 May 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/ggpubr/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>cox</title>
-      <link>/tags/cox/</link>
-      <pubDate>Sat, 28 Apr 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/cox/</guid>
       <description></description>
     </item>
     

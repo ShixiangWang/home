@@ -1,0 +1,376 @@
+---
+title: "使用 ezcox 进行批量 Cox 模型处理"
+author: "王诗翔"
+date: "2019-10-23"
+lastmod: "2019-10-23"
+slug: ""
+categories: r
+tags:
+- r
+- cox
+- batch
+- forestplot
+---
+
+
+
+<p>Cox 模型是我们做生存分析最常用的模型，在实际的分析工作中，我们常常想逐一查看多个变量对生存时间的影响。注意，这与多变量分析不同，后者是通常将多个变量纳入模型查看它们的影响。</p>
+<p>基于我自己的分析需求，几个月前我编写了一个批处理的函数，最近我将它打包发布 CRAN 上。下面我们看一下如何使用它。</p>
+<div class="section level2">
+<h2>安装</h2>
+<p>使用下面的命令直接从 CRAN 上安装：</p>
+<pre class="r"><code>install.packages(&quot;ezcox&quot;)</code></pre>
+<p>安装开发版本使用：</p>
+<pre class="r"><code># install.packages(&quot;devtools&quot;)
+devtools::install_github(&quot;ShixiangWang/ezcox&quot;)</code></pre>
+</div>
+<div class="section level2">
+<h2>示例</h2>
+<p>我们使用 <strong>survival</strong> 包提供的数据集 <code>lung</code> 作为示例数据。</p>
+<pre class="r"><code>data(&quot;lung&quot;, package = &quot;survival&quot;)
+head(lung)
+#&gt;   inst time status age sex ph.ecog ph.karno pat.karno meal.cal wt.loss
+#&gt; 1    3  306      2  74   1       1       90       100     1175      NA
+#&gt; 2    3  455      2  68   1       0       90        90     1225      15
+#&gt; 3    3 1010      1  56   1       0       90        90       NA      15
+#&gt; 4    5  210      2  57   1       1       90        60     1150      11
+#&gt; 5    1  883      2  60   1       0      100        90       NA       0
+#&gt; 6   12 1022      1  74   1       1       50        80      513       0</code></pre>
+<p>加载包：</p>
+<pre class="r"><code>library(ezcox)</code></pre>
+<div class="section level3">
+<h3>单变量批量处理</h3>
+<p>这里我们选择 3 个变量，包括年龄、性别以及 ECOG 评分。</p>
+<pre class="r"><code>res = ezcox(lung, covariates = c(&quot;age&quot;, &quot;sex&quot;, &quot;ph.ecog&quot;))
+#&gt; =&gt; Processing variable age
+#&gt; ==&gt; Building Surv object...
+#&gt; ==&gt; Building Cox model...
+#&gt; ==&gt; Done.
+#&gt; =&gt; Processing variable sex
+#&gt; ==&gt; Building Surv object...
+#&gt; ==&gt; Building Cox model...
+#&gt; ==&gt; Done.
+#&gt; =&gt; Processing variable ph.ecog
+#&gt; ==&gt; Building Surv object...
+#&gt; ==&gt; Building Cox model...
+#&gt; ==&gt; Done.
+knitr::kable(res)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Variable</th>
+<th align="left">contrast_level</th>
+<th align="left">ref_level</th>
+<th align="right">n_contrast</th>
+<th align="right">n_ref</th>
+<th align="right">beta</th>
+<th align="right">HR</th>
+<th align="right">lower_95</th>
+<th align="right">upper_95</th>
+<th align="right">p.value</th>
+<th align="right">global.pval</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">age</td>
+<td align="left">age</td>
+<td align="left">age</td>
+<td align="right">228</td>
+<td align="right">228</td>
+<td align="right">0.019</td>
+<td align="right">1.020</td>
+<td align="right">1.000</td>
+<td align="right">1.040</td>
+<td align="right">0.042</td>
+<td align="right">0.040</td>
+</tr>
+<tr class="even">
+<td align="left">sex</td>
+<td align="left">sex</td>
+<td align="left">sex</td>
+<td align="right">228</td>
+<td align="right">228</td>
+<td align="right">-0.531</td>
+<td align="right">0.588</td>
+<td align="right">0.424</td>
+<td align="right">0.816</td>
+<td align="right">0.001</td>
+<td align="right">0.001</td>
+</tr>
+<tr class="odd">
+<td align="left">ph.ecog</td>
+<td align="left">ph.ecog</td>
+<td align="left">ph.ecog</td>
+<td align="right">227</td>
+<td align="right">227</td>
+<td align="right">0.476</td>
+<td align="right">1.610</td>
+<td align="right">1.290</td>
+<td align="right">2.010</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+</tr>
+</tbody>
+</table>
+<p>结果以比较整洁的方式输出了 3 个 Cox 模型的系数、HR 以及它的置信区间、P值、样本量等。这里有一点需要提醒读者注意，当 <code>contrast_level</code> 和 <code>ref_level</code>一致时，Cox 模型其实是将该变量作为一个<strong>连续变量</strong>进行处理，所以我们也可以观察到它们的样本量一致。下面我们将 <code>sex</code> 改为分类变量看看结果是否有所不同。</p>
+<pre class="r"><code>table(lung$sex)
+#&gt; 
+#&gt;   1   2 
+#&gt; 138  90</code></pre>
+<pre class="r"><code>lung2 = lung
+lung2$sex = factor(lung2$sex)
+res = ezcox(lung2, covariates = c(&quot;age&quot;, &quot;sex&quot;, &quot;ph.ecog&quot;))
+#&gt; =&gt; Processing variable age
+#&gt; ==&gt; Building Surv object...
+#&gt; ==&gt; Building Cox model...
+#&gt; ==&gt; Done.
+#&gt; =&gt; Processing variable sex
+#&gt; ==&gt; Building Surv object...
+#&gt; ==&gt; Building Cox model...
+#&gt; ==&gt; Done.
+#&gt; =&gt; Processing variable ph.ecog
+#&gt; ==&gt; Building Surv object...
+#&gt; ==&gt; Building Cox model...
+#&gt; ==&gt; Done.
+knitr::kable(res)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Variable</th>
+<th align="left">contrast_level</th>
+<th align="left">ref_level</th>
+<th align="right">n_contrast</th>
+<th align="right">n_ref</th>
+<th align="right">beta</th>
+<th align="right">HR</th>
+<th align="right">lower_95</th>
+<th align="right">upper_95</th>
+<th align="right">p.value</th>
+<th align="right">global.pval</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">age</td>
+<td align="left">age</td>
+<td align="left">age</td>
+<td align="right">228</td>
+<td align="right">228</td>
+<td align="right">0.019</td>
+<td align="right">1.020</td>
+<td align="right">1.000</td>
+<td align="right">1.040</td>
+<td align="right">0.042</td>
+<td align="right">0.040</td>
+</tr>
+<tr class="even">
+<td align="left">sex</td>
+<td align="left">2</td>
+<td align="left">1</td>
+<td align="right">90</td>
+<td align="right">138</td>
+<td align="right">-0.531</td>
+<td align="right">0.588</td>
+<td align="right">0.424</td>
+<td align="right">0.816</td>
+<td align="right">0.001</td>
+<td align="right">0.001</td>
+</tr>
+<tr class="odd">
+<td align="left">ph.ecog</td>
+<td align="left">ph.ecog</td>
+<td align="left">ph.ecog</td>
+<td align="right">227</td>
+<td align="right">227</td>
+<td align="right">0.476</td>
+<td align="right">1.610</td>
+<td align="right">1.290</td>
+<td align="right">2.010</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+</tr>
+</tbody>
+</table>
+<p>结果证实如此。</p>
+</div>
+<div class="section level3">
+<h3>多变量批量处理</h3>
+<p>我们将年龄作为新的变量加入，也就是运行 2 个二变量的 Cox 模型。</p>
+<pre><code>Surv ~ sex + age
+Surv ~ ph.ecog + age</code></pre>
+<p>实际操作如下：</p>
+<pre class="r"><code>res = ezcox(lung, covariates = c(&quot;sex&quot;, &quot;ph.ecog&quot;), controls = &quot;age&quot;)
+#&gt; =&gt; Processing variable sex
+#&gt; ==&gt; Building Surv object...
+#&gt; ==&gt; Building Cox model...
+#&gt; ==&gt; Done.
+#&gt; =&gt; Processing variable ph.ecog
+#&gt; ==&gt; Building Surv object...
+#&gt; ==&gt; Building Cox model...
+#&gt; ==&gt; Done.
+knitr::kable(res)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Variable</th>
+<th align="left">contrast_level</th>
+<th align="left">ref_level</th>
+<th align="right">n_contrast</th>
+<th align="right">n_ref</th>
+<th align="right">beta</th>
+<th align="right">HR</th>
+<th align="right">lower_95</th>
+<th align="right">upper_95</th>
+<th align="right">p.value</th>
+<th align="right">global.pval</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">sex</td>
+<td align="left">sex</td>
+<td align="left">sex</td>
+<td align="right">228</td>
+<td align="right">228</td>
+<td align="right">-0.513</td>
+<td align="right">0.599</td>
+<td align="right">0.431</td>
+<td align="right">0.831</td>
+<td align="right">0.002</td>
+<td align="right">0.001</td>
+</tr>
+<tr class="even">
+<td align="left">sex</td>
+<td align="left">age</td>
+<td align="left">age</td>
+<td align="right">228</td>
+<td align="right">228</td>
+<td align="right">0.017</td>
+<td align="right">1.020</td>
+<td align="right">0.999</td>
+<td align="right">1.040</td>
+<td align="right">0.065</td>
+<td align="right">0.001</td>
+</tr>
+<tr class="odd">
+<td align="left">ph.ecog</td>
+<td align="left">ph.ecog</td>
+<td align="left">ph.ecog</td>
+<td align="right">227</td>
+<td align="right">227</td>
+<td align="right">0.443</td>
+<td align="right">1.560</td>
+<td align="right">1.240</td>
+<td align="right">1.960</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">ph.ecog</td>
+<td align="left">age</td>
+<td align="left">age</td>
+<td align="right">228</td>
+<td align="right">228</td>
+<td align="right">0.011</td>
+<td align="right">1.010</td>
+<td align="right">0.993</td>
+<td align="right">1.030</td>
+<td align="right">0.226</td>
+<td align="right">0.000</td>
+</tr>
+</tbody>
+</table>
+<p>这里 <code>global.pval</code> 给出的是整个模型的P值。变量 <code>age</code> 并不是我们想要关注的结果，我们可以过滤它：</p>
+<pre class="r"><code>knitr::kable(dplyr::filter(res, ref_level != &quot;age&quot;))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Variable</th>
+<th align="left">contrast_level</th>
+<th align="left">ref_level</th>
+<th align="right">n_contrast</th>
+<th align="right">n_ref</th>
+<th align="right">beta</th>
+<th align="right">HR</th>
+<th align="right">lower_95</th>
+<th align="right">upper_95</th>
+<th align="right">p.value</th>
+<th align="right">global.pval</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">sex</td>
+<td align="left">sex</td>
+<td align="left">sex</td>
+<td align="right">228</td>
+<td align="right">228</td>
+<td align="right">-0.513</td>
+<td align="right">0.599</td>
+<td align="right">0.431</td>
+<td align="right">0.831</td>
+<td align="right">0.002</td>
+<td align="right">0.001</td>
+</tr>
+<tr class="even">
+<td align="left">ph.ecog</td>
+<td align="left">ph.ecog</td>
+<td align="left">ph.ecog</td>
+<td align="right">227</td>
+<td align="right">227</td>
+<td align="right">0.443</td>
+<td align="right">1.560</td>
+<td align="right">1.240</td>
+<td align="right">1.960</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+</tr>
+</tbody>
+</table>
+<p>如果你想要查看模型本身，这也没有问题。</p>
+<pre class="r"><code>res = ezcox(lung, covariates = c(&quot;sex&quot;, &quot;ph.ecog&quot;), controls = &quot;age&quot;, return_models = TRUE)
+#&gt; =&gt; Processing variable sex
+#&gt; ==&gt; Building Surv object...
+#&gt; ==&gt; Building Cox model...
+#&gt; ==&gt; Done.
+#&gt; =&gt; Processing variable ph.ecog
+#&gt; ==&gt; Building Surv object...
+#&gt; ==&gt; Building Cox model...
+#&gt; ==&gt; Done.
+res$models$model
+#&gt; [[1]]
+#&gt; Call:
+#&gt; coxph(formula = fm, data = data)
+#&gt; 
+#&gt;       coef exp(coef) se(coef)  z     p
+#&gt; sex -0.513     0.599    0.167 -3 0.002
+#&gt; age  0.017     1.017    0.009  2 0.065
+#&gt; 
+#&gt; Likelihood ratio test=14  on 2 df, p=9e-04
+#&gt; n= 228, number of events= 165 
+#&gt; 
+#&gt; [[2]]
+#&gt; Call:
+#&gt; coxph(formula = fm, data = data)
+#&gt; 
+#&gt;          coef exp(coef) se(coef) z     p
+#&gt; ph.ecog 0.443     1.558    0.116 4 1e-04
+#&gt; age     0.011     1.011    0.009 1   0.2
+#&gt; 
+#&gt; Likelihood ratio test=19  on 2 df, p=7e-05
+#&gt; n= 227, number of events= 164 
+#&gt;    (1 observation deleted due to missingness)</code></pre>
+</div>
+<div class="section level3">
+<h3>可视化</h3>
+<p>我之前想过创建相应的可视化函数，但批量处理的结果使用表格展示更加方便。如果有画图需求的读者可以使用 <strong>forestplot</strong> 包，甚至 <strong>ggplot2</strong> 去构建自定义的森林图或者其他图形。如果是单个 Cox 模型，我们可以直接使用 <strong>forestmodel</strong> 包提供的函数进行可视化。</p>
+<pre class="r"><code>library(forestmodel)
+#&gt; 载入需要的程辑包：ggplot2
+
+forest_model(res$models$model[[1]])</code></pre>
+<p><img src="/cn/post/2019-10-23-ezcox-for-batch-cox-models_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<pre class="r"><code>forest_model(res$models$model[[2]])</code></pre>
+<p><img src="/cn/post/2019-10-23-ezcox-for-batch-cox-models_files/figure-html/unnamed-chunk-9-2.png" width="672" /></p>
+</div>
+</div>

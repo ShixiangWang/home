@@ -1,0 +1,120 @@
+---
+title: "使用 ezcox 进行批量 Cox 模型处理"
+author: "王诗翔"
+date: "2019-10-23"
+lastmod: "`r Sys.Date()`"
+slug: ""
+categories: r
+tags:
+- r
+- cox
+- batch
+- forestplot
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, dev = "png", comment = "#>")
+#Sys.setenv("LANGUAGE"="EN") # Embed this for outputing English message
+#Sys.setlocale('LC_ALL','C') # Embed this directly in the Rmarkdown script that contains the Chinese character comment
+options(digits=3)
+options(max.print=200)
+```
+
+Cox 模型是我们做生存分析最常用的模型，在实际的分析工作中，我们常常想逐一查看多个变量对生存时间的影响。注意，这与多变量分析不同，后者是通常将多个变量纳入模型查看它们的影响。
+
+基于我自己的分析需求，几个月前我编写了一个批处理的函数，最近我将它打包发布 CRAN 上。下面我们看一下如何使用它。
+
+## 安装
+
+使用下面的命令直接从 CRAN 上安装：
+
+```r
+install.packages("ezcox")
+```
+
+安装开发版本使用：
+
+```r
+# install.packages("devtools")
+devtools::install_github("ShixiangWang/ezcox")
+```
+
+## 示例
+
+我们使用 **survival** 包提供的数据集 `lung` 作为示例数据。
+
+```{r}
+data("lung", package = "survival")
+head(lung)
+```
+
+加载包：
+
+```{r}
+library(ezcox)
+```
+
+### 单变量批量处理
+
+这里我们选择 3 个变量，包括年龄、性别以及 ECOG 评分。
+
+```{r}
+res = ezcox(lung, covariates = c("age", "sex", "ph.ecog"))
+knitr::kable(res)
+```
+
+结果以比较整洁的方式输出了 3 个 Cox 模型的系数、HR 以及它的置信区间、P值、样本量等。这里有一点需要提醒读者注意，当 `contrast_level` 和 `ref_level`一致时，Cox 模型其实是将该变量作为一个**连续变量**进行处理，所以我们也可以观察到它们的样本量一致。下面我们将 `sex` 改为分类变量看看结果是否有所不同。
+
+```{r}
+table(lung$sex)
+```
+
+```{r}
+lung2 = lung
+lung2$sex = factor(lung2$sex)
+res = ezcox(lung2, covariates = c("age", "sex", "ph.ecog"))
+knitr::kable(res)
+```
+
+结果证实如此。
+
+### 多变量批量处理
+
+我们将年龄作为新的变量加入，也就是运行 2 个二变量的 Cox 模型。
+
+```
+Surv ~ sex + age
+Surv ~ ph.ecog + age
+```
+
+实际操作如下：
+
+```{r}
+res = ezcox(lung, covariates = c("sex", "ph.ecog"), controls = "age")
+knitr::kable(res)
+```
+
+这里 `global.pval` 给出的是整个模型的P值。变量 `age` 并不是我们想要关注的结果，我们可以过滤它：
+
+```{r}
+knitr::kable(dplyr::filter(res, ref_level != "age"))
+```
+
+如果你想要查看模型本身，这也没有问题。
+
+```{r}
+res = ezcox(lung, covariates = c("sex", "ph.ecog"), controls = "age", return_models = TRUE)
+res$models$model
+```
+
+### 可视化
+
+我之前想过创建相应的可视化函数，但批量处理的结果使用表格展示更加方便。如果有画图需求的读者可以使用 **forestplot** 包，甚至 **ggplot2** 去构建自定义的森林图或者其他图形。如果是单个 Cox 模型，我们可以直接使用 **forestmodel** 包提供的函数进行可视化。
+
+```{r}
+library(forestmodel)
+
+forest_model(res$models$model[[1]])
+forest_model(res$models$model[[2]])
+```
+

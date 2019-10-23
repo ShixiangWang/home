@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    
+    <link rel="stylesheet" href="../../../fonts/academicons-1.8.6/css/academicons.min.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../logo/bodhi.png"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    
+    <title>使用 ezcox 进行批量 Cox 模型处理 - 王诗翔</title>
+    
+     
+    <meta property="og:title" content="使用 ezcox 进行批量 Cox 模型处理 - Shixiang Wang | 王诗翔">
+    
+
+    
+      
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="../../../css/style.css" />
+    <link rel="stylesheet" href="../../../css/mystyle.css" /> 
+    <link rel="stylesheet" href="../../../css/fonts.css" />
+    
+<script async src="../../../js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="../../../css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="../../../"><img src="https://avatars1.githubusercontent.com/u/25057508?s=460&amp;v=4" alt="Shixiang Wang" /></a></h1>
+
+
+
+      <nav class="menu">
+        <input id="menu-check" type="checkbox" />
+        <label id="menu-label" for="menu-check" class="unselectable">
+          <span class="icon close-icon">✕</span>
+          <span class="icon open-icon">☰</span>
+          <span class="text">Menu</span>
+        </label>
+        <ul>
+        
+        
+        <li><a href="../../../">首页</a></li>
+        
+        <li><a href="../../../cn/about/">关于</a></li>
+        
+        <li><a href="../../../cn/post/">博客</a></li>
+        
+        <li><a href="../../../cn/read/">读书</a></li>
+        
+        <li><a href="../../../cn/writing">写作</a></li>
+        
+        <li><a href="../../../cn/research/">研究</a></li>
+        
+        <li><a href="../../../cn/tools/">工具</a></li>
+        
+        <li><a href="../../../cn/cv-cn/shixiang">简历</a></li>
+        
+        <li><a href="../../../logo/qrcode.jpg">公众号</a></li>
+        
+        <li><a href="https://www.jianshu.com/u/b6608e27dc74">简书</a></li>
+        
+        <li><a href="../../../cn/todo">ToDo</a></li>
+        
+        <li><a href="../../../en/">English</a></li>
+        
+        
+
+<li class="menu-extra"></li>
+
+
+
+
+
+
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2019-10-23-ezcox-for-batch-cox-models.Rmd" target="_blank">编辑</a></li>
+
+
+<li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+        </ul>
+      </nav>
+    </header>
+
+    <article class="main">
+      <header class="title">
+        
+
+<h1>使用 ezcox 进行批量 Cox 模型处理</h1>
+
+
+
+<h3>王诗翔 &middot 
+2019-10-23</h3> 
+
+
+   
+  
+
+
+      </header>
+
+
+
+
+
+<p>Cox 模型是我们做生存分析最常用的模型，在实际的分析工作中，我们常常想逐一查看多个变量对生存时间的影响。注意，这与多变量分析不同，后者是通常将多个变量纳入模型查看它们的影响。</p>
+<p>基于我自己的分析需求，几个月前我编写了一个批处理的函数，最近我将它打包发布 CRAN 上。下面我们看一下如何使用它。</p>
+<div class="section level2">
+<h2>安装</h2>
+<p>使用下面的命令直接从 CRAN 上安装：</p>
+<pre class="r"><code>install.packages(&quot;ezcox&quot;)</code></pre>
+<p>安装开发版本使用：</p>
+<pre class="r"><code># install.packages(&quot;devtools&quot;)
+devtools::install_github(&quot;ShixiangWang/ezcox&quot;)</code></pre>
+</div>
+<div class="section level2">
+<h2>示例</h2>
+<p>我们使用 <strong>survival</strong> 包提供的数据集 <code>lung</code> 作为示例数据。</p>
+<pre class="r"><code>data(&quot;lung&quot;, package = &quot;survival&quot;)
+head(lung)
+#&gt;   inst time status age sex ph.ecog ph.karno pat.karno meal.cal wt.loss
+#&gt; 1    3  306      2  74   1       1       90       100     1175      NA
+#&gt; 2    3  455      2  68   1       0       90        90     1225      15
+#&gt; 3    3 1010      1  56   1       0       90        90       NA      15
+#&gt; 4    5  210      2  57   1       1       90        60     1150      11
+#&gt; 5    1  883      2  60   1       0      100        90       NA       0
+#&gt; 6   12 1022      1  74   1       1       50        80      513       0</code></pre>
+<p>加载包：</p>
+<pre class="r"><code>library(ezcox)</code></pre>
+<div class="section level3">
+<h3>单变量批量处理</h3>
+<p>这里我们选择 3 个变量，包括年龄、性别以及 ECOG 评分。</p>
+<pre class="r"><code>res = ezcox(lung, covariates = c(&quot;age&quot;, &quot;sex&quot;, &quot;ph.ecog&quot;))
+#&gt; =&gt; Processing variable age
+#&gt; ==&gt; Building Surv object...
+#&gt; ==&gt; Building Cox model...
+#&gt; ==&gt; Done.
+#&gt; =&gt; Processing variable sex
+#&gt; ==&gt; Building Surv object...
+#&gt; ==&gt; Building Cox model...
+#&gt; ==&gt; Done.
+#&gt; =&gt; Processing variable ph.ecog
+#&gt; ==&gt; Building Surv object...
+#&gt; ==&gt; Building Cox model...
+#&gt; ==&gt; Done.
+knitr::kable(res)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Variable</th>
+<th align="left">contrast_level</th>
+<th align="left">ref_level</th>
+<th align="right">n_contrast</th>
+<th align="right">n_ref</th>
+<th align="right">beta</th>
+<th align="right">HR</th>
+<th align="right">lower_95</th>
+<th align="right">upper_95</th>
+<th align="right">p.value</th>
+<th align="right">global.pval</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">age</td>
+<td align="left">age</td>
+<td align="left">age</td>
+<td align="right">228</td>
+<td align="right">228</td>
+<td align="right">0.019</td>
+<td align="right">1.020</td>
+<td align="right">1.000</td>
+<td align="right">1.040</td>
+<td align="right">0.042</td>
+<td align="right">0.040</td>
+</tr>
+<tr class="even">
+<td align="left">sex</td>
+<td align="left">sex</td>
+<td align="left">sex</td>
+<td align="right">228</td>
+<td align="right">228</td>
+<td align="right">-0.531</td>
+<td align="right">0.588</td>
+<td align="right">0.424</td>
+<td align="right">0.816</td>
+<td align="right">0.001</td>
+<td align="right">0.001</td>
+</tr>
+<tr class="odd">
+<td align="left">ph.ecog</td>
+<td align="left">ph.ecog</td>
+<td align="left">ph.ecog</td>
+<td align="right">227</td>
+<td align="right">227</td>
+<td align="right">0.476</td>
+<td align="right">1.610</td>
+<td align="right">1.290</td>
+<td align="right">2.010</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+</tr>
+</tbody>
+</table>
+<p>结果以比较整洁的方式输出了 3 个 Cox 模型的系数、HR 以及它的置信区间、P值、样本量等。这里有一点需要提醒读者注意，当 <code>contrast_level</code> 和 <code>ref_level</code>一致时，Cox 模型其实是将该变量作为一个<strong>连续变量</strong>进行处理，所以我们也可以观察到它们的样本量一致。下面我们将 <code>sex</code> 改为分类变量看看结果是否有所不同。</p>
+<pre class="r"><code>table(lung$sex)
+#&gt; 
+#&gt;   1   2 
+#&gt; 138  90</code></pre>
+<pre class="r"><code>lung2 = lung
+lung2$sex = factor(lung2$sex)
+res = ezcox(lung2, covariates = c(&quot;age&quot;, &quot;sex&quot;, &quot;ph.ecog&quot;))
+#&gt; =&gt; Processing variable age
+#&gt; ==&gt; Building Surv object...
+#&gt; ==&gt; Building Cox model...
+#&gt; ==&gt; Done.
+#&gt; =&gt; Processing variable sex
+#&gt; ==&gt; Building Surv object...
+#&gt; ==&gt; Building Cox model...
+#&gt; ==&gt; Done.
+#&gt; =&gt; Processing variable ph.ecog
+#&gt; ==&gt; Building Surv object...
+#&gt; ==&gt; Building Cox model...
+#&gt; ==&gt; Done.
+knitr::kable(res)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Variable</th>
+<th align="left">contrast_level</th>
+<th align="left">ref_level</th>
+<th align="right">n_contrast</th>
+<th align="right">n_ref</th>
+<th align="right">beta</th>
+<th align="right">HR</th>
+<th align="right">lower_95</th>
+<th align="right">upper_95</th>
+<th align="right">p.value</th>
+<th align="right">global.pval</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">age</td>
+<td align="left">age</td>
+<td align="left">age</td>
+<td align="right">228</td>
+<td align="right">228</td>
+<td align="right">0.019</td>
+<td align="right">1.020</td>
+<td align="right">1.000</td>
+<td align="right">1.040</td>
+<td align="right">0.042</td>
+<td align="right">0.040</td>
+</tr>
+<tr class="even">
+<td align="left">sex</td>
+<td align="left">2</td>
+<td align="left">1</td>
+<td align="right">90</td>
+<td align="right">138</td>
+<td align="right">-0.531</td>
+<td align="right">0.588</td>
+<td align="right">0.424</td>
+<td align="right">0.816</td>
+<td align="right">0.001</td>
+<td align="right">0.001</td>
+</tr>
+<tr class="odd">
+<td align="left">ph.ecog</td>
+<td align="left">ph.ecog</td>
+<td align="left">ph.ecog</td>
+<td align="right">227</td>
+<td align="right">227</td>
+<td align="right">0.476</td>
+<td align="right">1.610</td>
+<td align="right">1.290</td>
+<td align="right">2.010</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+</tr>
+</tbody>
+</table>
+<p>结果证实如此。</p>
+</div>
+<div class="section level3">
+<h3>多变量批量处理</h3>
+<p>我们将年龄作为新的变量加入，也就是运行 2 个二变量的 Cox 模型。</p>
+<pre><code>Surv ~ sex + age
+Surv ~ ph.ecog + age</code></pre>
+<p>实际操作如下：</p>
+<pre class="r"><code>res = ezcox(lung, covariates = c(&quot;sex&quot;, &quot;ph.ecog&quot;), controls = &quot;age&quot;)
+#&gt; =&gt; Processing variable sex
+#&gt; ==&gt; Building Surv object...
+#&gt; ==&gt; Building Cox model...
+#&gt; ==&gt; Done.
+#&gt; =&gt; Processing variable ph.ecog
+#&gt; ==&gt; Building Surv object...
+#&gt; ==&gt; Building Cox model...
+#&gt; ==&gt; Done.
+knitr::kable(res)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Variable</th>
+<th align="left">contrast_level</th>
+<th align="left">ref_level</th>
+<th align="right">n_contrast</th>
+<th align="right">n_ref</th>
+<th align="right">beta</th>
+<th align="right">HR</th>
+<th align="right">lower_95</th>
+<th align="right">upper_95</th>
+<th align="right">p.value</th>
+<th align="right">global.pval</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">sex</td>
+<td align="left">sex</td>
+<td align="left">sex</td>
+<td align="right">228</td>
+<td align="right">228</td>
+<td align="right">-0.513</td>
+<td align="right">0.599</td>
+<td align="right">0.431</td>
+<td align="right">0.831</td>
+<td align="right">0.002</td>
+<td align="right">0.001</td>
+</tr>
+<tr class="even">
+<td align="left">sex</td>
+<td align="left">age</td>
+<td align="left">age</td>
+<td align="right">228</td>
+<td align="right">228</td>
+<td align="right">0.017</td>
+<td align="right">1.020</td>
+<td align="right">0.999</td>
+<td align="right">1.040</td>
+<td align="right">0.065</td>
+<td align="right">0.001</td>
+</tr>
+<tr class="odd">
+<td align="left">ph.ecog</td>
+<td align="left">ph.ecog</td>
+<td align="left">ph.ecog</td>
+<td align="right">227</td>
+<td align="right">227</td>
+<td align="right">0.443</td>
+<td align="right">1.560</td>
+<td align="right">1.240</td>
+<td align="right">1.960</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">ph.ecog</td>
+<td align="left">age</td>
+<td align="left">age</td>
+<td align="right">228</td>
+<td align="right">228</td>
+<td align="right">0.011</td>
+<td align="right">1.010</td>
+<td align="right">0.993</td>
+<td align="right">1.030</td>
+<td align="right">0.226</td>
+<td align="right">0.000</td>
+</tr>
+</tbody>
+</table>
+<p>这里 <code>global.pval</code> 给出的是整个模型的P值。变量 <code>age</code> 并不是我们想要关注的结果，我们可以过滤它：</p>
+<pre class="r"><code>knitr::kable(dplyr::filter(res, ref_level != &quot;age&quot;))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Variable</th>
+<th align="left">contrast_level</th>
+<th align="left">ref_level</th>
+<th align="right">n_contrast</th>
+<th align="right">n_ref</th>
+<th align="right">beta</th>
+<th align="right">HR</th>
+<th align="right">lower_95</th>
+<th align="right">upper_95</th>
+<th align="right">p.value</th>
+<th align="right">global.pval</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">sex</td>
+<td align="left">sex</td>
+<td align="left">sex</td>
+<td align="right">228</td>
+<td align="right">228</td>
+<td align="right">-0.513</td>
+<td align="right">0.599</td>
+<td align="right">0.431</td>
+<td align="right">0.831</td>
+<td align="right">0.002</td>
+<td align="right">0.001</td>
+</tr>
+<tr class="even">
+<td align="left">ph.ecog</td>
+<td align="left">ph.ecog</td>
+<td align="left">ph.ecog</td>
+<td align="right">227</td>
+<td align="right">227</td>
+<td align="right">0.443</td>
+<td align="right">1.560</td>
+<td align="right">1.240</td>
+<td align="right">1.960</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+</tr>
+</tbody>
+</table>
+<p>如果你想要查看模型本身，这也没有问题。</p>
+<pre class="r"><code>res = ezcox(lung, covariates = c(&quot;sex&quot;, &quot;ph.ecog&quot;), controls = &quot;age&quot;, return_models = TRUE)
+#&gt; =&gt; Processing variable sex
+#&gt; ==&gt; Building Surv object...
+#&gt; ==&gt; Building Cox model...
+#&gt; ==&gt; Done.
+#&gt; =&gt; Processing variable ph.ecog
+#&gt; ==&gt; Building Surv object...
+#&gt; ==&gt; Building Cox model...
+#&gt; ==&gt; Done.
+res$models$model
+#&gt; [[1]]
+#&gt; Call:
+#&gt; coxph(formula = fm, data = data)
+#&gt; 
+#&gt;       coef exp(coef) se(coef)  z     p
+#&gt; sex -0.513     0.599    0.167 -3 0.002
+#&gt; age  0.017     1.017    0.009  2 0.065
+#&gt; 
+#&gt; Likelihood ratio test=14  on 2 df, p=9e-04
+#&gt; n= 228, number of events= 165 
+#&gt; 
+#&gt; [[2]]
+#&gt; Call:
+#&gt; coxph(formula = fm, data = data)
+#&gt; 
+#&gt;          coef exp(coef) se(coef) z     p
+#&gt; ph.ecog 0.443     1.558    0.116 4 1e-04
+#&gt; age     0.011     1.011    0.009 1   0.2
+#&gt; 
+#&gt; Likelihood ratio test=19  on 2 df, p=7e-05
+#&gt; n= 227, number of events= 164 
+#&gt;    (1 observation deleted due to missingness)</code></pre>
+</div>
+<div class="section level3">
+<h3>可视化</h3>
+<p>我之前想过创建相应的可视化函数，但批量处理的结果使用表格展示更加方便。如果有画图需求的读者可以使用 <strong>forestplot</strong> 包，甚至 <strong>ggplot2</strong> 去构建自定义的森林图或者其他图形。如果是单个 Cox 模型，我们可以直接使用 <strong>forestmodel</strong> 包提供的函数进行可视化。</p>
+<pre class="r"><code>library(forestmodel)
+#&gt; 载入需要的程辑包：ggplot2
+
+forest_model(res$models$model[[1]])</code></pre>
+<p><img src="../../../cn/post/2019-10-23-ezcox-for-batch-cox-models_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<pre class="r"><code>forest_model(res$models$model[[2]])</code></pre>
+<p><img src="../../../cn/post/2019-10-23-ezcox-for-batch-cox-models_files/figure-html/unnamed-chunk-9-2.png" width="672" /></p>
+</div>
+</div>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="../../../cn/post/2019-10-18-use-cascadia-code-font/">使用 Cascadia Code 字体</a></span>
+  <span class="nav-next"></span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/post\/2019-10-18-use-cascadia-code-font\/';
+    
+  } else if (e.which == 39) {  
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+<section class="comments">
+  <div id="disqus_thread"></div>
+  <script src="../../../js/disqusloader.min.js"></script>
+  <script>
+  var disqus_config = function () {
+  
+    this.page.url = "https:\/\/shixiangwang.github.io\/home\/" + location.pathname;
+  
+  };
+  (function() {
+    var inIFrame = function() {
+      var iframe = true;
+      try { iframe = window.self !== window.top; } catch (e) {}
+      return iframe;
+    };
+    if (inIFrame()) return;
+    var disqus_js = '//home-xjdzylqrzp.disqus.com/embed.js';
+    
+    if (location.hash.match(/^#comment/)) {
+      var d = document, s = d.createElement('script');
+      s.src = disqus_js; s.async = true;
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    } else {
+      disqusLoader('#disqus_thread', {
+        scriptUrl: disqus_js, laziness: 0, disqusConfig: disqus_config
+      });
+    }
+  })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+
+
+<script async src="../../../js/fix-toc.js"></script>
+
+<script async src="../../../js/center-img.js"></script>
+
+<script async src="../../../js/right-quote.js"></script>
+
+<script async src="../../../js/no-highlight.js"></script>
+
+<script async src="../../../js/fix-footnote.js"></script>
+
+<script async src="../../../js/math-code.js"></script>
+
+<script async src="../../../js/external-link.js"></script>
+
+<script async src="../../../js/alt-title.js"></script>
+
+<script async src="../../../js/header-link.js"></script>
+
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+  
+  
+
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> &middot; <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> &middot; <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> &middot; <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> &middot; <a href="https://orcid.org/0000-0001-9855-7357"><i class='ai ai-orcid ai-1x'></i></a> &middot; <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 &copy; <a href="../../../">王诗翔</a> 2017 - 2019 </div>
+  
+  
+
+  <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56h9es09xn7&amp;m=6&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=1" async="async"></script>
+  </footer>
+  </article>
+  
+  </body>
+</html>
+
