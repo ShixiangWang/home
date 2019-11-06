@@ -38,5 +38,14 @@
       <description>这篇文章我们将讲述 如何简单比较两组或多组的平均值 如何自动化为ggplot添加p值和显著性标记，包括箱线图、点图、条形图、线图等等 准备 安装和导</description>
     </item>
     
+    <item>
+      <title>使用R tidyverse 进行探索性分析EDA</title>
+      <link>/cn/post/2019-11-06-eda-with-tidyverse/</link>
+      <pubDate>Tue, 24 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-11-06-eda-with-tidyverse/</guid>
+      <description>该部分学习内容来自《R for Data Science》。 这次我们学习可视化与处理数据来系统地探索数据——统计学家称之为探索性数据分析（explorato</description>
+    </item>
+    
   </channel>
 </rss>

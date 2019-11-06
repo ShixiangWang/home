@@ -4,13 +4,13 @@
   
   <url>
     <loc>/categories/</loc>
-    <lastmod>2019-10-23T00:00:00+00:00</lastmod>
+    <lastmod>2019-11-06T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/</loc>
-    <lastmod>2019-10-23T00:00:00+00:00</lastmod>
+    <lastmod>2019-11-06T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -34,13 +34,13 @@
   
   <url>
     <loc>/categories/r/</loc>
-    <lastmod>2019-10-23T00:00:00+00:00</lastmod>
+    <lastmod>2019-11-06T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/r/</loc>
-    <lastmod>2019-10-23T00:00:00+00:00</lastmod>
+    <lastmod>2019-11-06T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -209,7 +209,7 @@
   
   <url>
     <loc>/tags/ggplot2/</loc>
-    <lastmod>2019-09-23T00:00:00+00:00</lastmod>
+    <lastmod>2019-11-06T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -244,7 +244,7 @@
   
   <url>
     <loc>/tags/tidyverse/</loc>
-    <lastmod>2019-08-04T00:00:00+00:00</lastmod>
+    <lastmod>2019-11-06T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -277,7 +277,7 @@
   
   <url>
     <loc>/tags/dplyr/</loc>
-    <lastmod>2019-09-23T00:00:00+00:00</lastmod>
+    <lastmod>2019-11-06T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -702,6 +702,11 @@
   </url>
   
   <url>
+    <loc>/cn/post/2019-11-06-eda-with-tidyverse/</loc>
+    <lastmod>2019-11-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/cn/post/python-basic-ml-flow/</loc>
     <lastmod>2018-04-15T00:00:00+00:00</lastmod>
   </url>
@@ -722,6 +727,11 @@
     <loc>/tags/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/</loc>
     <lastmod>2018-04-15T00:00:00+00:00</lastmod>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/cn/post/2019-11-06-data-processing-with-dplyr/</loc>
+    <lastmod>2019-11-06T00:00:00+00:00</lastmod>
   </url>
   
   <url>

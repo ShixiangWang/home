@@ -407,12 +407,30 @@ Datasets have associated metadata, specifying their data type and cohort.</descr
     </item>
     
     <item>
+      <title>使用R tidyverse 进行探索性分析EDA</title>
+      <link>/cn/post/2019-11-06-eda-with-tidyverse/</link>
+      <pubDate>Tue, 24 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-11-06-eda-with-tidyverse/</guid>
+      <description>该部分学习内容来自《R for Data Science》。 这次我们学习可视化与处理数据来系统地探索数据——统计学家称之为探索性数据分析（explorato</description>
+    </item>
+    
+    <item>
       <title>Python机器学习基础综合实战</title>
       <link>/cn/post/python-basic-ml-flow/</link>
       <pubDate>Sun, 15 Apr 2018 00:00:00 +0000</pubDate>
       
       <guid>/cn/post/python-basic-ml-flow/</guid>
       <description>Python机器学习实例&amp;hellip;</description>
+    </item>
+    
+    <item>
+      <title>使用dplyr进行数据处理</title>
+      <link>/cn/post/2019-11-06-data-processing-with-dplyr/</link>
+      <pubDate>Wed, 21 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-11-06-data-processing-with-dplyr/</guid>
+      <description>该部分学习内容来自《R for Data Science》。 在对数据进行可视化之前我们往往需要进行数据转换以得到可视化所需要的数据内容与格式。这里我们使用d</description>
     </item>
     
     <item>

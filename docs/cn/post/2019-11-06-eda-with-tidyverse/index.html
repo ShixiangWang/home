@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    
+    <link rel="stylesheet" href="../../../fonts/academicons-1.8.6/css/academicons.min.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../logo/bodhi.png"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    
+    <title>使用R tidyverse 进行探索性分析EDA - 王诗翔</title>
+    
+     
+    <meta property="og:title" content="使用R tidyverse 进行探索性分析EDA - Shixiang Wang | 王诗翔">
+    
+
+    
+      
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="../../../css/style.css" />
+    <link rel="stylesheet" href="../../../css/mystyle.css" /> 
+    <link rel="stylesheet" href="../../../css/fonts.css" />
+    
+<script async src="../../../js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="../../../css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="../../../"><img src="https://avatars1.githubusercontent.com/u/25057508?s=460&amp;v=4" alt="Shixiang Wang" /></a></h1>
+
+
+
+      <nav class="menu">
+        <input id="menu-check" type="checkbox" />
+        <label id="menu-label" for="menu-check" class="unselectable">
+          <span class="icon close-icon">✕</span>
+          <span class="icon open-icon">☰</span>
+          <span class="text">Menu</span>
+        </label>
+        <ul>
+        
+        
+        <li><a href="../../../">首页</a></li>
+        
+        <li><a href="../../../cn/about/">关于</a></li>
+        
+        <li><a href="../../../cn/post/">博客</a></li>
+        
+        <li><a href="../../../cn/read/">读书</a></li>
+        
+        <li><a href="../../../cn/writing">写作</a></li>
+        
+        <li><a href="../../../cn/research/">研究</a></li>
+        
+        <li><a href="../../../cn/tools/">工具</a></li>
+        
+        <li><a href="../../../cn/cv-cn/shixiang">简历</a></li>
+        
+        <li><a href="../../../logo/qrcode.jpg">公众号</a></li>
+        
+        <li><a href="https://www.jianshu.com/u/b6608e27dc74">简书</a></li>
+        
+        <li><a href="../../../cn/todo">ToDo</a></li>
+        
+        <li><a href="../../../en/">English</a></li>
+        
+        
+
+<li class="menu-extra"></li>
+
+
+
+
+
+
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2019-11-06-eda-with-tidyverse.Rmd" target="_blank">编辑</a></li>
+
+
+<li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+        </ul>
+      </nav>
+    </header>
+
+    <article class="main">
+      <header class="title">
+        
+
+<h1>使用R tidyverse 进行探索性分析EDA</h1>
+
+
+
+<h3>王诗翔 &middot 
+2018-04-24</h3> 
+
+
+   
+  
+
+
+      </header>
+
+
+
+
+
+<p>该部分学习内容来自《R for Data Science》。</p>
+<p>这次我们学习可视化与处理数据来系统地探索数据——统计学家称之为<strong>探索性数据分析</strong>（exploratory data analysis），简称为EDA。</p>
+<p>EDA是一个迭代的圆圈：</p>
+<ol style="list-style-type: decimal">
+<li>生成关于你所拥有数据的问题</li>
+<li>通过对数据可视化、转换和建模寻找答案</li>
+<li>使用你学到的重定义你的问题或者生成新的问题</li>
+</ol>
+<p>相比于严格的规则与流程，EDA更像一种思考状态。在EDA的初始阶段，你可以随意探索跳入你脑海的任意一个想法。</p>
+<p><strong>数据清理</strong>仅仅是EDA的一个应用，你询问是否你的数据如你所期。想要进行数据清理，你将需要使用EDA所有的工具：可视化、转换与建模。</p>
+<div id="准备" class="section level2">
+<h2>准备</h2>
+<p>这部分我们将使用<strong>dplyr</strong>与<strong>ggplot2</strong>交互地对数据提问并回答，请确保在学习前安装好<code>tidyverse</code>包，可以顺利进行以下操作：</p>
+<pre class="r"><code>library(tidyverse)
+#&gt; ─ Attaching packages ───────────────────────────────────────────── tidyverse 1.2.1 ─
+#&gt; ✔ ggplot2 3.2.1     ✔ purrr   0.3.3
+#&gt; ✔ tibble  2.1.3     ✔ dplyr   0.8.3
+#&gt; ✔ tidyr   1.0.0     ✔ stringr 1.4.0
+#&gt; ✔ readr   1.3.1     ✔ forcats 0.4.0
+#&gt; ─ Conflicts ─────────────────────────────────────────────── tidyverse_conflicts() ─
+#&gt; ✖ dplyr::filter() masks stats::filter()
+#&gt; ✖ dplyr::lag()    masks stats::lag()</code></pre>
+<p>EDA的目标是理解数据，最容易实现的方式是用问题作为用具引导我们进行探索。想要提出<strong>有质量</strong>的问题首先必须提出<strong>大量</strong>问题。</p>
+<p>提问的方式没有准则可言，但两类基本问题的提出会对我们理解数据大有裨益：</p>
+<ol style="list-style-type: decimal">
+<li>在我的变量中有什么类型的变异？</li>
+<li>在我的变量之间有什么共同的变异？</li>
+</ol>
+<p>在正式进行分析之前，允许我定义一些术语：</p>
+<ul>
+<li>一个<strong>变量</strong>是一个你可以测量的数量、质量或者属性</li>
+<li>一个<strong>值</strong>是当你测量一个变量时它的状态</li>
+<li>一个<strong>观测</strong>或者一个<strong>案例</strong>是相似条件下一组测量值的集合。一次观测通常包含多个值，每个值与不同的变量相关联。我将有时称一个观测为一个数据点</li>
+<li><strong>表格数据</strong>是值的集合，每一个值都与一个变量和一个观测相关联</li>
+</ul>
+</div>
+<div id="可视化分布" class="section level2">
+<h2>可视化分布</h2>
+<p>你如何可视化一个变量的分布取决于该变量是连续还是分类的。如果一个变量仅能取少量的几个值，我们就说它是<strong>分类变量</strong>。在R中，分类变量常保存为因子或者是字符向量。想要检查分类变量的分布，使用直方图：</p>
+<pre class="r"><code>ggplot(data = diamonds) + 
+    geom_bar(mapping = aes(x = cut))</code></pre>
+<p><img src="../../../cn/post/2019-11-06-eda-with-tidyverse_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>直方图的高度显示了每一个<code>x</code>值有多少个观测。你可以使用<code>dplyr::count()</code>手动进行计算：</p>
+<pre class="r"><code>diamonds %&gt;%
+    count(cut)
+#&gt; # A tibble: 5 x 2
+#&gt;   cut           n
+#&gt;   &lt;ord&gt;     &lt;int&gt;
+#&gt; 1 Fair       1610
+#&gt; 2 Good       4906
+#&gt; 3 Very Good 12082
+#&gt; 4 Premium   13791
+#&gt; 5 Ideal     21551</code></pre>
+<p>或者</p>
+<pre class="r"><code>diamonds %&gt;% 
+    group_by(cut) %&gt;% 
+    summarise(n = n())
+#&gt; # A tibble: 5 x 2
+#&gt;   cut           n
+#&gt;   &lt;ord&gt;     &lt;int&gt;
+#&gt; 1 Fair       1610
+#&gt; 2 Good       4906
+#&gt; 3 Very Good 12082
+#&gt; 4 Premium   13791
+#&gt; 5 Ideal     21551</code></pre>
+<p>想要检查连续变量的分布，使用直方图：</p>
+<pre class="r"><code>ggplot(data = diamonds) + 
+    geom_histogram(mapping = aes(x=carat), binwidth = 0.5)</code></pre>
+<p><img src="../../../cn/post/2019-11-06-eda-with-tidyverse_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>你也可以结合<code>dplyr::count()</code>与<code>ggplot2::cut_width()</code>手动计算这个：</p>
+<pre class="r"><code>diamonds %&gt;% 
+    count(cut_width(carat, 0.5))
+#&gt; # A tibble: 11 x 2
+#&gt;    `cut_width(carat, 0.5)`     n
+#&gt;    &lt;fct&gt;                   &lt;int&gt;
+#&gt;  1 [-0.25,0.25]              785
+#&gt;  2 (0.25,0.75]             29498
+#&gt;  3 (0.75,1.25]             15977
+#&gt;  4 (1.25,1.75]              5313
+#&gt;  5 (1.75,2.25]              2002
+#&gt;  6 (2.25,2.75]               322
+#&gt;  7 (2.75,3.25]                32
+#&gt;  8 (3.25,3.75]                 5
+#&gt;  9 (3.75,4.25]                 4
+#&gt; 10 (4.25,4.75]                 1
+#&gt; 11 (4.75,5.25]                 1</code></pre>
+<p>直方图将x轴划分为相等的宽度（由bin控制），然后使用每个条形的高度来代表落入该区域观测的数目。条形的宽度非常重要，不同的设定可能揭示出数据的内在分布模式。</p>
+<pre class="r"><code>smaller &lt;- diamonds %&gt;% 
+    filter(carat &lt; 3)
+
+ggplot(data = smaller, mapping = aes(x = carat)) + geom_histogram(binwidth = 0.1)</code></pre>
+<p><img src="../../../cn/post/2019-11-06-eda-with-tidyverse_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>如果你想要在同一幅图上画多个直方图，我推荐你使用<code>geom_freqpoly()</code>函数而不是<code>geom_histogram()</code>，它们的内部计算一致，但前者使用线形。</p>
+<pre class="r"><code>ggplot(data = smaller, mapping = aes(x = carat, color = cut)) +
+    geom_freqpoly(binwidth = 0.1)</code></pre>
+<p><img src="../../../cn/post/2019-11-06-eda-with-tidyverse_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+</div>
+<div id="典型值" class="section level2">
+<h2>典型值</h2>
+<p>在条形图和直方图中，高的条形显示了变量通常出现的值，而短的条形说明比较少见，而没有条形出现的地方说明变量几乎不可能会出现那个值。想要把这些信息转为有用的问题，寻找不同寻常之处：</p>
+<ul>
+<li>哪个值最常出现？为什么?</li>
+<li>哪个值很少出现？为什么？这符合你的预期吗?</li>
+<li>你可以看到任何异常的模式吗?什么可以解释它？</li>
+</ul>
+<p>作为一个示例，下面的直方图表明一些有趣的问题：</p>
+<ul>
+<li>为什么在整个克拉和普通的克拉中有更多的钻石？</li>
+<li>为什么每个峰顶右侧的钻石略多于每个峰顶左侧的钻石？</li>
+<li>为什么没有钻石大于3克拉？</li>
+</ul>
+<pre class="r"><code>ggplot(data = smaller, mapping = aes(x = carat)) +
+    geom_histogram(binwidth = 0.01)</code></pre>
+<p><img src="../../../cn/post/2019-11-06-eda-with-tidyverse_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>通常，有相似值的集群表明你数据中存在亚组（可以分组）。想要理解亚组，提问：</p>
+<ul>
+<li>每个集群内的观察结果如何相似？</li>
+<li>如何在不同的集群中观察到彼此不同的结果？</li>
+<li>你如何解释或描述集群？</li>
+<li>为什么集群的外观会产生误导？</li>
+</ul>
+<p>下面的直方图显示了黄石国家公园老忠实喷泉272次喷发的长度（以分钟为单位）。喷发时间似乎分为两组：喷发时间短（约2分钟）和喷发时间长（4-5分钟），但间隔很少。</p>
+<pre class="r"><code>ggplot(data = faithful, mapping = aes(x = eruptions)) + 
+    geom_histogram(binwidth = 0.25)</code></pre>
+<p><img src="../../../cn/post/2019-11-06-eda-with-tidyverse_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>上面的许多问题都会提示你探索变量之间的关系，例如，查看一个变量的值是否可以解释另一个变量的行为。 我们很快会做到。</p>
+</div>
+<div id="不寻常的值" class="section level2">
+<h2>不寻常的值</h2>
+<p>异常值是不寻常的观察结果; 数据点似乎不符合模式。有时异常值是数据输入错误;其他时间异常值表明重要的新科学发现。 当你有很多数据时，在直方图中有时很难看到异常值。例如，从钻石数据集中分配y变量。异常值的唯一证据是x轴上异常宽的限制。</p>
+<pre class="r"><code>ggplot(diamonds) + 
+    geom_histogram(mapping = aes(x = y), binwidth = 0.5)</code></pre>
+<p><img src="../../../cn/post/2019-11-06-eda-with-tidyverse_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>在常见的箱子有很多观察结果，罕见的箱子都很短，以至于看不到它们（尽管也许如果你专注于0，你会发现一些东西）。 为了便于查看异常值，我们需要使用<code>coord_cartesian()</code>缩放y轴的小值：</p>
+<pre class="r"><code>ggplot(diamonds) + 
+    geom_histogram(mapping = aes(x = y), binwidth = 0.5) + 
+    coord_cartesian(ylim = c(0, 50))</code></pre>
+<p><img src="../../../cn/post/2019-11-06-eda-with-tidyverse_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p>（<code>coord_cartesian()</code>同样也有一个<code>xlim</code>参数当你在需要缩小x轴时可以使用。<strong>ggplot2</strong>也有<code>xlim()</code>与<code>ylim()</code>函数，但工作不太一样：它们会扔掉所有超过该限制的所有数据。）</p>
+<p>这让我们可以看到存在3个异常值：一个是0，一个30左右，一个60左右。我们使用<strong>dplyr</strong>把它们取出：</p>
+<pre class="r"><code>unusual &lt;- diamonds %&gt;% 
+    filter(y &lt; 3 | y &gt; 20) %&gt;% 
+    select(price, x, y, z) %&gt;%
+    arrange(y)
+
+unusual
+#&gt; # A tibble: 9 x 4
+#&gt;   price     x     y     z
+#&gt;   &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1  5139  0      0    0   
+#&gt; 2  6381  0      0    0   
+#&gt; 3 12800  0      0    0   
+#&gt; 4 15686  0      0    0   
+#&gt; 5 18034  0      0    0   
+#&gt; 6  2130  0      0    0   
+#&gt; 7  2130  0      0    0   
+#&gt; 8  2075  5.15  31.8  5.12
+#&gt; 9 12210  8.09  58.9  8.06</code></pre>
+<p>y变量测量这些钻石的三个维度之一，单位为mm。 我们知道钻石不能有0mm的宽度，所以这些值肯定是不正确的。 我们也可能怀疑32毫米和59毫米的尺寸是不合理的：那些钻石长1英寸，但价格没有数十万美元！</p>
+<p>无论是否存在异常值，重复进行分析都是很好的做法。如果他们对结果的影响最小，并且您无法弄清楚他们为什么会出现这种情况，那么将其替换为缺失值并继续前进是合理的。但是，如果它们对您的结果有重大影响，则没有理由不放弃它们。你需要弄清楚是什么导致了他们（例如数据输入错误），并且你在写作中应透露删除了它们。</p>
+<div id="练习" class="section level3">
+<h3>练习</h3>
+<ol style="list-style-type: decimal">
+<li><p>探索钻石中每个x，y和z变量的分布。你学到什么？想想钻石，以及哪个尺寸是长度，宽度和深度。</p></li>
+<li><p>探索价格的分布。你发现什么不寻常或令人惊讶？（提示：仔细考虑binwidth，并确保您尝试各种值。）</p></li>
+<li><p>0.99克拉多少颗钻石？ 1克拉多少钱？ 你认为什么是差异的原因？</p></li>
+<li><p>在放大直方图时比较和对比<code>coord_cartesian()</code>与<code>xlim()</code>或<code>ylim()</code>。 如果您保留<code>binwidth</code>未设置会发生什么？ 如果您尝试缩放以便只显示一半，会发生什么情况？</p></li>
+</ol>
+<pre class="r"><code># 1
+# x 分布
+ggplot(data = diamonds) + geom_histogram(mapping = aes(x = x), binwidth = 0.5)</code></pre>
+<p><img src="../../../cn/post/2019-11-06-eda-with-tidyverse_files/figure-html/practice1-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(data = diamonds) + geom_histogram(mapping = aes(x = y), binwidth = 0.5)</code></pre>
+<p><img src="../../../cn/post/2019-11-06-eda-with-tidyverse_files/figure-html/practice1-2.png" width="672" /></p>
+<pre class="r"><code>ggplot(data = diamonds) + geom_histogram(mapping = aes(x = z), binwidth = 0.5)</code></pre>
+<p><img src="../../../cn/post/2019-11-06-eda-with-tidyverse_files/figure-html/practice1-3.png" width="672" /></p>
+<pre class="r"><code># 发现它们的分布模式其实非常接近
+# 钻石长宽深有什么特点我不是很清楚，只能按常理x,y,z分别对应长宽深
+
+# 2 探索价格分布
+ggplot(data = diamonds) + geom_histogram(mapping = aes(x = price))
+#&gt; `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="../../../cn/post/2019-11-06-eda-with-tidyverse_files/figure-html/practice1-4.png" width="672" /></p>
+<pre class="r"><code># 基本趋势是价格越高的数量越少，除了x轴5000前面有点反常
+
+# 3
+diamonds %&gt;% filter(carat == 0.99) %&gt;% count
+#&gt; # A tibble: 1 x 1
+#&gt;       n
+#&gt;   &lt;int&gt;
+#&gt; 1    23
+diamonds %&gt;% filter(carat == 0.99) %&gt;% select(price, carat) %&gt;% 
+    ggplot(aes(x=price)) + geom_histogram()
+#&gt; `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="../../../cn/post/2019-11-06-eda-with-tidyverse_files/figure-html/practice1-5.png" width="672" /></p>
+<pre class="r"><code>
+diamonds %&gt;% filter(carat == 1) %&gt;% select(price, carat) %&gt;% 
+    ggplot(aes(x=price)) + geom_histogram()
+#&gt; `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="../../../cn/post/2019-11-06-eda-with-tidyverse_files/figure-html/practice1-6.png" width="672" /></p>
+<pre class="r"><code>
+# 4 我们以书中的例子做比较
+ggplot(diamonds) + 
+    geom_histogram(mapping = aes(x = y), binwidth = 0.5) + 
+    coord_cartesian(ylim = c(0, 50))</code></pre>
+<p><img src="../../../cn/post/2019-11-06-eda-with-tidyverse_files/figure-html/practice1-7.png" width="672" /></p>
+<pre class="r"><code>
+ggplot(diamonds) + 
+    geom_histogram(mapping = aes(x = y)) + ylim(0, 50)
+#&gt; `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+#&gt; Warning: Removed 3 rows containing missing values (geom_bar).</code></pre>
+<p><img src="../../../cn/post/2019-11-06-eda-with-tidyverse_files/figure-html/practice1-8.png" width="672" /></p>
+</div>
+</div>
+<div id="缺失值" class="section level2">
+<h2>缺失值</h2>
+<p>如果你发现数据集中存在缺失值，想要简便地进行后续的分析，你有两个选项：</p>
+<ul>
+<li>丢掉出现异常值的整行</li>
+</ul>
+<pre class="r"><code>diamonds2 &lt;- diamonds %&gt;% 
+    filter(between(y, 3, 20))</code></pre>
+<p>我并不推荐这样操作，因为一个测量值出现问题并不代表所有数据都有问题。另外，如果你的数据质量比较低，可能会删除绝大多数的数据，那你还分析什么呢？</p>
+<ul>
+<li>相比于上述方法，我推荐用缺失值替换异常值。最简单的方式是使用<code>mutate()</code>去创建一个修改的版本，你可以使用<code>ifelse()</code>函数将<code>NA</code>替换异常值。</li>
+</ul>
+<pre class="r"><code>diamonds2 &lt;- diamonds %&gt;% 
+    mutate(y = ifelse(y &lt; 3| y &gt;20, NA, y))</code></pre>
+<p><code>ifelse()</code>函数有三个参数，第一个参数需要是逻辑向量，当<code>test</code>某个值为<code>TRUE</code>时，对应结果就是第二个参数，反之是第三个参数。</p>
+<p>像R，ggplot2应用了缺失值从不该在沉默中缺失的哲学。当你绘图时很难发现缺失值，所以ggplot2会提醒你那么被移除了。</p>
+<pre class="r"><code>ggplot(data = diamonds2, mapping = aes(x=x, y=y))+
+    geom_point()
+#&gt; Warning: Removed 9 rows containing missing values (geom_point).</code></pre>
+<p><img src="../../../cn/post/2019-11-06-eda-with-tidyverse_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p>想要抑制警告，设置<code>na.rm=TRUE</code>：</p>
+<pre class="r"><code>ggplot(data = diamonds2, mapping = aes(x=x, y=y)) +
+    geom_point(na.rm = TRUE)</code></pre>
+<p><img src="../../../cn/post/2019-11-06-eda-with-tidyverse_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p>有时候你会想什么让观测缺失了数值，它与有记录的值又有什么不同。例如，在<code>nycflights13::flights</code>数据集中，<code>dep_time</code>变量的缺失值（参加使用dplyr数据处理一文）显示了航班被取消了。所以你想比较安排起飞取消和没取消的次数：</p>
+<pre class="r"><code>nycflights13::flights %&gt;% 
+    mutate(
+        cancelled = is.na(dep_time),
+        sched_hour = sched_dep_time %/% 100,
+        sched_min = sched_dep_time %% 100,
+        sched_dep_time = sched_hour + sched_min /60
+    ) %&gt;% 
+    ggplot(mapping = aes(sched_dep_time)) + 
+    geom_freqpoly(mapping = aes(color = cancelled), binwidth = 1/4)</code></pre>
+<p><img src="../../../cn/post/2019-11-06-eda-with-tidyverse_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+</div>
+<div id="共变化" class="section level2">
+<h2>共变化</h2>
+<p>如果变化描述变量内的行为，则共变化描述变量之间的行为。 共变是两个或更多变量的值以相关方式一起变化的趋势。 发现共变化的最好方法是可视化两个或更多变量之间的关系。 你怎么做，应该再次取决于所涉及的变量的类型。</p>
+<div id="一个分类变量和连续变量" class="section level3">
+<h3>一个分类变量和连续变量</h3>
+<p>如前一个频率多边形一样，想要探索由分类变量细分的连续变量的分布是很常见的。<code>geom_freqpoly()</code>的默认外观对于那种比较没有用处，因为高度由count给出。这意味着如果其中一个组别比其他组别小得多，很难看出形状上的差异。 例如，让我们来探讨钻石的价格如何随其质量而变化：</p>
+<pre class="r"><code>ggplot(data = diamonds, mapping = aes(x = price)) +
+    geom_freqpoly(mapping = aes(color=cut), binwidth = 500)</code></pre>
+<p><img src="../../../cn/post/2019-11-06-eda-with-tidyverse_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p>It’s hard to see the difference in distribution because the overall counts differ so much:</p>
+<pre class="r"><code>ggplot(diamonds) + 
+    geom_bar(mapping = aes(x = cut))</code></pre>
+<p><img src="../../../cn/post/2019-11-06-eda-with-tidyverse_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p>为了使比较更容易，我们需要交换y轴上显示的内容。 我们不显示计数，而是显示密度，这是标准化的计数，以便每个频率多边形下的面积为1。</p>
+<pre class="r"><code>ggplot(data = diamonds, mapping = aes(x = price,
+                                      y = ..density..)) + geom_freqpoly(mapping = aes(color = cut), binwidth = 500)</code></pre>
+<p><img src="../../../cn/post/2019-11-06-eda-with-tidyverse_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<p>这个结果有一些令人惊讶的地方 -看起来，一般的钻石（最低的质量）的平均价格最高！ 但也许这是因为频率多边形有点难以解释 - 在这个结果中有很多事情要做。</p>
+<p>显示分类变量细分的连续变量分布的另一种方法是boxplot。 boxplot是一种在统计学家中很受欢迎的价值分布的视觉缩写。 每个boxplot包括：</p>
+<ul>
+<li><p>一个从分布的第25个百分点延伸到第75个百分点的盒子，这个距离被称为四分位间距（IQR）。在框的中间是显示分布的中值（即第50百分位）的线。这三条线让你了解分布的扩散以及分布是否对称于中值或偏向一侧。</p></li>
+<li><p>显示观察结果的如果点从盒子的任一边缘落入IQR的1.5倍以上。 这些偏离点是不寻常的，因此单独绘制。</p></li>
+<li><p>从盒子两端延伸出来的线（或胡须）分配到最远的非异常点。</p></li>
+</ul>
+<p><img src="http://r4ds.had.co.nz/images/EDA-boxplot.png" /></p>
+<p>让我们使用<code>geom_boxplot()</code>来看一下价格的分布：</p>
+<pre class="r"><code>ggplot(data = diamonds, mapping = aes(x=cut, y=price)) + 
+    geom_boxplot()</code></pre>
+<p><img src="../../../cn/post/2019-11-06-eda-with-tidyverse_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p>我们看到关于分布的信息要少得多，但箱形图更加紧凑，因此我们可以更轻松地比较它们（并且更适合于一个图）。 它支持反直觉的发现，即更好质量的钻石平均价格更便宜！</p>
+<p>许多分类变量没有这样的内在顺序，因此您可能需要对它们重新排序以提供更丰富的信息。一种方法是使用<code>reorder()</code>函数。</p>
+<p>例如，使用<code>mpg</code>数据集中的<code>class</code>变量。您可能有兴趣了解不同类别汽车的公路里程如何变化：</p>
+<pre class="r"><code>ggplot(data = mpg, mapping = aes(x=class, y=hwy)) +
+    geom_boxplot()</code></pre>
+<p><img src="../../../cn/post/2019-11-06-eda-with-tidyverse_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<p>想要使趋势更清楚，我们可以使用<code>hwy</code>的中位数进行排序：</p>
+<pre class="r"><code>ggplot(data = mpg) + 
+    geom_boxplot(mapping = aes(x = reorder(class, hwy, FUN = median), y=hwy))</code></pre>
+<p><img src="../../../cn/post/2019-11-06-eda-with-tidyverse_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<p>如果你由一个长的变量名，你反转90度显示的效果更佳：</p>
+<pre class="r"><code>ggplot(data = mpg) + 
+    geom_boxplot(mapping = aes(x = reorder(class, hwy, FUN=median), y=hwy)) + coord_flip()</code></pre>
+<p><img src="../../../cn/post/2019-11-06-eda-with-tidyverse_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+</div>
+<div id="两个分类变量" class="section level3">
+<h3>两个分类变量</h3>
+<p>想要可视化两个分类变量的共变化，你需要对每一种组合进行计数。一种方法是依赖内置的<code>geom_count()</code>：</p>
+<pre class="r"><code>ggplot(data = diamonds) + 
+    geom_count(mapping = aes(x=cut, y=color))</code></pre>
+<p><img src="../../../cn/post/2019-11-06-eda-with-tidyverse_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<p>图中每个圆圈的大小显示每个值组合处发生的观察次数。 共变将表现为具体x值与具体y值之间的强相关性。</p>
+<p>另外一种方法是使用dplyr计算计数：</p>
+<pre class="r"><code>diamonds %&gt;% 
+    count(color, cut)
+#&gt; # A tibble: 35 x 3
+#&gt;    color cut           n
+#&gt;    &lt;ord&gt; &lt;ord&gt;     &lt;int&gt;
+#&gt;  1 D     Fair        163
+#&gt;  2 D     Good        662
+#&gt;  3 D     Very Good  1513
+#&gt;  4 D     Premium    1603
+#&gt;  5 D     Ideal      2834
+#&gt;  6 E     Fair        224
+#&gt;  7 E     Good        933
+#&gt;  8 E     Very Good  2400
+#&gt;  9 E     Premium    2337
+#&gt; 10 E     Ideal      3903
+#&gt; # … with 25 more rows</code></pre>
+<p>使用<code>geom_tile()</code>和fill映射可视化：</p>
+<pre class="r"><code>diamonds %&gt;% 
+    count(color, cut) %&gt;% 
+    ggplot(mapping = aes(x=color, y=cut)) + 
+    geom_tile(mapping = aes(fill = n))</code></pre>
+<p><img src="../../../cn/post/2019-11-06-eda-with-tidyverse_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<p>如果分类变量无序，则可能需要使用<strong>seriation包</strong>同时对行和列进行重新排序，以便更清楚地显示有趣的模式。 对于较大的地块，你可能需要尝试使用d3heatmap或heatmaply创建交互式地的图形。</p>
+</div>
+</div>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="../../../cn/post/python-basic-ml-flow/">Python机器学习基础综合实战</a></span>
+  <span class="nav-next"><a href="../../../cn/post/r-survival/">使用 R 进行生存分析</a> &rarr;</span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/post\/python-basic-ml-flow\/';
+    
+  } else if (e.which == 39) {  
+    
+    url = '\/cn\/post\/r-survival\/';
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+<section class="comments">
+  <div id="disqus_thread"></div>
+  <script src="../../../js/disqusloader.min.js"></script>
+  <script>
+  var disqus_config = function () {
+  
+    this.page.url = "https:\/\/shixiangwang.github.io\/home\/" + location.pathname;
+  
+  };
+  (function() {
+    var inIFrame = function() {
+      var iframe = true;
+      try { iframe = window.self !== window.top; } catch (e) {}
+      return iframe;
+    };
+    if (inIFrame()) return;
+    var disqus_js = '//home-xjdzylqrzp.disqus.com/embed.js';
+    
+    if (location.hash.match(/^#comment/)) {
+      var d = document, s = d.createElement('script');
+      s.src = disqus_js; s.async = true;
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    } else {
+      disqusLoader('#disqus_thread', {
+        scriptUrl: disqus_js, laziness: 0, disqusConfig: disqus_config
+      });
+    }
+  })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+
+
+<script async src="../../../js/fix-toc.js"></script>
+
+<script async src="../../../js/center-img.js"></script>
+
+<script async src="../../../js/right-quote.js"></script>
+
+<script async src="../../../js/no-highlight.js"></script>
+
+<script async src="../../../js/fix-footnote.js"></script>
+
+<script async src="../../../js/math-code.js"></script>
+
+<script async src="../../../js/external-link.js"></script>
+
+<script async src="../../../js/alt-title.js"></script>
+
+<script async src="../../../js/header-link.js"></script>
+
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+  
+  
+
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> &middot; <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> &middot; <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> &middot; <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> &middot; <a href="https://orcid.org/0000-0001-9855-7357"><i class='ai ai-orcid ai-1x'></i></a> &middot; <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 &copy; <a href="../../../">王诗翔</a> 2017 - 2019 </div>
+  
+  
+
+  <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56h9es09xn7&amp;m=6&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=1" async="async"></script>
+  </footer>
+  </article>
+  
+  </body>
+</html>
+

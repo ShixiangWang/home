@@ -20,5 +20,14 @@
       <description>本文整理自 https://www.tidyverse.org/articles/2019/06/rlang-0-4-0/，有删改 rlang v0.4.</description>
     </item>
     
+    <item>
+      <title>使用R tidyverse 进行探索性分析EDA</title>
+      <link>/cn/post/2019-11-06-eda-with-tidyverse/</link>
+      <pubDate>Tue, 24 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-11-06-eda-with-tidyverse/</guid>
+      <description>该部分学习内容来自《R for Data Science》。 这次我们学习可视化与处理数据来系统地探索数据——统计学家称之为探索性数据分析（explorato</description>
+    </item>
+    
   </channel>
 </rss>
