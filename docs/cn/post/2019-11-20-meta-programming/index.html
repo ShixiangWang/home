@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    
+    <link rel="stylesheet" href="../../../fonts/academicons-1.8.6/css/academicons.min.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../logo/bodhi.png"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    
+    <title>R 的元编程 - 王诗翔</title>
+    
+     
+    <meta property="og:title" content="R 的元编程 - Shixiang Wang | 王诗翔">
+    
+
+    
+      
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="../../../css/style.css" />
+    <link rel="stylesheet" href="../../../css/mystyle.css" /> 
+    <link rel="stylesheet" href="../../../css/fonts.css" />
+    
+<script async src="../../../js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="../../../css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="../../../"><img src="https://avatars1.githubusercontent.com/u/25057508?s=460&amp;v=4" alt="Shixiang Wang" /></a></h1>
+
+
+
+      <nav class="menu">
+        <input id="menu-check" type="checkbox" />
+        <label id="menu-label" for="menu-check" class="unselectable">
+          <span class="icon close-icon">✕</span>
+          <span class="icon open-icon">☰</span>
+          <span class="text">Menu</span>
+        </label>
+        <ul>
+        
+        
+        <li><a href="../../../">首页</a></li>
+        
+        <li><a href="../../../cn/about/">关于</a></li>
+        
+        <li><a href="../../../cn/post/">博客</a></li>
+        
+        <li><a href="../../../cn/read/">读书</a></li>
+        
+        <li><a href="../../../cn/writing">写作</a></li>
+        
+        <li><a href="../../../cn/research/">研究</a></li>
+        
+        <li><a href="../../../cn/tools/">工具</a></li>
+        
+        <li><a href="../../../cn/cv-cn/shixiang">简历</a></li>
+        
+        <li><a href="../../../logo/qrcode.jpg">公众号</a></li>
+        
+        <li><a href="https://www.jianshu.com/u/b6608e27dc74">简书</a></li>
+        
+        <li><a href="../../../cn/todo">ToDo</a></li>
+        
+        <li><a href="../../../en/">English</a></li>
+        
+        
+
+<li class="menu-extra"></li>
+
+
+
+
+
+
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2019-11-20-meta-programming.Rmd" target="_blank">编辑</a></li>
+
+
+<li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+        </ul>
+      </nav>
+    </header>
+
+    <article class="main">
+      <header class="title">
+        
+
+<h1>R 的元编程</h1>
+
+
+
+<h3>王诗翔 &middot 
+2018-08-03</h3> 
+
+
+   
+  
+
+
+      </header>
+
+
+
+
+
+<p>内容：</p>
+<blockquote>
+<ul>
+<li>函数式编程：闭包（closures）与高阶函数（higher-order functions）</li>
+<li>基于语言计算以及语言对象</li>
+<li>非标准计算（non-standard evaluation）
+## 函数式编程</li>
+</ul>
+</blockquote>
+<p>我们将学习两种函数：<strong>一种是在函数内部定义的函数，另一种是与其他函数组合使用的函数</strong>。</p>
+<div id="创建和使用闭包" class="section level3">
+<h3>创建和使用闭包</h3>
+<p>函数内部定义的函数称为闭包（closure）。<strong>闭包的特点是在函数体内，我们可以使用局部参数，也可以使用父环境中的变量</strong>。</p>
+<p>现用实例说明，假设有函数：</p>
+<pre class="r"><code>add = function(x, y){
+    x + y
+}</code></pre>
+<p>该函数有两个参数，每次调用时都需要提供它们。<strong>如果使用闭包，我们可以生成事先带指定参数的特殊版本</strong>。</p>
+<div id="创建简单闭包" class="section level4">
+<h4>创建简单闭包</h4>
+<p>现在我们创建一个叫<code>addn()</code>的参数：</p>
+<pre class="r"><code>addn = function(y) {
+    function(x){
+        x + y
+    }
+}</code></pre>
+<p>该函数包含参数<code>y</code>，内部创建一个带参数<code>x</code>的子函数，将<code>y</code>加到参数<code>x</code>上。</p>
+<p>这里读者需要仔细思考。函数<code>addn</code>跟我们一般接触的函数都不相同，它的结果不会返回一个数值，而是一个闭包，<strong>即定义在函数内部的函数</strong>。该闭包计算<code>x+y</code>的值，<code>x</code>是局部参数，<code>y</code>是闭包封闭环境中的参数。整体而言，<code>addn</code>不是一个加法器，而是一个生成加法器的工厂！</p>
+<p>该函数工厂（闭包）可以让我们创建专用的函数，比如创建两个函数分别用于对参数加1和加2：</p>
+<pre class="r"><code>add1 = addn(1)
+add2 = addn(2)</code></pre>
+<p>这两个函数的实际效果与<code>add(y, 1)</code>与<code>add(y, 2)</code>完全等同。</p>
+<pre class="r"><code>add1(10)
+#&gt; [1] 11
+add2(10)
+#&gt; [1] 12</code></pre>
+<pre class="r"><code>add
+#&gt; function(x, y){
+#&gt;     x + y
+#&gt; }
+add1
+#&gt; function(x){
+#&gt;         x + y
+#&gt;     }
+#&gt; &lt;environment: 0x7fe4f0818f10&gt;</code></pre>
+<p>比较上面两条语句可以发现，<code>add1</code>与<code>add</code>函数不同，输出结果附带了<code>add1</code>的环境。<strong>这是因为一个函数不在当前环境（例子中为全局环境）下，那么输出该函数就会一并显示其所属的环境</strong>。在<code>add1</code>的环境中，<code>y是在addn(1)</code>确定的，下面可以证实：</p>
+<pre class="r"><code>environment(add1)$y
+#&gt; [1] 1</code></pre>
+<p>这里我们调用了<code>environment()</code>函数访问其封闭环境用来捕捉<code>y</code>，这个过程就是闭包的工作方式。</p>
+</div>
+<div id="创建专用函数" class="section level4">
+<h4>创建专用函数</h4>
+<p>闭包对于创建专用函数非常有用。例如，我们使用一个专用的简化绘图函数，只使用部分参数，这样的代码更容易编写和阅读：</p>
+<pre class="r"><code>color_line = function(col){
+    function(...){
+        plot(..., type = &quot;l&quot;, lty = 1, col = col)
+    }
+}</code></pre>
+<p>上面函数可以用来创建一个专门画红色线条的函数。</p>
+<p>使用效果如下：</p>
+<pre class="r"><code>red_line = color_line(&quot;red&quot;)
+red_line(rnorm(30), main = &quot;Red line plot&quot;)</code></pre>
+<p><img src="../../../cn/post/2019-11-20-meta-programming_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+</div>
+<div id="使用极大似然估计拟合正态分布" class="section level4">
+<h4>使用极大似然估计拟合正态分布</h4>
+<p>闭包在使用一个含有给定数据的算法时很有用。比如，在统计学中很多参数估计问题本质上就是最优化问题——在给定约束条件和数据，找出使目标函数最大化或最小化的一组参数。</p>
+<p><strong>极大似然估计MLE是一个很好的例子，它的想法是：给定一个模型，参数的估计值应使观测数据最可能发生</strong>。</p>
+<p><strong>对参数进行极大似然估计时，我们需要一个函数来衡量给定模型下观测到一组给定数据的可能性，然后运用最优化技术找出使上述概率最大化的参数值</strong>。</p>
+<p>例如我们知道一组由正态分布产生的观测数据，但是不知道参数：均值和标准差。这里根据给出的数据，用极大似然估计估计这两者的值。</p>
+<p>首先，正态分布的密度函数为：</p>
+<p><span class="math display">\[
+f(x) = \frac{1}{\sqrt{2\pi}\sigma} exp(-\frac{1}{2}\frac{(x-\mu_0)^2}{\sigma_0^2})
+\]</span></p>
+<p>因此，给定观测数据<code>x</code>，其似然函数为：</p>
+<p><span class="math display">\[
+L(\mu,\sigma; x) = (2\pi\sigma^2)^{-\frac{n}{2}} exp(-\frac{1}{2\sigma_0^2}\sum{(x_i-\mu)^2})
+\]</span></p>
+<p>（不懂怎么来的，百度学习下）</p>
+<p>下面两边同时取对数并加负号：</p>
+<p><span class="math display">\[
+-l(\mu,\sigma;x) = \frac{n}{2}ln(2\pi)+\frac{n}{2}ln(\sigma^2) + \frac{1}{2\sigma^2}\sum{(x_i - \mu)^2}
+\]</span></p>
+<p><strong>负对数似然函数与原函数单调性相同，所以其最优化的解也与原函数相同，但求解过程却简单得多。</strong>因此MLE通常使用对数似然函数来求解。</p>
+<p>下面定义函数，当给定观测数据<code>x</code>后，该函数会返回包含正态分布的两个参数的闭包：</p>
+<pre class="r"><code>nloglik = function(x){
+    n = length(x)
+    function(mean, sd){
+        log(2 * pi) * n / 2 + log(sd ^ 2) * n / 2 + sum((x - mean) ^2) / (2 * sd ^ 2)
+    }
+}</code></pre>
+<p><strong>这样对于任意给定的观测数据集，我们都可以调用<code>nloglik()</code>函数得到参数为均值和标准差的负对数似然函数</strong>。它说明了<strong>在假定真实模型的两个参数分别为<code>mean</code>和<code>sd</code>时，不能观测到给定数据的可能性有多大</strong>。</p>
+<p>下面用10000个均值为1，标准差为2的正态分布随机数做测试，使用<code>stat4</code>包的<code>mle()</code>函数求解（需要设定数值搜索的起点和解的上下界）。</p>
+<pre class="r"><code>data = rnorm(10000, 1, 2)
+fit = stats4::mle(nloglik(data),
+                  start = list(mean=0, sd=1), method = &quot;L-BFGS-B&quot;,
+                  lower = c(-5, 0.01), upper = c(5, 10))</code></pre>
+<p>结果返回一个<code>S4</code>对象：</p>
+<pre class="r"><code>fit@coef
+#&gt;  mean    sd 
+#&gt; 0.991 2.007</code></pre>
+<p>可以看到，估计值非常接近真实值。下面使用图形展示这一点。</p>
+<pre class="r"><code>hist(data, freq = FALSE, ylim = c(0, 0.25))
+curve(dnorm(x, 1, 2), add = TRUE, col = rgb(1, 0, 0, 0.5), lwd = 6)
+curve(dnorm(x, fit@coef[[&quot;mean&quot;]], fit@coef[[&quot;sd&quot;]]),
+      add = TRUE, col = &quot;blue&quot;, lwd = 2)</code></pre>
+<p><img src="../../../cn/post/2019-11-20-meta-programming_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>红色的真实值和蓝色的模拟值曲线非常接近。</p>
+</div>
+</div>
+<div id="使用高阶函数" class="section level3">
+<h3>使用高阶函数</h3>
+<p>何谓高阶函数？<strong>将另一个函数作为参数的函数</strong>。</p>
+<p>R的函数也是对象，可以用变量进行引用，也可以将函数当作参数传递。</p>
+<p>像<code>+</code>与<code>-</code>这样的操作符其实本质也是函数，知道这一点，我们便可以简化下面函数：</p>
+<pre class="r"><code>f1 = function(x, y){
+    if (x &gt; y) {
+        x + y
+    }else {
+        x -y
+    }
+}</code></pre>
+<p>考虑到通过条件判断执行不同的操作，其实就是一个选择使用函数的过程：</p>
+<pre class="r"><code>f2 = function(x, y){
+    op = if (x &gt; y) `+` else `-`
+    op(x, y)
+}</code></pre>
+<p><code>f2</code>与<code>f1</code>完全等同。</p>
+<p>下面举一个函数作为参数的例子：</p>
+<pre class="r"><code>add = function(x, y, z ){
+    x + y + z
+}
+product = function(x, y, z){
+    x * y * z
+}
+combine = function(f, x, y, z){
+    f(x, y, z)
+}</code></pre>
+<p>我们先创建了一个3个数的加法和乘法函数，然后定义<code>combine()</code>函数，以参数<code>f</code>的方式组合前面两个函数，这样我们可以根据需要选择适合的函数。</p>
+<pre class="r"><code>combine(add, 3, 4, 5)
+#&gt; [1] 12
+combine(product, 3, 4, 5)
+#&gt; [1] 60</code></pre>
+<p><strong>高阶函数使代码在更高的抽象化层次下读写起来更容易</strong>。</p>
+<p>在R中，<code>apply</code>家族就是典型的高阶函数，支持向量化操作。除了常见的<code>apply</code>、<code>lapply</code>等带<code>apply</code>名字的函数，还包含<code>Filter()</code>、<code>Map()</code>、<code>Reduce()</code>、<code>Find()</code>、<code>Position()</code>、<code>Negate()</code>函数（详情<code>?Filter</code>）。</p>
+</div>
+<div id="基于语言的计算" class="section level2">
+<h2>基于语言的计算</h2>
+<p>函数只是另一种可被传递的对象，当调用函数时，一个**新的包含尚未求值的实参（<code>promise</code>）的执行环境被创建，以支持函数的执行，这正是惰性求值的基础。
+元编程允许我们调整语言本身，使得特定的语言结构在特定情况下更方便使用。这一节我们一起学习它的优缺点。
+我们先看看元编程如何使得工作变得更简单。
+假设我们现在想把<code>iris</code>数据集中每个数值列超过<code>80%</code>的项筛选出来。
+标准方法为：</p>
+<pre class="r"><code>iris[iris$Sepal.Length &gt; quantile(iris$Sepal.Length, 0.8) &amp; 
+         iris$Sepal.Width &gt; quantile(iris$Sepal.Width, 0.8) &amp; 
+         iris$Petal.Length &gt; quantile(iris$Petal.Length, 0.8) &amp;
+         iris$Petal.Width &gt; quantile(iris$Petal.Width, 0.8), ]
+#&gt;     Sepal.Length Sepal.Width Petal.Length Petal.Width   Species
+#&gt; 110          7.2         3.6          6.1         2.5 virginica
+#&gt; 118          7.7         3.8          6.7         2.2 virginica
+#&gt; 132          7.9         3.8          6.4         2.0 virginica</code></pre>
+<p>上述代码在逻辑上非常清楚，但过程非常繁琐。我们使用了8次<code>iris$</code>。
+内置函数<code>subset()</code>可以简化：</p>
+<pre class="r"><code>subset(iris,
+       Sepal.Length &gt; quantile(Sepal.Length, 0.8) &amp; 
+         Sepal.Width &gt; quantile(Sepal.Width, 0.8) &amp; 
+         Petal.Length &gt; quantile(Petal.Length, 0.8) &amp;
+         Petal.Width &gt; quantile(Petal.Width, 0.8))
+#&gt;     Sepal.Length Sepal.Width Petal.Length Petal.Width   Species
+#&gt; 110          7.2         3.6          6.1         2.5 virginica
+#&gt; 118          7.7         3.8          6.7         2.2 virginica
+#&gt; 132          7.9         3.8          6.4         2.0 virginica</code></pre>
+<p>可以看到返回结果完全相同，后者看起来更简洁。为什么上述代码省略了<code>iris$</code>依旧可以运行，但前面代码就不能省略呢（你可以省略试试）。
+<code>subset()</code>函数使用元编程技术调整了其参数的计算环境，使表达式<code>Sepal.Length &gt; quantile(Sepal.Length, 0.8)</code>在包含<code>iris</code>所有列的环境中被计算（有接触过<code>attach</code>吗？）。
+此外，<code>subset()</code>还调整了列的选取：</p>
+<pre class="r"><code>subset(iris,
+       Sepal.Length &gt; quantile(Sepal.Length, 0.8) &amp; 
+         Sepal.Width &gt; quantile(Sepal.Width, 0.8) &amp; 
+         Petal.Length &gt; quantile(Petal.Length, 0.8) &amp;
+         Petal.Width &gt; quantile(Petal.Width, 0.8), select = c(Sepal.Length, Petal.Length, Species))
+#&gt;     Sepal.Length Petal.Length   Species
+#&gt; 110          7.2          6.1 virginica
+#&gt; 118          7.7          6.7 virginica
+#&gt; 132          7.9          6.4 virginica</code></pre>
+<p>接下来我们学习代码背后的机制及工作原理。
+### 捕获和修改表达式
+当我们在交互式控制台键入表达式并按下<code>Enter</code>后，R便会执行并输出结果。
+例如：</p>
+<pre class="r"><code>rnorm(5)
+#&gt; [1]  0.448  0.291 -0.754  2.450 -1.641</code></pre>
+<p><code>subset()</code>神奇之处在于它调整了参数被计算的环境，分两步完成，<strong>首先捕获表达式，然后调整表达式的计算</strong>。
+#### 将表达式捕获为语言对象
+<strong>捕获表达式意味着防止表达式被执行，而将表达式本身存储为变量的形式</strong>。具有这个功能的函数为<code>quote()</code>：</p>
+<pre class="r"><code>call1 = quote(rnorm(5))
+call1
+#&gt; rnorm(5)</code></pre>
+<p>上述代码返回代码本身而不是表达式执行的结果，我们可以使用<code>typeof()</code>和<code>class()</code>观察返回的对象：</p>
+<pre class="r"><code>typeof(call1)
+#&gt; [1] &quot;language&quot;
+class(call1)
+#&gt; [1] &quot;call&quot;</code></pre>
+<p><code>call</code>本质上是一个语言对象，并且是一个函数调用。我们还可以在<code>quote()</code>中写函数名：</p>
+<pre class="r"><code>name1 = quote(rnorm)
+name1
+#&gt; rnorm
+typeof(name1)
+#&gt; [1] &quot;symbol&quot;
+class(name1)
+#&gt; [1] &quot;name&quot;</code></pre>
+<p>结果是一个符号（或名称）而不是函数调用。</p>
+<p><strong>事实上，<code>quote()</code>捕捉到函数调用时会返回调用，而捕获到变量名时则返回一个符号</strong>。唯一的要求是代码语法正确，<code>quote()</code>就会返回表示被捕获表达式本身的语言对象。即便函数不存在或变量未定义。</p>
+<pre class="r"><code>quote(pvar)
+#&gt; pvar
+quote(xfun(a = 1:n))
+#&gt; xfun(a = 1:n)</code></pre>
+<p>理解变量和符号对象的区别，以及函数和调用对象的区别非常重要。变量是对象的名称，而符号对象是名称本身。函数是可以被调用的对象，而调用对象是不会被计算的，它表示这个函数调用的语言对象。</p>
+<p>上面这段话你初听可能理解不了，我来举例说明。</p>
+<p>我们常说变量，有时候是说这个变量的名字，有时候是说变量的内容。比如变量<code>a=3</code>，<code>a</code>是变量<code>a</code>的名字，但我们有时说<code>a</code>的内容<code>3</code>是也会说成<code>a</code>。我们执行<code>a=3</code>时是将内容3赋值给了符号<code>a</code>，形成了变量<code>a</code>。</p>
+<p>此处，变量是<code>a</code>，是数字对象<code>3</code>的名称，而符号是<code>a</code>本身，它也是一个对象！</p>
+<p>函数理解起来就简单些了，比如我们调用函数<code>min()</code>并不是说计算<code>min()</code>本身，而是计算它指向的一个表达式集合！</p>
+<p><strong>概念可以不懂，但要会用，有自己的理解。</strong></p>
+<p>将调用对象转换为列表，查看它的结构：</p>
+<pre class="r"><code>as.list(call1)
+#&gt; [[1]]
+#&gt; rnorm
+#&gt; 
+#&gt; [[2]]
+#&gt; [1] 5</code></pre>
+<p>结果说明这个调用由<strong>函数符号</strong>和<strong>一个参数</strong>两部分组成。我们可以分别提取它们：</p>
+<pre class="r"><code>call1[[1]]
+#&gt; rnorm
+typeof(call1[[1]])
+#&gt; [1] &quot;symbol&quot;
+class(call1[[1]])
+#&gt; [1] &quot;name&quot;</code></pre>
+<p><code>call1</code>第一个元素是符号。</p>
+<pre class="r"><code>call1[[2]]
+#&gt; [1] 5
+typeof(call1[[2]])
+#&gt; [1] &quot;double&quot;
+class(call1[[2]])
+#&gt; [1] &quot;numeric&quot;</code></pre>
+<p>第二个元素是数值。</p>
+<p><strong><code>quote()</code>将变量名捕获为符号对象，将函数调用捕获为调用对象，两者都是语言对象</strong>。我们可以使用<code>is.symbol()/is.name()</code>和<code>is.call()</code>检查它们。更一般，使用<code>is.language()</code>同时检查符号和调用。</p>
+<p>如果我们捕获的对象既不是符号，也不是函数，而是变量存储的内容，像数字、字符串等会发生什么呢？</p>
+<pre class="r"><code>num1 = 100
+num2 = quote(100)
+str1 = &quot;abc&quot;
+str2 = quote(&quot;abc&quot;)</code></pre>
+<p>检查：</p>
+<pre class="r"><code>identical(num1, num2)
+#&gt; [1] TRUE
+identical(str1, str2)
+#&gt; [1] TRUE</code></pre>
+<p>可见<code>quote()</code>不会将字面值（数字、逻辑值、字符）等转换为语言对象。</p>
+<p>但是，<strong>由它们组合而成的向量表达式会被转换为语言对象</strong>：</p>
+<pre class="r"><code>call2 = quote(c(&quot;a&quot;, &quot;b&quot;))
+call2
+#&gt; c(&quot;a&quot;, &quot;b&quot;)</code></pre>
+<p>因为<code>c()</code>是函数!</p>
+<pre class="r"><code>as.list(call2)
+#&gt; [[1]]
+#&gt; c
+#&gt; 
+#&gt; [[2]]
+#&gt; [1] &quot;a&quot;
+#&gt; 
+#&gt; [[3]]
+#&gt; [1] &quot;b&quot;</code></pre>
+<pre class="r"><code>str(as.list(call2))
+#&gt; List of 3
+#&gt;  $ : symbol c
+#&gt;  $ : chr &quot;a&quot;
+#&gt;  $ : chr &quot;b&quot;</code></pre>
+<p>同理，像<code>+</code>，<code>-</code>，<code>*</code>，<code>/</code>这样的算术表达式都会被转换，因为它们本质都是函数！</p>
+<pre class="r"><code>call3 = quote(sqrt(1 + x ^ 2))
+call3
+#&gt; sqrt(1 + x^2)</code></pre>
+<p>我们使用<code>pryr</code>包查看函数调用的递归结构：</p>
+<pre class="r"><code>p_load(pryr)
+#&gt; Installing package into &#39;/Users/wsx/R_library&#39;
+#&gt; (as &#39;lib&#39; is unspecified)
+#&gt; 
+#&gt; The downloaded binary packages are in
+#&gt;  /var/folders/mx/rfkl27z90c96wbmn3_kjk8c80000gn/T//RtmpRaeJZT/downloaded_packages
+#&gt; 
+#&gt; pryr installed
+pryr::call_tree(call3)
+#&gt; \- ()
+#&gt;   \- `sqrt
+#&gt;   \- ()
+#&gt;     \- `+
+#&gt;     \-  1
+#&gt;     \- ()
+#&gt;       \- `^
+#&gt;       \- `x
+#&gt;       \-  2</code></pre>
+<p>上面<code>\-()</code>运算符指调用，<code>\</code>var`指符号对象，其他是字面值。
+#### 修改表达式
+一旦表达式被捕获为调用对象（符号、调用），我们可以把它们当作列表进行修改。</p>
+<pre class="r"><code>call1
+#&gt; rnorm(5)
+call1[[1]] = quote(runif)
+call1
+#&gt; runif(5)</code></pre>
+<p>这样<code>rnorm(5)</code>被修改为<code>runif(5)</code>。</p>
+<p>还可以在调用中添加新参数：</p>
+<pre class="r"><code>call1[[3]] = -1
+names(call1)[[3]] = &quot;min&quot;
+call1
+#&gt; runif(5, min = -1)</code></pre>
+<div id="捕获函数参数表达式" class="section level4">
+<h4>捕获函数参数表达式</h4>
+<p>前面我们使用<code>quote()</code>捕获一个已知的表达式，而<code>substitute()</code>可以作用于任意的用户输入表达式。</p>
+<p>假设我们想要捕获参数<code>x</code>的表达式，首先我们想到用<code>quote()</code>：</p>
+<pre class="r"><code>fun1 = function(x){
+    quote(x)
+}</code></pre>
+<p>测试：</p>
+<pre class="r"><code>fun1(rnorm(5))
+#&gt; x</code></pre>
+<p>显然，<code>quote(x)</code>捕获的是表达式<code>x</code>，而不是输入表达式<code>rnorm(5)</code>。下面使用<code>substitute()</code>：</p>
+<pre class="r"><code>fun2 = function(x){
+    substitute(x)
+}
+fun2(rnorm(5))
+#&gt; rnorm(5)</code></pre>
+<p>下面用两个实例延时使用语言对象或者字面值列表作为参数，<code>substitute()</code>的运行方式：</p>
+<pre class="r"><code>substitute(x + y + x ^2, list(x = 1))
+#&gt; 1 + y + 1^2
+substitute(f(x + f(y)), list(f = quote(sin)))
+#&gt; sin(x + sin(y))
+substitute(x, list(x = quote(rnorm(5))))
+#&gt; rnorm(5)</code></pre>
+<p>因此，**使用<code>quote()</code>捕获表达式，使用<code>substitute()</code>捕获用户输入的表达式。
+#### 创建函数调用
+除了捕获表达式，我们还可以使用内置函数创建语言对象。</p>
+<pre class="r"><code>call1 = quote(rnorm(5, mean = 3))
+call1
+#&gt; rnorm(5, mean = 3)</code></pre>
+<p>使用<code>call()</code>创建相同的函数调用：</p>
+<pre class="r"><code>call2 = call(&quot;rnorm&quot;, 5, mean = 3)
+call2
+#&gt; rnorm(5, mean = 3)</code></pre>
+<p>还可以使用<code>as.call()</code>将一个调用列表转换为调用：</p>
+<pre class="r"><code>call3 = as.call(list(quote(rnorm), 5, mean = 3))
+call3
+#&gt; rnorm(5, mean = 3)</code></pre>
+<p>上面3种方式完全相同。
+### 执行表达式
+前面学习了表达式的捕获，下一步就是求值！<code>eval()</code>函数可以完成这个工作。
+如果在R console键入<code>sin(1)</code>按下回车键会马上返回结果：</p>
+<pre class="r"><code>sin(1)
+#&gt; [1] 0.841</code></pre>
+<p>如果想要控制它的计算，我们先使用<code>quote()</code>捕获表达式，然后使用<code>eval()</code>计算：</p>
+<pre class="r"><code>call1 = quote(sin(1))
+call1
+#&gt; sin(1)
+eval(call1)
+#&gt; [1] 0.841</code></pre>
+<p>到此，我们可以捕获任意语法正确的表达式，根据需要修改，并后续执行。
+注意，如果表达式计算时需要的变量值不存在，会报错：</p>
+<pre class="r"><code>call2 = quote(sin(x))
+call2
+#&gt; sin(x)</code></pre>
+<p>计算：</p>
+<pre class="r"><code>eval(call2)
+#&gt; Error in eval(call2): 找不到对象&#39;x&#39;</code></pre>
+<p><strong>直接在控制台运行和使用<code>eval()</code>的区别在于，<code>eval()</code>允许我们提供一个列表来计算给定表达式。我们并不需要创建一个变量<code>x</code>，只要提供一个包含<code>x</code>的临时列表，表达式会在列表中搜索符号</strong>：</p>
+<pre class="r"><code>eval(call2, list(x = 1))
+#&gt; [1] 0.841</code></pre>
+<p><strong>或者，我们也可以在<code>eval()</code>中添加一个搜索符号的环境</strong>。下面创建一个新环境试试：</p>
+<pre class="r"><code>e1 = new.env()
+e1$x = 1
+eval(call2, e1)
+#&gt; [1] 0.841</code></pre>
+<p><code>eval(expr, envir, enclos)</code>计算模式与调用函数相同，函数体为<code>expr</code>，执行环境为<code>envir</code>。如果<code>envir</code>以列表形式给出，封闭环境便是<code>enclos</code>，否则，封闭环境是<code>envir</code>的父环境。</p>
+<pre class="r"><code>call3 = quote(x ^ 2 + y ^ 2)
+call3
+#&gt; x^2 + y^2</code></pre>
+<pre class="r"><code>e1 = new.env()
+e1$x = 2
+eval(call3, e1)
+#&gt; Error in eval(call3, e1): 找不到对象&#39;y&#39;</code></pre>
+<pre class="r"><code>e2 = new.env(parent = e1)
+e2$y = 3
+eval(call3, e2)
+#&gt; [1] 13</code></pre>
+</div>
+<div id="非标准计算" class="section level3">
+<h3>非标准计算</h3>
+<p>前面一节学习的几个函数组成了R元编程的基本能力，让我们能调整标准计算。元编程的主要应用是执行非标准计算以使某些特定用法更容易。下面讨论几个例子来实际理解它和应用它。</p>
+<div id="使用非标准计算快速构建子集" class="section level4">
+<h4>使用非标准计算快速构建子集</h4>
+<p>我们经常需要从向量中取出某个子集。现在假设有一个整数向量，我们想提取第3个到倒数第5个。</p>
+<p>标准方法：</p>
+<pre class="r"><code>x = 1:10
+x[3:(length(x)-5)]
+#&gt; [1] 3 4 5</code></pre>
+<p>上面表达式使用了2次<code>x</code>，看起来有些繁琐。</p>
+<p>我们可以定义一个快速提取子集的函数，使用元编程工具提供一个特殊符号来引用输入向量的长度。</p>
+<p>下面是该功能的简单实现，使用<code>.</code>来表示输入向量的长度：</p>
+<pre class="r"><code>qs = function(x, range){
+    range = substitute(range)
+    selector = eval(range, list(. = length(x)))
+    x[selector]
+}</code></pre>
+<p>现在我们可以使用<code>3:(.-5)</code>表示相同地范围：</p>
+<pre class="r"><code>qs(x, 3:(. -5))
+#&gt; [1] 3 4 5</code></pre>
+<p>还可以使用倒序的方式提取元素：</p>
+<pre class="r"><code>qs(x, . -1)
+#&gt; [1] 9</code></pre>
+<p>基于<code>qs()</code>，下面函数用于剔除向量<code>x</code>的前<code>n</code>个和后<code>n</code>个元素：</p>
+<pre class="r"><code>trim_margin = function(x, n){
+    qs(x, (n + 1):(. -n - 1))
+}</code></pre>
+<p>这个函数看起来没问题，但使用时发生了错误：</p>
+<pre class="r"><code>trim_margin(x, 3)
+#&gt; Error in eval(range, list(. = length(x))): 找不到对象&#39;n&#39;</code></pre>
+<p>为什么会找不到<code>n</code>呢？我们有必要分析该函数调用时符号的查找路径。</p>
+</div>
+<div id="动态作用域" class="section level4">
+<h4>动态作用域</h4>
+<p>错误发生在<code>eval()</code>语句上，此处找不到数<code>n</code>。这一定是封闭环境发生了问题，我们检查函数<code>eval()</code>：</p>
+<pre class="r"><code>eval
+#&gt; function (expr, envir = parent.frame(), enclos = if (is.list(envir) || 
+#&gt;     is.pairlist(envir)) parent.frame() else baseenv()) 
+#&gt; .Internal(eval(expr, envir, enclos))
+#&gt; &lt;bytecode: 0x7fe4ef06a2e8&gt;
+#&gt; &lt;environment: namespace:base&gt;</code></pre>
+<p>从定义上看，当提供一个列表时，<code>enclos</code>会取默认值<code>parent.frame()</code>，而<strong>这是<code>eval()</code>的调用环境</strong>（不是<code>qs()</code>的，也就是调用<code>qs()</code>时的执行环境，该环境中没有<code>n</code>。</p>
+<p>这里我们可以发现<code>substitute()</code>的缺点，它只捕获表达式，而不捕获表达式有意义的环境（这正是quosure的由来吧，就是为了解决这问题）。我们需要自己完成这一步。</p>
+<p>既然知道问题所在，解决就简单了。我们只需要指定环境为<code>qs()</code>的调用环境：</p>
+<pre class="r"><code>qs = function(x, range){
+    range = substitute(range)
+    selector = eval(range, list(. = length(x)), parent.frame())
+    x[selector]
+}</code></pre>
+<p>重新测试：</p>
+<pre class="r"><code>trim_margin(x, 3)
+#&gt; [1] 4 5 6</code></pre>
+<p>这个机制就是<strong>动态作用域</strong>，每次调用函数时都会创建一个执行环境，如果一个符号在执行环境中找不到，就会取封闭环境中搜索。<strong>在标准计算中，函数的封闭环境在函数被定义时就已经确定，而在非标准计算中，封闭环境应该是调用环境</strong>（这一点是不确定的）。因此，<strong>当函数使用非标准计算时，正确实现动态作用域机制非常重要</strong>。</p>
+</div>
+<div id="使用公式捕获表达式和环境" class="section level4">
+<h4>使用公式捕获表达式和环境</h4>
+<p><strong>为了正确实现动态作用域机制，我们使用<code>parent.frame()</code>追踪<code>substitute()</code>捕获的表达式，一个更简单地办法是使用公式同时捕获表达式和环境</strong>。</p>
+<p>公式对象会自动不会<code>~</code>符号两边的表达式以及创建它的环境。我们可以直接创建一个公式并存储在变量中：</p>
+<pre class="r"><code>formula1 = z ~ x ^ 2 + y ^ 2</code></pre>
+<p>公式实质上是属于<code>formula</code>类的语言对象：</p>
+<pre class="r"><code>typeof(formula1)
+#&gt; [1] &quot;language&quot;
+class(formula1)
+#&gt; [1] &quot;formula&quot;</code></pre>
+<p>我们依旧将它转换为列表，查看结构：</p>
+<pre class="r"><code>str(as.list(formula1))
+#&gt; List of 3
+#&gt;  $ : symbol ~
+#&gt;  $ : symbol z
+#&gt;  $ : language x^2 + y^2
+#&gt;  - attr(*, &quot;class&quot;)= chr &quot;formula&quot;
+#&gt;  - attr(*, &quot;.Environment&quot;)=&lt;environment: R_GlobalEnv&gt;</code></pre>
+<p><strong>可以看到<code>formula1</code>不仅将<code>~</code>两侧的表达式捕获为语言对象，还捕获了创建它的环境。</strong>实际上，公式就是一个基于被捕获参数和调用环境的函数<code>~</code>调用。</p>
+<p>我们可以像之前那样用列表的方式提取元素：</p>
+<pre class="r"><code>formula1[[2]]
+#&gt; z
+formula1[[3]]
+#&gt; x^2 + y^2</code></pre>
+<p>访问调用环境：</p>
+<pre class="r"><code>environment(formula1)
+#&gt; &lt;environment: R_GlobalEnv&gt;</code></pre>
+<p>公式也可以是右侧型的：</p>
+<pre class="r"><code>formula2 = ~ x + y
+str(as.list(formula2))
+#&gt; List of 2
+#&gt;  $ : symbol ~
+#&gt;  $ : language x + y
+#&gt;  - attr(*, &quot;class&quot;)= chr &quot;formula&quot;
+#&gt;  - attr(*, &quot;.Environment&quot;)=&lt;environment: R_GlobalEnv&gt;</code></pre>
+<p>下面我们使用公式实现<code>qs()</code>与<code>trim_margin()</code>的另一个版本。</p>
+<p><strong>当<code>range</code>是一个公式时，函数<code>qs2()</code>与<code>qs()</code>运行方式一致；否则它直接用<code>range</code>提取<code>x</code>子集</strong>。</p>
+<pre class="r"><code>qs2 = function(x, range){
+    selector = if (inherits(range, &quot;formula&quot;)) {
+        eval(range[[2]], list(. = length(x)), environment(range))
+    }else range
+    
+    x[selector]
+}</code></pre>
+<p>我们使用<code>inherits()</code>检查<code>range</code>是不是一个公式，使用<code>environment(range)</code>实现动态作用域。然后用右侧型公式激活非标准计算：</p>
+<pre class="r"><code>qs2(1:10, ~3:(. -2))
+#&gt; [1] 3 4 5 6 7 8</code></pre>
+<p>或者使用标准计算：</p>
+<pre class="r"><code>qs2(1:10, 3)
+#&gt; [1] 3</code></pre>
+<p>我们再借助公式版<code>qs2()</code>实现<code>trim_margin()</code>：</p>
+<pre class="r"><code>trim_margin2 = function(x, n){
+    qs2(x, ~ (n+1):(.-n -1))
+}</code></pre>
+<p>测试：</p>
+<pre class="r"><code>trim_margin2(x, 3)
+#&gt; [1] 4 5 6</code></pre>
+</div>
+<div id="使用元编程构建子集" class="section level4">
+<h4>使用元编程构建子集</h4>
+<p>了解前面的语言对象、求值函数以及动态作用域机制后，现在来实现<code>subset</code>的另一个版本。</p>
+<p>基本想法：</p>
+<ul>
+<li>捕获行构建子集表达式，并在数据框内对其求值，数据框本质上是列表</li>
+<li>捕获按列选取的表达式，并在整数索引的命名列表中对其求值</li>
+<li>使用<strong>行选择器（逻辑向量）和列选择器（整数向量）</strong>对数据框选取子集</li>
+</ul>
+<pre class="r"><code>subset2 = function(x, subset = TRUE, select = TRUE){
+    enclos = parent.frame()
+    subset = substitute(subset)
+    select = substitute(select)
+    
+    row_selector = eval(subset, x, enclos)
+    col_envir = as.list(seq_along(x))
+    names(col_envir) = colnames(x)
+    col_selector = eval(select, col_envir, enclos)
+    
+    x[row_selector, col_selector]
+}</code></pre>
+<p><strong>按行构建子集比按列更容易实现。按行我们只需要捕获<code>subset</code>并在数据框内对其求值即可。</strong></p>
+<p><strong>按列我们首先要给列创建一个整数索引列表，并给它们赋予相应的名称</strong>。例如，一个具有3列（x,y,z）的数据框需要这样一个索引列表：<code>list(a = 1, b = 2, c = 3)</code>，这样让我们能够以<code>select = c(x, y)</code>的形式选取列，因为<code>c(x, y)</code>是在列表内被计算的。</p>
+<p>下面测试使用：</p>
+<pre class="r"><code>subset2(mtcars, mpg &gt;= quantile(mpg, 0.9), c(mpg, cyl, qsec))
+#&gt;                 mpg cyl qsec
+#&gt; Fiat 128       32.4   4 19.5
+#&gt; Honda Civic    30.4   4 18.5
+#&gt; Toyota Corolla 33.9   4 19.9
+#&gt; Lotus Europa   30.4   4 16.9</code></pre>
+<p>以及<code>:</code>符号的使用：</p>
+<pre class="r"><code>subset2(mtcars, mpg &gt;= quantile(mpg, 0.9), mpg:drat)
+#&gt;                 mpg cyl disp  hp drat
+#&gt; Fiat 128       32.4   4 78.7  66 4.08
+#&gt; Honda Civic    30.4   4 75.7  52 4.93
+#&gt; Toyota Corolla 33.9   4 71.1  65 4.22
+#&gt; Lotus Europa   30.4   4 95.1 113 3.77</code></pre>
+</div>
+</div>
+</div>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="../../../cn/post/2019-11-20-r-mechanism/">R的内部机制</a></span>
+  <span class="nav-next"><a href="../../../cn/post/2018-08-10-r-installation/">R的安装与配置</a> &rarr;</span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/post\/2019-11-20-r-mechanism\/';
+    
+  } else if (e.which == 39) {  
+    
+    url = '\/cn\/post\/2018-08-10-r-installation\/';
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+<section class="comments">
+  <div id="disqus_thread"></div>
+  <script src="../../../js/disqusloader.min.js"></script>
+  <script>
+  var disqus_config = function () {
+  
+    this.page.url = "https:\/\/shixiangwang.github.io\/home\/" + location.pathname;
+  
+  };
+  (function() {
+    var inIFrame = function() {
+      var iframe = true;
+      try { iframe = window.self !== window.top; } catch (e) {}
+      return iframe;
+    };
+    if (inIFrame()) return;
+    var disqus_js = '//home-xjdzylqrzp.disqus.com/embed.js';
+    
+    if (location.hash.match(/^#comment/)) {
+      var d = document, s = d.createElement('script');
+      s.src = disqus_js; s.async = true;
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    } else {
+      disqusLoader('#disqus_thread', {
+        scriptUrl: disqus_js, laziness: 0, disqusConfig: disqus_config
+      });
+    }
+  })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+
+
+<script async src="../../../js/fix-toc.js"></script>
+
+<script async src="../../../js/center-img.js"></script>
+
+<script async src="../../../js/right-quote.js"></script>
+
+<script async src="../../../js/no-highlight.js"></script>
+
+<script async src="../../../js/fix-footnote.js"></script>
+
+<script async src="../../../js/math-code.js"></script>
+
+<script async src="../../../js/external-link.js"></script>
+
+<script async src="../../../js/alt-title.js"></script>
+
+<script async src="../../../js/header-link.js"></script>
+
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+  
+  
+
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> &middot; <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> &middot; <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> &middot; <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> &middot; <a href="https://orcid.org/0000-0001-9855-7357"><i class='ai ai-orcid ai-1x'></i></a> &middot; <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 &copy; <a href="../../../">王诗翔</a> 2017 - 2019 </div>
+  
+  
+
+  <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56h9es09xn7&amp;m=6&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=1" async="async"></script>
+  </footer>
+  </article>
+  
+  </body>
+</html>
+

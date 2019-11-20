@@ -371,6 +371,15 @@ Datasets have associated metadata, specifying their data type and cohort.</descr
     </item>
     
     <item>
+      <title>R 的元编程</title>
+      <link>/cn/post/2019-11-20-meta-programming/</link>
+      <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-11-20-meta-programming/</guid>
+      <description>内容： 函数式编程：闭包（closures）与高阶函数（higher-order functions） 基于语言计算以及语言对象 非标准计算（non</description>
+    </item>
+    
+    <item>
       <title>R的内部机制</title>
       <link>/cn/post/2019-11-20-r-mechanism/</link>
       <pubDate>Wed, 01 Aug 2018 00:00:00 +0000</pubDate>
