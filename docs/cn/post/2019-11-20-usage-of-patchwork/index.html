@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    
+    <link rel="stylesheet" href="../../../fonts/academicons-1.8.6/css/academicons.min.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../logo/bodhi.png"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    
+    <title>拼图包patchwork使用 - 王诗翔</title>
+    
+     
+    <meta property="og:title" content="拼图包patchwork使用 - Shixiang Wang | 王诗翔">
+    
+
+    
+      
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="../../../css/style.css" />
+    <link rel="stylesheet" href="../../../css/mystyle.css" /> 
+    <link rel="stylesheet" href="../../../css/fonts.css" />
+    
+<script async src="../../../js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="../../../css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="../../../"><img src="https://avatars1.githubusercontent.com/u/25057508?s=460&amp;v=4" alt="Shixiang Wang" /></a></h1>
+
+
+
+      <nav class="menu">
+        <input id="menu-check" type="checkbox" />
+        <label id="menu-label" for="menu-check" class="unselectable">
+          <span class="icon close-icon">✕</span>
+          <span class="icon open-icon">☰</span>
+          <span class="text">Menu</span>
+        </label>
+        <ul>
+        
+        
+        <li><a href="../../../">首页</a></li>
+        
+        <li><a href="../../../cn/about/">关于</a></li>
+        
+        <li><a href="../../../cn/post/">博客</a></li>
+        
+        <li><a href="../../../cn/read/">读书</a></li>
+        
+        <li><a href="../../../cn/writing">写作</a></li>
+        
+        <li><a href="../../../cn/research/">研究</a></li>
+        
+        <li><a href="../../../cn/tools/">工具</a></li>
+        
+        <li><a href="../../../cn/cv-cn/shixiang">简历</a></li>
+        
+        <li><a href="../../../logo/qrcode.jpg">公众号</a></li>
+        
+        <li><a href="https://www.jianshu.com/u/b6608e27dc74">简书</a></li>
+        
+        <li><a href="../../../cn/todo">ToDo</a></li>
+        
+        <li><a href="../../../en/">English</a></li>
+        
+        
+
+<li class="menu-extra"></li>
+
+
+
+
+
+
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2019-11-20-usage-of-patchwork.Rmd" target="_blank">编辑</a></li>
+
+
+<li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+        </ul>
+      </nav>
+    </header>
+
+    <article class="main">
+      <header class="title">
+        
+
+<h1>拼图包patchwork使用</h1>
+
+
+
+<h3>王诗翔 &middot 
+2018-07-06</h3> 
+
+
+   
+  
+
+
+      </header>
+
+
+
+
+
+<p><code>patchwork</code>是基于<code>ggplot2</code>的拼图包，因为<code>ggplot2</code>本身没有强大的拼图语法，而一般使用的<code>gridExtra</code>与<code>cowplot</code>的拼<code>ggplot2</code>图形都存在不少问题。</p>
+<p>我关注这个包蛮久了，现在Github上的Star数已经远超大部分的R包，但似乎还没有发布到CRAN。我的工作看似跟作图相关，写的博文大多数也如此，但实际对图形的掌控力并不咋的，所以还是要多多学习。</p>
+<p>下面进入正题，掌握好<code>ggplot2</code>与<code>patchwork</code>的基本用法，一般的图形都可以搞定了，并必要搞的很复杂。解决问题是关键，认真工作也是关键，画图看起来是，其实不是。</p>
+<div id="安装" class="section level2">
+<h2>安装</h2>
+<pre class="r"><code># 需要提取安装好devtools包，
+# 如果你解决安装和载入包很麻烦，可以试试pacman包，我在简书写了介绍和简单使用
+devtools::install_github(&quot;thomasp85/patchwork&quot;)</code></pre>
+<p>导入：</p>
+<pre class="r"><code>p_load(patchwork)
+# 或
+# library(patchwork)</code></pre>
+</div>
+<div id="例子" class="section level2">
+<h2>例子</h2>
+<p><code>patchwork</code>的使用灰常简单，使用<code>+</code>把要拼的图加在一起就可以了。</p>
+<pre class="r"><code>library(ggplot2)
+library(patchwork)
+p1 &lt;- ggplot(mtcars) + geom_point(aes(mpg, disp))
+p2 &lt;- ggplot(mtcars) + geom_boxplot(aes(gear, disp, group = gear))
+p1 + p2</code></pre>
+<p><img src="../../../cn/post/2019-11-20-usage-of-patchwork_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>我们不用创建对象，也可以像<code>ggplot2</code>本身使用一样相加。</p>
+<pre class="r"><code>ggplot(mtcars) +
+  geom_point(aes(mpg, disp)) +
+  ggplot(mtcars) + 
+  geom_boxplot(aes(gear, disp, group = gear))</code></pre>
+<p><img src="../../../cn/post/2019-11-20-usage-of-patchwork_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>另外，可以使用布局函数<code>plot_layout</code>对拼接细节进行更细致地指定，像每个图的范围，图形的排列。</p>
+<pre class="r"><code>p1 + p2 + plot_layout(ncol = 1, heights = c(3, 1))</code></pre>
+<p><img src="../../../cn/post/2019-11-20-usage-of-patchwork_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>如果你想要在图形之间添加一些空间，可以使用<code>plot_spacer()</code>填充一个空白格。</p>
+<pre class="r"><code>p1 + plot_spacer() + p2</code></pre>
+<p><img src="../../../cn/post/2019-11-20-usage-of-patchwork_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>增加花括号的使用进行嵌套可以布置更复杂的图形：</p>
+<pre class="r"><code>p3 &lt;- ggplot(mtcars) + geom_smooth(aes(disp, qsec))
+p4 &lt;- ggplot(mtcars) + geom_bar(aes(carb))
+p4 + {
+  p1 + {
+    p2 +
+      p3 +
+      plot_layout(ncol = 1)
+  }
+} +
+  plot_layout(ncol = 1)
+#&gt; `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="../../../cn/post/2019-11-20-usage-of-patchwork_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>括号也是可以的：</p>
+<pre class="r"><code>p3 &lt;- ggplot(mtcars) + geom_smooth(aes(disp, qsec))
+p4 &lt;- ggplot(mtcars) + geom_bar(aes(carb))
+p4 + (
+  p1 + (
+    p2 +
+      p3 +
+      plot_layout(ncol = 1)
+  )
+) +
+  plot_layout(ncol = 1)
+#&gt; `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="../../../cn/post/2019-11-20-usage-of-patchwork_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+</div>
+<div id="高级特性" class="section level2">
+<h2>高级特性</h2>
+<p>除了将图形添加到一起，<code>patchwork</code>定义了一些有意思的操作符，，简化了上面的嵌套语法。<code>-</code>操作符将左右两边的对象放在同一个嵌套层，而不是像<code>+</code>号把右边放入左边的嵌套层。</p>
+<pre class="r"><code>p1 + p2 + p3 + plot_layout(ncol = 1)
+#&gt; `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="../../../cn/post/2019-11-20-usage-of-patchwork_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<pre class="r"><code>p1 + p2 - p3 + plot_layout(ncol = 1)
+#&gt; `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="../../../cn/post/2019-11-20-usage-of-patchwork_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>现在<code>p1+p2</code>与<code>p3</code>在同一嵌套层。</p>
+<p><code>|</code>与<code>/</code>操作符可以用来水平和垂直布局。</p>
+<pre class="r"><code>(p1 | p2 | p3) /
+      p4
+#&gt; `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="../../../cn/post/2019-11-20-usage-of-patchwork_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p>子图多的时候同时修改图形比较麻烦，<code>patchwork</code>提供了<code>*</code>与<code>&amp;</code>用来简化代码，它们都可以将同一个操作应用到所有图形。</p>
+<pre class="r"><code>(p1 + (p2 + p3) + p4 + plot_layout(ncol = 1)) * theme_bw()
+#&gt; `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="../../../cn/post/2019-11-20-usage-of-patchwork_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>需要注意<code>*</code>只会应用到当前嵌套层。</p>
+<pre class="r"><code>p1 + (p2 + p3) + p4 + plot_layout(ncol = 1) &amp; theme_bw()
+#&gt; `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="../../../cn/post/2019-11-20-usage-of-patchwork_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p><code>&amp;</code>可以用递归的方式应用到所有层面。</p>
+</div>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="../../../cn/post/2019-11-20-propensity-score-match/">倾向评分匹配算法——R实例学习</a></span>
+  <span class="nav-next"><a href="../../../cn/post/2019-11-20-use-metafor/">metafor——元分析技术实现</a> &rarr;</span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/post\/2019-11-20-propensity-score-match\/';
+    
+  } else if (e.which == 39) {  
+    
+    url = '\/cn\/post\/2019-11-20-use-metafor\/';
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+<section class="comments">
+  <div id="disqus_thread"></div>
+  <script src="../../../js/disqusloader.min.js"></script>
+  <script>
+  var disqus_config = function () {
+  
+    this.page.url = "https:\/\/shixiangwang.github.io\/home\/" + location.pathname;
+  
+  };
+  (function() {
+    var inIFrame = function() {
+      var iframe = true;
+      try { iframe = window.self !== window.top; } catch (e) {}
+      return iframe;
+    };
+    if (inIFrame()) return;
+    var disqus_js = '//home-xjdzylqrzp.disqus.com/embed.js';
+    
+    if (location.hash.match(/^#comment/)) {
+      var d = document, s = d.createElement('script');
+      s.src = disqus_js; s.async = true;
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    } else {
+      disqusLoader('#disqus_thread', {
+        scriptUrl: disqus_js, laziness: 0, disqusConfig: disqus_config
+      });
+    }
+  })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+
+
+<script async src="../../../js/fix-toc.js"></script>
+
+<script async src="../../../js/center-img.js"></script>
+
+<script async src="../../../js/right-quote.js"></script>
+
+<script async src="../../../js/no-highlight.js"></script>
+
+<script async src="../../../js/fix-footnote.js"></script>
+
+<script async src="../../../js/math-code.js"></script>
+
+<script async src="../../../js/external-link.js"></script>
+
+<script async src="../../../js/alt-title.js"></script>
+
+<script async src="../../../js/header-link.js"></script>
+
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+  
+  
+
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> &middot; <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> &middot; <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> &middot; <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> &middot; <a href="https://orcid.org/0000-0001-9855-7357"><i class='ai ai-orcid ai-1x'></i></a> &middot; <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 &copy; <a href="../../../">王诗翔</a> 2017 - 2019 </div>
+  
+  
+
+  <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56h9es09xn7&amp;m=6&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=1" async="async"></script>
+  </footer>
+  </article>
+  
+  </body>
+</html>
+

@@ -1,0 +1,144 @@
+---
+title: "拼图包patchwork使用"
+author: "王诗翔"
+date: "2018-07-06"
+lastmod: "`r Sys.Date()`"
+slug: ""
+categories: r
+tags:
+- r
+- ggplot
+- patchwork
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, dev = "png", comment = "#>")
+#Sys.setenv("LANGUAGE"="EN") # Embed this for outputing English message
+#Sys.setlocale('LC_ALL','C') # Embed this directly in the Rmarkdown script that contains the Chinese character comment
+options(digits=3)
+options(max.print=200)
+```
+
+
+`patchwork`是基于`ggplot2`的拼图包，因为`ggplot2`本身没有强大的拼图语法，而一般使用的`gridExtra`与`cowplot`的拼`ggplot2`图形都存在不少问题。
+
+我关注这个包蛮久了，现在Github上的Star数已经远超大部分的R包，但似乎还没有发布到CRAN。我的工作看似跟作图相关，写的博文大多数也如此，但实际对图形的掌控力并不咋的，所以还是要多多学习。
+
+下面进入正题，掌握好`ggplot2`与`patchwork`的基本用法，一般的图形都可以搞定了，并必要搞的很复杂。解决问题是关键，认真工作也是关键，画图看起来是，其实不是。
+
+## 安装
+
+```{r, eval=FALSE}
+# 需要提取安装好devtools包，
+# 如果你解决安装和载入包很麻烦，可以试试pacman包，我在简书写了介绍和简单使用
+devtools::install_github("thomasp85/patchwork")
+```
+
+导入：
+
+```{r}
+p_load(patchwork)
+# 或
+# library(patchwork)
+```
+
+
+## 例子
+
+`patchwork`的使用灰常简单，使用`+`把要拼的图加在一起就可以了。
+
+```{r}
+library(ggplot2)
+library(patchwork)
+p1 <- ggplot(mtcars) + geom_point(aes(mpg, disp))
+p2 <- ggplot(mtcars) + geom_boxplot(aes(gear, disp, group = gear))
+p1 + p2
+```
+
+我们不用创建对象，也可以像`ggplot2`本身使用一样相加。
+
+```{r}
+ggplot(mtcars) +
+  geom_point(aes(mpg, disp)) +
+  ggplot(mtcars) + 
+  geom_boxplot(aes(gear, disp, group = gear))
+```
+
+另外，可以使用布局函数`plot_layout`对拼接细节进行更细致地指定，像每个图的范围，图形的排列。
+
+```{r}
+p1 + p2 + plot_layout(ncol = 1, heights = c(3, 1))
+```
+
+如果你想要在图形之间添加一些空间，可以使用`plot_spacer()`填充一个空白格。
+
+```{r}
+p1 + plot_spacer() + p2
+```
+
+增加花括号的使用进行嵌套可以布置更复杂的图形：
+
+```{r}
+p3 <- ggplot(mtcars) + geom_smooth(aes(disp, qsec))
+p4 <- ggplot(mtcars) + geom_bar(aes(carb))
+p4 + {
+  p1 + {
+    p2 +
+      p3 +
+      plot_layout(ncol = 1)
+  }
+} +
+  plot_layout(ncol = 1)
+```
+
+
+括号也是可以的：
+
+```{r}
+p3 <- ggplot(mtcars) + geom_smooth(aes(disp, qsec))
+p4 <- ggplot(mtcars) + geom_bar(aes(carb))
+p4 + (
+  p1 + (
+    p2 +
+      p3 +
+      plot_layout(ncol = 1)
+  )
+) +
+  plot_layout(ncol = 1)
+```
+
+
+## 高级特性
+
+除了将图形添加到一起，`patchwork`定义了一些有意思的操作符，，简化了上面的嵌套语法。`-`操作符将左右两边的对象放在同一个嵌套层，而不是像`+`号把右边放入左边的嵌套层。
+
+```{r}
+p1 + p2 + p3 + plot_layout(ncol = 1)
+```
+
+```{r}
+p1 + p2 - p3 + plot_layout(ncol = 1)
+```
+
+现在`p1+p2`与`p3`在同一嵌套层。
+
+`|`与`/`操作符可以用来水平和垂直布局。
+
+```{r}
+(p1 | p2 | p3) /
+      p4
+```
+
+子图多的时候同时修改图形比较麻烦，`patchwork`提供了`*`与`&`用来简化代码，它们都可以将同一个操作应用到所有图形。
+
+```{r}
+(p1 + (p2 + p3) + p4 + plot_layout(ncol = 1)) * theme_bw()
+```
+
+需要注意`*`只会应用到当前嵌套层。
+
+```{r}
+p1 + (p2 + p3) + p4 + plot_layout(ncol = 1) & theme_bw()
+```
+
+`&`可以用递归的方式应用到所有层面。

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>patchwork on Shixiang Wang | 王诗翔</title>
+    <link>/tags/patchwork/</link>
+    <description>Recent content in patchwork on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 06 Jul 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/patchwork/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>拼图包patchwork使用</title>
+      <link>/cn/post/2019-11-20-usage-of-patchwork/</link>
+      <pubDate>Fri, 06 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-11-20-usage-of-patchwork/</guid>
+      <description>patchwork是基于ggplot2的拼图包，因为ggplot2本身没有强大的拼图语法，而一般使用的gridExtra与cowplot的拼</description>
+    </item>
+    
+  </channel>
+</rss>

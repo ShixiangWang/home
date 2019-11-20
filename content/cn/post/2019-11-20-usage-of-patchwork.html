@@ -1,0 +1,101 @@
+---
+title: "拼图包patchwork使用"
+author: "王诗翔"
+date: "2018-07-06"
+lastmod: "2019-11-20"
+slug: ""
+categories: r
+tags:
+- r
+- ggplot
+- patchwork
+---
+
+
+
+<p><code>patchwork</code>是基于<code>ggplot2</code>的拼图包，因为<code>ggplot2</code>本身没有强大的拼图语法，而一般使用的<code>gridExtra</code>与<code>cowplot</code>的拼<code>ggplot2</code>图形都存在不少问题。</p>
+<p>我关注这个包蛮久了，现在Github上的Star数已经远超大部分的R包，但似乎还没有发布到CRAN。我的工作看似跟作图相关，写的博文大多数也如此，但实际对图形的掌控力并不咋的，所以还是要多多学习。</p>
+<p>下面进入正题，掌握好<code>ggplot2</code>与<code>patchwork</code>的基本用法，一般的图形都可以搞定了，并必要搞的很复杂。解决问题是关键，认真工作也是关键，画图看起来是，其实不是。</p>
+<div id="安装" class="section level2">
+<h2>安装</h2>
+<pre class="r"><code># 需要提取安装好devtools包，
+# 如果你解决安装和载入包很麻烦，可以试试pacman包，我在简书写了介绍和简单使用
+devtools::install_github(&quot;thomasp85/patchwork&quot;)</code></pre>
+<p>导入：</p>
+<pre class="r"><code>p_load(patchwork)
+# 或
+# library(patchwork)</code></pre>
+</div>
+<div id="例子" class="section level2">
+<h2>例子</h2>
+<p><code>patchwork</code>的使用灰常简单，使用<code>+</code>把要拼的图加在一起就可以了。</p>
+<pre class="r"><code>library(ggplot2)
+library(patchwork)
+p1 &lt;- ggplot(mtcars) + geom_point(aes(mpg, disp))
+p2 &lt;- ggplot(mtcars) + geom_boxplot(aes(gear, disp, group = gear))
+p1 + p2</code></pre>
+<p><img src="/cn/post/2019-11-20-usage-of-patchwork_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>我们不用创建对象，也可以像<code>ggplot2</code>本身使用一样相加。</p>
+<pre class="r"><code>ggplot(mtcars) +
+  geom_point(aes(mpg, disp)) +
+  ggplot(mtcars) + 
+  geom_boxplot(aes(gear, disp, group = gear))</code></pre>
+<p><img src="/cn/post/2019-11-20-usage-of-patchwork_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>另外，可以使用布局函数<code>plot_layout</code>对拼接细节进行更细致地指定，像每个图的范围，图形的排列。</p>
+<pre class="r"><code>p1 + p2 + plot_layout(ncol = 1, heights = c(3, 1))</code></pre>
+<p><img src="/cn/post/2019-11-20-usage-of-patchwork_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>如果你想要在图形之间添加一些空间，可以使用<code>plot_spacer()</code>填充一个空白格。</p>
+<pre class="r"><code>p1 + plot_spacer() + p2</code></pre>
+<p><img src="/cn/post/2019-11-20-usage-of-patchwork_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>增加花括号的使用进行嵌套可以布置更复杂的图形：</p>
+<pre class="r"><code>p3 &lt;- ggplot(mtcars) + geom_smooth(aes(disp, qsec))
+p4 &lt;- ggplot(mtcars) + geom_bar(aes(carb))
+p4 + {
+  p1 + {
+    p2 +
+      p3 +
+      plot_layout(ncol = 1)
+  }
+} +
+  plot_layout(ncol = 1)
+#&gt; `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="/cn/post/2019-11-20-usage-of-patchwork_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>括号也是可以的：</p>
+<pre class="r"><code>p3 &lt;- ggplot(mtcars) + geom_smooth(aes(disp, qsec))
+p4 &lt;- ggplot(mtcars) + geom_bar(aes(carb))
+p4 + (
+  p1 + (
+    p2 +
+      p3 +
+      plot_layout(ncol = 1)
+  )
+) +
+  plot_layout(ncol = 1)
+#&gt; `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="/cn/post/2019-11-20-usage-of-patchwork_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+</div>
+<div id="高级特性" class="section level2">
+<h2>高级特性</h2>
+<p>除了将图形添加到一起，<code>patchwork</code>定义了一些有意思的操作符，，简化了上面的嵌套语法。<code>-</code>操作符将左右两边的对象放在同一个嵌套层，而不是像<code>+</code>号把右边放入左边的嵌套层。</p>
+<pre class="r"><code>p1 + p2 + p3 + plot_layout(ncol = 1)
+#&gt; `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="/cn/post/2019-11-20-usage-of-patchwork_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<pre class="r"><code>p1 + p2 - p3 + plot_layout(ncol = 1)
+#&gt; `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="/cn/post/2019-11-20-usage-of-patchwork_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>现在<code>p1+p2</code>与<code>p3</code>在同一嵌套层。</p>
+<p><code>|</code>与<code>/</code>操作符可以用来水平和垂直布局。</p>
+<pre class="r"><code>(p1 | p2 | p3) /
+      p4
+#&gt; `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="/cn/post/2019-11-20-usage-of-patchwork_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p>子图多的时候同时修改图形比较麻烦，<code>patchwork</code>提供了<code>*</code>与<code>&amp;</code>用来简化代码，它们都可以将同一个操作应用到所有图形。</p>
+<pre class="r"><code>(p1 + (p2 + p3) + p4 + plot_layout(ncol = 1)) * theme_bw()
+#&gt; `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="/cn/post/2019-11-20-usage-of-patchwork_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>需要注意<code>*</code>只会应用到当前嵌套层。</p>
+<pre class="r"><code>p1 + (p2 + p3) + p4 + plot_layout(ncol = 1) &amp; theme_bw()
+#&gt; `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="/cn/post/2019-11-20-usage-of-patchwork_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p><code>&amp;</code>可以用递归的方式应用到所有层面。</p>
+</div>
