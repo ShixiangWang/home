@@ -1,0 +1,245 @@
+---
+title: "字符串操作"
+author: "王诗翔"
+date: "2018-08-15"
+lastmod: "2019-11-20"
+slug: ""
+categories: r
+tags:
+- r
+- stringr
+---
+
+
+
+<div id="打印" class="section level2">
+<h2>打印</h2>
+<pre class="r"><code>&quot;Hello world!&quot;
+#&gt; [1] &quot;Hello world!&quot;</code></pre>
+<pre class="r"><code>print(&quot;Hello world!&quot;)
+#&gt; [1] &quot;Hello world!&quot;</code></pre>
+<p>不带索引</p>
+<pre class="r"><code>cat(&quot;Hello world!&quot;)
+#&gt; Hello world!</code></pre>
+<pre class="r"><code>message(&quot;Hello world!&quot;)
+#&gt; Hello world!</code></pre>
+</div>
+<div id="连接" class="section level2">
+<h2>连接</h2>
+<pre class="r"><code>paste(&quot;Hello&quot;, &quot;world!&quot;)
+#&gt; [1] &quot;Hello world!&quot;
+paste(&quot;Hello&quot;, &quot;world&quot;, sep = &quot;-&quot;)
+#&gt; [1] &quot;Hello-world&quot;</code></pre>
+<pre class="r"><code>paste0(&quot;Hello&quot;, &quot;World&quot;)
+#&gt; [1] &quot;HelloWorld&quot;</code></pre>
+<pre class="r"><code>paste(c(&quot;A&quot;, &quot;B&quot;), c(1,2))
+#&gt; [1] &quot;A 1&quot; &quot;B 2&quot;</code></pre>
+<pre class="r"><code>paste(c(&quot;A&quot;, &quot;B&quot;), c(1,2), collapse = &quot;,&quot;, sep = &quot;&quot;)
+#&gt; [1] &quot;A1,B2&quot;</code></pre>
+</div>
+<div id="转换" class="section level2">
+<h2>转换</h2>
+<div id="转换大小写" class="section level3">
+<h3>转换大小写</h3>
+<pre class="r"><code>toupper(&quot;Hello&quot;)
+#&gt; [1] &quot;HELLO&quot;</code></pre>
+<pre class="r"><code>tolower(&quot;HeLLo&quot;)
+#&gt; [1] &quot;hello&quot;</code></pre>
+</div>
+<div id="字符计数" class="section level3">
+<h3>字符计数</h3>
+<pre class="r"><code>nchar(&quot;Hello!&quot;)
+#&gt; [1] 6</code></pre>
+</div>
+<div id="清除首末空白" class="section level3">
+<h3>清除首末空白</h3>
+<pre class="r"><code>trimws(c(&quot; P &quot;, &quot; S&quot;, &quot;P &quot;))
+#&gt; [1] &quot;P&quot; &quot;S&quot; &quot;P&quot;</code></pre>
+</div>
+<div id="取子串" class="section level3">
+<h3>取子串</h3>
+<pre class="r"><code>dates = c(&quot;Jan 3&quot;, &quot;Feb 10&quot;, &quot;Nov 15&quot;)
+substr(dates, 1, 3)
+#&gt; [1] &quot;Jan&quot; &quot;Feb&quot; &quot;Nov&quot;
+substr(dates, 5, nchar(dates))
+#&gt; [1] &quot;3&quot;  &quot;10&quot; &quot;15&quot;</code></pre>
+<pre class="r"><code>substring(dates, 5)
+#&gt; [1] &quot;3&quot;  &quot;10&quot; &quot;15&quot;</code></pre>
+</div>
+<div id="切分" class="section level3">
+<h3>切分</h3>
+<pre class="r"><code>strsplit(&quot;a,bb,ccc&quot;, split=&quot;,&quot;)
+#&gt; [[1]]
+#&gt; [1] &quot;a&quot;   &quot;bb&quot;  &quot;ccc&quot;</code></pre>
+<pre class="r"><code>students = strsplit(c(&quot;Tony, 26, Physics&quot;, &quot;James, 25, Economics&quot;), split = &quot;,&quot;)
+students
+#&gt; [[1]]
+#&gt; [1] &quot;Tony&quot;     &quot; 26&quot;      &quot; Physics&quot;
+#&gt; 
+#&gt; [[2]]
+#&gt; [1] &quot;James&quot;      &quot; 25&quot;        &quot; Economics&quot;</code></pre>
+<pre class="r"><code>students_matrix = do.call(rbind, students)
+students_matrix
+#&gt;      [,1]    [,2]  [,3]        
+#&gt; [1,] &quot;Tony&quot;  &quot; 26&quot; &quot; Physics&quot;  
+#&gt; [2,] &quot;James&quot; &quot; 25&quot; &quot; Economics&quot;</code></pre>
+<p>切空字符</p>
+<pre class="r"><code>strsplit(c(&quot;hello&quot;, &quot;world&quot;), split = &quot;&quot;)
+#&gt; [[1]]
+#&gt; [1] &quot;h&quot; &quot;e&quot; &quot;l&quot; &quot;l&quot; &quot;o&quot;
+#&gt; 
+#&gt; [[2]]
+#&gt; [1] &quot;w&quot; &quot;o&quot; &quot;r&quot; &quot;l&quot; &quot;d&quot;</code></pre>
+</div>
+</div>
+<div id="格式化日期时间" class="section level2">
+<h2>格式化日期/时间</h2>
+<p>返回当前日期和时间：</p>
+<pre class="r"><code>Sys.Date()
+#&gt; [1] &quot;2019-11-20&quot;
+Sys.time()
+#&gt; [1] &quot;2019-11-20 13:53:14 CST&quot;</code></pre>
+<div id="解析为日期与时间" class="section level3">
+<h3>解析为日期与时间</h3>
+<pre class="r"><code>as.Date(1000, &quot;1970-01-01&quot;)
+#&gt; [1] &quot;1972-09-27&quot;</code></pre>
+<pre class="r"><code>my_date = as.Date(&quot;2018-08-15&quot;)
+my_date
+#&gt; [1] &quot;2018-08-15&quot;</code></pre>
+<pre class="r"><code>my_date + 3
+#&gt; [1] &quot;2018-08-18&quot;
+my_date - 2
+#&gt; [1] &quot;2018-08-13&quot;</code></pre>
+<pre class="r"><code>my_date - as.Date(&quot;2015-12-20&quot;)
+#&gt; Time difference of 969 days</code></pre>
+<pre class="r"><code>my_time = as.POSIXct(&quot;2018-08-15 22:11:20&quot;)
+my_time
+#&gt; [1] &quot;2018-08-15 22:11:20 CST&quot;</code></pre>
+<pre class="r"><code># 改变的是秒
+my_time + 10
+#&gt; [1] &quot;2018-08-15 22:11:30 CST&quot;</code></pre>
+<pre class="r"><code>as.Date(&quot;2015.04.02&quot;, format = &quot;%Y.%m.%d&quot;)
+#&gt; [1] &quot;2015-04-02&quot;</code></pre>
+<pre class="r"><code>strptime(&quot;7/25/2018 08:04:23&quot;, &quot;%m/%d/%Y %H:%M:%S&quot;)
+#&gt; [1] &quot;2018-07-25 08:04:23 CST&quot;</code></pre>
+<p>日期到字符串</p>
+<pre class="r"><code>my_date
+#&gt; [1] &quot;2018-08-15&quot;
+as.character(my_date, format = &quot;%Y.%m.%d&quot;)
+#&gt; [1] &quot;2018.08.15&quot;</code></pre>
+<p>其实调用<code>format()</code>本身就可以做到</p>
+<pre class="r"><code>format(my_date, format = &quot;%Y.%m.%d&quot;)
+#&gt; [1] &quot;2018.08.15&quot;</code></pre>
+</div>
+</div>
+<div id="字符串匹配" class="section level2">
+<h2>字符串匹配</h2>
+<pre class="r"><code>library(stringr)
+strings &lt;- c(&quot; 219 733 8965&quot;, &quot;329-293-8753 &quot;, &quot;banana&quot;, &quot;595 794 7569&quot;,
+  &quot;387 287 6718&quot;, &quot;apple&quot;, &quot;233.398.9187  &quot;, &quot;482 952 3315&quot;,
+  &quot;239 923 8115 and 842 566 4692&quot;, &quot;Work: 579-499-7527&quot;, &quot;$1000&quot;,
+  &quot;Home: 543.355.3679&quot;)
+phone &lt;- &quot;([2-9][0-9]{2})[- .]([0-9]{3})[- .]([0-9]{4})&quot;
+str_extract(strings, phone)
+#&gt;  [1] &quot;219 733 8965&quot; &quot;329-293-8753&quot; NA             &quot;595 794 7569&quot; &quot;387 287 6718&quot;
+#&gt;  [6] NA             &quot;233.398.9187&quot; &quot;482 952 3315&quot; &quot;239 923 8115&quot; &quot;579-499-7527&quot;
+#&gt; [11] NA             &quot;543.355.3679&quot;</code></pre>
+<p><code>()</code>用于对数据进行标记。</p>
+<pre class="r"><code>str_match(strings, phone)
+#&gt;       [,1]           [,2]  [,3]  [,4]  
+#&gt;  [1,] &quot;219 733 8965&quot; &quot;219&quot; &quot;733&quot; &quot;8965&quot;
+#&gt;  [2,] &quot;329-293-8753&quot; &quot;329&quot; &quot;293&quot; &quot;8753&quot;
+#&gt;  [3,] NA             NA    NA    NA    
+#&gt;  [4,] &quot;595 794 7569&quot; &quot;595&quot; &quot;794&quot; &quot;7569&quot;
+#&gt;  [5,] &quot;387 287 6718&quot; &quot;387&quot; &quot;287&quot; &quot;6718&quot;
+#&gt;  [6,] NA             NA    NA    NA    
+#&gt;  [7,] &quot;233.398.9187&quot; &quot;233&quot; &quot;398&quot; &quot;9187&quot;
+#&gt;  [8,] &quot;482 952 3315&quot; &quot;482&quot; &quot;952&quot; &quot;3315&quot;
+#&gt;  [9,] &quot;239 923 8115&quot; &quot;239&quot; &quot;923&quot; &quot;8115&quot;
+#&gt; [10,] &quot;579-499-7527&quot; &quot;579&quot; &quot;499&quot; &quot;7527&quot;
+#&gt; [11,] NA             NA    NA    NA    
+#&gt; [12,] &quot;543.355.3679&quot; &quot;543&quot; &quot;355&quot; &quot;3679&quot;</code></pre>
+<pre class="r"><code># Extract/match all
+str_extract_all(strings, phone)
+#&gt; [[1]]
+#&gt; [1] &quot;219 733 8965&quot;
+#&gt; 
+#&gt; [[2]]
+#&gt; [1] &quot;329-293-8753&quot;
+#&gt; 
+#&gt; [[3]]
+#&gt; character(0)
+#&gt; 
+#&gt; [[4]]
+#&gt; [1] &quot;595 794 7569&quot;
+#&gt; 
+#&gt; [[5]]
+#&gt; [1] &quot;387 287 6718&quot;
+#&gt; 
+#&gt; [[6]]
+#&gt; character(0)
+#&gt; 
+#&gt; [[7]]
+#&gt; [1] &quot;233.398.9187&quot;
+#&gt; 
+#&gt; [[8]]
+#&gt; [1] &quot;482 952 3315&quot;
+#&gt; 
+#&gt; [[9]]
+#&gt; [1] &quot;239 923 8115&quot; &quot;842 566 4692&quot;
+#&gt; 
+#&gt; [[10]]
+#&gt; [1] &quot;579-499-7527&quot;
+#&gt; 
+#&gt; [[11]]
+#&gt; character(0)
+#&gt; 
+#&gt; [[12]]
+#&gt; [1] &quot;543.355.3679&quot;</code></pre>
+<pre class="r"><code>str_match_all(strings, phone)
+#&gt; [[1]]
+#&gt;      [,1]           [,2]  [,3]  [,4]  
+#&gt; [1,] &quot;219 733 8965&quot; &quot;219&quot; &quot;733&quot; &quot;8965&quot;
+#&gt; 
+#&gt; [[2]]
+#&gt;      [,1]           [,2]  [,3]  [,4]  
+#&gt; [1,] &quot;329-293-8753&quot; &quot;329&quot; &quot;293&quot; &quot;8753&quot;
+#&gt; 
+#&gt; [[3]]
+#&gt;      [,1] [,2] [,3] [,4]
+#&gt; 
+#&gt; [[4]]
+#&gt;      [,1]           [,2]  [,3]  [,4]  
+#&gt; [1,] &quot;595 794 7569&quot; &quot;595&quot; &quot;794&quot; &quot;7569&quot;
+#&gt; 
+#&gt; [[5]]
+#&gt;      [,1]           [,2]  [,3]  [,4]  
+#&gt; [1,] &quot;387 287 6718&quot; &quot;387&quot; &quot;287&quot; &quot;6718&quot;
+#&gt; 
+#&gt; [[6]]
+#&gt;      [,1] [,2] [,3] [,4]
+#&gt; 
+#&gt; [[7]]
+#&gt;      [,1]           [,2]  [,3]  [,4]  
+#&gt; [1,] &quot;233.398.9187&quot; &quot;233&quot; &quot;398&quot; &quot;9187&quot;
+#&gt; 
+#&gt; [[8]]
+#&gt;      [,1]           [,2]  [,3]  [,4]  
+#&gt; [1,] &quot;482 952 3315&quot; &quot;482&quot; &quot;952&quot; &quot;3315&quot;
+#&gt; 
+#&gt; [[9]]
+#&gt;      [,1]           [,2]  [,3]  [,4]  
+#&gt; [1,] &quot;239 923 8115&quot; &quot;239&quot; &quot;923&quot; &quot;8115&quot;
+#&gt; [2,] &quot;842 566 4692&quot; &quot;842&quot; &quot;566&quot; &quot;4692&quot;
+#&gt; 
+#&gt; [[10]]
+#&gt;      [,1]           [,2]  [,3]  [,4]  
+#&gt; [1,] &quot;579-499-7527&quot; &quot;579&quot; &quot;499&quot; &quot;7527&quot;
+#&gt; 
+#&gt; [[11]]
+#&gt;      [,1] [,2] [,3] [,4]
+#&gt; 
+#&gt; [[12]]
+#&gt;      [,1]           [,2]  [,3]  [,4]  
+#&gt; [1,] &quot;543.355.3679&quot; &quot;543&quot; &quot;355&quot; &quot;3679&quot;</code></pre>
+</div>

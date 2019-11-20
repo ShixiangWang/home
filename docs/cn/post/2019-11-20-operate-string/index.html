@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    
+    <link rel="stylesheet" href="../../../fonts/academicons-1.8.6/css/academicons.min.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../logo/bodhi.png"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    
+    <title>字符串操作 - 王诗翔</title>
+    
+     
+    <meta property="og:title" content="字符串操作 - Shixiang Wang | 王诗翔">
+    
+
+    
+      
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="../../../css/style.css" />
+    <link rel="stylesheet" href="../../../css/mystyle.css" /> 
+    <link rel="stylesheet" href="../../../css/fonts.css" />
+    
+<script async src="../../../js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="../../../css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="../../../"><img src="https://avatars1.githubusercontent.com/u/25057508?s=460&amp;v=4" alt="Shixiang Wang" /></a></h1>
+
+
+
+      <nav class="menu">
+        <input id="menu-check" type="checkbox" />
+        <label id="menu-label" for="menu-check" class="unselectable">
+          <span class="icon close-icon">✕</span>
+          <span class="icon open-icon">☰</span>
+          <span class="text">Menu</span>
+        </label>
+        <ul>
+        
+        
+        <li><a href="../../../">首页</a></li>
+        
+        <li><a href="../../../cn/about/">关于</a></li>
+        
+        <li><a href="../../../cn/post/">博客</a></li>
+        
+        <li><a href="../../../cn/read/">读书</a></li>
+        
+        <li><a href="../../../cn/writing">写作</a></li>
+        
+        <li><a href="../../../cn/research/">研究</a></li>
+        
+        <li><a href="../../../cn/tools/">工具</a></li>
+        
+        <li><a href="../../../cn/cv-cn/shixiang">简历</a></li>
+        
+        <li><a href="../../../logo/qrcode.jpg">公众号</a></li>
+        
+        <li><a href="https://www.jianshu.com/u/b6608e27dc74">简书</a></li>
+        
+        <li><a href="../../../cn/todo">ToDo</a></li>
+        
+        <li><a href="../../../en/">English</a></li>
+        
+        
+
+<li class="menu-extra"></li>
+
+
+
+
+
+
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2019-11-20-operate-string.Rmd" target="_blank">编辑</a></li>
+
+
+<li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+        </ul>
+      </nav>
+    </header>
+
+    <article class="main">
+      <header class="title">
+        
+
+<h1>字符串操作</h1>
+
+
+
+<h3>王诗翔 &middot 
+2018-08-15</h3> 
+
+
+   
+  
+
+
+      </header>
+
+
+
+
+
+<div id="打印" class="section level2">
+<h2>打印</h2>
+<pre class="r"><code>&quot;Hello world!&quot;
+#&gt; [1] &quot;Hello world!&quot;</code></pre>
+<pre class="r"><code>print(&quot;Hello world!&quot;)
+#&gt; [1] &quot;Hello world!&quot;</code></pre>
+<p>不带索引</p>
+<pre class="r"><code>cat(&quot;Hello world!&quot;)
+#&gt; Hello world!</code></pre>
+<pre class="r"><code>message(&quot;Hello world!&quot;)
+#&gt; Hello world!</code></pre>
+</div>
+<div id="连接" class="section level2">
+<h2>连接</h2>
+<pre class="r"><code>paste(&quot;Hello&quot;, &quot;world!&quot;)
+#&gt; [1] &quot;Hello world!&quot;
+paste(&quot;Hello&quot;, &quot;world&quot;, sep = &quot;-&quot;)
+#&gt; [1] &quot;Hello-world&quot;</code></pre>
+<pre class="r"><code>paste0(&quot;Hello&quot;, &quot;World&quot;)
+#&gt; [1] &quot;HelloWorld&quot;</code></pre>
+<pre class="r"><code>paste(c(&quot;A&quot;, &quot;B&quot;), c(1,2))
+#&gt; [1] &quot;A 1&quot; &quot;B 2&quot;</code></pre>
+<pre class="r"><code>paste(c(&quot;A&quot;, &quot;B&quot;), c(1,2), collapse = &quot;,&quot;, sep = &quot;&quot;)
+#&gt; [1] &quot;A1,B2&quot;</code></pre>
+</div>
+<div id="转换" class="section level2">
+<h2>转换</h2>
+<div id="转换大小写" class="section level3">
+<h3>转换大小写</h3>
+<pre class="r"><code>toupper(&quot;Hello&quot;)
+#&gt; [1] &quot;HELLO&quot;</code></pre>
+<pre class="r"><code>tolower(&quot;HeLLo&quot;)
+#&gt; [1] &quot;hello&quot;</code></pre>
+</div>
+<div id="字符计数" class="section level3">
+<h3>字符计数</h3>
+<pre class="r"><code>nchar(&quot;Hello!&quot;)
+#&gt; [1] 6</code></pre>
+</div>
+<div id="清除首末空白" class="section level3">
+<h3>清除首末空白</h3>
+<pre class="r"><code>trimws(c(&quot; P &quot;, &quot; S&quot;, &quot;P &quot;))
+#&gt; [1] &quot;P&quot; &quot;S&quot; &quot;P&quot;</code></pre>
+</div>
+<div id="取子串" class="section level3">
+<h3>取子串</h3>
+<pre class="r"><code>dates = c(&quot;Jan 3&quot;, &quot;Feb 10&quot;, &quot;Nov 15&quot;)
+substr(dates, 1, 3)
+#&gt; [1] &quot;Jan&quot; &quot;Feb&quot; &quot;Nov&quot;
+substr(dates, 5, nchar(dates))
+#&gt; [1] &quot;3&quot;  &quot;10&quot; &quot;15&quot;</code></pre>
+<pre class="r"><code>substring(dates, 5)
+#&gt; [1] &quot;3&quot;  &quot;10&quot; &quot;15&quot;</code></pre>
+</div>
+<div id="切分" class="section level3">
+<h3>切分</h3>
+<pre class="r"><code>strsplit(&quot;a,bb,ccc&quot;, split=&quot;,&quot;)
+#&gt; [[1]]
+#&gt; [1] &quot;a&quot;   &quot;bb&quot;  &quot;ccc&quot;</code></pre>
+<pre class="r"><code>students = strsplit(c(&quot;Tony, 26, Physics&quot;, &quot;James, 25, Economics&quot;), split = &quot;,&quot;)
+students
+#&gt; [[1]]
+#&gt; [1] &quot;Tony&quot;     &quot; 26&quot;      &quot; Physics&quot;
+#&gt; 
+#&gt; [[2]]
+#&gt; [1] &quot;James&quot;      &quot; 25&quot;        &quot; Economics&quot;</code></pre>
+<pre class="r"><code>students_matrix = do.call(rbind, students)
+students_matrix
+#&gt;      [,1]    [,2]  [,3]        
+#&gt; [1,] &quot;Tony&quot;  &quot; 26&quot; &quot; Physics&quot;  
+#&gt; [2,] &quot;James&quot; &quot; 25&quot; &quot; Economics&quot;</code></pre>
+<p>切空字符</p>
+<pre class="r"><code>strsplit(c(&quot;hello&quot;, &quot;world&quot;), split = &quot;&quot;)
+#&gt; [[1]]
+#&gt; [1] &quot;h&quot; &quot;e&quot; &quot;l&quot; &quot;l&quot; &quot;o&quot;
+#&gt; 
+#&gt; [[2]]
+#&gt; [1] &quot;w&quot; &quot;o&quot; &quot;r&quot; &quot;l&quot; &quot;d&quot;</code></pre>
+</div>
+</div>
+<div id="格式化日期时间" class="section level2">
+<h2>格式化日期/时间</h2>
+<p>返回当前日期和时间：</p>
+<pre class="r"><code>Sys.Date()
+#&gt; [1] &quot;2019-11-20&quot;
+Sys.time()
+#&gt; [1] &quot;2019-11-20 13:53:14 CST&quot;</code></pre>
+<div id="解析为日期与时间" class="section level3">
+<h3>解析为日期与时间</h3>
+<pre class="r"><code>as.Date(1000, &quot;1970-01-01&quot;)
+#&gt; [1] &quot;1972-09-27&quot;</code></pre>
+<pre class="r"><code>my_date = as.Date(&quot;2018-08-15&quot;)
+my_date
+#&gt; [1] &quot;2018-08-15&quot;</code></pre>
+<pre class="r"><code>my_date + 3
+#&gt; [1] &quot;2018-08-18&quot;
+my_date - 2
+#&gt; [1] &quot;2018-08-13&quot;</code></pre>
+<pre class="r"><code>my_date - as.Date(&quot;2015-12-20&quot;)
+#&gt; Time difference of 969 days</code></pre>
+<pre class="r"><code>my_time = as.POSIXct(&quot;2018-08-15 22:11:20&quot;)
+my_time
+#&gt; [1] &quot;2018-08-15 22:11:20 CST&quot;</code></pre>
+<pre class="r"><code># 改变的是秒
+my_time + 10
+#&gt; [1] &quot;2018-08-15 22:11:30 CST&quot;</code></pre>
+<pre class="r"><code>as.Date(&quot;2015.04.02&quot;, format = &quot;%Y.%m.%d&quot;)
+#&gt; [1] &quot;2015-04-02&quot;</code></pre>
+<pre class="r"><code>strptime(&quot;7/25/2018 08:04:23&quot;, &quot;%m/%d/%Y %H:%M:%S&quot;)
+#&gt; [1] &quot;2018-07-25 08:04:23 CST&quot;</code></pre>
+<p>日期到字符串</p>
+<pre class="r"><code>my_date
+#&gt; [1] &quot;2018-08-15&quot;
+as.character(my_date, format = &quot;%Y.%m.%d&quot;)
+#&gt; [1] &quot;2018.08.15&quot;</code></pre>
+<p>其实调用<code>format()</code>本身就可以做到</p>
+<pre class="r"><code>format(my_date, format = &quot;%Y.%m.%d&quot;)
+#&gt; [1] &quot;2018.08.15&quot;</code></pre>
+</div>
+</div>
+<div id="字符串匹配" class="section level2">
+<h2>字符串匹配</h2>
+<pre class="r"><code>library(stringr)
+strings &lt;- c(&quot; 219 733 8965&quot;, &quot;329-293-8753 &quot;, &quot;banana&quot;, &quot;595 794 7569&quot;,
+  &quot;387 287 6718&quot;, &quot;apple&quot;, &quot;233.398.9187  &quot;, &quot;482 952 3315&quot;,
+  &quot;239 923 8115 and 842 566 4692&quot;, &quot;Work: 579-499-7527&quot;, &quot;$1000&quot;,
+  &quot;Home: 543.355.3679&quot;)
+phone &lt;- &quot;([2-9][0-9]{2})[- .]([0-9]{3})[- .]([0-9]{4})&quot;
+str_extract(strings, phone)
+#&gt;  [1] &quot;219 733 8965&quot; &quot;329-293-8753&quot; NA             &quot;595 794 7569&quot; &quot;387 287 6718&quot;
+#&gt;  [6] NA             &quot;233.398.9187&quot; &quot;482 952 3315&quot; &quot;239 923 8115&quot; &quot;579-499-7527&quot;
+#&gt; [11] NA             &quot;543.355.3679&quot;</code></pre>
+<p><code>()</code>用于对数据进行标记。</p>
+<pre class="r"><code>str_match(strings, phone)
+#&gt;       [,1]           [,2]  [,3]  [,4]  
+#&gt;  [1,] &quot;219 733 8965&quot; &quot;219&quot; &quot;733&quot; &quot;8965&quot;
+#&gt;  [2,] &quot;329-293-8753&quot; &quot;329&quot; &quot;293&quot; &quot;8753&quot;
+#&gt;  [3,] NA             NA    NA    NA    
+#&gt;  [4,] &quot;595 794 7569&quot; &quot;595&quot; &quot;794&quot; &quot;7569&quot;
+#&gt;  [5,] &quot;387 287 6718&quot; &quot;387&quot; &quot;287&quot; &quot;6718&quot;
+#&gt;  [6,] NA             NA    NA    NA    
+#&gt;  [7,] &quot;233.398.9187&quot; &quot;233&quot; &quot;398&quot; &quot;9187&quot;
+#&gt;  [8,] &quot;482 952 3315&quot; &quot;482&quot; &quot;952&quot; &quot;3315&quot;
+#&gt;  [9,] &quot;239 923 8115&quot; &quot;239&quot; &quot;923&quot; &quot;8115&quot;
+#&gt; [10,] &quot;579-499-7527&quot; &quot;579&quot; &quot;499&quot; &quot;7527&quot;
+#&gt; [11,] NA             NA    NA    NA    
+#&gt; [12,] &quot;543.355.3679&quot; &quot;543&quot; &quot;355&quot; &quot;3679&quot;</code></pre>
+<pre class="r"><code># Extract/match all
+str_extract_all(strings, phone)
+#&gt; [[1]]
+#&gt; [1] &quot;219 733 8965&quot;
+#&gt; 
+#&gt; [[2]]
+#&gt; [1] &quot;329-293-8753&quot;
+#&gt; 
+#&gt; [[3]]
+#&gt; character(0)
+#&gt; 
+#&gt; [[4]]
+#&gt; [1] &quot;595 794 7569&quot;
+#&gt; 
+#&gt; [[5]]
+#&gt; [1] &quot;387 287 6718&quot;
+#&gt; 
+#&gt; [[6]]
+#&gt; character(0)
+#&gt; 
+#&gt; [[7]]
+#&gt; [1] &quot;233.398.9187&quot;
+#&gt; 
+#&gt; [[8]]
+#&gt; [1] &quot;482 952 3315&quot;
+#&gt; 
+#&gt; [[9]]
+#&gt; [1] &quot;239 923 8115&quot; &quot;842 566 4692&quot;
+#&gt; 
+#&gt; [[10]]
+#&gt; [1] &quot;579-499-7527&quot;
+#&gt; 
+#&gt; [[11]]
+#&gt; character(0)
+#&gt; 
+#&gt; [[12]]
+#&gt; [1] &quot;543.355.3679&quot;</code></pre>
+<pre class="r"><code>str_match_all(strings, phone)
+#&gt; [[1]]
+#&gt;      [,1]           [,2]  [,3]  [,4]  
+#&gt; [1,] &quot;219 733 8965&quot; &quot;219&quot; &quot;733&quot; &quot;8965&quot;
+#&gt; 
+#&gt; [[2]]
+#&gt;      [,1]           [,2]  [,3]  [,4]  
+#&gt; [1,] &quot;329-293-8753&quot; &quot;329&quot; &quot;293&quot; &quot;8753&quot;
+#&gt; 
+#&gt; [[3]]
+#&gt;      [,1] [,2] [,3] [,4]
+#&gt; 
+#&gt; [[4]]
+#&gt;      [,1]           [,2]  [,3]  [,4]  
+#&gt; [1,] &quot;595 794 7569&quot; &quot;595&quot; &quot;794&quot; &quot;7569&quot;
+#&gt; 
+#&gt; [[5]]
+#&gt;      [,1]           [,2]  [,3]  [,4]  
+#&gt; [1,] &quot;387 287 6718&quot; &quot;387&quot; &quot;287&quot; &quot;6718&quot;
+#&gt; 
+#&gt; [[6]]
+#&gt;      [,1] [,2] [,3] [,4]
+#&gt; 
+#&gt; [[7]]
+#&gt;      [,1]           [,2]  [,3]  [,4]  
+#&gt; [1,] &quot;233.398.9187&quot; &quot;233&quot; &quot;398&quot; &quot;9187&quot;
+#&gt; 
+#&gt; [[8]]
+#&gt;      [,1]           [,2]  [,3]  [,4]  
+#&gt; [1,] &quot;482 952 3315&quot; &quot;482&quot; &quot;952&quot; &quot;3315&quot;
+#&gt; 
+#&gt; [[9]]
+#&gt;      [,1]           [,2]  [,3]  [,4]  
+#&gt; [1,] &quot;239 923 8115&quot; &quot;239&quot; &quot;923&quot; &quot;8115&quot;
+#&gt; [2,] &quot;842 566 4692&quot; &quot;842&quot; &quot;566&quot; &quot;4692&quot;
+#&gt; 
+#&gt; [[10]]
+#&gt;      [,1]           [,2]  [,3]  [,4]  
+#&gt; [1,] &quot;579-499-7527&quot; &quot;579&quot; &quot;499&quot; &quot;7527&quot;
+#&gt; 
+#&gt; [[11]]
+#&gt;      [,1] [,2] [,3] [,4]
+#&gt; 
+#&gt; [[12]]
+#&gt;      [,1]           [,2]  [,3]  [,4]  
+#&gt; [1,] &quot;543.355.3679&quot; &quot;543&quot; &quot;355&quot; &quot;3679&quot;</code></pre>
+</div>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="../../../cn/post/2018-08-10-r-installation/">R的安装与配置</a></span>
+  <span class="nav-next"><a href="../../../cn/post/2019-11-20-high-level-oop-one/">R-面向对象编程（一）</a> &rarr;</span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/post\/2018-08-10-r-installation\/';
+    
+  } else if (e.which == 39) {  
+    
+    url = '\/cn\/post\/2019-11-20-high-level-oop-one\/';
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+<section class="comments">
+  <div id="disqus_thread"></div>
+  <script src="../../../js/disqusloader.min.js"></script>
+  <script>
+  var disqus_config = function () {
+  
+    this.page.url = "https:\/\/shixiangwang.github.io\/home\/" + location.pathname;
+  
+  };
+  (function() {
+    var inIFrame = function() {
+      var iframe = true;
+      try { iframe = window.self !== window.top; } catch (e) {}
+      return iframe;
+    };
+    if (inIFrame()) return;
+    var disqus_js = '//home-xjdzylqrzp.disqus.com/embed.js';
+    
+    if (location.hash.match(/^#comment/)) {
+      var d = document, s = d.createElement('script');
+      s.src = disqus_js; s.async = true;
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    } else {
+      disqusLoader('#disqus_thread', {
+        scriptUrl: disqus_js, laziness: 0, disqusConfig: disqus_config
+      });
+    }
+  })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+
+
+<script async src="../../../js/fix-toc.js"></script>
+
+<script async src="../../../js/center-img.js"></script>
+
+<script async src="../../../js/right-quote.js"></script>
+
+<script async src="../../../js/no-highlight.js"></script>
+
+<script async src="../../../js/fix-footnote.js"></script>
+
+<script async src="../../../js/math-code.js"></script>
+
+<script async src="../../../js/external-link.js"></script>
+
+<script async src="../../../js/alt-title.js"></script>
+
+<script async src="../../../js/header-link.js"></script>
+
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+  
+  
+
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> &middot; <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> &middot; <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> &middot; <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> &middot; <a href="https://orcid.org/0000-0001-9855-7357"><i class='ai ai-orcid ai-1x'></i></a> &middot; <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 &copy; <a href="../../../">王诗翔</a> 2017 - 2019 </div>
+  
+  
+
+  <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56h9es09xn7&amp;m=6&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=1" async="async"></script>
+  </footer>
+  </article>
+  
+  </body>
+</html>
+

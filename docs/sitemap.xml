@@ -592,7 +592,7 @@
   
   <url>
     <loc>/tags/stringr/</loc>
-    <lastmod>2018-09-17T00:00:00+00:00</lastmod>
+    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -689,6 +689,11 @@
   
   <url>
     <loc>/cn/post/2019-11-20-high-level-oop-one/</loc>
+    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/cn/post/2019-11-20-operate-string/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
   </url>
   
