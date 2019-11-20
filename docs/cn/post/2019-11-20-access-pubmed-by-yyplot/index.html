@@ -12,10 +12,10 @@
     
     
     
-    <title>Python机器学习基础综合实战 - 王诗翔</title>
+    <title>使用yyplot绘制pubmed研究趋势 - 王诗翔</title>
     
      
-    <meta property="og:title" content="Python机器学习基础综合实战 - Shixiang Wang | 王诗翔">
+    <meta property="og:title" content="使用yyplot绘制pubmed研究趋势 - Shixiang Wang | 王诗翔">
     
 
     
@@ -26,6 +26,11 @@
 
     
     
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
 
     <link rel="stylesheet" href="../../../css/style.css" />
     <link rel="stylesheet" href="../../../css/mystyle.css" /> 
@@ -87,7 +92,10 @@
 
 
 
-<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2018-04-15-python-basic-ml-flow.md" target="_blank">编辑</a></li>
+
+
+
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2019-11-20-access-pubmed-by-yyplot.Rmd" target="_blank">编辑</a></li>
 
 
 <li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
@@ -103,12 +111,12 @@
       <header class="title">
         
 
-<h1>Python机器学习基础综合实战</h1>
+<h1>使用yyplot绘制pubmed研究趋势</h1>
 
 
 
 <h3>王诗翔 &middot 
-2018-04-15</h3> 
+2018-04-13</h3> 
 
 
    
@@ -118,18 +126,101 @@
       </header>
 
 
-<p>来源：《python机器学习及实践》</p>
 
-<p>以“良/恶性乳腺癌肿瘤预测”问题了解Python的基本编程元素和机器学习的基本步骤。</p>
 
-<p><a href="https://github.com/ShixiangWang/codelife/blob/master/ml/python%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%BB%BC%E5%90%88%E5%AE%9E%E6%88%98.ipynb">点击阅读代码笔记</a></p>
+
+<p>在准备转博报告的过程中觉得有必要给一些研究添加Pubmed研究趋势，这个功能Y叔在它的公众号推过，所以我记了一下，之前在写开题报告的时候就用了下。今天又重新操作了一番，感觉非常不错，记录一下分享，说不定某些同胞需要。</p>
+<p>Y叔把这个功能整合在<code>yyplot</code>包中，该包发布在<strong>Github</strong>上，所以我们需要用<code>devtools</code>包进行安装：</p>
+<pre class="r"><code>install.packages(&quot;devtools&quot;)
+devtools::install_github(&quot;GuangchuangYu/yyplot&quot;)</code></pre>
+<p>这两个包的安装都有不少依赖包，所以大家安装的时候需要注意下。如果有解决不了的问题，欢迎在下方留言讨论。</p>
+<p>Y叔的厉害之处在于它对于<code>ggplot2</code>包的理解非常深，写出包和结果对象基本都直接可以用<code>ggplot</code>展示，或者直接用<code>plot</code>绘制可以得到类似的显示效果。</p>
+<p>这里以我探究非小细胞癌、小细胞癌和肺腺癌最近一些年发表的文章数为例子：</p>
+<pre class="r"><code>library(yyplot)
+library(ggplot2)</code></pre>
+<pre class="r"><code># 键入你要搜索的关键字
+term &lt;- c(&quot;Lung Adenocarcinoma&quot;, &quot;NSCLC&quot;, &quot;SCLC&quot;)
+# 进行检索，指定起止年
+pm   &lt;- pubmed_trend(term, year=2001:2019)
+#&gt; search term: Lung Adenocarcinoma
+#&gt; -&gt; querying year 2001
+#&gt; -&gt; querying year 2002
+#&gt; -&gt; querying year 2003
+#&gt; -&gt; querying year 2004
+#&gt; -&gt; querying year 2005
+#&gt; -&gt; querying year 2006
+#&gt; -&gt; querying year 2007
+#&gt; -&gt; querying year 2008
+#&gt; -&gt; querying year 2009
+#&gt; -&gt; querying year 2010
+#&gt; -&gt; querying year 2011
+#&gt; -&gt; querying year 2012
+#&gt; -&gt; querying year 2013
+#&gt; -&gt; querying year 2014
+#&gt; -&gt; querying year 2015
+#&gt; -&gt; querying year 2016
+#&gt; -&gt; querying year 2017
+#&gt; -&gt; querying year 2018
+#&gt; -&gt; querying year 2019
+#&gt; search term: NSCLC
+#&gt; -&gt; querying year 2001
+#&gt; -&gt; querying year 2002
+#&gt; -&gt; querying year 2003
+#&gt; -&gt; querying year 2004
+#&gt; -&gt; querying year 2005
+#&gt; -&gt; querying year 2006
+#&gt; -&gt; querying year 2007
+#&gt; -&gt; querying year 2008
+#&gt; -&gt; querying year 2009
+#&gt; -&gt; querying year 2010
+#&gt; -&gt; querying year 2011
+#&gt; -&gt; querying year 2012
+#&gt; -&gt; querying year 2013
+#&gt; -&gt; querying year 2014
+#&gt; -&gt; querying year 2015
+#&gt; -&gt; querying year 2016
+#&gt; -&gt; querying year 2017
+#&gt; -&gt; querying year 2018
+#&gt; -&gt; querying year 2019
+#&gt; search term: SCLC
+#&gt; -&gt; querying year 2001
+#&gt; -&gt; querying year 2002
+#&gt; -&gt; querying year 2003
+#&gt; -&gt; querying year 2004
+#&gt; -&gt; querying year 2005
+#&gt; -&gt; querying year 2006
+#&gt; -&gt; querying year 2007
+#&gt; -&gt; querying year 2008
+#&gt; -&gt; querying year 2009
+#&gt; -&gt; querying year 2010
+#&gt; -&gt; querying year 2011
+#&gt; -&gt; querying year 2012
+#&gt; -&gt; querying year 2013
+#&gt; -&gt; querying year 2014
+#&gt; -&gt; querying year 2015
+#&gt; -&gt; querying year 2016
+#&gt; -&gt; querying year 2017
+#&gt; -&gt; querying year 2018
+#&gt; -&gt; querying year 2019</code></pre>
+<pre class="r"><code># 绘图
+plot(pm) + theme_bw()</code></pre>
+<p><img src="../../../cn/post/2019-11-20-access-pubmed-by-yyplot_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>检索返回的结果可以直接用plot绘制，这里因为我需要添加bw主题，所以导入了ggplot2包，不然可以不使用该包</p>
+<p>注意纵坐标是一个比例，该关键字发表文章数与当年文章总数的比例值，我们也可以灵活一点，只绘制发表文章数目：</p>
+<pre class="r"><code>ggplot(pm, aes(x=year, y=number, color=TERM)) + 
+    geom_point() + geom_line() + theme_bw() + 
+    xlab(&quot;Year&quot;) + ylab(&quot;Number of Publication per Year&quot;)</code></pre>
+<p><img src="../../../cn/post/2019-11-20-access-pubmed-by-yyplot_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>简单吧？感觉作者本身应该还有其他的设计，不过这已经足够我用了。有兴趣大家不妨深入探索一番。</p>
+<p>比如它也可以用它来画出某个研究人员，历年来发表文章的数目，比如想看Y叔每年发多少篇文章，下面这行代码给你答案：</p>
+<pre class="r"><code>pubmed_trend(&quot;Yu Guangchuang[Full Author Name]&quot;, 2010:2019)</code></pre>
 
 
   <footer>
   
 <nav class="post-nav">
-  <span class="nav-prev">&larr; <a href="../../../cn/post/2019-11-20-access-pubmed-by-yyplot/">使用yyplot绘制pubmed研究趋势</a></span>
-  <span class="nav-next"><a href="../../../cn/post/2019-11-06-eda-with-tidyverse/">使用R tidyverse 进行探索性分析EDA</a> &rarr;</span>
+  <span class="nav-prev">&larr; <a href="../../../cn/post/2019-11-06-data-processing-with-dplyr/">使用dplyr进行数据处理</a></span>
+  <span class="nav-next"><a href="../../../cn/post/python-basic-ml-flow/">Python机器学习基础综合实战</a> &rarr;</span>
 </nav>
 <script type="text/javascript">
 document.addEventListener('keyup', function(e) {
@@ -137,11 +228,11 @@ document.addEventListener('keyup', function(e) {
   var url = false;
   if (e.which == 37) {  
     
-    url = '\/cn\/post\/2019-11-20-access-pubmed-by-yyplot\/';
+    url = '\/cn\/post\/2019-11-06-data-processing-with-dplyr\/';
     
   } else if (e.which == 39) {  
     
-    url = '\/cn\/post\/2019-11-06-eda-with-tidyverse\/';
+    url = '\/cn\/post\/python-basic-ml-flow\/';
     
   }
   if (url) window.location = url;
@@ -208,6 +299,19 @@ document.addEventListener('keyup', function(e) {
 <script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
   
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
 
 
   

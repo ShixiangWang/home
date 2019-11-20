@@ -779,6 +779,23 @@
   </url>
   
   <url>
+    <loc>/tags/pubmed/</loc>
+    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/yyplot/</loc>
+    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/cn/post/2019-11-20-access-pubmed-by-yyplot/</loc>
+    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/cn/post/2019-11-06-data-processing-with-dplyr/</loc>
     <lastmod>2019-11-06T00:00:00+00:00</lastmod>
   </url>
