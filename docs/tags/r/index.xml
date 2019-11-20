@@ -263,12 +263,30 @@ Datasets have associated metadata, specifying their data type and cohort.</descr
     </item>
     
     <item>
+      <title>R-网页爬虫：分析HTML代码</title>
+      <link>/cn/post/2019-11-20-r-crawler-2/</link>
+      <pubDate>Mon, 17 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-11-20-r-crawler-2/</guid>
+      <description>前一篇文章我们学习了选择器（CSS和XPath）。 我们可以从https://cran.rstudio.com/web/packages/av</description>
+    </item>
+    
+    <item>
       <title>stringr——处理字符串</title>
       <link>/cn/post/stringr-operation/</link>
       <pubDate>Mon, 17 Sep 2018 00:00:00 +0000</pubDate>
       
       <guid>/cn/post/stringr-operation/</guid>
       <description>导入包： library(tidyverse) #&amp;gt; ─ Attaching packages ──────────────────────────────────────────────────── tidyverse 1.2.1 ─ #&amp;gt; ✔ ggplot2 3.2.0 ✔ purrr</description>
+    </item>
+    
+    <item>
+      <title>R-网页爬虫：初识</title>
+      <link>/cn/post/2019-11-20-r-crawler-1/</link>
+      <pubDate>Sun, 16 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-11-20-r-crawler-1/</guid>
+      <description>数据处理的数据集并非立即可得，有时我们需要自己收集�数据，对很多研究领域，网页内容是一个重要的数据源。 查阅网页内容 下面是一个简单的网页，几乎</description>
     </item>
     
     <item>
@@ -290,7 +308,7 @@ Datasets have associated metadata, specifying their data type and cohort.</descr
     </item>
     
     <item>
-      <title>高性能计算</title>
+      <title>R 的高性能计算</title>
       <link>/cn/post/hpc-in-r/</link>
       <pubDate>Wed, 29 Aug 2018 00:00:00 +0000</pubDate>
       

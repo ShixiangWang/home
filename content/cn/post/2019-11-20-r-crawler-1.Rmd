@@ -1,0 +1,340 @@
+---
+title: "R-网页爬虫：初识"
+author: "王诗翔"
+date: "2018-09-16"
+lastmod: "`r Sys.Date()`"
+slug: ""
+categories: r
+tags:
+- r
+- 爬虫
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, dev = "png", comment = "#>")
+#Sys.setenv("LANGUAGE"="EN") # Embed this for outputing English message
+#Sys.setlocale('LC_ALL','C') # Embed this directly in the Rmarkdown script that contains the Chinese character comment
+options(digits=3)
+options(max.print=200)
+```
+
+
+数据处理的数据集并非立即可得，有时我们需要自己收集�数据，对很多研究领域，网页内容是一个重要的数据源。
+
+## 查阅网页内容
+
+下面是一个简单的网页，几乎所有的网页都可以查看源代码（一般是右键——点击查看源代码）。
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple page</title>
+</head>
+<body>
+    <h1>Heading 1</h1>
+    <p>This is a paragraph.</p>
+</body>
+</html>
+```
+
+网页源码其实是HTML（Hyper Text Markup Language）文件。HTML是互联网使用最广泛的语言，它描述了网页的布局排版和内容，浏览器则根据Web标准将代码渲染到网页上。
+
+尽管上面的网页代码很简单，但实际上认真点就会发现HTML是一些标签的嵌套结构，这些标签包括：`<html>`、`<title>`、`<body>`、`<h1>`和`<p>`，现代浏览器根据HTML的第一行决定使用哪种标准进行网页渲染。上面例子使用的是HTML 5。
+
+
+网页的这些标签并不是随意命名的，也不能任意包含其他标签，每个标签对浏览器都有特殊含义，且只允许包含一部分特定标签或不允许包含任何标签。
+
+**标签`<html>`是所有HTML的根元素。HTML通常也包括`<head>`和`<body>`。其中`<head>`通常包含`<title>`，展示在标题栏，包含浏览标签和网页元数据。而`<body>`则在网页内容和排版方面起主要作用。**
+
+**在`<body>`标签中，标签可以更自由地嵌套，最简单的一个网页可以只包含一级标题（`<h1>`）和一个段落（`<p>`）。**
+
+
+关于表格：
+
+* `<table>` 按行构建
+* `<tr>`是表格的行
+* `<th>`是表头单元格
+* `<td>`是表格的单元格
+
+一些其他标签：
+
+* `<div>` 章节
+* `<ul>` 无序列表
+* `<li>` 列表项目
+* `<span>` 应用样式的章节
+
+HTML有一个属性，称为style，用于定义这些元素的样式外观。
+
+HTML使用CSS可以避免冗长的样式定义。
+
+**每个CSS元素都包含一个CSS选择器用来匹配HTML元素和样式以便渲染应用。CSS选择器不仅用于应用样式，也常用于提取网页内容，以便我们感兴趣的HTML元素可以被正确匹配，这正是网络爬虫的底层技术。**
+
+对于网络爬虫，使用下面例子展示最常见的CSS选择器
+
+| 语法                 | 匹配                       |
+| -------------------- | -------------------------- |
+| `*`                    | All elements               |
+| `h1,h2,h3`             | `<h1>,<h2>,<h3> `            |
+| `#table`               | `<* id="table">  `           |
+| `.product-list`        | `<* class="product-list">`   |
+| `div#container`        | `<div id="container">`       |
+| `div a`                | `<div><a>and<div><p><a>`     |
+| `div >a`               | `<div><a>but not<div><p><a>` |
+| `div >a.new`           | `<div><a class="new">`       |
+| `ul > li:first-child`  | `First <li> in <ul>`         |
+| `ul > li:last-child`   | `Last <li> in <ul>`          |
+| `ul > li:nth-child(3)` | `3rd <li> in <ul>`           |
+| `p + *`                | `Next element of <p>`        |
+| `img[title]`           | `<img> with title attribute` |
+| `table[border=l]`      | `<table border="l">`         |
+
+## 使用CSS选择器从网页中提取数据
+
+R里面爬虫最简单易用的扩展包是`rvest`，安装：
+
+```{r, eval=F}
+install.packages("rvest")
+```
+
+下面我们读取一个简单表格HTML数据并提取表格：
+
+```{r}
+library(rvest)
+single_table_page = read_html("../../../static/datasets/single-table.html")
+single_table_page
+```
+
+`single_table_page`是HTML解析文档，是HTML节点的嵌套数据结构。
+
+**使用`rvest`函数从网页上爬取信息的典型过程是这样的。首先，定位需要从中提取数据的HTML节点。然后使用CSS选择器或者XPath表达式筛选HTML节点，从而选择需要的节点，剔除不需要的节点。最后，对已解析的网页使用合适的选择器，用`html_nodes()`提取节点子集，用`html_attrs()`提取属性，用`html_text()`提取文本。**
+
+`rvest`包提供了一些简单函数可直接用于提取数据并返回一个数据框，例如提取网页中的`<table>`元素，直接使用`html_table()`：
+
+```{r}
+html_table(single_table_page)
+```
+
+为提取第一个元素，我们先选择第一个节点，然后再提取表格：
+
+```{r}
+html_table(html_node(single_table_page, "table"))
+```
+
+连续的操作可以使用管道：
+
+```{r}
+single_table_page %>% 
+    html_node("table") %>% 
+    html_table()
+```
+
+现在我们读取一个产品信息网页，然后用`html_nodes()`匹配`<span class="name">`节点：
+
+```{r}
+products_page = read_html("../../../static/datasets/products.html")
+products_page %>% 
+    html_nodes(".product-list li .name")
+```
+
+这里我们选择的是product-list类的`<li>`标签下name类的节点，因此使用`.product-list li .name`，如果对符号不熟悉，需要详细记忆CSS表。
+
+之后提取内容：
+
+```{r}
+products_page %>% 
+    html_nodes(".product-list li .name") %>% 
+    html_text()
+```
+
+类似的可以提取产品价格：
+
+```{r}
+products_page %>% 
+    html_nodes(".product-list li .price") %>% 
+    html_text()
+```
+
+## 使用XPath选择器
+
+一般来说，CSS选择器足够满足绝大多数HTML节点匹配的需要。但需要根据某些特殊条件选择节点时，需要更强大的技术。
+
+请看下面新的产品信息网页的源代码：
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>New Products</title>
+  <style>
+    p {
+      margin: 2px;
+    }
+    .product-list {
+      width: 80%;
+    }
+    .product-list ul {
+      padding-left: 8px;
+    }
+    .product-list ul li {
+      padding-left: 2px;
+      list-style: none;
+    }
+    .product-list > ul > li {
+      margin-top: 16px;
+      list-style: none;
+    }
+    .product-list .name {
+      font-weight: bold;
+      font-size: 1.25em;
+    }
+    .product-list .price {
+      color: green;
+    }
+    .product-list .info {
+      background-color: #efefef;
+      border-radius: 4px;
+    }
+    .info-key {
+      font-weight: bold;
+    }
+    .info-value {
+      
+    }
+    .unit {
+      padding-left: 4px;
+      color: #818181;
+    }
+    .bordered {
+      border: 1px gray dashed;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h1>New Products</h1>
+  <p>The following is a list of products</p>
+  <div id="list" class="product-list">
+    <ul>
+      <li>
+        <span class="name">Product-A</span>
+        <span class="price">$199.95</span>
+        <div class="info bordered">
+          <p>Description for Product-A</p>
+          <ul>
+            <li><span class="info-key">Quality</span> <span class="info-value">Good</span></li>
+            <li><span class="info-key">Duration</span> <span class="info-value">5</span><span class="unit">years</span></li>
+          </ul>
+        </div>
+      </li>
+      <li class="selected">
+        <span class="name">Product-B</span>
+        <span class="price">$129.95</span>
+        <div class="info">
+          <p>Description for Product-B</p>
+          <ul>
+            <li><span class="info-key">Quality</span> <span class="info-value">Medium</span></li>
+            <li><span class="info-key">Duration</span> <span class="info-value">2</span><span class="unit">years</span></li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <span class="name">Product-C</span>
+        <span class="price">$99.95</span>
+        <div class="info">
+          <p>Description for Product-C</p>
+          <ul>
+            <li><span class="info-key">Quality</span> <span class="info-value">Good</span></li>
+            <li><span class="info-key">Duration</span> <span class="info-value">4</span><span class="unit">years</span></li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <p>All products are available for sale!</p>
+</body>
+</html>
+
+```
+
+我们先读入网页：
+
+```{r}
+page = read_html("../../../static/datasets/new-products.html")
+```
+
+在继续之前，我们需要了解下XML，编写良好且组织规范的HTML文档可以被看做XML文档的一个特例，与HTML不同，XML允许任意的标签和属性。下面是一个简单示例：
+
+```xml
+<?xml version = "1.0"?>
+<root>
+    <product id = "1">
+        <name>Product-A</name>
+        <price>$199.95</price>
+    </product>
+    <product id = "2">
+        <name>Product-B</name>
+        <price>$129.95</price>
+    </product>
+</root>
+```
+
+XPath专门用于提取XML文档中的数据，`html_nodes()`支持XPath表达式，可以通过参数`xpath=`实现。
+
+CSS选择器会匹配所有子层级的节点，而XPath表达式中，标签`//`和`/`匹配不同的节点，即`//`标签引用所有子层级的节点，而`/`标签只引用第1个子层级的`<tag>`节点。
+
+**下面是一些用法**：
+
+* 选择所有`<p>`节点
+
+```{r}
+page %>% html_nodes(xpath = "//p")
+```
+
+
+
+
+选择所有具有class属性的`<li>`节点：
+
+```{r}
+page %>% html_nodes(xpath = "//li[@class]")
+```
+
+选择`<div id = "list"><ul>`节点所有`<li>`子节点：
+
+```{r}
+page %>% html_nodes(xpath = "//div[@id = 'list']/ul/li")
+```
+
+选择所有嵌套于`<div id = "list">`中`<li>`标签下的`<span class = "name">`子节点：
+
+```{r}
+page %>% html_nodes(xpath = "//div[@id = 'list']//li/span[@class='name']")
+```
+
+选择嵌套于`<li class = "selected">中<span class = "name">`子节点。
+
+```{r}
+page %>% 
+    html_nodes(xpath = "//li[@class='selected']/span[@class = 'name']")
+```
+
+下面例子就不能用等效CSS来实现了：
+
+* 选择所有包含`<p>`子节点的`<div>`节点：
+
+```{r}
+page %>% 
+    html_nodes(xpath = "//div[p]")
+```
+
+* 选择所有的`<span class = "info-value">Good</span>`
+
+```{r}
+page %>% 
+    html_nodes(xpath = "//span[@class ='info-value' and text() = 'Good']")
+```
+
+XPath非常灵活，在匹配节点方面是强大的工具。
+
+更多匹配内容可以阅读 W3School，本文更多相关数据放在 <https://github.com/ShixiangWang/shixiangwang/tree/master/R/learningR_data>。

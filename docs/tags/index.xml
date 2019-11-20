@@ -534,6 +534,15 @@
     </item>
     
     <item>
+      <title>爬虫</title>
+      <link>/tags/%E7%88%AC%E8%99%AB/</link>
+      <pubDate>Mon, 17 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/%E7%88%AC%E8%99%AB/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>森林图</title>
       <link>/tags/%E6%A3%AE%E6%9E%97%E5%9B%BE/</link>
       <pubDate>Mon, 10 Sep 2018 00:00:00 +0000</pubDate>
@@ -561,11 +570,11 @@
     </item>
     
     <item>
-      <title>高性能计算</title>
-      <link>/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/</link>
+      <title>HPC</title>
+      <link>/tags/hpc/</link>
       <pubDate>Wed, 29 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/</guid>
+      <guid>/tags/hpc/</guid>
       <description></description>
     </item>
     

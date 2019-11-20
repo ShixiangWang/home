@@ -1,0 +1,337 @@
+---
+title: "R-网页爬虫：初识"
+author: "王诗翔"
+date: "2018-09-16"
+lastmod: "2019-11-20"
+slug: ""
+categories: r
+tags:
+- r
+- 爬虫
+---
+
+
+
+<p>数据处理的数据集并非立即可得，有时我们需要自己收集�数据，对很多研究领域，网页内容是一个重要的数据源。</p>
+<div id="查阅网页内容" class="section level2">
+<h2>查阅网页内容</h2>
+<p>下面是一个简单的网页，几乎所有的网页都可以查看源代码（一般是右键——点击查看源代码）。</p>
+<pre class="html"><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Simple page&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Heading 1&lt;/h1&gt;
+    &lt;p&gt;This is a paragraph.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>网页源码其实是HTML（Hyper Text Markup Language）文件。HTML是互联网使用最广泛的语言，它描述了网页的布局排版和内容，浏览器则根据Web标准将代码渲染到网页上。</p>
+<p>尽管上面的网页代码很简单，但实际上认真点就会发现HTML是一些标签的嵌套结构，这些标签包括：<code>&lt;html&gt;</code>、<code>&lt;title&gt;</code>、<code>&lt;body&gt;</code>、<code>&lt;h1&gt;</code>和<code>&lt;p&gt;</code>，现代浏览器根据HTML的第一行决定使用哪种标准进行网页渲染。上面例子使用的是HTML 5。</p>
+<p>网页的这些标签并不是随意命名的，也不能任意包含其他标签，每个标签对浏览器都有特殊含义，且只允许包含一部分特定标签或不允许包含任何标签。</p>
+<p><strong>标签<code>&lt;html&gt;</code>是所有HTML的根元素。HTML通常也包括<code>&lt;head&gt;</code>和<code>&lt;body&gt;</code>。其中<code>&lt;head&gt;</code>通常包含<code>&lt;title&gt;</code>，展示在标题栏，包含浏览标签和网页元数据。而<code>&lt;body&gt;</code>则在网页内容和排版方面起主要作用。</strong></p>
+<p><strong>在<code>&lt;body&gt;</code>标签中，标签可以更自由地嵌套，最简单的一个网页可以只包含一级标题（<code>&lt;h1&gt;</code>）和一个段落（<code>&lt;p&gt;</code>）。</strong></p>
+<p>关于表格：</p>
+<ul>
+<li><code>&lt;table&gt;</code> 按行构建</li>
+<li><code>&lt;tr&gt;</code>是表格的行</li>
+<li><code>&lt;th&gt;</code>是表头单元格</li>
+<li><code>&lt;td&gt;</code>是表格的单元格</li>
+</ul>
+<p>一些其他标签：</p>
+<ul>
+<li><code>&lt;div&gt;</code> 章节</li>
+<li><code>&lt;ul&gt;</code> 无序列表</li>
+<li><code>&lt;li&gt;</code> 列表项目</li>
+<li><code>&lt;span&gt;</code> 应用样式的章节</li>
+</ul>
+<p>HTML有一个属性，称为style，用于定义这些元素的样式外观。</p>
+<p>HTML使用CSS可以避免冗长的样式定义。</p>
+<p><strong>每个CSS元素都包含一个CSS选择器用来匹配HTML元素和样式以便渲染应用。CSS选择器不仅用于应用样式，也常用于提取网页内容，以便我们感兴趣的HTML元素可以被正确匹配，这正是网络爬虫的底层技术。</strong></p>
+<p>对于网络爬虫，使用下面例子展示最常见的CSS选择器</p>
+<table>
+<thead>
+<tr class="header">
+<th>语法</th>
+<th>匹配</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>*</code></td>
+<td>All elements</td>
+</tr>
+<tr class="even">
+<td><code>h1,h2,h3</code></td>
+<td><code>&lt;h1&gt;,&lt;h2&gt;,&lt;h3&gt;</code></td>
+</tr>
+<tr class="odd">
+<td><code>#table</code></td>
+<td><code>&lt;* id=&quot;table&quot;&gt;</code></td>
+</tr>
+<tr class="even">
+<td><code>.product-list</code></td>
+<td><code>&lt;* class=&quot;product-list&quot;&gt;</code></td>
+</tr>
+<tr class="odd">
+<td><code>div#container</code></td>
+<td><code>&lt;div id=&quot;container&quot;&gt;</code></td>
+</tr>
+<tr class="even">
+<td><code>div a</code></td>
+<td><code>&lt;div&gt;&lt;a&gt;and&lt;div&gt;&lt;p&gt;&lt;a&gt;</code></td>
+</tr>
+<tr class="odd">
+<td><code>div &gt;a</code></td>
+<td><code>&lt;div&gt;&lt;a&gt;but not&lt;div&gt;&lt;p&gt;&lt;a&gt;</code></td>
+</tr>
+<tr class="even">
+<td><code>div &gt;a.new</code></td>
+<td><code>&lt;div&gt;&lt;a class=&quot;new&quot;&gt;</code></td>
+</tr>
+<tr class="odd">
+<td><code>ul &gt; li:first-child</code></td>
+<td><code>First &lt;li&gt; in &lt;ul&gt;</code></td>
+</tr>
+<tr class="even">
+<td><code>ul &gt; li:last-child</code></td>
+<td><code>Last &lt;li&gt; in &lt;ul&gt;</code></td>
+</tr>
+<tr class="odd">
+<td><code>ul &gt; li:nth-child(3)</code></td>
+<td><code>3rd &lt;li&gt; in &lt;ul&gt;</code></td>
+</tr>
+<tr class="even">
+<td><code>p + *</code></td>
+<td><code>Next element of &lt;p&gt;</code></td>
+</tr>
+<tr class="odd">
+<td><code>img[title]</code></td>
+<td><code>&lt;img&gt; with title attribute</code></td>
+</tr>
+<tr class="even">
+<td><code>table[border=l]</code></td>
+<td><code>&lt;table border=&quot;l&quot;&gt;</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="使用css选择器从网页中提取数据" class="section level2">
+<h2>使用CSS选择器从网页中提取数据</h2>
+<p>R里面爬虫最简单易用的扩展包是<code>rvest</code>，安装：</p>
+<pre class="r"><code>install.packages(&quot;rvest&quot;)</code></pre>
+<p>下面我们读取一个简单表格HTML数据并提取表格：</p>
+<pre class="r"><code>library(rvest)
+#&gt; 载入需要的程辑包：xml2
+single_table_page = read_html(&quot;../../../static/datasets/single-table.html&quot;)
+single_table_page
+#&gt; {html_document}
+#&gt; &lt;html&gt;
+#&gt; [1] &lt;head&gt;\n&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8 ...
+#&gt; [2] &lt;body&gt;\n  &lt;p&gt;The following is a table&lt;/p&gt;\n  &lt;table id=&quot;table1&quot; border=&quot;1 ...</code></pre>
+<p><code>single_table_page</code>是HTML解析文档，是HTML节点的嵌套数据结构。</p>
+<p><strong>使用<code>rvest</code>函数从网页上爬取信息的典型过程是这样的。首先，定位需要从中提取数据的HTML节点。然后使用CSS选择器或者XPath表达式筛选HTML节点，从而选择需要的节点，剔除不需要的节点。最后，对已解析的网页使用合适的选择器，用<code>html_nodes()</code>提取节点子集，用<code>html_attrs()</code>提取属性，用<code>html_text()</code>提取文本。</strong></p>
+<p><code>rvest</code>包提供了一些简单函数可直接用于提取数据并返回一个数据框，例如提取网页中的<code>&lt;table&gt;</code>元素，直接使用<code>html_table()</code>：</p>
+<pre class="r"><code>html_table(single_table_page)
+#&gt; [[1]]
+#&gt;    Name Age
+#&gt; 1 Jenny  18
+#&gt; 2 James  19</code></pre>
+<p>为提取第一个元素，我们先选择第一个节点，然后再提取表格：</p>
+<pre class="r"><code>html_table(html_node(single_table_page, &quot;table&quot;))
+#&gt;    Name Age
+#&gt; 1 Jenny  18
+#&gt; 2 James  19</code></pre>
+<p>连续的操作可以使用管道：</p>
+<pre class="r"><code>single_table_page %&gt;% 
+    html_node(&quot;table&quot;) %&gt;% 
+    html_table()
+#&gt;    Name Age
+#&gt; 1 Jenny  18
+#&gt; 2 James  19</code></pre>
+<p>现在我们读取一个产品信息网页，然后用<code>html_nodes()</code>匹配<code>&lt;span class=&quot;name&quot;&gt;</code>节点：</p>
+<pre class="r"><code>products_page = read_html(&quot;../../../static/datasets/products.html&quot;)
+products_page %&gt;% 
+    html_nodes(&quot;.product-list li .name&quot;)
+#&gt; {xml_nodeset (3)}
+#&gt; [1] &lt;span class=&quot;name&quot;&gt;Product-A&lt;/span&gt;
+#&gt; [2] &lt;span class=&quot;name&quot;&gt;Product-B&lt;/span&gt;
+#&gt; [3] &lt;span class=&quot;name&quot;&gt;Product-C&lt;/span&gt;</code></pre>
+<p>这里我们选择的是product-list类的<code>&lt;li&gt;</code>标签下name类的节点，因此使用<code>.product-list li .name</code>，如果对符号不熟悉，需要详细记忆CSS表。</p>
+<p>之后提取内容：</p>
+<pre class="r"><code>products_page %&gt;% 
+    html_nodes(&quot;.product-list li .name&quot;) %&gt;% 
+    html_text()
+#&gt; [1] &quot;Product-A&quot; &quot;Product-B&quot; &quot;Product-C&quot;</code></pre>
+<p>类似的可以提取产品价格：</p>
+<pre class="r"><code>products_page %&gt;% 
+    html_nodes(&quot;.product-list li .price&quot;) %&gt;% 
+    html_text()
+#&gt; [1] &quot;$199.95&quot; &quot;$129.95&quot; &quot;$99.95&quot;</code></pre>
+</div>
+<div id="使用xpath选择器" class="section level2">
+<h2>使用XPath选择器</h2>
+<p>一般来说，CSS选择器足够满足绝大多数HTML节点匹配的需要。但需要根据某些特殊条件选择节点时，需要更强大的技术。</p>
+<p>请看下面新的产品信息网页的源代码：</p>
+<pre class="html"><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;New Products&lt;/title&gt;
+  &lt;style&gt;
+    p {
+      margin: 2px;
+    }
+    .product-list {
+      width: 80%;
+    }
+    .product-list ul {
+      padding-left: 8px;
+    }
+    .product-list ul li {
+      padding-left: 2px;
+      list-style: none;
+    }
+    .product-list &gt; ul &gt; li {
+      margin-top: 16px;
+      list-style: none;
+    }
+    .product-list .name {
+      font-weight: bold;
+      font-size: 1.25em;
+    }
+    .product-list .price {
+      color: green;
+    }
+    .product-list .info {
+      background-color: #efefef;
+      border-radius: 4px;
+    }
+    .info-key {
+      font-weight: bold;
+    }
+    .info-value {
+      
+    }
+    .unit {
+      padding-left: 4px;
+      color: #818181;
+    }
+    .bordered {
+      border: 1px gray dashed;
+      border-radius: 4px;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;New Products&lt;/h1&gt;
+  &lt;p&gt;The following is a list of products&lt;/p&gt;
+  &lt;div id=&quot;list&quot; class=&quot;product-list&quot;&gt;
+    &lt;ul&gt;
+      &lt;li&gt;
+        &lt;span class=&quot;name&quot;&gt;Product-A&lt;/span&gt;
+        &lt;span class=&quot;price&quot;&gt;$199.95&lt;/span&gt;
+        &lt;div class=&quot;info bordered&quot;&gt;
+          &lt;p&gt;Description for Product-A&lt;/p&gt;
+          &lt;ul&gt;
+            &lt;li&gt;&lt;span class=&quot;info-key&quot;&gt;Quality&lt;/span&gt; &lt;span class=&quot;info-value&quot;&gt;Good&lt;/span&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;span class=&quot;info-key&quot;&gt;Duration&lt;/span&gt; &lt;span class=&quot;info-value&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;unit&quot;&gt;years&lt;/span&gt;&lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+      &lt;/li&gt;
+      &lt;li class=&quot;selected&quot;&gt;
+        &lt;span class=&quot;name&quot;&gt;Product-B&lt;/span&gt;
+        &lt;span class=&quot;price&quot;&gt;$129.95&lt;/span&gt;
+        &lt;div class=&quot;info&quot;&gt;
+          &lt;p&gt;Description for Product-B&lt;/p&gt;
+          &lt;ul&gt;
+            &lt;li&gt;&lt;span class=&quot;info-key&quot;&gt;Quality&lt;/span&gt; &lt;span class=&quot;info-value&quot;&gt;Medium&lt;/span&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;span class=&quot;info-key&quot;&gt;Duration&lt;/span&gt; &lt;span class=&quot;info-value&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;unit&quot;&gt;years&lt;/span&gt;&lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;span class=&quot;name&quot;&gt;Product-C&lt;/span&gt;
+        &lt;span class=&quot;price&quot;&gt;$99.95&lt;/span&gt;
+        &lt;div class=&quot;info&quot;&gt;
+          &lt;p&gt;Description for Product-C&lt;/p&gt;
+          &lt;ul&gt;
+            &lt;li&gt;&lt;span class=&quot;info-key&quot;&gt;Quality&lt;/span&gt; &lt;span class=&quot;info-value&quot;&gt;Good&lt;/span&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;span class=&quot;info-key&quot;&gt;Duration&lt;/span&gt; &lt;span class=&quot;info-value&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;unit&quot;&gt;years&lt;/span&gt;&lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+  &lt;p&gt;All products are available for sale!&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>我们先读入网页：</p>
+<pre class="r"><code>page = read_html(&quot;../../../static/datasets/new-products.html&quot;)</code></pre>
+<p>在继续之前，我们需要了解下XML，编写良好且组织规范的HTML文档可以被看做XML文档的一个特例，与HTML不同，XML允许任意的标签和属性。下面是一个简单示例：</p>
+<pre class="xml"><code>&lt;?xml version = &quot;1.0&quot;?&gt;
+&lt;root&gt;
+    &lt;product id = &quot;1&quot;&gt;
+        &lt;name&gt;Product-A&lt;/name&gt;
+        &lt;price&gt;$199.95&lt;/price&gt;
+    &lt;/product&gt;
+    &lt;product id = &quot;2&quot;&gt;
+        &lt;name&gt;Product-B&lt;/name&gt;
+        &lt;price&gt;$129.95&lt;/price&gt;
+    &lt;/product&gt;
+&lt;/root&gt;</code></pre>
+<p>XPath专门用于提取XML文档中的数据，<code>html_nodes()</code>支持XPath表达式，可以通过参数<code>xpath=</code>实现。</p>
+<p>CSS选择器会匹配所有子层级的节点，而XPath表达式中，标签<code>//</code>和<code>/</code>匹配不同的节点，即<code>//</code>标签引用所有子层级的节点，而<code>/</code>标签只引用第1个子层级的<code>&lt;tag&gt;</code>节点。</p>
+<p><strong>下面是一些用法</strong>：</p>
+<ul>
+<li>选择所有<code>&lt;p&gt;</code>节点</li>
+</ul>
+<pre class="r"><code>page %&gt;% html_nodes(xpath = &quot;//p&quot;)
+#&gt; {xml_nodeset (5)}
+#&gt; [1] &lt;p&gt;The following is a list of products&lt;/p&gt;
+#&gt; [2] &lt;p&gt;Description for Product-A&lt;/p&gt;
+#&gt; [3] &lt;p&gt;Description for Product-B&lt;/p&gt;
+#&gt; [4] &lt;p&gt;Description for Product-C&lt;/p&gt;
+#&gt; [5] &lt;p&gt;All products are available for sale!&lt;/p&gt;</code></pre>
+<p>选择所有具有class属性的<code>&lt;li&gt;</code>节点：</p>
+<pre class="r"><code>page %&gt;% html_nodes(xpath = &quot;//li[@class]&quot;)
+#&gt; {xml_nodeset (1)}
+#&gt; [1] &lt;li class=&quot;selected&quot;&gt;\n        &lt;span class=&quot;name&quot;&gt;Product-B&lt;/span&gt;\n      ...</code></pre>
+<p>选择<code>&lt;div id = &quot;list&quot;&gt;&lt;ul&gt;</code>节点所有<code>&lt;li&gt;</code>子节点：</p>
+<pre class="r"><code>page %&gt;% html_nodes(xpath = &quot;//div[@id = &#39;list&#39;]/ul/li&quot;)
+#&gt; {xml_nodeset (3)}
+#&gt; [1] &lt;li&gt;\n        &lt;span class=&quot;name&quot;&gt;Product-A&lt;/span&gt;\n        &lt;span class=&quot;p ...
+#&gt; [2] &lt;li class=&quot;selected&quot;&gt;\n        &lt;span class=&quot;name&quot;&gt;Product-B&lt;/span&gt;\n      ...
+#&gt; [3] &lt;li&gt;\n        &lt;span class=&quot;name&quot;&gt;Product-C&lt;/span&gt;\n        &lt;span class=&quot;p ...</code></pre>
+<p>选择所有嵌套于<code>&lt;div id = &quot;list&quot;&gt;</code>中<code>&lt;li&gt;</code>标签下的<code>&lt;span class = &quot;name&quot;&gt;</code>子节点：</p>
+<pre class="r"><code>page %&gt;% html_nodes(xpath = &quot;//div[@id = &#39;list&#39;]//li/span[@class=&#39;name&#39;]&quot;)
+#&gt; {xml_nodeset (3)}
+#&gt; [1] &lt;span class=&quot;name&quot;&gt;Product-A&lt;/span&gt;
+#&gt; [2] &lt;span class=&quot;name&quot;&gt;Product-B&lt;/span&gt;
+#&gt; [3] &lt;span class=&quot;name&quot;&gt;Product-C&lt;/span&gt;</code></pre>
+<p>选择嵌套于<code>&lt;li class = &quot;selected&quot;&gt;中&lt;span class = &quot;name&quot;&gt;</code>子节点。</p>
+<pre class="r"><code>page %&gt;% 
+    html_nodes(xpath = &quot;//li[@class=&#39;selected&#39;]/span[@class = &#39;name&#39;]&quot;)
+#&gt; {xml_nodeset (1)}
+#&gt; [1] &lt;span class=&quot;name&quot;&gt;Product-B&lt;/span&gt;</code></pre>
+<p>下面例子就不能用等效CSS来实现了：</p>
+<ul>
+<li>选择所有包含<code>&lt;p&gt;</code>子节点的<code>&lt;div&gt;</code>节点：</li>
+</ul>
+<pre class="r"><code>page %&gt;% 
+    html_nodes(xpath = &quot;//div[p]&quot;)
+#&gt; {xml_nodeset (3)}
+#&gt; [1] &lt;div class=&quot;info bordered&quot;&gt;\n          &lt;p&gt;Description for Product-A&lt;/p&gt;\n ...
+#&gt; [2] &lt;div class=&quot;info&quot;&gt;\n          &lt;p&gt;Description for Product-B&lt;/p&gt;\n          ...
+#&gt; [3] &lt;div class=&quot;info&quot;&gt;\n          &lt;p&gt;Description for Product-C&lt;/p&gt;\n          ...</code></pre>
+<ul>
+<li>选择所有的<code>&lt;span class = &quot;info-value&quot;&gt;Good&lt;/span&gt;</code></li>
+</ul>
+<pre class="r"><code>page %&gt;% 
+    html_nodes(xpath = &quot;//span[@class =&#39;info-value&#39; and text() = &#39;Good&#39;]&quot;)
+#&gt; {xml_nodeset (2)}
+#&gt; [1] &lt;span class=&quot;info-value&quot;&gt;Good&lt;/span&gt;
+#&gt; [2] &lt;span class=&quot;info-value&quot;&gt;Good&lt;/span&gt;</code></pre>
+<p>XPath非常灵活，在匹配节点方面是强大的工具。</p>
+<p>更多匹配内容可以阅读 W3School，本文更多相关数据放在 <a href="https://github.com/ShixiangWang/shixiangwang/tree/master/R/learningR_data" class="uri">https://github.com/ShixiangWang/shixiangwang/tree/master/R/learningR_data</a>。</p>
+</div>
