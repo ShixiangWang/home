@@ -1,0 +1,142 @@
+---
+title: "使用apply函数簇"
+author: "王诗翔"
+date: "2018-06-12"
+lastmod: "2019-11-20"
+slug: ""
+categories: r
+tags:
+- r
+- apply
+---
+
+
+
+<p>在实际使用R时，<code>for</code>循环往往是最后的选择。一般每次循环计算都是独立的，所以我们可以使用更简洁更方便的读写方式来实现同样的效果。</p>
+<p>举例，如果使用<code>for</code>循环创建一个列表，包含3个相互独立、服从正态分布的随机向量，其长度由<code>len</code>指定：</p>
+<pre class="r"><code>len &lt;- c(3, 4, 5)
+x &lt;- list()
+for (i in 1:3){
+    x[[i]] &lt;- rnorm(len[i])
+}</code></pre>
+<p>代码挺简单的，但能不能更简单？我们使用<code>lapply()</code>：</p>
+<pre class="r"><code>lapply(len, rnorm)
+#&gt; [[1]]
+#&gt; [1] -0.508 -1.535  1.497
+#&gt; 
+#&gt; [[2]]
+#&gt; [1] -0.0312  0.2983 -0.4125  0.2081
+#&gt; 
+#&gt; [[3]]
+#&gt; [1]  0.79099 -1.39149 -0.91839  0.00153  0.70690</code></pre>
+<p>apply函数簇中的每个函数都称为高阶函数，<strong>高阶函数是以函数为输入的函数</strong>。</p>
+<div id="lapply" class="section level2">
+<h2>lapply</h2>
+<blockquote>
+<p><code>lapply()</code>接收一个向量和一个函数作为输入参数，它将这个函数应用到向量中的每一个元素，再将结果以列表的形式返回。
+这类函数的好处是我们不需要构建一个显示的迭代器来明确迭代步骤的进行。</p>
+</blockquote>
+<p><code>lapply()</code>不仅适用于向量，也适用于列表。</p>
+<p>假设我们有一份学生列表：</p>
+<pre class="r"><code>students &lt;- list(
+    a1 = list(name = &quot;James&quot;, age = 25, 
+              gender = &quot;M&quot;, interest = c(&quot;reading&quot;, &quot;writing&quot;)),
+    a2 = list(name = &quot;Jenny&quot;, age = 23,
+              gender = &quot;F&quot;, interest = c(&quot;cooking&quot;)),
+    a3 = list(name = &quot;David&quot;, age = 24,
+              gender = &quot;M&quot;, interest = c(&quot;running&quot;, &quot;basketball&quot;))
+)</code></pre>
+<p>现在我们想创建一个字符向量，其中每个元素都由如下形式：</p>
+<pre><code>James, 25 year-old man, loves reading, writing.</code></pre>
+<p>函数<code>sprintf()</code>通过将占位符替换为相应的输入参数来格式化文本（取自C）。举例：</p>
+<pre class="r"><code>sprintf(&quot;Hello, %s! Your number is %d.&quot;, &quot;Tom&quot;, 3)
+#&gt; [1] &quot;Hello, Tom! Your number is 3.&quot;</code></pre>
+<p>返回我们的问题，我们使用<code>lapply()</code>解决：</p>
+<pre class="r"><code>lapply(students, function(s){
+    type &lt;- switch(s$gender, &quot;M&quot; = &quot;man&quot;, &quot;F&quot; = &quot;woman&quot;)
+    interest &lt;- paste(s$interest, collapse = &quot;, &quot;)
+    sprintf(&quot;%s, %d year-old %s, loves %s.&quot;, s$name, s$age, type, interest)
+})
+#&gt; $a1
+#&gt; [1] &quot;James, 25 year-old man, loves reading, writing.&quot;
+#&gt; 
+#&gt; $a2
+#&gt; [1] &quot;Jenny, 23 year-old woman, loves cooking.&quot;
+#&gt; 
+#&gt; $a3
+#&gt; [1] &quot;David, 24 year-old man, loves running, basketball.&quot;</code></pre>
+</div>
+<div id="sapply" class="section level2">
+<h2>sapply</h2>
+<p>列表并非总是最佳的数据存储容器，有时候我们希望将结果存放在向量或矩阵中，<code>sapply()</code>可以根据结果的结构进行合理简化。</p>
+<p>比如，我们如果将平方运算应用到1:10的每个元素，使用<code>lapply()</code>会得到含10个元素的列表，这非常不直观，也常常不是我们想要的，而<code>sapply()</code>可以将其简化为一个向量。</p>
+<pre class="r"><code>sapply(1:10, function(x) x ^ 2)
+#&gt;  [1]   1   4   9  16  25  36  49  64  81 100</code></pre>
+<p>如果函数每次循环返回一个多元素的向量，<code>sapply()</code>会将结果存储在一个矩阵中，矩阵的每一列是每次循环产生的向量：</p>
+<pre class="r"><code>sapply(1:10, function(x) c(x, x^2))
+#&gt;      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
+#&gt; [1,]    1    2    3    4    5    6    7    8    9    10
+#&gt; [2,]    1    4    9   16   25   36   49   64   81   100</code></pre>
+</div>
+<div id="vapply" class="section level2">
+<h2>vapply</h2>
+<p>使用<code>sapply</code>有时候会暗藏风险，假设我们有列表</p>
+<pre class="r"><code>x &lt;- list(c(1, 2), c(2, 3), c(1, 3))</code></pre>
+<p>我们想得到一个向量，其中每个元素都是x元素对应数字的平方，那么<code>sapply()</code>就比较适用。</p>
+<pre class="r"><code>sapply(x, function(x) x ^ 2)
+#&gt;      [,1] [,2] [,3]
+#&gt; [1,]    1    4    1
+#&gt; [2,]    4    9    9</code></pre>
+<p>如果输入数据有错误，可能会返回意料之外的结果：</p>
+<pre class="r"><code>x1 &lt;- list(c(1, 2), c(2, 3), c(1, 3, 3))
+sapply(x1, function(x) x^2)
+#&gt; [[1]]
+#&gt; [1] 1 4
+#&gt; 
+#&gt; [[2]]
+#&gt; [1] 4 9
+#&gt; 
+#&gt; [[3]]
+#&gt; [1] 1 9 9</code></pre>
+<p>但如果我们使用<code>vapply()</code>，我们可以设定返回值的模板，以验证结果形式上是不是出问题了。</p>
+<pre class="r"><code>vapply(x1, function(x) x^2, numeric(2))
+#&gt; Error in vapply(x1, function(x) x^2, numeric(2)): 值的长度必需为2，
+#&gt;  但FUN(X[[3]])结果的长度却是3</code></pre>
+<p>而对于正确的输入，<code>vapply()</code>与<code>sapply()</code>结果一致。</p>
+<pre class="r"><code>vapply(x, function(x) x^2, numeric(2))
+#&gt;      [,1] [,2] [,3]
+#&gt; [1,]    1    4    1
+#&gt; [2,]    4    9    9</code></pre>
+<p>到此，我们已经知道<code>vapply</code>其实就是<code>sapply</code>的安全升级版本。</p>
+</div>
+<div id="mapply" class="section level2">
+<h2>mapply</h2>
+<p>相比<code>lapply()</code>和<code>sapply()</code>在一个向量上迭代，<code>mapply()</code>可以在多个向量上进行迭代。<code>mapply</code>是<code>sapply</code>的多元版本。</p>
+<pre class="r"><code>mapply(function(a, b, c) a * b + b * c + a * c, 
+       a = c(1, 2, 3), b = c(5, 6, 7), c = c(-1, -2 , -3))
+#&gt; [1] -1 -4 -9</code></pre>
+<p>迭代函数可以返回标量，也可以返回多元素向量。</p>
+<p><code>Map()</code>是<code>lapply()</code>的多元版本，它通常返回列表。</p>
+<pre class="r"><code>Map(function(a, b, c) a * b + b * c + a * c, 
+       a = c(1, 2, 3), b = c(5, 6, 7), c = c(-1, -2 , -3))
+#&gt; [[1]]
+#&gt; [1] -1
+#&gt; 
+#&gt; [[2]]
+#&gt; [1] -4
+#&gt; 
+#&gt; [[3]]
+#&gt; [1] -9</code></pre>
+<p>最后，<code>apply</code>作为最常用的函数不在此讲述了，之前的笔记有几篇详细讲过这方面。需要注意的是，在使用<code>apply</code>函数对数据框进行计算时，是不能提取行/列名的。</p>
+<pre class="r"><code>mat &lt;- data.frame(a = c(1, 2, 3), b = c(5, 6, 7), c = c(-1, -2 , -3))
+rownames(mat) &lt;- c(&quot;r1&quot;, &quot;r2&quot;, &quot;r3&quot;)
+mat
+#&gt;    a b  c
+#&gt; r1 1 5 -1
+#&gt; r2 2 6 -2
+#&gt; r3 3 7 -3</code></pre>
+<pre class="r"><code>apply(mat, 1, function(x) rownames(x))
+#&gt; NULL
+apply(mat, 1, function(x) colnames(x))
+#&gt; NULL</code></pre>
+</div>

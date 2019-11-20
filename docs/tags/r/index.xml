@@ -335,6 +335,15 @@ Datasets have associated metadata, specifying their data type and cohort.</descr
     </item>
     
     <item>
+      <title>使用apply函数簇</title>
+      <link>/cn/post/2019-11-20-use-apply-family/</link>
+      <pubDate>Tue, 12 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-11-20-use-apply-family/</guid>
+      <description>在实际使用R时，for循环往往是最后的选择。一般每次循环计算都是独立的，所以我们可以使用更简洁更方便的读写方式来实现同样的效果。 举例，如果使</description>
+    </item>
+    
+    <item>
       <title>do.call的使用</title>
       <link>/cn/post/usage-of-docall/</link>
       <pubDate>Thu, 07 Jun 2018 00:00:00 +0000</pubDate>
