@@ -1,0 +1,31 @@
+---
+title: "理解信息"
+author: "王诗翔"
+date: "2018-05-30"
+lastmod: "2019-11-20"
+slug: ""
+categories: thinking
+tags:
+- information
+---
+
+
+
+<blockquote>
+<p><strong>信息是被消除的不确定性</strong>
+美国电子工程专家哈特莱如是说。</p>
+</blockquote>
+<p>消息的传递正是把信息的不确定性变成确定性。那么该如何量化信息？</p>
+<p>哈特莱提出初步设想：</p>
+<p><span class="math display">\[
+I = log_2m
+\]</span>
+I代表信息量大小，m用于表达不同含义的数目。</p>
+<p>比如只需要传递“是”或者“否”两种含义，那么信息量<span class="math inline">\(I=log_22\)</span>，即为1。而生命的代码，核苷酸是用AGCT四种表示，那么信息量就是2。</p>
+<p>根据定义，对内容确定的消息进行传递不包含信息。那么被“消除的不确定性”中的“不确定性”是否也可以量化？</p>
+<p>香农由此提出信息熵：</p>
+<p><span class="math display">\[
+H(x) = - \sum_{i=1}^nP(x_i)log_2P(x_i)
+\]</span></p>
+<p>其中x代表信号源，<span class="math inline">\(P(x_i)\)</span>代表消息<span class="math inline">\(x_i\)</span>产生的概率。</p>
+<p>根据这个公式可以计算，哈特莱提出的公式实际上是消息产生概率均等情况下信息熵的特例。</p>
