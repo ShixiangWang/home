@@ -12,10 +12,10 @@
     
     
     
-    <title>修改全局选项 - 王诗翔</title>
+    <title>R提取向量元素[与[[区分 - 王诗翔</title>
     
      
-    <meta property="og:title" content="修改全局选项 - Shixiang Wang | 王诗翔">
+    <meta property="og:title" content="R提取向量元素[与[[区分 - Shixiang Wang | 王诗翔">
     
 
     
@@ -95,7 +95,7 @@
 
 
 
-<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2019-11-20-r-global-options.Rmd" target="_blank">编辑</a></li>
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2019-11-20-r-subset-vector-notes.Rmd" target="_blank">编辑</a></li>
 
 
 <li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
@@ -111,12 +111,12 @@
       <header class="title">
         
 
-<h1>修改全局选项</h1>
+<h1>R提取向量元素[与[[区分</h1>
 
 
 
 <h3>王诗翔 &middot 
-2018-05-07</h3> 
+2018-05-06</h3> 
 
 
    
@@ -129,25 +129,31 @@
 
 
 
-<p>R语言的选项设定可以从全局范围影响当前的会话，我们调用<code>getOption()</code>查看选项值，使用<code>options()</code>修改它。</p>
-<p>一个常用的设定选项是输出位数，在某些情况下，R默认输出的位数不满足我们的要求，需要修改，而该选项由<code>digits</code>选项控制。</p>
-<pre class="r"><code>123.123456789
-#&gt; [1] 123
-getOption(&quot;digits&quot;)
-#&gt; [1] 3</code></pre>
-<p>如果想看到更多的显示位数，我们要将<code>digits</code>设置为一个更大的数值：</p>
-<pre class="r"><code>options(digits = 10)
-123.123456789
-#&gt; [1] 123.1234568</code></pre>
-<p><strong>需要注意，一旦调用<code>options()</code>，修改的选项会立即生效，且可能影响所有后续的命令</strong>。可以使用下面命令重置选项：</p>
-<pre class="r"><code>options(digits = 3)</code></pre>
+<blockquote>
+<p>内容取自《R语言编程指南》。</p>
+</blockquote>
+<p><code>[]</code>能够创建一个向量子集，<code>[[]]</code>可以提取向量中的元素。<strong>我们可以将一个向量比作10盒糖果，使用<code>[]</code>可以获取其中的3盒糖果，使用<code>[[]]</code>则是打开盒子并从中取出一颗糖果</strong>。</p>
+<p>对于简单的向量，使用<code>[]</code>或<code>[[]]</code>会产生相同的结果（所以大多数人都没能区分它们）。但在某些情况下，它们会返回不同的结果。例如，对于一个命名的向量，创建一个子集与提取一个元素将会不同：</p>
+<pre class="r"><code>x &lt;- c(a = 1, b = 2, c = 3)
+x[&quot;a&quot;]
+#&gt; a 
+#&gt; 1
+x[[&quot;a&quot;]]
+#&gt; [1] 1</code></pre>
+<p>我们利用糖果盒的比喻来进行理解：<code>x[&quot;a&quot;]</code>让我们得到标签为“a”的糖果盒，而<code>x[[&quot;a&quot;]]</code>让我们得到便签为“a”的糖果盒里面的糖果。</p>
+<p>由于<code>[[]]</code>只能用于提取出一个元素，因此<strong>不适用提取多个元素的情况</strong>。</p>
+<pre class="r"><code>x[[c(1,2)]]
+# Error in x[[c(1, 2)]] : 
+#   attempt to select more than one element in vectorIndex</code></pre>
+<p>此外，<code>[[]]</code>也不能用于负整数，因为负整数的意思是提取除指定位置外的所有元素。</p>
+<p>对很多初学者来说，代码中同时使用<code>[]</code>和<code>[[]]</code>可能会感到混乱，并且容易造成误用。此时，你只要记住糖果盒的比喻即可。</p>
 
 
   <footer>
   
 <nav class="post-nav">
-  <span class="nav-prev">&larr; <a href="../../../cn/post/2019-11-20-r-subset-vector-notes/">R提取向量元素[与[[区分</a></span>
-  <span class="nav-next"><a href="../../../cn/post/ggpubr-add-pvalue-and-siglevels/">基于ggpubr包为ggplot添加p值和显著性标记</a> &rarr;</span>
+  <span class="nav-prev">&larr; <a href="../../../cn/post/r-survival/">使用 R 进行生存分析</a></span>
+  <span class="nav-next"><a href="../../../cn/post/2019-11-20-r-global-options/">修改全局选项</a> &rarr;</span>
 </nav>
 <script type="text/javascript">
 document.addEventListener('keyup', function(e) {
@@ -155,11 +161,11 @@ document.addEventListener('keyup', function(e) {
   var url = false;
   if (e.which == 37) {  
     
-    url = '\/cn\/post\/2019-11-20-r-subset-vector-notes\/';
+    url = '\/cn\/post\/r-survival\/';
     
   } else if (e.which == 39) {  
     
-    url = '\/cn\/post\/ggpubr-add-pvalue-and-siglevels\/';
+    url = '\/cn\/post\/2019-11-20-r-global-options\/';
     
   }
   if (url) window.location = url;

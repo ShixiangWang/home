@@ -1,0 +1,33 @@
+---
+title: "R提取向量元素[与[[区分"
+author: "王诗翔"
+date: "2018-05-06"
+lastmod: "2019-11-20"
+slug: ""
+categories: r
+tags:
+- r
+- subset
+- notion
+---
+
+
+
+<blockquote>
+<p>内容取自《R语言编程指南》。</p>
+</blockquote>
+<p><code>[]</code>能够创建一个向量子集，<code>[[]]</code>可以提取向量中的元素。<strong>我们可以将一个向量比作10盒糖果，使用<code>[]</code>可以获取其中的3盒糖果，使用<code>[[]]</code>则是打开盒子并从中取出一颗糖果</strong>。</p>
+<p>对于简单的向量，使用<code>[]</code>或<code>[[]]</code>会产生相同的结果（所以大多数人都没能区分它们）。但在某些情况下，它们会返回不同的结果。例如，对于一个命名的向量，创建一个子集与提取一个元素将会不同：</p>
+<pre class="r"><code>x &lt;- c(a = 1, b = 2, c = 3)
+x[&quot;a&quot;]
+#&gt; a 
+#&gt; 1
+x[[&quot;a&quot;]]
+#&gt; [1] 1</code></pre>
+<p>我们利用糖果盒的比喻来进行理解：<code>x[&quot;a&quot;]</code>让我们得到标签为“a”的糖果盒，而<code>x[[&quot;a&quot;]]</code>让我们得到便签为“a”的糖果盒里面的糖果。</p>
+<p>由于<code>[[]]</code>只能用于提取出一个元素，因此<strong>不适用提取多个元素的情况</strong>。</p>
+<pre class="r"><code>x[[c(1,2)]]
+# Error in x[[c(1, 2)]] : 
+#   attempt to select more than one element in vectorIndex</code></pre>
+<p>此外，<code>[[]]</code>也不能用于负整数，因为负整数的意思是提取除指定位置外的所有元素。</p>
+<p>对很多初学者来说，代码中同时使用<code>[]</code>和<code>[[]]</code>可能会感到混乱，并且容易造成误用。此时，你只要记住糖果盒的比喻即可。</p>

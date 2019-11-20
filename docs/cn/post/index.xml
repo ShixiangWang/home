@@ -327,6 +327,15 @@
     </item>
     
     <item>
+      <title>R提取向量元素[与[[区分</title>
+      <link>/cn/post/2019-11-20-r-subset-vector-notes/</link>
+      <pubDate>Sun, 06 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-11-20-r-subset-vector-notes/</guid>
+      <description>内容取自《R语言编程指南》。 []能够创建一个向量子集，[[]]可以提取向量中的元素。我们可以将一个向量比作10盒糖果，使用[]可以获取其中的</description>
+    </item>
+    
+    <item>
       <title>使用 R 进行生存分析</title>
       <link>/cn/post/r-survival/</link>
       <pubDate>Sat, 28 Apr 2018 00:00:00 +0000</pubDate>
