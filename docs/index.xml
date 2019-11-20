@@ -362,6 +362,15 @@ Datasets have associated metadata, specifying their data type and cohort.</descr
     </item>
     
     <item>
+      <title>R-操作数据库</title>
+      <link>/cn/post/2019-11-20-r-operate-database/</link>
+      <pubDate>Sun, 19 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-11-20-r-operate-database/</guid>
+      <description>在阅读之前我有必要进行申明,因为使用的是RMD文档,所以每次RENDER的时候都会读取数据库,所以结果显示不一样正常,有的也加了overwr</description>
+    </item>
+    
+    <item>
       <title>R-面向对象编程（二）</title>
       <link>/cn/post/2019-11-20-high-level-oop-two/</link>
       <pubDate>Sat, 18 Aug 2018 00:00:00 +0000</pubDate>

@@ -176,7 +176,7 @@
   
   <url>
     <loc>/tags/mysql/</loc>
-    <lastmod>2019-08-22T00:00:00+00:00</lastmod>
+    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -650,6 +650,35 @@
   <url>
     <loc>/cn/post/hpc-in-r/</loc>
     <lastmod>2018-08-29T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/mongodb/</loc>
+    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/cn/post/2019-11-20-r-operate-database/</loc>
+    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/redis/</loc>
+    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/sql/</loc>
+    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/sqlite/</loc>
+    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>

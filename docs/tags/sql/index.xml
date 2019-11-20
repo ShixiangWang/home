@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>SQL on Shixiang Wang | 王诗翔</title>
+    <link>/tags/sql/</link>
+    <description>Recent content in SQL on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 19 Aug 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/sql/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>R-操作数据库</title>
+      <link>/cn/post/2019-11-20-r-operate-database/</link>
+      <pubDate>Sun, 19 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-11-20-r-operate-database/</guid>
+      <description>在阅读之前我有必要进行申明,因为使用的是RMD文档,所以每次RENDER的时候都会读取数据库,所以结果显示不一样正常,有的也加了overwr</description>
+    </item>
+    
+  </channel>
+</rss>
