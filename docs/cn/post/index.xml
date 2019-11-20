@@ -264,6 +264,15 @@
     </item>
     
     <item>
+      <title>R的内部机制</title>
+      <link>/cn/post/2019-11-20-r-mechanism/</link>
+      <pubDate>Wed, 01 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-11-20-r-mechanism/</guid>
+      <description>内容： 惰性求值 （Lazy evaluation） 复制-修改机制 （Copy-on-modify mechanism） 词法作用域 （Lexical sc</description>
+    </item>
+    
+    <item>
       <title>ABSOLUTE 推断框架</title>
       <link>/cn/post/2018-07-24-absolute-inference/</link>
       <pubDate>Tue, 24 Jul 2018 00:00:00 +0000</pubDate>

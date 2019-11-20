@@ -1,0 +1,450 @@
+---
+title: "R的内部机制"
+author: "王诗翔"
+date: "2018-08-01"
+lastmod: "2019-11-20"
+slug: ""
+categories: r
+tags:
+- r
+---
+
+
+
+<p>内容：</p>
+<blockquote>
+<ul>
+<li>惰性求值 （Lazy evaluation）</li>
+<li>复制-修改机制 （Copy-on-modify mechanism）</li>
+<li>词法作用域 （Lexical scoping）</li>
+<li>环境 （Environment）
+理解这些概念能够明白大部分的R代码，同时提升工作效率。</li>
+</ul>
+</blockquote>
+<div id="惰性求值" class="section level2">
+<h2>惰性求值</h2>
+<p>创建如下函数：</p>
+<pre class="r"><code>test0 = function(x, y) {
+    if (x &gt; 0) x else y
+}</code></pre>
+<p>函数在<code>x</code>不大于0时才需要<code>y</code>的存在，如果我们只为该函数设定<code>x</code>参数，函数会因为<code>y</code>不存在而报错么?</p>
+<pre class="r"><code>test0(1)
+#&gt; [1] 1</code></pre>
+<p>即使没有对<code>y</code>赋值，函数竟然仍能够运行！<strong>看来调用函数时不必对所有的参数进行赋值，只对必需参数赋值即可</strong>。当然，如果这里<code>x</code>是一个负数，必须有<code>y</code>值的存在：</p>
+<pre class="r"><code>test0(-1)
+#&gt; Error in test0(-1): 缺少参数&quot;y&quot;,也没有缺省值</code></pre>
+<p>我们已知知道函数并不需要指定所有参数，如果指定了额外的参数，R是在调用函数前进行计算，还是根本就不会计算呢？</p>
+<p>我们使用<code>stop()</code>函数来探究一番：</p>
+<pre class="r"><code>test0(1, stop(&quot;Stop Now!&quot;))
+#&gt; [1] 1
+test0(-1, stop(&quot;Stop Now!&quot;))
+#&gt; Error in test0(-1, stop(&quot;Stop Now!&quot;)): Stop Now!</code></pre>
+<p>很明显，<code>stop()</code>函数在第一个语句中没起到作用，在第二个语句中起作用了，说明参数只有在<strong>实际用到</strong>时才会被执行。这个机制称为<strong>惰性求值</strong>。</p>
+<p>惰性求值是按需计算，可以节省时间并避免不必要的计算。如果你对它不了解，你可能会认为执行以下操作会比较耗时：</p>
+<pre><code>test0(1, rnorm(10000000))</code></pre>
+<p>我们来看下：</p>
+<pre class="r"><code>system.time(test0(1, rnorm(10000000)))
+#&gt;  用户  系统  流逝 
+#&gt; 0.000 0.000 0.001</code></pre>
+<p>而本身<code>rnorm</code>执行的时间为：</p>
+<pre class="r"><code>system.time(rnorm(10000000))
+#&gt;  用户  系统  流逝 
+#&gt; 0.664 0.023 0.687</code></pre>
+<p>用我的计算机需要超过1秒的时间生成1千万个随机数，而运行<code>test0()</code>函数的消耗几乎为0。由此可见，在需要时再计算可以减少不必要的浪费。也许你会说，1秒算什么，但如果你的程序中循环迭代使用几千上万次这样的运算呢？那可是小时乃至天了。</p>
+<p>但惰性求值也是把双刃剑，<strong>在调用函数时，其参数只被解析而不被计算（使用时才计算），所有我们只能确定参数表达式在语法上是正确的，但很难确定它的有效性。</strong></p>
+<p>如果我们把函数</p>
+<pre><code>test2 = function(x, n=floor(length(x) / 2)){
+    x[1:n]
+}</code></pre>
+<p>写成了：</p>
+<pre class="r"><code>test3 = function(x, n=floor(length(m) / 2)){
+    x[1:n]
+}</code></pre>
+<p>因为创建函数时并不计算，所以创建<code>test3</code>时并不会报错，只有实际调用时才会报错：</p>
+<pre class="r"><code>test3(1:10)
+#&gt; Error in test3(1:10): 找不到对象&#39;m&#39;</code></pre>
+<p>有趣的是，利用惰性求值我们可以创建一些有意思的函数用法，比如下面函数控制输入参数只接受<code>y</code>或<code>n</code>，否则报错：</p>
+<pre class="r"><code>check_input = function(x){
+    switch (x,
+        y = message(&quot;yes&quot;),
+        n = message(&quot;no&quot;),
+        stop(&quot;Invalid input...&quot;)
+    )
+}</code></pre>
+<p>使用看看：</p>
+<pre class="r"><code>check_input(&quot;y&quot;)
+#&gt; yes
+check_input(&quot;n&quot;)
+#&gt; no
+check_input(&quot;what&quot;)
+#&gt; Error in check_input(&quot;what&quot;): Invalid input...</code></pre>
+</div>
+<div id="复制-修改机制" class="section level2">
+<h2>复制-修改机制</h2>
+<p>这里介绍R的一个重要特性，以便于更安全地使用数据。</p>
+<p>先创建一个数值向量<code>x1</code>，并赋值给<code>x2</code>：</p>
+<pre class="r"><code>x1 = c(1, 2, 3)
+x2 = x1</code></pre>
+<p>现在<code>x1</code>与<code>x2</code>值完全相同，如果我们修改其中一个，另一个也会跟着改变吗？</p>
+<pre class="r"><code>x1[1] = 0
+x1
+#&gt; [1] 0 2 3
+x2
+#&gt; [1] 1 2 3</code></pre>
+<p>结果显示<code>x1</code>的改变不会影响<code>x2</code>，我们可能以为<strong>赋值操作会自动复制值，然后使新变量指向数据的副本，而不是原始数据</strong>，那么实际如何我们用<code>tracemem()</code>函数来追踪一下。</p>
+<p>先重置<code>x1</code>与<code>x2</code>，再追踪：</p>
+<pre class="r"><code>x1 = c(1, 2, 3)
+x2 = x1
+tracemem(x1)
+#&gt; [1] &quot;&lt;0x7fa82a26df28&gt;&quot;
+tracemem(x2)
+#&gt; [1] &quot;&lt;0x7fa82a26df28&gt;&quot;</code></pre>
+<p><strong>可以发现两个向量值相同，并共享内存地址</strong>，说明它们指向相同的数据，而赋值操作并没有自动复制数据！那么数据是什么时候被复制了呢？</p>
+<pre class="r"><code>x1[1] = 0
+#&gt; tracemem[0x7fa82a26df28 -&gt; 0x7fa829c3fac8]: eval eval withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; eval eval eval eval eval.parent local</code></pre>
+<p>内存追踪到<code>x1</code>的地址发生了改变。</p>
+<p><strong>如果多个变量指向同一对象，那么修改一个变量会生成该对象的一个副本，这就是复制——修改机制</strong>。</p>
+<p>另外，修改函数的参数和对象属性也会生成一个新的副本以确保外部的对象不受影响。</p>
+<div id="修改函数外部的对象" class="section level3">
+<h3>修改函数外部的对象</h3>
+<p>如果我们在运行函数时想要修改外部对象的值怎么办？运算符<code>&lt;&lt;-</code>可以执行这一操作：</p>
+<pre class="r"><code>x = 0
+modify_x = function(value) {
+    x &lt;&lt;- value
+}</code></pre>
+<p>调用函数会更改<code>x</code>：</p>
+<pre class="r"><code>modify_x(3)</code></pre>
+<pre class="r"><code>x
+#&gt; [1] 3</code></pre>
+<p>运算符<code>&lt;&lt;-</code>的一个用法是“拉平”一个嵌套列表。假设我们有如下列表：</p>
+<pre class="r"><code>nested_list = list(
+    a = c(1, 2, 3),
+    b = list(
+        x = c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;),
+        y = list(
+            z = c(TRUE, FALSE),
+            w = c(2, 3, 4)
+        )
+    )
+)
+str(nested_list)
+#&gt; List of 2
+#&gt;  $ a: num [1:3] 1 2 3
+#&gt;  $ b:List of 2
+#&gt;   ..$ x: chr [1:3] &quot;a&quot; &quot;b&quot; &quot;c&quot;
+#&gt;   ..$ y:List of 2
+#&gt;   .. ..$ z: logi [1:2] TRUE FALSE
+#&gt;   .. ..$ w: num [1:3] 2 3 4</code></pre>
+<p>我们现在想要拉平该列表——即将所有的嵌套部分放在最外层。以下代码使用<code>rapply()</code>于<code>&lt;&lt;-</code>实现这一过程。<code>rapply()</code>是<code>lapply()</code>的递归版本，每一次迭代都将函数作用到列表特定的原子向量上。</p>
+<p>先创建一个用于存放嵌套向量的空列表和一个计数器：</p>
+<pre class="r"><code>flat_list = list()
+i = 1</code></pre>
+<p>然后利用<code>rapply()</code>将一个函数递归应用到<code>nested_list()</code>列表上，每一次迭代，函数通过<code>x</code>获得一个该列表的原子向量，然后将<code>flat_list</code>的第<code>i</code>个元素设为<code>x</code>，并将<code>i</code>加1。</p>
+<pre class="r"><code>res = rapply(nested_list, function(x) {
+    flat_list[[i]] &lt;&lt;- x
+    i &lt;&lt;- i + 1
+})
+res
+#&gt;     a   b.x b.y.z b.y.w 
+#&gt;     2     3     4     5</code></pre>
+<p>我们再将<code>res</code>中的元素名赋给<code>flat_list</code>，以标明每个元素的原始层级。</p>
+<pre class="r"><code>names(flat_list) = names(res)
+str(flat_list)
+#&gt; List of 4
+#&gt;  $ a    : num [1:3] 1 2 3
+#&gt;  $ b.x  : chr [1:3] &quot;a&quot; &quot;b&quot; &quot;c&quot;
+#&gt;  $ b.y.z: logi [1:2] TRUE FALSE
+#&gt;  $ b.y.w: num [1:3] 2 3 4</code></pre>
+<p>至此，实现完成。</p>
+</div>
+</div>
+<div id="词法作用域" class="section level2">
+<h2>词法作用域</h2>
+<p>一般也常称为变量作用域，这常体现在函数的使用中。函数有内部与外部之分，在函数的内部，我们能够使用外部变量和函数，但外部不能使用内部变量和函数（除非使用<code>&lt;&lt;-</code>创建全局变量）。</p>
+<p>例如：</p>
+<pre class="r"><code>start1 = 1
+end1 = 10
+fun1 = function(x){
+    c(start1, x, end1)
+}
+fun1(c(4,5,6))
+#&gt; [1]  1  4  5  6 10</code></pre>
+<p>可以看到函数<code>fun1</code>只有一个参数，但它却可以使用函数外部定义的变量。</p>
+<p>在本文最前面讲述了“惰性求值”，此处函数虽然只设定了<code>x</code>参数，但在函数的使用时它发现<code>start</code>与<code>end</code>参数不在函数内部，所以它会尝试往上一级寻找（直到最高一级，即这里函数的外部），如果寻找不到，则报错。</p>
+<p>使用函数内部参数：</p>
+<pre class="r"><code>fun2 = function(x, start1=2, end1=3){
+    c(start1, x, end1)
+}
+fun2(c(4,5,6))
+#&gt; [1] 2 4 5 6 3</code></pre>
+<p>如果参数不存在：</p>
+<pre class="r"><code>rm(start1, end1)
+fun1 = function(x){
+    c(start1, x, end1)
+}
+fun1(c(4,5,6))
+#&gt; Error in fun1(c(4, 5, 6)): 找不到对象&#39;start1&#39;</code></pre>
+</div>
+<div id="环境的工作方式" class="section level2">
+<h2>环境的工作方式</h2>
+<p>我们前面学习的惰性求值、复制-修改机制和词法作用域与一种对象高度相关，那就是<strong>环境</strong>。</p>
+<div id="环境对象" class="section level3">
+<h3>环境对象</h3>
+<p><strong>环境是一组名称组成的对象，每个环境（除了空环境）都有一个父环境</strong>。每个名称（称符号或变量）都指向一个对象，当我们查找一个符号时，<strong>如果它在当前环境中，R就会在当前环境中搜索并返回该符号指向的对象。如果这个符号在当前环境中没有找到，R就会到它的父环境中搜索（直到找遍所有环境）</strong>。</p>
+</div>
+<div id="创建并链接环境" class="section level3">
+<h3>创建并链接环境</h3>
+<p>我们使用<code>new.env()</code>函数创建一个新环境：</p>
+<pre class="r"><code>e1 = new.env()</code></pre>
+<p><strong>环境通常用十六进制数表示，即内存地址</strong>：</p>
+<pre class="r"><code>e1
+#&gt; &lt;environment: 0x7fa82c1c3fe8&gt;</code></pre>
+<p>我们可以使用提取操作符<code>$</code>和<code>[[</code>在环境中创建变量，代码看起来像是操作一个列表：</p>
+<pre class="r"><code>e1$x = 1
+e1[[&quot;x&quot;]]
+#&gt; [1] 1</code></pre>
+<p>注意，环境和列表有三大主要区别：</p>
+<ul>
+<li>环境没有索引</li>
+<li>环境有父环境</li>
+<li>环境具有引用语义</li>
+</ul>
+<p>我们会给出详细解释。</p>
+<div id="访问环境" class="section level4">
+<h4>访问环境</h4>
+<p>函数没有索引——所以不能提取和构建子集：</p>
+<pre class="r"><code>e1[1:3] #索引
+#&gt; Error in e1[1:3]: 类别为&#39;environment&#39;的对象不可以取子集
+e1[[1]] #构建子集
+#&gt; Error in e1[[1]]: 取子集环境时的参数不对</code></pre>
+<p><strong>正确方式</strong>是先用<code>exists()</code>检查环境是否存在某个变量，然后使用<code>get()</code>获取它的值：</p>
+<pre class="r"><code>exists(&quot;x&quot;, e1)
+#&gt; [1] TRUE
+get(&quot;x&quot;, e1)
+#&gt; [1] 1</code></pre>
+<p>可以调用<code>ls()</code>列出环境中的所有变量：</p>
+<pre class="r"><code>ls(e1)
+#&gt; [1] &quot;x&quot;</code></pre>
+<p>可以使用<code>$</code>与<code>[[</code>访问环境中存在的变量，如果变量不存在，会返回<code>NULL</code>。</p>
+<pre class="r"><code>e1$x
+#&gt; [1] 1
+e1[[&quot;x&quot;]]
+#&gt; [1] 1
+e1$y
+#&gt; NULL
+e1[[&quot;y&quot;]]
+#&gt; NULL</code></pre>
+</div>
+</div>
+<div id="链接环境" class="section level3">
+<h3>链接环境</h3>
+<p><strong>环境有父环境，如果一个符号（变量）不存在环境中，R会到它的父环境中寻找</strong>。</p>
+<p>我们再创建一个新的环境<code>e2</code>，令<code>e1</code>为<code>e2</code>的父环境：</p>
+<pre class="r"><code>e2 = new.env(parent = e1)</code></pre>
+<p>不同的环境有不同的内存地址，这里我们将<code>e1</code>设定为<code>e2</code>的父环境，那么<code>e2</code>的父环境的内存地址应该和<code>e1</code>一致。</p>
+<p>下面进行验证：</p>
+<pre class="r"><code>e2
+#&gt; &lt;environment: 0x7fa82a833380&gt;
+e1
+#&gt; &lt;environment: 0x7fa82c1c3fe8&gt;
+parent.env(e2)
+#&gt; &lt;environment: 0x7fa82c1c3fe8&gt;</code></pre>
+<p>在<code>e2</code>中创建变量<code>y</code></p>
+<pre class="r"><code>e2$y = 2
+ls(e2)
+#&gt; [1] &quot;y&quot;</code></pre>
+<p>这里我们没有在<code>e2</code>中定义变量<code>x</code>，所以：</p>
+<pre class="r"><code>e2$x
+#&gt; NULL
+e2[[&quot;x&quot;]]
+#&gt; NULL</code></pre>
+<p>操作返回<code>NULL</code>。</p>
+<p>当使用<code>exists()</code>与<code>get()</code>时，父环境派上用场，由于<code>e2</code>找不到<code>x</code>，函数在父环境<code>e1</code>中寻找：</p>
+<pre class="r"><code>exists(&quot;x&quot;, e2)
+#&gt; [1] TRUE
+get(&quot;x&quot;, e2)
+#&gt; [1] 1</code></pre>
+<p>如果不想让函数搜索父环境，可以设定<code>inherits = FALSE</code>。</p>
+<pre class="r"><code>exists(&quot;x&quot;, e2, inherits = FALSE)
+#&gt; [1] FALSE</code></pre>
+<p>使用<code>get</code>会报错：</p>
+<pre class="r"><code>get(&quot;x&quot;, e2, inherits = FALSE)
+#&gt; Error in get(&quot;x&quot;, e2, inherits = FALSE): 找不到对象&#39;x&#39;</code></pre>
+<p>环境可以有很多层，形成链一样的存在。在R的背后，环境至关重要，它标明了数据、函数、符号的存储空间，它们相互独立又相互联系。</p>
+<div id="在引用语义下使用环境" class="section level4">
+<h4>在引用语义下使用环境</h4>
+<p>引用语义这里是指——<strong>修改环境时不会复制该环境，无论它有多个名称还是作为参数传递给函数</strong>。</p>
+<p>创建变量<code>e3</code>：</p>
+<pre class="r"><code>ls(e1)
+#&gt; [1] &quot;x&quot;
+e3 = e1</code></pre>
+<p>当我们通过任意一个变量修改环境时，不会创建环境副本。我们这里通过<code>e1</code>和<code>e3</code>观察变化，因为它们指向完全相同的环境。</p>
+<pre class="r"><code>e3$y
+#&gt; NULL
+e1$y = 2
+e3$y
+#&gt; [1] 2</code></pre>
+<p>将环境作为参数传递函数也会发生同样情况：</p>
+<pre class="r"><code>modify = function(e){
+    e$z = 10
+}</code></pre>
+<p>如果参数传入的时列表，函数会创建并修改一个局部副本，但该副本在函数调用结束时便丢失：</p>
+<pre class="r"><code>list1 = list(x = 1, y = 2)
+list1$z
+#&gt; NULL
+modify(list1)
+list1$z
+#&gt; NULL</code></pre>
+<p>但如果将环境传入参数，修改环境不会产生局部副本，而是在环境中直接创建新变量<code>z</code>：</p>
+<pre class="r"><code>e1$z
+#&gt; NULL
+modify(e1)
+e1$z
+#&gt; [1] 10</code></pre>
+</div>
+<div id="内置环境" class="section level4">
+<h4>内置环境</h4>
+<p>环境是R一种特殊类型的对象，前面学习的从函数的调用到词法作用域机制，都是基于环境实现的。<strong>实际上，一段R代码运行就是在一个环境中进行的</strong>。</p>
+<p>要想知道我们是在哪个环境中运行代码，可以调用<code>environment()</code>函数：</p>
+<pre class="r"><code>environment()
+#&gt; &lt;environment: R_GlobalEnv&gt;</code></pre>
+<p>结果显示当前是全局环境。<strong>事实上，每一次开启R线程会话，其工作环境都是全局环境</strong>。我们一般是在这个环境中创建变量和函数进行分析。</p>
+<p>因为环境也是对象，所以我们可以将环赋值给变量，并用它创建新的符号：</p>
+<pre class="r"><code>global = environment()
+global$some_obj = 1</code></pre>
+<p>上面代码完全等价于<code>some_obj = 1</code>。</p>
+<p>另有其他方法访问全局环境——<code>globalenv()</code>和<code>.GlobalEnv</code>：</p>
+<pre class="r"><code>globalenv()
+#&gt; &lt;environment: R_GlobalEnv&gt;
+.GlobalEnv
+#&gt; &lt;environment: R_GlobalEnv&gt;</code></pre>
+<p>全局环境提供用户的工作空间，而基础环境<code>baseenv()</code>则提供基础函数和运算符：</p>
+<pre class="r"><code>baseenv()
+#&gt; &lt;environment: base&gt;</code></pre>
+<p><strong>全局环境和基础环境是最重要的内置环境</strong>，你可以会对它们所处的环境链感兴趣，我们用以下函数进行寻找：</p>
+<pre class="r"><code>parents = function(env) {
+    while (TRUE) {
+        name = environmentName(env)
+        txt = if (nzchar(name)) name else format(env)
+        cat(txt, &quot;\n&quot;)
+        env = parent.env(env)
+    }
+}</code></pre>
+<p>全局环境链：</p>
+<pre class="r"><code>parents(globalenv())
+#&gt; R_GlobalEnv 
+#&gt; package:stats 
+#&gt; package:graphics 
+#&gt; package:grDevices 
+#&gt; package:utils 
+#&gt; package:datasets 
+#&gt; package:pacman 
+#&gt; package:methods 
+#&gt; Autoloads 
+#&gt; base 
+#&gt; R_EmptyEnv
+#&gt; Error in parent.env(env): 空环境没有父母环境</code></pre>
+<p>因为环境链终止于空环境，所以最后报错了。我们可以使用<code>emptyenv()</code>查看空环境。</p>
+<pre class="r"><code>parents(baseenv())
+#&gt; base 
+#&gt; R_EmptyEnv
+#&gt; Error in parent.env(env): 空环境没有父母环境</code></pre>
+<p><strong>环境链是内置环境和扩展包环境的组合</strong>，使用<code>search()</code>函数可以从全局环境视角获取变量的搜索路径：</p>
+<pre class="r"><code>search()
+#&gt;  [1] &quot;.GlobalEnv&quot;        &quot;package:stats&quot;     &quot;package:graphics&quot; 
+#&gt;  [4] &quot;package:grDevices&quot; &quot;package:utils&quot;     &quot;package:datasets&quot; 
+#&gt;  [7] &quot;package:pacman&quot;    &quot;package:methods&quot;   &quot;Autoloads&quot;        
+#&gt; [10] &quot;package:base&quot;</code></pre>
+<p>我们举例子进行说明：</p>
+<pre class="r"><code>median(c(1, 2, 1+3))
+#&gt; [1] 2</code></pre>
+<p>虽然这个计算表达式非常简单，但实际的运行过程却要复杂得多——首先，R在环境链中寻找<code>median()</code>函数，该函数处于<code>stats</code>包环境中，然后再基础环境中找到了<code>c()</code>函数，另外<code>+</code>也是一个函数，它也在基础包环境中。</p>
+<p><strong>事实上，当我们加载一个扩展包，这个包得环境都会插入搜索路径，并位于全局环境之前</strong>。如果需要调用两个包得同名函数，则会优先选取后加载得包中定义得函数，即后添加的包函数会屏蔽掉之前加载包的同名函数，因为后加载的包环境更接近全局环境。</p>
+</div>
+</div>
+<div id="与函数相关的环境" class="section level3">
+<h3>与函数相关的环境</h3>
+<p>函数环境也会控制符号的查找，有3个与函数及其运行过程相关的重要环境：执行环境、封闭环境以及调用环境。</p>
+<p><strong>每次调用函数时，R会创建一个新的环境来主管函数的执行过程，这就是函数调用的执行环境，函数的参数和在函数中创建的变量实际上是执行环境中的变量</strong>。</p>
+<p>函数的执行环境也有父环境，称为<strong>封闭环境</strong>，即定义函数的环境。这意思是在函数执行时，任何未在执行环境中定义的变量都会到封闭环境中寻找，这正是<strong>词法作用域</strong>的机理。</p>
+<p>有时，了解<strong>调用环境</strong>（调用函数的环境）是很有用的，可以使用<code>parent.frame()</code>来获取当前执行函数的调用环境。</p>
+<p>我们现在用实例进行理解：</p>
+<pre class="r"><code>simple_fun = function() {
+    cat(&quot;Executing environment: &quot;)
+    print(environment())
+    
+    cat(&quot;Enclosing environment: &quot; )
+    print(parent.env(environment()))
+}</code></pre>
+<p>上面这个函数用来输出函该数被调用的执行环境和封闭环境：</p>
+<pre class="r"><code>simple_fun()
+#&gt; Executing environment: &lt;environment: 0x7fa82a864960&gt;
+#&gt; Enclosing environment: &lt;environment: R_GlobalEnv&gt;
+simple_fun()
+#&gt; Executing environment: &lt;environment: 0x7fa82a029540&gt;
+#&gt; Enclosing environment: &lt;environment: R_GlobalEnv&gt;
+simple_fun()
+#&gt; Executing environment: &lt;environment: 0x7fa82a310e30&gt;
+#&gt; Enclosing environment: &lt;environment: R_GlobalEnv&gt;</code></pre>
+<p>每次调用函数时，其执行环境都在变化，但封闭环境是相同的。事实上定义函数时封闭函数已经确认了，我们使用<code>environment()</code>进行查看：</p>
+<pre class="r"><code>environment(simple_fun)
+#&gt; &lt;environment: R_GlobalEnv&gt;</code></pre>
+<p>下面的例子涉及3个嵌套函数的3个环境输出：</p>
+<pre class="r"><code>f1 = function() {
+    cat(&quot;[f1] Executing in &quot;)
+    print(environment())
+    cat(&quot;[f1] Enclosed by &quot;)
+    print(parent.env(environment()))
+    cat(&quot;[f1] Calling from &quot;)
+    print(parent.frame())
+    
+    f2 = function() {
+        cat(&quot;[f2] Executing in &quot;)
+        print(environment())
+        cat(&quot;[f2] Enclosed by &quot;)
+        print(parent.env(environment()))
+        cat(&quot;[f2] Calling from &quot;)
+        print(parent.frame())
+    }
+    
+    f3 = function() {
+    cat(&quot;[f3] Executing in &quot;)
+    print(environment())
+    cat(&quot;[f3] Enclosed by &quot;)
+    print(parent.env(environment()))
+    cat(&quot;[f3] Calling from &quot;)
+    print(parent.frame())
+            
+    f2()}
+    
+    f3()
+}</code></pre>
+<p>如果你觉得理解了上述3个环境，可以尝试猜一下<code>f1()</code>的输出结果。</p>
+<p>答案如下：</p>
+<pre class="r"><code>f1()
+#&gt; [f1] Executing in &lt;environment: 0x7fa829e995d0&gt;
+#&gt; [f1] Enclosed by &lt;environment: R_GlobalEnv&gt;
+#&gt; [f1] Calling from &lt;environment: R_GlobalEnv&gt;
+#&gt; [f3] Executing in &lt;environment: 0x7fa82a7a6b20&gt;
+#&gt; [f3] Enclosed by &lt;environment: 0x7fa829e995d0&gt;
+#&gt; [f3] Calling from &lt;environment: 0x7fa829e995d0&gt;
+#&gt; [f2] Executing in &lt;environment: 0x7fa82a7a9bd0&gt;
+#&gt; [f2] Enclosed by &lt;environment: 0x7fa829e995d0&gt;
+#&gt; [f2] Calling from &lt;environment: 0x7fa82a7a6b20&gt;</code></pre>
+<p>这些输出结果说明了：</p>
+<ul>
+<li><code>f1()</code>的封闭环境和调用环境都是全局环境</li>
+<li><code>f3()</code>的封闭环境和调用环境<code>f2()</code>的封闭环境和<code>f1()</code>的执行环境相同</li>
+<li><code>f2()</code>的调用环境和<code>f3()</code>的执行环境相同</li>
+</ul>
+<p>简单来说，即</p>
+<ul>
+<li><code>f1()</code>在全局环境中被定义和调用</li>
+<li><code>f3()</code>在<code>f1()</code>中被定义并调用</li>
+<li><code>f2()</code>在<code>f1()</code>中被定义，但在<code>f3()</code>中被调用</li>
+</ul>
+<p>如果想深入学习，推荐<code>Hadley Wickham</code>的《Advance R》一书。</p>
+<hr />
+<p>学习和整理自《R语言编程指南》</p>
+</div>
+</div>
