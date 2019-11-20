@@ -416,6 +416,15 @@ Datasets have associated metadata, specifying their data type and cohort.</descr
     </item>
     
     <item>
+      <title>使用lattice进行高级绘图</title>
+      <link>/cn/post/2019-11-20-intro-to-lattice/</link>
+      <pubDate>Thu, 07 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-11-20-intro-to-lattice/</guid>
+      <description>使用lattice进行高级绘图是我之前在学习《R实战》这本书少有涉及的章节之一，在R里面，主要有两大底层图形系统，一是base，二是grid</description>
+    </item>
+    
+    <item>
       <title>基于ggpubr包为ggplot添加p值和显著性标记</title>
       <link>/cn/post/ggpubr-add-pvalue-and-siglevels/</link>
       <pubDate>Sat, 19 May 2018 00:00:00 +0000</pubDate>
