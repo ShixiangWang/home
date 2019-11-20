@@ -1,0 +1,80 @@
+---
+title: "识别R对象的类和类型"
+author: "王诗翔"
+date: "2018-05-09"
+lastmod: "`r Sys.Date()`"
+slug: ""
+categories: r
+tags:
+- r
+- type
+- object
+- class
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, dev = "png", comment = "#>")
+#Sys.setenv("LANGUAGE"="EN") # Embed this for outputing English message
+#Sys.setlocale('LC_ALL','C') # Embed this directly in the Rmarkdown script that contains the Chinese character comment
+options(digits=3)
+options(max.print=200)
+```
+
+除了使用`is.*()`函数，我们也可以使用`class()`或`typeof()`函数来实现类型的识别。
+
+接下来用例子展示`class()`和`typeof()`作用在不同类型的对象上，它们输出信息的不同之处，我们用`str()`展示对象的结构。
+
+对于数值向量：
+
+```{r}
+x <- c(1, 2, 3)
+class(x)
+typeof(x)
+str(x)
+```
+
+对于整数向量：
+
+```{r}
+x <- 1:3
+class(x)
+typeof(x)
+str(x)
+```
+
+
+对于字符向量：
+
+```{r}
+x <- c("a", "b", "c")
+class(x)
+typeof(x)
+str(x)
+```
+
+对于列表：
+
+```{r}
+x <- list(a = c(1, 2), b = c(TRUE, FALSE))
+class(x)
+typeof(x)
+str(x)
+```
+
+对于数据框：
+
+```{r}
+x <- data.frame(a = c(1, 2), b = c(TRUE, FALSE))
+class(x)
+typeof(x)
+str(x)
+```
+
+**可以看到，`typeof()`返回对象的低级内部类型，`class()`返回对象的高级类。`data.frame`本质上就是具有等长成分的list**。
+
+
+***
+
+在进行向量化计算是不少函数都非常有用，比如`&`、`|`、`ifelse()`等。
+
+在取最大最小值方面，对应于普通的`max()`与`min()`函数，我们可以使用`pmax()`和`pmin()`求取平行最大、最小值。

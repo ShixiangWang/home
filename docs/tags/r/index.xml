@@ -353,6 +353,15 @@ Datasets have associated metadata, specifying their data type and cohort.</descr
     </item>
     
     <item>
+      <title>识别R对象的类和类型</title>
+      <link>/cn/post/2019-11-20-r-class-and-type/</link>
+      <pubDate>Wed, 09 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-11-20-r-class-and-type/</guid>
+      <description>除了使用is.*()函数，我们也可以使用class()或typeof()函数来实现类型的识别。 接下来用例子展示class()和typeof(</description>
+    </item>
+    
+    <item>
       <title>修改全局选项</title>
       <link>/cn/post/2019-11-20-r-global-options/</link>
       <pubDate>Mon, 07 May 2018 00:00:00 +0000</pubDate>

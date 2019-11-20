@@ -1,0 +1,66 @@
+---
+title: "识别R对象的类和类型"
+author: "王诗翔"
+date: "2018-05-09"
+lastmod: "2019-11-20"
+slug: ""
+categories: r
+tags:
+- r
+- type
+- object
+- class
+---
+
+
+
+<p>除了使用<code>is.*()</code>函数，我们也可以使用<code>class()</code>或<code>typeof()</code>函数来实现类型的识别。</p>
+<p>接下来用例子展示<code>class()</code>和<code>typeof()</code>作用在不同类型的对象上，它们输出信息的不同之处，我们用<code>str()</code>展示对象的结构。</p>
+<p>对于数值向量：</p>
+<pre class="r"><code>x &lt;- c(1, 2, 3)
+class(x)
+#&gt; [1] &quot;numeric&quot;
+typeof(x)
+#&gt; [1] &quot;double&quot;
+str(x)
+#&gt;  num [1:3] 1 2 3</code></pre>
+<p>对于整数向量：</p>
+<pre class="r"><code>x &lt;- 1:3
+class(x)
+#&gt; [1] &quot;integer&quot;
+typeof(x)
+#&gt; [1] &quot;integer&quot;
+str(x)
+#&gt;  int [1:3] 1 2 3</code></pre>
+<p>对于字符向量：</p>
+<pre class="r"><code>x &lt;- c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;)
+class(x)
+#&gt; [1] &quot;character&quot;
+typeof(x)
+#&gt; [1] &quot;character&quot;
+str(x)
+#&gt;  chr [1:3] &quot;a&quot; &quot;b&quot; &quot;c&quot;</code></pre>
+<p>对于列表：</p>
+<pre class="r"><code>x &lt;- list(a = c(1, 2), b = c(TRUE, FALSE))
+class(x)
+#&gt; [1] &quot;list&quot;
+typeof(x)
+#&gt; [1] &quot;list&quot;
+str(x)
+#&gt; List of 2
+#&gt;  $ a: num [1:2] 1 2
+#&gt;  $ b: logi [1:2] TRUE FALSE</code></pre>
+<p>对于数据框：</p>
+<pre class="r"><code>x &lt;- data.frame(a = c(1, 2), b = c(TRUE, FALSE))
+class(x)
+#&gt; [1] &quot;data.frame&quot;
+typeof(x)
+#&gt; [1] &quot;list&quot;
+str(x)
+#&gt; &#39;data.frame&#39;:    2 obs. of  2 variables:
+#&gt;  $ a: num  1 2
+#&gt;  $ b: logi  TRUE FALSE</code></pre>
+<p><strong>可以看到，<code>typeof()</code>返回对象的低级内部类型，<code>class()</code>返回对象的高级类。<code>data.frame</code>本质上就是具有等长成分的list</strong>。</p>
+<hr />
+<p>在进行向量化计算是不少函数都非常有用，比如<code>&amp;</code>、<code>|</code>、<code>ifelse()</code>等。</p>
+<p>在取最大最小值方面，对应于普通的<code>max()</code>与<code>min()</code>函数，我们可以使用<code>pmax()</code>和<code>pmin()</code>求取平行最大、最小值。</p>
