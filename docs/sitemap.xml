@@ -57,7 +57,7 @@
   
   <url>
     <loc>/categories/life/</loc>
-    <lastmod>2019-10-18T00:00:00+00:00</lastmod>
+    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -798,6 +798,17 @@
   <url>
     <loc>/cn/post/2019-11-06-eda-with-tidyverse/</loc>
     <lastmod>2019-11-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/poem/</loc>
+    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/cn/post/2019-11-20-our-city-here/</loc>
+    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
   </url>
   
   <url>

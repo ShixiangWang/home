@@ -1,0 +1,62 @@
+---
+title: "「诗」我们这座城市"
+author: "王诗翔"
+date: "2018-04-23"
+lastmod: "`r Sys.Date()`"
+slug: ""
+categories: life
+tags:
+- poem
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, dev = "png", comment = "#>")
+#Sys.setenv("LANGUAGE"="EN") # Embed this for outputing English message
+#Sys.setlocale('LC_ALL','C') # Embed this directly in the Rmarkdown script that contains the Chinese character comment
+options(digits=3)
+options(max.print=200)
+```
+
+<center>
+阳光混合氧气充斥这座城市
+
+像世界上的其他一万座城市。
+
+看的见的光与看不见的虚无和着
+
+输送给这座城市人口养料。
+
+百万，千万
+
+寥寥字眼里埋葬人口下的生活：
+
+我们精心得像蚂蚁构造这座城市，
+
+也忙碌得像蚂蚁存在着却好像只是路过。
+
+<br>
+
+我们像单纯地渴望活着一样
+
+渴望着黑暗甬道的下一个出口——
+
+可是，我们依然按照路牌的指引
+
+不自主地拥抱人流，涌入车厢
+
+毫无畏惧地驶向又一个
+
+又下一个黑暗的地方。
+
+前进啊，
+
+像与车轨一路摩擦前行的列车，
+
+我们与这座城市碰撞相融，
+
+直到分不清它是青春
+
+还是它就是我们。
+
+
+</center>
