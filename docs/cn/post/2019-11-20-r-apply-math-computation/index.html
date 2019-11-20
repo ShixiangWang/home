@@ -12,10 +12,10 @@
     
     
     
-    <title>识别R对象的类和类型 - 王诗翔</title>
+    <title>R应用数值计算 - 王诗翔</title>
     
      
-    <meta property="og:title" content="识别R对象的类和类型 - Shixiang Wang | 王诗翔">
+    <meta property="og:title" content="R应用数值计算 - Shixiang Wang | 王诗翔">
     
 
     
@@ -95,7 +95,7 @@
 
 
 
-<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2019-11-20-r-class-and-type.Rmd" target="_blank">编辑</a></li>
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2019-11-20-r-apply-math-computation.Rmd" target="_blank">编辑</a></li>
 
 
 <li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
@@ -111,7 +111,7 @@
       <header class="title">
         
 
-<h1>识别R对象的类和类型</h1>
+<h1>R应用数值计算</h1>
 
 
 
@@ -129,63 +129,85 @@
 
 
 
-<p>除了使用<code>is.*()</code>函数，我们也可以使用<code>class()</code>或<code>typeof()</code>函数来实现类型的识别。</p>
-<p>接下来用例子展示<code>class()</code>和<code>typeof()</code>作用在不同类型的对象上，它们输出信息的不同之处，我们用<code>str()</code>展示对象的结构。</p>
-<p>对于数值向量：</p>
-<pre class="r"><code>x &lt;- c(1, 2, 3)
-class(x)
-#&gt; [1] &quot;numeric&quot;
-typeof(x)
-#&gt; [1] &quot;double&quot;
-str(x)
-#&gt;  num [1:3] 1 2 3</code></pre>
-<p>对于整数向量：</p>
-<pre class="r"><code>x &lt;- 1:3
-class(x)
-#&gt; [1] &quot;integer&quot;
-typeof(x)
-#&gt; [1] &quot;integer&quot;
-str(x)
-#&gt;  int [1:3] 1 2 3</code></pre>
-<p>对于字符向量：</p>
-<pre class="r"><code>x &lt;- c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;)
-class(x)
-#&gt; [1] &quot;character&quot;
-typeof(x)
-#&gt; [1] &quot;character&quot;
-str(x)
-#&gt;  chr [1:3] &quot;a&quot; &quot;b&quot; &quot;c&quot;</code></pre>
-<p>对于列表：</p>
-<pre class="r"><code>x &lt;- list(a = c(1, 2), b = c(TRUE, FALSE))
-class(x)
-#&gt; [1] &quot;list&quot;
-typeof(x)
-#&gt; [1] &quot;list&quot;
-str(x)
-#&gt; List of 2
-#&gt;  $ a: num [1:2] 1 2
-#&gt;  $ b: logi [1:2] TRUE FALSE</code></pre>
-<p>对于数据框：</p>
-<pre class="r"><code>x &lt;- data.frame(a = c(1, 2), b = c(TRUE, FALSE))
-class(x)
-#&gt; [1] &quot;data.frame&quot;
-typeof(x)
-#&gt; [1] &quot;list&quot;
-str(x)
-#&gt; &#39;data.frame&#39;:    2 obs. of  2 variables:
-#&gt;  $ a: num  1 2
-#&gt;  $ b: logi  TRUE FALSE</code></pre>
-<p><strong>可以看到，<code>typeof()</code>返回对象的低级内部类型，<code>class()</code>返回对象的高级类。<code>data.frame</code>本质上就是具有等长成分的list</strong>。</p>
+<p>这里我们学习下有关数值计算的<strong>根查找</strong>与<strong>微积分</strong>的内置函数。</p>
+<div id="根查找" class="section level2">
+<h2>根查找</h2>
+<p>假设我们想要求解以下方程的根：</p>
+<p><span class="math display">\[ x^2 + x - 2 = 0 \]</span></p>
+<p>若是要手动求解，我们需要先将方程转换为乘积项：</p>
+<p><span class="math display">\[ (x+2)(x-1) = 0 \]</span></p>
+<p>因此，方程的根是<span class="math inline">\(x_1=-2\)</span>和<span class="math inline">\(x_2=1\)</span>。</p>
+<p>在R里面，<code>ployroot()</code>可以求解像<span class="math inline">\(p(x)=z_1+z_2x+...+z_nx^{n-1}\)</span>的多项式方程。</p>
+<p>我们需要按顺序依次输入零阶到最高阶的系数，这上面这个问题中，我们可以这么写：</p>
+<pre class="r"><code>polyroot(c(-2, 1, 1))
+#&gt; [1]  1-0i -2+0i</code></pre>
+<p>该函数总是会返回复数向量，我们可以使用<code>Re()</code>从复数根中提取实数部分：</p>
+<pre class="r"><code>Re(polyroot(c(-2, 1, 1)))
+#&gt; [1]  1 -2</code></pre>
+<p>至于方程<span class="math inline">\(f(x)=0\)</span>的一般数值求解方法，我们可以利用<code>uniroot()</code>实现，指定求解函数和查找区间。该函数返回一个列表，其中包含了近似根、近似根处的函数值、计算的迭代次数以及根的估计精度。</p>
+<pre class="r"><code>uniroot(function(x) x ^ 2 - exp(x), c(-2, 1))
+#&gt; $root
+#&gt; [1] -0.703
+#&gt; 
+#&gt; $f.root
+#&gt; [1] -1.74e-05
+#&gt; 
+#&gt; $iter
+#&gt; [1] 6
+#&gt; 
+#&gt; $init.it
+#&gt; [1] NA
+#&gt; 
+#&gt; $estim.prec
+#&gt; [1] 6.1e-05</code></pre>
+<p>需要注意，<strong>函数<code>uniroot()</code>一次只能查找一个根</strong>。</p>
+</div>
+<div id="微积分" class="section level2">
+<h2>微积分</h2>
+<div id="求导" class="section level3">
+<h3>求导</h3>
+<p><code>D()</code>可以用于计算一个函数给定变量的导数，并仍以表达式的形式返回。</p>
+<p>例如我们计算<span class="math inline">\(\frac{dx^2}{dx}\)</span>：</p>
+<pre class="r"><code>D(quote(x ^ 2), &quot;x&quot;)
+#&gt; 2 * x</code></pre>
+<p>求解<span class="math inline">\(\frac{dsin(x)cos(xy)}{dx}\)</span>：</p>
+<pre class="r"><code>D(quote(sin(x) * cos(x * y)), &quot;x&quot;)
+#&gt; cos(x) * cos(x * y) - sin(x) * (sin(x * y) * y)</code></pre>
+<p><strong>多亏了<code>quote()</code>函数，它能够使表达式保留输入形式，而不被执行</strong>。</p>
+<p>我们可以调用<code>eval()</code>函数执行并执行的表达式：</p>
+<pre class="r"><code>z &lt;- D(quote(sin(x) * cos(x * y)), &quot;x&quot;)
+z
+#&gt; cos(x) * cos(x * y) - sin(x) * (sin(x * y) * y)
+eval(z, list(x = 1, y = 2))
+#&gt; [1] -1.76</code></pre>
+</div>
+<div id="积分" class="section level3">
+<h3>积分</h3>
+<p>同样，我们来计算一个定积分问题——求解0~<span class="math inline">\(\pi/2\)</span>区间正弦曲线下的面积，使用内置函数<code>integrate()</code>可以轻松解决。</p>
+<p><span class="math display">\[ \int_{0}^{\pi/2}sin(x)dx\]</span></p>
+<pre class="r"><code>result &lt;- integrate(function(x) sin(x), 0, pi/2)
+result
+#&gt; 1 with absolute error &lt; 1.1e-14</code></pre>
+<p>看起来像一个数值解，但实际返回了一个列表：</p>
+<pre class="r"><code>str(result)
+#&gt; List of 5
+#&gt;  $ value       : num 1
+#&gt;  $ abs.error   : num 1.11e-14
+#&gt;  $ subdivisions: int 1
+#&gt;  $ message     : chr &quot;OK&quot;
+#&gt;  $ call        : language integrate(f = function(x) sin(x), lower = 0, upper = pi/2)
+#&gt;  - attr(*, &quot;class&quot;)= chr &quot;integrate&quot;</code></pre>
 <hr />
-<p>在进行向量化计算是不少函数都非常有用，比如<code>&amp;</code>、<code>|</code>、<code>ifelse()</code>等。</p>
-<p>在取最大最小值方面，对应于普通的<code>max()</code>与<code>min()</code>函数，我们可以使用<code>pmax()</code>和<code>pmin()</code>求取平行最大、最小值。</p>
+<p>来源： 《R语言编程指南》</p>
+</div>
+</div>
 
 
   <footer>
   
 <nav class="post-nav">
-  <span class="nav-prev">&larr; <a href="../../../cn/post/2019-11-20-r-global-options/">修改全局选项</a></span>
-  <span class="nav-next"><a href="../../../cn/post/2019-11-20-r-apply-math-computation/">R应用数值计算</a> &rarr;</span>
+  <span class="nav-prev">&larr; <a href="../../../cn/post/2019-11-20-r-class-and-type/">识别R对象的类和类型</a></span>
+  <span class="nav-next"><a href="../../../cn/post/ggpubr-add-pvalue-and-siglevels/">基于ggpubr包为ggplot添加p值和显著性标记</a> &rarr;</span>
 </nav>
 <script type="text/javascript">
 document.addEventListener('keyup', function(e) {
@@ -193,11 +215,11 @@ document.addEventListener('keyup', function(e) {
   var url = false;
   if (e.which == 37) {  
     
-    url = '\/cn\/post\/2019-11-20-r-global-options\/';
+    url = '\/cn\/post\/2019-11-20-r-class-and-type\/';
     
   } else if (e.which == 39) {  
     
-    url = '\/cn\/post\/2019-11-20-r-apply-math-computation\/';
+    url = '\/cn\/post\/ggpubr-add-pvalue-and-siglevels\/';
     
   }
   if (url) window.location = url;

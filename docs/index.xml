@@ -425,6 +425,15 @@ Datasets have associated metadata, specifying their data type and cohort.</descr
     </item>
     
     <item>
+      <title>R应用数值计算</title>
+      <link>/cn/post/2019-11-20-r-apply-math-computation/</link>
+      <pubDate>Wed, 09 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-11-20-r-apply-math-computation/</guid>
+      <description>这里我们学习下有关数值计算的根查找与微积分的内置函数。 根查找 假设我们想要求解以下方程的根： \[ x^2 + x - 2 = 0 \] 若是要手动求解，我们需要先将方程</description>
+    </item>
+    
+    <item>
       <title>识别R对象的类和类型</title>
       <link>/cn/post/2019-11-20-r-class-and-type/</link>
       <pubDate>Wed, 09 May 2018 00:00:00 +0000</pubDate>

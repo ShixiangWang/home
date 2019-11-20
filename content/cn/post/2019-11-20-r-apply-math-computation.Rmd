@@ -1,0 +1,105 @@
+---
+title: "R应用数值计算"
+author: "王诗翔"
+date: "2018-05-09"
+lastmod: "`r Sys.Date()`"
+slug: ""
+categories: r
+tags:
+- r
+- math
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, dev = "png", comment = "#>")
+#Sys.setenv("LANGUAGE"="EN") # Embed this for outputing English message
+#Sys.setlocale('LC_ALL','C') # Embed this directly in the Rmarkdown script that contains the Chinese character comment
+options(digits=3)
+options(max.print=200)
+```
+
+这里我们学习下有关数值计算的**根查找**与**微积分**的内置函数。
+
+## 根查找
+
+假设我们想要求解以下方程的根：
+
+$$ x^2 + x - 2 = 0 $$
+
+若是要手动求解，我们需要先将方程转换为乘积项：
+
+$$ (x+2)(x-1) = 0 $$
+
+因此，方程的根是$x_1=-2$和$x_2=1$。
+
+在R里面，`ployroot()`可以求解像$p(x)=z_1+z_2x+...+z_nx^{n-1}$的多项式方程。
+
+我们需要按顺序依次输入零阶到最高阶的系数，这上面这个问题中，我们可以这么写：
+
+```{r}
+polyroot(c(-2, 1, 1))
+```
+
+该函数总是会返回复数向量，我们可以使用`Re()`从复数根中提取实数部分：
+
+```{r}
+Re(polyroot(c(-2, 1, 1)))
+```
+
+至于方程$f(x)=0$的一般数值求解方法，我们可以利用`uniroot()`实现，指定求解函数和查找区间。该函数返回一个列表，其中包含了近似根、近似根处的函数值、计算的迭代次数以及根的估计精度。
+
+```{r}
+uniroot(function(x) x ^ 2 - exp(x), c(-2, 1))
+```
+
+需要注意，**函数`uniroot()`一次只能查找一个根**。
+
+## 微积分
+
+### 求导
+
+`D()`可以用于计算一个函数给定变量的导数，并仍以表达式的形式返回。
+
+例如我们计算$\frac{dx^2}{dx}$：
+
+```{r}
+D(quote(x ^ 2), "x")
+```
+
+求解$\frac{dsin(x)cos(xy)}{dx}$：
+
+```{r}
+D(quote(sin(x) * cos(x * y)), "x")
+```
+
+**多亏了`quote()`函数，它能够使表达式保留输入形式，而不被执行**。
+
+我们可以调用`eval()`函数执行并执行的表达式：
+
+```{r}
+z <- D(quote(sin(x) * cos(x * y)), "x")
+z
+eval(z, list(x = 1, y = 2))
+```
+
+### 积分
+
+同样，我们来计算一个定积分问题——求解0~$\pi/2$区间正弦曲线下的面积，使用内置函数`integrate()`可以轻松解决。
+
+$$ \int_{0}^{\pi/2}sin(x)dx$$
+
+```{r}
+result <- integrate(function(x) sin(x), 0, pi/2)
+result
+```
+
+
+看起来像一个数值解，但实际返回了一个列表：
+
+```{r}
+str(result)
+```
+
+***
+
+来源： 《R语言编程指南》
