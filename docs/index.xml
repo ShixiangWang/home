@@ -380,6 +380,15 @@ Datasets have associated metadata, specifying their data type and cohort.</descr
     </item>
     
     <item>
+      <title>倾向评分匹配算法——R实例学习</title>
+      <link>/cn/post/2019-11-20-propensity-score-match/</link>
+      <pubDate>Mon, 25 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-11-20-propensity-score-match/</guid>
+      <description>倾向评分算法用于校正模型中的混淆因子，这里我们先使用随机生成的数据学习该算法，然后实际分析一下去教会学校和公共学校上学学生的成绩差异。 本文主</description>
+    </item>
+    
+    <item>
       <title>do.call的使用</title>
       <link>/cn/post/usage-of-docall/</link>
       <pubDate>Thu, 07 Jun 2018 00:00:00 +0000</pubDate>

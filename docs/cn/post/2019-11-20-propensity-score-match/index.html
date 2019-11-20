@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    
+    <link rel="stylesheet" href="../../../fonts/academicons-1.8.6/css/academicons.min.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../logo/bodhi.png"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    
+    <title>倾向评分匹配算法——R实例学习 - 王诗翔</title>
+    
+     
+    <meta property="og:title" content="倾向评分匹配算法——R实例学习 - Shixiang Wang | 王诗翔">
+    
+
+    
+      
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="../../../css/style.css" />
+    <link rel="stylesheet" href="../../../css/mystyle.css" /> 
+    <link rel="stylesheet" href="../../../css/fonts.css" />
+    
+<script async src="../../../js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="../../../css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="../../../"><img src="https://avatars1.githubusercontent.com/u/25057508?s=460&amp;v=4" alt="Shixiang Wang" /></a></h1>
+
+
+
+      <nav class="menu">
+        <input id="menu-check" type="checkbox" />
+        <label id="menu-label" for="menu-check" class="unselectable">
+          <span class="icon close-icon">✕</span>
+          <span class="icon open-icon">☰</span>
+          <span class="text">Menu</span>
+        </label>
+        <ul>
+        
+        
+        <li><a href="../../../">首页</a></li>
+        
+        <li><a href="../../../cn/about/">关于</a></li>
+        
+        <li><a href="../../../cn/post/">博客</a></li>
+        
+        <li><a href="../../../cn/read/">读书</a></li>
+        
+        <li><a href="../../../cn/writing">写作</a></li>
+        
+        <li><a href="../../../cn/research/">研究</a></li>
+        
+        <li><a href="../../../cn/tools/">工具</a></li>
+        
+        <li><a href="../../../cn/cv-cn/shixiang">简历</a></li>
+        
+        <li><a href="../../../logo/qrcode.jpg">公众号</a></li>
+        
+        <li><a href="https://www.jianshu.com/u/b6608e27dc74">简书</a></li>
+        
+        <li><a href="../../../cn/todo">ToDo</a></li>
+        
+        <li><a href="../../../en/">English</a></li>
+        
+        
+
+<li class="menu-extra"></li>
+
+
+
+
+
+
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2019-11-20-propensity-score-match.Rmd" target="_blank">编辑</a></li>
+
+
+<li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+        </ul>
+      </nav>
+    </header>
+
+    <article class="main">
+      <header class="title">
+        
+
+<h1>倾向评分匹配算法——R实例学习</h1>
+
+
+
+<h3>王诗翔 &middot 
+2018-06-25</h3> 
+
+
+   
+  
+
+
+      </header>
+
+
+
+
+
+<p>倾向评分算法用于校正模型中的混淆因子，这里我们先使用随机生成的数据学习该算法，然后实际分析一下去教会学校和公共学校上学学生的成绩差异。</p>
+<blockquote>
+<p>本文主要内容来自文末两篇资料，有很多是英文，因为时间关系我就不翻译了，读读英文理解也是很好的锻炼。</p>
+</blockquote>
+<div id="学习" class="section level2">
+<h2>学习</h2>
+<blockquote>
+<p>According to Wikipedia, propensity score matching (PSM) is a “statistical matching technique that attempts to estimate the effect of a treatment, policy, or other intervention by accounting for the covariates that predict receiving the treatment”. In a broader sense, propensity score analysis assumes that an unbiased comparison between samples can only be made when the subjects of both samples have similar characteristics. Thus, PSM can not only be used as “an alternative method to estimate the effect of receiving treatment when random assignment of treatments to subjects is not feasible” (Thavaneswaran 2008). It can also be used for the comparison of samples in epidemiological studies.</p>
+</blockquote>
+<div id="创建两个随机数据框" class="section level3">
+<h3>创建两个随机数据框</h3>
+<p>数据框#1：</p>
+<pre class="r"><code>library(wakefield)
+set.seed(1234)
+df.patients &lt;- r_data_frame(n = 250, 
+                            age(x = 30:78, 
+                                name = &#39;Age&#39;), 
+                            sex(x = c(&quot;Male&quot;, &quot;Female&quot;), 
+                                prob = c(0.70, 0.30), 
+                                name = &quot;Sex&quot;))
+df.patients$Sample &lt;- as.factor(&#39;Patients&#39;)</code></pre>
+<p>查看下描述性统计量：</p>
+<pre class="r"><code>summary(df.patients)
+#&gt;       Age           Sex           Sample   
+#&gt;  Min.   :30.0   Male  :163   Patients:250  
+#&gt;  1st Qu.:42.0   Female: 87                 
+#&gt;  Median :52.0                              
+#&gt;  Mean   :53.5                              
+#&gt;  3rd Qu.:65.0                              
+#&gt;  Max.   :78.0</code></pre>
+<blockquote>
+<p>the mean age of the patient sample is 53.7 and roughly 70% of the patients are male (69.2%).
+数据框#2：</p>
+</blockquote>
+<pre class="r"><code>set.seed(1234)
+df.population &lt;- r_data_frame(n = 1000, 
+                              age(x = 18:80, 
+                                  name = &#39;Age&#39;), 
+                              sex(x = c(&quot;Male&quot;, &quot;Female&quot;), 
+                                  prob = c(0.50, 0.50), 
+                                  name = &quot;Sex&quot;))
+df.population$Sample &lt;- as.factor(&#39;Population&#39;)</code></pre>
+<p>上面这个数据框用来模拟总体情况。</p>
+<pre class="r"><code>summary(df.population)
+#&gt;       Age           Sex             Sample    
+#&gt;  Min.   :18.0   Male  :487   Population:1000  
+#&gt;  1st Qu.:34.0   Female:513                    
+#&gt;  Median :49.0                                 
+#&gt;  Mean   :49.1                                 
+#&gt;  3rd Qu.:64.0                                 
+#&gt;  Max.   :80.0</code></pre>
+</div>
+<div id="融合数据框" class="section level3">
+<h3>融合数据框</h3>
+<pre class="r"><code>mydata &lt;- rbind(df.patients, df.population)
+mydata$Group &lt;- as.logical(mydata$Sample == &#39;Patients&#39;)
+mydata$Distress &lt;- ifelse(mydata$Sex == &#39;Male&#39;, age(nrow(mydata), x = 0:42, name = &#39;Distress&#39;),
+                                                age(nrow(mydata), x = 15:42, name = &#39;Distress&#39;))</code></pre>
+<p>当我们两个样本中比较年龄和性别时会发现差异：</p>
+<pre class="r"><code>pacman::p_load(tableone)
+table1 &lt;- CreateTableOne(vars = c(&#39;Age&#39;, &#39;Sex&#39;, &#39;Distress&#39;), 
+                         data = mydata, 
+                         factorVars = &#39;Sex&#39;, 
+                         strata = &#39;Sample&#39;)
+table1 &lt;- print(table1, 
+                printToggle = FALSE, 
+                noSpaces = TRUE)
+knitr::kable(table1[,1:3],  
+      align = &#39;c&#39;, 
+      caption = &#39;Comparison of unmatched samples&#39;)</code></pre>
+<table>
+<caption><span id="tab:unnamed-chunk-6">Table 1: </span>Comparison of unmatched samples</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Patients</th>
+<th align="center">Population</th>
+<th align="center">p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>n</td>
+<td align="center">250</td>
+<td align="center">1000</td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td>Age (mean (SD))</td>
+<td align="center">53.51 (13.86)</td>
+<td align="center">49.06 (17.77)</td>
+<td align="center">&lt;0.001</td>
+</tr>
+<tr class="odd">
+<td>Sex = Female (%)</td>
+<td align="center">87 (34.8)</td>
+<td align="center">513 (51.3)</td>
+<td align="center">&lt;0.001</td>
+</tr>
+<tr class="even">
+<td>Distress (mean (SD))</td>
+<td align="center">23.53 (11.94)</td>
+<td align="center">25.44 (10.97)</td>
+<td align="center">0.015</td>
+</tr>
+</tbody>
+</table>
+<p>在总体中，distress更高。</p>
+</div>
+<div id="匹配样本" class="section level3">
+<h3>匹配样本</h3>
+<blockquote>
+<p>Now that we have completed preparation and inspection of data, we are going to match the two samples using the matchit-function of the MatchIt package. The method command method=“nearest” specifies that the nearest neighbors method will be used. Other matching methods are exact matching, subclassification, optimal matching, genetic matching, and full matching (method = c(“exact”, “subclass”, “optimal”, &quot;“genetic”, “full”)). The ratio command ratio = 1 indicates a one-to-one matching approach. With regard to our example, for each case in the patient sample exactly one case in the population sample will be matched. Please also note that the Group variable needs to be logic (TRUE vs. FALSE).</p>
+</blockquote>
+<pre class="r"><code>library(MatchIt)
+set.seed(1234)
+match.it &lt;- matchit(Group ~ Age + Sex, data = mydata, method=&quot;nearest&quot;, ratio=1)
+a &lt;- summary(match.it)</code></pre>
+<blockquote>
+<p>For further data presentation, we save the output of the summary-function into a variable named a.
+After matching the samples, the size of the population sample was reduced to the size of the patient sample (n=250; see table 2).</p>
+</blockquote>
+<pre class="r"><code>knitr::kable(a$nn, digits = 2, align = &#39;c&#39;, 
+      caption = &#39;Sample sizes&#39;)</code></pre>
+<table>
+<caption><span id="tab:unnamed-chunk-8">Table 2: </span>Sample sizes</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Control</th>
+<th align="center">Treated</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>All</td>
+<td align="center">1000</td>
+<td align="center">250</td>
+</tr>
+<tr class="even">
+<td>Matched</td>
+<td align="center">250</td>
+<td align="center">250</td>
+</tr>
+<tr class="odd">
+<td>Unmatched</td>
+<td align="center">750</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td>Discarded</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>The following output shows, that the distributions of the variables Age and Sex are nearly identical after matching.</p>
+</blockquote>
+<pre class="r"><code>knitr::kable(a$sum.matched[c(1,2,4)], digits = 2, align = &#39;c&#39;, 
+      caption = &#39;Summary of balance for matched data&#39;)</code></pre>
+<table>
+<caption><span id="tab:unnamed-chunk-9">Table 3: </span>Summary of balance for matched data</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Means Treated</th>
+<th align="center">Means Control</th>
+<th align="center">Mean Diff</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>distance</td>
+<td align="center">0.22</td>
+<td align="center">0.22</td>
+<td align="center">0.00</td>
+</tr>
+<tr class="even">
+<td>Age</td>
+<td align="center">53.51</td>
+<td align="center">53.47</td>
+<td align="center">0.04</td>
+</tr>
+<tr class="odd">
+<td>SexMale</td>
+<td align="center">0.65</td>
+<td align="center">0.65</td>
+<td align="center">0.00</td>
+</tr>
+<tr class="even">
+<td>SexFemale</td>
+<td align="center">0.35</td>
+<td align="center">0.35</td>
+<td align="center">0.00</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>The distributions of propensity scores can be visualized using the plot-function which is part of the MatchIt package .</p>
+</blockquote>
+<pre class="r"><code>plot(match.it, type = &#39;jitter&#39;, interactive = FALSE)</code></pre>
+<p><img src="../../../cn/post/2019-11-20-propensity-score-match_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+</div>
+<div id="保存匹配样本" class="section level3">
+<h3>保存匹配样本</h3>
+<pre class="r"><code>df.match &lt;- match.data(match.it)[1:ncol(mydata)]
+rm(df.patients, df.population)</code></pre>
+<blockquote>
+<p>Eventually, we can check whether the differences in the level of distress between both samples are still significant.</p>
+</blockquote>
+<pre class="r"><code>pacman::p_load(tableone)
+table4 &lt;- CreateTableOne(vars = c(&#39;Age&#39;, &#39;Sex&#39;, &#39;Distress&#39;), 
+                         data = df.match, 
+                         factorVars = &#39;Sex&#39;, 
+                         strata = &#39;Sample&#39;)
+table4 &lt;- print(table4, 
+                printToggle = FALSE, 
+                noSpaces = TRUE)
+knitr::kable(table4[,1:3],  
+      align = &#39;c&#39;, 
+      caption = &#39;Table 4: Comparison of matched samples&#39;)</code></pre>
+<table>
+<caption><span id="tab:unnamed-chunk-12">Table 4: </span>Table 4: Comparison of matched samples</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Patients</th>
+<th align="center">Population</th>
+<th align="center">p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>n</td>
+<td align="center">250</td>
+<td align="center">250</td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td>Age (mean (SD))</td>
+<td align="center">53.51 (13.86)</td>
+<td align="center">53.47 (13.85)</td>
+<td align="center">0.974</td>
+</tr>
+<tr class="odd">
+<td>Sex = Female (%)</td>
+<td align="center">87 (34.8)</td>
+<td align="center">87 (34.8)</td>
+<td align="center">1.000</td>
+</tr>
+<tr class="even">
+<td>Distress (mean (SD))</td>
+<td align="center">23.53 (11.94)</td>
+<td align="center">23.68 (11.85)</td>
+<td align="center">0.884</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>With a p-value of 0.222, Student’s t-test does not indicate significant differences anymore. Thus, PSM helped to avoid an alpha mistake.</p>
+</blockquote>
+</div>
+</div>
+<div id="实例" class="section level2">
+<h2>实例</h2>
+<p>在学习实例之前，导入分析需要用的包：</p>
+<pre class="r"><code>library(dplyr)
+#&gt; 
+#&gt; 载入程辑包：&#39;dplyr&#39;
+#&gt; The following object is masked from &#39;package:wakefield&#39;:
+#&gt; 
+#&gt;     id
+#&gt; The following objects are masked from &#39;package:stats&#39;:
+#&gt; 
+#&gt;     filter, lag
+#&gt; The following objects are masked from &#39;package:base&#39;:
+#&gt; 
+#&gt;     intersect, setdiff, setequal, union
+library(ggplot2)
+library(MatchIt)</code></pre>
+<p>导入数据：</p>
+<pre class="r"><code>ecls = read.csv(&quot;../../../static/datasets/ecls.csv&quot;)</code></pre>
+<div id="使用非匹配数据进行预分析" class="section level3">
+<h3>使用非匹配数据进行预分析</h3>
+<pre class="r"><code>ecls %&gt;%
+  group_by(catholic) %&gt;%
+  summarise(n_students = n(),
+            mean_math = mean(c5r2mtsc_std),
+            std_error = sd(c5r2mtsc_std) / sqrt(n_students))
+#&gt; # A tibble: 2 x 4
+#&gt;   catholic n_students mean_math std_error
+#&gt;      &lt;int&gt;      &lt;int&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+#&gt; 1        0       9568   -0.0306    0.0104
+#&gt; 2        1       1510    0.194     0.0224</code></pre>
+<pre class="r"><code>ecls %&gt;%
+  mutate(test = (c5r2mtsc - mean(c5r2mtsc)) / sd(c5r2mtsc)) %&gt;% #this is how the math score is standardized
+  group_by(catholic) %&gt;%
+  summarise(mean_math = mean(test))
+#&gt; # A tibble: 2 x 2
+#&gt;   catholic mean_math
+#&gt;      &lt;int&gt;     &lt;dbl&gt;
+#&gt; 1        0   -0.0306
+#&gt; 2        1    0.194</code></pre>
+<p>检验差异：</p>
+<pre class="r"><code>with(ecls, t.test(c5r2mtsc_std ~ catholic))
+#&gt; 
+#&gt;  Welch Two Sample t-test
+#&gt; 
+#&gt; data:  c5r2mtsc_std by catholic
+#&gt; t = -9, df = 2215, p-value &lt;2e-16
+#&gt; alternative hypothesis: true difference in means is not equal to 0
+#&gt; 95 percent confidence interval:
+#&gt;  -0.273 -0.176
+#&gt; sample estimates:
+#&gt; mean in group 0 mean in group 1 
+#&gt;         -0.0306          0.1939</code></pre>
+</div>
+<div id="协变量探索" class="section level3">
+<h3>协变量探索</h3>
+<p>We’ll work with the following covariates for now:</p>
+<ul>
+<li>race_white: Is the student white (1) or not (0)?</li>
+<li>p5hmage: Mother’s age</li>
+<li>w3income: Family income</li>
+<li>p5numpla: Number of places the student has lived for at least 4 months</li>
+<li>w3momed_hsb: Is the mother’s education level high-school or below (1) or some college or more (0)?</li>
+</ul>
+<p>Let’s calculate the mean for each covariate by the treatment status:</p>
+<pre class="r"><code>ecls_cov &lt;- c(&#39;race_white&#39;, &#39;p5hmage&#39;, &#39;p5numpla&#39;, &#39;w3momed_hsb&#39;)
+ecls %&gt;%
+  group_by(catholic) %&gt;%
+  select(one_of(ecls_cov)) %&gt;%
+  summarise_all(funs(mean(., na.rm = T)))
+#&gt; Adding missing grouping variables: `catholic`
+#&gt; Warning: funs() is soft deprecated as of dplyr 0.8.0
+#&gt; Please use a list of either functions or lambdas: 
+#&gt; 
+#&gt;   # Simple named list: 
+#&gt;   list(mean = mean, median = median)
+#&gt; 
+#&gt;   # Auto named with `tibble::lst()`: 
+#&gt;   tibble::lst(mean, median)
+#&gt; 
+#&gt;   # Using lambdas
+#&gt;   list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
+#&gt; This warning is displayed once per session.
+#&gt; # A tibble: 2 x 5
+#&gt;   catholic race_white p5hmage p5numpla w3momed_hsb
+#&gt;      &lt;int&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;       &lt;dbl&gt;
+#&gt; 1        0          0    37.6     1.13           0
+#&gt; 2        1          0    39.6     1.09           0</code></pre>
+<p>检验：</p>
+<pre class="r"><code>lapply(ecls_cov, function(v) {
+    t.test(ecls[, v] ~ ecls[, &#39;catholic&#39;])
+})
+#&gt; [[1]]
+#&gt; 
+#&gt;  Welch Two Sample t-test
+#&gt; 
+#&gt; data:  ecls[, v] by ecls[, &quot;catholic&quot;]
+#&gt; t = NaN, df = NaN, p-value = NA
+#&gt; alternative hypothesis: true difference in means is not equal to 0
+#&gt; 95 percent confidence interval:
+#&gt;  NaN NaN
+#&gt; sample estimates:
+#&gt; mean in group 0 mean in group 1 
+#&gt;               0               0 
+#&gt; 
+#&gt; 
+#&gt; [[2]]
+#&gt; 
+#&gt;  Welch Two Sample t-test
+#&gt; 
+#&gt; data:  ecls[, v] by ecls[, &quot;catholic&quot;]
+#&gt; t = -13, df = 2187, p-value &lt;2e-16
+#&gt; alternative hypothesis: true difference in means is not equal to 0
+#&gt; 95 percent confidence interval:
+#&gt;  -2.33 -1.70
+#&gt; sample estimates:
+#&gt; mean in group 0 mean in group 1 
+#&gt;            37.6            39.6 
+#&gt; 
+#&gt; 
+#&gt; [[3]]
+#&gt; 
+#&gt;  Welch Two Sample t-test
+#&gt; 
+#&gt; data:  ecls[, v] by ecls[, &quot;catholic&quot;]
+#&gt; t = 4, df = 2234, p-value = 2e-05
+#&gt; alternative hypothesis: true difference in means is not equal to 0
+#&gt; 95 percent confidence interval:
+#&gt;  0.0215 0.0584
+#&gt; sample estimates:
+#&gt; mean in group 0 mean in group 1 
+#&gt;            1.13            1.09 
+#&gt; 
+#&gt; 
+#&gt; [[4]]
+#&gt; 
+#&gt;  Welch Two Sample t-test
+#&gt; 
+#&gt; data:  ecls[, v] by ecls[, &quot;catholic&quot;]
+#&gt; t = NaN, df = NaN, p-value = NA
+#&gt; alternative hypothesis: true difference in means is not equal to 0
+#&gt; 95 percent confidence interval:
+#&gt;  NaN NaN
+#&gt; sample estimates:
+#&gt; mean in group 0 mean in group 1 
+#&gt;               0               0</code></pre>
+</div>
+<div id="倾向分估计" class="section level3">
+<h3>倾向分估计</h3>
+<pre class="r"><code>m_ps &lt;- glm(catholic ~ race_white + p5hmage + p5numpla + w3momed_hsb,
+            family = binomial(), data = ecls)
+summary(m_ps)
+#&gt; 
+#&gt; Call:
+#&gt; glm(formula = catholic ~ race_white + p5hmage + p5numpla + w3momed_hsb, 
+#&gt;     family = binomial(), data = ecls)
+#&gt; 
+#&gt; Deviance Residuals: 
+#&gt;    Min      1Q  Median      3Q     Max  
+#&gt; -1.166  -0.587  -0.528  -0.463   2.305  
+#&gt; 
+#&gt; Coefficients: (2 not defined because of singularities)
+#&gt;             Estimate Std. Error z value Pr(&gt;|z|)    
+#&gt; (Intercept) -3.28365    0.20921  -15.70   &lt;2e-16 ***
+#&gt; race_white        NA         NA      NA       NA    
+#&gt; p5hmage      0.04582    0.00444   10.33   &lt;2e-16 ***
+#&gt; p5numpla    -0.22521    0.09059   -2.49    0.013 *  
+#&gt; w3momed_hsb       NA         NA      NA       NA    
+#&gt; ---
+#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+#&gt; 
+#&gt; (Dispersion parameter for binomial family taken to be 1)
+#&gt; 
+#&gt;     Null deviance: 7701.3  on 9266  degrees of freedom
+#&gt; Residual deviance: 7583.5  on 9264  degrees of freedom
+#&gt;   (1811 observations deleted due to missingness)
+#&gt; AIC: 7589
+#&gt; 
+#&gt; Number of Fisher Scoring iterations: 4</code></pre>
+<pre class="r"><code>prs_df &lt;- data.frame(pr_score = predict(m_ps, type = &quot;response&quot;),
+                     catholic = m_ps$model$catholic)
+head(prs_df)
+#&gt;   pr_score catholic
+#&gt; 1    0.205        0
+#&gt; 2    0.164        0
+#&gt; 4    0.177        0
+#&gt; 5    0.146        1
+#&gt; 6    0.205        0
+#&gt; 7    0.106        0
+labs &lt;- paste(&quot;Actual school type attended:&quot;, c(&quot;Catholic&quot;, &quot;Public&quot;))
+prs_df %&gt;%
+  mutate(catholic = ifelse(catholic == 1, labs[1], labs[2])) %&gt;%
+  ggplot(aes(x = pr_score)) +
+  geom_histogram(color = &quot;white&quot;) +
+  facet_wrap(~catholic) +
+  xlab(&quot;Probability of going to Catholic school&quot;) +
+  theme_bw()
+#&gt; `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="../../../cn/post/2019-11-20-propensity-score-match_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+</div>
+<div id="执行匹配算法" class="section level3">
+<h3>执行匹配算法</h3>
+<pre class="r"><code>ecls_nomiss &lt;- ecls %&gt;%  # MatchIt does not allow missing values
+  select(c5r2mtsc_std, catholic, one_of(ecls_cov)) %&gt;%
+  na.omit()
+mod_match &lt;- matchit(catholic ~ race_white + p5hmage + p5numpla + w3momed_hsb,
+                     method = &quot;nearest&quot;, data = ecls_nomiss)</code></pre>
+<pre class="r"><code>dta_m &lt;- match.data(mod_match)
+dim(dta_m)
+#&gt; [1] 2704    8</code></pre>
+</div>
+<div id="检查匹配样本中协变量的平衡" class="section level3">
+<h3>检查匹配样本中协变量的平衡</h3>
+<pre class="r"><code>fn_bal &lt;- function(dta, variable) {
+  dta$variable &lt;- dta[, variable]
+  if (variable == &#39;w3income&#39;) dta$variable &lt;- dta$variable / 10^3
+  dta$catholic &lt;- as.factor(dta$catholic)
+  support &lt;- c(min(dta$variable), max(dta$variable))
+  ggplot(dta, aes(x = distance, y = variable, color = catholic)) +
+    geom_point(alpha = 0.2, size = 1.3) +
+    geom_smooth(method = &quot;loess&quot;, se = F) +
+    xlab(&quot;Propensity score&quot;) +
+    ylab(variable) +
+    theme_bw() +
+    ylim(support)
+}
+library(gridExtra)
+#&gt; 
+#&gt; 载入程辑包：&#39;gridExtra&#39;
+#&gt; The following object is masked from &#39;package:dplyr&#39;:
+#&gt; 
+#&gt;     combine
+grid.arrange(
+   fn_bal(dta_m, &quot;p5numpla&quot;) + theme(legend.position = &quot;none&quot;),
+   fn_bal(dta_m, &quot;p5hmage&quot;),
+   fn_bal(dta_m, &quot;w3momed_hsb&quot;) + theme(legend.position = &quot;none&quot;),
+   fn_bal(dta_m, &quot;race_white&quot;),
+   nrow = 2, widths = c(1, 0.8)
+)
+#&gt; Warning: Removed 41 rows containing missing values (geom_smooth).
+#&gt; Warning: Removed 1 rows containing missing values (geom_smooth).</code></pre>
+<p><img src="../../../cn/post/2019-11-20-propensity-score-match_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<p>均值差异</p>
+<pre class="r"><code>dta_m %&gt;%
+  group_by(catholic) %&gt;%
+  select(one_of(ecls_cov)) %&gt;%
+  summarise_all(funs(mean))
+#&gt; Adding missing grouping variables: `catholic`
+#&gt; # A tibble: 2 x 5
+#&gt;   catholic race_white p5hmage p5numpla w3momed_hsb
+#&gt;      &lt;int&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;       &lt;dbl&gt;
+#&gt; 1        0          0    39.6     1.09           0
+#&gt; 2        1          0    39.6     1.09           0</code></pre>
+<p>检验：</p>
+<pre class="r"><code>lapply(ecls_cov, function(v) {
+    t.test(dta_m[, v] ~ dta_m$catholic)
+})
+#&gt; [[1]]
+#&gt; 
+#&gt;  Welch Two Sample t-test
+#&gt; 
+#&gt; data:  dta_m[, v] by dta_m$catholic
+#&gt; t = NaN, df = NaN, p-value = NA
+#&gt; alternative hypothesis: true difference in means is not equal to 0
+#&gt; 95 percent confidence interval:
+#&gt;  NaN NaN
+#&gt; sample estimates:
+#&gt; mean in group 0 mean in group 1 
+#&gt;               0               0 
+#&gt; 
+#&gt; 
+#&gt; [[2]]
+#&gt; 
+#&gt;  Welch Two Sample t-test
+#&gt; 
+#&gt; data:  dta_m[, v] by dta_m$catholic
+#&gt; t = -0.06, df = 2702, p-value = 1
+#&gt; alternative hypothesis: true difference in means is not equal to 0
+#&gt; 95 percent confidence interval:
+#&gt;  -0.405  0.383
+#&gt; sample estimates:
+#&gt; mean in group 0 mean in group 1 
+#&gt;            39.6            39.6 
+#&gt; 
+#&gt; 
+#&gt; [[3]]
+#&gt; 
+#&gt;  Welch Two Sample t-test
+#&gt; 
+#&gt; data:  dta_m[, v] by dta_m$catholic
+#&gt; t = -0.2, df = 2700, p-value = 0.8
+#&gt; alternative hypothesis: true difference in means is not equal to 0
+#&gt; 95 percent confidence interval:
+#&gt;  -0.0250  0.0206
+#&gt; sample estimates:
+#&gt; mean in group 0 mean in group 1 
+#&gt;            1.09            1.09 
+#&gt; 
+#&gt; 
+#&gt; [[4]]
+#&gt; 
+#&gt;  Welch Two Sample t-test
+#&gt; 
+#&gt; data:  dta_m[, v] by dta_m$catholic
+#&gt; t = NaN, df = NaN, p-value = NA
+#&gt; alternative hypothesis: true difference in means is not equal to 0
+#&gt; 95 percent confidence interval:
+#&gt;  NaN NaN
+#&gt; sample estimates:
+#&gt; mean in group 0 mean in group 1 
+#&gt;               0               0</code></pre>
+<p>Average absolute standardized difference</p>
+<p>As a measure of the average imbalance, we can calculate the following:</p>
+<p><span class="math display">\[\bar{\left|\frac{\beta}{\sigma}\right|} = \frac{1}{k}\sum_x \frac{|\beta_x|}{\sigma_x}\]</span></p>
+<p>where βx is the difference between the covariate means in the treated and control groups in the matched sample. An average absolute standardized difference that is close to 0 is preferable, since that indicates small differences between the control and treatment groups in the matched sample.</p>
+<p>Try to implement a function that calculates the absolute standardized difference for any covariate in the matched sample. Then take the average for all the covariates.</p>
+</div>
+<div id="评估治疗效应" class="section level3">
+<h3>评估治疗效应</h3>
+<p>Estimating the treatment effect is simple once we have a matched sample that we are happy with. We can use a t-test，Or we can use OLS with or without covariates。</p>
+<hr />
+<p>资料来源：</p>
+<ul>
+<li><a href="https://www.r-bloggers.com/how-to-use-r-for-matching-samples-propensity-score/" class="uri">https://www.r-bloggers.com/how-to-use-r-for-matching-samples-propensity-score/</a></li>
+<li><a href="https://sejdemyr.github.io/r-tutorials/statistics/tutorial8.html" class="uri">https://sejdemyr.github.io/r-tutorials/statistics/tutorial8.html</a></li>
+</ul>
+</div>
+</div>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="../../../cn/post/usage-of-docall/">do.call的使用</a></span>
+  <span class="nav-next"><a href="../../../cn/post/2018-07-24-absolute-inference/">ABSOLUTE 推断框架</a> &rarr;</span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/post\/usage-of-docall\/';
+    
+  } else if (e.which == 39) {  
+    
+    url = '\/cn\/post\/2018-07-24-absolute-inference\/';
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+<section class="comments">
+  <div id="disqus_thread"></div>
+  <script src="../../../js/disqusloader.min.js"></script>
+  <script>
+  var disqus_config = function () {
+  
+    this.page.url = "https:\/\/shixiangwang.github.io\/home\/" + location.pathname;
+  
+  };
+  (function() {
+    var inIFrame = function() {
+      var iframe = true;
+      try { iframe = window.self !== window.top; } catch (e) {}
+      return iframe;
+    };
+    if (inIFrame()) return;
+    var disqus_js = '//home-xjdzylqrzp.disqus.com/embed.js';
+    
+    if (location.hash.match(/^#comment/)) {
+      var d = document, s = d.createElement('script');
+      s.src = disqus_js; s.async = true;
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    } else {
+      disqusLoader('#disqus_thread', {
+        scriptUrl: disqus_js, laziness: 0, disqusConfig: disqus_config
+      });
+    }
+  })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+
+
+<script async src="../../../js/fix-toc.js"></script>
+
+<script async src="../../../js/center-img.js"></script>
+
+<script async src="../../../js/right-quote.js"></script>
+
+<script async src="../../../js/no-highlight.js"></script>
+
+<script async src="../../../js/fix-footnote.js"></script>
+
+<script async src="../../../js/math-code.js"></script>
+
+<script async src="../../../js/external-link.js"></script>
+
+<script async src="../../../js/alt-title.js"></script>
+
+<script async src="../../../js/header-link.js"></script>
+
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+  
+  
+
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> &middot; <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> &middot; <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> &middot; <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> &middot; <a href="https://orcid.org/0000-0001-9855-7357"><i class='ai ai-orcid ai-1x'></i></a> &middot; <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 &copy; <a href="../../../">王诗翔</a> 2017 - 2019 </div>
+  
+  
+
+  <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56h9es09xn7&amp;m=6&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=1" async="async"></script>
+  </footer>
+  </article>
+  
+  </body>
+</html>
+

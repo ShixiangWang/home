@@ -1,0 +1,330 @@
+---
+title: "倾向评分匹配算法——R实例学习"
+author: "王诗翔"
+date: "2018-06-25"
+lastmod: "`r Sys.Date()`"
+slug: ""
+categories: r
+tags:
+- r
+- 倾向匹配
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, dev = "png", comment = "#>")
+#Sys.setenv("LANGUAGE"="EN") # Embed this for outputing English message
+#Sys.setlocale('LC_ALL','C') # Embed this directly in the Rmarkdown script that contains the Chinese character comment
+options(digits=3)
+options(max.print=200)
+```
+
+
+倾向评分算法用于校正模型中的混淆因子，这里我们先使用随机生成的数据学习该算法，然后实际分析一下去教会学校和公共学校上学学生的成绩差异。
+
+> 本文主要内容来自文末两篇资料，有很多是英文，因为时间关系我就不翻译了，读读英文理解也是很好的锻炼。
+
+## 学习
+
+> According to Wikipedia, propensity score matching (PSM) is a “statistical matching technique that attempts to estimate the effect of a treatment, policy, or other intervention by accounting for the covariates that predict receiving the treatment”. In a broader sense, propensity score analysis assumes that an unbiased comparison between samples can only be made when the subjects of both samples have similar characteristics. Thus, PSM can not only be used as “an alternative method to estimate the effect of receiving treatment when random assignment of treatments to subjects is not feasible” (Thavaneswaran 2008). It can also be used for the comparison of samples in epidemiological studies.
+
+### 创建两个随机数据框
+
+数据框#1：
+
+```{r}
+library(wakefield)
+set.seed(1234)
+df.patients <- r_data_frame(n = 250, 
+                            age(x = 30:78, 
+                                name = 'Age'), 
+                            sex(x = c("Male", "Female"), 
+                                prob = c(0.70, 0.30), 
+                                name = "Sex"))
+df.patients$Sample <- as.factor('Patients')
+```
+
+查看下描述性统计量：
+
+```{r}
+summary(df.patients)
+```
+
+> the mean age of the patient sample is 53.7 and roughly 70% of the patients are male (69.2%).
+数据框#2：
+
+```{r}
+set.seed(1234)
+df.population <- r_data_frame(n = 1000, 
+                              age(x = 18:80, 
+                                  name = 'Age'), 
+                              sex(x = c("Male", "Female"), 
+                                  prob = c(0.50, 0.50), 
+                                  name = "Sex"))
+df.population$Sample <- as.factor('Population')
+```
+
+上面这个数据框用来模拟总体情况。
+
+```{r}
+summary(df.population)
+```
+
+
+### 融合数据框
+
+```{r}
+mydata <- rbind(df.patients, df.population)
+mydata$Group <- as.logical(mydata$Sample == 'Patients')
+mydata$Distress <- ifelse(mydata$Sex == 'Male', age(nrow(mydata), x = 0:42, name = 'Distress'),
+                                                age(nrow(mydata), x = 15:42, name = 'Distress'))
+```
+
+
+当我们两个样本中比较年龄和性别时会发现差异：
+
+```{r}
+pacman::p_load(tableone)
+table1 <- CreateTableOne(vars = c('Age', 'Sex', 'Distress'), 
+                         data = mydata, 
+                         factorVars = 'Sex', 
+                         strata = 'Sample')
+table1 <- print(table1, 
+                printToggle = FALSE, 
+                noSpaces = TRUE)
+knitr::kable(table1[,1:3],  
+      align = 'c', 
+      caption = 'Comparison of unmatched samples')
+```
+
+在总体中，distress更高。
+
+### 匹配样本
+
+> Now that we have completed preparation and inspection of data, we are going to match the two samples using the matchit-function of the MatchIt package. The method command method="nearest" specifies that the nearest neighbors method will be used. Other matching methods are exact matching, subclassification, optimal matching, genetic matching, and full matching (method = c("exact", "subclass", "optimal", ""genetic", "full")). The ratio command ratio = 1 indicates a one-to-one matching approach. With regard to our example, for each case in the patient sample exactly one case in the population sample will be matched. Please also note that the Group variable needs to be logic (TRUE vs. FALSE).
+
+```{r}
+library(MatchIt)
+set.seed(1234)
+match.it <- matchit(Group ~ Age + Sex, data = mydata, method="nearest", ratio=1)
+a <- summary(match.it)
+```
+
+
+> For further data presentation, we save the output of the summary-function into a variable named a.
+> After matching the samples, the size of the population sample was reduced to the size of the patient sample (n=250; see table 2).
+
+```{r}
+knitr::kable(a$nn, digits = 2, align = 'c', 
+      caption = 'Sample sizes')
+```
+
+> The following output shows, that the distributions of the variables Age and Sex are nearly identical after matching.
+
+```{r}
+knitr::kable(a$sum.matched[c(1,2,4)], digits = 2, align = 'c', 
+      caption = 'Summary of balance for matched data')
+```
+
+> The distributions of propensity scores can be visualized using the plot-function which is part of the MatchIt package .
+
+```{r}
+plot(match.it, type = 'jitter', interactive = FALSE)
+```
+
+### 保存匹配样本
+
+```{r}
+df.match <- match.data(match.it)[1:ncol(mydata)]
+rm(df.patients, df.population)
+```
+
+> Eventually, we can check whether the differences in the level of distress between both samples are still significant.
+
+```{r}
+pacman::p_load(tableone)
+table4 <- CreateTableOne(vars = c('Age', 'Sex', 'Distress'), 
+                         data = df.match, 
+                         factorVars = 'Sex', 
+                         strata = 'Sample')
+table4 <- print(table4, 
+                printToggle = FALSE, 
+                noSpaces = TRUE)
+knitr::kable(table4[,1:3],  
+      align = 'c', 
+      caption = 'Table 4: Comparison of matched samples')
+```
+
+> With a p-value of 0.222, Student’s t-test does not indicate significant differences anymore. Thus, PSM helped to avoid an alpha mistake.
+
+## 实例
+
+在学习实例之前，导入分析需要用的包：
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(MatchIt)
+```
+
+导入数据：
+
+```{r}
+ecls = read.csv("../../../static/datasets/ecls.csv")
+```
+
+
+### 使用非匹配数据进行预分析
+
+```{r}
+ecls %>%
+  group_by(catholic) %>%
+  summarise(n_students = n(),
+            mean_math = mean(c5r2mtsc_std),
+            std_error = sd(c5r2mtsc_std) / sqrt(n_students))
+```
+
+```{r}
+ecls %>%
+  mutate(test = (c5r2mtsc - mean(c5r2mtsc)) / sd(c5r2mtsc)) %>% #this is how the math score is standardized
+  group_by(catholic) %>%
+  summarise(mean_math = mean(test))
+```
+
+检验差异：
+
+```{r}
+with(ecls, t.test(c5r2mtsc_std ~ catholic))
+```
+
+### 协变量探索
+
+We’ll work with the following covariates for now:
+
+* race_white: Is the student white (1) or not (0)?
+* p5hmage: Mother’s age
+* w3income: Family income
+* p5numpla: Number of places the student has lived for at least 4 months
+* w3momed_hsb: Is the mother’s education level high-school or below (1) or some college or more (0)?
+
+Let’s calculate the mean for each covariate by the treatment status:
+
+```{r}
+ecls_cov <- c('race_white', 'p5hmage', 'p5numpla', 'w3momed_hsb')
+ecls %>%
+  group_by(catholic) %>%
+  select(one_of(ecls_cov)) %>%
+  summarise_all(funs(mean(., na.rm = T)))
+```
+
+检验：
+
+```{r}
+lapply(ecls_cov, function(v) {
+    t.test(ecls[, v] ~ ecls[, 'catholic'])
+})
+```
+
+### 倾向分估计
+
+```{r}
+m_ps <- glm(catholic ~ race_white + p5hmage + p5numpla + w3momed_hsb,
+            family = binomial(), data = ecls)
+summary(m_ps)
+```
+
+```{r}
+prs_df <- data.frame(pr_score = predict(m_ps, type = "response"),
+                     catholic = m_ps$model$catholic)
+head(prs_df)
+labs <- paste("Actual school type attended:", c("Catholic", "Public"))
+prs_df %>%
+  mutate(catholic = ifelse(catholic == 1, labs[1], labs[2])) %>%
+  ggplot(aes(x = pr_score)) +
+  geom_histogram(color = "white") +
+  facet_wrap(~catholic) +
+  xlab("Probability of going to Catholic school") +
+  theme_bw()
+```
+
+### 执行匹配算法
+
+```{r}
+ecls_nomiss <- ecls %>%  # MatchIt does not allow missing values
+  select(c5r2mtsc_std, catholic, one_of(ecls_cov)) %>%
+  na.omit()
+mod_match <- matchit(catholic ~ race_white + p5hmage + p5numpla + w3momed_hsb,
+                     method = "nearest", data = ecls_nomiss)
+```
+
+
+```{r}
+dta_m <- match.data(mod_match)
+dim(dta_m)
+```
+
+
+### 检查匹配样本中协变量的平衡
+
+```{r}
+fn_bal <- function(dta, variable) {
+  dta$variable <- dta[, variable]
+  if (variable == 'w3income') dta$variable <- dta$variable / 10^3
+  dta$catholic <- as.factor(dta$catholic)
+  support <- c(min(dta$variable), max(dta$variable))
+  ggplot(dta, aes(x = distance, y = variable, color = catholic)) +
+    geom_point(alpha = 0.2, size = 1.3) +
+    geom_smooth(method = "loess", se = F) +
+    xlab("Propensity score") +
+    ylab(variable) +
+    theme_bw() +
+    ylim(support)
+}
+library(gridExtra)
+grid.arrange(
+   fn_bal(dta_m, "p5numpla") + theme(legend.position = "none"),
+   fn_bal(dta_m, "p5hmage"),
+   fn_bal(dta_m, "w3momed_hsb") + theme(legend.position = "none"),
+   fn_bal(dta_m, "race_white"),
+   nrow = 2, widths = c(1, 0.8)
+)
+```
+
+
+均值差异
+
+```{r}
+dta_m %>%
+  group_by(catholic) %>%
+  select(one_of(ecls_cov)) %>%
+  summarise_all(funs(mean))
+```
+
+检验：
+
+```{r}
+lapply(ecls_cov, function(v) {
+    t.test(dta_m[, v] ~ dta_m$catholic)
+})
+```
+
+
+Average absolute standardized difference
+
+As a measure of the average imbalance, we can calculate the following:
+
+$$\bar{\left|\frac{\beta}{\sigma}\right|} = \frac{1}{k}\sum_x \frac{|\beta_x|}{\sigma_x}$$
+
+where βx is the difference between the covariate means in the treated and control groups in the matched sample. An average absolute standardized difference that is close to 0 is preferable, since that indicates small differences between the control and treatment groups in the matched sample.
+
+Try to implement a function that calculates the absolute standardized difference for any covariate in the matched sample. Then take the average for all the covariates.
+
+### 评估治疗效应
+
+Estimating the treatment effect is simple once we have a matched sample that we are happy with. We can use a t-test，Or we can use OLS with or without covariates。
+
+***
+
+资料来源：
+
+* <https://www.r-bloggers.com/how-to-use-r-for-matching-samples-propensity-score/>
+* <https://sejdemyr.github.io/r-tutorials/statistics/tutorial8.html>
