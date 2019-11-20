@@ -1,0 +1,7 @@
+id,quality,durability,waterproof
+T01,,10,no
+T02,10,9,no
+M01,6,4,yes
+M02,6,5,yes
+M03,5,,yes
+M04,6,6,yes

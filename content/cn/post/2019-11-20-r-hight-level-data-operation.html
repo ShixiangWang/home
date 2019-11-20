@@ -1,0 +1,1795 @@
+---
+title: "R-数据操作"
+author: "王诗翔"
+date: "2018-08-25"
+lastmod: "2019-11-20"
+slug: ""
+categories: r
+tags:
+  - r
+  - dplyr
+  - sqldf
+  - data.table
+  - rlist
+---
+
+
+
+<blockquote>
+<p>本文内容：</p>
+<ul>
+<li>基础函数操作数据框</li>
+<li>sqldf包使用SQL查询数据框</li>
+<li>data.table包操作数据</li>
+<li>dplyr管道操作处理数据</li>
+<li>rlist包处理嵌套数据结构
+## 使用内置函数操作数据框</li>
+</ul>
+</blockquote>
+<p><strong>数据框的本质是一个由向量构成的列表</strong>，由于列长度相同，所以可以当做矩阵进行访问和操作。比如选择满足特定条件的行，使用<code>[]</code>符号，第一个参数提供一个逻辑向量，第二个参数留空。</p>
+<p>本文大部分的代码都是基于一组产品的虚拟数据。我们先将数据载入，然后学习怎么用不同的方法操作数据。</p>
+<pre class="r"><code>if(!require(readr)) install.packages(&quot;readr&quot;)
+#&gt; 载入需要的程辑包：readr
+product_info = read_csv(&quot;../../../static/datasets/product-info.csv&quot;)
+#&gt; Parsed with column specification:
+#&gt; cols(
+#&gt;   id = col_character(),
+#&gt;   name = col_character(),
+#&gt;   type = col_character(),
+#&gt;   class = col_character(),
+#&gt;   released = col_character()
+#&gt; )
+product_info
+#&gt; # A tibble: 6 x 5
+#&gt;   id    name      type  class   released
+#&gt;   &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   
+#&gt; 1 T01   SupCar    toy   vehicle yes     
+#&gt; 2 T02   SupPlane  toy   vehicle no      
+#&gt; 3 M01   JeepX     model vehicle yes     
+#&gt; 4 M02   AircraftX model vehicle yes     
+#&gt; 5 M03   Runner    model people  yes     
+#&gt; 6 M04   Dancer    model people  no</code></pre>
+<p>当数据以数据框的形式载入内存后，我们可以使用下面的代码查看每一列的类型：</p>
+<pre class="r"><code>sapply(product_info, class)
+#&gt;          id        name        type       class    released 
+#&gt; &quot;character&quot; &quot;character&quot; &quot;character&quot; &quot;character&quot; &quot;character&quot;</code></pre>
+<p>注意<code>read_csv</code>函数载入的数据框与内置函数<code>read.csv</code>函数是不同的，主要体现在不会将字符串转换为因子变量，当然前者的速度要快得多。</p>
+<p>接下来我们正式学习用R内置的函数操作数据框进行分析和统计的一些方法。</p>
+<div id="内置函数操作数据框" class="section level3">
+<h3>内置函数操作数据框</h3>
+<p>选取<code>type</code>为<code>toy</code>的行：</p>
+<pre class="r"><code>product_info[product_info$type == &quot;toy&quot;, ]
+#&gt; # A tibble: 2 x 5
+#&gt;   id    name     type  class   released
+#&gt;   &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   
+#&gt; 1 T01   SupCar   toy   vehicle yes     
+#&gt; 2 T02   SupPlane toy   vehicle no</code></pre>
+<p>或选取<code>released</code>为<code>no</code>的行：</p>
+<pre class="r"><code>product_info[product_info$released == &quot;no&quot;, ]
+#&gt; # A tibble: 2 x 5
+#&gt;   id    name     type  class   released
+#&gt;   &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   
+#&gt; 1 T02   SupPlane toy   vehicle no      
+#&gt; 2 M04   Dancer   model people  no</code></pre>
+<p><strong>对列进行筛选</strong>需要将第1个参数留空，给第2个参数提供字符向量。</p>
+<pre class="r"><code>product_info[, c(&quot;id&quot;, &quot;name&quot;, &quot;type&quot;)]
+#&gt; # A tibble: 6 x 3
+#&gt;   id    name      type 
+#&gt;   &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;
+#&gt; 1 T01   SupCar    toy  
+#&gt; 2 T02   SupPlane  toy  
+#&gt; 3 M01   JeepX     model
+#&gt; 4 M02   AircraftX model
+#&gt; 5 M03   Runner    model
+#&gt; 6 M04   Dancer    model</code></pre>
+<p>行列筛选也是可以的，我们只要组合前面的两种情况即可。</p>
+<pre class="r"><code>product_info[product_info$type == &quot;toy&quot;, c(&quot;name&quot;, &quot;class&quot;, &quot;released&quot;)]
+#&gt; # A tibble: 2 x 3
+#&gt;   name     class   released
+#&gt;   &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;   
+#&gt; 1 SupCar   vehicle yes     
+#&gt; 2 SupPlane vehicle no</code></pre>
+<p>内置函数<code>subset()</code>可以简化取子集操作的过程：</p>
+<pre class="r"><code>subset(product_info,
+       subset = type == &quot;model&quot; &amp; released == &quot;yes&quot;,
+       select = name:class)
+#&gt; # A tibble: 3 x 3
+#&gt;   name      type  class  
+#&gt;   &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;  
+#&gt; 1 JeepX     model vehicle
+#&gt; 2 AircraftX model vehicle
+#&gt; 3 Runner    model people</code></pre>
+<p>使用<code>with()</code>函数在数据框的语义中计算表达式，即可以直接使用数据框的列名，而不必重复指定数据框：</p>
+<pre class="r"><code>with(product_info, name[released == &quot;no&quot;])
+#&gt; [1] &quot;SupPlane&quot; &quot;Dancer&quot;</code></pre>
+<p>除了构建子集，表达式还可以用来统计每列各个可能值出现的频数。</p>
+<pre class="r"><code>with(product_info, table(type[released == &quot;yes&quot;]))
+#&gt; 
+#&gt; model   toy 
+#&gt;     3     1</code></pre>
+<p>除了产品信息表，还有一张产品属性的统计表：</p>
+<pre class="r"><code>product_stats = read_csv(&quot;../../../static/datasets/product-stats.csv&quot;)
+#&gt; Parsed with column specification:
+#&gt; cols(
+#&gt;   id = col_character(),
+#&gt;   material = col_character(),
+#&gt;   size = col_double(),
+#&gt;   weight = col_double()
+#&gt; )
+product_stats
+#&gt; # A tibble: 6 x 4
+#&gt;   id    material  size weight
+#&gt;   &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt;
+#&gt; 1 T01   Metal      120   10  
+#&gt; 2 T02   Metal      350   45  
+#&gt; 3 M01   Plastics    50   NA  
+#&gt; 4 M02   Plastics    85    3  
+#&gt; 5 M03   Wood        15   NA  
+#&gt; 6 M04   Wood        16    0.6</code></pre>
+<p><strong>如果现在要获取尺寸最大的前3个产品的名字该怎么办？</strong></p>
+<p>一种方法是将<code>product_stats</code>按尺寸降序排列，选择前3个记录的id，然后用id值筛选<code>product_info</code>的行：</p>
+<pre class="r"><code>top3_id = unlist(product_stats[order(product_stats$size, decreasing = TRUE), &quot;id&quot;])[1:3]
+product_info[product_info$id %in% top3_id, ]
+#&gt; # A tibble: 3 x 5
+#&gt;   id    name      type  class   released
+#&gt;   &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   
+#&gt; 1 T01   SupCar    toy   vehicle yes     
+#&gt; 2 T02   SupPlane  toy   vehicle no      
+#&gt; 3 M02   AircraftX model vehicle yes</code></pre>
+<p>我们用比较冗长的方式完成了任务。但仔细在想想，两个数据框是通过<code>id</code>连接到一起的，我们可以把它们合并到一起，然后执行提取操作：</p>
+<pre class="r"><code>product_table = merge(product_info, product_stats, by = &quot;id&quot;)
+product_table
+#&gt;    id      name  type   class released material size weight
+#&gt; 1 M01     JeepX model vehicle      yes Plastics   50     NA
+#&gt; 2 M02 AircraftX model vehicle      yes Plastics   85    3.0
+#&gt; 3 M03    Runner model  people      yes     Wood   15     NA
+#&gt; 4 M04    Dancer model  people       no     Wood   16    0.6
+#&gt; 5 T01    SupCar   toy vehicle      yes    Metal  120   10.0
+#&gt; 6 T02  SupPlane   toy vehicle       no    Metal  350   45.0</code></pre>
+<p>现在通过合并的数据框，我们可以根据任意一列排序数据框，而不需要处理其他的表格数据：</p>
+<pre class="r"><code>product_table[order(product_table$size), ]
+#&gt;    id      name  type   class released material size weight
+#&gt; 3 M03    Runner model  people      yes     Wood   15     NA
+#&gt; 4 M04    Dancer model  people       no     Wood   16    0.6
+#&gt; 1 M01     JeepX model vehicle      yes Plastics   50     NA
+#&gt; 2 M02 AircraftX model vehicle      yes Plastics   85    3.0
+#&gt; 5 T01    SupCar   toy vehicle      yes    Metal  120   10.0
+#&gt; 6 T02  SupPlane   toy vehicle       no    Metal  350   45.0</code></pre>
+<p>前面的问题我们也可以利用合并的数据框加以解决：</p>
+<pre class="r"><code>product_table[order(product_table$size, decreasing = TRUE), &quot;name&quot;][1:3]
+#&gt; [1] &quot;SupPlane&quot;  &quot;SupCar&quot;    &quot;AircraftX&quot;</code></pre>
+<p>有时候我们需要生成新数据框来对原始数据基础上进行调整和处理，从而避免破坏原始数据。<code>transform()</code>函数可以帮助我们完成这类任务，例如：</p>
+<pre class="r"><code>transform(product_table,
+          released = ifelse(released == &quot;yes&quot;, TRUE, FALSE),
+          density = weight / size)
+#&gt;    id      name  type   class released material size weight density
+#&gt; 1 M01     JeepX model vehicle     TRUE Plastics   50     NA      NA
+#&gt; 2 M02 AircraftX model vehicle     TRUE Plastics   85    3.0  0.0353
+#&gt; 3 M03    Runner model  people     TRUE     Wood   15     NA      NA
+#&gt; 4 M04    Dancer model  people    FALSE     Wood   16    0.6  0.0375
+#&gt; 5 T01    SupCar   toy vehicle     TRUE    Metal  120   10.0  0.0833
+#&gt; 6 T02  SupPlane   toy vehicle    FALSE    Metal  350   45.0  0.1286</code></pre>
+<p>前面数据中我们看到有一些缺失值（用<code>NA</code>表示），很多时候我们不希望数据出现任何缺失值，因此需要某种办法处理它们。为了演示处理的方法，我们再载入一张包含缺失值的表，包含每件产品的质量、耐久性、防水性的测试结果。</p>
+<pre class="r"><code>product_tests = read_csv(&quot;../../../static/datasets/product-tests.csv&quot;)
+#&gt; Parsed with column specification:
+#&gt; cols(
+#&gt;   id = col_character(),
+#&gt;   quality = col_double(),
+#&gt;   durability = col_double(),
+#&gt;   waterproof = col_character()
+#&gt; )
+product_tests
+#&gt; # A tibble: 6 x 4
+#&gt;   id    quality durability waterproof
+#&gt;   &lt;chr&gt;   &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;     
+#&gt; 1 T01        NA         10 no        
+#&gt; 2 T02        10          9 no        
+#&gt; 3 M01         6          4 yes       
+#&gt; 4 M02         6          5 yes       
+#&gt; 5 M03         5         NA yes       
+#&gt; 6 M04         6          6 yes</code></pre>
+<p><code>na.omit()</code>可以删除所有包含缺失值的行：</p>
+<pre class="r"><code>na.omit(product_tests)
+#&gt; # A tibble: 4 x 4
+#&gt;   id    quality durability waterproof
+#&gt;   &lt;chr&gt;   &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;     
+#&gt; 1 T02        10          9 no        
+#&gt; 2 M01         6          4 yes       
+#&gt; 3 M02         6          5 yes       
+#&gt; 4 M04         6          6 yes</code></pre>
+<p>另外，函数<code>complete.cases()</code>可以返回逻辑向量，表明某行是否完整。</p>
+<pre class="r"><code>complete.cases(product_tests)
+#&gt; [1] FALSE  TRUE  TRUE  TRUE FALSE  TRUE</code></pre>
+<p>利用该函数可以筛选数据框，比如获得不含缺失值的<code>id</code>值：</p>
+<pre class="r"><code>product_tests[complete.cases(product_tests), &quot;id&quot;]
+#&gt; # A tibble: 4 x 1
+#&gt;   id   
+#&gt;   &lt;chr&gt;
+#&gt; 1 T02  
+#&gt; 2 M01  
+#&gt; 3 M02  
+#&gt; 4 M04</code></pre>
+<p>前面给出的3个表格有共同的<code>id</code>列，可惜R里面内置函数只能一次合并2个数据框：</p>
+<pre class="r"><code>product_full = merge(product_table, product_tests, by = &quot;id&quot;)
+product_full
+#&gt;    id      name  type   class released material size weight quality durability
+#&gt; 1 M01     JeepX model vehicle      yes Plastics   50     NA       6          4
+#&gt; 2 M02 AircraftX model vehicle      yes Plastics   85    3.0       6          5
+#&gt; 3 M03    Runner model  people      yes     Wood   15     NA       5         NA
+#&gt; 4 M04    Dancer model  people       no     Wood   16    0.6       6          6
+#&gt; 5 T01    SupCar   toy vehicle      yes    Metal  120   10.0      NA         10
+#&gt; 6 T02  SupPlane   toy vehicle       no    Metal  350   45.0      10          9
+#&gt;   waterproof
+#&gt; 1        yes
+#&gt; 2        yes
+#&gt; 3        yes
+#&gt; 4        yes
+#&gt; 5         no
+#&gt; 6         no</code></pre>
+<p>对完全合并好的表格，我们利用<code>tapply()</code>函数（<code>apply</code>家族成员）可以进行统计，该函数专门用于处理表格数据，使用某些方法根据某列队另一列的数据进行统计。</p>
+<p>例如根据type列计算quality列的均值：</p>
+<pre class="r"><code>mean_quality1 = tapply(product_full$quality,
+                       list(product_full$type),
+                       mean, na.rm=TRUE)
+mean_quality1
+#&gt; model   toy 
+#&gt;  5.75 10.00</code></pre>
+<p>返回的结果看起来是个数值向量，我们使用<code>str()</code>看看：</p>
+<pre class="r"><code>str(mean_quality1)
+#&gt;  num [1:2(1d)] 5.75 10
+#&gt;  - attr(*, &quot;dimnames&quot;)=List of 1
+#&gt;   ..$ : chr [1:2] &quot;model&quot; &quot;toy&quot;</code></pre>
+<p><strong>实际上，这是个一维数组</strong>：</p>
+<pre class="r"><code>is.array(mean_quality1)
+#&gt; [1] TRUE</code></pre>
+<p><code>tapply()</code>返回的是一个数组，而不是简单的数值向量，因此可以方便地计算多组操作。</p>
+<p>例如计算每一对<code>type</code>和<code>class</code>组合的<code>quality</code>均值：</p>
+<pre class="r"><code>mean_quality2 = tapply(product_full$quality,
+                       list(product_full$type, product_full$class),
+                       mean, na.rm = TRUE)
+mean_quality2
+#&gt;       people vehicle
+#&gt; model    5.5       6
+#&gt; toy       NA      10</code></pre>
+<p>对于二维数组，我们可以使用两个参数来获取其中的值：</p>
+<pre class="r"><code>typeof(mean_quality2)
+#&gt; [1] &quot;double&quot;
+class(mean_quality2)
+#&gt; [1] &quot;matrix&quot;
+mean_quality2[&quot;model&quot;, &quot;vehicle&quot;]
+#&gt; [1] 6</code></pre>
+<p>同理我们可以根据多列分组，使用<code>with()</code>可以避免反复输入<code>product_full</code>：</p>
+<pre class="r"><code>mean_quality3 = with(product_full,
+                     tapply(quality, list(type, material, released),
+                            mean, na.rm = TRUE))
+mean_quality3
+#&gt; , , no
+#&gt; 
+#&gt;       Metal Plastics Wood
+#&gt; model    NA       NA    6
+#&gt; toy      10       NA   NA
+#&gt; 
+#&gt; , , yes
+#&gt; 
+#&gt;       Metal Plastics Wood
+#&gt; model    NA        6    5
+#&gt; toy     NaN       NA   NA</code></pre>
+<p>使用3个参数可以获取单元格中的值：</p>
+<pre class="r"><code>mean_quality3[&quot;model&quot;, &quot;Wood&quot;, &quot;yes&quot;]
+#&gt; [1] 5</code></pre>
+</div>
+<div id="reshape2重塑数据框" class="section level3">
+<h3>reshape2重塑数据框</h3>
+<p>前面我们学习了如何筛选、排序、合并和汇总数据框，有时候我们需要做些更复杂的操作。</p>
+<p>例如下面数据包含两种产品不同日期的质量和耐久性的测试结果：</p>
+<pre class="r"><code>toy_tests = read_csv(&quot;../../../static/datasets/product-toy-tests.csv&quot;)
+#&gt; Parsed with column specification:
+#&gt; cols(
+#&gt;   id = col_character(),
+#&gt;   date = col_double(),
+#&gt;   sample = col_double(),
+#&gt;   quality = col_double(),
+#&gt;   durability = col_double()
+#&gt; )
+toy_tests
+#&gt; # A tibble: 8 x 5
+#&gt;   id        date sample quality durability
+#&gt;   &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;
+#&gt; 1 T01   20160201    100       9          9
+#&gt; 2 T01   20160302    150      10          9
+#&gt; 3 T01   20160405    180       9         10
+#&gt; 4 T01   20160502    140       9          9
+#&gt; 5 T02   20160201     70       7          9
+#&gt; 6 T02   20160303     75       8          8
+#&gt; 7 T02   20160403     90       9          8
+#&gt; 8 T02   20160502     85      10          9</code></pre>
+<p>如果需要同时比较两种产品的质量和耐久性，这种格式就比较麻烦，如果是下面的格式就好了：</p>
+<pre><code>date    T01 T02
+20160201    9   9
+2016    10  9</code></pre>
+<p><code>reshape2</code>包就是用来搞定这种任务的，如果没有安装，运行下面代码：</p>
+<pre class="r"><code>install.packages(&quot;reshape2&quot;)</code></pre>
+<p>安装成功后，我们就可以使用<code>dcast()</code>来转换数据，用于比较：</p>
+<pre class="r"><code>library(reshape2)
+toy_quality = dcast(toy_tests, date ~ id, value.var = &quot;quality&quot;)
+toy_quality
+#&gt;       date T01 T02
+#&gt; 1 20160201   9   7
+#&gt; 2 20160302  10  NA
+#&gt; 3 20160303  NA   8
+#&gt; 4 20160403  NA   9
+#&gt; 5 20160405   9  NA
+#&gt; 6 20160502   9  10</code></pre>
+<p>上述代码重塑了<code>toy_tests</code>让<code>date</code>列被共享，<code>id</code>值被单独分割为列，每个<code>date</code>与<code>id</code>对应的值是<code>quality</code>。</p>
+<p>可以看到数据中存在缺失值，有一种叫<strong>末次观测值结转法（LOCF）</strong>可以填补缺失值，当非缺失值后面紧跟一个缺失值时，就用该缺失值填补后面的缺失值，直到所有缺失值都被填满。<code>zoo</code>包提供了LOCF的一个实现，使用下面代码安装：</p>
+<pre class="r"><code>install.packages(&quot;zoo&quot;)</code></pre>
+<p>下面用一组简单的向量演示：</p>
+<pre class="r"><code>library(zoo)
+#&gt; 
+#&gt; 载入程辑包：&#39;zoo&#39;
+#&gt; The following objects are masked from &#39;package:base&#39;:
+#&gt; 
+#&gt;     as.Date, as.Date.numeric
+na.locf(c(1, 2, NA, NA, 3, 1, NA, 2, NA))
+#&gt; [1] 1 2 2 2 3 1 1 2 2</code></pre>
+<p>同样的方法我们可以应用于现在处理的数据：</p>
+<pre class="r"><code>na.locf(toy_quality$T01)
+#&gt; [1]  9 10 10 10  9  9</code></pre>
+<p>如果需要填补的数据很多，包含上千个产品，更好的做法是使用<code>lapply</code>进行自动分配：</p>
+<pre class="r"><code>toy_quality[-1] = lapply(toy_quality[-1], na.locf )
+toy_quality
+#&gt;       date T01 T02
+#&gt; 1 20160201   9   7
+#&gt; 2 20160302  10   7
+#&gt; 3 20160303  10   8
+#&gt; 4 20160403  10   9
+#&gt; 5 20160405   9   9
+#&gt; 6 20160502   9  10</code></pre>
+<p>这里数据虽然已经没有了缺失值，但每一行数据的含义却发生了变化。原始数据中产品T01在20160303这天并没有测试，所以这一天的值应该被解释为在此之前的最后一次quality的测试值。另一个问题是两种产品都是按月测试的，但重塑后的数据框没有以固定的频率对其date。</p>
+<p>下面方法进问题进行修正。</p>
+<pre class="r"><code>toy_tests$ym = substr(toy_tests$date, 1, 6)
+toy_tests
+#&gt; # A tibble: 8 x 6
+#&gt;   id        date sample quality durability ym    
+#&gt;   &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt; 
+#&gt; 1 T01   20160201    100       9          9 201602
+#&gt; 2 T01   20160302    150      10          9 201603
+#&gt; 3 T01   20160405    180       9         10 201604
+#&gt; 4 T01   20160502    140       9          9 201605
+#&gt; 5 T02   20160201     70       7          9 201602
+#&gt; 6 T02   20160303     75       8          8 201603
+#&gt; 7 T02   20160403     90       9          8 201604
+#&gt; 8 T02   20160502     85      10          9 201605</code></pre>
+<p>我们只提取年月信息，然后利用它进行重塑。</p>
+<pre class="r"><code>toy_quality = dcast(toy_tests, ym ~ id, value.var = &quot;quality&quot;)
+toy_quality
+#&gt;       ym T01 T02
+#&gt; 1 201602   9   7
+#&gt; 2 201603  10   8
+#&gt; 3 201604   9   9
+#&gt; 4 201605   9  10</code></pre>
+<p>现在，两种产品每月的质量得分自然地展示出来，而且每月缺失值。</p>
+<p>有时候，我们需要将<strong>许多列合并为1列</strong>，用于表示被测量的对象，另外用1列存储对应的结果值。下面用<code>melt()</code>函数将原始数据两种测量组合到一起：</p>
+<pre class="r"><code>toy_tests2 = melt(toy_tests, id.vars = c(&quot;id&quot;, &quot;ym&quot;), 
+                  measure.vars = c(&quot;quality&quot;, &quot;durability&quot;),
+                  variable.name = &quot;measure&quot;)
+toy_tests2
+#&gt;     id     ym    measure value
+#&gt; 1  T01 201602    quality     9
+#&gt; 2  T01 201603    quality    10
+#&gt; 3  T01 201604    quality     9
+#&gt; 4  T01 201605    quality     9
+#&gt; 5  T02 201602    quality     7
+#&gt; 6  T02 201603    quality     8
+#&gt; 7  T02 201604    quality     9
+#&gt; 8  T02 201605    quality    10
+#&gt; 9  T01 201602 durability     9
+#&gt; 10 T01 201603 durability     9
+#&gt; 11 T01 201604 durability    10
+#&gt; 12 T01 201605 durability     9
+#&gt; 13 T02 201602 durability     9
+#&gt; 14 T02 201603 durability     8
+#&gt; 15 T02 201604 durability     8
+#&gt; 16 T02 201605 durability     9</code></pre>
+<p>这种格式正是<code>ggplot2</code>所喜爱的长格式数据，我们可以来画图：</p>
+<pre class="r"><code>library(ggplot2)
+ggplot(toy_tests2, aes(x = ym, y = value)) + 
+    geom_point() + 
+    facet_grid(id ~ measure)</code></pre>
+<p><img src="/cn/post/2019-11-20-r-hight-level-data-operation_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
+<p>我们得到了按照产品id和measure分组，以ym为x轴，以value为y轴的散点图，可以清晰对比分组后两种产品质量差异（以年月）。</p>
+<p>我们还可以用不同的颜色来表示产品，下图可以给出与上图相同的信息：</p>
+<pre class="r"><code>ggplot(toy_tests2, aes(x = ym, y = value, color = id)) + 
+    geom_point() + facet_grid(. ~ measure)</code></pre>
+<p><img src="/cn/post/2019-11-20-r-hight-level-data-operation_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
+</div>
+<div id="通过sqldf包使用sql查询数据框" class="section level2">
+<h2>通过sqldf包使用SQL查询数据框</h2>
+<p>有没有一种方法，能够直接使用SQL进行数据框查询，就像数据框是关系型数据库中的表一样呢？<code>sqldf</code>包给出肯定答案。该包吸收了SQLite轻量结构和易于嵌入R会话的优点，可以用下面代码安装：</p>
+<pre class="r"><code>install.packages(&quot;sqldf&quot;)</code></pre>
+<p>首先加载包：</p>
+<pre class="r"><code>library(sqldf)
+#&gt; 载入需要的程辑包：gsubfn
+#&gt; 载入需要的程辑包：proto
+#&gt; 载入需要的程辑包：RSQLite</code></pre>
+<p>注意加载<code>sqldf</code>包时，几个依赖包会自动加载进来。<strong><code>sql</code>包的实现依赖这些包，它基本上是在R和SQLite之间传输数据和转换数据类型</strong>。</p>
+<p>读入前面使用的产品表格：</p>
+<pre class="r"><code>product_info = read_csv(&quot;../../../static/datasets/product-info.csv&quot;)
+#&gt; Parsed with column specification:
+#&gt; cols(
+#&gt;   id = col_character(),
+#&gt;   name = col_character(),
+#&gt;   type = col_character(),
+#&gt;   class = col_character(),
+#&gt;   released = col_character()
+#&gt; )
+product_stats = read_csv(&quot;../../../static/datasets/product-stats.csv&quot;)
+#&gt; Parsed with column specification:
+#&gt; cols(
+#&gt;   id = col_character(),
+#&gt;   material = col_character(),
+#&gt;   size = col_double(),
+#&gt;   weight = col_double()
+#&gt; )
+product_tests = read_csv(&quot;../../../static/datasets/product-tests.csv&quot;)
+#&gt; Parsed with column specification:
+#&gt; cols(
+#&gt;   id = col_character(),
+#&gt;   quality = col_double(),
+#&gt;   durability = col_double(),
+#&gt;   waterproof = col_character()
+#&gt; )
+toy_tests = read_csv(&quot;../../../static/datasets/product-toy-tests.csv&quot;)
+#&gt; Parsed with column specification:
+#&gt; cols(
+#&gt;   id = col_character(),
+#&gt;   date = col_double(),
+#&gt;   sample = col_double(),
+#&gt;   quality = col_double(),
+#&gt;   durability = col_double()
+#&gt; )</code></pre>
+<p><code>sqldf</code>包的神奇之处在于我们可以使用SQL语句查询工作环境中的数据框，例如：</p>
+<pre class="r"><code>sqldf(&quot;select * from product_info&quot;)
+#&gt;    id      name  type   class released
+#&gt; 1 T01    SupCar   toy vehicle      yes
+#&gt; 2 T02  SupPlane   toy vehicle       no
+#&gt; 3 M01     JeepX model vehicle      yes
+#&gt; 4 M02 AircraftX model vehicle      yes
+#&gt; 5 M03    Runner model  people      yes
+#&gt; 6 M04    Dancer model  people       no</code></pre>
+<p>sqldf与SQLite一样，支持简单的选择性请求。</p>
+<p>比如选择特定列：</p>
+<pre class="r"><code>sqldf(&quot;select id, name, class from product_info&quot;)
+#&gt;    id      name   class
+#&gt; 1 T01    SupCar vehicle
+#&gt; 2 T02  SupPlane vehicle
+#&gt; 3 M01     JeepX vehicle
+#&gt; 4 M02 AircraftX vehicle
+#&gt; 5 M03    Runner  people
+#&gt; 6 M04    Dancer  people</code></pre>
+<p>根据条件筛选记录：</p>
+<pre class="r"><code>sqldf(&quot;select id, name from product_info where released = &#39;yes&#39; &quot;)
+#&gt;    id      name
+#&gt; 1 T01    SupCar
+#&gt; 2 M01     JeepX
+#&gt; 3 M02 AircraftX
+#&gt; 4 M03    Runner</code></pre>
+<p>除了基本的数据库操作和分组统计，该包还支持查询多个数据框，比如：</p>
+<pre class="r"><code>sqldf(&quot;select * from product_info join product_stats using (id)&quot;)
+#&gt;    id      name  type   class released material size weight
+#&gt; 1 T01    SupCar   toy vehicle      yes    Metal  120   10.0
+#&gt; 2 T02  SupPlane   toy vehicle       no    Metal  350   45.0
+#&gt; 3 M01     JeepX model vehicle      yes Plastics   50     NA
+#&gt; 4 M02 AircraftX model vehicle      yes Plastics   85    3.0
+#&gt; 5 M03    Runner model  people      yes     Wood   15     NA
+#&gt; 6 M04    Dancer model  people       no     Wood   16    0.6</code></pre>
+<p>不过sqldf包的缺点也很明显：</p>
+<ol style="list-style-type: decimal">
+<li>sqldf默认基于SQLite，因此SQLite的局限性就是该包的局限性，比如内置的分组汇总函数是有限的，而R本身的统计汇总函数要多得多</li>
+<li>不方便动态编程</li>
+<li>SQL的限制性也限制了该包，我们难以像操作dplyr包一样用sqldf进行表格数据的操作、变换等等</li>
+</ol>
+<blockquote>
+<p>如果你喜欢这个包并想用起来，阅读sqldf更多操作例子：<a href="https://github.com/ggrothendieck/sqldf#examples" class="uri">https://github.com/ggrothendieck/sqldf#examples</a>
+## 使用data.table包操作数据</p>
+</blockquote>
+<p><strong><code>data.table</code>包提供了一个加强版的<code>data.frame</code>，它运行效率极高，而且能够处理适合内存的大数据集，它使用<code>[]</code>实现了一种自然地数据操作语法</strong>。使用下面命令进行安装：</p>
+<pre class="r"><code>install.packages(&quot;data.table&quot;)</code></pre>
+<p>载入包：</p>
+<pre class="r"><code>library(data.table)
+#&gt; 
+#&gt; 载入程辑包：&#39;data.table&#39;
+#&gt; The following objects are masked from &#39;package:reshape2&#39;:
+#&gt; 
+#&gt;     dcast, melt</code></pre>
+<p>注意，<code>data.table</code>包提供了加强版的<code>dcast()</code>和<code>melt()</code>，它们的功能更强大、性能更高，内存使用也更高效。</p>
+<p>创建<code>data.table</code>与创建<code>data.frame</code>类似：</p>
+<pre class="r"><code>dt = data.table(x = 1:3, y = rnorm(3), z = letters[1:3])
+dt
+#&gt;    x      y z
+#&gt; 1: 1  1.643 a
+#&gt; 2: 2  0.668 b
+#&gt; 3: 3 -0.810 c</code></pre>
+<p>检查它的结构：</p>
+<pre class="r"><code>str(dt)
+#&gt; Classes &#39;data.table&#39; and &#39;data.frame&#39;:   3 obs. of  3 variables:
+#&gt;  $ x: int  1 2 3
+#&gt;  $ y: num  1.643 0.668 -0.81
+#&gt;  $ z: chr  &quot;a&quot; &quot;b&quot; &quot;c&quot;
+#&gt;  - attr(*, &quot;.internal.selfref&quot;)=&lt;externalptr&gt;</code></pre>
+<p>可以看到，<code>dt</code>的类是<code>data.table</code>和<code>data.frame</code>，也就是说<code>data.table</code>继承了<code>data.frame</code>的一些行为，但增强了其他部分。</p>
+<p>**<code>data.table</code>的基本语法是<code>dt[i, j, by]，简单说就是使用</code>i<code>选择行，用</code>by<code>分组，然后计算</code>j<code>**。接下来我们看看</code>data.table`继承了什么，增强了什么。</p>
+<p>首先，我们仍然载入之前用到的产品数据，不过这里我们使用<code>data.table</code>包提供的<code>fread()</code>函数，它非常高效和智能，默认返回<code>data.table</code>。</p>
+<pre class="r"><code>product_info = fread(&quot;../../../static/datasets/product-info.csv&quot;)
+product_stats = fread(&quot;../../../static/datasets/product-stats.csv&quot;)
+product_tests = fread(&quot;../../../static/datasets/product-tests.csv&quot;)
+toy_tests = fread(&quot;../../../static/datasets/product-toy-tests.csv&quot;)</code></pre>
+<p>如果查看表格信息，你会发现它和<code>data.frame</code>没什么两样：</p>
+<pre class="r"><code>product_info
+#&gt;     id      name  type   class released
+#&gt; 1: T01    SupCar   toy vehicle      yes
+#&gt; 2: T02  SupPlane   toy vehicle       no
+#&gt; 3: M01     JeepX model vehicle      yes
+#&gt; 4: M02 AircraftX model vehicle      yes
+#&gt; 5: M03    Runner model  people      yes
+#&gt; 6: M04    Dancer model  people       no</code></pre>
+<p>再看结构：</p>
+<pre class="r"><code>str(product_info)
+#&gt; Classes &#39;data.table&#39; and &#39;data.frame&#39;:   6 obs. of  5 variables:
+#&gt;  $ id      : chr  &quot;T01&quot; &quot;T02&quot; &quot;M01&quot; &quot;M02&quot; ...
+#&gt;  $ name    : chr  &quot;SupCar&quot; &quot;SupPlane&quot; &quot;JeepX&quot; &quot;AircraftX&quot; ...
+#&gt;  $ type    : chr  &quot;toy&quot; &quot;toy&quot; &quot;model&quot; &quot;model&quot; ...
+#&gt;  $ class   : chr  &quot;vehicle&quot; &quot;vehicle&quot; &quot;vehicle&quot; &quot;vehicle&quot; ...
+#&gt;  $ released: chr  &quot;yes&quot; &quot;no&quot; &quot;yes&quot; &quot;yes&quot; ...
+#&gt;  - attr(*, &quot;.internal.selfref&quot;)=&lt;externalptr&gt;</code></pre>
+<p>与<code>data.frame</code>不同，如果只提供一个参数用来构建子集，<code>data.table</code>是选择行而不是列：</p>
+<pre class="r"><code>product_info[1]
+#&gt;     id   name type   class released
+#&gt; 1: T01 SupCar  toy vehicle      yes
+product_info[1:3]
+#&gt;     id     name  type   class released
+#&gt; 1: T01   SupCar   toy vehicle      yes
+#&gt; 2: T02 SupPlane   toy vehicle       no
+#&gt; 3: M01    JeepX model vehicle      yes</code></pre>
+<p>如果提供的是负数，那么将删除指定的行：</p>
+<pre class="r"><code>product_info[-1]
+#&gt;     id      name  type   class released
+#&gt; 1: T02  SupPlane   toy vehicle       no
+#&gt; 2: M01     JeepX model vehicle      yes
+#&gt; 3: M02 AircraftX model vehicle      yes
+#&gt; 4: M03    Runner model  people      yes
+#&gt; 5: M04    Dancer model  people       no</code></pre>
+<p><strong>data.table提供了许多特殊符号，它们是data.table的重要组成</strong>。<code>.N</code>是最常用的符号之一，它表示当前分组中，对象的数目（就不用调用<code>nrow</code>函数啦）。在<code>[]</code>使用它指提取最后一行。</p>
+<pre class="r"><code>product_info[.N]
+#&gt;     id   name  type  class released
+#&gt; 1: M04 Dancer model people       no</code></pre>
+<pre class="r"><code>product_info[c(1, .N)]
+#&gt;     id   name  type   class released
+#&gt; 1: T01 SupCar   toy vehicle      yes
+#&gt; 2: M04 Dancer model  people       no</code></pre>
+<p>在对<code>data.table</code>构建子集时，能够自动根据语义计算表达式，因此可以直接使用列名，像<code>with()</code>和<code>subset()</code>那样。</p>
+<p>比如：</p>
+<pre class="r"><code>product_info[released == &quot;yes&quot;]
+#&gt;     id      name  type   class released
+#&gt; 1: T01    SupCar   toy vehicle      yes
+#&gt; 2: M01     JeepX model vehicle      yes
+#&gt; 3: M02 AircraftX model vehicle      yes
+#&gt; 4: M03    Runner model  people      yes</code></pre>
+<p>方括号内的第1个参数是行筛选器，第2个则对筛选后的数据进行适当的计算。</p>
+<p>例如提取列：</p>
+<pre class="r"><code>product_info[released == &quot;yes&quot;, id]
+#&gt; [1] &quot;T01&quot; &quot;M01&quot; &quot;M02&quot; &quot;M03&quot;</code></pre>
+<p>在这里使用<code>&quot;id&quot;</code>结果不同，返回的必然是个data.table。</p>
+<pre class="r"><code>product_info[released == &quot;yes&quot;, &quot;id&quot;]
+#&gt;     id
+#&gt; 1: T01
+#&gt; 2: M01
+#&gt; 3: M02
+#&gt; 4: M03</code></pre>
+<p>第二个参数可以是表达式，例如生成一张表，反应每种<code>type</code>和<code>class</code>组合中<code>released</code>取<code>yes</code>的数量：</p>
+<pre class="r"><code>product_info[released == &quot;yes&quot;, table(type, class)]
+#&gt;        class
+#&gt; type    people vehicle
+#&gt;   model      1       2
+#&gt;   toy        0       1</code></pre>
+<p><strong>要注意，给第2个参数提供<code>list()</code>，结果仍然转换为<code>data.table</code></strong>：</p>
+<pre class="r"><code>product_info[released == &quot;yes&quot;, list(id, name)]
+#&gt;     id      name
+#&gt; 1: T01    SupCar
+#&gt; 2: M01     JeepX
+#&gt; 3: M02 AircraftX
+#&gt; 4: M03    Runner</code></pre>
+<p>我们可以替换原有列，生成新的data.table：</p>
+<pre class="r"><code>product_info[, list(id, name, released = released == &quot;yes&quot;)]
+#&gt;     id      name released
+#&gt; 1: T01    SupCar     TRUE
+#&gt; 2: T02  SupPlane    FALSE
+#&gt; 3: M01     JeepX     TRUE
+#&gt; 4: M02 AircraftX     TRUE
+#&gt; 5: M03    Runner     TRUE
+#&gt; 6: M04    Dancer    FALSE</code></pre>
+<p>还可以创建新列：</p>
+<pre class="r"><code>product_stats[, list(id, material, size, weight, density = size/weight)]
+#&gt;     id material size weight density
+#&gt; 1: T01    Metal  120   10.0   12.00
+#&gt; 2: T02    Metal  350   45.0    7.78
+#&gt; 3: M01 Plastics   50     NA      NA
+#&gt; 4: M02 Plastics   85    3.0   28.33
+#&gt; 5: M03     Wood   15     NA      NA
+#&gt; 6: M04     Wood   16    0.6   26.67</code></pre>
+<p><strong>为了简化，data.table使用<code>.()</code>作为<code>list()</code>的缩写，这两者等价</strong>：</p>
+<pre class="r"><code>product_info[, .(id, name, type, class)]
+#&gt;     id      name  type   class
+#&gt; 1: T01    SupCar   toy vehicle
+#&gt; 2: T02  SupPlane   toy vehicle
+#&gt; 3: M01     JeepX model vehicle
+#&gt; 4: M02 AircraftX model vehicle
+#&gt; 5: M03    Runner model  people
+#&gt; 6: M04    Dancer model  people
+product_info[released == &quot;yes&quot;, .(id, name)]
+#&gt;     id      name
+#&gt; 1: T01    SupCar
+#&gt; 2: M01     JeepX
+#&gt; 3: M02 AircraftX
+#&gt; 4: M03    Runner</code></pre>
+<p>提供排序索引可以对记录排序：</p>
+<pre class="r"><code>product_stats[order(size, decreasing = TRUE)]
+#&gt;     id material size weight
+#&gt; 1: T02    Metal  350   45.0
+#&gt; 2: T01    Metal  120   10.0
+#&gt; 3: M02 Plastics   85    3.0
+#&gt; 4: M01 Plastics   50     NA
+#&gt; 5: M04     Wood   16    0.6
+#&gt; 6: M03     Wood   15     NA</code></pre>
+<p><strong>前面都是在构建子集后，又创建新的data.table</strong>。这样挺麻烦的，因此<code>data.table</code>包提供了对列进行原地赋值的符号<code>:=</code>，例如<code>product_stats</code>开始是这样的：</p>
+<pre class="r"><code>product_stats
+#&gt;     id material size weight
+#&gt; 1: T01    Metal  120   10.0
+#&gt; 2: T02    Metal  350   45.0
+#&gt; 3: M01 Plastics   50     NA
+#&gt; 4: M02 Plastics   85    3.0
+#&gt; 5: M03     Wood   15     NA
+#&gt; 6: M04     Wood   16    0.6</code></pre>
+<p>使用<code>:=</code>直接在上面数据框创建新列：</p>
+<pre class="r"><code>product_stats[, density := size / weight]</code></pre>
+<p>虽然没有任何返回，但数据已经被修改了：</p>
+<pre class="r"><code>product_stats
+#&gt;     id material size weight density
+#&gt; 1: T01    Metal  120   10.0   12.00
+#&gt; 2: T02    Metal  350   45.0    7.78
+#&gt; 3: M01 Plastics   50     NA      NA
+#&gt; 4: M02 Plastics   85    3.0   28.33
+#&gt; 5: M03     Wood   15     NA      NA
+#&gt; 6: M04     Wood   16    0.6   26.67</code></pre>
+<p>使用<code>:=</code>替换已有的列：</p>
+<pre class="r"><code>product_info[, released := released == &quot;yes&quot;]
+product_info
+#&gt;     id      name  type   class released
+#&gt; 1: T01    SupCar   toy vehicle     TRUE
+#&gt; 2: T02  SupPlane   toy vehicle    FALSE
+#&gt; 3: M01     JeepX model vehicle     TRUE
+#&gt; 4: M02 AircraftX model vehicle     TRUE
+#&gt; 5: M03    Runner model  people     TRUE
+#&gt; 6: M04    Dancer model  people    FALSE</code></pre>
+<div id="使用键获取值" class="section level3">
+<h3>使用键获取值</h3>
+<p><strong>索引支持</strong>是data.table另一个独特功能，即我们可以创建键（key），使用键获取记录及其高效。</p>
+<p>例如，使用<code>setkey()</code>将<code>id</code>设置为<code>product_info</code>中的一个键：</p>
+<pre class="r"><code>setkey(product_info, id)</code></pre>
+<p>同样的，函数无任何返回，但我们已经为原始数据设置了键，而且原来的数据看起来也没变化：</p>
+<pre class="r"><code>product_info
+#&gt;     id      name  type   class released
+#&gt; 1: M01     JeepX model vehicle     TRUE
+#&gt; 2: M02 AircraftX model vehicle     TRUE
+#&gt; 3: M03    Runner model  people     TRUE
+#&gt; 4: M04    Dancer model  people    FALSE
+#&gt; 5: T01    SupCar   toy vehicle     TRUE
+#&gt; 6: T02  SupPlane   toy vehicle    FALSE</code></pre>
+<p>但键已生成：</p>
+<pre class="r"><code>key(product_info)
+#&gt; [1] &quot;id&quot;</code></pre>
+<p>现在我们可以用它来获取数据了，比如提供一个id值：</p>
+<pre class="r"><code>product_info[&quot;M01&quot;]
+#&gt;     id  name  type   class released
+#&gt; 1: M01 JeepX model vehicle     TRUE</code></pre>
+<p>也可以使用<code>setkeyv()</code>来设置键，但它只接受字符向量：</p>
+<pre class="r"><code>setkeyv(product_stats, &quot;id&quot;)</code></pre>
+<p><strong>当<code>key</code>是一个动态变化的向量时，这个函数会非常好用</strong>。</p>
+<pre class="r"><code>product_stats[&quot;M02&quot;]
+#&gt;     id material size weight density
+#&gt; 1: M02 Plastics   85      3    28.3</code></pre>
+<p>如果两个表格有相同的键，我们可以轻松把他们连接到一起：</p>
+<pre class="r"><code>product_info[product_stats]
+#&gt;     id      name  type   class released material size weight density
+#&gt; 1: M01     JeepX model vehicle     TRUE Plastics   50     NA      NA
+#&gt; 2: M02 AircraftX model vehicle     TRUE Plastics   85    3.0   28.33
+#&gt; 3: M03    Runner model  people     TRUE     Wood   15     NA      NA
+#&gt; 4: M04    Dancer model  people    FALSE     Wood   16    0.6   26.67
+#&gt; 5: T01    SupCar   toy vehicle     TRUE    Metal  120   10.0   12.00
+#&gt; 6: T02  SupPlane   toy vehicle    FALSE    Metal  350   45.0    7.78</code></pre>
+<p><strong>data.table的键可以不止一个</strong>。例如使用<code>id</code>和<code>date</code>定位<code>toy_tests</code>中的记录：</p>
+<pre class="r"><code>setkey(toy_tests, id, date)</code></pre>
+<p>现在提供key中的两个元素就可以获取记录了</p>
+<pre class="r"><code>toy_tests[.(&quot;T01&quot;, 20160201)]
+#&gt;     id     date sample quality durability
+#&gt; 1: T01 20160201    100       9          9</code></pre>
+<p>如果提供第一个元素，会返回匹配的多个值：</p>
+<pre class="r"><code>toy_tests[&quot;T01&quot;]
+#&gt;     id     date sample quality durability
+#&gt; 1: T01 20160201    100       9          9
+#&gt; 2: T01 20160302    150      10          9
+#&gt; 3: T01 20160405    180       9         10
+#&gt; 4: T01 20160502    140       9          9</code></pre>
+<p>key不能错序，因此不能单独提供第2个元素以及反序排列。</p>
+<pre class="r"><code>toy_tests[20160201]
+#&gt;      id date sample quality durability
+#&gt; 1: &lt;NA&gt;   NA     NA      NA         NA
+toy_tests[.(20160202,&quot;T01&quot;)]
+#&gt; Error in bmerge(i, x, leftcols, rightcols, roll, rollends, nomatch, mult, : Incompatible join types: x.id (character) and i.V1 (double)</code></pre>
+</div>
+<div id="对数据进行分组汇总" class="section level3">
+<h3>对数据进行分组汇总</h3>
+<p><code>by</code>是data.table中另一个重要参数（即方括号内的第3个参数），它可以将数据按照<code>by</code>值进行分组，并对分组计算第2个参数。</p>
+<p>接下来，我们学习如何通过by以简便的方式实现数据的分组汇总。</p>
+<p>最简单的用法是计算每组的记录条数：</p>
+<pre class="r"><code>product_info[, .N, by = released]
+#&gt;    released N
+#&gt; 1:     TRUE 4
+#&gt; 2:    FALSE 2</code></pre>
+<p>分组的变量可以不止一个，例如由<code>type</code>和<code>class</code>确定一个分组：</p>
+<pre class="r"><code>product_info[, .N, by = .(type, class)]
+#&gt;     type   class N
+#&gt; 1: model vehicle 2
+#&gt; 2: model  people 2
+#&gt; 3:   toy vehicle 2</code></pre>
+<p>可以对每个分组进行统计计算，这里计算防水和非防水产品的质量得分均值：</p>
+<pre class="r"><code>product_tests[, mean(quality, na.rm = TRUE), by = .(waterproof)]
+#&gt;    waterproof    V1
+#&gt; 1:         no 10.00
+#&gt; 2:        yes  5.75</code></pre>
+<p>可以看到结果存储在V1列中，我们可以手动指定列名：</p>
+<pre class="r"><code>product_tests[, .(mean_quality = mean(quality, na.rm = TRUE)), by = .(waterproof)]
+#&gt;    waterproof mean_quality
+#&gt; 1:         no        10.00
+#&gt; 2:        yes         5.75</code></pre>
+<p>注意操作需要�放在<code>list</code>中进行（<code>.()</code>）。</p>
+<p>我们可以将多个[]按顺序连接起来，形成工作流（类似管道<code>%&gt;%</code>）。</p>
+<p>下面的例子中，首先使用通用键id将product_info和product_tests连接起来，然后筛选已发布的产品，再按type和class进行分组，最后计算每组的quality和durability的均值。</p>
+<pre class="r"><code>type_class_test0 = product_info[product_tests][released == TRUE,
+                                               .(mean_quality = mean(quality, na.rm=TRUE),
+                                                 mean_durability = mean(durability, na.rm=TRUE)),
+                                               by = .(type, class)]
+type_class_test0
+#&gt;     type   class mean_quality mean_durability
+#&gt; 1:   toy vehicle          NaN            10.0
+#&gt; 2: model vehicle            6             4.5
+#&gt; 3: model  people            5             NaN</code></pre>
+<p>在返回的data.table中，by所对应的组合中的值是唯一的，虽然实现了目标，但结果中没有设置键：</p>
+<pre class="r"><code>key(type_class_test0)
+#&gt; NULL</code></pre>
+<p><strong>这种情况下，我们可以使用keyby来确保结果的data.table自动将keyby对应的分组向量设置为键</strong>。一般data.table会保持原来的顺序返回，有时候我们想要设定排序，keyby也可以实现，所以是一举两得：</p>
+<pre class="r"><code>type_class_test = product_info[product_tests][released == TRUE, 
+                                              .(mean_quality = mean(quality, na.rm = TRUE),
+                                                mean_durability = mean(durability, na.rm = TRUE)),
+                                              keyby = .(type, class)]
+type_class_test
+#&gt;     type   class mean_quality mean_durability
+#&gt; 1: model  people            5             NaN
+#&gt; 2: model vehicle            6             4.5
+#&gt; 3:   toy vehicle          NaN            10.0</code></pre>
+<pre class="r"><code>key(type_class_test)
+#&gt; [1] &quot;type&quot;  &quot;class&quot;</code></pre>
+<p>下面可以直接用键来获取值：</p>
+<pre class="r"><code>type_class_test[.(&quot;model&quot;, &quot;vehicle&quot;), mean_quality]
+#&gt; [1] 6</code></pre>
+<p><strong>对大数据集使用键进行搜索，能够比迭代使用逻辑比较快得多，因为键搜索利用了二进制搜索，而迭代在不必要的计算上浪费了时间</strong>。</p>
+<p>下面举例说明，首先创建有1000万行的数据，其中一列是索引列id，其他两列是随机数：</p>
+<pre class="r"><code>n = 10000000
+test1 = data.frame(id = 1:n, x = rnorm(n), y = rnorm(n))</code></pre>
+<p>现在查找id为876543的行，看要花多少时间：</p>
+<pre class="r"><code>system.time(row &lt;- test1[test1$id == 876543, ])
+#&gt;  用户  系统  流逝 
+#&gt; 0.134 0.019 0.152</code></pre>
+<p>作为对比，我们使用<code>data.table</code>来完成这个任务，使用<code>setDT()</code>将数据框转换为<code>data.table</code>，该函数可以原地转换，不需要复制，并可以设定键。</p>
+<pre class="r"><code>setDT(test1, key = &quot;id&quot;)
+class(test1)
+#&gt; [1] &quot;data.table&quot; &quot;data.frame&quot;</code></pre>
+<p>现在我们搜索相同的元素：</p>
+<pre class="r"><code>system.time(row &lt;- test1[.(876543)])
+#&gt;  用户  系统  流逝 
+#&gt; 0.004 0.001 0.001</code></pre>
+<p>结果一致，但data.table用的时间要少得多。</p>
+</div>
+<div id="重塑data.table" class="section level3">
+<h3>重塑data.table</h3>
+<p>data.table扩展包为data.table对象提供了更强更快得<code>dcast()</code>和<code>melt()</code>函数。</p>
+<p>例如将toy_tests的每个产品质量得分按照年和月进行对齐</p>
+<pre class="r"><code>toy_tests[, ym := substr(date, 1, 6)]
+toy_quality = dcast(toy_tests, ym ~ id, value.var = &quot;quality&quot;)
+toy_quality
+#&gt;        ym T01 T02
+#&gt; 1: 201602   9   7
+#&gt; 2: 201603  10   8
+#&gt; 3: 201604   9   9
+#&gt; 4: 201605   9  10</code></pre>
+<p><code>data.table::dcast()</code>提供了更强大的多变量支持：</p>
+<pre class="r"><code>toy_tests2 = data.table::dcast(toy_tests, ym ~ id, value.var = c(&quot;quality&quot;, &quot;durability&quot;))
+toy_tests2
+#&gt;        ym quality_T01 quality_T02 durability_T01 durability_T02
+#&gt; 1: 201602           9           7              9              9
+#&gt; 2: 201603          10           8              9              8
+#&gt; 3: 201604           9           9             10              8
+#&gt; 4: 201605           9          10              9              9</code></pre>
+<p>看到没，data.table可以自动将id值与质量分类连接起来。</p>
+<p>此时<code>ym</code>是键：</p>
+<pre class="r"><code>key(toy_tests2)
+#&gt; [1] &quot;ym&quot;</code></pre>
+<p>我们可以利用它提取数据：</p>
+<pre class="r"><code>toy_tests2[&quot;201602&quot;]
+#&gt;        ym quality_T01 quality_T02 durability_T01 durability_T02
+#&gt; 1: 201602           9           7              9              9</code></pre>
+</div>
+<div id="使用原地设置函数" class="section level3">
+<h3>使用原地设置函数</h3>
+<p>我们知道R存在复制修改机制，这在进行大数据计算时开销很大，<code>data.table</code>提供了一系列支持语义的<code>set</code>函数，它们可以原地修改data.table，因此避免不必要的复制。</p>
+<p>仍以<code>product_stats</code>为例，我们可以使用<code>setDF()</code>函数不要任何复制就可以将data.table变成data.frame。</p>
+<pre class="r"><code>product_stats
+#&gt;     id material size weight density
+#&gt; 1: M01 Plastics   50     NA      NA
+#&gt; 2: M02 Plastics   85    3.0   28.33
+#&gt; 3: M03     Wood   15     NA      NA
+#&gt; 4: M04     Wood   16    0.6   26.67
+#&gt; 5: T01    Metal  120   10.0   12.00
+#&gt; 6: T02    Metal  350   45.0    7.78
+setDF(product_stats)
+class(product_stats)
+#&gt; [1] &quot;data.frame&quot;</code></pre>
+<p><code>setDT()</code>可以将任意的data.frame转换为data.table，并设置键。</p>
+<pre class="r"><code>setDT(product_stats, key = &quot;id&quot;)
+class(product_stats)
+#&gt; [1] &quot;data.table&quot; &quot;data.frame&quot;</code></pre>
+<p>使用<code>setnames()</code>可以对列重命名：</p>
+<pre class="r"><code>setnames(product_stats, &quot;size&quot;, &quot;volume&quot;)
+product_stats
+#&gt;     id material volume weight density
+#&gt; 1: M01 Plastics     50     NA      NA
+#&gt; 2: M02 Plastics     85    3.0   28.33
+#&gt; 3: M03     Wood     15     NA      NA
+#&gt; 4: M04     Wood     16    0.6   26.67
+#&gt; 5: T01    Metal    120   10.0   12.00
+#&gt; 6: T02    Metal    350   45.0    7.78</code></pre>
+<p>如果给行添加索引，使用：</p>
+<pre class="r"><code>product_stats[, i := .I]
+product_stats
+#&gt;     id material volume weight density i
+#&gt; 1: M01 Plastics     50     NA      NA 1
+#&gt; 2: M02 Plastics     85    3.0   28.33 2
+#&gt; 3: M03     Wood     15     NA      NA 3
+#&gt; 4: M04     Wood     16    0.6   26.67 4
+#&gt; 5: T01    Metal    120   10.0   12.00 5
+#&gt; 6: T02    Metal    350   45.0    7.78 6</code></pre>
+<p>为方便，索引一般在第1列，所以我们要修改列的顺序：</p>
+<pre class="r"><code>setcolorder(product_stats, c(&quot;i&quot;, &quot;id&quot;, &quot;material&quot;, &quot;weight&quot;, &quot;volume&quot;, &quot;density&quot;))
+product_stats
+#&gt;    i  id material weight volume density
+#&gt; 1: 1 M01 Plastics     NA     50      NA
+#&gt; 2: 2 M02 Plastics    3.0     85   28.33
+#&gt; 3: 3 M03     Wood     NA     15      NA
+#&gt; 4: 4 M04     Wood    0.6     16   26.67
+#&gt; 5: 5 T01    Metal   10.0    120   12.00
+#&gt; 6: 6 T02    Metal   45.0    350    7.78</code></pre>
+</div>
+<div id="data.table的动态作用域" class="section level3">
+<h3>data.table的动态作用域</h3>
+<p>我们不仅可以直接使用列，也可以提前定义注入<code>.N</code>、<code>.I</code>和<code>.SD</code>来指代数据中的重要部分。</p>
+<p>为演示，我们先创建新的data.table，命名为<code>market_data</code>，其中date列是连续的。</p>
+<pre class="r"><code>market_data = data.table(date = as.Date(&quot;2015-05-01&quot;) + 0:299)
+head(market_data)
+#&gt;          date
+#&gt; 1: 2015-05-01
+#&gt; 2: 2015-05-02
+#&gt; 3: 2015-05-03
+#&gt; 4: 2015-05-04
+#&gt; 5: 2015-05-05
+#&gt; 6: 2015-05-06</code></pre>
+<p>向调用函数一样，我们给data.table添加数据列：</p>
+<pre class="r"><code>set.seed(123)
+market_data[, `:=`(
+    price = round(30 * cumprod(1 + rnorm(300, 0.001, 0.05)), 2),
+    volume = rbinom(300, 5000, 0.8)
+)]</code></pre>
+<p>注意这里的price和volumn都是服从正态分布的随机数：</p>
+<pre class="r"><code>head(market_data)
+#&gt;          date price volume
+#&gt; 1: 2015-05-01  29.2   4021
+#&gt; 2: 2015-05-02  28.9   4000
+#&gt; 3: 2015-05-03  31.2   4033
+#&gt; 4: 2015-05-04  31.3   4036
+#&gt; 5: 2015-05-05  31.5   3995
+#&gt; 6: 2015-05-06  34.3   3955</code></pre>
+<p>我们以图形的方式展示数据：</p>
+<pre class="r"><code>plot(price ~ date, data = market_data,
+     type = &quot;l&quot;,
+     main = &quot;Market data&quot;)</code></pre>
+<p><img src="/cn/post/2019-11-20-r-hight-level-data-operation_files/figure-html/unnamed-chunk-107-1.png" width="672" /></p>
+<p>数据准备好后，我们看看动态作用域如何让事情变得简单。</p>
+<p>看下时间范围：</p>
+<pre class="r"><code>market_data[, range(date)]
+#&gt; [1] &quot;2015-05-01&quot; &quot;2016-02-24&quot;</code></pre>
+<p>将数据整合缩减为月度数据：</p>
+<pre class="r"><code>monthly = market_data[,
+                      .(open = price[[1]], high = max(price),
+                        low = min(price), close = price[[.N]]),
+                      keyby = .(year = year(date), month = month(date))]
+head(monthly)
+#&gt;    year month open high  low close
+#&gt; 1: 2015     5 29.2 37.7 26.1  28.4
+#&gt; 2: 2015     6 28.1 37.6 28.1  37.2
+#&gt; 3: 2015     7 36.3 41.0 32.1  41.0
+#&gt; 4: 2015     8 41.5 50.0 30.9  30.9
+#&gt; 5: 2015     9 30.5 34.5 22.9  27.0
+#&gt; 6: 2015    10 25.7 33.2 24.6  29.3</code></pre>
+<p>计算过程为：<strong>先根据by表达式将原始数据分割，分割后的每个部分都是原始数据的一个子集，并且原始数据和子集都是data.table。然后在每个子集data.table的语义中计算j表达式</strong>。</p>
+<p>下面代码没有按组聚合数据，而是画了每年的价格图：</p>
+<pre class="r"><code>oldpar = par(mfrow = c(1, 2))
+market_data[, {
+    plot(price ~ date, type = &quot;l&quot;,
+         main = sprintf(&quot;Market data (%d)&quot;, year))
+}, by = .(year = year(date))]
+par(oldpar)</code></pre>
+<p>这里我们没有为<code>plot()</code>设定data参数，图像也成功绘制，这是因为该操作是在data.table的语义中进行的。</p>
+<p>此外,j表达式还可以用于构建模型的代码，下面是一个批量拟合线性模型的例子。这里使用<code>diamonds</code>数据集。</p>
+<pre class="r"><code>data(&quot;diamonds&quot;, package = &quot;ggplot2&quot;)
+setDT(diamonds)
+head(diamonds)
+#&gt;    carat       cut color clarity depth table price    x    y    z
+#&gt; 1:  0.23     Ideal     E     SI2  61.5    55   326 3.95 3.98 2.43
+#&gt; 2:  0.21   Premium     E     SI1  59.8    61   326 3.89 3.84 2.31
+#&gt; 3:  0.23      Good     E     VS1  56.9    65   327 4.05 4.07 2.31
+#&gt; 4:  0.29   Premium     I     VS2  62.4    58   334 4.20 4.23 2.63
+#&gt; 5:  0.31      Good     J     SI2  63.3    58   335 4.34 4.35 2.75
+#&gt; 6:  0.24 Very Good     J    VVS2  62.8    57   336 3.94 3.96 2.48</code></pre>
+<p>该数据集包含超过5万条钻石信息的记录，每条记录了钻石的10个属性，现在我们队cut列中的每种切割类型都你拟合一个线性回归模型，由此观察每种切割类型中carat与depth是如何反映log(price)的信息。</p>
+<pre class="r"><code>diamonds[, {
+    m = lm(log(price) ~ carat + depth)
+    as.list(coef(m))
+}, keyby = .(cut)]
+#&gt;          cut (Intercept) carat    depth
+#&gt; 1:      Fair        7.73  1.26 -0.01498
+#&gt; 2:      Good        7.08  1.97 -0.01460
+#&gt; 3: Very Good        6.29  2.09 -0.00289
+#&gt; 4:   Premium        5.93  1.85  0.00594
+#&gt; 5:     Ideal        8.50  2.13 -0.03808</code></pre>
+<p><strong>动态作用域允许我们组合使用data.table内部或外部预定义的符号</strong>。举例，我们定义一个函数，计算market_data中由用户定义的列的年度均值：</p>
+<pre class="r"><code>average = function(column){
+    market_data[, .(average = mean(.SD[[column]])),
+                by = .(year = year(date))]
+}</code></pre>
+<p>这里我们使用<code>.SD[[x]]</code>提取x列的值，这跟通过名字从列表中提取成分或元素相同。</p>
+<p>下面计算每年的平均价格：</p>
+<pre class="r"><code>average(&quot;price&quot;)
+#&gt;    year average
+#&gt; 1: 2015    32.3
+#&gt; 2: 2016    32.4</code></pre>
+<p>每年平均数量：</p>
+<pre class="r"><code>average(&quot;volume&quot;)
+#&gt;    year average
+#&gt; 1: 2015    4000
+#&gt; 2: 2016    4003</code></pre>
+<p>我们可以利用此包专门的语法创造一个列数动态变化的组合，并且组合中的列是由动态变化的名称决定的。</p>
+<p>这里我们假设添加额外的3列数据，每一列都是原始价格加了随机噪声生成的。不用重复调用<code>market_date[, price1 := ...]</code>，而是使用<code>market_data[, (columns) := list(...)]</code>来动态设定列，其中<code>columns</code>是一个包含列名的字符向量，<code>list(...)</code>是每个列对应的值：</p>
+<pre class="r"><code>price_cols = paste0(&quot;price&quot;, 1:3)
+market_data[, (price_cols) := lapply(1:3,
+                                     function(i) round(price + rnorm(.N, 0, 5), 2))]
+head(market_data)
+#&gt;          date price volume price1 price2 price3
+#&gt; 1: 2015-05-01  29.2   4021   30.6   27.4   33.2
+#&gt; 2: 2015-05-02  28.9   4000   29.7   20.4   36.0
+#&gt; 3: 2015-05-03  31.2   4033   34.3   26.9   27.2
+#&gt; 4: 2015-05-04  31.3   4036   29.3   29.0   28.0
+#&gt; 5: 2015-05-05  31.5   3995   36.0   32.1   34.8
+#&gt; 6: 2015-05-06  34.3   3955   30.1   31.0   35.2</code></pre>
+<p>另一方面，如果表格有很多列，并且需要对它们的子集进行一些计算，也可以用类似的语法来解决。</p>
+<p>举例，我们现在需要对每个价格列调用<code>na.locf()</code>以去掉缺失值，先获取所有的价格列：</p>
+<pre class="r"><code>cols = colnames(market_data)
+price_cols = cols[grep(&quot;^price&quot;, cols)]
+price_cols
+#&gt; [1] &quot;price&quot;  &quot;price1&quot; &quot;price2&quot; &quot;price3&quot;</code></pre>
+<p>然后我们用类似的语法，并添加一个参数<code>.SDcols = price_cols</code>，这是为了让<code>.SD</code>中的列只是我们想要的那些价格列。</p>
+<pre class="r"><code>market_data[, (price_cols) := lapply(.SD, zoo::na.locf), .SDcols =  price_cols]
+head(market_data)
+#&gt;          date price volume price1 price2 price3
+#&gt; 1: 2015-05-01  29.2   4021   30.6   27.4   33.2
+#&gt; 2: 2015-05-02  28.9   4000   29.7   20.4   36.0
+#&gt; 3: 2015-05-03  31.2   4033   34.3   26.9   27.2
+#&gt; 4: 2015-05-04  31.3   4036   29.3   29.0   28.0
+#&gt; 5: 2015-05-05  31.5   3995   36.0   32.1   34.8
+#&gt; 6: 2015-05-06  34.3   3955   30.1   31.0   35.2</code></pre>
+<p>最后，更多操作请前往<a href="https://github.com/Rdatatable/data.table/wiki" class="uri">https://github.com/Rdatatable/data.table/wiki</a>查看完整功能列表。</p>
+</div>
+</div>
+<div id="使用dplyr操作数据框" class="section level2">
+<h2>使用dplyr操作数据框</h2>
+<p>关于dplyr的基本操作我已经写过很多笔记了，不再赘述，想学习的读者请参阅下面几篇文章，这部分我只挑没接触过的学习下。</p>
+<ul>
+<li><a href="https://www.jianshu.com/p/f3c21a5ad10a">r&lt;-基础|分析】初学者学习tidyverse</a></li>
+<li><a href="https://www.jianshu.com/p/94faed25ff7a">【r&lt;-数据分析】使用dplyr（1）：介绍与filter操作</a>及后续</li>
+<li>高级操作：<a href="https://www.jianshu.com/p/5eca388205d4">【r&lt;-高级|dplyr】dplyr编程，quote与unquote</a></li>
+</ul>
+<p>与<code>data.table</code>类似，<code>dplyr</code>也提供了<code>do()</code>函数来对每组数据进行任意操作。</p>
+<p>例如将<code>diamonds</code>按<code>cut</code>分组，每组都按<code>log(price) ~ carat</code>拟合一个线性模型。和<code>data.table</code>不同的是，我们需要为操作指定一个名称，以便将结果存储在列中。而且<code>do()</code>表达式不能直接在分组数据的语义下计算 ，我们需要使用<code>.</code>来表示数据。</p>
+<pre class="r"><code>library(dplyr)
+#&gt; 
+#&gt; 载入程辑包：&#39;dplyr&#39;
+#&gt; The following objects are masked from &#39;package:data.table&#39;:
+#&gt; 
+#&gt;     between, first, last
+#&gt; The following objects are masked from &#39;package:stats&#39;:
+#&gt; 
+#&gt;     filter, lag
+#&gt; The following objects are masked from &#39;package:base&#39;:
+#&gt; 
+#&gt;     intersect, setdiff, setequal, union
+data(&quot;diamonds&quot;, package = &quot;ggplot2&quot;)
+models = diamonds %&gt;% 
+    group_by(cut) %&gt;% 
+    do(lmod = lm(log(price) ~ carat, data = .))
+models
+#&gt; Source: local data frame [5 x 2]
+#&gt; Groups: &lt;by row&gt;
+#&gt; 
+#&gt; # A tibble: 5 x 2
+#&gt;   cut       lmod  
+#&gt; * &lt;ord&gt;     &lt;list&gt;
+#&gt; 1 Fair      &lt;lm&gt;  
+#&gt; 2 Good      &lt;lm&gt;  
+#&gt; 3 Very Good &lt;lm&gt;  
+#&gt; 4 Premium   &lt;lm&gt;  
+#&gt; 5 Ideal     &lt;lm&gt;</code></pre>
+<p>注意结果创建了一个新列，该列不是典型的原子向量，每个元素都是模型的结果，包含线性回归对象的列表。我们可以通过索引来提取模型结果：</p>
+<pre class="r"><code>models$lmod[[1]]
+#&gt; 
+#&gt; Call:
+#&gt; lm(formula = log(price) ~ carat, data = .)
+#&gt; 
+#&gt; Coefficients:
+#&gt; (Intercept)        carat  
+#&gt;        6.78         1.25</code></pre>
+<p><strong>在需要完成高度定制的操作时，<code>do()</code>的优势非常明显</strong>。下面举例。</p>
+<p><strong>假如我们需要分析<code>toy_tests</code>数据，要对每种产品的质量和耐久性进行汇总。如果只需要样本数最多的3个测试记录，并且每个产品的质量和耐久性是经样本数加权的平均数</strong>，下面是做法。</p>
+<pre class="r"><code>toy_tests %&gt;% 
+    group_by(id) %&gt;% 
+    arrange(desc(sample)) %&gt;% 
+    do(head(., 3)) %&gt;% 
+    summarise(
+        quality = sum(quality * sample) / sum(sample),
+        durability = sum(durability * sample) / sum(sample)
+    )
+#&gt; # A tibble: 2 x 3
+#&gt;   id    quality durability
+#&gt;   &lt;chr&gt;   &lt;dbl&gt;      &lt;dbl&gt;
+#&gt; 1 T01      9.32       9.38
+#&gt; 2 T02      9.04       8.34</code></pre>
+<p>为了查看中间结果，可以运行<code>do()</code>之前的代码：</p>
+<pre class="r"><code>toy_tests %&gt;% 
+    group_by(id) %&gt;% 
+    arrange(desc(sample))
+#&gt; # A tibble: 8 x 6
+#&gt; # Groups:   id [2]
+#&gt;   id        date sample quality durability ym    
+#&gt;   &lt;chr&gt;    &lt;int&gt;  &lt;int&gt;   &lt;int&gt;      &lt;int&gt; &lt;chr&gt; 
+#&gt; 1 T01   20160405    180       9         10 201604
+#&gt; 2 T01   20160302    150      10          9 201603
+#&gt; 3 T01   20160502    140       9          9 201605
+#&gt; 4 T01   20160201    100       9          9 201602
+#&gt; 5 T02   20160403     90       9          8 201604
+#&gt; 6 T02   20160502     85      10          9 201605
+#&gt; 7 T02   20160303     75       8          8 201603
+#&gt; 8 T02   20160201     70       7          9 201602</code></pre>
+</div>
+<div id="使用rlist包处理嵌套数据结构" class="section level2">
+<h2>使用rlist包处理嵌套数据结构</h2>
+<p>在R中，最常见的嵌套数据结构是列表对象，之前关注的都是操作表格数据，这部分我们一起玩转<strong><code>rlist</code>包，它是针对非表格数据设计的包</strong>。</p>
+<p><code>rlist</code>的设计与<code>dplyr</code>非常相似，它提供了针对列表对象的映射、筛选、选择、排序和聚合功能。</p>
+<p>安装：</p>
+<pre class="r"><code>install.packages(&quot;rlist&quot;)</code></pre>
+<p>载入：</p>
+<pre class="r"><code>library(rlist)</code></pre>
+<p><strong>为了把数据以列表形式载入R，我们需要用<code>jsonlite::fromJSON()</code>或者直接使用<code>rlist</code>提供的<code>list.load()</code>函数</strong>（这里我找不到原作者的数据文件，所以自己谷歌找了类似的学习下）：</p>
+<pre class="r"><code>products = list.load(&quot;../../../static/datasets/products.json&quot;)</code></pre>
+<p><code>products</code>的每个成分都包含产品所有信息，使用<code>list.map()</code>可以在每个成分的语义中计算表达式：</p>
+<pre class="r"><code>str(list.map(products, id))
+#&gt; List of 66
+#&gt;  $ : chr &quot;amazonite&quot;
+#&gt;  $ : chr &quot;amber&quot;
+#&gt;  $ : chr &quot;amethyst&quot;
+#&gt;  $ : chr &quot;ametrine&quot;
+#&gt;  $ : chr &quot;apophyllite&quot;
+#&gt;  $ : chr &quot;aquamarine&quot;
+#&gt;  $ : chr &quot;aragonite&quot;
+#&gt;  $ : chr &quot;azurite&quot;
+#&gt;  $ : chr &quot;barite&quot;
+#&gt;  $ : chr &quot;bismuth&quot;
+#&gt;  $ : chr &quot;black_tourmaline&quot;
+#&gt;  $ : chr &quot;bloodstone&quot;
+#&gt;  $ : chr &quot;blue_calcite&quot;
+#&gt;  $ : chr &quot;kyanite&quot;
+#&gt;  $ : chr &quot;carnelian&quot;
+#&gt;  $ : chr &quot;celestite&quot;
+#&gt;  $ : chr &quot;chrysocolla&quot;
+#&gt;  $ : chr &quot;chrysoprase&quot;
+#&gt;  $ : chr &quot;citrine&quot;
+#&gt;  $ : chr &quot;copper&quot;
+#&gt;  $ : chr &quot;dalmatian_stone&quot;
+#&gt;  $ : chr &quot;danburite&quot;
+#&gt;  $ : chr &quot;desert_rose&quot;
+#&gt;  $ : chr &quot;emerald&quot;
+#&gt;  $ : chr &quot;epidote&quot;
+#&gt;  $ : chr &quot;fluorite&quot;
+#&gt;  $ : chr &quot;garnet&quot;
+#&gt;  $ : chr &quot;green_calcite&quot;
+#&gt;  $ : chr &quot;hematite&quot;
+#&gt;  $ : chr &quot;honey_calcite&quot;
+#&gt;  $ : chr &quot;howlite&quot;
+#&gt;  $ : chr &quot;jasper&quot;
+#&gt;  $ : chr &quot;jet&quot;
+#&gt;  $ : chr &quot;kunzite&quot;
+#&gt;  $ : chr &quot;labradorite&quot;
+#&gt;  $ : chr &quot;lapis_lazuli&quot;
+#&gt;  $ : chr &quot;lemon_quartz&quot;
+#&gt;  $ : chr &quot;lemurian_quartz&quot;
+#&gt;  $ : chr &quot;lepidolite&quot;
+#&gt;  $ : chr &quot;libyan_gold_tektite&quot;
+#&gt;  $ : chr &quot;magnesite&quot;
+#&gt;  $ : chr &quot;malachite&quot;
+#&gt;  $ : chr &quot;meteorite&quot;
+#&gt;  $ : chr &quot;moldavite&quot;
+#&gt;  $ : chr &quot;moonstone&quot;
+#&gt;  $ : chr &quot;orange_calcite&quot;
+#&gt;  $ : chr &quot;peridot&quot;
+#&gt;  $ : chr &quot;pyrite&quot;
+#&gt;  $ : chr &quot;quartz&quot;
+#&gt;  $ : chr &quot;rhodochrosite&quot;
+#&gt;  $ : chr &quot;rhodonite&quot;
+#&gt;  $ : chr &quot;rose_quartz&quot;
+#&gt;  $ : chr &quot;ruby&quot;
+#&gt;  $ : chr &quot;scolecite&quot;
+#&gt;  $ : chr &quot;selenite&quot;
+#&gt;  $ : chr &quot;serpentine&quot;
+#&gt;  $ : chr &quot;shungite&quot;
+#&gt;  $ : chr &quot;smoky_quartz&quot;
+#&gt;  $ : chr &quot;sodalite&quot;
+#&gt;  $ : chr &quot;tektite&quot;
+#&gt;  $ : chr &quot;tibetan_black_quartz&quot;
+#&gt;  $ : chr &quot;tigers_eye&quot;
+#&gt;  $ : chr &quot;titanium_quartz&quot;
+#&gt;  $ : chr &quot;tourmalined_quartz&quot;
+#&gt;  $ : chr &quot;turquoise&quot;
+#&gt;  $ : chr &quot;vanadinite&quot;</code></pre>
+<p><code>list.mapv()</code>简化这个列表，返回一个向量：</p>
+<pre class="r"><code>list.mapv(products, name)
+#&gt;  [1] &quot;Amazonite&quot;            &quot;Amber&quot;                &quot;Amethyst&quot;            
+#&gt;  [4] &quot;Ametrine&quot;             &quot;Apophyllite&quot;          &quot;Aquamarine&quot;          
+#&gt;  [7] &quot;Aragonite&quot;            &quot;Azurite&quot;              &quot;Barite&quot;              
+#&gt; [10] &quot;Bismuth&quot;              &quot;Black Tourmaline&quot;     &quot;Bloodstone&quot;          
+#&gt; [13] &quot;Blue Calcite&quot;         &quot;Blue Kyanite&quot;         &quot;Carnelian&quot;           
+#&gt; [16] &quot;Celestite&quot;            &quot;Chrysocolla&quot;          &quot;Chrysoprase&quot;         
+#&gt; [19] &quot;Citrine&quot;              &quot;Copper&quot;               &quot;Dalmatian Stone&quot;     
+#&gt; [22] &quot;Danburite&quot;            &quot;Desert Rose&quot;          &quot;Emerald&quot;             
+#&gt; [25] &quot;Epidote&quot;              &quot;Fluorite&quot;             &quot;Garnet&quot;              
+#&gt; [28] &quot;Green Calcite&quot;        &quot;Hematite&quot;             &quot;Honey Calcite&quot;       
+#&gt; [31] &quot;Howlite&quot;              &quot;Jasper&quot;               &quot;Jet&quot;                 
+#&gt; [34] &quot;Kunzite&quot;              &quot;Labradorite&quot;          &quot;Lapis Lazuli&quot;        
+#&gt; [37] &quot;Lemon Quartz&quot;         &quot;Lemurian Quartz&quot;      &quot;Lepidolite&quot;          
+#&gt; [40] &quot;Libyan Gold Tektite&quot;  &quot;Magnesite&quot;            &quot;Malachite&quot;           
+#&gt; [43] &quot;Meteorite&quot;            &quot;Moldavite&quot;            &quot;Moonstone&quot;           
+#&gt; [46] &quot;Orange Calcite&quot;       &quot;Peridot&quot;              &quot;Pyrite&quot;              
+#&gt; [49] &quot;Quartz&quot;               &quot;Rhodochrosite&quot;        &quot;Rhodonite&quot;           
+#&gt; [52] &quot;Rose Quartz&quot;          &quot;Ruby&quot;                 &quot;Scolecite&quot;           
+#&gt; [55] &quot;Selenite&quot;             &quot;Serpentine&quot;           &quot;Shungite&quot;            
+#&gt; [58] &quot;Smoky Quartz&quot;         &quot;Sodalite&quot;             &quot;Tektite&quot;             
+#&gt; [61] &quot;Tibetan Black Quartz&quot; &quot;Tiger Eye&quot;            &quot;Titanium Quartz&quot;     
+#&gt; [64] &quot;Tourmalined Quartz&quot;   &quot;Turquoise&quot;            &quot;Vanadinite&quot;</code></pre>
+<p>为了对products进行筛选，我们可以使用<code>list.filter()</code>，只有所有条件都为<code>TRUE</code>的<code>products</code>元素才会被返回：</p>
+<pre class="r"><code>liveTRUE = list.filter(products, livemode = TRUE)
+list.mapv(liveTRUE, name)
+#&gt;  [1] &quot;Amazonite&quot;            &quot;Amber&quot;                &quot;Amethyst&quot;            
+#&gt;  [4] &quot;Ametrine&quot;             &quot;Apophyllite&quot;          &quot;Aquamarine&quot;          
+#&gt;  [7] &quot;Aragonite&quot;            &quot;Azurite&quot;              &quot;Barite&quot;              
+#&gt; [10] &quot;Bismuth&quot;              &quot;Black Tourmaline&quot;     &quot;Bloodstone&quot;          
+#&gt; [13] &quot;Blue Calcite&quot;         &quot;Blue Kyanite&quot;         &quot;Carnelian&quot;           
+#&gt; [16] &quot;Celestite&quot;            &quot;Chrysocolla&quot;          &quot;Chrysoprase&quot;         
+#&gt; [19] &quot;Citrine&quot;              &quot;Copper&quot;               &quot;Dalmatian Stone&quot;     
+#&gt; [22] &quot;Danburite&quot;            &quot;Desert Rose&quot;          &quot;Emerald&quot;             
+#&gt; [25] &quot;Epidote&quot;              &quot;Fluorite&quot;             &quot;Garnet&quot;              
+#&gt; [28] &quot;Green Calcite&quot;        &quot;Hematite&quot;             &quot;Honey Calcite&quot;       
+#&gt; [31] &quot;Howlite&quot;              &quot;Jasper&quot;               &quot;Jet&quot;                 
+#&gt; [34] &quot;Kunzite&quot;              &quot;Labradorite&quot;          &quot;Lapis Lazuli&quot;        
+#&gt; [37] &quot;Lemon Quartz&quot;         &quot;Lemurian Quartz&quot;      &quot;Lepidolite&quot;          
+#&gt; [40] &quot;Libyan Gold Tektite&quot;  &quot;Magnesite&quot;            &quot;Malachite&quot;           
+#&gt; [43] &quot;Meteorite&quot;            &quot;Moldavite&quot;            &quot;Moonstone&quot;           
+#&gt; [46] &quot;Orange Calcite&quot;       &quot;Peridot&quot;              &quot;Pyrite&quot;              
+#&gt; [49] &quot;Quartz&quot;               &quot;Rhodochrosite&quot;        &quot;Rhodonite&quot;           
+#&gt; [52] &quot;Rose Quartz&quot;          &quot;Ruby&quot;                 &quot;Scolecite&quot;           
+#&gt; [55] &quot;Selenite&quot;             &quot;Serpentine&quot;           &quot;Shungite&quot;            
+#&gt; [58] &quot;Smoky Quartz&quot;         &quot;Sodalite&quot;             &quot;Tektite&quot;             
+#&gt; [61] &quot;Tibetan Black Quartz&quot; &quot;Tiger Eye&quot;            &quot;Titanium Quartz&quot;     
+#&gt; [64] &quot;Tourmalined Quartz&quot;   &quot;Turquoise&quot;            &quot;Vanadinite&quot;</code></pre>
+<p>注意，<code>rlist</code>的设计与<code>dplyr</code>函数非常类似，我们可以利用管道符号将数据往下传递：</p>
+<pre class="r"><code>products %&gt;% 
+    list.filter(livemode = TRUE) %&gt;% 
+    list.mapv(name)
+#&gt;  [1] &quot;Amazonite&quot;            &quot;Amber&quot;                &quot;Amethyst&quot;            
+#&gt;  [4] &quot;Ametrine&quot;             &quot;Apophyllite&quot;          &quot;Aquamarine&quot;          
+#&gt;  [7] &quot;Aragonite&quot;            &quot;Azurite&quot;              &quot;Barite&quot;              
+#&gt; [10] &quot;Bismuth&quot;              &quot;Black Tourmaline&quot;     &quot;Bloodstone&quot;          
+#&gt; [13] &quot;Blue Calcite&quot;         &quot;Blue Kyanite&quot;         &quot;Carnelian&quot;           
+#&gt; [16] &quot;Celestite&quot;            &quot;Chrysocolla&quot;          &quot;Chrysoprase&quot;         
+#&gt; [19] &quot;Citrine&quot;              &quot;Copper&quot;               &quot;Dalmatian Stone&quot;     
+#&gt; [22] &quot;Danburite&quot;            &quot;Desert Rose&quot;          &quot;Emerald&quot;             
+#&gt; [25] &quot;Epidote&quot;              &quot;Fluorite&quot;             &quot;Garnet&quot;              
+#&gt; [28] &quot;Green Calcite&quot;        &quot;Hematite&quot;             &quot;Honey Calcite&quot;       
+#&gt; [31] &quot;Howlite&quot;              &quot;Jasper&quot;               &quot;Jet&quot;                 
+#&gt; [34] &quot;Kunzite&quot;              &quot;Labradorite&quot;          &quot;Lapis Lazuli&quot;        
+#&gt; [37] &quot;Lemon Quartz&quot;         &quot;Lemurian Quartz&quot;      &quot;Lepidolite&quot;          
+#&gt; [40] &quot;Libyan Gold Tektite&quot;  &quot;Magnesite&quot;            &quot;Malachite&quot;           
+#&gt; [43] &quot;Meteorite&quot;            &quot;Moldavite&quot;            &quot;Moonstone&quot;           
+#&gt; [46] &quot;Orange Calcite&quot;       &quot;Peridot&quot;              &quot;Pyrite&quot;              
+#&gt; [49] &quot;Quartz&quot;               &quot;Rhodochrosite&quot;        &quot;Rhodonite&quot;           
+#&gt; [52] &quot;Rose Quartz&quot;          &quot;Ruby&quot;                 &quot;Scolecite&quot;           
+#&gt; [55] &quot;Selenite&quot;             &quot;Serpentine&quot;           &quot;Shungite&quot;            
+#&gt; [58] &quot;Smoky Quartz&quot;         &quot;Sodalite&quot;             &quot;Tektite&quot;             
+#&gt; [61] &quot;Tibetan Black Quartz&quot; &quot;Tiger Eye&quot;            &quot;Titanium Quartz&quot;     
+#&gt; [64] &quot;Tourmalined Quartz&quot;   &quot;Turquoise&quot;            &quot;Vanadinite&quot;</code></pre>
+<p>使用<code>list.select</code>可以筛选字段以及创建新的字段：</p>
+<pre class="r"><code>products %&gt;% 
+    list.filter(livemode = TRUE) %&gt;% 
+    list.select(id, name, caption) %&gt;% 
+    str()
+#&gt; List of 66
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;amazonite&quot;
+#&gt;   ..$ name   : chr &quot;Amazonite&quot;
+#&gt;   ..$ caption: chr &quot;love,calm,communication&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;amber&quot;
+#&gt;   ..$ name   : chr &quot;Amber&quot;
+#&gt;   ..$ caption: chr &quot;cleansing,vitality,protection&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;amethyst&quot;
+#&gt;   ..$ name   : chr &quot;Amethyst&quot;
+#&gt;   ..$ caption: chr &quot;cleansing,protection,clarity&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;ametrine&quot;
+#&gt;   ..$ name   : chr &quot;Ametrine&quot;
+#&gt;   ..$ caption: chr &quot;Clarity,motivation,confidence&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;apophyllite&quot;
+#&gt;   ..$ name   : chr &quot;Apophyllite&quot;
+#&gt;   ..$ caption: chr &quot;insight,intuition,vitality&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;aquamarine&quot;
+#&gt;   ..$ name   : chr &quot;Aquamarine&quot;
+#&gt;   ..$ caption: chr &quot;Clarity,calm,cleansing&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;aragonite&quot;
+#&gt;   ..$ name   : chr &quot;Aragonite&quot;
+#&gt;   ..$ caption: chr &quot;balance,strength,confidence&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;azurite&quot;
+#&gt;   ..$ name   : chr &quot;Azurite&quot;
+#&gt;   ..$ caption: chr &quot;Calm,balance,dreamwork&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;barite&quot;
+#&gt;   ..$ name   : chr &quot;Barite&quot;
+#&gt;   ..$ caption: chr &quot;Dreamwork,insight,intuition&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;bismuth&quot;
+#&gt;   ..$ name   : chr &quot;Bismuth&quot;
+#&gt;   ..$ caption: chr &quot;Transformation,vitality,focus&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;black_tourmaline&quot;
+#&gt;   ..$ name   : chr &quot;Black Tourmaline&quot;
+#&gt;   ..$ caption: chr &quot;grounding,protection,cleansing&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;bloodstone&quot;
+#&gt;   ..$ name   : chr &quot;Bloodstone&quot;
+#&gt;   ..$ caption: chr &quot;courage,cleansing,vitality,strength,manifestation,transformation&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;blue_calcite&quot;
+#&gt;   ..$ name   : chr &quot;Blue Calcite&quot;
+#&gt;   ..$ caption: chr &quot;Creativity,clarity,intuition,calm,protection,dreamwork&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;kyanite&quot;
+#&gt;   ..$ name   : chr &quot;Blue Kyanite&quot;
+#&gt;   ..$ caption: chr &quot;communication,intuition,insight&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;carnelian&quot;
+#&gt;   ..$ name   : chr &quot;Carnelian&quot;
+#&gt;   ..$ caption: chr &quot;confidence,courage,strength,passion,motivation,vitality&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;celestite&quot;
+#&gt;   ..$ name   : chr &quot;Celestite&quot;
+#&gt;   ..$ caption: chr &quot;Intuition,protection,calm&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;chrysocolla&quot;
+#&gt;   ..$ name   : chr &quot;Chrysocolla&quot;
+#&gt;   ..$ caption: chr &quot;communication,strength,insight&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;chrysoprase&quot;
+#&gt;   ..$ name   : chr &quot;Chrysoprase&quot;
+#&gt;   ..$ caption: chr &quot;Balance,joy,transformation&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;citrine&quot;
+#&gt;   ..$ name   : chr &quot;Citrine&quot;
+#&gt;   ..$ caption: chr &quot;confidence,love,passion,manifestation,intuition,creativity&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;copper&quot;
+#&gt;   ..$ name   : chr &quot;Copper&quot;
+#&gt;   ..$ caption: chr &quot;balance,vitality,grounding&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;dalmatian_stone&quot;
+#&gt;   ..$ name   : chr &quot;Dalmatian Stone&quot;
+#&gt;   ..$ caption: chr &quot;protection,calm,joy&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;danburite&quot;
+#&gt;   ..$ name   : chr &quot;Danburite&quot;
+#&gt;   ..$ caption: chr &quot;Calm,joy,communication&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;desert_rose&quot;
+#&gt;   ..$ name   : chr &quot;Desert Rose&quot;
+#&gt;   ..$ caption: chr &quot;insight,courage,clarity&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;emerald&quot;
+#&gt;   ..$ name   : chr &quot;Emerald&quot;
+#&gt;   ..$ caption: chr &quot;Love,Vitality,Balance&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;epidote&quot;
+#&gt;   ..$ name   : chr &quot;Epidote&quot;
+#&gt;   ..$ caption: chr &quot;Transformation,manifestation,motivation&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;fluorite&quot;
+#&gt;   ..$ name   : chr &quot;Fluorite&quot;
+#&gt;   ..$ caption: chr &quot;focus,clarity,insight&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;garnet&quot;
+#&gt;   ..$ name   : chr &quot;Garnet&quot;
+#&gt;   ..$ caption: chr &quot;Creativity,manifestation,passion&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;green_calcite&quot;
+#&gt;   ..$ name   : chr &quot;Green Calcite&quot;
+#&gt;   ..$ caption: chr &quot;Calm,Balance,Love&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;hematite&quot;
+#&gt;   ..$ name   : chr &quot;Hematite&quot;
+#&gt;   ..$ caption: chr &quot;balance,grounding,manifestation&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;honey_calcite&quot;
+#&gt;   ..$ name   : chr &quot;Honey Calcite&quot;
+#&gt;   ..$ caption: chr &quot;confidence,motivation,manifestation&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;howlite&quot;
+#&gt;   ..$ name   : chr &quot;Howlite&quot;
+#&gt;   ..$ caption: chr &quot;focus,calm,creativity&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;jasper&quot;
+#&gt;   ..$ name   : chr &quot;Jasper&quot;
+#&gt;   ..$ caption: chr &quot;Grounding,Balance,Strength&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;jet&quot;
+#&gt;   ..$ name   : chr &quot;Jet&quot;
+#&gt;   ..$ caption: chr &quot;Grounding,cleansing,vitality&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;kunzite&quot;
+#&gt;   ..$ name   : chr &quot;Kunzite&quot;
+#&gt;   ..$ caption: chr &quot;Love,joy,vitality&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;labradorite&quot;
+#&gt;   ..$ name   : chr &quot;Labradorite&quot;
+#&gt;   ..$ caption: chr &quot;Creativity,joy,vitality&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;lapis_lazuli&quot;
+#&gt;   ..$ name   : chr &quot;Lapis Lazuli&quot;
+#&gt;   ..$ caption: chr &quot;insight,calm,transformation&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;lemon_quartz&quot;
+#&gt;   ..$ name   : chr &quot;Lemon Quartz&quot;
+#&gt;   ..$ caption: chr &quot;Joy,Balance,Vitality&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;lemurian_quartz&quot;
+#&gt;   ..$ name   : chr &quot;Lemurian Quartz&quot;
+#&gt;   ..$ caption: chr &quot;Love,strength,balance&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;lepidolite&quot;
+#&gt;   ..$ name   : chr &quot;Lepidolite&quot;
+#&gt;   ..$ caption: chr &quot;Calm,Balance,Cleansing&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;libyan_gold_tektite&quot;
+#&gt;   ..$ name   : chr &quot;Libyan Gold Tektite&quot;
+#&gt;   ..$ caption: chr &quot;Motivation,confidence,manifestation,protection,creativity,strength&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;magnesite&quot;
+#&gt;   ..$ name   : chr &quot;Magnesite&quot;
+#&gt;   ..$ caption: chr &quot;balance,calm,insight&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;malachite&quot;
+#&gt;   ..$ name   : chr &quot;Malachite&quot;
+#&gt;   ..$ caption: chr &quot;creativity,strength,confidence&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;meteorite&quot;
+#&gt;   ..$ name   : chr &quot;Meteorite&quot;
+#&gt;   ..$ caption: chr &quot;Vitality,Intuition,Insight&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;moldavite&quot;
+#&gt;   ..$ name   : chr &quot;Moldavite&quot;
+#&gt;   ..$ caption: chr &quot;Cleansing,Manifestation,Vitality,Insight,Transformation,Dreamwork&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;moonstone&quot;
+#&gt;   ..$ name   : chr &quot;Moonstone&quot;
+#&gt;   ..$ caption: chr &quot;insight,intuition,dreamwork&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;orange_calcite&quot;
+#&gt;   ..$ name   : chr &quot;Orange Calcite&quot;
+#&gt;   ..$ caption: chr &quot;Creativity,vitality,passion&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;peridot&quot;
+#&gt;   ..$ name   : chr &quot;Peridot&quot;
+#&gt;   ..$ caption: chr &quot;manifestation,vitality,transformation&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;pyrite&quot;
+#&gt;   ..$ name   : chr &quot;Pyrite&quot;
+#&gt;   ..$ caption: chr &quot;manifestation,creativity,confidence,passion,strength,focus&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;quartz&quot;
+#&gt;   ..$ name   : chr &quot;Quartz&quot;
+#&gt;   ..$ caption: chr &quot;clarity,transformation,cleansing&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;rhodochrosite&quot;
+#&gt;   ..$ name   : chr &quot;Rhodochrosite&quot;
+#&gt;   ..$ caption: chr &quot;Love,courage,joy&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;rhodonite&quot;
+#&gt;   ..$ name   : chr &quot;Rhodonite&quot;
+#&gt;   ..$ caption: chr &quot;Love,transformation,clarity&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;rose_quartz&quot;
+#&gt;   ..$ name   : chr &quot;Rose Quartz&quot;
+#&gt;   ..$ caption: chr &quot;love,calm,creativity&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;ruby&quot;
+#&gt;   ..$ name   : chr &quot;Ruby&quot;
+#&gt;   ..$ caption: chr &quot;Passion,vitality,courage,strength,protection,motivation&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;scolecite&quot;
+#&gt;   ..$ name   : chr &quot;Scolecite&quot;
+#&gt;   ..$ caption: chr &quot;calm,insight,dreamwork&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;selenite&quot;
+#&gt;   ..$ name   : chr &quot;Selenite&quot;
+#&gt;   ..$ caption: chr &quot;Clarity,cleansing,motivation&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;serpentine&quot;
+#&gt;   ..$ name   : chr &quot;Serpentine&quot;
+#&gt;   ..$ caption: chr &quot;Manifestation,transformation,vitality&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;shungite&quot;
+#&gt;   ..$ name   : chr &quot;Shungite&quot;
+#&gt;   ..$ caption: chr &quot;clarity,transformation,cleansing&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;smoky_quartz&quot;
+#&gt;   ..$ name   : chr &quot;Smoky Quartz&quot;
+#&gt;   ..$ caption: chr &quot;calm,clarity,protection&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;sodalite&quot;
+#&gt;   ..$ name   : chr &quot;Sodalite&quot;
+#&gt;   ..$ caption: chr &quot;Insight,Intuition,Dreamwork&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;tektite&quot;
+#&gt;   ..$ name   : chr &quot;Tektite&quot;
+#&gt;   ..$ caption: chr &quot;Communication,transformation,vitality&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;tibetan_black_quartz&quot;
+#&gt;   ..$ name   : chr &quot;Tibetan Black Quartz&quot;
+#&gt;   ..$ caption: chr &quot;Protection,balance,cleansing&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;tigers_eye&quot;
+#&gt;   ..$ name   : chr &quot;Tiger Eye&quot;
+#&gt;   ..$ caption: chr &quot;Balance,confidence,strength&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;titanium_quartz&quot;
+#&gt;   ..$ name   : chr &quot;Titanium Quartz&quot;
+#&gt;   ..$ caption: chr &quot;strength,focus,confidence&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;tourmalined_quartz&quot;
+#&gt;   ..$ name   : chr &quot;Tourmalined Quartz&quot;
+#&gt;   ..$ caption: chr &quot;Cleansing,protection,clarity&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;turquoise&quot;
+#&gt;   ..$ name   : chr &quot;Turquoise&quot;
+#&gt;   ..$ caption: chr &quot;strength,balance,communication&quot;
+#&gt;  $ :List of 3
+#&gt;   ..$ id     : chr &quot;vanadinite&quot;
+#&gt;   ..$ name   : chr &quot;Vanadinite&quot;
+#&gt;   ..$ caption: chr &quot;creativity,motivation,vitality&quot;</code></pre>
+<p>创建新字段：</p>
+<pre class="r"><code>products %&gt;% 
+    list.filter(livemode = TRUE) %&gt;% 
+    list.select(id, name, caption) %&gt;% 
+    list.select(connect = paste(id, name, sep = &quot;-&quot;)) %&gt;% 
+    str()
+#&gt; List of 66
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;amazonite-Amazonite&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;amber-Amber&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;amethyst-Amethyst&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;ametrine-Ametrine&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;apophyllite-Apophyllite&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;aquamarine-Aquamarine&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;aragonite-Aragonite&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;azurite-Azurite&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;barite-Barite&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;bismuth-Bismuth&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;black_tourmaline-Black Tourmaline&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;bloodstone-Bloodstone&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;blue_calcite-Blue Calcite&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;kyanite-Blue Kyanite&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;carnelian-Carnelian&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;celestite-Celestite&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;chrysocolla-Chrysocolla&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;chrysoprase-Chrysoprase&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;citrine-Citrine&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;copper-Copper&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;dalmatian_stone-Dalmatian Stone&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;danburite-Danburite&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;desert_rose-Desert Rose&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;emerald-Emerald&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;epidote-Epidote&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;fluorite-Fluorite&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;garnet-Garnet&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;green_calcite-Green Calcite&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;hematite-Hematite&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;honey_calcite-Honey Calcite&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;howlite-Howlite&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;jasper-Jasper&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;jet-Jet&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;kunzite-Kunzite&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;labradorite-Labradorite&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;lapis_lazuli-Lapis Lazuli&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;lemon_quartz-Lemon Quartz&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;lemurian_quartz-Lemurian Quartz&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;lepidolite-Lepidolite&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;libyan_gold_tektite-Libyan Gold Tektite&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;magnesite-Magnesite&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;malachite-Malachite&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;meteorite-Meteorite&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;moldavite-Moldavite&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;moonstone-Moonstone&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;orange_calcite-Orange Calcite&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;peridot-Peridot&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;pyrite-Pyrite&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;quartz-Quartz&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;rhodochrosite-Rhodochrosite&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;rhodonite-Rhodonite&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;rose_quartz-Rose Quartz&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;ruby-Ruby&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;scolecite-Scolecite&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;selenite-Selenite&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;serpentine-Serpentine&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;shungite-Shungite&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;smoky_quartz-Smoky Quartz&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;sodalite-Sodalite&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;tektite-Tektite&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;tibetan_black_quartz-Tibetan Black Quartz&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;tigers_eye-Tiger Eye&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;titanium_quartz-Titanium Quartz&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;tourmalined_quartz-Tourmalined Quartz&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;turquoise-Turquoise&quot;
+#&gt;  $ :List of 1
+#&gt;   ..$ connect: chr &quot;vanadinite-Vanadinite&quot;</code></pre>
+<p>用<code>list.sort()</code>函数，可以按照指定字段或值对列表元素进行排序，再用<code>list.stack()</code>将所有元素变成数据框：</p>
+<pre class="r"><code>products %&gt;% 
+    list.filter(livemode = TRUE) %&gt;% 
+    list.select(id, name, caption) %&gt;% 
+    list.sort(id) %&gt;% 
+    list.stack()
+#&gt;                      id                 name
+#&gt; 1             amazonite            Amazonite
+#&gt; 2                 amber                Amber
+#&gt; 3              amethyst             Amethyst
+#&gt; 4              ametrine             Ametrine
+#&gt; 5           apophyllite          Apophyllite
+#&gt; 6            aquamarine           Aquamarine
+#&gt; 7             aragonite            Aragonite
+#&gt; 8               azurite              Azurite
+#&gt; 9                barite               Barite
+#&gt; 10              bismuth              Bismuth
+#&gt; 11     black_tourmaline     Black Tourmaline
+#&gt; 12           bloodstone           Bloodstone
+#&gt; 13         blue_calcite         Blue Calcite
+#&gt; 14            carnelian            Carnelian
+#&gt; 15            celestite            Celestite
+#&gt; 16          chrysocolla          Chrysocolla
+#&gt; 17          chrysoprase          Chrysoprase
+#&gt; 18              citrine              Citrine
+#&gt; 19               copper               Copper
+#&gt; 20      dalmatian_stone      Dalmatian Stone
+#&gt; 21            danburite            Danburite
+#&gt; 22          desert_rose          Desert Rose
+#&gt; 23              emerald              Emerald
+#&gt; 24              epidote              Epidote
+#&gt; 25             fluorite             Fluorite
+#&gt; 26               garnet               Garnet
+#&gt; 27        green_calcite        Green Calcite
+#&gt; 28             hematite             Hematite
+#&gt; 29        honey_calcite        Honey Calcite
+#&gt; 30              howlite              Howlite
+#&gt; 31               jasper               Jasper
+#&gt; 32                  jet                  Jet
+#&gt; 33              kunzite              Kunzite
+#&gt; 34              kyanite         Blue Kyanite
+#&gt; 35          labradorite          Labradorite
+#&gt; 36         lapis_lazuli         Lapis Lazuli
+#&gt; 37         lemon_quartz         Lemon Quartz
+#&gt; 38      lemurian_quartz      Lemurian Quartz
+#&gt; 39           lepidolite           Lepidolite
+#&gt; 40  libyan_gold_tektite  Libyan Gold Tektite
+#&gt; 41            magnesite            Magnesite
+#&gt; 42            malachite            Malachite
+#&gt; 43            meteorite            Meteorite
+#&gt; 44            moldavite            Moldavite
+#&gt; 45            moonstone            Moonstone
+#&gt; 46       orange_calcite       Orange Calcite
+#&gt; 47              peridot              Peridot
+#&gt; 48               pyrite               Pyrite
+#&gt; 49               quartz               Quartz
+#&gt; 50        rhodochrosite        Rhodochrosite
+#&gt; 51            rhodonite            Rhodonite
+#&gt; 52          rose_quartz          Rose Quartz
+#&gt; 53                 ruby                 Ruby
+#&gt; 54            scolecite            Scolecite
+#&gt; 55             selenite             Selenite
+#&gt; 56           serpentine           Serpentine
+#&gt; 57             shungite             Shungite
+#&gt; 58         smoky_quartz         Smoky Quartz
+#&gt; 59             sodalite             Sodalite
+#&gt; 60              tektite              Tektite
+#&gt; 61 tibetan_black_quartz Tibetan Black Quartz
+#&gt; 62           tigers_eye            Tiger Eye
+#&gt; 63      titanium_quartz      Titanium Quartz
+#&gt; 64   tourmalined_quartz   Tourmalined Quartz
+#&gt; 65            turquoise            Turquoise
+#&gt; 66           vanadinite           Vanadinite
+#&gt;                                                               caption
+#&gt; 1                                             love,calm,communication
+#&gt; 2                                       cleansing,vitality,protection
+#&gt; 3                                        cleansing,protection,clarity
+#&gt; 4                                       Clarity,motivation,confidence
+#&gt; 5                                          insight,intuition,vitality
+#&gt; 6                                              Clarity,calm,cleansing
+#&gt; 7                                         balance,strength,confidence
+#&gt; 8                                              Calm,balance,dreamwork
+#&gt; 9                                         Dreamwork,insight,intuition
+#&gt; 10                                      Transformation,vitality,focus
+#&gt; 11                                     grounding,protection,cleansing
+#&gt; 12   courage,cleansing,vitality,strength,manifestation,transformation
+#&gt; 13             Creativity,clarity,intuition,calm,protection,dreamwork
+#&gt; 14            confidence,courage,strength,passion,motivation,vitality
+#&gt; 15                                          Intuition,protection,calm
+#&gt; 16                                     communication,strength,insight
+#&gt; 17                                         Balance,joy,transformation
+#&gt; 18         confidence,love,passion,manifestation,intuition,creativity
+#&gt; 19                                         balance,vitality,grounding
+#&gt; 20                                                protection,calm,joy
+#&gt; 21                                             Calm,joy,communication
+#&gt; 22                                            insight,courage,clarity
+#&gt; 23                                              Love,Vitality,Balance
+#&gt; 24                            Transformation,manifestation,motivation
+#&gt; 25                                              focus,clarity,insight
+#&gt; 26                                   Creativity,manifestation,passion
+#&gt; 27                                                  Calm,Balance,Love
+#&gt; 28                                    balance,grounding,manifestation
+#&gt; 29                                confidence,motivation,manifestation
+#&gt; 30                                              focus,calm,creativity
+#&gt; 31                                         Grounding,Balance,Strength
+#&gt; 32                                       Grounding,cleansing,vitality
+#&gt; 33                                                  Love,joy,vitality
+#&gt; 34                                    communication,intuition,insight
+#&gt; 35                                            Creativity,joy,vitality
+#&gt; 36                                        insight,calm,transformation
+#&gt; 37                                               Joy,Balance,Vitality
+#&gt; 38                                              Love,strength,balance
+#&gt; 39                                             Calm,Balance,Cleansing
+#&gt; 40 Motivation,confidence,manifestation,protection,creativity,strength
+#&gt; 41                                               balance,calm,insight
+#&gt; 42                                     creativity,strength,confidence
+#&gt; 43                                         Vitality,Intuition,Insight
+#&gt; 44  Cleansing,Manifestation,Vitality,Insight,Transformation,Dreamwork
+#&gt; 45                                        insight,intuition,dreamwork
+#&gt; 46                                        Creativity,vitality,passion
+#&gt; 47                              manifestation,vitality,transformation
+#&gt; 48         manifestation,creativity,confidence,passion,strength,focus
+#&gt; 49                                   clarity,transformation,cleansing
+#&gt; 50                                                   Love,courage,joy
+#&gt; 51                                        Love,transformation,clarity
+#&gt; 52                                               love,calm,creativity
+#&gt; 53            Passion,vitality,courage,strength,protection,motivation
+#&gt; 54                                             calm,insight,dreamwork
+#&gt; 55                                       Clarity,cleansing,motivation
+#&gt; 56                              Manifestation,transformation,vitality
+#&gt; 57                                   clarity,transformation,cleansing
+#&gt; 58                                            calm,clarity,protection
+#&gt; 59                                        Insight,Intuition,Dreamwork
+#&gt; 60                              Communication,transformation,vitality
+#&gt; 61                                       Protection,balance,cleansing
+#&gt; 62                                        Balance,confidence,strength
+#&gt; 63                                          strength,focus,confidence
+#&gt; 64                                       Cleansing,protection,clarity
+#&gt; 65                                     strength,balance,communication
+#&gt; 66                                     creativity,motivation,vitality</code></pre>
+<p>除此之外，<code>list.group()</code>函数可以用指定变量字段值对元素分组，<code>list.table()</code>提供了一个加强版的<code>table()</code>用于处理嵌套列表的表格处理。</p>
+<p>更多<code>rlist</code>函数，请阅读<code>rlist</code>教程（<a href="https://renkun.me/rlist-tutorial" class="uri">https://renkun.me/rlist-tutorial</a>），另外<code>purrr</code>是基于其他理念处理嵌套数据结构的包，有兴趣可以看看。</p>
+</div>

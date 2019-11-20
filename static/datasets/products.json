@@ -1,0 +1,1815 @@
+[
+  {
+    "id": "amazonite",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "love,calm,communication",
+    "created": 1448344514,
+    "deactivate_on": [],
+    "description": "Speak for your Self.\n\nAs the old saying goes, “if you can talk, you can sing.”  \n\nAmazonite is the ideal stone to help you find your voice—not clouded by ego and fear and expectations—and sing from the heart (even when you’re whispering). Get into Amazonite and get into your truest self.\n\nFirst and foremost, Amazonite is a stone of loving communication. That little voice talking in your head right now? It should be nicer to you. Start communicating with honesty and courage and watch how fast you start attracting boys and girls who actually want to hear what you’re saying. \n\nFeeling a little out of touch? Meditating with Amazonite placed on your upper heart can level you out and keep you happily afloat on the turquoise river of self. Like Amethyst, it’s nice to have around when a cleanse is in order. Think: liver, contact list, living room. It’s also good to keep around the bedroom, or wherever else you might light the Dyptique candle, put on the D’Angelo record, and do your thing.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/amazonite_1.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Amazonite",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=amazonite&active=true"
+    },
+    "updated": 1501724154,
+    "url": null
+  },
+  {
+    "id": "amber",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "cleansing,vitality,protection",
+    "created": 1458589721,
+    "deactivate_on": [],
+    "description": "Just like honey.\n\nJust because the sun’s come out doesn’t make everything better. But deep into those cold winter nights, some cozy vibes definitely couldn’t hurt. Amber is true to its color, warm and radiant. Whether it’s unwieldy feelings or abrasive physical pain, hold tight to some amber for a clearer path to recovery.\n\nAmber cuts to the core, works through that chill you can’t shake and unlocks those shackles of bad karma you may have inherited. Take some advice from our good friend Rumi—clever people want to change the world, wise people want to change themselves. It’s about time you looked after yourself.\n\nClear the mind with amber. Place this ancient fossilized resin over your Solar Plexus to harness the healing power of the sun. It’ll wipe away those cloudy thoughts, fight the woes of cuffing season and transform your self-esteem. Feeling a little off? Invite in Amber to ease the stressy vibes and jumpstart the fullest lived life.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/amber_3.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Amber",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=amber&active=true"
+    },
+    "updated": 1501701697,
+    "url": null
+  },
+  {
+    "id": "amethyst",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "cleansing,protection,clarity",
+    "created": 1450030166,
+    "deactivate_on": [],
+    "description": "You've got to let go.\n\nHistorical tidbit: The ancient Greeks believed that Amethyst got its purple shade when the god Bacchus in full-on player’s ball fashion “poured some out” onto a clear crystal. They also believed it spared you from public drunkenness. Train wrecks! Reach for the Amethyst! Quick!\n\nAll jokes aside, Amethyst’s purifying energy is linked to releasing addictive behaviors. If you find yourself at the brink—call a friend, work a program, get help, it’s out there—it can be very therapeutic to place Amethyst on and around the head, breathing deeply into its protective energy to calm the mind and its cravings. \n\nBeyond that, this rich-royal-purple-to-claret-hued quartz variation—some of the best specimens come from samba-happy Brazil—brings a rhythmic divine light to areas touched by “the darkness.” It can help illuminate an inner purpose. And, an interior decorator’s best friend, its uplifting energy can really help tie a room together.\n\nWhen it's time to surrender vanity, pride, and victimhood and start living with positive purpose, gear up with Amethyst and start really living.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/LN1018-1551806.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Amethyst",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=amethyst&active=true"
+    },
+    "updated": 1501706292,
+    "url": null
+  },
+  {
+    "id": "ametrine",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "Clarity,motivation,confidence",
+    "created": 1506123967,
+    "deactivate_on": [],
+    "description": "Decide for yourself.\n\nIf you’re having a hard time deciding whether to work with Amethyst or Citrine today, great news, you don’t have to. The most totally ombre of stones, purple-to-gold-and-back-again Ametrine is a blissed out union of the two. Its focusing and fiery energy can also be applied to indecision elsewhere in your life. To post or not to post? The black dress? Or, the black dress? Pick a fucking appetizer and let’s do this!\n\nBig ideas without the will to get them done aren’t worth too much in Earth money. Ametrine opens the mind to inspiration (i.e. “Aha!” downloads from the great sea of consciousness) and pairs it with the procrastination-fighting power needed to just say “no” to the perpetual scroll and swipe.\n\nFor the seeker archetypes out there, still resisting their true spiritual calling, Ametrine’s floodlight-on-the-oneness vibes can illuminate the path to the realest, most woke version of you. Amen.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/ametrine_1.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Ametrine",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=ametrine&active=true"
+    },
+    "updated": 1506123970,
+    "url": null
+  },
+  {
+    "id": "apophyllite",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "insight,intuition,vitality",
+    "created": 1470848406,
+    "deactivate_on": [],
+    "description": "Get yourself connected.\n\nWhether you get your power from Mother Earth or the Most High, heady, pearly Apophyllite is a stone that encourages deeper spiritual connections. When it’s time to pray and meditate, inviting Apophyllite into your inner sanctum of spirit can clear the way for both insight and energetic contact with the way, way out.\n\nIf you’re feeling detached, brooding, and existential on a French new wave level, remember spirituality can be a bit like a crowded commuter train. Great when you’re in a seat and on your way. Painful when you have to push through the throngs and get onboard. Think of Apophyllite as a steady, trusted conductor on the Rajdhani Express of spiritual life.  Given Apophyllite’s third eye chakra widening prowess, it’s only appropriate the finest specimens hail from enchanted India, ancestral homeland of tantra, yoga, and Nag Champa.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/apophylite_1.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Apophyllite",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=apophyllite&active=true"
+    },
+    "updated": 1501715288,
+    "url": null
+  },
+  {
+    "id": "aquamarine",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "Clarity,calm,cleansing",
+    "created": 1460056563,
+    "deactivate_on": [],
+    "description": "Cooler heads prevail.\n\nIt’s pretty simple: If you’re living in the past, the present is always going to blindside you. Stay in the moment with the “[choose your own expletive] me” cold-shower-wake-up-call energy of icy blue Aquamarine. \n\nIf it’s all in a name, Aquamarine is real wet and real nautical. It reminds you to ride the prevailing currents and ship the precious cargo buried in the heart to larynx and lips. Sweet. Release. Hang it over your heart to beat back the demons, undo destructive patterns, and communicate honestly with those closest to you—starting with the beautiful soul staring back in the mirror, you vain thing, you. Aquamarine reminds us how important self-love is. And to be crystal clear, we’re not talking the Kanye variety here, ’kay?\n\nLike Mediterranean clear blue water against a sun baked Grecian beach, Aquamarine is a powerful anti-inflammatory for the mind and spirit. If something is burning you up inside, cool off (read: meditate) with Aquamarine. First, take ten deep, cleansing breaths. Seriously, do it. Then, find out what your life could look like if you spent half as much energy practicing the fine art of letting go as you do polishing that chip on your shoulder.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/aquamarine_1.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Aquamarine",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=aquamarine&active=true"
+    },
+    "updated": 1501716302,
+    "url": null
+  },
+  {
+    "id": "aragonite",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "balance,strength,confidence",
+    "created": 1457209361,
+    "deactivate_on": [],
+    "description": "Know when to hold on. Know when to let go.\n\nWe’ve all had ’em: ugly breakups, misguided decisions, mutated dreams, and big ideas gone bad. And some just hang in longer than others. When it’s time to really get over it and really move on—chin up, head high, middle fingers blazing—get down with Aragonite and get down with deep healing.\n\nFinding balance is never easy. Those phantom vibrations in your back pocket? Maybe that’s Earth calling, space cadet. So, start with the solid ground beneath your feet and work up. Red, radiant Aragonite star clusters remind us how much Earth sustains and supports us. As counterintuitive as it might seem, returning to your roots for nourishment can be just what you need to keep moving upward, inward—and as Aragonite’s star-like formations beautifully point—outward.\n\nWorking with Aragonite can help us identify imbalances and get spiritually organized. When there’s too much possibility and not enough work, work, work, work, work, Aragonite can have a centering effect that gives us the emotional strength to shape up and ship out for the ultimate mission—a life illuminated by true love.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/LN1018-1551783.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Aragonite",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=aragonite&active=true"
+    },
+    "updated": 1501704968,
+    "url": null
+  },
+  {
+    "id": "azurite",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "Calm,balance,dreamwork",
+    "created": 1462323575,
+    "deactivate_on": [],
+    "description": "Into the deep.\n\n“Where is my mind?” So goes the classic chorus from the Pixies. Looking for the answer? Ask Azurite. This third-eye stimulating copper carbonate is an indigo guide to various mind states—waking, dreaming, and that blissed out in between.\n\nThere’s an oft-quoted Buddha saying: “The mind is everything. What you think you become.” So, think positive. A focused and free mind produces a focused and free life. Integrate Azurite into a daily mindfulness practice to get liberated from worry, indecision, and material desires. Well, most material desires. Does Dior even do robes?\n\nIn meditation, Azurite can mimic the pacifying act of staring at cerulean sky or cobalt sea for hours. Read: vacation. Taking a break from your choppy thoughts and undulating feelings with Azurite can inspire Cousteau-level exploration into the depths of self. It’s peaceful down there below the waves. Stay awhile.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/azurite_3.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Azurite",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=azurite&active=true"
+    },
+    "updated": 1501720324,
+    "url": null
+  },
+  {
+    "id": "barite",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "Dreamwork,insight,intuition",
+    "created": 1477349271,
+    "deactivate_on": [],
+    "description": "Get focused. Get high. Get free.\n\nBarite is a stone that resonates with the heady domain of thoughts and dreams. A powerful third eye and crown chakra activator, Barite—in various shades—opens channels to realms spiritual and subconscious where big answers to big questions dwell. So, lie down or take a comfortable seat. Then, bring out the Scotch tape and take aim at the forehead with Barite.\n\nAs venerated photographer, sidewalk hero, and saint, Bill Cunningham said, “Freedom is the most expensive thing.” The opinions of others? Ugh. Societal expectations. Fuck ’em. Bring on Barite to help you break free from attachment to things that no longer (or never did) serve you. In daily meditation, Barite can align you with your highest, unique-to-just-you ideals. Or more bluntly, Barite can help surface the insight and inner direction required to stop saying “Yes!” to shit you hate and start doing the real you without fear.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/blue_barite_3.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Barite",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=barite&active=true"
+    },
+    "updated": 1501732184,
+    "url": null
+  },
+  {
+    "id": "bismuth",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "Transformation,vitality,focus",
+    "created": 1477349101,
+    "deactivate_on": [],
+    "description": "Change one thing. Change everything.\n\nBismuth is a crystalline metal associated with transformation, appropriate as its DMT-fractal shaped crystal structure (known as hoppers) form when liquid Bismuth metal cools. Most often synthesized in the lab (by humans, not rainbows), Bismuth is an ideal companion when it’s time for a major refresh.\n\nIf you find yourself in a deep spiritual rut, you can try the aforementioned DMT. Or, call on less-likely-to-induce-a-psychic-break Bismuth to guide you toward some laser-like focus in the face of too many fucking options. (It's a common problem in our always-on era. And, let’s be real here, a good problem to have. So, snap out of it!) \n\nIf you’re looking for positive change on that one-with-the-universe tip, Bismuth is among a handful of “Sat Nam” stones that can awaken energetic potential and circulate Kundalini energy through the body. Bring it into the yoga room or meditation space, connect to self, and ride those Bismuth vibes to higher planes.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/bismuth_1.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Bismuth",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=bismuth&active=true"
+    },
+    "updated": 1501727413,
+    "url": null
+  },
+  {
+    "id": "black_tourmaline",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "grounding,protection,cleansing",
+    "created": 1448344399,
+    "deactivate_on": [],
+    "description": "The Bodyguard.\n\nHere’s some good advice: Always use protection. And, always bet on black. Black tourmaline has  been used for centuries to keep evil spirits at bay. It works on negative energy! Negative thoughts! And negative people, too! Embrace this black stone and bathe in the light! \n\nBlack tourmaline is a grounding, anxiety-diffusing, confidence-inspiring, purifying power stone when used in meditation, worn around the neck, kept in the pocket of your favorite jeans, stashed in the glove box… seriously, just put it everywhere. \n\nBlack tourmaline says, “over this line, you do not cross.” Wear it on your body to set boundaries, especially in terms of your space—headspace, personal space, a New York city subway car space.  Place it next to your front and back doors to keep the crazies and dark forces out.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/LN1018-1551844.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Black Tourmaline",
+    "package_dimensions": null,
+    "shippable": false,
+    "skus": {
+      "object": "list",
+      "data": [
+        {
+          "id": "sku_7ZXG7J6pmmw1o4",
+          "object": "sku",
+          "active": true,
+          "attributes": {},
+          "created": 1450683291,
+          "currency": "usd",
+          "image": "http://stone-crystals-testing.imgix.net/LN1018-1551844.tif",
+          "inventory": {
+            "quantity": null,
+            "type": "infinite",
+            "value": null
+          },
+          "livemode": false,
+          "metadata": {},
+          "package_dimensions": null,
+          "price": 10000,
+          "product": "black_tourmaline",
+          "updated": 1450683291
+        }
+      ],
+      "has_more": false,
+      "total_count": 1,
+      "url": "/v1/skus?product=black_tourmaline&active=true"
+    },
+    "updated": 1501731585,
+    "url": null
+  },
+  {
+    "id": "bloodstone",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "courage,cleansing,vitality,strength,manifestation,transformation",
+    "created": 1449712128,
+    "deactivate_on": [],
+    "description": "Brave the storm.\n\nHistorical tidbit: In the Middle Ages, the red splotches on dark green bloodstone were believed by some Christians to be the blood of Christ. Now, onto some crazy shit about bloodstone.\n\nAs creations of a divine law or primordial order, all crystals are inherently powerful. But, some are just more epic than others. And, bloodstone—a combination of Green Chalcedony and Red Jasper—is one of them. This stone is a major purifier. Dark thoughts? Cleans them up. Feeling hormonal? Keep it around. Can’t get out bed? Can’t hurt.\n\nLike the blood that pumps in and out through our electric hearts, bloodstone is a great source of vitality and vigor. If you’re feeling spiritually anemic, meditate with bloodstone near the root chakra. It’s an excellent companion when change is on the horizon. And if one thing is certain, change is always blowing on the horizon. Face it powerfully, courageously, and triumphantly with this earthy stone.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/LN1018-1551841.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Bloodstone",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=bloodstone&active=true"
+    },
+    "updated": 1501719791,
+    "url": null
+  },
+  {
+    "id": "blue_calcite",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "Creativity,clarity,intuition,calm,protection,dreamwork",
+    "created": 1506113015,
+    "deactivate_on": [],
+    "description": "Never sleep on your dreams.\n \nThere are the waking dreams—those active desires, goals set, milestones, and new heights yet to be summited. And there are the dreams of sleep. And while it can be easy to lose sight of both—the alarm clock always rings and life always happens—working with super chill Blue Calcite can keep your dreams clearer and closer so you can act on them like a boss.\n \nFor the creatively inclined, Blue Calcite stimulates the imagination, encouraging you to see beyond the limitations of time, space, physics, and fear. Stress is the enemy of creativity. We know this because David Lynch said so. From a place of calm where ideas can flow—instead of two-stepping at the wrong end of the barrel of a deadline shotgun—you can tap into an ever-replenishing wellspring of creativity. If it’s not totally clear: You are the water in that well, dude. Drink up the self and stay cool, clear, and clean with Blue Calcite. Then, throw back a chaser of Honey Calcite to see those dreams through to reality.\n \nAfter dark, Blue Calcite empowers you to harvest—and retain—those messages, symbols, and signs that come in while your operating system is shut down for the night. If your mother ever told you, “nothing good happens after midnight,” place Blue Calcite under your pillow and REBEL!",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/blue_calcite_1.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Blue Calcite",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=blue_calcite&active=true"
+    },
+    "updated": 1506113020,
+    "url": null
+  },
+  {
+    "id": "kyanite",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "communication,intuition,insight",
+    "created": 1450025742,
+    "deactivate_on": [],
+    "description": "Go deep. Go long.\n\nWith it’s striated blue bands of aluminum silicate, Kyanite has an almost otherworldly presence. Fitting, as Blue Kyanite will take you places that sure as shit ain’t Kansas. Its ability to quickly open access to insights, spirit guides, ancestors, and real answers makes it an ideal stone for meditation work. Kyanite puts you right in the pocket, calming the ever chattering monkey mind, so you can actually get closer to the seat of self (i.e. the real, perfect, beautiful you).\n\nTo a degree, Kyanite is like yoga. It’s all about alignment, baby. And, just like the physical body functions better when joints, muscles, and vertebrae are exactly where they’re supposed to be, so do our mental, emotional, and spiritual bodies.\n\nGood communication goes a long way. Whether it’s finally telling your mother how you really feel or going full-on telepathic with your nearest and dearest spirits, Kyanite has the power to help lay down a brilliant bridge between you and the conversations you never thought you could have.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/LN1018-1551900.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Blue Kyanite",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=kyanite&active=true"
+    },
+    "updated": 1501722836,
+    "url": null
+  },
+  {
+    "id": "carnelian",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "confidence,courage,strength,passion,motivation,vitality",
+    "created": 1457213821,
+    "deactivate_on": [],
+    "description": "Let it burn.\n\nWhen life demands bold action, Carnelian comes in hot. This fiery variety of Chalcedony is a holy grail (i.e. must have) stone that resonates with the hot cauldron of the lower three chakras. Orange to blood red Carnelian aligns you with your gut, circulating vital energy or life force to your most powerful creative instincts and sexual desires.\n\nCarnelian is the anti “can’t.” When we are faced with core-rattling fear—and, c’mon, who isn’t—Carnelian is a powerful, battle-axe swinging, flame throwing wingman. Overcome the terror of being, and anything is possible. Everybody is a something-phobe. Whether it’s fear of intimacy, commitment, failure, or missing out, Carnelian can will us over the dreaded humps, motivating us to put the most important plans into action with “I got this” confidence and “fuck with me” swagger.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/LN1018-1551819.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Carnelian",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=carnelian&active=true"
+    },
+    "updated": 1501722886,
+    "url": null
+  },
+  {
+    "id": "celestite",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "Intuition,protection,calm",
+    "created": 1463696123,
+    "deactivate_on": [],
+    "description": "“Fly on, my sweet angel.”\n\nWe can’t pretend to say it better than the sainted Jimi Hendrix, whose own sweet angel told him a story “about the sweet love between the moon and the deep blue sea.” Swoon. If you want to hear from angels, you have to listen. That’s the promise of blue-gray Celestite, a delicate sulfate mineral that heightens intuition and the ability to listen for your self (and to yourself).\n\nCelestite’s airy energy is blue cotton candy buoyant, a calming adornment for wherever we meditate, sleep, and dream. Celestite—often found in clusters and geodes—promotes a kind of serenity that comes from aligning with our deepest inner truths. When it doesn’t feel safe to be ourselves, Celestite reminds us that even when we don’t have all the answers, we can take solace that the spirit guides looking over us just might. Too cool for angels, dude? Tell that to Hendrix.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/celestite_1.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Celestite",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=celestite&active=true"
+    },
+    "updated": 1501739043,
+    "url": null
+  },
+  {
+    "id": "chrysocolla",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "communication,strength,insight",
+    "created": 1458597099,
+    "deactivate_on": [],
+    "description": "Waves in. Waves out. \n\nChrysocolla, a powerful water stone, facilitates flow. Flow of energy. Flow of honest communication. Flow of the exquisite life. Like the tides, and their pull by the feminine moon, Chrysocolla cleanses the pathways between heart and voice—lending much needed conviction to our words. Know that sensation: “If I only had the words, I could break through this sticky reality?”  You do have them. They’re just stuck. Chyrsocolla revitalizes still waters, revealing wisdom held in the shadowy depths and empowering its expression.\n\nChrysocolla’s brilliant blue-green formations occur when silica meets copper and water. A stone associated with monasticism, Chyrsocolla can alleviate the anxiety and sense of isolation associated with an inward looking, meditative life. Be your own best friend. Be your own confidant. Be your own ride-or-die. Be your own salt water cure. Let in Chrysocolla and let heart power wash over you. Seriously. Doesn’t it feel good to be clean?",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/LN1018-1551826.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Chrysocolla",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=chrysocolla&active=true"
+    },
+    "updated": 1501707803,
+    "url": null
+  },
+  {
+    "id": "chrysoprase",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "Balance,joy,transformation",
+    "created": 1492491897,
+    "deactivate_on": [],
+    "description": "Forever young.\n\nForgive? For sure. Forget? Oh, honey. Finding the balance between staying open and keeping those icky doormat feels at bay can be a life’s work. Get busy with hypnotic green Chrysoprase and start growing from the heart out.\n\nChrysoprase—a rare type of chalcedony—is heavy on the nickel (hence it’s mesmerizing, verdant green hue). It’s a stone of the heart. And it can help you stay young there. So, place Chrysoprase against your chest and let go of a grudge. Stash a piece in your pocket and get immersed in some “no service” nature. Love hard. Reach out a hand to someone who hasn’t had the same opportunities you’ve had. This is what keeps us young and fresh and magnetic. Not scrolling through Iman’s IG searching for a clue to the exact location of the fountain of youth. But if you do find it there, DM us, okay?\n\nChrysoprase loves Kunzite. Who doesn’t? And those two make beautiful bedfellows when exiting a painful relationship (“boy, bye”) or embarking on a new one without falling into patterns that may have taken you down hard in the past.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/LN3-7-162375.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Chrysoprase",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=chrysoprase&active=true"
+    },
+    "updated": 1501701090,
+    "url": null
+  },
+  {
+    "id": "citrine",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "confidence,love,passion,manifestation,intuition,creativity",
+    "created": 1449686808,
+    "deactivate_on": [],
+    "description": "Never stop grinding.\n\nInspiration is everywhere. Sometimes we just need a little extra help coaxing it out of the ether, the shadows, and the prefrontal cortex. Whether it’s a creative idea or the life you’ve always imagined, Citrine can help make it a beyond-your-wildest-dreams reality.\n\nPut Citrine’s fiery energy to work for you. If you’ve got beautiful places to be and beautiful things to accomplish, let this stone tell the world, “Bitch, I got this,” so you can maintain your honey-sweet exterior. Let its gold energy open you up, lift you up, and keep you moving in the most important direction, forward.\n\nFor the creative type, Citrine is a powerful addition to the palette. Yellow and mellow, Citrine is a meditation booster shot that gets you deeper, faster. Use it to manifest and attract good things like: ride-or-die friends, fulfilling work that lights you up, free Champagne, happy puppies, and piles and piles of money.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/LN1018-1551793.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Citrine",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=citrine&active=true"
+    },
+    "updated": 1501715864,
+    "url": null
+  },
+  {
+    "id": "copper",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "balance,vitality,grounding",
+    "created": 1458668523,
+    "deactivate_on": [],
+    "description": "So metal.\n\nNot actually a stone but so electric it has to be here, Copper is a great conductor of energy. It’s the oldest mined metal. It’s adorned the human body for thousands of years, fashioned into powerful talismans in ancient Egypt and pre-Colombian America. It’s literally electrified us as a society. It’s helped hydrate us. Nourish us. And, in the form of bronze, it’s been melded and hammered into Rodin’s most expressive sculptures.\n\nBy itself, Copper is a beautiful, balancing, calming agent. A catalyst for manifestation, it’s both grounding and enlivening. Copper is to crystals like organic grass fed butter and sea salt is to bread. You can eat it without them. But, like, you know you’re going to die some day, right? Live it up. And, let Copper intensify the potency of each and every crystal (though, Meteroite and Tektite are two exceptions), clearing channels of communication (or conductivity) between them and, lord willing…you.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/copper_1.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Copper",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=copper&active=true"
+    },
+    "updated": 1501722939,
+    "url": null
+  },
+  {
+    "id": "dalmatian_stone",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "protection,calm,joy",
+    "created": 1458778259,
+    "deactivate_on": [],
+    "description": "The fun is just beginning.\n\nWe all need little reminders that, yes, even you only live once and, for real, fuck ’em if they can’t take a joke. Enter joyful Dalmatian Stone. Kids love it! It’s puppy cute! And, like a puppy, Dalmatian Stone can help diffuse a stressful situation, drawing the eye—and the over analytical mind—away from the grind of everyday life.\n\nA feldspar mineral, Dalmatian Stone’s black spots are often Black Tourmaline inclusions. Thus, Dalmatian Stone carries that crystal’s grounding, protective energy, helping us overcome irrational fears so we can inhale big, beautiful breaths and exhale wild laughter.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/LN1018-1551868.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Dalmatian Stone",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=dalmatian_stone&active=true"
+    },
+    "updated": 1501731379,
+    "url": null
+  },
+  {
+    "id": "danburite",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "Calm,joy,communication",
+    "created": 1492492235,
+    "deactivate_on": [],
+    "description": "Bask in the light.\n\nFor those who feel we live in especially dark times, Danburite can lead us toward the light, accessing those dreamy, brighter realms unmarred by the 24-hour news cycle, gross celebrities, and even grosser politicians. For those of us feeling the soul crush of life under a fluorescent bulb, there’s a purer, restorative light source out there. You just have to know where to look for it. And, Danburite can help.\n\nA stone for the spiritual seeker, Danburite helps us flip the switch on the crown chakra and illuminate the “up there”: sky, distant galaxies, where the angels at. In meditation, Danburite can help us float in the vastness, the infinite, and the pure joy of feeling buoyed up by limitless space. This sensation can be just the medicine we need when we find ourselves bound up in a cynical rut or mired in moody malaise.\n\nFor purposes of deep relaxation, Danburite plays nice with uber chill stones like Lithium Quartz and Lepidolite. We like to think of Danburite as a tuning fork for the divine instrument that is your unique soul. Set an intention to get your spirit healthy with Danburite and mind and body are sure to follow.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/LN3-7-162332.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Danburite",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=danburite&active=true"
+    },
+    "updated": 1501734408,
+    "url": null
+  },
+  {
+    "id": "desert_rose",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "insight,courage,clarity",
+    "created": 1457374232,
+    "deactivate_on": [],
+    "description": "Always be blooming.\n\nShaped by desert elements both physical and spiritual, Desert Rose is a variety of Barite, so it carries that crystal’s powerful energy aligning qualities. Wind, water, and sand help form its “petals” and frost their tips. If you’re not immediately mesmerized by its flower-like shape, you will be by its subtle metaphysical qualities. \n\nThis beauty helps calm your nerves, quieting the everyday chatter from your mother-in-law, boss, or the motor mouth within. Let Desert Rose help mind make way for intuition. From that place, you can tackle anything. Look deep. Imagine a brutal, arid desert. Now, imagine a single, fearless flower emerging from all that wasteland. That could be you, bae. Just infuse any situation with Desert Rose’s clearing energy—and a little bit of love—and watch yourself bloom.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/LN1018-1551776.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Desert Rose",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=desert_rose&active=true"
+    },
+    "updated": 1501740833,
+    "url": null
+  },
+  {
+    "id": "emerald",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "Love,Vitality,Balance",
+    "created": 1465420511,
+    "deactivate_on": [],
+    "description": "Stay open.\n\nA stone of the heart, emerald helps us cultivate the real courage it takes to love and be loved. We’re either open or we’re not. And we all have a long list of battle scars that would give any reasonable person grounds to stay closed, guarded, locked and loaded. But being reasonable is boring. Invite in disarming Emerald (i.e. put down the flamethrower, love) and get comfortable with your vulnerability.\n\nOne of the four precious gemstones, radiant green Emerald vibrates with the natural energy of the Vernal Equinox, when the Earth moves from winter into the season of rebirth—wet, lush and verdant. If you’re in need of a total refresh, Emerald can be a gentle, understanding companion when the prevailing culture throws you sideways glances. And when the push-and-pull of emotional vampires and oh-so-pretty narcissists threatens to throw you off center, Emerald sets you on a course that honors your own unique heart, reminding you that the love you’re seeking is also seeking you.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/emerald_1.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Emerald",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=emerald&active=true"
+    },
+    "updated": 1501708871,
+    "url": null
+  },
+  {
+    "id": "epidote",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "Transformation,manifestation,motivation",
+    "created": 1477010928,
+    "deactivate_on": [],
+    "description": "A better version of you.\n\nPrismatic, earthy green, aluminum iron silicate Epidote summons a list of greatest hit new ageisms: You get what you give. You attract what you are. Water seeks its own level. Unlike many other crystals out there, Epidote primarily works with what you already got. So, think good thoughts. Or else.\n\nWhen you find yourself drifting into cynicism or away from your true purpose, call on Epidote to put a spotlight on your weaknesses (so you can work on them) and amplify your strengths (so you can work your way to the top).\n\nAnd if you’re looking to kick a bad habit, a bad friend, or a bad mood, Epidote can shake up and unravel the energetic ties that bind you to your “Ugh.” But be warned: Epidote, like the good life, demands you work for it. Hard. So, chin up, clear eyes, open heart. If you’re set on wallowing out for awhile, keep Epidote at a nice safe distance until you’re ready to ride those posi vibes onward and upward.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/epidote_2.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Epidote",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=epidote&active=true"
+    },
+    "updated": 1501712762,
+    "url": null
+  },
+  {
+    "id": "fluorite",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "focus,clarity,insight",
+    "created": 1449709213,
+    "deactivate_on": [],
+    "description": "Clear your mind of \"can't even.\"\n\nWhen things seem entirely out of focus, Fluorite is the stone that helps us first see the forest, then the tree. Then it helps us laser in on the branch, the leaf, and if we’re really blessed, maybe even the fluorescent blue hookah-smoking caterpillar crawling on that leaf. This calming stone maintains a robust, natural energy that can grab onto a mental fog and carry it away like a cool, steady wind.  \n\nIncreased clarity is Fluorite’s strongest attribute, making it an ideal stone for meditation. For spiritual seekers, Fluorite is a loyal wingman on the journey toward really understanding self. When we feel stuck, Fluorite reminds us that answers don’t lie out there on the Internet, they lie within.\n\nFluorite occurs in cubic and octahedral patterns around the world in a wide variety of colors. For mental clarity, go greener. For energetic focus, go purple, um, er.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/LN1018-1551818.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Fluorite",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=fluorite&active=true"
+    },
+    "updated": 1501729533,
+    "url": null
+  },
+  {
+    "id": "garnet",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "Creativity,manifestation,passion",
+    "created": 1459910878,
+    "deactivate_on": [],
+    "description": "What’s really beneath the surface?\n\nBeauty isn’t the only thing that’s skin deep. When life feels like a series of fads and flirtations, trends and trifles, and you find yourself asking, “Oh shit, am I shallow?” reach for Garnet and get deep.\n\nPomegranate-red to fire-orange Garnet aligns us with the foundational source of our passions, i.e., they help unearth what we really want (not what we think we’re supposed to want). Garnet helps us manifest creative projects and relationships we actually believe in. Have a nice job but dream of a meaningful calling? Got a steady piece but seeking a soul mate? Set an intention with Garnet and get to work.\n\nAnd when your dreams do come true, Garnet helps vaporize the guilt, fear, and worry that can often get in the way of actually living them out to the fullest. Champagne tastes good. Cashmere feels good. Chanel No. 5 smells good. Remember: They always want you to do your best. Just never better than they’re doing. Don’t be afraid to enjoy your success. You earned it.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/garnet_1.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Garnet",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=garnet&active=true"
+    },
+    "updated": 1501738901,
+    "url": null
+  },
+  {
+    "id": "green_calcite",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "Calm,Balance,Love",
+    "created": 1463611345,
+    "deactivate_on": [],
+    "description": "Heart don’t lie.\n\nGreen Calcite is above all a stone of the heart, that hollow central organ that keeps things moving. Physiologically, the heart always lets go. Emotionally and energetically, it’s a more complicated story. Maybe a saga. Fine, an epic. But, it’s your epic and Green Calcite can help you refresh the storyline, rethink the characters, and rewrite the ending to your heart’s exacting specifications.\n\nWe’ll spare you the needlepoint clichés here. You have to love yourself. It’s going to take forgiveness, some compassion, and a little wisdom. Green Calcite’s icy energy will guide you through the forest of doubt, pointing you in the direction to actually find them. Hint: It’s not toward your brain. It’s where the purest feels bubble up from the wellspring of self. Bottle them up and beware. Let them go with a little lift from Green Calcite and start living for love.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/green_calcite_1.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Green Calcite",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=green_calcite&active=true"
+    },
+    "updated": 1501732680,
+    "url": null
+  },
+  {
+    "id": "hematite",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "balance,grounding,manifestation",
+    "created": 1457208886,
+    "deactivate_on": [],
+    "description": "Iron sharpens iron.\n\nWe all have darkness and light inside of us. Masculine and feminine. Pleasure and pain.\n\nHematite acts as an adjustable dial—a body-soul controller, of sorts—to align our natural poles.\n\nAn iron oxide, Hematite is a metallic charcoal colored stone closely linked to the root chakra. Taking its name from the Greek word for blood, Hematite’s energy can be both one of out flow (“Au revoir, evil!”) and inflow (“Hello, good!”).  And, like blood, Hematite is full of iron. Just like planet Earth. Think of working with Hematite as mining, drawing energy from deep within the Earth into your body. This grounding quality is amazing for manifestation. And, Hematite’s ability to cut through clouds and confusion can help refresh a brain stuck in a rut or outdated way of thinking. If something (or someone) in your life no longer represents who you are, Hematite can help you get it out for good.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/hematite_1.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Hematite",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=hematite&active=true"
+    },
+    "updated": 1501707637,
+    "url": null
+  },
+  {
+    "id": "honey_calcite",
+    "object": "product",
+    "active": true,
+    "attributes": [
+      "focus",
+      "calm",
+      "manifestation",
+      "insight",
+      "motivation"
+    ],
+    "caption": "confidence,motivation,manifestation",
+    "created": 1449694004,
+    "deactivate_on": [],
+    "description": "Just do it.\n\nThese are very distracting times we live in. Power up with Honey Calcite to help you toggle on ‘do not disturb’ and step away from the phone. Think of honey calcite as a reserve battery you can tap into whenever you need a little more will, a little more energy, or a little more clarity to see a project through. \n\nAligning root, solar plexus, and third eye chakras, Honey Calcite will reign you in to your center, allowing you to focus on the tasks that actually matter to you. This isn’t about those TPS reports. It’s about proceeding on a path that’s worthy of your ample intellect and unique inner calling. When it’s you-do-you time, reach for Honey Calcite.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/LN1018-1551797.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Honey Calcite",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=honey_calcite&active=true"
+    },
+    "updated": 1501719737,
+    "url": null
+  },
+  {
+    "id": "howlite",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "focus,calm,creativity",
+    "created": 1458594510,
+    "deactivate_on": [],
+    "description": "The antidote to zero chill.\n\nHowlite, also known as white turquoise, is an ideal companion for the chronic meditator. It’s a heady, clutter clearing stone. When it’s time to hit the buckwheat pillow and take direct aim at the crown chakra, bring a hit of icy white Howlite and align with your true North.\n\nHowlite’s contrasting marbled veins of black and gray are symbolic lines of demarcation that help put things exactly where they belong. Things in the past should stay in the past. And, a to-do list has an order for a reason. Like coffee from Portland and rap from Atlanta, steady Howlite can drag the blocked creative—kicking and screaming—out of an amorphous slumber and into white-hot focus.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/LN1018-1551878.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Howlite",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=howlite&active=true"
+    },
+    "updated": 1501734565,
+    "url": null
+  },
+  {
+    "id": "jasper",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "Grounding,Balance,Strength",
+    "created": 1465423271,
+    "deactivate_on": [],
+    "description": "Returning to Earth.\n\nJasper—an opaque, dense variety of Quartz found all around the world—deeply resonates with the energy of the Earth. Its endless shades, tones, and seemingly painted-landscape surfaces reflect the bold, raw diversity of our beautiful, ever-spinning planet. Jasper reminds us that while the Earth gives and gives and gives, it also has the power to receive. Working with many Jaspers and a gentle focus on the root chakra can help us let go of beliefs and ideas that no longer serve us—quickly absorbed and dissolved by the Earth below—strengthening our resolve and affirming today’s self just as it is and just how it showed up to play to-day.\n\nWhile each variety of Jasper offers different metaphysical properties—one variation known for breaking creative blocks is even named after the super prolific Picasso himself—all stones in this earth-first family cultivate grounding, stability, and a deeper connection with nature. When setting out on unnerving endeavors—professional, personal, spiritual—or just feeling generally spun out on life, Jasper can bolster our foundations, giving us that buttery Bob Marley belief that “every little thing gonna be alright.”",
+    "images": [
+      "http://stone-crystal-images-testing.imgix.net/jasper_1.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Jasper",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=jasper&active=true"
+    },
+    "updated": 1501739260,
+    "url": null
+  },
+  {
+    "id": "jet",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "Grounding,cleansing,vitality",
+    "created": 1460131398,
+    "deactivate_on": [],
+    "description": "Enter the void.\n\nThey say there’s no such thing as “clean coal.” Jet might be the exception. This cleansing, carbon based stone (think charcoal tablets after a big night out) is fossilized driftwood—carrying the ancient life force of both forest and sea—that roots us to a natural wisdom that goes way, way back.\n\nJet carries the don’t-fuck-with-me energy of many powerful black stones in absorbing and diffusing negativity (from the people, places, and things that wear it like a toxic poncho). They say there’s darkness and light in all of us. While modern society seems to push us toward the fluorescent light, there’s a lot to be learned in the dark. In meditation, Jet can help us find that vast space to work and grow. It settles us into “the pocket” where anxiety evaporates and pure light illuminates what really matters.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/jet_1.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Jet",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=jet&active=true"
+    },
+    "updated": 1501725829,
+    "url": null
+  },
+  {
+    "id": "kunzite",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "Love,joy,vitality",
+    "created": 1506124476,
+    "deactivate_on": [],
+    "description": "Really, really, really good vibrations. \n\nOh, Kunzite. How do we love thee? Let us count the ways.\n\nKunzite, you make our hearts all soft and gushy. You are like a pink cashmere swaddling cloth, a “thunder shirt” for the unpredictable weather of this oft sad and sometimes totally perplexing, is-that-really-all-there-is? experience we’re having here on Earth. You remind us that it is always, always, always the right move to do something nice for someone, especially when that someone is ourselves, and maybe even when that someone is that one motherfucker who wronged us because, you know, they are operating from the same existential sadness and crushing insecurities as everybody else.\n\nKunzite, you give us permission to be soft on ourselves when the default setting seems so unrelentingly harsh. You remind us that this a) broken heart; b) planetary cycle; or c) oppressive, unjust social system shall indeed pass. It just takes time. Sometimes a little. Sometimes a lot. In the meantime, we’ll feel the feels, baby. And take care of our hearts.\n\nKunzite, you move us to get up off the floor, to believe in something bigger than our own tired bullshit. Your high-vibe tingle connects us to that pulsing flow of energy that in turn connects us to everything and everyone we love. Kunzite, we welcome your lithium kisses. We place you on our hearts. We breathe deeply of your blushing essence. And we thank you for all your pink prismatic love.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/kunzite_1.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Kunzite",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=kunzite&active=true"
+    },
+    "updated": 1506124483,
+    "url": null
+  },
+  {
+    "id": "labradorite",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "Creativity,joy,vitality",
+    "created": 1459369676,
+    "deactivate_on": [],
+    "description": "There is magic all around us.\n\nLabradorite—a feldspar mineral first “discovered” in icy Canada—was believed by native peoples to have fallen from the Northern Lights above, its vivid flashes of color dancing just beneath the surface of the stone.\n\nLabradorite illuminates the sense of wonder—that way-less-jaded sensation of being tuned into spirit, nature, and rhythm—that gets lost in the fast-paced, broadband melee of modern life. On the short list of “let’s get weird” stones, Labradorite encourages an intense connection to the spirit world. ESP, astral projection, and séances are the shit, dude. Get on board. Plus, aligning with the synchronicities of the universe is way more fun than speaking poorly of your sisters under a bottle of overpriced Sancerre. \n\nRoald Dahl, one in possession of a most magical mind, wrote, “Those who don’t believe in magic will never find it.” Remember: The biggest impediment to your spiritual growth is probably your own judgmental inclinations. Labradorite helps you focus solely on doing you. The last thing you need is to get anybody else on board with your crazy shit. Your magic is your magic. Protect it with Labradorite.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/labradorite_2.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Labradorite",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=labradorite&active=true"
+    },
+    "updated": 1501737108,
+    "url": null
+  },
+  {
+    "id": "lapis_lazuli",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "insight,calm,transformation",
+    "created": 1457208779,
+    "deactivate_on": [],
+    "description": "Go back. Way back. \n\nLapis Lazuli is a stone that revels in history. Your unique personal history. Past lives. Ancient civilizations. Even the spiritual and scientific Carl Sagan “star stuff” dawn of time, baby.\n\nStart with self. Lapis Lazuli is a third eye catalyzer, aligning you with the principles of your most primal rule—your instinct and intuition. The best specimens are found in the rugged mountains of Afghanistan. Those with more gold flecks (pyrite inclusions) can deliver an energetic zap into action. While those with more white swirls (calcite inclusions) are reflective of a stone’s power to clear energy that can mask your inner truth.\n\nThen, take it further. Meditation with this stone can tune you into past lives, especially those with ties to ancient Egypt (where lapis decorated the tomb of even the great King Tut, shout out to Navin R. Johnson). Dare to keep going and ride Lapis Lazuli to your own true beginning—that distinct moment where every molecule in you and everyone you know and everything else in the Universe began. Bang. Powerful stuff. Powerful stone.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/lapis_lazuli_1.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Lapis Lazuli",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=lapis_lazuli&active=true"
+    },
+    "updated": 1501707576,
+    "url": null
+  },
+  {
+    "id": "lemon_quartz",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "Joy,Balance,Vitality",
+    "created": 1477349465,
+    "deactivate_on": [],
+    "description": "No bad vibes.\n\nDown in Brazil, when life gives them Quartz they make Lemon Quartz. “How?” you might ask. They bombard clear Quartz with gamma rays, of course. For real. Gamma rays. This process of irradiation summons that zesty, deep yellow tone. Worry not, though. Radioactivity doesn’t linger on the stones so you won’t go Godzilla at the slightest touch. \n\nThis metamorphosis also gives Lemon Quartz a sunny disposition that exudes vibrant warmth and a sense that everything actually is going to be okay. Lemon Quartz attracts the eye and lights up the sacral chakra, where we hold our sense of self-confidence. So, when doubts hang around like over-served party guests or cloud cover obstructs the bright light within, squeeze Lemon Quartz tight and get happy.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/lemon_quartz_1.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Lemon Quartz",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=lemon_quartz&active=true"
+    },
+    "updated": 1501726216,
+    "url": null
+  },
+  {
+    "id": "lemurian_quartz",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "Love,strength,balance",
+    "created": 1506112287,
+    "deactivate_on": [],
+    "description": "Escape the mind.\n \nWhether or not you believe in ancient civilizations forever lost beneath the Pacific Ocean, Lemurian Quartz gets its name from the fabled lost continent and is the go-to stone for leveling up—all the way up—your healing powers.\n \nLemurian Quartz is identifiable by its ladder-like striations and often-rosy hue (evidence of iron oxide on the stone’s surface). Born in Brazil, all Lemurians are—in effect—wands. And, where you point your wand is your business. We suggest using Lemurian Quartz to direct healing energy toward areas in your life that could use a little zap—closed heart, blocked voice, clouded vision, foggy head—or at people, places, and things that have you feeling spun out.  You can also use Lemurians to clear spaces and objects of unwanted energies and power them up with love and wisdom. Ooh, that’s much better.\n \nWhenever rituals, prayer, and the healing arts are happening, Lemurian points can direct you out of your head toward a glimpse at what’s really out there. Hint: It’s a whole lotta love. For those with “the gift” (We see you, witches!), Lemurians can enhance your ability to receive guidance from on high—spirits, guardians, ancestors. Bring Lemurian Quartz into your meditation practice to blast open the crown chakra and break through the stratosphere. If you’re really blessed, maybe you’ll find your soul there. Tell ’em we say, “Sup?”",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/lemurian_quartz_1.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Lemurian Quartz",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=lemurian_quartz&active=true"
+    },
+    "updated": 1506112290,
+    "url": null
+  },
+  {
+    "id": "lepidolite",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "Calm,Balance,Cleansing",
+    "created": 1492492070,
+    "deactivate_on": [],
+    "description": "Everything is amazing. R-E-L-A-X.\n\nLepidolite’s high lithium content requires no prescription and is a very chill reason to keep a handful nearby in these oh-so-stressful times. The anxiety of juggling 12-hour work days, friends and family, and a respectable (sigh) social media presence, can do a body bad. One suggestion: Integrate Lepidolite’s calming lavender vibes into a daily body-scan meditation. From pinky-toe-to-crown, really feel your body (all of it, even the naughty bits) and ask it where it’s holding onto stress and tension. Between the shoulder blades? The jaw? Clinching the butt eternal? Breathe deep, send Lepidolite’s healing energy to the offending area, and let it all go.\n\nLepidolite’s “spa vibes” can also be directed to the bodies emotional and psycho-spiritual. Lepidolite can be a calming, adult pacifier for those resentments on the back burner, always on the verge of boiling over. This heart and third eye resonator can open us up to equanimity and balance in the present moment, leaving the past in the past where it belongs and saving the future for a brighter tomorrow. You know you better wear shades.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/LN3-7-162303.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Lepidolite",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=lepidolite&active=true"
+    },
+    "updated": 1501729464,
+    "url": null
+  },
+  {
+    "id": "libyan_gold_tektite",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "Motivation,confidence,manifestation,protection,creativity,strength",
+    "created": 1506124911,
+    "deactivate_on": [],
+    "description": "Take the power back.\n \nIn the words of Shia LaBoeuf, “DO IT.” If you think you might need a 28-million-year-old piece of desert glass to “DO IT,” then Libyan Gold Tektite might be the stone to “DO IT” for you.\n\nOnly found in the Sahara Desert, Libyan Gold Tektite has an extraterrestrial vibe that resonates with those who feel they are definitely not currently residing on the planet from which they rightfully hail. Where Moldavite engages the Earthbound alien heart and mind, Libyan Gold Tektite targets the lower strata, the realm of creativity and self-esteem.\n\nWhether attempting to unlock your potential as an artist or just the potential to peel yourself from the chaise lounge and, like, shower, Libyan Gold Tektite is the perfect get unstuck stone. Laziness. Lack of motivation. Lethargy. For some of us, these can coexist with a very overactive mind. Placing Libyan Gold Tektite on the solar plexus (a.k.a. the will center; a.k.a. where that nasty motherfucker the Ego lives) during meditation can help summon that extra oomph needed to get into your body and break through those fears of failure, judgment, and irrelevance that stand between you and your place in the sun.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/libyan_gold_tektite_1.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Libyan Gold Tektite",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=libyan_gold_tektite&active=true"
+    },
+    "updated": 1506124958,
+    "url": null
+  },
+  {
+    "id": "magnesite",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "balance,calm,insight",
+    "created": 1450554059,
+    "deactivate_on": [],
+    "description": "Get your mind right.\n\nHas your big, beautiful brain been getting you into trouble? Welcome to the human condition, you’re among friends. But welcome in the heady power of Magnesite, and you might find yourself getting out of your own way and living up to your limitless potential.\n\nThis often-white stone—quite brainy looking in tumbled form—is a heavy in the metaphysical realm for opening the third eye chakra. Ever ask yourself, “It was happening right in front of me. How could I not see it?” Whether it’s brain lag, a slumbering inner vision, or a marked disconnect between heart and mind, Magnesite can help clear energetic channels and enliven a sense of real purpose.\n\nIn meditation, Magnesite placed on the forehead can be both stimulating and sedating. An overactive mind might be lulled into a dreamy, vibrating state, wide open to insight. A dormant, tired, or clouded mind might be awakened to a more heart-centered purpose. Either way, like listening to Mozart and popping Omega 3s, Magnesite is good for the head.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/LN1018-1551858.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Magnesite",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=magnesite&active=true"
+    },
+    "updated": 1501738998,
+    "url": null
+  },
+  {
+    "id": "malachite",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "creativity,strength,confidence",
+    "created": 1450557186,
+    "deactivate_on": [],
+    "description": "Lead from the heart.\n\nSure, green is the color of money. But Malachite isn’t some miracle stone that makes hundred-dollar bills fall from the heavens. It’s much more practical than that. By fostering creativity, confidence, and command, it’s a major motivator to get up and get going—not just to be a better earner—but a better leader and a better you.\n\nIts vivid psychedelic swirls point both to its composition of carbon and copper (a big-time conductor of physical and emotional energy) and the stone’s deep connection to nature. For city boys and city girls, Malachite can help shift you off that with-or-without-you pace of the world outside and onto something more primordially rhythmic and sustainable.\n\nPhysiologically, the heart is made up of four valves. Energetically and emotionally, we speak of the heart in more binary terms. It’s open. Or, it’s closed. Malachite serves as a fiery protector of an open heart and restorative healer of a wounded heart. \n\nWhether its money, power, or glory you’re looking for, Malachite can help you find it the right way, for the right reasons.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/malachite_2.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Malachite",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=malachite&active=true"
+    },
+    "updated": 1501714656,
+    "url": null
+  },
+  {
+    "id": "meteorite",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "Vitality,Intuition,Insight",
+    "created": 1465427149,
+    "deactivate_on": [],
+    "description": "“E.T. phone home.”\n\nFlung at Earth from far-off space, extraterrestrial Meteorites have been carbon dated to the beginning of time. It doesn’t take an astrophysicist’s grasp of the time-space continuum to reap the benefits of working with Meteorite. In fact, ancient cultures on multiple continents sought out Meteorites as sacred symbols of creation and a higher order. As Meteorites are way old, they resonate with whatever is old (think: soul) and primal in you.\n\nMeteorites come in three forms: Nickel-Iron, Chondrite, and Pallasite.\n\nNickel-iron meteorites are completely metallic. They have a fiery energy that promotes growth along spiritual lines. If you’re into getting weird with kundalini yoga, Nickel-Iron meteorites are the stone for you. Sat nam.\n\nChondrites are space rocks associated with contacting the interdimensional community at large. For those of us for whom Earth just doesn’t offer enough options, Chrondites connect us to higher planes where we can flex and floss intergalactic.\n\nMetallic Pallasites—not to be confused with delicious Italian almond nougat—are infused with Peridot (and that stone’s radiant solar energy). For those prone toward spaciness, Pallasites balance you out and get you square with the universe so you can make the most of your time here on Earth.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/meteorite_1.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Meteorite",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=meteorite&active=true"
+    },
+    "updated": 1501720549,
+    "url": null
+  },
+  {
+    "id": "moldavite",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "Cleansing,Manifestation,Vitality,Insight,Transformation,Dreamwork",
+    "created": 1459294252,
+    "deactivate_on": [],
+    "description": "A Space Oddity.\n\nMost stones are deeply rooted in the elements found on our blue-green planet—water, earth, fire. Then there’s next level Moldavite, which quite possibly spewed from an extraterrestrial volcano. As such, if you’re looking to get weird, this is a stone for you.\n\nThe basics: Moldavite is a semitransparent, pale to dark green stone. Like glass blown by tiny green beings in space—think Ridley Scott’s art department—it’s only found on the Bohemian plateau in modern day Czech Republic. Like groovy Shungite, Moldavite is one of a handful of stones that have a palpable vibrational energy to the touch. This intense energy points to Moldavite’s capacity to get us closer to spirit, the Cosmos, and maybe even friends from distant galaxies.\n\nMoldavite is also real powerful closer to home. Like, in your head and in your heart. Whatever it is you really need to deal with, Moldavite’s magnetic pull can bring it to the surface, illuminating things for what they really are. That which terrifies you might not really have the claws and fangs your subconscious has given it. Be honest. Think about that one thing or person or idea you’re just too afraid to let yourself love. Then, let Moldavite help clear away the horror so you can get on with living your beautiful destiny.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/moldavite_1.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Moldavite",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=moldavite&active=true"
+    },
+    "updated": 1501711432,
+    "url": null
+  },
+  {
+    "id": "moonstone",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "insight,intuition,dreamwork",
+    "created": 1456176261,
+    "deactivate_on": [],
+    "description": "Run with the wolves.\n\nMoonstone is a prismatic feldspar mineral that’s been held close by travelers for ages. Add it to the weekend bag with the 4-oz tube of Goe Oil and a copy of the Dhammapada. Its metallic white, ethereal energy connects us to the goddess, Mother Nature, or the special lady we all have inside of us. And, it works in concert with its namesake. Under a full moon, bringing moonstone into the bedroom with your partner (or partners…whatever you’re into…we don't judge) can have an intoxicating, next level effect. While a new moon is always a perfect time to set intentions with moonstone. \n\nIf depth is what you seek, moonstone is the ideal stone for you. In our crazy world of constant visual stimulation, c/o binge watching political dramas, Kimojis, and compulsive ‘gramming, it’s easy to forget to look up, feel up, and be up. Like, up in the night sky, where we can rely on one thing to be calmly rising and falling, fading in, fading out, day after day, month after month.\n\nThe moon is crazy powerful, pushing and pulling the biggest things on the planet (the five deep oceans) and pushing and pulling you (and your moods), too. Get yourself on its rhythm, or forever be frazzled. Finding it’s that time? Bring on moonstone.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/LN1018-1551883.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Moonstone",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=moonstone&active=true"
+    },
+    "updated": 1501726268,
+    "url": null
+  },
+  {
+    "id": "orange_calcite",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "Creativity,vitality,passion",
+    "created": 1461720230,
+    "deactivate_on": [],
+    "description": "Solar powered.\n\nOrange Calcite—a calcium carbonate often hecho en Mexico and a must have for artists and romantics—is a ray of light in rock form. Like the sun, it has the power to energize and restore. Like a week of sweaty yoga and smoky mezcal on the Mayan Riviera, it’s bound to get the blood flowing in the right directions.\n\nFor those less inclined toward sex on the beach, Orange Calcite can burn off that fog of laziness that afflicts so many in the creative professions. Sometimes what presents as lethargy and boredom is really just fear of failure playing dress up in sweatpants and slippers. Orange Calcite can help us gather the real confidence it takes to break through the terror and finish what we started.\n\nAn important note: Our inner most yearnings and desires—creative and sexual—emerge from the same place, the second chakra. Working with this Creamsicle of crystals at the lower abdomen during meditation can fire up latent energies that’ll have you clawing for warm flesh, the Jeremih album or the watercolor set. If you’re a freak, grab all three.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/orange_calcite_1.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Orange Calcite",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=orange_calcite&active=true"
+    },
+    "updated": 1501721102,
+    "url": null
+  },
+  {
+    "id": "peridot",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "manifestation,vitality,transformation",
+    "created": 1460075284,
+    "deactivate_on": [],
+    "description": "Reach for the sun.\n\nThey say it’s better to give than receive. For some, it’s also way easier. Want money? Happiness? An unbreakable sense of self worth? Think you don’t deserve it? We think not. Cut to the chase with effervescent Peridot and start tearing down those subconscious barriers between you and the joy that is your beautiful birthright, human.\n\nThese candy colored sparklers—they get their lime green hue from the iron within—encourage you to keep reaching out for that bright, burning sun, to soak it all in, and never stop growing. The Vitamin D of your crystal diet plan, Peridot is like baby oil en route to a deep spiritual tan.\n\nA great stone for seekers, Peridot can help transform you from grasshopper to master. And, it doesn’t just attract knowledge. It is no mistake that Peridot is the color of money. Call it “abundance.” Call it a Birkin bag. Call it summer in Saint Tropez. You’ll never know what that sun-kissed sand between your toes feels like if you don’t face the fears and go out and get it. Add Peridot to the business plan and bring on the commas.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/peridot_1.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Peridot",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=peridot&active=true"
+    },
+    "updated": 1501723985,
+    "url": null
+  },
+  {
+    "id": "pyrite",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "manifestation,creativity,confidence,passion,strength,focus",
+    "created": 1457215750,
+    "deactivate_on": [],
+    "description": "All about that action.\n\nPower stone Pyrite is a favorite among the crystal cognoscenti for its mirrored gold shine, perfect cubic structure, and metaphysical properties that promote the cultivation and expression of our purest life force. Pyrite gets its name from the Greek word for fire, appropriate as it resonates with the third chakra, that bubbling cauldron in the belly where our sexual and creative desires burn hottest. \n\nWe all need balance. Moon energy. Sun energy. Yin. Yang. Pyrite lands strong on the yang scale. Real fiery. Real masculine. If you’re feeling low energy, meditating with Pyrite offers up a warm, energizing kick. And for the fellas, Pyrite can help summon the primordial powers of Eros (and Marvin Gaye) when it’s time to lay down the magic stick with confidence. Insert eggplant emoji! \n\nOutside the candlelit, impassioned boudoir, Pyrite is a combustible companion on the artist’s way. This action stone brings the muscle required to beat back our fears of failure and inadequacy, shape inspiration into form, and will all of our creative endeavors through to the blissful end.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/LN1018-1551918.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Pyrite",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=pyrite&active=true"
+    },
+    "updated": 1501711266,
+    "url": null
+  },
+  {
+    "id": "quartz",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "clarity,transformation,cleansing",
+    "created": 1450024200,
+    "deactivate_on": [],
+    "description": "The clearer the better.\n\nAmong the most abundant minerals on the planet, Quartz is everywhere. But, being mainstream doesn’t make Beyoncé any less amazing, and neither does it make this amplifying, light-bearing, healing stone.\n\nIts clarity says it all. A composite of silicon and oxygen, Quartz already has a powerful role in most of our everyday lives (read: that vintage Swiss watch you’ve been lusting over for years). It helps us “see through” our perceived limitations, barriers between physical and spiritual realms, past and future.\n\nQuartz is also an amazing conductor stone. Like a chemical catalyst, it enhances the power of your other stones. As such, like toothpicks and arnica, it’s always good to have around. If you’re working with any stone, Quartz will expedite the change you’re looking for, energetically, mentally, physically, and spiritually.\n\nLike a computer, clear Quartz is programmable. So, set your greatest intention with Quartz. Quite simply: Give it a job. Once imbued with a beautiful purpose—like all of us—a Quartz touchstone is capable of manifesting amazing things.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/LN1018-1551801.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Quartz",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=quartz&active=true"
+    },
+    "updated": 1501709257,
+    "url": null
+  },
+  {
+    "id": "rhodochrosite",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "Love,courage,joy",
+    "created": 1459376094,
+    "deactivate_on": [],
+    "description": "Love freely. Love without fear. \n\nRhodochrosite reminds us that when it comes to love, you have to put on your own oxygen mask, inhale deeply, and then help others. \n\nRhodochrosite can wake your inner child from a deep, dark slumber and lead her through the thorny forest of judgment to find the courage to love without fear. (If your inner child happens to be a him that’s cool, too. The stone’s powerful, feminine, loving vibes do not discriminate.) And we’re not just talking romantic, kiss-me-to-death love here, either. Rhodochrosite can unearth and reconnect us to the passions, the art, and the work that are most meaningful (and potentially most painful (a.k.a. worth it)) to us in our short lifetimes.\n\nFiery yet soothing, pretty-in-pink Rhodochrosite is a powerful healer of a wounded heart. If you’ve been holed up at the Heartbreak Hotel sipping Canadian Club and salty tears for too long, it can unlock the shackles of mourning and set you on a forward course. Letting go is so hard. But, letting go is so liberating. Ally with Rhodochrosite, get free, and let yourself love again. You deserve it.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/rhodochrosite_1.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Rhodochrosite",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=rhodochrosite&active=true"
+    },
+    "updated": 1501724186,
+    "url": null
+  },
+  {
+    "id": "rhodonite",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "Love,transformation,clarity",
+    "created": 1477011166,
+    "deactivate_on": [],
+    "description": "Love with purpose.\n\nLove and discovery. No, it’s not an unpublished Jane Austen novel. It’s Rhodonite! When it’s time to dig deep, find your thing, love it hard, and give it to the world, call on rosy Rhodonite. Or in other more prescriptive words, “Find what you love and let it kill you.” That’s what oft-quoted barfly Charles Bukowski said. But that’s a little fucking morbid for a crystal app, no? The sentiment, however, is spot on. \n\nRhodonite isn’t the stone for romancing “the one” or cuddling up to self with an open heart. For that you have Rhodochrosite and Rose Quartz right next door. Rhodonite appeals to matters of the heart of a very different variety, directing you toward a love that drives you, lights you up, gets you out of bed in the morning. No, not a quad almond latte. Your calling. Your life’s purpose. The one thing you’d do if money were no longer an object. That deep love that if you could just find it, harness it, and put it out there would make the world a more beautiful, enlightened, magical place for everyone. We’re praying you do.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/rhodonite_1.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Rhodonite",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=rhodonite&active=true"
+    },
+    "updated": 1501731277,
+    "url": null
+  },
+  {
+    "id": "rose_quartz",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "love,calm,creativity",
+    "created": 1449686609,
+    "deactivate_on": [],
+    "description": "A little armor for the open heart.\n\nThe human heart has an electromagnetic field that’s 5,000 times stronger than that of the brain. You’re welcome to ponder that for a minute with your mind. Or, you can wake up to wonder and think about it with your much wiser heart. More than any other stone, sweet Rose Quartz can help.\n\nRose Quartz is a fierce defender of the heart. Its pink energy soothes the hurt of loss. Placed over the solar plexus, it’s a balancing force. Aligning desire with pure intent, its energy can be cotton candy, a cashmere blanket, and—if summoned—something far more powerful, a force field of sorts that keeps the good vibes in and the dark ones out. If your heart is hungry, feed it with Rose Quartz.\n\nIf you’re truly blessed, your life will be touched by many loves. People. Places. Passions. Beginnings and endings. Major keys. Minor keys. With an open, fearless heart—and Rose Quartz—you’ll have the equipment to gracefully handle them all.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/LN1018-1551792.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Rose Quartz",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=rose_quartz&active=true"
+    },
+    "updated": 1501715797,
+    "url": null
+  },
+  {
+    "id": "ruby",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "Passion,vitality,courage,strength,protection,motivation",
+    "created": 1477010753,
+    "deactivate_on": [],
+    "description": "Feed your fires.\n\nIn the enlightened kingdom of metaphysical minerals, Ruby is a heavy, a graceful warrior, a noble protector, a beast. Ruby is an energizing life-force conductor that points us in the direction of a full, rich life. One of the four precious gemstones—second only to diamond in hardness—Ruby has lit the wrists of royalty for centuries with its fiery red light.\n\nRuby gushes with a pure, juicy, warm energy. If that sound sexy, shit, maybe we’re actually doing our job. Yes, Ruby stokes first chakra passions in the bedroom and beyond. Like, the kitchen counter. The shower. And, the conference table at the office.\n\nThe visionary designer and OG fashion killa, Yves Saint Laurent, said, “the most beautiful makeup for a woman is passion.” So for those less animalistic—but still impassioned—pursuits, Ruby’s empowering, protective energy encourages you to move forward without fear while knocking down your goals, one after the other. When you do that, big, beautiful things—material and otherwise—tend to find you. And, that’s hot. Red lipstick or not.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/ruby_1.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Ruby",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=ruby&active=true"
+    },
+    "updated": 1501728488,
+    "url": null
+  },
+  {
+    "id": "scolecite",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "calm,insight,dreamwork",
+    "created": 1449719902,
+    "deactivate_on": [],
+    "description": "Sweet dreams, baby.\n\nScolecite will bring on the Sandman. Not Metallica’s scary Sandman. Hans Christian Andersen’s mythical Sandman, sprinkling magical dust on the eyes to conjure dreams and sweet, sweet sleep.\n\nScolecite forms in wild striated prisms (think Krypton) and its primary function is to promote deep, hot-tub-massage-and-a-big-glass-of-red-wine-type relaxation—all without the debilitating dehydration. In meditation, Scolecite placed on the third eye promotes a sense of calm and inner peace that keeps you in the pocket, longer.\n\nHide snow white Scolecite under your pillow at night to incite lucid dreaming and help gather the powerful insights often lost in forgotten dreams. As always, keeping a notepad and pen beside the bed is highly recommended.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/LN1018-1551898.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Scolecite",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=scolecite&active=true"
+    },
+    "updated": 1501711763,
+    "url": null
+  },
+  {
+    "id": "selenite",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "Clarity,cleansing,motivation",
+    "created": 1460142947,
+    "deactivate_on": [],
+    "description": "A clearer path to you. \n\nCleansing white Selenite—often appearing in long, striated, wand-like forms—is an essential weapon in the spiritual warrior’s arsenal. Like burning bundles of sage or splinters of Palo Santo—essential before meditation or healing work or when some creep with bad juju muddies up the lovingly crafted vibes in your place—Selenite clears unwanted energy. It also opens pathways to whatever it is up there above, in the heavens, ether, or atmosphere. If you have a palpable sense that someone or something is watching over you, airy Selenite can help give it form in the mind’s eye. \n\nWorking with Selenite before working with other crystals is a bit like foreplay—often wildly necessary, highly enjoyable, and sometimes better than the main event. Selenite banded together with other crystals has a powerful, magnifying effect, i.e., adds punch to your Pyrite. A necessity wherever fire and moonlight are in short supply, a physical touch of Selenite to your crystals will power ’em up and wipe away any lingering energy that needs bouncing.\n\nLike frequent pauses throughout the day—deep inhale, “I am worthy,” exhale, move on—a quick bath in Selenite’s vibes can clear heavy, ambient energy that can get in the way of creativity, productivity, and fun.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/selenite_1.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Selenite",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=selenite&active=true"
+    },
+    "updated": 1501740456,
+    "url": null
+  },
+  {
+    "id": "serpentine",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "Manifestation,transformation,vitality",
+    "created": 1506123241,
+    "deactivate_on": [],
+    "description": "Embrace the serpent.\n\nTry Googling “kundalini awakening.” If you like what you see, Serpentine—a lizard-shaded magnesium silicate—might be the stone to help get you there. If you don’t like what you see, maybe the mushrooms haven’t kicked in yet.\n\nLike ’em or not, we can learn a lot from our forked-tongued friends. Like, for health reasons, a snake might shed its skin a couple times every year. Who couldn’t use a primal cleanse (read: existential makeover) like that every six months? You can scrub with all the $40 Australian body cleanser you want. When it’s time to really exfoliate your spiritual self, slither over to Serpentine, let go of what you don’t need, and try again with a refreshed perspective. \n\nSerpentine reminds us how much lighter, brighter, cleaner, and dare we say fucking effervescent we are allowed to feel when we discard the old defense mechanisms, those few extra croissant pounds (even more so the judgement that jiggles along with them), and the closet full of label bullshit that was so baller last year but now...not so much.\n\nA slightly caffeinated stone that promotes the sensation of circulation and flow, Serpentine is ideal for those on the move—professionally and on the dancefloor where you belong, baby. It reminds us to always focus on our alignment. Physically, for sure. Pilates rules. But also, emotionally. When it comes to a value system, a career, a relationship: Align. Assess. Realign. And remember: You can always, always, always take a deep breath, lose that old skin you don’t need, and start fresh.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/serpentine_1.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Serpentine",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=serpentine&active=true"
+    },
+    "updated": 1506123241,
+    "url": null
+  },
+  {
+    "id": "shungite",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "clarity,transformation,cleansing",
+    "created": 1457376191,
+    "deactivate_on": [],
+    "description": "From Russia with love.\n\nIt purifies water! It contains antioxidants! And fullerenes! (Fullerenes are tiny geodesic dome shaped carbon molecules). It may have arrived on meteorites from outer space! Super stone Shungite is a coal-like mineral composed of carbon, silicon, iron, calcium, and phosphorous (among others). It’s only found in the Karelia region of Russia, where it has been used in baths and spas to add healing, cleansing energy to water for centuries.\n\nShungite is electric (electro-conductive, to be exact). Hold it in your hands and feel its vibrational energy pulsing through your body. The result is an activation of light energy that works against darkness and negativity—physical, emotional, and spiritual.\n\nMeditation with Shungite is a two-fold experience. In its presence, there’s only room for one thing: Truth. Misconceptions, negativity, and certified organic bullshit make way for its cleansing energy. This inborn positivity can take on palpable physical sensations. Holding Shungite rods in the hands during meditation delivers an often gentle (sometimes full-on body buzzing) space-making realignment of misplaced energy. If it’s time to get real with your truth, add Shungite to your crystal arsenal and let it clap on the light.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/shungite_1.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Shungite",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=shungite&active=true"
+    },
+    "updated": 1506111349,
+    "url": null
+  },
+  {
+    "id": "smoky_quartz",
+    "object": "product",
+    "active": true,
+    "attributes": [
+      "calm",
+      "clarity",
+      "protection"
+    ],
+    "caption": "calm,clarity,protection",
+    "created": 1449692134,
+    "deactivate_on": [],
+    "description": "Deep roots.\n\nWhen life throws shade, grounding Smoky Quartz acts as a super absorbent sponge that takes in the energy that orbits the dark thoughts, negative voices, and passive aggressive emails that have your mind moving in every direction and your soul saying, “Um, hello?” \n\nWith attributes of both transparent stones and black stones, Smoky Quartz is ideal for clearing the path ahead of dark detritus—insecurities, fears, and those sociopaths and narcissists who come in the guise of friends. \n\nLike Black Tourmaline, Smoky Quartz is a loyal protector, keeping the glowing orb of inner you in and that whirling emotional tornado of razor sharp teeth and claws out there, out. Arm yourself with Smoky Quartz against crowded streets and crowded thoughts. In meditation, Smoky Quartz has a swaddling effect, holding you down (in a good way) and laying a foundation for clear insights to emerge from the ooze of everyday life.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/LN1018-1551798.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Smoky Quartz",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=smoky_quartz&active=true"
+    },
+    "updated": 1501738891,
+    "url": null
+  },
+  {
+    "id": "sodalite",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "Insight,Intuition,Dreamwork",
+    "created": 1465688549,
+    "deactivate_on": [],
+    "description": "True blue.\n\nHeady Sodalite is a salty, deep blue stone speckled and striated with white calcite inclusions. It resonates with the third eye chakra, elevating those insight-laden meditative and dream states for the spiritual seeker free diving to yet-to-be-discovered depths.\n\n“Who am I and what the fuck am I doing here?” For those of you whom answering that question is a major priority, Sodalite helps to evoke the honest, self-honoring answer you really need to hear—an answer from which you can confidently set out, breathe, create, and just be. \n\nIf a big decision hangs on the near horizon, remember: Your intuition won’t lie to you. It’s had your back since day one. Truth. Let Sodalite amplify its power.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/sodalite_1.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Sodalite",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=sodalite&active=true"
+    },
+    "updated": 1501706342,
+    "url": null
+  },
+  {
+    "id": "tektite",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "Communication,transformation,vitality",
+    "created": 1459372221,
+    "deactivate_on": [],
+    "description": "Launch your baggage into orbit.\n\nWhile it may share the appearance of a ball of raw opium, Tektite’s power to connect us to higher frequencies is far more sustainable. This high-vibration stone—created with the force of a meteorite impact—unlocks and opens the energetic doors that keep anger, fear, and resentments trapped in your body. When shit happens, Tektite empowers us to let it all go without losing the lesson. \n\nIn meditation, Tektite nurtures telepathic and psychic powers, making worldly beings more sensitive to other dimensional activity. If you want to get a sense of what’s popping beyond this small speck of the universe called Earth, get your Jodie Foster on and contact Tektite. \n\nIf channeling extraterrestrials isn’t your thing, Tektite can enhance your awareness of what’s really going down in your immediate surroundings. Get comfortable with what’s nearest and dearest and perhaps connecting with neighboring galaxies won’t seem so daunting.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/tektite_1.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Tektite",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=tektite&active=true"
+    },
+    "updated": 1501720060,
+    "url": null
+  },
+  {
+    "id": "tibetan_black_quartz",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "Protection,balance,cleansing",
+    "created": 1460249863,
+    "deactivate_on": [],
+    "description": "From the greatest heights.\n\nTibetan Black Quartz is only found in the mountainous Himalayan region, birthplace of mystical Tibetan Buddhism, where upon enlightenment some notable adherents are believed to have burst into rainbow light. Perhaps not so coincidentally, Tibetan Black Quartz is a balancing force that clears and illuminates the path ahead for those on the spiritual journey.\n\nWhile often mostly clear, Tibetan Black Quartz is named for the black mineral inclusions—gathered like storm clouds—within. \n\nDuring meditation, Tibetan Black Quartz can both quiet a chattering mind and energize one prone toward slumber. Whether propped up on the meditation pillow, sweating on the yoga mat, or tucked into crisp linen sheets, nearby Tibetan Black Quartz brings us closer to a transcendent feeling of being “in it,” that magical, mysterious place where time and space give way to blissful quiet and deep insight.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/tibetan_black_quartz_2.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Tibetan Black Quartz",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=tibetan_black_quartz&active=true"
+    },
+    "updated": 1501740571,
+    "url": null
+  },
+  {
+    "id": "tigers_eye",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "Balance,confidence,strength",
+    "created": 1461719833,
+    "deactivate_on": [],
+    "description": "Tip on the tightrope.\n\nTiger Eye is all about finding balance, gracefully moving through life's highs and lows with power and class.\n\nImbalance can start in the mind. Your thoughts are not your friends. They’ll sell you out, steal your shine, and drag you across your proverbial Zen garden—bloodied and battered—if you let them. Let Tiger Eye whip those catty bitches into shape and set you on a course to spiritual success.\n\nEmotions are a whole ‘nother story. They can pull you in so many different directions you stay in one place: Stuck. When jealousy, pride, shame, and fear obscure the horizon, Tiger Eye can be a centering, energetic machete clearing a path through the jungle of your emotions.\n\nTiger Eye—a gold-brown quartz varietal—is well regarded as a money maker stone. A little economics lesson: productive people get paid. If you’re stuck in mind or mood (see above), snap out of it, kitten! Use Tiger Eye to shine a light on the creative, courageous beast inside of you, ’cause anything worth doing is worth doing with a roar.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/tigers_eye_1b.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Tiger Eye",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=tigers_eye&active=true"
+    },
+    "updated": 1501730082,
+    "url": null
+  },
+  {
+    "id": "titanium_quartz",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "strength,focus,confidence",
+    "created": 1458590234,
+    "deactivate_on": [],
+    "description": "Life in Technicolor. \n\nSome crystals are more new age than others. Titanium Quartz requires humanity’s touch to come to life. And of all the stones like it…girl…does this one come to life.\n\nTitanium Quartz is created in a chamber where titanium and other metals (in vaporized form) bond with la grande dame, super versatile, stimulate-every-chakra Quartz. The hyper color result is a stone that is mesmerizing to behold. Its rainbow, iridescent hues point to its multi-spectrum effects—life affirming, energizing, and fun. For those of us whom “constructive criticism” has a cortisol triggering, denim-tearing, green-skin-having effect, Titanium Quartz can help keep the mood light. Like, candy colored rainbows light. Paid artists, writers, and funny folks can employ Titanium Quartz to stay sharper than crayons. Or, colored pencils. Or, fucking rainbow chainsaws.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/LN1018-1551812.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Titanium Quartz",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=titanium_quartz&active=true"
+    },
+    "updated": 1501737545,
+    "url": null
+  },
+  {
+    "id": "tourmalined_quartz",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "Cleansing,protection,clarity",
+    "created": 1463604674,
+    "deactivate_on": [],
+    "description": "Let there be light. Lots of it.\n\nThe best of both worlds, Tourmalined Quartz (it’s exactly what it sounds like) combines the negativity fighting power of Black Tourmaline with the clarity of queen Quartz to restore your perfect light. On the real: Where darkness ain’t, light be. Tourmalined Quartz washes away those heavy, brooding thoughts so you can get back to shining.\n\nOn a more primal, elemental, or cellular level, meditation and energy work with Tourmalined Quartz can take us all the way back to the beginning—restoring our settings to that always true, always emanating pilot light we all share (i.e. that pure fire that started burning when the universe herself got started).\n\nTime for a cleanse? There’s more to it than just green juice and colon hydrotherapy. It’s a mindset. And Tourmalined Quartz—matched with mindfulness—can give us the clarity and focus to stay on an enlightened path. So, what’s your poison? Xanax? Gummy bears? Dating narcissists? Whatever (or whomever) it is you need to scrub from your day-to-day, Tourmalined Quartz can shine a light on the negative forces in your life so you can get busy brushing ’em off your shoulder. Au revoir, bitches!",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/tourmalined_quartz_1.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Tourmalined Quartz",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=tourmalined_quartz&active=true"
+    },
+    "updated": 1501720433,
+    "url": null
+  },
+  {
+    "id": "turquoise",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "strength,balance,communication",
+    "created": 1465832802,
+    "deactivate_on": [],
+    "description": "Spoken like the truest you.\n\nWhen it comes to crystals, Turquoise is the world’s biggest pop star. Adored by millions from Lhasa to Marrakesh to Tucson, adorning Zuni shamans, country singers, Santa Fe artisans, and the most fashionable cosmopolitans in densely packed style centers around the world. Its history is real rich. Beads from 5000 years before the blessed Mary brought JC into this world have been unearthed in the Middle East. And, its been favored by royalty, elite warriors, and the spiritual set for thousands and thousands of years.\n\nSo, what it do? While some things have changed a lot for humanity in the last few millennia, some things haven’t and probably never will. We all need strength to move forward in the face of adversity. We all need calm resolve to weather storms. And, we all need balance. Work. Play. Reason. Faith. Turquoise delivers on all of the above, empowering us to just let ourselves be human.\n\nTurquoise’s brilliant blues come from the always-energized copper within. It’s greens from fortifying iron. This metal vibe makes it a powerful protector. Think of turquoise as a little extra armor against whatever intruders—thoughts, sociopaths, Spotify commercials—come your way each day. For those who find it hard to speak up for love, for a belief, or for a fair shake, Turquoise can help translate the biggest feels into the right words in any language.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/turquoise_1.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Turquoise",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=turquoise&active=true"
+    },
+    "updated": 1501735070,
+    "url": null
+  },
+  {
+    "id": "vanadinite",
+    "object": "product",
+    "active": true,
+    "attributes": [],
+    "caption": "creativity,motivation,vitality",
+    "created": 1470847813,
+    "deactivate_on": [],
+    "description": "Break on through.\n\nAppearing almost engineered, Vanadinite’s fiery hexagonal formations reflect nature’s playful, creative geometry. Like red-hot Carneilian, Vanadinite is a master motivator. A little Tony Robbins for your desktop or altar, often straight from America’s spicy southwest.\n\nFor those lacking self-discipline, Vanadinite takes the role of energetic drill instructor with a shiny, standard issue boot in the ass always at the ready. Nobody is going to compose your magnum opus, write your great American novel, or train for your marathon for you. But, that doesn’t mean you have to go it alone. Friends, trusted advisors, and supercharged crystals like Vanadinite can all have your back. Collect them all!\n\nFinally, a message to the creative set. Big words. Big ideas. Big plans. We all got ’em. If only it were Sunday morning easy to grab a pen and a pad, jot ’em down, and shape them into reality. When big blocks stand in the way of inspiration, accomplishment—even a paycheck—Vanadinite can power you through whatever stands between you and your hard earned success. Now, put down your phone and get to work.",
+    "images": [
+      "http://stone-crystals-testing.imgix.net/vandenite_3.tif"
+    ],
+    "livemode": false,
+    "metadata": {},
+    "name": "Vanadinite",
+    "package_dimensions": null,
+    "shippable": true,
+    "skus": {
+      "object": "list",
+      "data": [],
+      "has_more": false,
+      "total_count": 0,
+      "url": "/v1/skus?product=vanadinite&active=true"
+    },
+    "updated": 1501703398,
+    "url": null
+  }
+]

@@ -362,6 +362,15 @@ Datasets have associated metadata, specifying their data type and cohort.</descr
     </item>
     
     <item>
+      <title>R-数据操作</title>
+      <link>/cn/post/2019-11-20-r-hight-level-data-operation/</link>
+      <pubDate>Sat, 25 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-11-20-r-hight-level-data-operation/</guid>
+      <description>本文内容： 基础函数操作数据框 sqldf包使用SQL查询数据框 data.table包操作数据 dplyr管道操作处理数据 rlist包处理嵌套数据</description>
+    </item>
+    
+    <item>
       <title>R-操作数据库</title>
       <link>/cn/post/2019-11-20-r-operate-database/</link>
       <pubDate>Sun, 19 Aug 2018 00:00:00 +0000</pubDate>

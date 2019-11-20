@@ -1,0 +1,7 @@
+id,material,size,weight
+T01,Metal,120,10
+T02,Metal,350,45
+M01,Plastics,50,NA
+M02,Plastics,85,3
+M03,Wood,15,NA
+M04,Wood,16,0.6

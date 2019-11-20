@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>sqldf on Shixiang Wang | 王诗翔</title>
+    <link>/tags/sqldf/</link>
+    <description>Recent content in sqldf on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 25 Aug 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/sqldf/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>R-数据操作</title>
+      <link>/cn/post/2019-11-20-r-hight-level-data-operation/</link>
+      <pubDate>Sat, 25 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-11-20-r-hight-level-data-operation/</guid>
+      <description>本文内容： 基础函数操作数据框 sqldf包使用SQL查询数据框 data.table包操作数据 dplyr管道操作处理数据 rlist包处理嵌套数据</description>
+    </item>
+    
+  </channel>
+</rss>

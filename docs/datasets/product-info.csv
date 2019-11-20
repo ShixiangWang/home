@@ -1,0 +1,7 @@
+id,name,type,class,released
+T01,SupCar,toy,vehicle,yes
+T02,SupPlane,toy,vehicle,no
+M01,JeepX,model,vehicle,yes
+M02,AircraftX,model,vehicle,yes
+M03,Runner,model,people,yes
+M04,Dancer,model,people,no
