@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>math on Shixiang Wang | 王诗翔</title>
-    <link>/tags/math/</link>
-    <description>Recent content in math on Shixiang Wang | 王诗翔</description>
+    <title>bayesian on Shixiang Wang | 王诗翔</title>
+    <link>/tags/bayesian/</link>
+    <description>Recent content in bayesian on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 16 May 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/math/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/bayesian/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -18,15 +18,6 @@
       
       <guid>/cn/post/2019-11-20-bayesian-condition-engines/</guid>
       <description>这里描述三种贝叶斯contioning engines： 网格逼近 二次逼近 马尔科夫链蒙特卡罗（MCMC） 网格逼近 网格逼近是最简单的一种，只适用于</description>
-    </item>
-    
-    <item>
-      <title>R应用数值计算</title>
-      <link>/cn/post/2019-11-20-r-apply-math-computation/</link>
-      <pubDate>Wed, 09 May 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/cn/post/2019-11-20-r-apply-math-computation/</guid>
-      <description>这里我们学习下有关数值计算的根查找与微积分的内置函数。 根查找 假设我们想要求解以下方程的根： \[ x^2 + x - 2 = 0 \] 若是要手动求解，我们需要先将方程</description>
     </item>
     
   </channel>

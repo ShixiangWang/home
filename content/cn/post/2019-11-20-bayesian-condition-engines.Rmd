@@ -1,0 +1,160 @@
+---
+title: "贝叶斯conditioning engines"
+author: "王诗翔"
+date: "2018-05-16"
+lastmod: "`r Sys.Date()`"
+slug: ""
+categories: r
+tags:
+- r
+- math
+- bayesian
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, dev = "png", comment = "#>")
+#Sys.setenv("LANGUAGE"="EN") # Embed this for outputing English message
+#Sys.setlocale('LC_ALL','C') # Embed this directly in the Rmarkdown script that contains the Chinese character comment
+options(digits=3)
+options(max.print=200)
+```
+
+这里描述三种贝叶斯contioning engines：
+
+* 网格逼近
+* 二次逼近
+* 马尔科夫链蒙特卡罗（MCMC）
+
+## 网格逼近
+
+网格逼近是最简单的一种，只适用于教学但不能实际采用。
+
+我们来解决这样一个问题，**假设你有一个小球代表我们的星球——地球，它小到可以握在你的手中。你现在非常好奇地球表面有多少是被水覆盖的。你采用以下策略：将小球高高扔向空中，然后抓住它，记录食指触碰的是水面还是陆地**（Globe tossing problem）。你可能会得到类似以下的数据：
+
+
+```
+W L W W W L W L W
+```
+
+`W`代表水，`L`代表陆地。
+
+我们现在利用贝叶斯网格逼近技术来探索这一问题。
+
+
+**记住，贝叶斯的核心是执果溯因**，我们已知上述9次记录，来探寻地球本身水面占比的概率分布情况。
+
+步骤：
+
+1. **定义网格**。你决定用多少个点估计后验概率，然后创建网格上所有参数值的一个列表。
+1. 计算网格上每个参数值的先验概率。
+1. 计算每个参数值的似然度。
+1. 计算每个参数值的非标准后验概率，通过用似然度乘以先验概率。
+1. 最后，通过用每个值除以所有值的和标准化后验概率。
+
+概念上还是有点绕，我们看看怎么用R代码实现该问题网格逼近的5个步骤：
+
+```{r, warning=FALSE}
+# 定义网格
+p_grid <- seq(from=0, to=1, length.out=20)
+# 定义前向概率
+prior <- rep(1, 20)
+# 计算网格每个值的似然度 9次试验6次是水
+likelihood <- dbinom(6, size = 9, prob = p_grid)
+# 计算似然度与前向概率的乘积
+unstd.posterior <- likelihood * prior
+# 标准化后向概率，保证和为1
+posterior <- unstd.posterior / sum(unstd.posterior)
+# 画出后向概率分布
+plot(p_grid, posterior, xlab="probability of water", ylab="posterior probability", main = "20 points", type="b")
+```
+
+以上5个步骤完成的其实是下面这个公式的计算：
+
+$$P(A_i|B) = \frac{P(B|A_i)P(A_i)}{\sum_{i=1}^nP(B|A_i)(P(A_i))} $$
+
+我们来修改下先验概率，看看结果有什么不同：
+
+```{r, warning=FALSE}
+# 定义网格
+p_grid <- seq(from=0, to=1, length.out=20)
+# 定义前向概率
+prior <- ifelse( p_grid < 0.5, 0, 1)
+# 计算网格每个值的似然度 9次试验6次是水
+likelihood <- dbinom(6, size = 9, prob = p_grid)
+# 计算似然度与前向概率的乘积
+unstd.posterior <- likelihood * prior
+# 标准化后向概率，保证和为1
+posterior <- unstd.posterior / sum(unstd.posterior)
+# 画出后向概率分布
+plot(p_grid, posterior, xlab="probability of water", ylab="posterior probability", main = "20 points", type="b")
+```
+
+
+```{r, warning=FALSE}
+# 定义网格
+p_grid <- seq(from=0, to=1, length.out=20)
+# 定义前向概率
+prior <- exp( -5*abs(p_grid - 0.5))
+# 计算网格每个值的似然度 9次试验6次是水
+likelihood <- dbinom(6, size = 9, prob = p_grid)
+# 计算似然度与前向概率的乘积
+unstd.posterior <- likelihood * prior
+# 标准化后向概率，保证和为1
+posterior <- unstd.posterior / sum(unstd.posterior)
+# 画出后向概率分布
+plot(p_grid, posterior, xlab="probability of water", ylab="posterior probability", main = "20 points", type="b")
+```
+
+## 二次逼近
+
+如果仅仅是处理这种单个参数的问题，使用网格逼近可以解决，但现实往往存在多个参数，如果计算2个参数100个值的网格，需要100的平方，即10000次之多。
+
+这里我们介绍一种适用的方法——**二次逼近**。我们从前面的图形可以观察到，靠近后验概率峰值的区域大致符合高斯分布，这意味着我们可以使用高斯分布进行估计。高斯分布两个重要的参数是均值和方差。
+
+```{r}
+plot(p_grid, log(posterior), xlab="probability of water", ylab="log of posterior probability", main = "20 points", type="b")
+```
+
+
+高斯分布估计称为二次逼近在于高斯分布的对数像一条抛物线，而抛物线是二次函数。
+
+该方法有两个步骤：
+
+1. 寻找后验分布模式。这通常可以由一些优化算法完成——称之为“爬坡”的过程，因为后验分布就像一座山一样。算法并不晓得峰值在哪里，但它知道自己脚下的坡度。
+1. 一旦找到后验分布的峰值，你必须估计峰值附近的曲率。这个曲率可以用来计算整个后验分布的二次逼近。
+
+我们这里使用`rethinking`包的`map`函数进行计算，它是`Maximum A Posterior`的简写。
+
+```{r, warning=FALSE}
+library(rethinking)
+globe.qa <- map(
+    alist(
+        w ~ dbinom(9, p), # 二项分布似然度
+        p ~ dunif(0, 1)   # 均匀的先验概率
+    ),
+    data=list(w=6)
+)
+# 显示二次逼近的汇总信息
+precis(globe.qa)
+```
+
+结果显示了MAP（最大后验概率）是在`0.67`，用`Mean`作为标签；曲率用`StdDev`作为标签，显示了后验分布的标准差。最后两个值显示了89%的区间。最后结果可以解读为：**假设后验分布服从高斯分布，它的最大值在0.67，标准差为0.16**。
+
+因为我们已经知道后验分布，让我们看看逼近效果如何。
+
+```{r, warning=FALSE}
+w <- 6
+n <- 9
+curve( dbeta(x, w+1, n-w+1), from=0, to=1)
+# 二次逼近
+curve(dnorm(x, 0.67, 0.16), lty=2, add=TRUE)
+```
+
+## 马尔科夫链蒙特卡洛方法（MCMC）
+
+该方法是一个家族，它用来处理非常复杂的模型。相比于直接计算或者逼近后验概率，MCMC只从后验分布中抽样，然后计算数量，我们可以通常采样得到的频率分布来模拟后验概率分布。
+
+
+***
+
+From 《Statistical Rethinking》

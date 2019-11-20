@@ -606,20 +606,29 @@
     </item>
     
     <item>
-      <title>class</title>
-      <link>/tags/class/</link>
-      <pubDate>Wed, 09 May 2018 00:00:00 +0000</pubDate>
+      <title>bayesian</title>
+      <link>/tags/bayesian/</link>
+      <pubDate>Wed, 16 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/class/</guid>
+      <guid>/tags/bayesian/</guid>
       <description></description>
     </item>
     
     <item>
       <title>math</title>
       <link>/tags/math/</link>
-      <pubDate>Wed, 09 May 2018 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 16 May 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/math/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>class</title>
+      <link>/tags/class/</link>
+      <pubDate>Wed, 09 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/class/</guid>
       <description></description>
     </item>
     

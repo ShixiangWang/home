@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    
+    <link rel="stylesheet" href="../../../fonts/academicons-1.8.6/css/academicons.min.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../logo/bodhi.png"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    
+    <title>贝叶斯conditioning engines - 王诗翔</title>
+    
+     
+    <meta property="og:title" content="贝叶斯conditioning engines - Shixiang Wang | 王诗翔">
+    
+
+    
+      
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="../../../css/style.css" />
+    <link rel="stylesheet" href="../../../css/mystyle.css" /> 
+    <link rel="stylesheet" href="../../../css/fonts.css" />
+    
+<script async src="../../../js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="../../../css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="../../../"><img src="https://avatars1.githubusercontent.com/u/25057508?s=460&amp;v=4" alt="Shixiang Wang" /></a></h1>
+
+
+
+      <nav class="menu">
+        <input id="menu-check" type="checkbox" />
+        <label id="menu-label" for="menu-check" class="unselectable">
+          <span class="icon close-icon">✕</span>
+          <span class="icon open-icon">☰</span>
+          <span class="text">Menu</span>
+        </label>
+        <ul>
+        
+        
+        <li><a href="../../../">首页</a></li>
+        
+        <li><a href="../../../cn/about/">关于</a></li>
+        
+        <li><a href="../../../cn/post/">博客</a></li>
+        
+        <li><a href="../../../cn/read/">读书</a></li>
+        
+        <li><a href="../../../cn/writing">写作</a></li>
+        
+        <li><a href="../../../cn/research/">研究</a></li>
+        
+        <li><a href="../../../cn/tools/">工具</a></li>
+        
+        <li><a href="../../../cn/cv-cn/shixiang">简历</a></li>
+        
+        <li><a href="../../../logo/qrcode.jpg">公众号</a></li>
+        
+        <li><a href="https://www.jianshu.com/u/b6608e27dc74">简书</a></li>
+        
+        <li><a href="../../../cn/todo">ToDo</a></li>
+        
+        <li><a href="../../../en/">English</a></li>
+        
+        
+
+<li class="menu-extra"></li>
+
+
+
+
+
+
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2019-11-20-bayesian-condition-engines.Rmd" target="_blank">编辑</a></li>
+
+
+<li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+        </ul>
+      </nav>
+    </header>
+
+    <article class="main">
+      <header class="title">
+        
+
+<h1>贝叶斯conditioning engines</h1>
+
+
+
+<h3>王诗翔 &middot 
+2018-05-16</h3> 
+
+
+   
+  
+
+
+      </header>
+
+
+
+
+
+<p>这里描述三种贝叶斯contioning engines：</p>
+<ul>
+<li>网格逼近</li>
+<li>二次逼近</li>
+<li>马尔科夫链蒙特卡罗（MCMC）</li>
+</ul>
+<div id="网格逼近" class="section level2">
+<h2>网格逼近</h2>
+<p>网格逼近是最简单的一种，只适用于教学但不能实际采用。</p>
+<p>我们来解决这样一个问题，<strong>假设你有一个小球代表我们的星球——地球，它小到可以握在你的手中。你现在非常好奇地球表面有多少是被水覆盖的。你采用以下策略：将小球高高扔向空中，然后抓住它，记录食指触碰的是水面还是陆地</strong>（Globe tossing problem）。你可能会得到类似以下的数据：</p>
+<pre><code>W L W W W L W L W</code></pre>
+<p><code>W</code>代表水，<code>L</code>代表陆地。</p>
+<p>我们现在利用贝叶斯网格逼近技术来探索这一问题。</p>
+<p><strong>记住，贝叶斯的核心是执果溯因</strong>，我们已知上述9次记录，来探寻地球本身水面占比的概率分布情况。</p>
+<p>步骤：</p>
+<ol style="list-style-type: decimal">
+<li><strong>定义网格</strong>。你决定用多少个点估计后验概率，然后创建网格上所有参数值的一个列表。</li>
+<li>计算网格上每个参数值的先验概率。</li>
+<li>计算每个参数值的似然度。</li>
+<li>计算每个参数值的非标准后验概率，通过用似然度乘以先验概率。</li>
+<li>最后，通过用每个值除以所有值的和标准化后验概率。</li>
+</ol>
+<p>概念上还是有点绕，我们看看怎么用R代码实现该问题网格逼近的5个步骤：</p>
+<pre class="r"><code># 定义网格
+p_grid &lt;- seq(from=0, to=1, length.out=20)
+# 定义前向概率
+prior &lt;- rep(1, 20)
+# 计算网格每个值的似然度 9次试验6次是水
+likelihood &lt;- dbinom(6, size = 9, prob = p_grid)
+# 计算似然度与前向概率的乘积
+unstd.posterior &lt;- likelihood * prior
+# 标准化后向概率，保证和为1
+posterior &lt;- unstd.posterior / sum(unstd.posterior)
+# 画出后向概率分布
+plot(p_grid, posterior, xlab=&quot;probability of water&quot;, ylab=&quot;posterior probability&quot;, main = &quot;20 points&quot;, type=&quot;b&quot;)</code></pre>
+<p><img src="../../../cn/post/2019-11-20-bayesian-condition-engines_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>以上5个步骤完成的其实是下面这个公式的计算：</p>
+<p><span class="math display">\[P(A_i|B) = \frac{P(B|A_i)P(A_i)}{\sum_{i=1}^nP(B|A_i)(P(A_i))} \]</span></p>
+<p>我们来修改下先验概率，看看结果有什么不同：</p>
+<pre class="r"><code># 定义网格
+p_grid &lt;- seq(from=0, to=1, length.out=20)
+# 定义前向概率
+prior &lt;- ifelse( p_grid &lt; 0.5, 0, 1)
+# 计算网格每个值的似然度 9次试验6次是水
+likelihood &lt;- dbinom(6, size = 9, prob = p_grid)
+# 计算似然度与前向概率的乘积
+unstd.posterior &lt;- likelihood * prior
+# 标准化后向概率，保证和为1
+posterior &lt;- unstd.posterior / sum(unstd.posterior)
+# 画出后向概率分布
+plot(p_grid, posterior, xlab=&quot;probability of water&quot;, ylab=&quot;posterior probability&quot;, main = &quot;20 points&quot;, type=&quot;b&quot;)</code></pre>
+<p><img src="../../../cn/post/2019-11-20-bayesian-condition-engines_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<pre class="r"><code># 定义网格
+p_grid &lt;- seq(from=0, to=1, length.out=20)
+# 定义前向概率
+prior &lt;- exp( -5*abs(p_grid - 0.5))
+# 计算网格每个值的似然度 9次试验6次是水
+likelihood &lt;- dbinom(6, size = 9, prob = p_grid)
+# 计算似然度与前向概率的乘积
+unstd.posterior &lt;- likelihood * prior
+# 标准化后向概率，保证和为1
+posterior &lt;- unstd.posterior / sum(unstd.posterior)
+# 画出后向概率分布
+plot(p_grid, posterior, xlab=&quot;probability of water&quot;, ylab=&quot;posterior probability&quot;, main = &quot;20 points&quot;, type=&quot;b&quot;)</code></pre>
+<p><img src="../../../cn/post/2019-11-20-bayesian-condition-engines_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+</div>
+<div id="二次逼近" class="section level2">
+<h2>二次逼近</h2>
+<p>如果仅仅是处理这种单个参数的问题，使用网格逼近可以解决，但现实往往存在多个参数，如果计算2个参数100个值的网格，需要100的平方，即10000次之多。</p>
+<p>这里我们介绍一种适用的方法——<strong>二次逼近</strong>。我们从前面的图形可以观察到，靠近后验概率峰值的区域大致符合高斯分布，这意味着我们可以使用高斯分布进行估计。高斯分布两个重要的参数是均值和方差。</p>
+<pre class="r"><code>plot(p_grid, log(posterior), xlab=&quot;probability of water&quot;, ylab=&quot;log of posterior probability&quot;, main = &quot;20 points&quot;, type=&quot;b&quot;)</code></pre>
+<p><img src="../../../cn/post/2019-11-20-bayesian-condition-engines_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>高斯分布估计称为二次逼近在于高斯分布的对数像一条抛物线，而抛物线是二次函数。</p>
+<p>该方法有两个步骤：</p>
+<ol style="list-style-type: decimal">
+<li>寻找后验分布模式。这通常可以由一些优化算法完成——称之为“爬坡”的过程，因为后验分布就像一座山一样。算法并不晓得峰值在哪里，但它知道自己脚下的坡度。</li>
+<li>一旦找到后验分布的峰值，你必须估计峰值附近的曲率。这个曲率可以用来计算整个后验分布的二次逼近。</li>
+</ol>
+<p>我们这里使用<code>rethinking</code>包的<code>map</code>函数进行计算，它是<code>Maximum A Posterior</code>的简写。</p>
+<pre class="r"><code>library(rethinking)
+#&gt; 载入需要的程辑包：rstan
+#&gt; 载入需要的程辑包：StanHeaders
+#&gt; 载入需要的程辑包：ggplot2
+#&gt; rstan (Version 2.19.2, GitRev: 2e1f913d3ca3)
+#&gt; For execution on a local, multicore CPU with excess RAM we recommend calling
+#&gt; options(mc.cores = parallel::detectCores()).
+#&gt; To avoid recompilation of unchanged Stan programs, we recommend calling
+#&gt; rstan_options(auto_write = TRUE)
+#&gt; 载入需要的程辑包：parallel
+#&gt; rethinking (Version 1.87)
+globe.qa &lt;- map(
+    alist(
+        w ~ dbinom(9, p), # 二项分布似然度
+        p ~ dunif(0, 1)   # 均匀的先验概率
+    ),
+    data=list(w=6)
+)
+# 显示二次逼近的汇总信息
+precis(globe.qa)
+#&gt;    mean    sd  5.5% 94.5%
+#&gt; p 0.667 0.157 0.416 0.918</code></pre>
+<p>结果显示了MAP（最大后验概率）是在<code>0.67</code>，用<code>Mean</code>作为标签；曲率用<code>StdDev</code>作为标签，显示了后验分布的标准差。最后两个值显示了89%的区间。最后结果可以解读为：<strong>假设后验分布服从高斯分布，它的最大值在0.67，标准差为0.16</strong>。</p>
+<p>因为我们已经知道后验分布，让我们看看逼近效果如何。</p>
+<pre class="r"><code>w &lt;- 6
+n &lt;- 9
+curve( dbeta(x, w+1, n-w+1), from=0, to=1)
+# 二次逼近
+curve(dnorm(x, 0.67, 0.16), lty=2, add=TRUE)</code></pre>
+<p><img src="../../../cn/post/2019-11-20-bayesian-condition-engines_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+</div>
+<div id="马尔科夫链蒙特卡洛方法mcmc" class="section level2">
+<h2>马尔科夫链蒙特卡洛方法（MCMC）</h2>
+<p>该方法是一个家族，它用来处理非常复杂的模型。相比于直接计算或者逼近后验概率，MCMC只从后验分布中抽样，然后计算数量，我们可以通常采样得到的频率分布来模拟后验概率分布。</p>
+<hr />
+<p>From 《Statistical Rethinking》</p>
+</div>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="../../../cn/post/2019-11-20-r-apply-math-computation/">R应用数值计算</a></span>
+  <span class="nav-next"><a href="../../../cn/post/ggpubr-add-pvalue-and-siglevels/">基于ggpubr包为ggplot添加p值和显著性标记</a> &rarr;</span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/post\/2019-11-20-r-apply-math-computation\/';
+    
+  } else if (e.which == 39) {  
+    
+    url = '\/cn\/post\/ggpubr-add-pvalue-and-siglevels\/';
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+<section class="comments">
+  <div id="disqus_thread"></div>
+  <script src="../../../js/disqusloader.min.js"></script>
+  <script>
+  var disqus_config = function () {
+  
+    this.page.url = "https:\/\/shixiangwang.github.io\/home\/" + location.pathname;
+  
+  };
+  (function() {
+    var inIFrame = function() {
+      var iframe = true;
+      try { iframe = window.self !== window.top; } catch (e) {}
+      return iframe;
+    };
+    if (inIFrame()) return;
+    var disqus_js = '//home-xjdzylqrzp.disqus.com/embed.js';
+    
+    if (location.hash.match(/^#comment/)) {
+      var d = document, s = d.createElement('script');
+      s.src = disqus_js; s.async = true;
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    } else {
+      disqusLoader('#disqus_thread', {
+        scriptUrl: disqus_js, laziness: 0, disqusConfig: disqus_config
+      });
+    }
+  })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+
+
+<script async src="../../../js/fix-toc.js"></script>
+
+<script async src="../../../js/center-img.js"></script>
+
+<script async src="../../../js/right-quote.js"></script>
+
+<script async src="../../../js/no-highlight.js"></script>
+
+<script async src="../../../js/fix-footnote.js"></script>
+
+<script async src="../../../js/math-code.js"></script>
+
+<script async src="../../../js/external-link.js"></script>
+
+<script async src="../../../js/alt-title.js"></script>
+
+<script async src="../../../js/header-link.js"></script>
+
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+  
+  
+
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> &middot; <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> &middot; <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> &middot; <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> &middot; <a href="https://orcid.org/0000-0001-9855-7357"><i class='ai ai-orcid ai-1x'></i></a> &middot; <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 &copy; <a href="../../../">王诗翔</a> 2017 - 2019 </div>
+  
+  
+
+  <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56h9es09xn7&amp;m=6&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=1" async="async"></script>
+  </footer>
+  </article>
+  
+  </body>
+</html>
+
