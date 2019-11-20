@@ -1,0 +1,479 @@
+---
+title: "分析之前的数据准备"
+author: "王诗翔"
+date: "2018-06-06"
+lastmod: "2019-11-20"
+slug: ""
+categories: r
+tags:
+- r
+- prepare
+---
+
+
+
+<p>来源：《R核心技术手册》</p>
+<blockquote>
+<p>数据分析项目中大多数的时间都用在了<strong>准备数据</strong>上，一个典型的项目80%的精力都花在分析而进行的发现、清洗和准备数据上。只有不到5%的精力用于分析（剩下的时间都耗在了写报告上面）。</p>
+</blockquote>
+<div id="合并数据集" class="section level2">
+<h2>合并数据集</h2>
+<p>数据分析中最常见的一个障碍是将存储在两个不同地方的数据组合到一起。</p>
+<div id="粘贴数据结构" class="section level3">
+<h3>粘贴数据结构</h3>
+<p>R提供了几个函数可以将多个数据结构粘贴成一个数据结构。</p>
+<div id="paste" class="section level4">
+<h4>paste</h4>
+<p><code>paste</code>函数可以将多个字符型向量连接成一个向量，默认向量的值是用空格分隔的，我们可以通过<code>sep</code>参数指定分隔符号，而<code>collapse</code>参数可以用来指定这些值之间的连接符号。</p>
+<pre class="r"><code>x &lt;- c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;)
+y &lt;- c(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;E&quot;, &quot;F&quot;)
+# 默认
+paste(x, y)
+#&gt; [1] &quot;a A&quot; &quot;b B&quot; &quot;c C&quot; &quot;d E&quot; &quot;e F&quot;
+# 使用自定义分隔符
+paste(x, y, sep = &quot;,&quot;)
+#&gt; [1] &quot;a,A&quot; &quot;b,B&quot; &quot;c,C&quot; &quot;d,E&quot; &quot;e,F&quot;
+# 指定连接符
+paste(x, y, sep = &quot;-&quot;, collapse = &quot;#&quot;)
+#&gt; [1] &quot;a-A#b-B#c-C#d-E#e-F&quot;</code></pre>
+<p>另外，使用简化版的<code>paste0</code>函数只提供连接参数，没有分隔。</p>
+<pre class="r"><code>paste0(x, y, collapse = &quot;#&quot;)
+#&gt; [1] &quot;aA#bB#cC#dE#eF&quot;</code></pre>
+</div>
+<div id="rbind-和-cbind" class="section level4">
+<h4>rbind 和 cbind</h4>
+<p><code>rbind</code>与<code>cbind</code>函数分别可以以增加行或列的形式将几个对象（矩阵或者数据框）合并起来。你可以将它想象为以垂直或者水平地将两张表拼在一起。</p>
+</div>
+<div id="merge" class="section level4">
+<h4>merge</h4>
+<pre class="r"><code>merge(x, y, by = , by.x = , by.y = , ...)</code></pre>
+<p><code>x</code>与<code>y</code>指定用于合并的数据框，<code>by</code>对应<code>x</code>和<code>y</code>共有的列名，后面<code>by.x</code>与<code>by.y</code>用于分别指定用于合并的列名。</p>
+</div>
+</div>
+</div>
+<div id="数据转换" class="section level2">
+<h2>数据转换</h2>
+<p>数据框中常用的更改变量的函数是<code>transform</code>，它定义如下：</p>
+<pre class="r"><code>transform(`_data`, ...)</code></pre>
+<p>这个函数首先要指定一个数据框，跟着是一系列的表达式，表达式中的变量是数据框中的变量，<code>transform</code>函数会完成每个表达式中的计算，然后返回最终的数据框。</p>
+<pre class="r"><code>head(mtcars)
+#&gt;                    mpg cyl disp  hp drat   wt qsec vs am gear carb
+#&gt; Mazda RX4         21.0   6  160 110 3.90 2.62 16.5  0  1    4    4
+#&gt; Mazda RX4 Wag     21.0   6  160 110 3.90 2.88 17.0  0  1    4    4
+#&gt; Datsun 710        22.8   4  108  93 3.85 2.32 18.6  1  1    4    1
+#&gt; Hornet 4 Drive    21.4   6  258 110 3.08 3.21 19.4  1  0    3    1
+#&gt; Hornet Sportabout 18.7   8  360 175 3.15 3.44 17.0  0  0    3    2
+#&gt; Valiant           18.1   6  225 105 2.76 3.46 20.2  1  0    3    1
+mtcars.transformed &lt;-  transform(mtcars, newVar = disp / hp)
+mtcars.transformed
+#&gt;                      mpg cyl disp  hp drat   wt qsec vs am gear carb newVar
+#&gt; Mazda RX4           21.0   6  160 110 3.90 2.62 16.5  0  1    4    4   1.45
+#&gt; Mazda RX4 Wag       21.0   6  160 110 3.90 2.88 17.0  0  1    4    4   1.45
+#&gt; Datsun 710          22.8   4  108  93 3.85 2.32 18.6  1  1    4    1   1.16
+#&gt; Hornet 4 Drive      21.4   6  258 110 3.08 3.21 19.4  1  0    3    1   2.35
+#&gt; Hornet Sportabout   18.7   8  360 175 3.15 3.44 17.0  0  0    3    2   2.06
+#&gt; Valiant             18.1   6  225 105 2.76 3.46 20.2  1  0    3    1   2.14
+#&gt; Duster 360          14.3   8  360 245 3.21 3.57 15.8  0  0    3    4   1.47
+#&gt; Merc 240D           24.4   4  147  62 3.69 3.19 20.0  1  0    4    2   2.37
+#&gt; Merc 230            22.8   4  141  95 3.92 3.15 22.9  1  0    4    2   1.48
+#&gt; Merc 280            19.2   6  168 123 3.92 3.44 18.3  1  0    4    4   1.36
+#&gt; Merc 280C           17.8   6  168 123 3.92 3.44 18.9  1  0    4    4   1.36
+#&gt; Merc 450SE          16.4   8  276 180 3.07 4.07 17.4  0  0    3    3   1.53
+#&gt; Merc 450SL          17.3   8  276 180 3.07 3.73 17.6  0  0    3    3   1.53
+#&gt; Merc 450SLC         15.2   8  276 180 3.07 3.78 18.0  0  0    3    3   1.53
+#&gt; Cadillac Fleetwood  10.4   8  472 205 2.93 5.25 18.0  0  0    3    4   2.30
+#&gt; Lincoln Continental 10.4   8  460 215 3.00 5.42 17.8  0  0    3    4   2.14
+#&gt;  [ reached &#39;max&#39; / getOption(&quot;max.print&quot;) -- omitted 16 rows ]</code></pre>
+<div id="对对象的每个元素进行函数运算" class="section level3">
+<h3>对对象的每个元素进行函数运算</h3>
+<div id="apply函数簇" class="section level4">
+<h4>apply函数簇</h4>
+<blockquote>
+<p>该内容参考<a href="https://www.jianshu.com/p/9bca3555b06c">【r&lt;-高级|理论】apply,lapply,sapply用法探索</a>学习
+#### plyr软件包</p>
+</blockquote>
+<p>apply函数众多，参数也有些不同，幸运的是，我们可以使用plyr包来避免这些函数的细节。</p>
+<p><strong>plyr包包含了12个命名与其功能有逻辑关联的函数，用于将某个函数运行在某个R对象上，并且返回结果。每个函数的输入都是一个数组、数据框或者列表，输出也都是一个数组、数据框或者列表，或者什么都不输出。</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="center"><strong>输入</strong></th>
+<th align="center"><strong>输出矩阵</strong></th>
+<th align="center"><strong>输出数据框</strong></th>
+<th align="center"><strong>输出列表</strong></th>
+<th align="center"><strong>不输出</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">数组</td>
+<td align="center">aaply</td>
+<td align="center">adply</td>
+<td align="center">alply</td>
+<td align="center">a_ply</td>
+</tr>
+<tr class="even">
+<td align="center">数据框</td>
+<td align="center">daply</td>
+<td align="center">ddply</td>
+<td align="center">dlply</td>
+<td align="center">d_ply</td>
+</tr>
+<tr class="odd">
+<td align="center">列表</td>
+<td align="center">laply</td>
+<td align="center">ldply</td>
+<td align="center">llply</td>
+<td align="center">l_ply</td>
+</tr>
+</tbody>
+</table>
+<p>所有的函数都接受下面的参数。</p>
+<table>
+<colgroup>
+<col width="12%" />
+<col width="80%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>参数</th>
+<th>描述</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>.data</td>
+<td>输入的数据对象</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>.fun</td>
+<td>要运行的函数</td>
+<td>NULL</td>
+</tr>
+<tr class="odd">
+<td>.progress</td>
+<td>进度条类型（用create_progress构建）；选项可包括“none”,“text”,“tk”和“win”</td>
+<td>“none”</td>
+</tr>
+<tr class="even">
+<td>.expand</td>
+<td>若.data是一个数据框，则该参数控制输出如何扩展；.expand=TRUE表示1维输出，.expand=FALSE表示n维输出</td>
+<td>TRUE</td>
+</tr>
+<tr class="odd">
+<td>.parallel</td>
+<td>指定是否并行地运行函数（通过foreach）</td>
+<td>FALSE</td>
+</tr>
+<tr class="even">
+<td>…</td>
+<td>其他传递给.fun的参数</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>举几个例子：</p>
+<pre class="r"><code>library(plyr)
+d &lt;- data.frame(x=1:5, y=6:10)
+# （1）输入为列表，输出也为列表
+lapply(d, function(x) 2 ^ x)
+#&gt; $x
+#&gt; [1]  2  4  8 16 32
+#&gt; 
+#&gt; $y
+#&gt; [1]   64  128  256  512 1024
+# 等价命令是llply
+llply(.data=d, .fun=function(x) 2^x)
+#&gt; $x
+#&gt; [1]  2  4  8 16 32
+#&gt; 
+#&gt; $y
+#&gt; [1]   64  128  256  512 1024
+# (2) 输入为矩阵，输出为列表
+x = as.matrix(d)
+apply(X = x, MARGIN = 1, FUN=paste, collapse=&quot;,&quot;)
+#&gt; [1] &quot;1,6&quot;  &quot;2,7&quot;  &quot;3,8&quot;  &quot;4,9&quot;  &quot;5,10&quot;
+# 等价命令
+aaply(.data = x, .margins = 1, .fun=paste, collapse=&quot;,&quot;)
+#&gt;      1      2      3      4      5 
+#&gt;  &quot;1,6&quot;  &quot;2,7&quot;  &quot;3,8&quot;  &quot;4,9&quot; &quot;5,10&quot;
+# （3）输入为数据框，输出为矩阵
+t(sapply(d, FUN=function(x) 2 ^ x))
+#&gt;   [,1] [,2] [,3] [,4] [,5]
+#&gt; x    2    4    8   16   32
+#&gt; y   64  128  256  512 1024
+# 等价命令
+aaply(.data=as.matrix(d), .margins = 2, .fun=function(x) 2 ^ x)
+#&gt;    
+#&gt; X1   1   2   3   4    5
+#&gt;   x  2   4   8  16   32
+#&gt;   y 64 128 256 512 1024</code></pre>
+</div>
+</div>
+</div>
+<div id="数据分段" class="section level2">
+<h2>数据分段</h2>
+<div id="shingle" class="section level3">
+<h3>shingle</h3>
+<p><strong>Shingle</strong>对象是因子对象的连续性泛化，一个Shingle对象包括一个数字向量和一组间隔，各个间隔允许重叠，这种结构十分类似于屋檐上的瓦片结构。Shingle对象广泛应用于lattice包，它允许我们轻松地把条件或者分组变量作为连续变量使用。</p>
+<pre class="r"><code>lattice::shingle(x, intervals = unique(x))
+#&gt; 
+#&gt; Data:
+#&gt;  [1]  1  2  3  4  5  6  7  8  9 10
+#&gt; 
+#&gt; Intervals:
+#&gt;   min max count
+#&gt; 1   1   6     6
+#&gt; 2   2   7     6
+#&gt; 3   3   8     6
+#&gt; 4   4   9     6
+#&gt; 5   5  10     6
+#&gt; 
+#&gt; Overlap between adjacent intervals:
+#&gt; [1] 5 5 5 5</code></pre>
+<p><code>intervals</code>参数用来指定在什么地方分割箱子，你可以用一个数值向量来指定分割的位置，也可以使用一个两列的矩阵，每一列表示一个特定的间距。<code>equal.count</code>函数可以用来创建一个shingle，每个箱子有相同个数的观测值：</p>
+<pre class="r"><code>lattice::equal.count(x)
+#&gt; 
+#&gt; Data:
+#&gt;  [1]  1  2  3  4  5  6  7  8  9 10
+#&gt; 
+#&gt; Intervals:
+#&gt;   min  max count
+#&gt; 1 0.5  3.5     3
+#&gt; 2 1.5  4.5     3
+#&gt; 3 3.5  6.5     3
+#&gt; 4 4.5  7.5     3
+#&gt; 5 6.5  9.5     3
+#&gt; 6 7.5 10.5     3
+#&gt; 
+#&gt; Overlap between adjacent intervals:
+#&gt; [1] 2 1 2 1 2</code></pre>
+</div>
+<div id="cut" class="section level3">
+<h3>Cut</h3>
+<p><code>cut</code>函数可以很方便地将一个连续性变量切割成很多个小片段。输入是一个数值向量，输出是一个因子，因子的每个水平对应输入向量的每个区间范围。</p>
+<pre class="r"><code>cut(x, breaks, labels = NULL, include.lowest = FALSE, right=TRUE, dig.lab=3,
+ordered_result = FALSE, ...)</code></pre>
+<p>例如，假设我们想要统计平均击球数据在某个范围内的选手的数量，可以使用<code>cut</code>函数与<code>table</code>函数：</p>
+<pre class="r"><code># 读入示例数据
+library(nutshell)
+#&gt; 载入需要的程辑包：nutshell.bbdb
+#&gt; 载入需要的程辑包：nutshell.audioscrobbler
+data(&quot;batting.2008&quot;)
+# 首先在数据框中加入击球平均值
+batting.2008.AB &lt;- transform(batting.2008, AVG = H / AB)
+# 选择100 AB以上的球员（为了统计显著性）
+batting.2008.over100AB &lt;- subset(batting.2008.AB, subset = (AB &gt; 100))
+# 把结果分为10份
+battingavg.2008.bins &lt;- cut(batting.2008.over100AB$AVG, breaks = 10)
+table(battingavg.2008.bins)
+#&gt; battingavg.2008.bins
+#&gt; (0.137,0.163] (0.163,0.189] (0.189,0.215]  (0.215,0.24]  (0.24,0.266] 
+#&gt;             4             6            24            67           121 
+#&gt; (0.266,0.292] (0.292,0.318] (0.318,0.344]  (0.344,0.37]  (0.37,0.396] 
+#&gt;           132            70            11             5             2</code></pre>
+</div>
+<div id="利用分组变量合并对象" class="section level3">
+<h3>利用分组变量合并对象</h3>
+<p>有时候，我们可能想要将几个相似的对象（向量或者数据框）合并成一个数据框，数据框中有一列用来表示数据的来源。<code>lattice</code>包中的<code>make.groups</code>函数可以实现这个功能：</p>
+<pre class="r"><code>library(lattice)
+make.groups(...)</code></pre>
+<p>例如我们将下面不同的向量合成一个数据框：</p>
+<pre class="r"><code>hat.sizes &lt;- seq(from = 6.25, to = 7.75, by = .25)
+pants.sizes &lt;- c(30:34, 36, 38, 40)
+shoe.sizes &lt;- seq(from=7, to=12)
+lattice::make.groups(hat.sizes, pants.sizes, shoe.sizes)
+#&gt;               data       which
+#&gt; hat.sizes1    6.25   hat.sizes
+#&gt; hat.sizes2    6.50   hat.sizes
+#&gt; hat.sizes3    6.75   hat.sizes
+#&gt; hat.sizes4    7.00   hat.sizes
+#&gt; hat.sizes5    7.25   hat.sizes
+#&gt; hat.sizes6    7.50   hat.sizes
+#&gt; hat.sizes7    7.75   hat.sizes
+#&gt; pants.sizes1 30.00 pants.sizes
+#&gt; pants.sizes2 31.00 pants.sizes
+#&gt; pants.sizes3 32.00 pants.sizes
+#&gt; pants.sizes4 33.00 pants.sizes
+#&gt; pants.sizes5 34.00 pants.sizes
+#&gt; pants.sizes6 36.00 pants.sizes
+#&gt; pants.sizes7 38.00 pants.sizes
+#&gt; pants.sizes8 40.00 pants.sizes
+#&gt; shoe.sizes1   7.00  shoe.sizes
+#&gt; shoe.sizes2   8.00  shoe.sizes
+#&gt; shoe.sizes3   9.00  shoe.sizes
+#&gt; shoe.sizes4  10.00  shoe.sizes
+#&gt; shoe.sizes5  11.00  shoe.sizes
+#&gt; shoe.sizes6  12.00  shoe.sizes</code></pre>
+</div>
+</div>
+<div id="随机抽样" class="section level2">
+<h2>随机抽样</h2>
+<p>有时候数据太多，或者出于统计或计算性能的原因，你想要将数据随机分为几部分构建模型（通常分为训练集、测试集和评估集）。</p>
+<p>最简单地方法就是使用<code>sample</code>函数，它可以对一个向量做随机抽样。</p>
+<pre class="r"><code>sample(x, size, replace = FALSE, prob = NULL)</code></pre>
+<p>当对数据框做sample操作时，实际返回的是列的随机抽样结果，而不是行。因为数据框是向量的列表，sample实际抽样的是这个列表的元素。所以要注意一下。</p>
+<p>对于观察结果做行的随机抽样，需要使用sample函数创建一组行号的抽样结果，然后再使用索引选取这些行号所对应的行。比如我们随机抽样<code>batting.2008</code>数据集的5条记录：</p>
+<pre class="r"><code>batting.2008[sample(1:nrow(batting.2008), 5), ]
+#&gt;        nameLast nameFirst weight height bats throws      debut birthYear
+#&gt; 789        Henn      Sean    215     76    R      L 2005-05-04      1981
+#&gt; 1360 Saccomanno      Mark    210     75    R      R 2008-09-08      1980
+#&gt; 1098     Pearce    Steven    200     71    R      R 2007-09-01      1983
+#&gt; 416        Wise      Matt    197     76    R      R 2000-08-02      1975
+#&gt; 202     Kendall     Jason    180     72    R      R 1996-04-01      1974
+#&gt;       playerID yearID stint teamID lgID   G G_batting  AB  R   H 2B 3B HR RBI
+#&gt; 789   hennse01   2008     1    SDN   NL   4         4   0  0   0  0  0  0   0
+#&gt; 1360 saccoma01   2008     1    HOU   NL  10        10  10  1   2  1  0  1   2
+#&gt; 1098 pearcst01   2008     1    PIT   NL  37        37 109  6  27  7  0  4  15
+#&gt; 416   wisema01   2008     1    NYN   NL   8         8   0  0   0  0  0  0   0
+#&gt; 202  kendaja01   2008     1    MIL   NL 151       151 516 46 127 30  2  2  49
+#&gt;      SB CS BB SO IBB HBP SH SF GIDP G_old
+#&gt; 789   0  0  0  0   0   0  0  0    0     4
+#&gt; 1360  0  0  0  3   0   0  0  0    0    10
+#&gt; 1098  2  0  5 22   0   3  0  2    1    37
+#&gt; 416   0  0  0  0   0   0  0  0    0     8
+#&gt; 202   8  3 50 45   7  13  6  2    5   151</code></pre>
+<p>还可以使用这种技术做更复杂的随机抽样，比如你想要随机统计3个对的情况，可以这样：</p>
+<pre class="r"><code>batting.2008$teamID &lt;- as.factor(batting.2008$teamID)
+levels(batting.2008$teamID)
+#&gt;  [1] &quot;ARI&quot; &quot;ATL&quot; &quot;BAL&quot; &quot;BOS&quot; &quot;CHA&quot; &quot;CHN&quot; &quot;CIN&quot; &quot;CLE&quot; &quot;COL&quot; &quot;DET&quot; &quot;FLO&quot; &quot;HOU&quot;
+#&gt; [13] &quot;KCA&quot; &quot;LAA&quot; &quot;LAN&quot; &quot;MIL&quot; &quot;MIN&quot; &quot;NYA&quot; &quot;NYN&quot; &quot;OAK&quot; &quot;PHI&quot; &quot;PIT&quot; &quot;SDN&quot; &quot;SEA&quot;
+#&gt; [25] &quot;SFN&quot; &quot;SLN&quot; &quot;TBA&quot; &quot;TEX&quot; &quot;TOR&quot; &quot;WAS&quot;
+# 抽样例子
+sample(levels(batting.2008$teamID), 3)
+#&gt; [1] &quot;CHN&quot; &quot;HOU&quot; &quot;ATL&quot;
+# 使用例子
+batting.2008.3teams &lt;- batting.2008[is.element(batting.2008$teamID, sample(levels(batting.2008$teamID),3)), ]
+batting.2008.3teams
+#&gt;      nameLast nameFirst weight height bats throws      debut birthYear
+#&gt; 5      Ankiel      Rick    210     73    L      L 1999-08-23      1979
+#&gt; 9     Aurilia      Rich    170     72    R      R 1995-09-06      1971
+#&gt; 12       Bale      John    205     76    L      L 1999-09-30      1974
+#&gt; 57  Carpenter     Chris    215     78    R      R 1997-05-12      1975
+#&gt; 99  Duckworth   Brandon    185     74    B      R 2001-08-07      1976
+#&gt; 103    Durham       Ray    170     68    B      R 1995-04-26      1971
+#&gt;      playerID yearID stint teamID lgID   G G_batting  AB  R   H 2B 3B HR RBI SB
+#&gt; 5   ankieri01   2008     1    SLN   NL 120       120 413 65 109 21  2 25  71  2
+#&gt; 9   aurilri01   2008     1    SFN   NL 140       140 407 33 115 21  1 10  52  1
+#&gt; 12   balejo01   2008     1    KCA   AL  13         0   0  0   0  0  0  0   0  0
+#&gt; 57  carpech01   2008     1    SLN   NL   4         4   5  0   0  0  0  0   0  0
+#&gt; 99  duckwbr01   2008     1    KCA   AL   7         0   0  0   0  0  0  0   0  0
+#&gt; 103 durhara01   2008     1    SFN   NL  87        87 263 43  77 23  0  3  32  6
+#&gt;     CS BB  SO IBB HBP SH SF GIDP G_old
+#&gt; 5    1 42 100   3   5  0  3    8   120
+#&gt; 9    1 30  56   4   1  0  2   11   140
+#&gt; 12   0  0   0   0   0  0  0    0    13
+#&gt; 57   0  0   3   0   0  0  0    0     4
+#&gt; 99   0  0   0   0   0  0  0    0     7
+#&gt; 103  2 38  49   0   2  0  1    6    87
+#&gt;  [ reached &#39;max&#39; / getOption(&quot;max.print&quot;) -- omitted 129 rows ]</code></pre>
+<p>这个函数对于数据的各种复杂抽样非常方便，但你可能还需要用到更复杂的抽样方式，比如分层抽样、整群抽样、最大熵抽样，这些方法都可以在<code>sampling</code>包中找到。</p>
+</div>
+<div id="汇总函数" class="section level2">
+<h2>汇总函数</h2>
+<div id="tapply与aggregate" class="section level3">
+<h3>tapply与aggregate</h3>
+<p><code>tapply</code>函数用于向量的汇总分析，是一个非常灵活的函数。可以设置对向量X的某个子集做汇总，也可以指定汇总函数：</p>
+<pre class="r"><code>tapply(X, INDEX, FUN = , ..., simplify = )</code></pre>
+<p>比如计算各队本垒打的总数：</p>
+<pre class="r"><code>tapply(X=batting.2008$HR, INDEX=list(batting.2008$teamID), FUN=sum)
+#&gt; ARI ATL BAL BOS CHA CHN CIN CLE COL DET FLO HOU KCA LAA LAN MIL MIN NYA NYN OAK 
+#&gt; 159 130 172 173 235 184 187 171 160 200 208 167 120 159 137 198 111 180 172 125 
+#&gt; PHI PIT SDN SEA SFN SLN TBA TEX TOR WAS 
+#&gt; 214 153 154 124  94 174 180 194 126 117</code></pre>
+<p>也可以使用返回多个值的函数，例如<code>fivenum</code>计算各个联盟球员击球平均数：</p>
+<pre class="r"><code>tapply(batting.2008$H/batting.2008$AB, INDEX=list(batting.2008$lgID), fivenum)
+#&gt; $AL
+#&gt; [1] 0.000 0.176 0.249 0.283 1.000
+#&gt; 
+#&gt; $NL
+#&gt; [1] 0.0000 0.0952 0.2173 0.2680 1.0000</code></pre>
+<p>plyr包中没有tapply的等价功能。</p>
+<p>by是和tapply有密切关系的一个函数，区别在于<code>by</code>是用于数据框的。下面是一个例子：</p>
+<pre class="r"><code>by(batting.2008[, c(&quot;H&quot;, &quot;2B&quot;, &quot;3B&quot;, &quot;HR&quot;)],
+   INDICES = list(batting.2008$lgID, batting.2008$bats), FUN=mean)
+#&gt; Warning in mean.default(data[x, , drop = FALSE], ...): 参数不是数值也不是逻辑
+#&gt; 值：回覆NA
+
+#&gt; Warning in mean.default(data[x, , drop = FALSE], ...): 参数不是数值也不是逻辑
+#&gt; 值：回覆NA
+
+#&gt; Warning in mean.default(data[x, , drop = FALSE], ...): 参数不是数值也不是逻辑
+#&gt; 值：回覆NA
+
+#&gt; Warning in mean.default(data[x, , drop = FALSE], ...): 参数不是数值也不是逻辑
+#&gt; 值：回覆NA
+
+#&gt; Warning in mean.default(data[x, , drop = FALSE], ...): 参数不是数值也不是逻辑
+#&gt; 值：回覆NA
+
+#&gt; Warning in mean.default(data[x, , drop = FALSE], ...): 参数不是数值也不是逻辑
+#&gt; 值：回覆NA
+#&gt; : AL
+#&gt; : B
+#&gt; [1] NA
+#&gt; ------------------------------------------------------------ 
+#&gt; : NL
+#&gt; : B
+#&gt; [1] NA
+#&gt; ------------------------------------------------------------ 
+#&gt; : AL
+#&gt; : L
+#&gt; [1] NA
+#&gt; ------------------------------------------------------------ 
+#&gt; : NL
+#&gt; : L
+#&gt; [1] NA
+#&gt; ------------------------------------------------------------ 
+#&gt; : AL
+#&gt; : R
+#&gt; [1] NA
+#&gt; ------------------------------------------------------------ 
+#&gt; : NL
+#&gt; : R
+#&gt; [1] NA</code></pre>
+<p>另一个用于数据汇总的函数是<code>aggregate</code>：</p>
+<pre class="r"><code>aggregate(x, by, FUN, ...)</code></pre>
+<p>也可以用于时间序列，参数略有不同。</p>
+<p>下面看一个按球队统计击球数的例子：</p>
+<pre class="r"><code>aggregate(x=batting.2008[, c(&quot;AB&quot;, &quot;H&quot;, &quot;BB&quot;, &quot;2B&quot;, &quot;3B&quot;, &quot;HR&quot;)],
+          by=list(batting.2008$teamID), FUN=sum)
+#&gt;    Group.1   AB    H  BB  2B 3B  HR
+#&gt; 1      ARI 5409 1355 587 318 47 159
+#&gt; 2      ATL 5604 1514 618 316 33 130
+#&gt; 3      BAL 5559 1486 533 322 30 172
+#&gt; 4      BOS 5596 1565 646 353 33 173
+#&gt; 5      CHA 5553 1458 540 296 13 235
+#&gt; 6      CHN 5588 1552 636 329 21 184
+#&gt; 7      CIN 5465 1351 560 269 24 187
+#&gt; 8      CLE 5543 1455 560 339 22 171
+#&gt; 9      COL 5557 1462 570 310 28 160
+#&gt; 10     DET 5641 1529 572 293 41 200
+#&gt; 11     FLO 5499 1397 543 302 28 208
+#&gt; 12     HOU 5451 1432 449 284 22 167
+#&gt; 13     KCA 5608 1507 392 303 28 120
+#&gt; 14     LAA 5540 1486 481 274 25 159
+#&gt; 15     LAN 5506 1455 543 271 29 137
+#&gt; 16     MIL 5535 1398 550 324 35 198
+#&gt; 17     MIN 5641 1572 529 298 49 111
+#&gt; 18     NYA 5572 1512 535 289 20 180
+#&gt; 19     NYN 5606 1491 619 274 38 172
+#&gt; 20     OAK 5451 1318 574 270 23 125
+#&gt; 21     PHI 5509 1407 586 291 36 214
+#&gt; 22     PIT 5628 1454 474 314 21 153
+#&gt; 23     SDN 5568 1390 518 264 27 154
+#&gt; 24     SEA 5643 1498 417 285 20 124
+#&gt; 25     SFN 5543 1452 452 311 37  94
+#&gt; 26     SLN 5636 1585 577 283 26 174
+#&gt; 27     TBA 5541 1443 626 284 37 180
+#&gt; 28     TEX 5728 1619 595 376 35 194
+#&gt;  [ reached &#39;max&#39; / getOption(&quot;max.print&quot;) -- omitted 2 rows ]</code></pre>
+</div>
+<div id="计数" class="section level3">
+<h3>计数</h3>
+<p>使用<code>tabulate</code>与<code>table</code>函数。</p>
+</div>
+</div>

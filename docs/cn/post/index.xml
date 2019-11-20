@@ -318,6 +318,15 @@
     </item>
     
     <item>
+      <title>分析之前的数据准备</title>
+      <link>/cn/post/2019-11-20-prepare-data-for-analysis/</link>
+      <pubDate>Wed, 06 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-11-20-prepare-data-for-analysis/</guid>
+      <description>来源：《R核心技术手册》 数据分析项目中大多数的时间都用在了准备数据上，一个典型的项目80%的精力都花在分析而进行的发现、清洗和准备数据上。只</description>
+    </item>
+    
+    <item>
       <title>理解信息</title>
       <link>/cn/post/2019-11-20-understand-information/</link>
       <pubDate>Wed, 30 May 2018 00:00:00 +0000</pubDate>

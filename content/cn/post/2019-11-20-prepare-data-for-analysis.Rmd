@@ -1,0 +1,274 @@
+---
+title: "分析之前的数据准备"
+author: "王诗翔"
+date: "2018-06-06"
+lastmod: "`r Sys.Date()`"
+slug: ""
+categories: r
+tags:
+- r
+- prepare
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, dev = "png", comment = "#>")
+#Sys.setenv("LANGUAGE"="EN") # Embed this for outputing English message
+#Sys.setlocale('LC_ALL','C') # Embed this directly in the Rmarkdown script that contains the Chinese character comment
+options(digits=3)
+options(max.print=200)
+```
+
+来源：《R核心技术手册》
+
+> 数据分析项目中大多数的时间都用在了**准备数据**上，一个典型的项目80%的精力都花在分析而进行的发现、清洗和准备数据上。只有不到5%的精力用于分析（剩下的时间都耗在了写报告上面）。
+
+## 合并数据集
+
+数据分析中最常见的一个障碍是将存储在两个不同地方的数据组合到一起。
+
+### 粘贴数据结构
+
+R提供了几个函数可以将多个数据结构粘贴成一个数据结构。
+
+#### paste
+
+`paste`函数可以将多个字符型向量连接成一个向量，默认向量的值是用空格分隔的，我们可以通过`sep`参数指定分隔符号，而`collapse`参数可以用来指定这些值之间的连接符号。
+
+```{r}
+x <- c("a", "b", "c", "d", "e")
+y <- c("A", "B", "C", "E", "F")
+# 默认
+paste(x, y)
+# 使用自定义分隔符
+paste(x, y, sep = ",")
+# 指定连接符
+paste(x, y, sep = "-", collapse = "#")
+```
+
+另外，使用简化版的`paste0`函数只提供连接参数，没有分隔。
+
+```{r}
+paste0(x, y, collapse = "#")
+```
+
+#### rbind 和 cbind
+
+`rbind`与`cbind`函数分别可以以增加行或列的形式将几个对象（矩阵或者数据框）合并起来。你可以将它想象为以垂直或者水平地将两张表拼在一起。
+
+
+#### merge
+
+```r
+merge(x, y, by = , by.x = , by.y = , ...)
+```
+
+`x`与`y`指定用于合并的数据框，`by`对应`x`和`y`共有的列名，后面`by.x`与`by.y`用于分别指定用于合并的列名。
+
+
+## 数据转换
+
+数据框中常用的更改变量的函数是`transform`，它定义如下：
+
+```r
+transform(`_data`, ...)
+```
+
+这个函数首先要指定一个数据框，跟着是一系列的表达式，表达式中的变量是数据框中的变量，`transform`函数会完成每个表达式中的计算，然后返回最终的数据框。
+
+```{r}
+head(mtcars)
+mtcars.transformed <-  transform(mtcars, newVar = disp / hp)
+mtcars.transformed
+```
+
+### 对对象的每个元素进行函数运算
+
+#### apply函数簇
+
+> 该内容参考[【r<-高级|理论】apply,lapply,sapply用法探索](https://www.jianshu.com/p/9bca3555b06c)学习
+#### plyr软件包
+
+apply函数众多，参数也有些不同，幸运的是，我们可以使用plyr包来避免这些函数的细节。
+
+**plyr包包含了12个命名与其功能有逻辑关联的函数，用于将某个函数运行在某个R对象上，并且返回结果。每个函数的输入都是一个数组、数据框或者列表，输出也都是一个数组、数据框或者列表，或者什么都不输出。**
+
+| **输入** | **输出矩阵** | **输出数据框** | **输出列表** | **不输出** |
+| :------: | :--------: | :--------: | :------: | :----: |
+|   数组   | aaply | adply | alply | a_ply |
+|  数据框  | daply | ddply | dlply | d_ply |
+|   列表   | laply | ldply | llply | l_ply |
+
+所有的函数都接受下面的参数。
+
+| 参数      | 描述                                                         | 默认值 |
+| --------- | ------------------------------------------------------------ | ------ |
+| .data     | 输入的数据对象                                               |        |
+| .fun      | 要运行的函数                                                 | NULL   |
+| .progress | 进度条类型（用create_progress构建）；选项可包括"none","text","tk"和"win" | "none" |
+| .expand   | 若.data是一个数据框，则该参数控制输出如何扩展；.expand=TRUE表示1维输出，.expand=FALSE表示n维输出 | TRUE   |
+| .parallel | 指定是否并行地运行函数（通过foreach）                        | FALSE  |
+| ...       | 其他传递给.fun的参数                                         |        |
+
+
+举几个例子：
+
+```{r}
+library(plyr)
+d <- data.frame(x=1:5, y=6:10)
+# （1）输入为列表，输出也为列表
+lapply(d, function(x) 2 ^ x)
+# 等价命令是llply
+llply(.data=d, .fun=function(x) 2^x)
+# (2) 输入为矩阵，输出为列表
+x = as.matrix(d)
+apply(X = x, MARGIN = 1, FUN=paste, collapse=",")
+# 等价命令
+aaply(.data = x, .margins = 1, .fun=paste, collapse=",")
+# （3）输入为数据框，输出为矩阵
+t(sapply(d, FUN=function(x) 2 ^ x))
+# 等价命令
+aaply(.data=as.matrix(d), .margins = 2, .fun=function(x) 2 ^ x)
+```
+
+
+## 数据分段
+
+### shingle
+
+**Shingle**对象是因子对象的连续性泛化，一个Shingle对象包括一个数字向量和一组间隔，各个间隔允许重叠，这种结构十分类似于屋檐上的瓦片结构。Shingle对象广泛应用于lattice包，它允许我们轻松地把条件或者分组变量作为连续变量使用。
+
+```{r}
+lattice::shingle(x, intervals = unique(x))
+```
+
+`intervals`参数用来指定在什么地方分割箱子，你可以用一个数值向量来指定分割的位置，也可以使用一个两列的矩阵，每一列表示一个特定的间距。`equal.count`函数可以用来创建一个shingle，每个箱子有相同个数的观测值：
+
+```{r}
+lattice::equal.count(x)
+```
+
+### Cut
+
+`cut`函数可以很方便地将一个连续性变量切割成很多个小片段。输入是一个数值向量，输出是一个因子，因子的每个水平对应输入向量的每个区间范围。
+
+```r
+cut(x, breaks, labels = NULL, include.lowest = FALSE, right=TRUE, dig.lab=3,
+ordered_result = FALSE, ...)
+```
+
+例如，假设我们想要统计平均击球数据在某个范围内的选手的数量，可以使用`cut`函数与`table`函数：
+
+```{r}
+# 读入示例数据
+library(nutshell)
+data("batting.2008")
+# 首先在数据框中加入击球平均值
+batting.2008.AB <- transform(batting.2008, AVG = H / AB)
+# 选择100 AB以上的球员（为了统计显著性）
+batting.2008.over100AB <- subset(batting.2008.AB, subset = (AB > 100))
+# 把结果分为10份
+battingavg.2008.bins <- cut(batting.2008.over100AB$AVG, breaks = 10)
+table(battingavg.2008.bins)
+```
+
+### 利用分组变量合并对象
+
+有时候，我们可能想要将几个相似的对象（向量或者数据框）合并成一个数据框，数据框中有一列用来表示数据的来源。`lattice`包中的`make.groups`函数可以实现这个功能：
+
+```{r, eval=FALSE}
+library(lattice)
+make.groups(...)
+```
+
+例如我们将下面不同的向量合成一个数据框：
+
+```{r}
+hat.sizes <- seq(from = 6.25, to = 7.75, by = .25)
+pants.sizes <- c(30:34, 36, 38, 40)
+shoe.sizes <- seq(from=7, to=12)
+lattice::make.groups(hat.sizes, pants.sizes, shoe.sizes)
+```
+
+## 随机抽样
+
+有时候数据太多，或者出于统计或计算性能的原因，你想要将数据随机分为几部分构建模型（通常分为训练集、测试集和评估集）。
+
+最简单地方法就是使用`sample`函数，它可以对一个向量做随机抽样。
+
+```r
+sample(x, size, replace = FALSE, prob = NULL)
+```
+
+当对数据框做sample操作时，实际返回的是列的随机抽样结果，而不是行。因为数据框是向量的列表，sample实际抽样的是这个列表的元素。所以要注意一下。
+
+对于观察结果做行的随机抽样，需要使用sample函数创建一组行号的抽样结果，然后再使用索引选取这些行号所对应的行。比如我们随机抽样`batting.2008`数据集的5条记录：
+
+```{r}
+batting.2008[sample(1:nrow(batting.2008), 5), ]
+```
+
+
+还可以使用这种技术做更复杂的随机抽样，比如你想要随机统计3个对的情况，可以这样：
+
+```{r}
+batting.2008$teamID <- as.factor(batting.2008$teamID)
+levels(batting.2008$teamID)
+# 抽样例子
+sample(levels(batting.2008$teamID), 3)
+# 使用例子
+batting.2008.3teams <- batting.2008[is.element(batting.2008$teamID, sample(levels(batting.2008$teamID),3)), ]
+batting.2008.3teams
+```
+
+这个函数对于数据的各种复杂抽样非常方便，但你可能还需要用到更复杂的抽样方式，比如分层抽样、整群抽样、最大熵抽样，这些方法都可以在`sampling`包中找到。
+
+## 汇总函数
+
+### tapply与aggregate
+
+`tapply`函数用于向量的汇总分析，是一个非常灵活的函数。可以设置对向量X的某个子集做汇总，也可以指定汇总函数：
+
+```r
+tapply(X, INDEX, FUN = , ..., simplify = )
+```
+
+比如计算各队本垒打的总数：
+
+```{r}
+tapply(X=batting.2008$HR, INDEX=list(batting.2008$teamID), FUN=sum)
+```
+
+也可以使用返回多个值的函数，例如`fivenum`计算各个联盟球员击球平均数：
+
+```{r}
+tapply(batting.2008$H/batting.2008$AB, INDEX=list(batting.2008$lgID), fivenum)
+```
+
+plyr包中没有tapply的等价功能。
+
+by是和tapply有密切关系的一个函数，区别在于`by`是用于数据框的。下面是一个例子：
+
+```{r}
+by(batting.2008[, c("H", "2B", "3B", "HR")],
+   INDICES = list(batting.2008$lgID, batting.2008$bats), FUN=mean)
+```
+
+
+另一个用于数据汇总的函数是`aggregate`：
+
+```r
+aggregate(x, by, FUN, ...)
+```
+
+也可以用于时间序列，参数略有不同。
+
+下面看一个按球队统计击球数的例子：
+
+```{r}
+aggregate(x=batting.2008[, c("AB", "H", "BB", "2B", "3B", "HR")],
+          by=list(batting.2008$teamID), FUN=sum)
+```
+
+### 计数
+
+使用`tabulate`与`table`函数。
