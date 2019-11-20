@@ -1,0 +1,26 @@
+---
+title: "修改全局选项"
+author: "王诗翔"
+date: "2018-05-07"
+lastmod: "2019-11-20"
+slug: ""
+categories: r
+tags:
+- r
+- option
+---
+
+
+
+<p>R语言的选项设定可以从全局范围影响当前的会话，我们调用<code>getOption()</code>查看选项值，使用<code>options()</code>修改它。</p>
+<p>一个常用的设定选项是输出位数，在某些情况下，R默认输出的位数不满足我们的要求，需要修改，而该选项由<code>digits</code>选项控制。</p>
+<pre class="r"><code>123.123456789
+#&gt; [1] 123
+getOption(&quot;digits&quot;)
+#&gt; [1] 3</code></pre>
+<p>如果想看到更多的显示位数，我们要将<code>digits</code>设置为一个更大的数值：</p>
+<pre class="r"><code>options(digits = 10)
+123.123456789
+#&gt; [1] 123.1234568</code></pre>
+<p><strong>需要注意，一旦调用<code>options()</code>，修改的选项会立即生效，且可能影响所有后续的命令</strong>。可以使用下面命令重置选项：</p>
+<pre class="r"><code>options(digits = 3)</code></pre>

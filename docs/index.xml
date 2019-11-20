@@ -425,6 +425,15 @@ Datasets have associated metadata, specifying their data type and cohort.</descr
     </item>
     
     <item>
+      <title>修改全局选项</title>
+      <link>/cn/post/2019-11-20-r-global-options/</link>
+      <pubDate>Mon, 07 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-11-20-r-global-options/</guid>
+      <description>R语言的选项设定可以从全局范围影响当前的会话，我们调用getOption()查看选项值，使用options()修改它。 一个常用的设定选项是输</description>
+    </item>
+    
+    <item>
       <title>使用 R 进行生存分析</title>
       <link>/cn/post/r-survival/</link>
       <pubDate>Sat, 28 Apr 2018 00:00:00 +0000</pubDate>
