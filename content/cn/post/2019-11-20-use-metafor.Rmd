@@ -1,0 +1,444 @@
+---
+title: "metafor——元分析技术实现"
+author: "王诗翔"
+date: "2018-07-09"
+lastmod: "`r Sys.Date()`"
+slug: ""
+categories: r
+tags:
+- r
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, dev = "png", comment = "#>")
+#Sys.setenv("LANGUAGE"="EN") # Embed this for outputing English message
+#Sys.setlocale('LC_ALL','C') # Embed this directly in the Rmarkdown script that contains the Chinese character comment
+options(digits=3)
+options(max.print=200)
+```
+
+最近在科研中使用到元分析，零零散散开始接触一些理论与实现。**元分析**的主要作用就是汇总某一个方面所有符合条件研究的统计结果，评估这个方向研究一个平均效力是什么（假设有很多研究探索喝可乐对男子精子能力的影响，不同的研究可能有不同的结果，元分析就是对这些研究进行一个汇总，并给出判断）。涉及一些研究异质性的评估与回归分析、固定效应模型与随机效应模型的使用。
+
+我最近使用的元分析处理主要是依靠Stata的一些模块，但其实我对Stata知之甚少。Stata语法有点像命令而不是一门系统的编程语法，难懂又难写，所以这里学习R中Meta分析的实现。R里面进行元分析的包非常多，包与介绍可以参考[任务列表](https://cran.rstudio.com/web/views/MetaAnalysis.html)。这里我选择**metafor**包，它涵盖了常用的元分析建模与分析、可视化。
+
+> 里面的概念解释不一定到位，读者可以参考文档理解。另外，本文资料参考来源 metafor 发表的文章，因此有些功能可能有所变动，函数也可能有更新，使用请同时参考读者阅读时 metafor 的文档。
+
+## 实例
+
+`metafor`包提供了数据集`dat.bcg`，它是13个不同研究BCG疫苗因tuberculosis状态效力差异的研究。
+
+```{r}
+p_load(metafor)
+data("dat.bcg", package = "metafor")
+```
+
+查看数据：
+
+```{r}
+print(dat.bcg, row.names=FALSE)
+```
+
+`tpos`与`tneg`分别记录了治疗组中tuberculosis阳性和阴性的目标数；`cpos`与`cneg`记录控制组中tuberculosis阳性和阴性的目标数。除此之外，`ablat`记录研究的绝对维度，`alloc`介绍研究的病人分组方式。
+
+这个结果可以表示为以下2x2的表格：
+
+||TB+|TB-|
+|---|---|---|
+|Treated|tpos|tneg|
+|Control|cpos|cneg|
+
+下面我们以相关风险（对数化）作为结果的度量，根据数据集中的相关数据进行计算：
+
+```{r}
+dat = escalc(measure = "RR", ai = tpos, bi = tneg, ci = cpos, di = cneg, data = dat.bcg,
+             append = TRUE)
+print(dat[, -c(4:7)], row.names = FALSE)
+```
+
+在这个结果中，`yi`是对数化的相对风险，`<0`表示治疗组中风险要更小，除了两个研究，其他研究都有一致的趋势。
+
+`measure`可以指定很多种不同的度量方式，常见相对风险（对数化）为`RR`，优势比（对数化）为`OR`，其他请参考函数文档。对数化的目的是使得度量尽量服从正态分布。
+
+
+## 拟合模型
+
+通过`rma.uni()`可以拟合众多元分析模型（函数别名`rma()`）。
+
+参数：
+
+```{r}
+args(rma)
+```
+
+
+### 指定数据
+
+该函数可以与元分析常见的效应大小或者结果度量（例如，log优势比，标准化的均值差，相关系数）。我们只需要简单指定`yi`观察到的效应值以及指定`vi`对应的样本方差（或者通过`sei`指定标准误，样本方差的平方根）。如果这样输入数据，必须指定`measure="GEN"`（函数默认）。
+
+另外，`rma`函数可以输入`escalc`函数一样的参数，然后会自动完成结果度量的计算，`measure`参数可以用来指定想要的输出度量，`vtype`参数与`escalc`一致。
+
+**也就是说，可以用`rma`完成原始输入数据到结果度量的计算，可想而知，`rma`函数中应该包含了`escalc`函数的实现。**
+
+
+### 指定模型
+
+假设你已经通过参数`yi`与`vi`指定了效应值与对应的样本方差，随机效应模型就直接可以用`rma(yi, vi, data=dat)`进行拟合。默认使用严格最大似然评估方法（restricted maximum-likelihood estimation）用来评估真实效应的方差（REML评估器近似无偏并非常有效，参考Viechtbauer 2005）。多种（残差）异质性评估器可以通过`method`参数指定，有以下选项：
+
+* "HS": Hunter-Schmidt estimator
+* "HE": Hedges estimator
+* "DL": DerSimonian-Laird estimator
+* "SJ": Sidik-Jonkman estimator
+* "ML": Maximum-likelihood estimator
+* "REML": Restricted maximum-likelihood estimator
+* "EB": Empirical Bayes estimator
+
+一个或多个协变量（moderators）可以通过参数`mods`指定。单个协变量可以以长度为k的行/列向量给出值。多个则需要创建一个k行p列的设计矩阵（比如，使用`mods = cbind(mod1, mod2, mod3)`），模型默认包含截距，如果不要，需要用`intercept = FALSE`指定。
+
+
+许多R用户熟悉用公式形式来指定想要构建的模型，比如在使用`lm()`与`glm()`时（参见`??formula`）。`mods`支持指定单边的公式，比如`mods = ~ mod1 + mod2 + mod3`。交互项、多项式、因子等都可以用这种形式添加。注意一旦使用公式指定`mods`参数，`intercept`参数会被忽略，我们需要通过`mods = mod1 + mod2 + mod3 - 1`删除交互项。
+
+固定效应模型可以通过`method = "FE"`进行构建（`rma(yi, vi, data = dat, method = "FE）`，注意加权最小二乘法与不加权~的使用，默认`weighted=TRUE`，协变量也时通过`mods`参数指定。
+
+### 参数的多类题测试（Omnibus test)
+
+> Omnibus tests are a kind of statistical test. They test whether the explained variance in a set of data is significantly greater than the unexplained variance, overall
+对于包含协变量的模型，会对所有模型系数进行Omnibus测试（排除第一个系数$\beta_0$如果它包含在模型中，也就是截距）。检验原假设为$H_9: \beta_1 = ... \beta_p = 0$。如果模型中没有截距，那么检验时会包含所有的系数（包含截距）。备择，我们可以通过`btt`参数手动指定要检验的协变量。例如`btt = c(3, 4)`会在检验中包含第3、4个系数（如果模型包含截距，那么截距对应模型的第1个系数）。
+
+### 分类协变量
+
+分类协变量可以以类似的方式参入模型，但需要手动转换为线性数值形式，或者用`factor`转换为因子。
+
+### Knapp和Hartung校正
+
+默认，模型单个系数（置信区间）的检验统计量都是基于正态分布，然而全类题测试是基于`m`个自由度的卡方$\chi^2$。`m`是检验系数的数目。Knapp和Hartung方法（2013）`knha = TRUE`是对所评估的系数标准误差的校正，**它可以帮助解释真实效应方差的不确定性以及生成不同的参考分布**。然后单个系数和置信区间通过`n-p`个自由度的t分布进行评估，而全类题检验是用`m`和`k-p`个自由度的F分布。该校正**只能用于随机或者混合效应模型**。
+
+## 例子
+
+### 随机效应模型
+
+我们将用BCG数据拟合随机效应模型开始学习。
+
+这与下面的命令等效，不过下面的代码是用的提前算好的效应值大小与方差。
+
+```{r, eval=FALSE}
+res = rma(ai = tpos, bi = tneg, ci = cpos, di = cneg, data = dat, measure = "RR")
+res
+```
+
+
+```{r}
+res = rma(yi, vi, data=dat)
+res
+```
+
+结果显示了估计的评估log相对风险是$\mu=-0.7145$（96% CI: -1.0669 到 -0.3622）。想要更好地解释该结果，我们进行指数转换：
+
+```{r}
+exp(c(-0.7145, -1.0669, -0.3622))
+```
+
+这显示的是相对风险（RR，另有很多人在比例风险模型中称HR）及95%置信区间，说明打了疫苗个人有tuberculosis感染的风险是没有打疫苗的一半左右。可以拒绝零假设$H_0: \mu = 0$ （$z=-3.97, p <0.0001$）。
+
+在log的相对风险中，异质性评估为$\tau^2 = 0.3132$。在Higgins和Thompson(2002)一文中建议了大量的异质性度量方式。**$I^2$统计值（百分比）评估了在效应大小的（由异质性和取样变异组成）度量中总的变异有多少可以归根于真实效应的异质性（如果$\tau^2 = 0$则$I^2 = 0%$）。而$H^2$统计量则是在所观察到结果中总变异的量与取样变异量的比值（如果$\tau^2 = 0$则显示$H^2=1$）。**然而我们需要意识到，$\tau^2$、$I^2$和$H^2$在研究数目比较少是估计不准确。
+
+
+使用`confint()`我们可以获得这些统计量对应的置信区间（95%）。
+
+```{r}
+confint(res)
+```
+
+可以看到置信区间都比较宽，说明我们不能太相信点估计的结果。而且，下置信区间非常大并且异质性检验结果表明真实效应有相当多的异质性（变异，可以理解为方差很大）。
+
+为了使结果更易于观察，我们可以用`forest`函数创建forest图来可视化结果。虽然`forest(res)`足以给出必要的信息，添加额外的代码可以补充更多信息。默认，观察到的效应值会按比例绘制到图上，基于随机效应模型汇总的估计也自动添加到图上。以log尺度显示可以获得更好的解释。
+
+运行下面代码：
+
+```{r}
+forest(res, slab = paste(dat$author, dat$year, sep = ", "),
+       xlim = c(-16, 6), at = log(c(0.05, 0.25, 1, 4)), atransf = exp,
+       ilab = cbind(dat$tpos, dat$tneg, dat$cpos, dat$cneg),
+       ilab.xpos = c(-9.5, -8, -6, -4.5), cex = 0.75)
+op = par(cex = 0.75, font = 2)
+text(c(-9.5, -8, -6, -4.5), 15, c("TB+", "TB-", "TB+", "TB-"))
+text(c(-8.75, -5.25), 16, c("Vaccinated", "Control"))
+text(-16, 15, "Author(s) and Year", pos = 4)
+text(6, 15, "Relative Risk [95% CI]", pos = 2)
+par(op)
+```
+
+### 混合效应模型
+
+部分异质性可能是由协变量（moderator）引起。例如，BCG疫苗的有效性取决于研究的地点，不同的纬度病菌环境不一样。另外，使用疫苗的时间也有可能改变疫苗的效力。我们这里使用一个混合效应模型进行拟合，探究绝对纬度与发表年份作为协变量对结果的影响。
+
+```{r, eval=FALSE}
+res = rma(yi, vi, mods = cbind(ablat, year), data = dat)
+res
+```
+
+与下面结果一致
+
+```{r}
+res = rma(yi, vi, mods = ~ ablat + year, data = dat)
+res
+```
+
+残余异质性（除了被协变量解释的）$\tau^2 = 0.1108$，表明`(0.3132 - 0.1108) / 0.3132 = 65%`的总异质性可以归根于两个协变量。基于Test of Moderator的结果我们可以拒绝原假设，但仅有协变量绝对纬度会显著性影响结果。残余异质性的检验是显著的，说明存在模型中没有包含的因素会影响疫苗的效力。
+
+根据Log后的相对风险显示，绝对纬度1度的上升对应-0.03单位风险的变化。为了进一步促进解释，我们可以控制发表年份，生成纬度数据进行预测。
+
+这里，我们使用`predict()`函数，在`newmods`参数中指定协变量新的数值结果，并用`transf`参数控制结果的转换，使用`addx=TRUE`将所有结果放在一起。
+
+```{r}
+predict(res, newmods = cbind(seq(from=10, to=60, by=10), 1970),
+        transf = exp, addx = TRUE)
+```
+
+结果显示了预测的平均相对风险`pred`和对应的95%置信区间。只有当不使用`transf`参数时才会给出标准误。
+
+可以看到，纬度越高，相对风险越小。更为一般地，我们画一个图来看：
+
+```{r}
+preds = predict(res, newmods = cbind(0:60, 1970), transf = exp)
+wi = 1/sqrt(dat$vi)
+size = 0.5 + 3 * (wi - min(wi)) / (max(wi) - min(wi))
+plot(dat$ablat, exp(dat$yi), pch = 19, cex = size,
+     xlab = "Absolute Latitude", ylab = "Relative Risk",
+     las = 1, bty = "l", log = "y")
+lines(0:60, preds$pred)
+lines(0:60, preds$ci.lb, lty = "dashed")
+lines(0:60, preds$ci.ub, lty = "dashed")
+abline(h = 1, lty = "dotted")
+```
+
+### 分类协变量
+
+协变量经常是分类的，因此基于分类协变量的水平对研究进行分组是元分析经常遇到的问题。一种方法是分别在每个水平拟合随机效应模型。例如，我们可以根据治疗的分配方式将协变量分为几组：
+
+```{r, eval=FALSE}
+rma(yi, vi, data = dat, subset = (alloc == "random"))
+rma(yi, vi, data = dat, subset = (alloc == "alternate"))
+rma(yi, vi, data = dat, subset = (alloc == "systematic"))
+```
+
+这里使用了`subset`参数进行子集的提取，然而这并不是个好办法，除非感兴趣的异质性在每一个水平都存在着，而且一旦这样分组，我们将处理更小的研究数据。
+
+与此相反，我们使用单一的混合效应模型来研究。
+
+首先，我们创建必要的变量：
+
+```{r}
+dat$a.random = ifelse(dat$alloc == "random", 1, 0)
+dat$a.alternate = ifelse(dat$alloc == "alternate", 1, 0)
+dat$a.systematic = ifelse(dat$alloc == "systematic", 1, 0)
+```
+
+然后为每一个水平计算单独的效应：
+
+```{r}
+rma(yi, vi, mods = cbind(a.random, a.alternate, a.systematic), intercept = FALSE,
+    data = dat)
+```
+
+相对于手动编码，我们可以使用`factor()`函数处理，结果一致
+
+```{r}
+rma(yi, vi, mods = ~factor(alloc) - 1, data = dat)
+```
+
+根据这个结果，仅有随机治疗分配获得了显著的治疗效果。**然而，想要检验是否分配因子变量真的统计显著，我们需要使用对模型使用不同的参数**。
+
+```{r}
+rma(yi, vi, mods = cbind(a.alternate, a.systematic), data = dat)
+```
+
+或者：
+
+```{r}
+rma(yi, vi, mods = ~ relevel(factor(alloc), ref = "random"), data = dat)
+```
+
+这里使用了`random`分配作为参考，结果$\beta_0 = -0.9658$是使用随机分配的对数化相对风险估计，而$\beta_1$与$\beta_2$分别是使用`alternate`与`systematic`分配会相对多大。比如$\beta_0 + \beta_1 = -0.5180$是使用`alternate`分配的相对风险，而$\beta_0 + \beta_2 = -0.4289$是使用`systematic`分配的相对风险。但协变量检验$H_0: \beta_1 = \beta_2 = 0$并不统计显著（$Q_M = 1.77, df = 2, p = 0.41$），表明分配的方法实际没有影响疫苗的平均效力。
+
+
+### Knapp与Hartung校正
+
+下面介绍校正方法的使用：
+
+```{r}
+rma(yi, vi, mods = ~ factor(alloc) + ablat, data = dat, knha = TRUE)
+```
+
+
+omnibus检验基于`m=3`和`k-p=9`的自由度，而基于`k-p=9`自由度的t分布用于单个系数和检验的参考分布。添加参数`btt = c(2, 3)`针对性检验$H_0:\beta_1=\beta_2=0$。
+
+通常，该校正会计算一个更为保守的p值。
+
+
+## 其他函数与方法
+
+下表提供了许多函数与方法的概览，其中一些我们这里加以详细讨论。
+
+| 函数        | 描述                                                         |
+| ----------- | ------------------------------------------------------------ |
+| print()     | 标准输出方法                                                 |
+| summary()   | 提供模型统计量的额外输出方法                                 |
+| coef()      | 抽取计算模型的系数、对应的标准误、检验统计量、p值以及置信区间边界 |
+| vcov()      | 抽取模型系数的方差-协方差矩阵                                |
+| fitstats()  | 抽取严格的log似然度、偏差、AIC与BIC                          |
+| fitted()    | 拟合值                                                       |
+| predict()   | 拟合/预测值（没有置信区间），可以用于新数据                  |
+| blup()      | 真实结果的最好的线性无偏预测（BLUPs）                        |
+| residuals() | 原始残差                                                     |
+| rstandard() | 内部标准化残差                                               |
+| rstudent()  | 外部标准化残差                                               |
+| hatvalues() | 抽取hat矩阵对角元素                                          |
+| weights()   | 抽取用于模型拟合的权重                                       |
+| influence() | 大量案例与删除诊断                                           |
+| leave1out() | 固定/随机效应模型留一诊断                                    |
+| forest()    | 森林图                                                       |
+| funnel()    | 漏斗图                                                       |
+| radial()    | 雷达图                                                       |
+| qqnorm()    | 正态分位数-分位数图                                          |
+| plot()      | 模型对象的通用绘图函数                                       |
+| addpoly()   | 为森林图添加多边形                                           |
+| ranktest()  | 漏斗图不对称等级相关检验                                     |
+| regtest()   | 漏斗图不对称回归检验                                         |
+| trimfill()  | 修剪和填充方法                                               |
+| confint()   | 随机/混合模型（残差）异质性置信区间（也会获取模型系数置信区间） |
+| cumul()     | 固定/随机效应模型累积元分析                                  |
+| anova()     | 根据模型统计量和似然度进行模型比较                           |
+| permutest() | 模型系数置换检验                                             |
+
+
+### 拟合/预测值
+
+`fitted()`函数可以用来获取`k`个研究的拟合值。`predict()`函数提供了拟合值加上标准误、置信区间边界。
+
+例如，我们可以首先拟合一个随机效应模型获取对数化的相对风险，然后转换估计的评估log相对风险（即$mu$）为指数形式。
+
+```{r}
+res = rma(yi, vi, data = dat)
+predict(res, transf = exp, digits = 2)
+```
+
+### 原始和标准化残差
+
+许多元分析包含的一些研究观察效应值是异常乃至极端的，可视化观察是一种区分的方式，但这种方式在处理1个或多个协变量时存在问题。而且，元分析的研究通常一旦变化数量，方差也就跟着变了。
+
+**一种更正式的方式是检查残差与对应标准误直接的关系**。
+
+在线性回归中存在许多中残差形式，可以被采纳到元分析。最重要的，`rstandard()`与`rstudent`提供了内部与外部标准化残差（`residual()`提供的是原始残差）。如果一个研究与模型拟合得很好，它的标准化残差会服从标准正态分布。
+
+```{r}
+res = rma(yi, vi, mods = cbind(ablat, year), data = dat)
+rstudent(res)
+```
+
+### 影响点诊断
+
+跟一般地回归分析类似，影响点会影响整个模型的拟合效果，我们需要进行诊断和处理。`influence()`函数提供下面的一些诊断措施用于元分析：
+
+* 外部标准化残差
+* DFFITS值
+* Cook距离
+* 协方差比率
+* DFBETAS值
+* 轮流移除单个研究然后评估$\tau^2$
+* 轮流移除单个研究然后为（残差）异质性评估统计量
+* hat矩阵对象元素
+* 模型拟合时给观测结果的权重
+
+例如，对于之前我们处理的混合效应模型：
+
+```{r}
+res = rma(yi, vi, mods = cbind(ablat, year), data = dat)
+inf = influence(res)
+inf
+```
+
+相比于输出，我们可以绘制：
+
+```{r}
+plot(inf, plotdfbs = TRUE)
+```
+
+上图结果中，发现研究7和13为模型引入了额外的异质性（即轮流移除研究7或13然后评估$\tau^2$，发现减少），但这两者只有少量的影响。但研究4对模型异质性有极少的影响，但却极大影响了模型的拟合（Cook距离图非常明显，在hat图中也反应了出来）。
+
+对于没有协变量的模型，我们可以使用`leave1out()`函数重复拟合模型，每次留下一个研究。例如：
+
+```{r}
+res = rma(yi, vi, data = dat)
+leave1out(res, transf = exp, digits = 3)
+```
+
+### 绘图函数（森林、漏斗、雷达与QQ图）
+
+`metafor`包提供了一些频繁用于元分析的图形函数。
+
+我们在之前就已经展示了森林图的绘制，下面用另一个例子展示如何绘制常见的效应大小与对象的取样方差，并解释`addpoly()`如何添加多边形。
+
+```{r}
+forest(dat$yi, dat$vi, atransf = exp, ylim = c(-3.5, 16), 
+       at = log(c(0.05, 0.25, 1, 4, 20)), xlim = c(-9, 7),
+       slab = paste(dat$author, dat$year, sep = ", "))
+res = rma(yi, vi, mods = cbind(ablat), data = dat)
+preds = predict(res, newmods = c(10, 30, 50))
+addpoly(preds$pred, sei = preds$se, atransf = exp,
+        mlab = c("10 Degrees", "30 Degrees", "50 Degrees"))
+text(-9, 15, "Author(s) and Year", pos = 4, font =2)
+text(7, 15, "Relative Risk [95% CI]", pos = 2, font =2)
+abline(h=0)
+```
+
+函数`funnel()`可以用来创建漏斗图，用于诊断异质性的出现以及确定的出版偏差。对于没有协变量的模型，**该图为观察到的结果作为水平轴，对应的标准误作为垂直轴**。一条垂直线显示了基于模型的结果。伪置信区间和它的1.96 SE边界绘制出来了，SE是垂直轴的标准误。对于涉及协变量的模型，**该图显示了残差作为水平轴，标准误作为垂直轴**。
+
+下面分别展示没有和有协变量的漏斗图：
+
+```{r}
+res = rma(yi, vi, data = dat)
+funnel(res, main = "Random-Effects Model")
+res = rma(yi, vi, mods = cbind(ablat), data = dat)
+funnel(res, main = "Mixed-Effects Model")
+```
+
+雷达图用来评估有不同精度结果之间的一致性。固定效应模型与随机效应模型的评估方式有所不同，在图中也会显示。
+
+```{r}
+res = rma(yi, vi, data = dat, method = "FE")
+radial(res, main = "Fixed-Effects Model")
+res = rma(yi, vi, data = dat, method = "REML")
+radial(res, main = "Random-Effects Model")
+```
+
+`qqnorm()`函数创建的Q-Q正态图是元分析非常有用的诊断工具。
+
+```{r}
+res = rma(yi, vi, data = dat)
+qqnorm(res, main = "Random-Effects Model")
+res = rma(yi, vi, mods = cbind(ablat), data = dat)
+qqnorm(res, main = "Mixed-Effects Model")
+```
+
+### 漏斗图非对称检验
+
+`ranktest()`与`regtest()`函数用来执行秩（等级）相关检验与回归检验。
+
+对于回归检验，函数参数：
+
+```{r, eval=FALSE}
+regtest(x, model = "rma", predictor = "sei", ni = NULL, ...)
+```
+
+`x`是拟合的模型对象。我们通过`model`参数选定模型，`model= "lm"`是加权回归，而`model="rma"`是标准的元分析模型（默认）。`predictor`指定检验的度量，比如标准误（默认）、取样方差（`vi`），样本大小的倒数（`ninv`）等。
+
+```{r}
+res = rma(yi, vi, data = dat)
+regtest(res, model = "lm")
+```
+
+```{r}
+res = rma(ai = tpos, bi = tneg, ci = cpos, di = cneg, data = dat,
+          measure = "RR", mods = cbind(ablat, year))
+regtest(res, predictor = "ni")
+```

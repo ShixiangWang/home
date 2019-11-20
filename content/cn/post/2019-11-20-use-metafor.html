@@ -1,0 +1,712 @@
+---
+title: "metafor——元分析技术实现"
+author: "王诗翔"
+date: "2018-07-09"
+lastmod: "2019-11-20"
+slug: ""
+categories: r
+tags:
+- r
+---
+
+
+
+<p>最近在科研中使用到元分析，零零散散开始接触一些理论与实现。<strong>元分析</strong>的主要作用就是汇总某一个方面所有符合条件研究的统计结果，评估这个方向研究一个平均效力是什么（假设有很多研究探索喝可乐对男子精子能力的影响，不同的研究可能有不同的结果，元分析就是对这些研究进行一个汇总，并给出判断）。涉及一些研究异质性的评估与回归分析、固定效应模型与随机效应模型的使用。</p>
+<p>我最近使用的元分析处理主要是依靠Stata的一些模块，但其实我对Stata知之甚少。Stata语法有点像命令而不是一门系统的编程语法，难懂又难写，所以这里学习R中Meta分析的实现。R里面进行元分析的包非常多，包与介绍可以参考<a href="https://cran.rstudio.com/web/views/MetaAnalysis.html">任务列表</a>。这里我选择<strong>metafor</strong>包，它涵盖了常用的元分析建模与分析、可视化。</p>
+<blockquote>
+<p>里面的概念解释不一定到位，读者可以参考文档理解。另外，本文资料参考来源 metafor 发表的文章，因此有些功能可能有所变动，函数也可能有更新，使用请同时参考读者阅读时 metafor 的文档。</p>
+</blockquote>
+<div id="实例" class="section level2">
+<h2>实例</h2>
+<p><code>metafor</code>包提供了数据集<code>dat.bcg</code>，它是13个不同研究BCG疫苗因tuberculosis状态效力差异的研究。</p>
+<pre class="r"><code>p_load(metafor)
+data(&quot;dat.bcg&quot;, package = &quot;metafor&quot;)</code></pre>
+<p>查看数据：</p>
+<pre class="r"><code>print(dat.bcg, row.names=FALSE)
+#&gt;  trial               author year tpos  tneg cpos  cneg ablat      alloc
+#&gt;      1              Aronson 1948    4   119   11   128    44     random
+#&gt;      2     Ferguson &amp; Simes 1949    6   300   29   274    55     random
+#&gt;      3      Rosenthal et al 1960    3   228   11   209    42     random
+#&gt;      4    Hart &amp; Sutherland 1977   62 13536  248 12619    52     random
+#&gt;      5 Frimodt-Moller et al 1973   33  5036   47  5761    13  alternate
+#&gt;      6      Stein &amp; Aronson 1953  180  1361  372  1079    44  alternate
+#&gt;      7     Vandiviere et al 1973    8  2537   10   619    19     random
+#&gt;      8           TPT Madras 1980  505 87886  499 87892    13     random
+#&gt;      9     Coetzee &amp; Berjak 1968   29  7470   45  7232    27     random
+#&gt;     10      Rosenthal et al 1961   17  1699   65  1600    42 systematic
+#&gt;     11       Comstock et al 1974  186 50448  141 27197    18 systematic
+#&gt;     12   Comstock &amp; Webster 1969    5  2493    3  2338    33 systematic
+#&gt;     13       Comstock et al 1976   27 16886   29 17825    33 systematic</code></pre>
+<p><code>tpos</code>与<code>tneg</code>分别记录了治疗组中tuberculosis阳性和阴性的目标数；<code>cpos</code>与<code>cneg</code>记录控制组中tuberculosis阳性和阴性的目标数。除此之外，<code>ablat</code>记录研究的绝对维度，<code>alloc</code>介绍研究的病人分组方式。</p>
+<p>这个结果可以表示为以下2x2的表格：</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>TB+</th>
+<th>TB-</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Treated</td>
+<td>tpos</td>
+<td>tneg</td>
+</tr>
+<tr class="even">
+<td>Control</td>
+<td>cpos</td>
+<td>cneg</td>
+</tr>
+</tbody>
+</table>
+<p>下面我们以相关风险（对数化）作为结果的度量，根据数据集中的相关数据进行计算：</p>
+<pre class="r"><code>dat = escalc(measure = &quot;RR&quot;, ai = tpos, bi = tneg, ci = cpos, di = cneg, data = dat.bcg,
+             append = TRUE)
+print(dat[, -c(4:7)], row.names = FALSE)
+#&gt;  trial               author year ablat      alloc      yi     vi 
+#&gt;      1              Aronson 1948    44     random -0.8893 0.3256 
+#&gt;      2     Ferguson &amp; Simes 1949    55     random -1.5854 0.1946 
+#&gt;      3      Rosenthal et al 1960    42     random -1.3481 0.4154 
+#&gt;      4    Hart &amp; Sutherland 1977    52     random -1.4416 0.0200 
+#&gt;      5 Frimodt-Moller et al 1973    13  alternate -0.2175 0.0512 
+#&gt;      6      Stein &amp; Aronson 1953    44  alternate -0.7861 0.0069 
+#&gt;      7     Vandiviere et al 1973    19     random -1.6209 0.2230 
+#&gt;      8           TPT Madras 1980    13     random  0.0120 0.0040 
+#&gt;      9     Coetzee &amp; Berjak 1968    27     random -0.4694 0.0564 
+#&gt;     10      Rosenthal et al 1961    42 systematic -1.3713 0.0730 
+#&gt;     11       Comstock et al 1974    18 systematic -0.3394 0.0124 
+#&gt;     12   Comstock &amp; Webster 1969    33 systematic  0.4459 0.5325 
+#&gt;     13       Comstock et al 1976    33 systematic -0.0173 0.0714</code></pre>
+<p>在这个结果中，<code>yi</code>是对数化的相对风险，<code>&lt;0</code>表示治疗组中风险要更小，除了两个研究，其他研究都有一致的趋势。</p>
+<p><code>measure</code>可以指定很多种不同的度量方式，常见相对风险（对数化）为<code>RR</code>，优势比（对数化）为<code>OR</code>，其他请参考函数文档。对数化的目的是使得度量尽量服从正态分布。</p>
+</div>
+<div id="拟合模型" class="section level2">
+<h2>拟合模型</h2>
+<p>通过<code>rma.uni()</code>可以拟合众多元分析模型（函数别名<code>rma()</code>）。</p>
+<p>参数：</p>
+<pre class="r"><code>args(rma)
+#&gt; function (yi, vi, sei, weights, ai, bi, ci, di, n1i, n2i, x1i, 
+#&gt;     x2i, t1i, t2i, m1i, m2i, sd1i, sd2i, xi, mi, ri, ti, sdi, 
+#&gt;     r2i, ni, mods, measure = &quot;GEN&quot;, intercept = TRUE, data, slab, 
+#&gt;     subset, add = 1/2, to = &quot;only0&quot;, drop00 = FALSE, vtype = &quot;LS&quot;, 
+#&gt;     method = &quot;REML&quot;, weighted = TRUE, test = &quot;z&quot;, level = 95, 
+#&gt;     digits, btt, tau2, verbose = FALSE, control, ...) 
+#&gt; NULL</code></pre>
+<div id="指定数据" class="section level3">
+<h3>指定数据</h3>
+<p>该函数可以与元分析常见的效应大小或者结果度量（例如，log优势比，标准化的均值差，相关系数）。我们只需要简单指定<code>yi</code>观察到的效应值以及指定<code>vi</code>对应的样本方差（或者通过<code>sei</code>指定标准误，样本方差的平方根）。如果这样输入数据，必须指定<code>measure=&quot;GEN&quot;</code>（函数默认）。</p>
+<p>另外，<code>rma</code>函数可以输入<code>escalc</code>函数一样的参数，然后会自动完成结果度量的计算，<code>measure</code>参数可以用来指定想要的输出度量，<code>vtype</code>参数与<code>escalc</code>一致。</p>
+<p><strong>也就是说，可以用<code>rma</code>完成原始输入数据到结果度量的计算，可想而知，<code>rma</code>函数中应该包含了<code>escalc</code>函数的实现。</strong></p>
+</div>
+<div id="指定模型" class="section level3">
+<h3>指定模型</h3>
+<p>假设你已经通过参数<code>yi</code>与<code>vi</code>指定了效应值与对应的样本方差，随机效应模型就直接可以用<code>rma(yi, vi, data=dat)</code>进行拟合。默认使用严格最大似然评估方法（restricted maximum-likelihood estimation）用来评估真实效应的方差（REML评估器近似无偏并非常有效，参考Viechtbauer 2005）。多种（残差）异质性评估器可以通过<code>method</code>参数指定，有以下选项：</p>
+<ul>
+<li>“HS”: Hunter-Schmidt estimator</li>
+<li>“HE”: Hedges estimator</li>
+<li>“DL”: DerSimonian-Laird estimator</li>
+<li>“SJ”: Sidik-Jonkman estimator</li>
+<li>“ML”: Maximum-likelihood estimator</li>
+<li>“REML”: Restricted maximum-likelihood estimator</li>
+<li>“EB”: Empirical Bayes estimator</li>
+</ul>
+<p>一个或多个协变量（moderators）可以通过参数<code>mods</code>指定。单个协变量可以以长度为k的行/列向量给出值。多个则需要创建一个k行p列的设计矩阵（比如，使用<code>mods = cbind(mod1, mod2, mod3)</code>），模型默认包含截距，如果不要，需要用<code>intercept = FALSE</code>指定。</p>
+<p>许多R用户熟悉用公式形式来指定想要构建的模型，比如在使用<code>lm()</code>与<code>glm()</code>时（参见<code>??formula</code>）。<code>mods</code>支持指定单边的公式，比如<code>mods = ~ mod1 + mod2 + mod3</code>。交互项、多项式、因子等都可以用这种形式添加。注意一旦使用公式指定<code>mods</code>参数，<code>intercept</code>参数会被忽略，我们需要通过<code>mods = mod1 + mod2 + mod3 - 1</code>删除交互项。</p>
+<p>固定效应模型可以通过<code>method = &quot;FE&quot;</code>进行构建（<code>rma(yi, vi, data = dat, method = &quot;FE）</code>，注意加权最小二乘法与不加权~的使用，默认<code>weighted=TRUE</code>，协变量也时通过<code>mods</code>参数指定。</p>
+</div>
+<div id="参数的多类题测试omnibus-test" class="section level3">
+<h3>参数的多类题测试（Omnibus test)</h3>
+<blockquote>
+<p>Omnibus tests are a kind of statistical test. They test whether the explained variance in a set of data is significantly greater than the unexplained variance, overall
+对于包含协变量的模型，会对所有模型系数进行Omnibus测试（排除第一个系数<span class="math inline">\(\beta_0\)</span>如果它包含在模型中，也就是截距）。检验原假设为<span class="math inline">\(H_9: \beta_1 = ... \beta_p = 0\)</span>。如果模型中没有截距，那么检验时会包含所有的系数（包含截距）。备择，我们可以通过<code>btt</code>参数手动指定要检验的协变量。例如<code>btt = c(3, 4)</code>会在检验中包含第3、4个系数（如果模型包含截距，那么截距对应模型的第1个系数）。</p>
+</blockquote>
+</div>
+<div id="分类协变量" class="section level3">
+<h3>分类协变量</h3>
+<p>分类协变量可以以类似的方式参入模型，但需要手动转换为线性数值形式，或者用<code>factor</code>转换为因子。</p>
+</div>
+<div id="knapp和hartung校正" class="section level3">
+<h3>Knapp和Hartung校正</h3>
+<p>默认，模型单个系数（置信区间）的检验统计量都是基于正态分布，然而全类题测试是基于<code>m</code>个自由度的卡方<span class="math inline">\(\chi^2\)</span>。<code>m</code>是检验系数的数目。Knapp和Hartung方法（2013）<code>knha = TRUE</code>是对所评估的系数标准误差的校正，<strong>它可以帮助解释真实效应方差的不确定性以及生成不同的参考分布</strong>。然后单个系数和置信区间通过<code>n-p</code>个自由度的t分布进行评估，而全类题检验是用<code>m</code>和<code>k-p</code>个自由度的F分布。该校正<strong>只能用于随机或者混合效应模型</strong>。</p>
+</div>
+</div>
+<div id="例子" class="section level2">
+<h2>例子</h2>
+<div id="随机效应模型" class="section level3">
+<h3>随机效应模型</h3>
+<p>我们将用BCG数据拟合随机效应模型开始学习。</p>
+<p>这与下面的命令等效，不过下面的代码是用的提前算好的效应值大小与方差。</p>
+<pre class="r"><code>res = rma(ai = tpos, bi = tneg, ci = cpos, di = cneg, data = dat, measure = &quot;RR&quot;)
+res</code></pre>
+<pre class="r"><code>res = rma(yi, vi, data=dat)
+res
+#&gt; 
+#&gt; Random-Effects Model (k = 13; tau^2 estimator: REML)
+#&gt; 
+#&gt; tau^2 (estimated amount of total heterogeneity): 0.3132 (SE = 0.1664)
+#&gt; tau (square root of estimated tau^2 value):      0.5597
+#&gt; I^2 (total heterogeneity / total variability):   92.22%
+#&gt; H^2 (total variability / sampling variability):  12.86
+#&gt; 
+#&gt; Test for Heterogeneity:
+#&gt; Q(df = 12) = 152.2330, p-val &lt; .0001
+#&gt; 
+#&gt; Model Results:
+#&gt; 
+#&gt; estimate      se     zval    pval    ci.lb    ci.ub 
+#&gt;  -0.7145  0.1798  -3.9744  &lt;.0001  -1.0669  -0.3622  *** 
+#&gt; 
+#&gt; ---
+#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>结果显示了估计的评估log相对风险是<span class="math inline">\(\mu=-0.7145\)</span>（96% CI: -1.0669 到 -0.3622）。想要更好地解释该结果，我们进行指数转换：</p>
+<pre class="r"><code>exp(c(-0.7145, -1.0669, -0.3622))
+#&gt; [1] 0.489 0.344 0.696</code></pre>
+<p>这显示的是相对风险（RR，另有很多人在比例风险模型中称HR）及95%置信区间，说明打了疫苗个人有tuberculosis感染的风险是没有打疫苗的一半左右。可以拒绝零假设<span class="math inline">\(H_0: \mu = 0\)</span> （<span class="math inline">\(z=-3.97, p &lt;0.0001\)</span>）。</p>
+<p>在log的相对风险中，异质性评估为<span class="math inline">\(\tau^2 = 0.3132\)</span>。在Higgins和Thompson(2002)一文中建议了大量的异质性度量方式。<strong><span class="math inline">\(I^2\)</span>统计值（百分比）评估了在效应大小的（由异质性和取样变异组成）度量中总的变异有多少可以归根于真实效应的异质性（如果<span class="math inline">\(\tau^2 = 0\)</span>则<span class="math inline">\(I^2 = 0%\)</span>）。而<span class="math inline">\(H^2\)</span>统计量则是在所观察到结果中总变异的量与取样变异量的比值（如果<span class="math inline">\(\tau^2 = 0\)</span>则显示<span class="math inline">\(H^2=1\)</span>）。</strong>然而我们需要意识到，<span class="math inline">\(\tau^2\)</span>、<span class="math inline">\(I^2\)</span>和<span class="math inline">\(H^2\)</span>在研究数目比较少是估计不准确。</p>
+<p>使用<code>confint()</code>我们可以获得这些统计量对应的置信区间（95%）。</p>
+<pre class="r"><code>confint(res)
+#&gt; 
+#&gt;        estimate   ci.lb   ci.ub 
+#&gt; tau^2    0.3132  0.1197  1.1115 
+#&gt; tau      0.5597  0.3460  1.0543 
+#&gt; I^2(%)  92.2214 81.9177 97.6781 
+#&gt; H^2     12.8558  5.5303 43.0680</code></pre>
+<p>可以看到置信区间都比较宽，说明我们不能太相信点估计的结果。而且，下置信区间非常大并且异质性检验结果表明真实效应有相当多的异质性（变异，可以理解为方差很大）。</p>
+<p>为了使结果更易于观察，我们可以用<code>forest</code>函数创建forest图来可视化结果。虽然<code>forest(res)</code>足以给出必要的信息，添加额外的代码可以补充更多信息。默认，观察到的效应值会按比例绘制到图上，基于随机效应模型汇总的估计也自动添加到图上。以log尺度显示可以获得更好的解释。</p>
+<p>运行下面代码：</p>
+<pre class="r"><code>forest(res, slab = paste(dat$author, dat$year, sep = &quot;, &quot;),
+       xlim = c(-16, 6), at = log(c(0.05, 0.25, 1, 4)), atransf = exp,
+       ilab = cbind(dat$tpos, dat$tneg, dat$cpos, dat$cneg),
+       ilab.xpos = c(-9.5, -8, -6, -4.5), cex = 0.75)
+op = par(cex = 0.75, font = 2)
+text(c(-9.5, -8, -6, -4.5), 15, c(&quot;TB+&quot;, &quot;TB-&quot;, &quot;TB+&quot;, &quot;TB-&quot;))
+text(c(-8.75, -5.25), 16, c(&quot;Vaccinated&quot;, &quot;Control&quot;))
+text(-16, 15, &quot;Author(s) and Year&quot;, pos = 4)
+text(6, 15, &quot;Relative Risk [95% CI]&quot;, pos = 2)</code></pre>
+<p><img src="/cn/post/2019-11-20-use-metafor_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<pre class="r"><code>par(op)</code></pre>
+</div>
+<div id="混合效应模型" class="section level3">
+<h3>混合效应模型</h3>
+<p>部分异质性可能是由协变量（moderator）引起。例如，BCG疫苗的有效性取决于研究的地点，不同的纬度病菌环境不一样。另外，使用疫苗的时间也有可能改变疫苗的效力。我们这里使用一个混合效应模型进行拟合，探究绝对纬度与发表年份作为协变量对结果的影响。</p>
+<pre class="r"><code>res = rma(yi, vi, mods = cbind(ablat, year), data = dat)
+res</code></pre>
+<p>与下面结果一致</p>
+<pre class="r"><code>res = rma(yi, vi, mods = ~ ablat + year, data = dat)
+res
+#&gt; 
+#&gt; Mixed-Effects Model (k = 13; tau^2 estimator: REML)
+#&gt; 
+#&gt; tau^2 (estimated amount of residual heterogeneity):     0.1108 (SE = 0.0845)
+#&gt; tau (square root of estimated tau^2 value):             0.3328
+#&gt; I^2 (residual heterogeneity / unaccounted variability): 71.98%
+#&gt; H^2 (unaccounted variability / sampling variability):   3.57
+#&gt; R^2 (amount of heterogeneity accounted for):            64.63%
+#&gt; 
+#&gt; Test for Residual Heterogeneity:
+#&gt; QE(df = 10) = 28.3251, p-val = 0.0016
+#&gt; 
+#&gt; Test of Moderators (coefficients 2:3):
+#&gt; QM(df = 2) = 12.2043, p-val = 0.0022
+#&gt; 
+#&gt; Model Results:
+#&gt; 
+#&gt;          estimate       se     zval    pval     ci.lb    ci.ub 
+#&gt; intrcpt   -3.5455  29.0959  -0.1219  0.9030  -60.5724  53.4814     
+#&gt; ablat     -0.0280   0.0102  -2.7371  0.0062   -0.0481  -0.0080  ** 
+#&gt; year       0.0019   0.0147   0.1299  0.8966   -0.0269   0.0307     
+#&gt; 
+#&gt; ---
+#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>残余异质性（除了被协变量解释的）<span class="math inline">\(\tau^2 = 0.1108\)</span>，表明<code>(0.3132 - 0.1108) / 0.3132 = 65%</code>的总异质性可以归根于两个协变量。基于Test of Moderator的结果我们可以拒绝原假设，但仅有协变量绝对纬度会显著性影响结果。残余异质性的检验是显著的，说明存在模型中没有包含的因素会影响疫苗的效力。</p>
+<p>根据Log后的相对风险显示，绝对纬度1度的上升对应-0.03单位风险的变化。为了进一步促进解释，我们可以控制发表年份，生成纬度数据进行预测。</p>
+<p>这里，我们使用<code>predict()</code>函数，在<code>newmods</code>参数中指定协变量新的数值结果，并用<code>transf</code>参数控制结果的转换，使用<code>addx=TRUE</code>将所有结果放在一起。</p>
+<pre class="r"><code>predict(res, newmods = cbind(seq(from=10, to=60, by=10), 1970),
+        transf = exp, addx = TRUE)
+#&gt; 
+#&gt;     pred  ci.lb  ci.ub  cr.lb  cr.ub X.intrcpt X.ablat X.year 
+#&gt; 1 0.9345 0.5833 1.4973 0.4179 2.0899         1      10   1970 
+#&gt; 2 0.7062 0.5149 0.9686 0.3421 1.4579         1      20   1970 
+#&gt; 3 0.5337 0.4196 0.6789 0.2663 1.0697         1      30   1970 
+#&gt; 4 0.4033 0.2956 0.5502 0.1958 0.8306         1      40   1970 
+#&gt; 5 0.3048 0.1916 0.4848 0.1369 0.6787         1      50   1970 
+#&gt; 6 0.2303 0.1209 0.4386 0.0921 0.5761         1      60   1970</code></pre>
+<p>结果显示了预测的平均相对风险<code>pred</code>和对应的95%置信区间。只有当不使用<code>transf</code>参数时才会给出标准误。</p>
+<p>可以看到，纬度越高，相对风险越小。更为一般地，我们画一个图来看：</p>
+<pre class="r"><code>preds = predict(res, newmods = cbind(0:60, 1970), transf = exp)
+wi = 1/sqrt(dat$vi)
+size = 0.5 + 3 * (wi - min(wi)) / (max(wi) - min(wi))
+plot(dat$ablat, exp(dat$yi), pch = 19, cex = size,
+     xlab = &quot;Absolute Latitude&quot;, ylab = &quot;Relative Risk&quot;,
+     las = 1, bty = &quot;l&quot;, log = &quot;y&quot;)
+lines(0:60, preds$pred)
+lines(0:60, preds$ci.lb, lty = &quot;dashed&quot;)
+lines(0:60, preds$ci.ub, lty = &quot;dashed&quot;)
+abline(h = 1, lty = &quot;dotted&quot;)</code></pre>
+<p><img src="/cn/post/2019-11-20-use-metafor_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+</div>
+<div id="分类协变量-1" class="section level3">
+<h3>分类协变量</h3>
+<p>协变量经常是分类的，因此基于分类协变量的水平对研究进行分组是元分析经常遇到的问题。一种方法是分别在每个水平拟合随机效应模型。例如，我们可以根据治疗的分配方式将协变量分为几组：</p>
+<pre class="r"><code>rma(yi, vi, data = dat, subset = (alloc == &quot;random&quot;))
+rma(yi, vi, data = dat, subset = (alloc == &quot;alternate&quot;))
+rma(yi, vi, data = dat, subset = (alloc == &quot;systematic&quot;))</code></pre>
+<p>这里使用了<code>subset</code>参数进行子集的提取，然而这并不是个好办法，除非感兴趣的异质性在每一个水平都存在着，而且一旦这样分组，我们将处理更小的研究数据。</p>
+<p>与此相反，我们使用单一的混合效应模型来研究。</p>
+<p>首先，我们创建必要的变量：</p>
+<pre class="r"><code>dat$a.random = ifelse(dat$alloc == &quot;random&quot;, 1, 0)
+dat$a.alternate = ifelse(dat$alloc == &quot;alternate&quot;, 1, 0)
+dat$a.systematic = ifelse(dat$alloc == &quot;systematic&quot;, 1, 0)</code></pre>
+<p>然后为每一个水平计算单独的效应：</p>
+<pre class="r"><code>rma(yi, vi, mods = cbind(a.random, a.alternate, a.systematic), intercept = FALSE,
+    data = dat)
+#&gt; 
+#&gt; Mixed-Effects Model (k = 13; tau^2 estimator: REML)
+#&gt; 
+#&gt; tau^2 (estimated amount of residual heterogeneity):     0.3615 (SE = 0.2111)
+#&gt; tau (square root of estimated tau^2 value):             0.6013
+#&gt; I^2 (residual heterogeneity / unaccounted variability): 88.77%
+#&gt; H^2 (unaccounted variability / sampling variability):   8.91
+#&gt; 
+#&gt; Test for Residual Heterogeneity:
+#&gt; QE(df = 10) = 132.3676, p-val &lt; .0001
+#&gt; 
+#&gt; Test of Moderators (coefficients 1:3):
+#&gt; QM(df = 3) = 15.9842, p-val = 0.0011
+#&gt; 
+#&gt; Model Results:
+#&gt; 
+#&gt;               estimate      se     zval    pval    ci.lb    ci.ub 
+#&gt; a.random       -0.9658  0.2672  -3.6138  0.0003  -1.4896  -0.4420  *** 
+#&gt; a.alternate    -0.5180  0.4412  -1.1740  0.2404  -1.3827   0.3468      
+#&gt; a.systematic   -0.4289  0.3449  -1.2434  0.2137  -1.1050   0.2472      
+#&gt; 
+#&gt; ---
+#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>相对于手动编码，我们可以使用<code>factor()</code>函数处理，结果一致</p>
+<pre class="r"><code>rma(yi, vi, mods = ~factor(alloc) - 1, data = dat)
+#&gt; 
+#&gt; Mixed-Effects Model (k = 13; tau^2 estimator: REML)
+#&gt; 
+#&gt; tau^2 (estimated amount of residual heterogeneity):     0.3615 (SE = 0.2111)
+#&gt; tau (square root of estimated tau^2 value):             0.6013
+#&gt; I^2 (residual heterogeneity / unaccounted variability): 88.77%
+#&gt; H^2 (unaccounted variability / sampling variability):   8.91
+#&gt; 
+#&gt; Test for Residual Heterogeneity:
+#&gt; QE(df = 10) = 132.3676, p-val &lt; .0001
+#&gt; 
+#&gt; Test of Moderators (coefficients 1:3):
+#&gt; QM(df = 3) = 15.9842, p-val = 0.0011
+#&gt; 
+#&gt; Model Results:
+#&gt; 
+#&gt;                          estimate      se     zval    pval    ci.lb 
+#&gt; factor(alloc)alternate    -0.5180  0.4412  -1.1740  0.2404  -1.3827 
+#&gt; factor(alloc)random       -0.9658  0.2672  -3.6138  0.0003  -1.4896 
+#&gt; factor(alloc)systematic   -0.4289  0.3449  -1.2434  0.2137  -1.1050 
+#&gt;                            ci.ub 
+#&gt; factor(alloc)alternate    0.3468      
+#&gt; factor(alloc)random      -0.4420  *** 
+#&gt; factor(alloc)systematic   0.2472      
+#&gt; 
+#&gt; ---
+#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>根据这个结果，仅有随机治疗分配获得了显著的治疗效果。<strong>然而，想要检验是否分配因子变量真的统计显著，我们需要使用对模型使用不同的参数</strong>。</p>
+<pre class="r"><code>rma(yi, vi, mods = cbind(a.alternate, a.systematic), data = dat)
+#&gt; 
+#&gt; Mixed-Effects Model (k = 13; tau^2 estimator: REML)
+#&gt; 
+#&gt; tau^2 (estimated amount of residual heterogeneity):     0.3615 (SE = 0.2111)
+#&gt; tau (square root of estimated tau^2 value):             0.6013
+#&gt; I^2 (residual heterogeneity / unaccounted variability): 88.77%
+#&gt; H^2 (unaccounted variability / sampling variability):   8.91
+#&gt; R^2 (amount of heterogeneity accounted for):            0.00%
+#&gt; 
+#&gt; Test for Residual Heterogeneity:
+#&gt; QE(df = 10) = 132.3676, p-val &lt; .0001
+#&gt; 
+#&gt; Test of Moderators (coefficients 2:3):
+#&gt; QM(df = 2) = 1.7675, p-val = 0.4132
+#&gt; 
+#&gt; Model Results:
+#&gt; 
+#&gt;               estimate      se     zval    pval    ci.lb    ci.ub 
+#&gt; intrcpt        -0.9658  0.2672  -3.6138  0.0003  -1.4896  -0.4420  *** 
+#&gt; a.alternate     0.4478  0.5158   0.8682  0.3853  -0.5632   1.4588      
+#&gt; a.systematic    0.5369  0.4364   1.2303  0.2186  -0.3184   1.3921      
+#&gt; 
+#&gt; ---
+#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>或者：</p>
+<pre class="r"><code>rma(yi, vi, mods = ~ relevel(factor(alloc), ref = &quot;random&quot;), data = dat)
+#&gt; 
+#&gt; Mixed-Effects Model (k = 13; tau^2 estimator: REML)
+#&gt; 
+#&gt; tau^2 (estimated amount of residual heterogeneity):     0.3615 (SE = 0.2111)
+#&gt; tau (square root of estimated tau^2 value):             0.6013
+#&gt; I^2 (residual heterogeneity / unaccounted variability): 88.77%
+#&gt; H^2 (unaccounted variability / sampling variability):   8.91
+#&gt; R^2 (amount of heterogeneity accounted for):            0.00%
+#&gt; 
+#&gt; Test for Residual Heterogeneity:
+#&gt; QE(df = 10) = 132.3676, p-val &lt; .0001
+#&gt; 
+#&gt; Test of Moderators (coefficients 2:3):
+#&gt; QM(df = 2) = 1.7675, p-val = 0.4132
+#&gt; 
+#&gt; Model Results:
+#&gt; 
+#&gt;                                                   estimate      se 
+#&gt; intrcpt                                            -0.9658  0.2672 
+#&gt; relevel(factor(alloc), ref = &quot;random&quot;)alternate     0.4478  0.5158 
+#&gt; relevel(factor(alloc), ref = &quot;random&quot;)systematic    0.5369  0.4364 
+#&gt;                                                      zval    pval    ci.lb 
+#&gt; intrcpt                                           -3.6138  0.0003  -1.4896 
+#&gt; relevel(factor(alloc), ref = &quot;random&quot;)alternate    0.8682  0.3853  -0.5632 
+#&gt; relevel(factor(alloc), ref = &quot;random&quot;)systematic   1.2303  0.2186  -0.3184 
+#&gt;                                                     ci.ub 
+#&gt; intrcpt                                           -0.4420  *** 
+#&gt; relevel(factor(alloc), ref = &quot;random&quot;)alternate    1.4588      
+#&gt; relevel(factor(alloc), ref = &quot;random&quot;)systematic   1.3921      
+#&gt; 
+#&gt; ---
+#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>这里使用了<code>random</code>分配作为参考，结果<span class="math inline">\(\beta_0 = -0.9658\)</span>是使用随机分配的对数化相对风险估计，而<span class="math inline">\(\beta_1\)</span>与<span class="math inline">\(\beta_2\)</span>分别是使用<code>alternate</code>与<code>systematic</code>分配会相对多大。比如<span class="math inline">\(\beta_0 + \beta_1 = -0.5180\)</span>是使用<code>alternate</code>分配的相对风险，而<span class="math inline">\(\beta_0 + \beta_2 = -0.4289\)</span>是使用<code>systematic</code>分配的相对风险。但协变量检验<span class="math inline">\(H_0: \beta_1 = \beta_2 = 0\)</span>并不统计显著（<span class="math inline">\(Q_M = 1.77, df = 2, p = 0.41\)</span>），表明分配的方法实际没有影响疫苗的平均效力。</p>
+</div>
+<div id="knapp与hartung校正" class="section level3">
+<h3>Knapp与Hartung校正</h3>
+<p>下面介绍校正方法的使用：</p>
+<pre class="r"><code>rma(yi, vi, mods = ~ factor(alloc) + ablat, data = dat, knha = TRUE)
+#&gt; 
+#&gt; Mixed-Effects Model (k = 13; tau^2 estimator: REML)
+#&gt; 
+#&gt; tau^2 (estimated amount of residual heterogeneity):     0.1446 (SE = 0.1124)
+#&gt; tau (square root of estimated tau^2 value):             0.3803
+#&gt; I^2 (residual heterogeneity / unaccounted variability): 70.11%
+#&gt; H^2 (unaccounted variability / sampling variability):   3.35
+#&gt; R^2 (amount of heterogeneity accounted for):            53.84%
+#&gt; 
+#&gt; Test for Residual Heterogeneity:
+#&gt; QE(df = 9) = 26.2034, p-val = 0.0019
+#&gt; 
+#&gt; Test of Moderators (coefficients 2:4):
+#&gt; F(df1 = 3, df2 = 9) = 3.4471, p-val = 0.0650
+#&gt; 
+#&gt; Model Results:
+#&gt; 
+#&gt;                          estimate      se     tval    pval    ci.lb 
+#&gt; intrcpt                    0.2932  0.4188   0.7000  0.5016  -0.6543 
+#&gt; factor(alloc)random       -0.2675  0.3624  -0.7381  0.4793  -1.0873 
+#&gt; factor(alloc)systematic    0.0585  0.3925   0.1490  0.8849  -0.8294 
+#&gt; ablat                     -0.0273  0.0095  -2.8669  0.0186  -0.0488 
+#&gt;                            ci.ub 
+#&gt; intrcpt                   1.2407    
+#&gt; factor(alloc)random       0.5523    
+#&gt; factor(alloc)systematic   0.9463    
+#&gt; ablat                    -0.0058  * 
+#&gt; 
+#&gt; ---
+#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>omnibus检验基于<code>m=3</code>和<code>k-p=9</code>的自由度，而基于<code>k-p=9</code>自由度的t分布用于单个系数和检验的参考分布。添加参数<code>btt = c(2, 3)</code>针对性检验<span class="math inline">\(H_0:\beta_1=\beta_2=0\)</span>。</p>
+<p>通常，该校正会计算一个更为保守的p值。</p>
+</div>
+</div>
+<div id="其他函数与方法" class="section level2">
+<h2>其他函数与方法</h2>
+<p>下表提供了许多函数与方法的概览，其中一些我们这里加以详细讨论。</p>
+<table>
+<thead>
+<tr class="header">
+<th>函数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>print()</td>
+<td>标准输出方法</td>
+</tr>
+<tr class="even">
+<td>summary()</td>
+<td>提供模型统计量的额外输出方法</td>
+</tr>
+<tr class="odd">
+<td>coef()</td>
+<td>抽取计算模型的系数、对应的标准误、检验统计量、p值以及置信区间边界</td>
+</tr>
+<tr class="even">
+<td>vcov()</td>
+<td>抽取模型系数的方差-协方差矩阵</td>
+</tr>
+<tr class="odd">
+<td>fitstats()</td>
+<td>抽取严格的log似然度、偏差、AIC与BIC</td>
+</tr>
+<tr class="even">
+<td>fitted()</td>
+<td>拟合值</td>
+</tr>
+<tr class="odd">
+<td>predict()</td>
+<td>拟合/预测值（没有置信区间），可以用于新数据</td>
+</tr>
+<tr class="even">
+<td>blup()</td>
+<td>真实结果的最好的线性无偏预测（BLUPs）</td>
+</tr>
+<tr class="odd">
+<td>residuals()</td>
+<td>原始残差</td>
+</tr>
+<tr class="even">
+<td>rstandard()</td>
+<td>内部标准化残差</td>
+</tr>
+<tr class="odd">
+<td>rstudent()</td>
+<td>外部标准化残差</td>
+</tr>
+<tr class="even">
+<td>hatvalues()</td>
+<td>抽取hat矩阵对角元素</td>
+</tr>
+<tr class="odd">
+<td>weights()</td>
+<td>抽取用于模型拟合的权重</td>
+</tr>
+<tr class="even">
+<td>influence()</td>
+<td>大量案例与删除诊断</td>
+</tr>
+<tr class="odd">
+<td>leave1out()</td>
+<td>固定/随机效应模型留一诊断</td>
+</tr>
+<tr class="even">
+<td>forest()</td>
+<td>森林图</td>
+</tr>
+<tr class="odd">
+<td>funnel()</td>
+<td>漏斗图</td>
+</tr>
+<tr class="even">
+<td>radial()</td>
+<td>雷达图</td>
+</tr>
+<tr class="odd">
+<td>qqnorm()</td>
+<td>正态分位数-分位数图</td>
+</tr>
+<tr class="even">
+<td>plot()</td>
+<td>模型对象的通用绘图函数</td>
+</tr>
+<tr class="odd">
+<td>addpoly()</td>
+<td>为森林图添加多边形</td>
+</tr>
+<tr class="even">
+<td>ranktest()</td>
+<td>漏斗图不对称等级相关检验</td>
+</tr>
+<tr class="odd">
+<td>regtest()</td>
+<td>漏斗图不对称回归检验</td>
+</tr>
+<tr class="even">
+<td>trimfill()</td>
+<td>修剪和填充方法</td>
+</tr>
+<tr class="odd">
+<td>confint()</td>
+<td>随机/混合模型（残差）异质性置信区间（也会获取模型系数置信区间）</td>
+</tr>
+<tr class="even">
+<td>cumul()</td>
+<td>固定/随机效应模型累积元分析</td>
+</tr>
+<tr class="odd">
+<td>anova()</td>
+<td>根据模型统计量和似然度进行模型比较</td>
+</tr>
+<tr class="even">
+<td>permutest()</td>
+<td>模型系数置换检验</td>
+</tr>
+</tbody>
+</table>
+<div id="拟合预测值" class="section level3">
+<h3>拟合/预测值</h3>
+<p><code>fitted()</code>函数可以用来获取<code>k</code>个研究的拟合值。<code>predict()</code>函数提供了拟合值加上标准误、置信区间边界。</p>
+<p>例如，我们可以首先拟合一个随机效应模型获取对数化的相对风险，然后转换估计的评估log相对风险（即<span class="math inline">\(mu\)</span>）为指数形式。</p>
+<pre class="r"><code>res = rma(yi, vi, data = dat)
+predict(res, transf = exp, digits = 2)
+#&gt; 
+#&gt;  pred ci.lb ci.ub cr.lb cr.ub 
+#&gt;  0.49  0.34  0.70  0.15  1.55</code></pre>
+</div>
+<div id="原始和标准化残差" class="section level3">
+<h3>原始和标准化残差</h3>
+<p>许多元分析包含的一些研究观察效应值是异常乃至极端的，可视化观察是一种区分的方式，但这种方式在处理1个或多个协变量时存在问题。而且，元分析的研究通常一旦变化数量，方差也就跟着变了。</p>
+<p><strong>一种更正式的方式是检查残差与对应标准误直接的关系</strong>。</p>
+<p>在线性回归中存在许多中残差形式，可以被采纳到元分析。最重要的，<code>rstandard()</code>与<code>rstudent</code>提供了内部与外部标准化残差（<code>residual()</code>提供的是原始残差）。如果一个研究与模型拟合得很好，它的标准化残差会服从标准正态分布。</p>
+<pre class="r"><code>res = rma(yi, vi, mods = cbind(ablat, year), data = dat)
+rstudent(res)
+#&gt; 
+#&gt;      resid     se       z 
+#&gt; 1   0.2229 0.7486  0.2978 
+#&gt; 2  -0.2828 0.6573 -0.4303 
+#&gt; 3  -0.3826 0.7501 -0.5100 
+#&gt; 4  -1.0900 0.7768 -1.4032 
+#&gt; 5  -0.0774 0.5192 -0.1490 
+#&gt; 6   0.4519 0.4283  1.0551 
+#&gt; 7  -1.4061 0.5416 -2.5961 
+#&gt; 8   0.2321 0.4842  0.4793 
+#&gt; 9   0.0974 0.4803  0.2027 
+#&gt; 10 -0.4496 0.4554 -0.9872 
+#&gt; 11 -0.0557 0.4656 -0.1197 
+#&gt; 12  1.1864 0.8084  1.4677 
+#&gt; 13  0.7972 0.3742  2.1302</code></pre>
+</div>
+<div id="影响点诊断" class="section level3">
+<h3>影响点诊断</h3>
+<p>跟一般地回归分析类似，影响点会影响整个模型的拟合效果，我们需要进行诊断和处理。<code>influence()</code>函数提供下面的一些诊断措施用于元分析：</p>
+<ul>
+<li>外部标准化残差</li>
+<li>DFFITS值</li>
+<li>Cook距离</li>
+<li>协方差比率</li>
+<li>DFBETAS值</li>
+<li>轮流移除单个研究然后评估<span class="math inline">\(\tau^2\)</span></li>
+<li>轮流移除单个研究然后为（残差）异质性评估统计量</li>
+<li>hat矩阵对象元素</li>
+<li>模型拟合时给观测结果的权重</li>
+</ul>
+<p>例如，对于之前我们处理的混合效应模型：</p>
+<pre class="r"><code>res = rma(yi, vi, mods = cbind(ablat, year), data = dat)
+inf = influence(res)
+inf
+#&gt; $inf
+#&gt; 
+#&gt;    rstudent  dffits cook.d  cov.r tau2.del  QE.del    hat  weight inf 
+#&gt; 1    0.2978  0.1785 0.0348 1.8003   0.1317 28.3142 0.1725  3.3664     
+#&gt; 2   -0.4303 -0.2368 0.0620 1.9207   0.1308 27.5744 0.2367  4.8106     
+#&gt; 3   -0.5100 -0.1094 0.0125 1.2348   0.1191 27.7572 0.0487  2.7920     
+#&gt; 4   -1.4032 -2.9415 7.3179 3.5225   0.0906 23.1836 0.8082 11.2312   * 
+#&gt; 5   -0.1490 -0.0263 0.0032 2.6341   0.1497 27.2543 0.2483  9.0681     
+#&gt; 6    1.0551  0.8926 0.7205 1.3621   0.0994 21.2875 0.4061 12.4817     
+#&gt; 7   -2.5961 -0.6815 0.4173 0.2379   0.0544 19.1240 0.0766  4.4008     
+#&gt; 8    0.4793  0.3703 0.1899 2.9984   0.1498 24.1266 0.3627 12.8020     
+#&gt; 9    0.2027  0.1305 0.0237 2.2071   0.1501 28.2874 0.1030  8.7848     
+#&gt; 10  -0.9872 -0.3870 0.1470 1.0702   0.1072 24.7567 0.1310  7.9919     
+#&gt; 11  -0.1197 -0.0030 0.0052 2.8336   0.1583 25.5103 0.2214 11.9238     
+#&gt; 12   1.4677  0.2171 0.0469 0.9274   0.1059 26.1197 0.0235  2.2836     
+#&gt; 13   2.1302  0.8150 0.4994 0.2178   0.0498 21.4920 0.1612  8.0630     
+#&gt; 
+#&gt; $dfbs
+#&gt; 
+#&gt;    intrcpt   ablat    year 
+#&gt; 1   0.1492 -0.0622 -0.1491 
+#&gt; 2  -0.0949 -0.1001  0.0963 
+#&gt; 3  -0.0280 -0.0403  0.0283 
+#&gt; 4   2.2248 -2.5380 -2.2161 
+#&gt; 5   0.0350  0.0063 -0.0354 
+#&gt; 6   0.5935 -0.0008 -0.5954 
+#&gt; 7  -0.2659  0.5368  0.2591 
+#&gt; 8  -0.0394 -0.2110  0.0431 
+#&gt; 9   0.0728 -0.0865 -0.0718 
+#&gt; 10 -0.1188 -0.0973  0.1194 
+#&gt; 11  0.0631 -0.0343 -0.0631 
+#&gt; 12 -0.0413  0.0465  0.0419 
+#&gt; 13 -0.8276  0.6269  0.8279</code></pre>
+<p>相比于输出，我们可以绘制：</p>
+<pre class="r"><code>plot(inf, plotdfbs = TRUE)</code></pre>
+<p><img src="/cn/post/2019-11-20-use-metafor_files/figure-html/unnamed-chunk-24-1.png" width="672" /><img src="/cn/post/2019-11-20-use-metafor_files/figure-html/unnamed-chunk-24-2.png" width="672" /></p>
+<p>上图结果中，发现研究7和13为模型引入了额外的异质性（即轮流移除研究7或13然后评估<span class="math inline">\(\tau^2\)</span>，发现减少），但这两者只有少量的影响。但研究4对模型异质性有极少的影响，但却极大影响了模型的拟合（Cook距离图非常明显，在hat图中也反应了出来）。</p>
+<p>对于没有协变量的模型，我们可以使用<code>leave1out()</code>函数重复拟合模型，每次留下一个研究。例如：</p>
+<pre class="r"><code>res = rma(yi, vi, data = dat)
+leave1out(res, transf = exp, digits = 3)
+#&gt; 
+#&gt;    estimate   zval  pval ci.lb ci.ub       Q    Qp  tau2     I2     H2 
+#&gt; 1     0.493 -3.722 0.000 0.340 0.716 151.583 0.000 0.336 93.226 14.762 
+#&gt; 2     0.520 -3.620 0.000 0.365 0.741 145.318 0.000 0.293 92.254 12.910 
+#&gt; 3     0.504 -3.692 0.000 0.350 0.725 150.197 0.000 0.321 92.935 14.155 
+#&gt; 4     0.533 -3.558 0.000 0.377 0.754  96.563 0.000 0.263 90.412 10.430 
+#&gt; 5     0.466 -3.984 0.000 0.320 0.678 151.320 0.000 0.328 92.763 13.819 
+#&gt; 6     0.491 -3.550 0.000 0.332 0.727 128.187 0.000 0.360 90.912 11.003 
+#&gt; 7     0.519 -3.631 0.000 0.365 0.740 145.830 0.000 0.293 92.278 12.950 
+#&gt; 8     0.452 -4.418 0.000 0.317 0.643  67.986 0.000 0.273 87.031  7.711 
+#&gt; 9     0.477 -3.769 0.000 0.324 0.701 152.205 0.000 0.349 93.213 14.735 
+#&gt; 10    0.520 -3.544 0.000 0.363 0.747 139.827 0.000 0.299 92.232 12.874 
+#&gt; 11    0.469 -3.871 0.000 0.319 0.688 151.466 0.000 0.340 91.811 12.211 
+#&gt; 12    0.468 -4.173 0.000 0.327 0.668 150.787 0.000 0.308 92.678 13.658 
+#&gt; 13    0.460 -4.191 0.000 0.319 0.661 149.788 0.000 0.304 92.344 13.062</code></pre>
+</div>
+<div id="绘图函数森林漏斗雷达与qq图" class="section level3">
+<h3>绘图函数（森林、漏斗、雷达与QQ图）</h3>
+<p><code>metafor</code>包提供了一些频繁用于元分析的图形函数。</p>
+<p>我们在之前就已经展示了森林图的绘制，下面用另一个例子展示如何绘制常见的效应大小与对象的取样方差，并解释<code>addpoly()</code>如何添加多边形。</p>
+<pre class="r"><code>forest(dat$yi, dat$vi, atransf = exp, ylim = c(-3.5, 16), 
+       at = log(c(0.05, 0.25, 1, 4, 20)), xlim = c(-9, 7),
+       slab = paste(dat$author, dat$year, sep = &quot;, &quot;))
+res = rma(yi, vi, mods = cbind(ablat), data = dat)
+preds = predict(res, newmods = c(10, 30, 50))
+addpoly(preds$pred, sei = preds$se, atransf = exp,
+        mlab = c(&quot;10 Degrees&quot;, &quot;30 Degrees&quot;, &quot;50 Degrees&quot;))
+text(-9, 15, &quot;Author(s) and Year&quot;, pos = 4, font =2)
+text(7, 15, &quot;Relative Risk [95% CI]&quot;, pos = 2, font =2)
+abline(h=0)</code></pre>
+<p><img src="/cn/post/2019-11-20-use-metafor_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<p>函数<code>funnel()</code>可以用来创建漏斗图，用于诊断异质性的出现以及确定的出版偏差。对于没有协变量的模型，<strong>该图为观察到的结果作为水平轴，对应的标准误作为垂直轴</strong>。一条垂直线显示了基于模型的结果。伪置信区间和它的1.96 SE边界绘制出来了，SE是垂直轴的标准误。对于涉及协变量的模型，<strong>该图显示了残差作为水平轴，标准误作为垂直轴</strong>。</p>
+<p>下面分别展示没有和有协变量的漏斗图：</p>
+<pre class="r"><code>res = rma(yi, vi, data = dat)
+funnel(res, main = &quot;Random-Effects Model&quot;)</code></pre>
+<p><img src="/cn/post/2019-11-20-use-metafor_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<pre class="r"><code>res = rma(yi, vi, mods = cbind(ablat), data = dat)
+funnel(res, main = &quot;Mixed-Effects Model&quot;)</code></pre>
+<p><img src="/cn/post/2019-11-20-use-metafor_files/figure-html/unnamed-chunk-27-2.png" width="672" /></p>
+<p>雷达图用来评估有不同精度结果之间的一致性。固定效应模型与随机效应模型的评估方式有所不同，在图中也会显示。</p>
+<pre class="r"><code>res = rma(yi, vi, data = dat, method = &quot;FE&quot;)
+radial(res, main = &quot;Fixed-Effects Model&quot;)</code></pre>
+<p><img src="/cn/post/2019-11-20-use-metafor_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<pre class="r"><code>res = rma(yi, vi, data = dat, method = &quot;REML&quot;)
+radial(res, main = &quot;Random-Effects Model&quot;)</code></pre>
+<p><img src="/cn/post/2019-11-20-use-metafor_files/figure-html/unnamed-chunk-28-2.png" width="672" /></p>
+<p><code>qqnorm()</code>函数创建的Q-Q正态图是元分析非常有用的诊断工具。</p>
+<pre class="r"><code>res = rma(yi, vi, data = dat)
+qqnorm(res, main = &quot;Random-Effects Model&quot;)</code></pre>
+<p><img src="/cn/post/2019-11-20-use-metafor_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+<pre class="r"><code>res = rma(yi, vi, mods = cbind(ablat), data = dat)
+qqnorm(res, main = &quot;Mixed-Effects Model&quot;)</code></pre>
+<p><img src="/cn/post/2019-11-20-use-metafor_files/figure-html/unnamed-chunk-29-2.png" width="672" /></p>
+</div>
+<div id="漏斗图非对称检验" class="section level3">
+<h3>漏斗图非对称检验</h3>
+<p><code>ranktest()</code>与<code>regtest()</code>函数用来执行秩（等级）相关检验与回归检验。</p>
+<p>对于回归检验，函数参数：</p>
+<pre class="r"><code>regtest(x, model = &quot;rma&quot;, predictor = &quot;sei&quot;, ni = NULL, ...)</code></pre>
+<p><code>x</code>是拟合的模型对象。我们通过<code>model</code>参数选定模型，<code>model= &quot;lm&quot;</code>是加权回归，而<code>model=&quot;rma&quot;</code>是标准的元分析模型（默认）。<code>predictor</code>指定检验的度量，比如标准误（默认）、取样方差（<code>vi</code>），样本大小的倒数（<code>ninv</code>）等。</p>
+<pre class="r"><code>res = rma(yi, vi, data = dat)
+regtest(res, model = &quot;lm&quot;)
+#&gt; 
+#&gt; Regression Test for Funnel Plot Asymmetry
+#&gt; 
+#&gt; model:     weighted regression with multiplicative dispersion
+#&gt; predictor: standard error
+#&gt; 
+#&gt; test for funnel plot asymmetry: t = -1.4013, df = 11, p = 0.1887</code></pre>
+<pre class="r"><code>res = rma(ai = tpos, bi = tneg, ci = cpos, di = cneg, data = dat,
+          measure = &quot;RR&quot;, mods = cbind(ablat, year))
+regtest(res, predictor = &quot;ni&quot;)
+#&gt; 
+#&gt; Regression Test for Funnel Plot Asymmetry
+#&gt; 
+#&gt; model:     mixed-effects meta-regression model
+#&gt; predictor: sample size
+#&gt; 
+#&gt; test for funnel plot asymmetry: z = 0.7470, p = 0.4550</code></pre>
+</div>
+</div>
