@@ -1,0 +1,657 @@
+---
+title: "R-面向对象编程（一）"
+author: "王诗翔"
+date: "2018-08-15"
+lastmod: "`r Sys.Date()`"
+slug: ""
+categories: r
+tags:
+- r
+- class
+- instance
+- S3
+- S4
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, dev = "png", comment = "#>")
+#Sys.setenv("LANGUAGE"="EN") # Embed this for outputing English message
+#Sys.setlocale('LC_ALL','C') # Embed this directly in the Rmarkdown script that contains the Chinese character comment
+options(digits=3)
+options(max.print=200)
+```
+
+
+>内容：
+>
+>* S3
+**借助面向对象的编码风格，并加以合理的抽象，我们可以简单地模仿对象的重要特性，于是，问题和模型之间的转换就变得清晰自然**。
+
+## S3对象
+
+**S3对象系统是一个简单且宽松的面向对象系统**。每个基本对象的类型都有一个S3类名称。比如`integer`,`numeric`, `character`, `logical`, `list`和`data.frame`都属于S3类。
+
+举例，下面`vec1`类型是`double`，意味其内部类型或者说存储模式是双精度浮点型数字。但它的类是`numeric`。
+
+```{r}
+vec1 = c(1, 2, 3)
+typeof(vec1)
+class(vec1)
+```
+
+下面`data1`类型是`list`，意味`data1`的内部类型或者存储模式是列表，但它的S3类是`data.frame`。
+
+```{r}
+data1 = data.frame(x = 1:3, y = rnorm(3))
+typeof(data1)
+class(data1)
+```
+
+理解对象的**内部类型**与**S3类**区别是一个重点。
+
+一个类可以用多种方法定义它的行为，尤其是它与其他类的关系。在S3系统中，我们可以创建**泛型函数（generic function）**，对于不同的类，由泛型函数决定调用哪个方法，这就是**S3方法分派（method dispatch）**的工作机理。
+
+对象的类不同，其方法分派不同，因此，区别对象的类十分重要。
+
+R中有许多基于某个通用目的定义的S3泛型函数，我们先看看`head()`与`tail()`。`head()`展示一个数据对象的前n条记录，`tail()`展示后n条。这跟`x[1:n]`是不同的，因为对不同的类的对象，记录的定义是不同的。对原子向量（数值、字符向量等），前n条记录指前n个元素。但对于数据框，前n条记录指前n行而不是前n列。
+
+查看下`head`的函数内部信息：
+
+```{r}
+head
+```
+
+我们发现函数中并没有实际的操作细节。它调用`UseMethod("head")`来让**泛型函数**`head()`执行方法分派，也就是说，对于不同的类，它可能有不同的执行方式（过程）。
+
+```{r}
+num_vec = c(1, 2, 3, 4, 5)
+data_frame = data.frame(x = 1:5, y = rnorm(5))
+```
+
+调用函数：
+
+```{r}
+head(num_vec, 3)
+head(data_frame, 3)
+```
+
+我们可以使用`methods()`查看`head()`函数可以实现的所有方法：
+
+```{r}
+methods("head")
+```
+
+可以看到`head`不仅仅适用于向量和数据框。
+
+**注意**，方法都是以`method.class`形式表示，如果我们输入一个`data.frame`，`head()`会调用`head.data.frame`方法。当没有方法可以匹配对象的类时，函数会自动转向`method.default`方法。这就是**方法分派**的一个实际过程。
+
+
+### 内置类和方法
+
+**S3泛型函数和方法在统一各个模型的使用方式上是最有用的**。比如我们可以创建一个线性模型，以不同角度查看模型信息：
+
+```{r}
+lm1 = lm(mpg ~ cyl + vs, data = mtcars)
+```
+
+**线性模型本质上是由模型拟合产生的数据字段构成的列表**，所以`lm1`的类型是`list`，但是它的类是`lm`，因此泛型函数根据`lm`选择方法：
+
+```{r}
+typeof(lm1)
+class(lm1)
+```
+
+甚至没有明确调用S3泛型函数时，S3方法分派也会自动进行。如果我们输入`lm1`：
+
+```{r}
+lm1
+```
+
+实际上，`print()`函数被默默地调用了：
+
+```{r}
+print(lm1)
+```
+
+为什么打印出来的不像列表呢？因为`print()`是一个泛型函数，它为`lm`选择了一个方法来打印线性模型最重要的信息。我们可以调用`getS3method("print", "lm")`获取实际使用的方法与想象的进行验证：
+
+```{r}
+identical(getS3method("print", "lm"), stats:::print.lm)
+```
+
+`print()`展示模型的一个简要版本，`summary()`展示更详细的信息。`summary()`也是一个泛型函数，它为模型的所有类提供了许多方法：
+
+```{r}
+summary(lm1)
+```
+
+实际上，`summary()`的输出结果也是一个对象，包含的数据都可以被访问。在这个例子里，这个对象是一个列表，是`summary.lm`类，它有可供`print()`选择的自己的方法：
+
+```{r}
+lm1summary = summary(lm1)
+typeof(lm1summary)
+class(lm1summary)
+```
+
+查看列表成分：
+
+```{r}
+names(lm1summary)
+```
+
+还有一些其他有用的且与模型相关的泛型函数，例如`plot()`,`predict()`。不同的内置模型和第三方扩展包提供的模型都能实现这些泛型函数。
+
+举例，我们可以对线性模型调用`plot()`函数：
+
+```{r}
+oldpar = par(mfrow = c(2, 2))
+plot(lm1)
+par(oldpar)
+```
+
+为避免依次生成这4个图，我们用`par()`将绘图区域划分为2x2的子区域。
+
+利用`predict()`我们可以使用模型对新数据进行预测，泛型函数`predict()`自动选择正确的方法用新数据进行预测：
+
+```{r}
+predict(lm1, data.frame(cyl = c(6, 8), vs = c(1, 1)))
+```
+
+**这个函数既可以用在样本内，又可以用在样本外**。如果我们为模型提供新数据，它就进行样本外预测。
+
+下面我们创建一幅真实值和拟合值的散点图，看一看线性模型的预测效果：
+
+```{r}
+plot(mtcars$mpg, fitted(lm1))
+```
+
+这里的`fitted()`也是泛型函数，等价于`lm1$fitted.values`，拟合值等于用原始数据得到的预测值，即用原始数据构建的模型预测原始数据，`predict(lm1, mtcars)`。
+
+真实值与拟合值的差称为残差，可以通过另一个泛型函数`residuals()`获得。
+
+```{r}
+plot(density(residuals(lm1)),
+     main = "Density of lm1 residuals")
+```
+
+这些泛型函数不仅适用于`lm`、`glm`和其他内置模型，也适用于其他扩展包提供的模型。
+
+例如我们使用`rpart`包，使用前面的数据和公式拟合一个回归树模型。
+
+```{r}
+if(!require("rpart")) install.packages("rpart")
+library(rpart)
+```
+
+```{r}
+tree_model = rpart(mpg ~ cyl + vs, data = mtcars)
+```
+
+我们之所以能够使用相同的方法，**是因为这个包的作者希望函数调用的方式与调用R内置函数保持一致**。
+
+```{r}
+typeof(tree_model)
+class(tree_model)
+```
+
+打印模型：
+
+```{r}
+print(tree_model)
+```
+
+更详细信息：
+
+```{r}
+summary(tree_model)
+```
+
+下面对结果进行可视化，得到树图：
+
+```{r}
+oldpar = par(xpd = NA)
+plot(tree_model)
+text(tree_model, use.n = TRUE)
+par(oldpar)
+```
+
+### 为现有类定义泛型函数
+
+**在定义泛型函数时，我们创建一个函数去调用`UseMethod()`出发方法分派。然后对泛型函数想要作用的类创建带有`method.class`形式的方法函数，同时还要创建带有`method.default`形式的默认方法来应对所有其他情况**。
+
+下面我们创建一个新的泛型函数`generic_head()`，它有两个参数：**输入对象`x`和需要提取的记录条数`n`**。泛型函数仅仅调用`UseMethod("generic_head")`来让R根据输入对象`x`的类执行方法分派。
+
+```{r}
+generic_head = function(x, n)
+    UseMethod("generic_head")
+```
+
+对原子向量提取前`n`个元素，因此分别定义`generic_head.numeric`、`generic_head.character`等，另外最好定义一个默认方法捕获不能匹配的其他所有情况：
+
+```{r}
+generic_head.default = function(x, n){
+    x[1:n]
+}
+```
+
+现在`generic_head`只有一种方法，等于没有使用泛型函数：
+
+```{r}
+generic_head(num_vec, 3)
+```
+
+现在我们还没有定义针对`data.frame`类的方法，所以当我们输入数据框时，函数会自动转向`generic_head.default`，又因为提取的数量超出列数，所以下面的运行会报错：
+
+```{r, error=TRUE}
+generic_head(data_frame, 3)
+```
+
+下面为`data.frame`定义方法：
+
+```{r}
+generic_head.data.frame = function(x, n) {
+    x[1:n, ]
+}
+```
+
+现在函数就可以正常运行了：
+
+```{r}
+generic_head(data_frame, 3)
+```
+
+因为没有对参数进行检查，所以S3类执行的方法并不稳健。
+
+### 定义新类并创建对象
+
+现在我们来尝试构建新类，`class(x)`获取`x`的类，而`class(x) = some_class`将`x`的类设为`some_class`。
+
+#### 使用列表作为底层数据结构
+
+列表可能是创建新类时使用最广泛的数据结构，类描述了对象的类型和对象交互作用的方法，其中对象用于存储多种多样、长度不一的数据。
+
+下面我们定义一个叫`product`的函数，创建一个由`name`、`price`和`inventory`构成的列表，该列表的类是`product`。我们还将自己定义它的`print`方法。
+
+```{r}
+productor = function(name, price, inventory){
+    obj = list(name = name,
+               price = price,
+               inventory = inventory)
+    class(obj) = "product"
+    obj
+}
+```
+
+上面我们创建了一个列表，然后将它的类替换为`product`。我们还可以使用`structure()`：
+
+```{r}
+product = function(name, price, inventory){
+    structure(list(name = name,
+              price = price,
+              inventory = inventory),
+              class = "product")
+}
+```
+
+现在我们调用`product()`函数生成`product`类的实例：
+
+```{r}
+laptop = product("Laptop", 499, 300)
+```
+
+
+查看它的结构和S3类方法分派：
+
+```{r}
+typeof(laptop)
+class(laptop)
+```
+
+此时我们还没有为该类定义任何方法，如果`print`将按默认列表输出：
+
+```{r}
+print(laptop)
+```
+
+下面我们自定义一个`print`方法，使得输出更紧凑：
+
+```{r}
+print.product = function(x, ...){
+    cat("<product>\n")
+    cat("name:", x$name, "\n")
+    cat("price:", x$price, "\n")
+    cat("inventory:", x$inventory, "\n")
+    invisible(x)
+}
+```
+
+`print`方法返回输入对象本身以备后用，这是一项约定。
+
+
+现在我们再来看看输出：
+
+```{r}
+laptop
+```
+
+我们可以像操作列表一样访问`laptop`的成分：
+
+```{r}
+laptop$name
+laptop$price
+laptop$inventory
+```
+
+如果我们创建另一个对象，并将两者放入一个列表然后打印，`print.product`仍然会被调用：
+
+```{r}
+cellphone = product("Phone", 249, 12000)
+products = list(laptop, cellphone)
+products
+```
+
+当`products`以列表形式被打印时，会对每个元素调用`print()`泛型函数，再由泛型函数执行方法分派。
+
+**大多数其他编程语言都对类有正式的定义，而S3没有，所以创建一个S3对象比较简单，但我们需要对输入参数进行充分的检查，以确保创建的对象与所属类内部一致**。
+
+除了定义新类，我们还可以定义新的泛型函数。下面创建一个叫`value`的泛型函数，它通过测量产品的库存值来为`product`调用实施方法：
+
+```{r}
+value = function(x, ...)
+    UseMethod("value")
+value.default = function(x, ...){
+    stop("Value is undefined")
+}
+value.product = function(x, ...){
+    x$price * x$inventory
+}
+```
+
+针对其他类，`value`调用`default`方法并终止运行。
+
+```{r, error=TRUE}
+value(laptop)
+value(cellphone)
+value(data_frame)
+```
+
+#### 使用原子向量作为底层数据结构
+
+上面我们已经演示了创建S3类和泛型函数的过程，有时候我们需要使用原子向量创建新类，下面展示**百分比**形式向量创建过程。
+
+首先定义一个`percent`函数，它检查输入是否是数值向量并将输入对象类型改为`percent`，`percent`类继承`numeric`类：
+
+```{r}
+percent = function(x){
+    stopifnot(is.numeric(x))
+    class(x) = c("percent", "numeric")
+    x
+}
+```
+
+**这里的继承指方法分派首先在`percent`类中方法找，找不到就去`numeric`类方法中找。寻找的顺序由类名称的顺序决定**。
+
+```{r}
+pct = percent(c(0.1, 0.05, 0.25))
+pct
+```
+
+现在定义方法，让`percent`类以百分比形式存在：
+
+```{r}
+as.character.percent = function(x, ...){
+    paste0(as.numeric(x) * 100, "%")
+}
+```
+
+现在我们可以得到字符型了：
+
+```{r}
+as.character(pct)
+```
+
+也可以直接调用`as.character()`为`percent`提供一个`format`方法：
+
+```{r}
+format.percent = function(x, ...){
+    as.character(x, ...)
+}
+```
+
+`format`现在有相同的效果：
+
+```{r}
+format(pct)
+```
+
+类似地，我们调用`format.percent()`为`percent`提供`print`方法：
+
+```{r}
+print.percent = function(x, ...){
+    print(format.percent(x), quote = FALSE)
+}
+```
+
+这里指定`quote=FALSE`使得打印的格式化字符串更像数字而非字符串。
+
+```{r}
+pct
+```
+
+注意，使用算术运算符操作后会自动保持输出向量类不变：
+
+```{r}
+pct + 0.2
+pct * 0.5
+```
+
+
+可惜使用其他函数可能不会保持输入对象的类，比如`sum()`、`mean()`等：
+
+```{r}
+sum(pct)
+mean(pct)
+max(pct)
+min(pct)
+```
+
+为了确保百分比形式保存，我们对`percent`类实施一些操作：
+
+```{r}
+sum.percent = function(...){
+    percent(NextMethod("sum"))
+}
+mean.percent = function(x, ...){
+    percent(NextMethod("mean"))
+}
+max.percent = function(...){
+    percent(NextMethod("max"))
+}
+min.percent = function(...){
+    percent(NextMethod("max"))
+}
+```
+
+`NextMethod("sum")`对`numeric`类调用`sum()`函数，然后再调用`percent()`函数将输出的数值向量包装为百分比形式：
+
+```{r}
+sum(pct)
+mean(pct)
+max(pct)
+min(pct)
+```
+
+但如果我们组合一个百分比向量和其他数值型的值，`percent`类又会消失掉，我们进行相同的改进：
+
+```{r}
+c.percent = function(x, ...){
+    percent(NextMethod("c"))
+}
+```
+
+```{r}
+c(pct, 0.12)
+```
+
+dan....我们取子集又会有问题
+
+```{r}
+pct[1:3]
+pct[[2]]
+```
+
+同样地，我们对`[`和`[[`函数进行改造：
+
+```{r}
+`[.percent` = function(x, i) {
+    percent(NextMethod('['))
+}
+`[[.percent` = function(x, i){
+    percent(NextMethod("[["))
+}
+```
+
+此时显示就正常了：
+
+```{r}
+pct[1:3]
+pct[[2]]
+```
+
+实现这些方法后，我们可以在数据框中使用：
+
+```{r}
+data.frame(id = 1:3, pct)
+```
+
+#### S3继承
+
+假设我们想要对一些交通工具，例如汽车、公共汽车和飞机进行建模。这些交通工具有一些共性，它们都有名称、速度、位置，而且都可以移动。为了形象化描述它们，我们定义一个基本类，称为`vehichle`，用于存储公共部分，另外定义`car`、`bus`和`airplane`这3个子类，它们继承`vehichle`，但具有自定义的行为。
+
+首先，定义一个函数来创建`vehicle`对象，它本质上是一个环境。**我们选择环境而不是列表，因为需要用到环境的引用语义，也就是说，我们传递一个对象，然后原地修改它，而不会创建这个对象的副本。因此无论什么位置将对象传递给函数，对象总是指向同一个交通工具**。
+
+```{r}
+Vehicle = function(class, name, speed) {
+    obj = new.env(parent = emptyenv())
+    obj$name = name
+    obj$speed = speed
+    obj$position = c(0, 0, 0)
+    class(obj) = c(class, "vehicle")
+    obj
+}
+```
+
+
+这里的`class(obj) = c(class, "vehicle")`似乎有点语义不明。但前者是基础函数，后者是输入参数，R能够判断好。
+
+下面函数创建继承`vehicle`的`car`、`bus`和`airplane`的特定函数：
+
+```{r}
+Car = function(...){
+    Vehicle(class = "car", ...)
+}
+Bus = function(...){
+    Vehicle(class = "bus", ...)
+}
+Airplane = function(...){
+    Vehicle(class = "airplane", ...)
+}
+```
+
+现在我们可以为每一个子类创建实例：
+
+```{r}
+car = Car("Model-A", 80)
+bus = Bus("Medium-Bus", 40)
+airplane = Airplane("Big-Plane", 800)
+```
+
+下面为`vehicle`提供通用的`print`方法：
+
+```{r}
+print.vehicle = function(x, ...){
+    cat(sprintf("<vehicle: %s>\n", class(x)[1]))
+    cat("name:", x$name, "\n")
+    cat("speed:", x$speed, "km/h\n")
+    cat("position:", paste(x$position, collapse = ", "), "\n")
+}
+```
+
+因为我们定义的3个子类都有了继承，所以`print`方法通用：
+
+```{r}
+car
+bus
+airplane
+```
+
+因为交通工具可以移动，我们创建一个泛型函数`move`来表征这样的状态：
+
+```{r}
+move = function(vehicle, x, y, z) {
+    UseMethod("move")
+}
+move.vehicle = function(vehicle, movement) {
+    if (length(movement) != 3){
+        stop("All three dimensions must be specified to move a vehicle")
+    }
+    
+    vehicle$position = vehicle$position + movement
+    vehicle
+}
+```
+
+
+这里我们将汽车和公共汽车的移动限定在二维平面上。
+
+```{r}
+move.bus = move.car = function(vehicle, movement) {
+    if (length(movement) != 2){
+        stop("This vehicle only supports 2d movement")
+    }
+    
+    movement = c(movement, 0)
+    NextMethod("move")
+}
+```
+
+这里我们将`movement`的第3个纬度强制转换为0，然后调用`NextMethod("move")`来调用`move.vehicle()`。
+
+飞机既可以在2维也可以在3维：
+
+```{r}
+move.airplane = function(vehicle, movement) {
+    if (length(movement) == 2){
+        movement = c(movement, 0)
+    }
+    
+    NextMethod("move")
+}
+```
+
+下载3种方法都实现了，进行测试。
+
+```{r, error=TRUE}
+move(car, c(1, 2, 3))
+```
+
+只能输入二维，所以提示报错了。
+
+```{r}
+move(car, c(1, 2))
+```
+
+```{r}
+move(airplane, c(1, 2))
+```
+
+飞机，3维：
+
+```{r}
+move(airplane, c(20,100,50))
+```
+
+**注意，airplane的位置是累积的**。因为前面说过，它本质是一个环境，因此修改`move.vehicle()`中的`position`不会创建一个副本再修改，而是本地修改！
+
+
+> 学习自《R语言编程指南》

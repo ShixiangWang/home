@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    
+    <link rel="stylesheet" href="../../../fonts/academicons-1.8.6/css/academicons.min.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../logo/bodhi.png"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    
+    <title>R-面向对象编程（二） - 王诗翔</title>
+    
+     
+    <meta property="og:title" content="R-面向对象编程（二） - Shixiang Wang | 王诗翔">
+    
+
+    
+      
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="../../../css/style.css" />
+    <link rel="stylesheet" href="../../../css/mystyle.css" /> 
+    <link rel="stylesheet" href="../../../css/fonts.css" />
+    
+<script async src="../../../js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="../../../css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="../../../"><img src="https://avatars1.githubusercontent.com/u/25057508?s=460&amp;v=4" alt="Shixiang Wang" /></a></h1>
+
+
+
+      <nav class="menu">
+        <input id="menu-check" type="checkbox" />
+        <label id="menu-label" for="menu-check" class="unselectable">
+          <span class="icon close-icon">✕</span>
+          <span class="icon open-icon">☰</span>
+          <span class="text">Menu</span>
+        </label>
+        <ul>
+        
+        
+        <li><a href="../../../">首页</a></li>
+        
+        <li><a href="../../../cn/about/">关于</a></li>
+        
+        <li><a href="../../../cn/post/">博客</a></li>
+        
+        <li><a href="../../../cn/read/">读书</a></li>
+        
+        <li><a href="../../../cn/writing">写作</a></li>
+        
+        <li><a href="../../../cn/research/">研究</a></li>
+        
+        <li><a href="../../../cn/tools/">工具</a></li>
+        
+        <li><a href="../../../cn/cv-cn/shixiang">简历</a></li>
+        
+        <li><a href="../../../logo/qrcode.jpg">公众号</a></li>
+        
+        <li><a href="https://www.jianshu.com/u/b6608e27dc74">简书</a></li>
+        
+        <li><a href="../../../cn/todo">ToDo</a></li>
+        
+        <li><a href="../../../en/">English</a></li>
+        
+        
+
+<li class="menu-extra"></li>
+
+
+
+
+
+
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2019-11-20-high-level-OOP-two.Rmd" target="_blank">编辑</a></li>
+
+
+<li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+        </ul>
+      </nav>
+    </header>
+
+    <article class="main">
+      <header class="title">
+        
+
+<h1>R-面向对象编程（二）</h1>
+
+
+
+<h3>王诗翔 &middot 
+2018-08-18</h3> 
+
+
+   
+  
+
+
+      </header>
+
+
+
+
+
+<blockquote>
+<p>内容：</p>
+<ul>
+<li>S4</li>
+<li>引用类（Reference class, RC）</li>
+<li>R6扩展包
+## S4对象系统</li>
+</ul>
+</blockquote>
+<p>在S3之后，R引入一个更正式更严谨的面向对象系统S4。<strong>这个系统允许我们使用预定义和继承结构来正式定义类。它也支持多重分派，即根据泛型函数的多个参数的类选择方法</strong>。</p>
+<p>下面学习如何定义S4类和方法。</p>
+<div id="定义s4类" class="section level3">
+<h3>定义S4类</h3>
+<p>与S3不同，S4类要求对类和方法有正式定义。为了定义一个S4类，我们需要调用<code>setClass()</code>并提供一个类成员的表示，该表示称为<strong>字段</strong>（slot）。</p>
+<p>下面我们用S4类重新定义<code>product</code>对象：</p>
+<pre class="r"><code>setClass(&quot;Product&quot;,
+         representation(name = &quot;character&quot;,
+                        price = &quot;numeric&quot;,
+                        inventory = &quot;integer&quot;))</code></pre>
+<p>类被定义后，我们可以使用<code>getSlots()</code>从类定义中获取字段：</p>
+<pre class="r"><code>getSlots(&quot;Product&quot;)
+#&gt;        name       price   inventory 
+#&gt; &quot;character&quot;   &quot;numeric&quot;   &quot;integer&quot;</code></pre>
+<p>现在我们使用<code>new()</code>创建一个新的<code>S4</code>类对象实例，并指定字段的取值：</p>
+<pre class="r"><code>laptop = new(&quot;Product&quot;, name = &quot;Laptop-A&quot;, price = 299, inventory = 1000)
+#&gt; Error in validObject(.Object): invalid class &quot;Product&quot; object: invalid object for slot &quot;inventory&quot; in class &quot;Product&quot;: got class &quot;numeric&quot;, should be or extend class &quot;integer&quot;</code></pre>
+<p>你可能会奇怪为什么报错。但仔细查看你会发现<code>inventory</code>必须是整数，而我们输入的1000是数值，它的类不是<code>integer</code>。</p>
+<pre class="r"><code>laptop = new(&quot;Product&quot;, name = &quot;Laptop-A&quot;, price = 299, inventory = 1000L)
+laptop
+#&gt; An object of class &quot;Product&quot;
+#&gt; Slot &quot;name&quot;:
+#&gt; [1] &quot;Laptop-A&quot;
+#&gt; 
+#&gt; Slot &quot;price&quot;:
+#&gt; [1] 299
+#&gt; 
+#&gt; Slot &quot;inventory&quot;:
+#&gt; [1] 1000</code></pre>
+<p>现在实例<code>laptop</code>创建好了。</p>
+<p>对于S4对象我们仍然可以用<code>typeof()</code>和<code>class()</code>获取信息：</p>
+<pre class="r"><code>typeof(laptop)
+#&gt; [1] &quot;S4&quot;
+class(laptop)
+#&gt; [1] &quot;Product&quot;
+#&gt; attr(,&quot;package&quot;)
+#&gt; [1] &quot;.GlobalEnv&quot;</code></pre>
+<p>这次对象的类型是<code>S4</code>，而非列表或其他数据类型，而且它的类是S4类的名字。</p>
+<p>我们可以使用检查函数判断是否是S4：</p>
+<pre class="r"><code>isS4(laptop)
+#&gt; [1] TRUE</code></pre>
+<p>与使用<code>$</code>访问列表或环境不同，我们需要使用<code>@</code>来访问一个S4对象的字段：</p>
+<pre class="r"><code>laptop@price * laptop@inventory
+#&gt; [1] 299000</code></pre>
+<p>另外我们可以调用<code>slot()</code>函数以字符形式提供字段名来访问一个字段。</p>
+<pre class="r"><code>slot(laptop, &quot;price&quot;)
+#&gt; [1] 299</code></pre>
+<p>我们可以直接修改字段的值，但需要符合类定义：</p>
+<pre class="r"><code>laptop@price = 299</code></pre>
+<pre class="r"><code>laptop@inventory = 200
+#&gt; Error in (function (cl, name, valueClass) : assignment of an object of class &quot;numeric&quot; is not valid for @&#39;inventory&#39; in an object of class &quot;Product&quot;; is(value, &quot;integer&quot;) is not TRUE</code></pre>
+<p>因为类已经预定义好，所以不能给类新增字段：</p>
+<pre class="r"><code>laptop@value = laptop@price * laptop@inventory
+#&gt; Error in (function (cl, name, valueClass) : &#39;value&#39; is not a slot in class &quot;Product&quot;</code></pre>
+<p>现在我们另建一个实例，只提供部分字段值：</p>
+<pre class="r"><code>toy = new(&quot;Product&quot;, name = &quot;Toys&quot;, price = 10)
+toy
+#&gt; An object of class &quot;Product&quot;
+#&gt; Slot &quot;name&quot;:
+#&gt; [1] &quot;Toys&quot;
+#&gt; 
+#&gt; Slot &quot;price&quot;:
+#&gt; [1] 10
+#&gt; 
+#&gt; Slot &quot;inventory&quot;:
+#&gt; integer(0)</code></pre>
+<p>可以看到<code>inventory</code>被默认赋值空整数向量。如果我们觉得它不是一个合意的默认值，我们可以进行指定一个模板（类的原型）。</p>
+<pre class="r"><code>setClass(&quot;Product&quot;,
+         representation(name = &quot;character&quot;,
+                        price = &quot;numeric&quot;,
+                        inventory = &quot;integer&quot;),
+         prototype(name = &quot;Unnamed&quot;, price = NA_real_, inventory = 0L))</code></pre>
+<p>然后我们重建<code>toy</code>：</p>
+<pre class="r"><code>toy = new(&quot;Product&quot;, name = &quot;Toys&quot;, price = 10)
+toy
+#&gt; An object of class &quot;Product&quot;
+#&gt; Slot &quot;name&quot;:
+#&gt; [1] &quot;Toys&quot;
+#&gt; 
+#&gt; Slot &quot;price&quot;:
+#&gt; [1] 10
+#&gt; 
+#&gt; Slot &quot;inventory&quot;:
+#&gt; [1] 0</code></pre>
+<p>如果<code>inventory = -1L</code>很显然没有意义，但我们无法在原型以及定义中进行限定，那么该如何做呢？</p>
+<pre class="r"><code>bottle = new(&quot;Product&quot;, name = &quot;Bottle&quot;, price = 1.5, inventory = -2L)
+bottle
+#&gt; An object of class &quot;Product&quot;
+#&gt; Slot &quot;name&quot;:
+#&gt; [1] &quot;Bottle&quot;
+#&gt; 
+#&gt; Slot &quot;price&quot;:
+#&gt; [1] 1.5
+#&gt; 
+#&gt; Slot &quot;inventory&quot;:
+#&gt; [1] -2</code></pre>
+<p>下面我们创建一个验证函数，对新建类实例时进行相应的约束条件检验。当输入对象没有错误时，函数返回<code>TRUE</code>，当输入对象有错误时，返回一个字符串向量来描述错误。</p>
+<p>这里我们通过检查每个字段的长度和它们是不是缺失值来验证对象的有效性。而且<code>price</code>必须是正数，<code>inventory</code>必须是非负数。</p>
+<pre class="r"><code>validata_product = function(object){
+    errors = c(
+        if( length(object@name) != 1) 
+            &quot;Length of name should be 1&quot;
+            else if (is.na(object@name))
+                &quot;name should not be missing value&quot;,
+            if( length(object@price) != 1) 
+            &quot;Length of price should be 1&quot;
+            else if (is.na(object@price))
+                &quot;price should not be missing value&quot;
+            else if (object@price &lt;= 0)
+                &quot;price must be positive&quot;,
+            if( length(object@inventory) != 1) 
+            &quot;Length of inventory should be 1&quot;
+            else if (is.na(object@inventory))
+                &quot;inventory should not be missing value&quot;
+            else if (object@inventory &lt; 0)
+                &quot;inventory must be non-negative&quot;)
+    if(length(errors) == 0) TRUE else errors
+}</code></pre>
+<p>上面我们写了一个长函数考虑可能出现的错误值，并进行标注。下面可以用它对<code>bottle</code>进行验证：</p>
+<pre class="r"><code>validata_product(bottle)
+#&gt; [1] &quot;inventory must be non-negative&quot;</code></pre>
+<p>验证函数返回了预料之中的错误信息。我们可以进一步修改类定义函数，使其没生成一个新的实例时都会自动进行验证。</p>
+<pre class="r"><code>setClass(&quot;Product&quot;,
+         representation(name = &quot;character&quot;,
+                        price = &quot;numeric&quot;,
+                        inventory = &quot;integer&quot;),
+         prototype(name = &quot;Unamed&quot;,
+                   price = NA_real_, inventory = 0L),
+         validity = validata_product)</code></pre>
+<p>下面我们来测试验证：</p>
+<pre class="r"><code>bottle = new(&quot;Product&quot;, name = &quot;Bottle&quot;)
+#&gt; Error in validObject(.Object): invalid class &quot;Product&quot; object: price should not be missing value
+bottle = new(&quot;Product&quot;, name = &quot;Bottle&quot;, price = 3, inventory = -2L)
+#&gt; Error in validObject(.Object): invalid class &quot;Product&quot; object: inventory must be non-negative</code></pre>
+</div>
+<div id="s4继承" class="section level3">
+<h3>S4继承</h3>
+<p>S3系统广泛且灵活，而对于S4，我们不能任意添加不在类表示中的字段。</p>
+<p>下面举个例子：</p>
+<pre class="r"><code>bottle = new(&quot;Product&quot;, name = &quot;Bottle&quot;,
+             price = 3, inventory = 100L, volume = 15)
+#&gt; Error in initialize(value, ...): invalid name for slot of class &quot;Product&quot;: volume</code></pre>
+<p>添加只能通过继承来完成。我们创建一个新类，它<strong>包含</strong>（或继承自）原始类。在这个例子中，我们定义一个<code>Container</code>类，它继承自<code>Product</code>类，而且有一个新的名为<code>volume</code>的数值字段。</p>
+<pre class="r"><code>setClass(&quot;Container&quot;,
+         representation(volume = &quot;numeric&quot;), 
+         contains = &quot;Product&quot;)</code></pre>
+<p>查看现在已有的字段：</p>
+<pre class="r"><code>getSlots(&quot;Container&quot;)
+#&gt;      volume        name       price   inventory 
+#&gt;   &quot;numeric&quot; &quot;character&quot;   &quot;numeric&quot;   &quot;integer&quot;</code></pre>
+<p>现在构建一个实例：</p>
+<pre class="r"><code>bottle = new(&quot;Container&quot;, name = &quot;Bottle&quot;,
+             price = 3, inventory = 100L, volume = 15)
+bottle
+#&gt; An object of class &quot;Container&quot;
+#&gt; Slot &quot;volume&quot;:
+#&gt; [1] 15
+#&gt; 
+#&gt; Slot &quot;name&quot;:
+#&gt; [1] &quot;Bottle&quot;
+#&gt; 
+#&gt; Slot &quot;price&quot;:
+#&gt; [1] 3
+#&gt; 
+#&gt; Slot &quot;inventory&quot;:
+#&gt; [1] 100</code></pre>
+<p>注意<code>Product</code>类的验证函数适用于<code>Container</code>类：</p>
+<pre class="r"><code>bottle = new(&quot;Container&quot;, name = &quot;Bottle&quot;,
+             price = 3, inventory = -10L, volume = 15)
+#&gt; Error in validObject(.Object): invalid class &quot;Container&quot; object: inventory must be non-negative</code></pre>
+<p>但这个验证函数对新增的字段没用：</p>
+<pre class="r"><code>bottle = new(&quot;Container&quot;, name = &quot;Bottle&quot;,
+             price = 3, inventory = 10L, volume = -2)</code></pre>
+<p>因此我们可以为<code>Container</code>类定义验证函数：</p>
+<pre class="r"><code>validate_container = function(object){
+    errors = c(
+        if (length(object@volume) != 1)
+            &quot;Length of volume must be 1&quot;,
+        if (object@volume &lt;= 0)
+            &quot;volume must be positive&quot;
+    )
+    
+    if (length(errors) == 0) TRUE else errors
+}</code></pre>
+<p>现在重新定义<code>Container</code>类：</p>
+<pre class="r"><code>setClass(&quot;Container&quot;,
+         representation(volume = &quot;numeric&quot;),
+         contains = &quot;Product&quot;,
+         validity = validate_container)</code></pre>
+<p>记得我们不需要在<code>validate_container()</code>中调用<code>validate_product()</code>，因为它们被被依次调用来确保所有位于<strong>继承链</strong>上的类都被适当的检查。</p>
+</div>
+<div id="定义s4泛型函数" class="section level3">
+<h3>定义S4泛型函数</h3>
+<p>我们用一个关于形状的例子进行说明。首先<code>Shape</code>是处于根节点的类，<code>Polygon</code>和<code>Circle</code>都继承自<code>Shape</code>，而<code>Triangle</code>和<code>Rectangle</code>继承自<code>Polygon</code>。</p>
+<pre class="r"><code>setClass(&quot;Shape&quot;)
+setClass(&quot;Polygon&quot;,
+         representation(sides = &quot;integer&quot;),
+         contains = &quot;Shape&quot;)
+setClass(&quot;Triangle&quot;,
+         representation(a = &quot;numeric&quot;, b = &quot;numeric&quot;, c = &quot;numeric&quot;),
+         prototype(a = 1, b = 1, c = 1, sides = 3L),
+         contains = &quot;Polygon&quot;)
+setClass(&quot;Rectangle&quot;,
+         representation(a = &quot;numeric&quot;, b = &quot;numeric&quot;),
+         prototype(a = 1, b = 1, sides = 4L),
+         contains = &quot;Polygon&quot;)
+setClass(&quot;Circle&quot;,
+         representation(r = &quot;numeric&quot;),
+         prototype(r = 1, sides = Inf),
+         contains = &quot;Shape&quot;)</code></pre>
+<p>我们接着构建一个泛型函数计算一个<code>Shape</code>对象的面积。为此，我们需要调用<code>setGeneric()</code>创建一个新的泛型函数：<code>area()</code>，并为<code>area()</code>提供一个调用<code>standardGeneric(&quot;area&quot;)</code>的函数使这个新的泛型函数可以用于S4方法分派。参数<code>valueClass</code>是用来确保每种方法的返回值必须是<code>numeric</code>类：</p>
+<pre class="r"><code>setGeneric(&quot;area&quot;, function(object) {
+    standardGeneric(&quot;area&quot;)
+}, valueClass = &quot;numeric&quot;)
+#&gt; [1] &quot;area&quot;</code></pre>
+<p>一旦构建了泛型函数，我们可以为不同种类的形状实现不同的方法。对于Triangle，给定三角形的3个边长，然后用公式计算面积。</p>
+<pre class="r"><code>setMethod(&quot;area&quot;, signature(&quot;Triangle&quot;), function(object){
+    a = object@a
+    b = object@b
+    c = object@c
+    s = (a + b + c) / 2
+    sqrt(s * (s - a) * (s - b) * (s - c))
+})</code></pre>
+<p>Rectangle与Circle的面积公式就很简单了：</p>
+<pre class="r"><code>setMethod(&quot;area&quot;, signature(&quot;Rectangle&quot;), function(object){
+    object@a * object@b
+})
+setMethod(&quot;area&quot;, signature(&quot;Circle&quot;), function(object){
+    pi * object@r ^2
+})</code></pre>
+<p>现在我们创建一个Triangle类的对象实例，查看<code>area()</code>是否会分派正确的方法，返回正确的答案：</p>
+<pre class="r"><code>triangle = new(&quot;Triangle&quot;, a = 3, b = 4, c = 5)
+area(triangle)
+#&gt; [1] 6</code></pre>
+<p>再创建一个Circle对象实例，看方法分配是否正常：</p>
+<pre class="r"><code>circle = new(&quot;Circle&quot;, r = 3)
+area(circle)
+#&gt; [1] 28.3</code></pre>
+<p>泛型函数<code>area()</code>工作方式与S3的泛型函数类似，都是根据输入对象的类执行方法分派。</p>
+</div>
+<div id="多重分派" class="section level3">
+<h3>多重分派</h3>
+<p>S4泛型函数可以根据多个参数执行方法分派。</p>
+<p>我们另外定义一个S4类，具有数值height类表示的Object类。Cylinder和Cone都继承Object。然后我们使用多重分派计算具有特定形状的特定几何物的体积：</p>
+<pre class="r"><code>setClass(&quot;Object&quot;, representation(height = &quot;numeric&quot;))
+setClass(&quot;Cylinder&quot;, contains = &quot;Object&quot;)
+setClass(&quot;Cone&quot;, contains = &quot;Object&quot;)</code></pre>
+<p>现在我们定义一个名为<code>volume</code>的泛型函数，用来计算对象的体积，其中这个对象由底面形状和对象的几何体形状描述：</p>
+<pre class="r"><code>setGeneric(&quot;volume&quot;,
+           function(shape, object) standardGeneric(&quot;volume&quot;))
+#&gt; [1] &quot;volume&quot;</code></pre>
+<p>接下来的代码实现两种几何体体积的计算方法：一种是长方体，另一种是四棱锥：</p>
+<pre class="r"><code>setMethod(&quot;volume&quot;, signature(&quot;Rectangle&quot;, &quot;Cylinder&quot;), 
+          function(shape, object) {
+              shape@a * shape@b * object@height
+          })</code></pre>
+<pre class="r"><code>setMethod(&quot;volume&quot;, signature(&quot;Rectangle&quot;, &quot;Cone&quot;),
+          function(shape, object){
+              shape@a * shape@b * object@height /3
+          })</code></pre>
+<p>计算体积需要两个参数：</p>
+<pre class="r"><code>rectangle = new(&quot;Rectangle&quot;, a = 2, b = 3)
+cylinder = new(&quot;Cylinder&quot;, height = 3)
+volume(rectangle, cylinder)
+#&gt; [1] 18</code></pre>
+<p>更进一步，我们通过实现方法<code>*</code>来简化：</p>
+<pre class="r"><code>setMethod(&quot;*&quot;, signature(&quot;Shape&quot;, &quot;Object&quot;),
+          function(e1, e2) {
+              volume(e1, e2)
+          })</code></pre>
+<p>现在我们可以更简单地进行计算：</p>
+<pre class="r"><code>rectangle * cylinder
+#&gt; [1] 18</code></pre>
+</div>
+<div id="引用类rc" class="section level2">
+<h2>引用类RC</h2>
+<p>R还有一种具有引用语义的类系统，它更像其他面向对象编程语言中的类系统。</p>
+<p>不像S4类系统使用<code>new()</code>创建一个对象实例，<code>setRefClass()</code>会返回一个对象实例生成器。</p>
+<p>例如我们定义一个Vehicle类，它有两个字段：一个数值位置和一个数值距离。</p>
+<pre class="r"><code>Vehicle = setRefClass(&quot;Vehicle&quot;,
+                      fields = list(position = &quot;numeric&quot;, distance = &quot;numeric&quot;))</code></pre>
+<p>创建新对象实例：</p>
+<pre class="r"><code>car = Vehicle$new(position =0, distance = 0)</code></pre>
+<p>RC的字段通过<code>$</code>访问：</p>
+<pre class="r"><code>car$position
+#&gt; [1] 0</code></pre>
+<p>下面定义<code>move()</code>函数，它修改相对位置，并累积距离，即相对地修改<code>position</code>，并将所有的移动累计到参数<code>distance</code>上：</p>
+<pre class="r"><code>move = function(vehicle, movement) {
+    vehicle$position = vehicle$position + movement
+    vehicle$distance = vehicle$distance + abs(movement)
+}</code></pre>
+<p>现在调用<code>move()</code>：我们发现对象实例<code>car</code>确实被修改了，而不是复制：</p>
+<pre class="r"><code>move(car, 10)
+car
+#&gt; Reference class object of class &quot;Vehicle&quot;
+#&gt; Field &quot;position&quot;:
+#&gt; [1] 10
+#&gt; Field &quot;distance&quot;:
+#&gt; [1] 10</code></pre>
+<p>引用类本身是一个类系统，并且更像一般的面向系统，所以我们最好定义类的方法以便于更好地使用：</p>
+<pre class="r"><code>Vehicle = setRefClass(&quot;Vehicle&quot;,
+                      fields = list(position = &quot;numeric&quot;, distance = &quot;numeric&quot;),
+                      methods = list(move = function(x) {
+                          stopifnot(is.numeric(x))
+                          position &lt;&lt;- position + x
+                          distance &lt;&lt;- distance + abs(x)
+                      }))</code></pre>
+<p>S3、S4系统中，方法存储在环境中，而RC本身包含它的方法，因此可以直接调用一个对象实例中的方法。但在方法中修改字段的值，要用<code>&lt;&lt;-</code>而不是<code>&lt;-</code>。</p>
+<p>下面检验对象实例中方法是否有效：</p>
+<pre class="r"><code>bus = Vehicle(position = 0, distance = 0)
+bus$move(5)
+bus
+#&gt; Reference class object of class &quot;Vehicle&quot;
+#&gt; Field &quot;position&quot;:
+#&gt; [1] 5
+#&gt; Field &quot;distance&quot;:
+#&gt; [1] 5</code></pre>
+</div>
+<div id="r6" class="section level2">
+<h2>R6</h2>
+<p>R6是加强版的RC，它是一个扩展包，能够实现支持公共与私有字段与方法的更有效的引用类，还有一些其他的强大功能。</p>
+<p>运行安装该包：</p>
+<pre class="r"><code>install.packages(&quot;R6&quot;)</code></pre>
+<p><strong>R6类允许我们定义类，其行为特征更类似于流行的面向对象编程语言。</strong>我们使用下面代码定义Vehicle类，它既有面向用户的公共字段和方法，也有供内部使用的私有字段和方法：</p>
+<pre class="r"><code>library(R6)
+Vehicle = R6Class(&quot;Vehicle&quot;,
+                  public = list(
+                      name = NA,
+                      model = NA,
+                      initialize = function(name, model) {
+                          if(!missing(name)) self$name = name
+                          if(!missing(model)) self$model = model
+                      },
+                      move = function(movement){
+                          private$start()
+                          private$position = private$position + movement
+                          private$stop()
+                      },
+                      get_position = function(){
+                          private$position
+                      }
+                  ),
+                  private = list(
+                      position = 0,
+                      speed = 0,
+                      start = function(){
+                          cat(self$name, &quot;is starting\n&quot;)
+                          private$speed = 50
+                      },
+                      stop = function(){
+                          cat(self$name, &quot;is stopping\n&quot;)
+                          private$speed - 0
+                      }
+                  ))</code></pre>
+<p><strong>从用户端，我们只能访问公共字段和方法。只有类方法可以访问私有字段和方法</strong>。这里我们将position放在私有部分以避免用户从外部修改它。</p>
+<pre class="r"><code>car = Vehicle$new(name = &quot;Car&quot;, model = &quot;A&quot;)
+car
+#&gt; &lt;Vehicle&gt;
+#&gt;   Public:
+#&gt;     clone: function (deep = FALSE) 
+#&gt;     get_position: function () 
+#&gt;     initialize: function (name, model) 
+#&gt;     model: A
+#&gt;     move: function (movement) 
+#&gt;     name: Car
+#&gt;   Private:
+#&gt;     position: 0
+#&gt;     speed: 0
+#&gt;     start: function () 
+#&gt;     stop: function ()</code></pre>
+<p>调用方法：</p>
+<pre class="r"><code>car$move(10)
+#&gt; Car is starting
+#&gt; Car is stopping
+#&gt; [1] 50
+car$get_position()
+#&gt; [1] 10</code></pre>
+<p>为演示R6类的继承关系，我们定义叫<code>MeteredVehicle</code>的新类，它能够记录移动的历史距离之和。为此，我们新增一个私有字段<code>distance</code>，然后重写公共字段<code>move</code>，使其优先调用<code>super$move()</code>将交通工具移动到正确位置，并累计移动的绝对距离：</p>
+<pre class="r"><code>MeteredVehicle = R6Class(&quot;MeteredVehicle&quot;,
+                         inherit = Vehicle,
+                         public = list(
+                             move = function(movement) {
+                             super$move(movement)
+                             private$distance &lt;&lt;- private$distance + abs(movement)
+                         },
+                         get_distance= function(){
+                             private$distance
+                         }),
+                         private = list(
+                             distance = 0
+                         ))</code></pre>
+<p>现在我们做一些试验，创建bus：</p>
+<pre class="r"><code>bus = MeteredVehicle$new(name = &quot;Bus&quot;, model = &quot;B&quot;)
+bus
+#&gt; &lt;MeteredVehicle&gt;
+#&gt;   Inherits from: &lt;Vehicle&gt;
+#&gt;   Public:
+#&gt;     clone: function (deep = FALSE) 
+#&gt;     get_distance: function () 
+#&gt;     get_position: function () 
+#&gt;     initialize: function (name, model) 
+#&gt;     model: B
+#&gt;     move: function (movement) 
+#&gt;     name: Bus
+#&gt;   Private:
+#&gt;     distance: 0
+#&gt;     position: 0
+#&gt;     speed: 0
+#&gt;     start: function () 
+#&gt;     stop: function ()</code></pre>
+<p>让bus向前移动10单位，相应位置改变，距离累计：</p>
+<pre class="r"><code>bus$move(10)
+#&gt; Bus is starting
+#&gt; Bus is stopping
+bus$get_position()
+#&gt; [1] 10
+bus$get_distance()
+#&gt; [1] 10</code></pre>
+<p>再让<code>bus</code>后移5单位：</p>
+<pre class="r"><code>bus$move(-5)
+#&gt; Bus is starting
+#&gt; Bus is stopping
+bus$get_position()
+#&gt; [1] 5
+bus$get_distance()
+#&gt; [1] 15</code></pre>
+<p>关于R6更详细的介绍，请阅读和参考官方文档。</p>
+<hr />
+<p>总结一下，R里面当前4个类系统我们主要关注S3、S4和R6。S3、4如果要精通R是必须掌握的，如果有用到类似其他语言或者参考其他语言实现功能，可以用到R6。</p>
+</div>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="../../../cn/post/2019-11-20-high-level-oop-one/">R-面向对象编程（一）</a></span>
+  <span class="nav-next"><a href="../../../cn/post/hpc-in-r/">高性能计算</a> &rarr;</span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/post\/2019-11-20-high-level-oop-one\/';
+    
+  } else if (e.which == 39) {  
+    
+    url = '\/cn\/post\/hpc-in-r\/';
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+<section class="comments">
+  <div id="disqus_thread"></div>
+  <script src="../../../js/disqusloader.min.js"></script>
+  <script>
+  var disqus_config = function () {
+  
+    this.page.url = "https:\/\/shixiangwang.github.io\/home\/" + location.pathname;
+  
+  };
+  (function() {
+    var inIFrame = function() {
+      var iframe = true;
+      try { iframe = window.self !== window.top; } catch (e) {}
+      return iframe;
+    };
+    if (inIFrame()) return;
+    var disqus_js = '//home-xjdzylqrzp.disqus.com/embed.js';
+    
+    if (location.hash.match(/^#comment/)) {
+      var d = document, s = d.createElement('script');
+      s.src = disqus_js; s.async = true;
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    } else {
+      disqusLoader('#disqus_thread', {
+        scriptUrl: disqus_js, laziness: 0, disqusConfig: disqus_config
+      });
+    }
+  })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+
+
+<script async src="../../../js/fix-toc.js"></script>
+
+<script async src="../../../js/center-img.js"></script>
+
+<script async src="../../../js/right-quote.js"></script>
+
+<script async src="../../../js/no-highlight.js"></script>
+
+<script async src="../../../js/fix-footnote.js"></script>
+
+<script async src="../../../js/math-code.js"></script>
+
+<script async src="../../../js/external-link.js"></script>
+
+<script async src="../../../js/alt-title.js"></script>
+
+<script async src="../../../js/header-link.js"></script>
+
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+  
+  
+
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> &middot; <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> &middot; <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> &middot; <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> &middot; <a href="https://orcid.org/0000-0001-9855-7357"><i class='ai ai-orcid ai-1x'></i></a> &middot; <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 &copy; <a href="../../../">王诗翔</a> 2017 - 2019 </div>
+  
+  
+
+  <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56h9es09xn7&amp;m=6&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=1" async="async"></script>
+  </footer>
+  </article>
+  
+  </body>
+</html>
+

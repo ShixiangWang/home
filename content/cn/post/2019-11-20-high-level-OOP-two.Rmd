@@ -1,0 +1,566 @@
+---
+title: "R-面向对象编程（二）"
+author: "王诗翔"
+date: "2018-08-18"
+lastmod: "`r Sys.Date()`"
+slug: ""
+categories: r
+tags:
+- r
+- class
+- instance
+- S3
+- S4
+- R6
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, dev = "png", comment = "#>")
+#Sys.setenv("LANGUAGE"="EN") # Embed this for outputing English message
+#Sys.setlocale('LC_ALL','C') # Embed this directly in the Rmarkdown script that contains the Chinese character comment
+options(digits=3)
+options(max.print=200)
+```
+
+>内容：
+>
+>* S4
+>* 引用类（Reference class, RC）
+>* R6扩展包
+## S4对象系统
+
+在S3之后，R引入一个更正式更严谨的面向对象系统S4。**这个系统允许我们使用预定义和继承结构来正式定义类。它也支持多重分派，即根据泛型函数的多个参数的类选择方法**。
+
+下面学习如何定义S4类和方法。
+
+### 定义S4类
+
+与S3不同，S4类要求对类和方法有正式定义。为了定义一个S4类，我们需要调用`setClass()`并提供一个类成员的表示，该表示称为**字段**（slot）。
+
+下面我们用S4类重新定义`product`对象：
+
+```{r}
+setClass("Product",
+         representation(name = "character",
+                        price = "numeric",
+                        inventory = "integer"))
+```
+
+类被定义后，我们可以使用`getSlots()`从类定义中获取字段：
+
+```{r}
+getSlots("Product")
+```
+
+现在我们使用`new()`创建一个新的`S4`类对象实例，并指定字段的取值：
+
+```{r, error=TRUE}
+laptop = new("Product", name = "Laptop-A", price = 299, inventory = 1000)
+```
+
+你可能会奇怪为什么报错。但仔细查看你会发现`inventory`必须是整数，而我们输入的1000是数值，它的类不是`integer`。
+
+```{r}
+laptop = new("Product", name = "Laptop-A", price = 299, inventory = 1000L)
+laptop
+```
+
+现在实例`laptop`创建好了。
+
+对于S4对象我们仍然可以用`typeof()`和`class()`获取信息：
+
+```{r}
+typeof(laptop)
+class(laptop)
+```
+
+这次对象的类型是`S4`，而非列表或其他数据类型，而且它的类是S4类的名字。
+
+我们可以使用检查函数判断是否是S4：
+
+```{r}
+isS4(laptop)
+```
+
+与使用`$`访问列表或环境不同，我们需要使用`@`来访问一个S4对象的字段：
+
+```{r}
+laptop@price * laptop@inventory
+```
+
+另外我们可以调用`slot()`函数以字符形式提供字段名来访问一个字段。
+
+```{r}
+slot(laptop, "price")
+```
+
+我们可以直接修改字段的值，但需要符合类定义：
+
+```{r}
+laptop@price = 299
+```
+
+```{r, error=TRUE}
+laptop@inventory = 200
+```
+
+因为类已经预定义好，所以不能给类新增字段：
+
+```{r, error=TRUE}
+laptop@value = laptop@price * laptop@inventory
+```
+
+现在我们另建一个实例，只提供部分字段值：
+
+```{r}
+toy = new("Product", name = "Toys", price = 10)
+toy
+```
+
+可以看到`inventory`被默认赋值空整数向量。如果我们觉得它不是一个合意的默认值，我们可以进行指定一个模板（类的原型）。
+
+```{r}
+setClass("Product",
+         representation(name = "character",
+                        price = "numeric",
+                        inventory = "integer"),
+         prototype(name = "Unnamed", price = NA_real_, inventory = 0L))
+```
+
+
+然后我们重建`toy`：
+
+```{r}
+toy = new("Product", name = "Toys", price = 10)
+toy
+```
+
+如果`inventory = -1L`很显然没有意义，但我们无法在原型以及定义中进行限定，那么该如何做呢？
+
+```{r}
+bottle = new("Product", name = "Bottle", price = 1.5, inventory = -2L)
+bottle
+```
+
+下面我们创建一个验证函数，对新建类实例时进行相应的约束条件检验。当输入对象没有错误时，函数返回`TRUE`，当输入对象有错误时，返回一个字符串向量来描述错误。
+
+这里我们通过检查每个字段的长度和它们是不是缺失值来验证对象的有效性。而且`price`必须是正数，`inventory`必须是非负数。
+
+```{r}
+validata_product = function(object){
+    errors = c(
+        if( length(object@name) != 1) 
+            "Length of name should be 1"
+            else if (is.na(object@name))
+                "name should not be missing value",
+            if( length(object@price) != 1) 
+            "Length of price should be 1"
+            else if (is.na(object@price))
+                "price should not be missing value"
+            else if (object@price <= 0)
+                "price must be positive",
+            if( length(object@inventory) != 1) 
+            "Length of inventory should be 1"
+            else if (is.na(object@inventory))
+                "inventory should not be missing value"
+            else if (object@inventory < 0)
+                "inventory must be non-negative")
+    if(length(errors) == 0) TRUE else errors
+}
+```
+
+上面我们写了一个长函数考虑可能出现的错误值，并进行标注。下面可以用它对`bottle`进行验证：
+
+```{r}
+validata_product(bottle)
+```
+
+验证函数返回了预料之中的错误信息。我们可以进一步修改类定义函数，使其没生成一个新的实例时都会自动进行验证。
+
+```{r}
+setClass("Product",
+         representation(name = "character",
+                        price = "numeric",
+                        inventory = "integer"),
+         prototype(name = "Unamed",
+                   price = NA_real_, inventory = 0L),
+         validity = validata_product)
+```
+
+下面我们来测试验证：
+
+```{r, error=TRUE}
+bottle = new("Product", name = "Bottle")
+bottle = new("Product", name = "Bottle", price = 3, inventory = -2L)
+```
+
+### S4继承
+
+S3系统广泛且灵活，而对于S4，我们不能任意添加不在类表示中的字段。
+
+下面举个例子：
+
+```{r, error=TRUE}
+bottle = new("Product", name = "Bottle",
+             price = 3, inventory = 100L, volume = 15)
+```
+
+添加只能通过继承来完成。我们创建一个新类，它**包含**（或继承自）原始类。在这个例子中，我们定义一个`Container`类，它继承自`Product`类，而且有一个新的名为`volume`的数值字段。
+
+```{r}
+setClass("Container",
+         representation(volume = "numeric"), 
+         contains = "Product")
+```
+
+查看现在已有的字段：
+
+```{r}
+getSlots("Container")
+```
+
+现在构建一个实例：
+
+```{r}
+bottle = new("Container", name = "Bottle",
+             price = 3, inventory = 100L, volume = 15)
+bottle
+```
+
+注意`Product`类的验证函数适用于`Container`类：
+
+```{r, error=TRUE}
+bottle = new("Container", name = "Bottle",
+             price = 3, inventory = -10L, volume = 15)
+```
+
+但这个验证函数对新增的字段没用：
+
+```{r}
+bottle = new("Container", name = "Bottle",
+             price = 3, inventory = 10L, volume = -2)
+```
+
+因此我们可以为`Container`类定义验证函数：
+
+```{r}
+validate_container = function(object){
+    errors = c(
+        if (length(object@volume) != 1)
+            "Length of volume must be 1",
+        if (object@volume <= 0)
+            "volume must be positive"
+    )
+    
+    if (length(errors) == 0) TRUE else errors
+}
+```
+
+现在重新定义`Container`类：
+
+```{r}
+setClass("Container",
+         representation(volume = "numeric"),
+         contains = "Product",
+         validity = validate_container)
+```
+
+记得我们不需要在`validate_container()`中调用`validate_product()`，因为它们被被依次调用来确保所有位于**继承链**上的类都被适当的检查。
+
+### 定义S4泛型函数
+
+我们用一个关于形状的例子进行说明。首先`Shape`是处于根节点的类，`Polygon`和`Circle`都继承自`Shape`，而`Triangle`和`Rectangle`继承自`Polygon`。
+
+```{r}
+setClass("Shape")
+setClass("Polygon",
+         representation(sides = "integer"),
+         contains = "Shape")
+setClass("Triangle",
+         representation(a = "numeric", b = "numeric", c = "numeric"),
+         prototype(a = 1, b = 1, c = 1, sides = 3L),
+         contains = "Polygon")
+setClass("Rectangle",
+         representation(a = "numeric", b = "numeric"),
+         prototype(a = 1, b = 1, sides = 4L),
+         contains = "Polygon")
+setClass("Circle",
+         representation(r = "numeric"),
+         prototype(r = 1, sides = Inf),
+         contains = "Shape")
+```
+
+我们接着构建一个泛型函数计算一个`Shape`对象的面积。为此，我们需要调用`setGeneric()`创建一个新的泛型函数：`area()`，并为`area()`提供一个调用`standardGeneric("area")`的函数使这个新的泛型函数可以用于S4方法分派。参数`valueClass`是用来确保每种方法的返回值必须是`numeric`类：
+
+```{r}
+setGeneric("area", function(object) {
+    standardGeneric("area")
+}, valueClass = "numeric")
+```
+
+一旦构建了泛型函数，我们可以为不同种类的形状实现不同的方法。对于Triangle，给定三角形的3个边长，然后用公式计算面积。
+
+```{r}
+setMethod("area", signature("Triangle"), function(object){
+    a = object@a
+    b = object@b
+    c = object@c
+    s = (a + b + c) / 2
+    sqrt(s * (s - a) * (s - b) * (s - c))
+})
+```
+
+Rectangle与Circle的面积公式就很简单了：
+
+```{r}
+setMethod("area", signature("Rectangle"), function(object){
+    object@a * object@b
+})
+setMethod("area", signature("Circle"), function(object){
+    pi * object@r ^2
+})
+```
+
+现在我们创建一个Triangle类的对象实例，查看`area()`是否会分派正确的方法，返回正确的答案：
+
+```{r}
+triangle = new("Triangle", a = 3, b = 4, c = 5)
+area(triangle)
+```
+
+再创建一个Circle对象实例，看方法分配是否正常：
+
+```{r}
+circle = new("Circle", r = 3)
+area(circle)
+```
+
+泛型函数`area()`工作方式与S3的泛型函数类似，都是根据输入对象的类执行方法分派。
+
+### 多重分派
+
+S4泛型函数可以根据多个参数执行方法分派。
+
+我们另外定义一个S4类，具有数值height类表示的Object类。Cylinder和Cone都继承Object。然后我们使用多重分派计算具有特定形状的特定几何物的体积：
+
+```{r}
+setClass("Object", representation(height = "numeric"))
+setClass("Cylinder", contains = "Object")
+setClass("Cone", contains = "Object")
+```
+
+现在我们定义一个名为`volume`的泛型函数，用来计算对象的体积，其中这个对象由底面形状和对象的几何体形状描述：
+
+```{r}
+setGeneric("volume",
+           function(shape, object) standardGeneric("volume"))
+```
+
+接下来的代码实现两种几何体体积的计算方法：一种是长方体，另一种是四棱锥：
+
+```{r}
+setMethod("volume", signature("Rectangle", "Cylinder"), 
+          function(shape, object) {
+              shape@a * shape@b * object@height
+          })
+```
+
+```{r}
+setMethod("volume", signature("Rectangle", "Cone"),
+          function(shape, object){
+              shape@a * shape@b * object@height /3
+          })
+```
+
+计算体积需要两个参数：
+
+```{r}
+rectangle = new("Rectangle", a = 2, b = 3)
+cylinder = new("Cylinder", height = 3)
+volume(rectangle, cylinder)
+```
+
+更进一步，我们通过实现方法`*`来简化：
+
+```{r}
+setMethod("*", signature("Shape", "Object"),
+          function(e1, e2) {
+              volume(e1, e2)
+          })
+```
+
+现在我们可以更简单地进行计算：
+
+```{r}
+rectangle * cylinder
+```
+
+## 引用类RC
+
+R还有一种具有引用语义的类系统，它更像其他面向对象编程语言中的类系统。
+
+不像S4类系统使用`new()`创建一个对象实例，`setRefClass()`会返回一个对象实例生成器。
+
+例如我们定义一个Vehicle类，它有两个字段：一个数值位置和一个数值距离。
+
+```{r}
+Vehicle = setRefClass("Vehicle",
+                      fields = list(position = "numeric", distance = "numeric"))
+```
+
+创建新对象实例：
+
+```{r}
+car = Vehicle$new(position =0, distance = 0)
+```
+
+RC的字段通过`$`访问：
+
+```{r}
+car$position
+```
+
+下面定义`move()`函数，它修改相对位置，并累积距离，即相对地修改`position`，并将所有的移动累计到参数`distance`上：
+
+```{r}
+move = function(vehicle, movement) {
+    vehicle$position = vehicle$position + movement
+    vehicle$distance = vehicle$distance + abs(movement)
+}
+```
+
+现在调用`move()`：我们发现对象实例`car`确实被修改了，而不是复制：
+
+```{r}
+move(car, 10)
+car
+```
+
+引用类本身是一个类系统，并且更像一般的面向系统，所以我们最好定义类的方法以便于更好地使用：
+
+```{r}
+Vehicle = setRefClass("Vehicle",
+                      fields = list(position = "numeric", distance = "numeric"),
+                      methods = list(move = function(x) {
+                          stopifnot(is.numeric(x))
+                          position <<- position + x
+                          distance <<- distance + abs(x)
+                      }))
+```
+
+S3、S4系统中，方法存储在环境中，而RC本身包含它的方法，因此可以直接调用一个对象实例中的方法。但在方法中修改字段的值，要用`<<-`而不是`<-`。
+
+下面检验对象实例中方法是否有效：
+
+```{r}
+bus = Vehicle(position = 0, distance = 0)
+bus$move(5)
+bus
+```
+
+## R6
+
+R6是加强版的RC，它是一个扩展包，能够实现支持公共与私有字段与方法的更有效的引用类，还有一些其他的强大功能。
+
+运行安装该包：
+
+```{r, eval=FALSE}
+install.packages("R6")
+```
+
+**R6类允许我们定义类，其行为特征更类似于流行的面向对象编程语言。**我们使用下面代码定义Vehicle类，它既有面向用户的公共字段和方法，也有供内部使用的私有字段和方法：
+
+```{r}
+library(R6)
+Vehicle = R6Class("Vehicle",
+                  public = list(
+                      name = NA,
+                      model = NA,
+                      initialize = function(name, model) {
+                          if(!missing(name)) self$name = name
+                          if(!missing(model)) self$model = model
+                      },
+                      move = function(movement){
+                          private$start()
+                          private$position = private$position + movement
+                          private$stop()
+                      },
+                      get_position = function(){
+                          private$position
+                      }
+                  ),
+                  private = list(
+                      position = 0,
+                      speed = 0,
+                      start = function(){
+                          cat(self$name, "is starting\n")
+                          private$speed = 50
+                      },
+                      stop = function(){
+                          cat(self$name, "is stopping\n")
+                          private$speed - 0
+                      }
+                  ))
+```
+
+
+**从用户端，我们只能访问公共字段和方法。只有类方法可以访问私有字段和方法**。这里我们将position放在私有部分以避免用户从外部修改它。
+
+```{r}
+car = Vehicle$new(name = "Car", model = "A")
+car
+```
+
+调用方法：
+
+```{r}
+car$move(10)
+car$get_position()
+```
+
+为演示R6类的继承关系，我们定义叫`MeteredVehicle`的新类，它能够记录移动的历史距离之和。为此，我们新增一个私有字段`distance`，然后重写公共字段`move`，使其优先调用`super$move()`将交通工具移动到正确位置，并累计移动的绝对距离：
+
+```{r}
+MeteredVehicle = R6Class("MeteredVehicle",
+                         inherit = Vehicle,
+                         public = list(
+                             move = function(movement) {
+                             super$move(movement)
+                             private$distance <<- private$distance + abs(movement)
+                         },
+                         get_distance= function(){
+                             private$distance
+                         }),
+                         private = list(
+                             distance = 0
+                         ))
+```
+
+现在我们做一些试验，创建bus：
+
+```{r}
+bus = MeteredVehicle$new(name = "Bus", model = "B")
+bus
+```
+
+让bus向前移动10单位，相应位置改变，距离累计：
+
+```{r}
+bus$move(10)
+bus$get_position()
+bus$get_distance()
+```
+
+再让`bus`后移5单位：
+
+```{r}
+bus$move(-5)
+bus$get_position()
+bus$get_distance()
+```
+
+关于R6更详细的介绍，请阅读和参考官方文档。
+
+***
+
+总结一下，R里面当前4个类系统我们主要关注S3、S4和R6。S3、4如果要精通R是必须掌握的，如果有用到类似其他语言或者参考其他语言实现功能，可以用到R6。

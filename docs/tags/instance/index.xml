@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>class on Shixiang Wang | 王诗翔</title>
-    <link>/tags/class/</link>
-    <description>Recent content in class on Shixiang Wang | 王诗翔</description>
+    <title>instance on Shixiang Wang | 王诗翔</title>
+    <link>/tags/instance/</link>
+    <description>Recent content in instance on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 18 Aug 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/class/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/instance/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -27,15 +27,6 @@
       
       <guid>/cn/post/2019-11-20-high-level-oop-one/</guid>
       <description>内容： S3 借助面向对象的编码风格，并加以合理的抽象，我们可以简单地模仿对象的重要特性，于是，问题和模型之间的转换就变得清晰自然。 S3对象 S3对</description>
-    </item>
-    
-    <item>
-      <title>识别R对象的类和类型</title>
-      <link>/cn/post/2019-11-20-r-class-and-type/</link>
-      <pubDate>Wed, 09 May 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/cn/post/2019-11-20-r-class-and-type/</guid>
-      <description>除了使用is.*()函数，我们也可以使用class()或typeof()函数来实现类型的识别。 接下来用例子展示class()和typeof(</description>
     </item>
     
   </channel>

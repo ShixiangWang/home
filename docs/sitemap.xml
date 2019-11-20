@@ -653,6 +653,46 @@
   </url>
   
   <url>
+    <loc>/cn/post/2019-11-20-high-level-oop-two/</loc>
+    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/r6/</loc>
+    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/s3/</loc>
+    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/s4/</loc>
+    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/class/</loc>
+    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/instance/</loc>
+    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/cn/post/2019-11-20-high-level-oop-one/</loc>
+    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/cn/post/2018-08-10-r-installation/</loc>
     <lastmod>2019-08-26T00:00:00+00:00</lastmod>
   </url>
@@ -803,12 +843,6 @@
   <url>
     <loc>/cn/post/2019-11-20-r-apply-math-computation/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/class/</loc>
-    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>

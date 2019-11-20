@@ -1,0 +1,553 @@
+---
+title: "R-面向对象编程（一）"
+author: "王诗翔"
+date: "2018-08-15"
+lastmod: "2019-11-20"
+slug: ""
+categories: r
+tags:
+- r
+- class
+- instance
+- S3
+- S4
+---
+
+
+
+<blockquote>
+<p>内容：</p>
+<ul>
+<li>S3
+<strong>借助面向对象的编码风格，并加以合理的抽象，我们可以简单地模仿对象的重要特性，于是，问题和模型之间的转换就变得清晰自然</strong>。</li>
+</ul>
+</blockquote>
+<div id="s3对象" class="section level2">
+<h2>S3对象</h2>
+<p><strong>S3对象系统是一个简单且宽松的面向对象系统</strong>。每个基本对象的类型都有一个S3类名称。比如<code>integer</code>,<code>numeric</code>, <code>character</code>, <code>logical</code>, <code>list</code>和<code>data.frame</code>都属于S3类。</p>
+<p>举例，下面<code>vec1</code>类型是<code>double</code>，意味其内部类型或者说存储模式是双精度浮点型数字。但它的类是<code>numeric</code>。</p>
+<pre class="r"><code>vec1 = c(1, 2, 3)
+typeof(vec1)
+#&gt; [1] &quot;double&quot;
+class(vec1)
+#&gt; [1] &quot;numeric&quot;</code></pre>
+<p>下面<code>data1</code>类型是<code>list</code>，意味<code>data1</code>的内部类型或者存储模式是列表，但它的S3类是<code>data.frame</code>。</p>
+<pre class="r"><code>data1 = data.frame(x = 1:3, y = rnorm(3))
+typeof(data1)
+#&gt; [1] &quot;list&quot;
+class(data1)
+#&gt; [1] &quot;data.frame&quot;</code></pre>
+<p>理解对象的<strong>内部类型</strong>与<strong>S3类</strong>区别是一个重点。</p>
+<p>一个类可以用多种方法定义它的行为，尤其是它与其他类的关系。在S3系统中，我们可以创建<strong>泛型函数（generic function）</strong>，对于不同的类，由泛型函数决定调用哪个方法，这就是<strong>S3方法分派（method dispatch）</strong>的工作机理。</p>
+<p>对象的类不同，其方法分派不同，因此，区别对象的类十分重要。</p>
+<p>R中有许多基于某个通用目的定义的S3泛型函数，我们先看看<code>head()</code>与<code>tail()</code>。<code>head()</code>展示一个数据对象的前n条记录，<code>tail()</code>展示后n条。这跟<code>x[1:n]</code>是不同的，因为对不同的类的对象，记录的定义是不同的。对原子向量（数值、字符向量等），前n条记录指前n个元素。但对于数据框，前n条记录指前n行而不是前n列。</p>
+<p>查看下<code>head</code>的函数内部信息：</p>
+<pre class="r"><code>head
+#&gt; function (x, ...) 
+#&gt; UseMethod(&quot;head&quot;)
+#&gt; &lt;bytecode: 0x7fab8b6597c0&gt;
+#&gt; &lt;environment: namespace:utils&gt;</code></pre>
+<p>我们发现函数中并没有实际的操作细节。它调用<code>UseMethod(&quot;head&quot;)</code>来让<strong>泛型函数</strong><code>head()</code>执行方法分派，也就是说，对于不同的类，它可能有不同的执行方式（过程）。</p>
+<pre class="r"><code>num_vec = c(1, 2, 3, 4, 5)
+data_frame = data.frame(x = 1:5, y = rnorm(5))</code></pre>
+<p>调用函数：</p>
+<pre class="r"><code>head(num_vec, 3)
+#&gt; [1] 1 2 3
+head(data_frame, 3)
+#&gt;   x       y
+#&gt; 1 1  0.9659
+#&gt; 2 2  0.5115
+#&gt; 3 3 -0.0792</code></pre>
+<p>我们可以使用<code>methods()</code>查看<code>head()</code>函数可以实现的所有方法：</p>
+<pre class="r"><code>methods(&quot;head&quot;)
+#&gt; [1] head.data.frame* head.default*    head.ftable*     head.function*  
+#&gt; [5] head.matrix      head.table*     
+#&gt; see &#39;?methods&#39; for accessing help and source code</code></pre>
+<p>可以看到<code>head</code>不仅仅适用于向量和数据框。</p>
+<p><strong>注意</strong>，方法都是以<code>method.class</code>形式表示，如果我们输入一个<code>data.frame</code>，<code>head()</code>会调用<code>head.data.frame</code>方法。当没有方法可以匹配对象的类时，函数会自动转向<code>method.default</code>方法。这就是<strong>方法分派</strong>的一个实际过程。</p>
+<div id="内置类和方法" class="section level3">
+<h3>内置类和方法</h3>
+<p><strong>S3泛型函数和方法在统一各个模型的使用方式上是最有用的</strong>。比如我们可以创建一个线性模型，以不同角度查看模型信息：</p>
+<pre class="r"><code>lm1 = lm(mpg ~ cyl + vs, data = mtcars)</code></pre>
+<p><strong>线性模型本质上是由模型拟合产生的数据字段构成的列表</strong>，所以<code>lm1</code>的类型是<code>list</code>，但是它的类是<code>lm</code>，因此泛型函数根据<code>lm</code>选择方法：</p>
+<pre class="r"><code>typeof(lm1)
+#&gt; [1] &quot;list&quot;
+class(lm1)
+#&gt; [1] &quot;lm&quot;</code></pre>
+<p>甚至没有明确调用S3泛型函数时，S3方法分派也会自动进行。如果我们输入<code>lm1</code>：</p>
+<pre class="r"><code>lm1
+#&gt; 
+#&gt; Call:
+#&gt; lm(formula = mpg ~ cyl + vs, data = mtcars)
+#&gt; 
+#&gt; Coefficients:
+#&gt; (Intercept)          cyl           vs  
+#&gt;      39.625       -3.091       -0.939</code></pre>
+<p>实际上，<code>print()</code>函数被默默地调用了：</p>
+<pre class="r"><code>print(lm1)
+#&gt; 
+#&gt; Call:
+#&gt; lm(formula = mpg ~ cyl + vs, data = mtcars)
+#&gt; 
+#&gt; Coefficients:
+#&gt; (Intercept)          cyl           vs  
+#&gt;      39.625       -3.091       -0.939</code></pre>
+<p>为什么打印出来的不像列表呢？因为<code>print()</code>是一个泛型函数，它为<code>lm</code>选择了一个方法来打印线性模型最重要的信息。我们可以调用<code>getS3method(&quot;print&quot;, &quot;lm&quot;)</code>获取实际使用的方法与想象的进行验证：</p>
+<pre class="r"><code>identical(getS3method(&quot;print&quot;, &quot;lm&quot;), stats:::print.lm)
+#&gt; [1] TRUE</code></pre>
+<p><code>print()</code>展示模型的一个简要版本，<code>summary()</code>展示更详细的信息。<code>summary()</code>也是一个泛型函数，它为模型的所有类提供了许多方法：</p>
+<pre class="r"><code>summary(lm1)
+#&gt; 
+#&gt; Call:
+#&gt; lm(formula = mpg ~ cyl + vs, data = mtcars)
+#&gt; 
+#&gt; Residuals:
+#&gt;    Min     1Q Median     3Q    Max 
+#&gt; -4.923 -1.953 -0.081  1.319  7.577 
+#&gt; 
+#&gt; Coefficients:
+#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    
+#&gt; (Intercept)   39.625      4.225    9.38  2.8e-10 ***
+#&gt; cyl           -3.091      0.558   -5.54  5.7e-06 ***
+#&gt; vs            -0.939      1.978   -0.47     0.64    
+#&gt; ---
+#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+#&gt; 
+#&gt; Residual standard error: 3.25 on 29 degrees of freedom
+#&gt; Multiple R-squared:  0.728,  Adjusted R-squared:  0.71 
+#&gt; F-statistic: 38.9 on 2 and 29 DF,  p-value: 6.23e-09</code></pre>
+<p>实际上，<code>summary()</code>的输出结果也是一个对象，包含的数据都可以被访问。在这个例子里，这个对象是一个列表，是<code>summary.lm</code>类，它有可供<code>print()</code>选择的自己的方法：</p>
+<pre class="r"><code>lm1summary = summary(lm1)
+typeof(lm1summary)
+#&gt; [1] &quot;list&quot;
+class(lm1summary)
+#&gt; [1] &quot;summary.lm&quot;</code></pre>
+<p>查看列表成分：</p>
+<pre class="r"><code>names(lm1summary)
+#&gt;  [1] &quot;call&quot;          &quot;terms&quot;         &quot;residuals&quot;     &quot;coefficients&quot; 
+#&gt;  [5] &quot;aliased&quot;       &quot;sigma&quot;         &quot;df&quot;            &quot;r.squared&quot;    
+#&gt;  [9] &quot;adj.r.squared&quot; &quot;fstatistic&quot;    &quot;cov.unscaled&quot;</code></pre>
+<p>还有一些其他有用的且与模型相关的泛型函数，例如<code>plot()</code>,<code>predict()</code>。不同的内置模型和第三方扩展包提供的模型都能实现这些泛型函数。</p>
+<p>举例，我们可以对线性模型调用<code>plot()</code>函数：</p>
+<pre class="r"><code>oldpar = par(mfrow = c(2, 2))
+plot(lm1)</code></pre>
+<p><img src="/cn/post/2019-11-20-high-level-OOP-one_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<pre class="r"><code>par(oldpar)</code></pre>
+<p>为避免依次生成这4个图，我们用<code>par()</code>将绘图区域划分为2x2的子区域。</p>
+<p>利用<code>predict()</code>我们可以使用模型对新数据进行预测，泛型函数<code>predict()</code>自动选择正确的方法用新数据进行预测：</p>
+<pre class="r"><code>predict(lm1, data.frame(cyl = c(6, 8), vs = c(1, 1)))
+#&gt;    1    2 
+#&gt; 20.1 14.0</code></pre>
+<p><strong>这个函数既可以用在样本内，又可以用在样本外</strong>。如果我们为模型提供新数据，它就进行样本外预测。</p>
+<p>下面我们创建一幅真实值和拟合值的散点图，看一看线性模型的预测效果：</p>
+<pre class="r"><code>plot(mtcars$mpg, fitted(lm1))</code></pre>
+<p><img src="/cn/post/2019-11-20-high-level-OOP-one_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p>这里的<code>fitted()</code>也是泛型函数，等价于<code>lm1$fitted.values</code>，拟合值等于用原始数据得到的预测值，即用原始数据构建的模型预测原始数据，<code>predict(lm1, mtcars)</code>。</p>
+<p>真实值与拟合值的差称为残差，可以通过另一个泛型函数<code>residuals()</code>获得。</p>
+<pre class="r"><code>plot(density(residuals(lm1)),
+     main = &quot;Density of lm1 residuals&quot;)</code></pre>
+<p><img src="/cn/post/2019-11-20-high-level-OOP-one_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p>这些泛型函数不仅适用于<code>lm</code>、<code>glm</code>和其他内置模型，也适用于其他扩展包提供的模型。</p>
+<p>例如我们使用<code>rpart</code>包，使用前面的数据和公式拟合一个回归树模型。</p>
+<pre class="r"><code>if(!require(&quot;rpart&quot;)) install.packages(&quot;rpart&quot;)
+#&gt; 载入需要的程辑包：rpart
+library(rpart)</code></pre>
+<pre class="r"><code>tree_model = rpart(mpg ~ cyl + vs, data = mtcars)</code></pre>
+<p>我们之所以能够使用相同的方法，<strong>是因为这个包的作者希望函数调用的方式与调用R内置函数保持一致</strong>。</p>
+<pre class="r"><code>typeof(tree_model)
+#&gt; [1] &quot;list&quot;
+class(tree_model)
+#&gt; [1] &quot;rpart&quot;</code></pre>
+<p>打印模型：</p>
+<pre class="r"><code>print(tree_model)
+#&gt; n= 32 
+#&gt; 
+#&gt; node), split, n, deviance, yval
+#&gt;       * denotes terminal node
+#&gt; 
+#&gt; 1) root 32 1130.0 20.1  
+#&gt;   2) cyl&gt;=5 21  198.0 16.6  
+#&gt;     4) cyl&gt;=7 14   85.2 15.1 *
+#&gt;     5) cyl&lt; 7 7   12.7 19.7 *
+#&gt;   3) cyl&lt; 5 11  203.0 26.7 *</code></pre>
+<p>更详细信息：</p>
+<pre class="r"><code>summary(tree_model)
+#&gt; Call:
+#&gt; rpart(formula = mpg ~ cyl + vs, data = mtcars)
+#&gt;   n= 32 
+#&gt; 
+#&gt;       CP nsplit rel error xerror   xstd
+#&gt; 1 0.6431      0     1.000  1.074 0.2578
+#&gt; 2 0.0893      1     0.357  0.412 0.0806
+#&gt; 3 0.0100      2     0.268  0.412 0.0806
+#&gt; 
+#&gt; Variable importance
+#&gt; cyl  vs 
+#&gt;  65  35 
+#&gt; 
+#&gt; Node number 1: 32 observations,    complexity param=0.643
+#&gt;   mean=20.1, MSE=35.2 
+#&gt;   left son=2 (21 obs) right son=3 (11 obs)
+#&gt;   Primary splits:
+#&gt;       cyl &lt; 5   to the right, improve=0.643, (0 missing)
+#&gt;       vs  &lt; 0.5 to the left,  improve=0.441, (0 missing)
+#&gt;   Surrogate splits:
+#&gt;       vs &lt; 0.5 to the left,  agree=0.844, adj=0.545, (0 split)
+#&gt; 
+#&gt; Node number 2: 21 observations,    complexity param=0.0893
+#&gt;   mean=16.6, MSE=9.45 
+#&gt;   left son=4 (14 obs) right son=5 (7 obs)
+#&gt;   Primary splits:
+#&gt;       cyl &lt; 7   to the right, improve=0.507, (0 missing)
+#&gt;   Surrogate splits:
+#&gt;       vs &lt; 0.5 to the left,  agree=0.857, adj=0.571, (0 split)
+#&gt; 
+#&gt; Node number 3: 11 observations
+#&gt;   mean=26.7, MSE=18.5 
+#&gt; 
+#&gt; Node number 4: 14 observations
+#&gt;   mean=15.1, MSE=6.09 
+#&gt; 
+#&gt; Node number 5: 7 observations
+#&gt;   mean=19.7, MSE=1.81</code></pre>
+<p>下面对结果进行可视化，得到树图：</p>
+<pre class="r"><code>oldpar = par(xpd = NA)
+plot(tree_model)
+text(tree_model, use.n = TRUE)</code></pre>
+<p><img src="/cn/post/2019-11-20-high-level-OOP-one_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<pre class="r"><code>par(oldpar)</code></pre>
+</div>
+<div id="为现有类定义泛型函数" class="section level3">
+<h3>为现有类定义泛型函数</h3>
+<p><strong>在定义泛型函数时，我们创建一个函数去调用<code>UseMethod()</code>出发方法分派。然后对泛型函数想要作用的类创建带有<code>method.class</code>形式的方法函数，同时还要创建带有<code>method.default</code>形式的默认方法来应对所有其他情况</strong>。</p>
+<p>下面我们创建一个新的泛型函数<code>generic_head()</code>，它有两个参数：<strong>输入对象<code>x</code>和需要提取的记录条数<code>n</code></strong>。泛型函数仅仅调用<code>UseMethod(&quot;generic_head&quot;)</code>来让R根据输入对象<code>x</code>的类执行方法分派。</p>
+<pre class="r"><code>generic_head = function(x, n)
+    UseMethod(&quot;generic_head&quot;)</code></pre>
+<p>对原子向量提取前<code>n</code>个元素，因此分别定义<code>generic_head.numeric</code>、<code>generic_head.character</code>等，另外最好定义一个默认方法捕获不能匹配的其他所有情况：</p>
+<pre class="r"><code>generic_head.default = function(x, n){
+    x[1:n]
+}</code></pre>
+<p>现在<code>generic_head</code>只有一种方法，等于没有使用泛型函数：</p>
+<pre class="r"><code>generic_head(num_vec, 3)
+#&gt; [1] 1 2 3</code></pre>
+<p>现在我们还没有定义针对<code>data.frame</code>类的方法，所以当我们输入数据框时，函数会自动转向<code>generic_head.default</code>，又因为提取的数量超出列数，所以下面的运行会报错：</p>
+<pre class="r"><code>generic_head(data_frame, 3)
+#&gt; Error in `[.data.frame`(x, 1:n): 选择了未定义的列</code></pre>
+<p>下面为<code>data.frame</code>定义方法：</p>
+<pre class="r"><code>generic_head.data.frame = function(x, n) {
+    x[1:n, ]
+}</code></pre>
+<p>现在函数就可以正常运行了：</p>
+<pre class="r"><code>generic_head(data_frame, 3)
+#&gt;   x       y
+#&gt; 1 1  0.9659
+#&gt; 2 2  0.5115
+#&gt; 3 3 -0.0792</code></pre>
+<p>因为没有对参数进行检查，所以S3类执行的方法并不稳健。</p>
+</div>
+<div id="定义新类并创建对象" class="section level3">
+<h3>定义新类并创建对象</h3>
+<p>现在我们来尝试构建新类，<code>class(x)</code>获取<code>x</code>的类，而<code>class(x) = some_class</code>将<code>x</code>的类设为<code>some_class</code>。</p>
+<div id="使用列表作为底层数据结构" class="section level4">
+<h4>使用列表作为底层数据结构</h4>
+<p>列表可能是创建新类时使用最广泛的数据结构，类描述了对象的类型和对象交互作用的方法，其中对象用于存储多种多样、长度不一的数据。</p>
+<p>下面我们定义一个叫<code>product</code>的函数，创建一个由<code>name</code>、<code>price</code>和<code>inventory</code>构成的列表，该列表的类是<code>product</code>。我们还将自己定义它的<code>print</code>方法。</p>
+<pre class="r"><code>productor = function(name, price, inventory){
+    obj = list(name = name,
+               price = price,
+               inventory = inventory)
+    class(obj) = &quot;product&quot;
+    obj
+}</code></pre>
+<p>上面我们创建了一个列表，然后将它的类替换为<code>product</code>。我们还可以使用<code>structure()</code>：</p>
+<pre class="r"><code>product = function(name, price, inventory){
+    structure(list(name = name,
+              price = price,
+              inventory = inventory),
+              class = &quot;product&quot;)
+}</code></pre>
+<p>现在我们调用<code>product()</code>函数生成<code>product</code>类的实例：</p>
+<pre class="r"><code>laptop = product(&quot;Laptop&quot;, 499, 300)</code></pre>
+<p>查看它的结构和S3类方法分派：</p>
+<pre class="r"><code>typeof(laptop)
+#&gt; [1] &quot;list&quot;
+class(laptop)
+#&gt; [1] &quot;product&quot;</code></pre>
+<p>此时我们还没有为该类定义任何方法，如果<code>print</code>将按默认列表输出：</p>
+<pre class="r"><code>print(laptop)
+#&gt; $name
+#&gt; [1] &quot;Laptop&quot;
+#&gt; 
+#&gt; $price
+#&gt; [1] 499
+#&gt; 
+#&gt; $inventory
+#&gt; [1] 300
+#&gt; 
+#&gt; attr(,&quot;class&quot;)
+#&gt; [1] &quot;product&quot;</code></pre>
+<p>下面我们自定义一个<code>print</code>方法，使得输出更紧凑：</p>
+<pre class="r"><code>print.product = function(x, ...){
+    cat(&quot;&lt;product&gt;\n&quot;)
+    cat(&quot;name:&quot;, x$name, &quot;\n&quot;)
+    cat(&quot;price:&quot;, x$price, &quot;\n&quot;)
+    cat(&quot;inventory:&quot;, x$inventory, &quot;\n&quot;)
+    invisible(x)
+}</code></pre>
+<p><code>print</code>方法返回输入对象本身以备后用，这是一项约定。</p>
+<p>现在我们再来看看输出：</p>
+<pre class="r"><code>laptop
+#&gt; &lt;product&gt;
+#&gt; name: Laptop 
+#&gt; price: 499 
+#&gt; inventory: 300</code></pre>
+<p>我们可以像操作列表一样访问<code>laptop</code>的成分：</p>
+<pre class="r"><code>laptop$name
+#&gt; [1] &quot;Laptop&quot;
+laptop$price
+#&gt; [1] 499
+laptop$inventory
+#&gt; [1] 300</code></pre>
+<p>如果我们创建另一个对象，并将两者放入一个列表然后打印，<code>print.product</code>仍然会被调用：</p>
+<pre class="r"><code>cellphone = product(&quot;Phone&quot;, 249, 12000)
+products = list(laptop, cellphone)
+products
+#&gt; [[1]]
+#&gt; &lt;product&gt;
+#&gt; name: Laptop 
+#&gt; price: 499 
+#&gt; inventory: 300 
+#&gt; 
+#&gt; [[2]]
+#&gt; &lt;product&gt;
+#&gt; name: Phone 
+#&gt; price: 249 
+#&gt; inventory: 12000</code></pre>
+<p>当<code>products</code>以列表形式被打印时，会对每个元素调用<code>print()</code>泛型函数，再由泛型函数执行方法分派。</p>
+<p><strong>大多数其他编程语言都对类有正式的定义，而S3没有，所以创建一个S3对象比较简单，但我们需要对输入参数进行充分的检查，以确保创建的对象与所属类内部一致</strong>。</p>
+<p>除了定义新类，我们还可以定义新的泛型函数。下面创建一个叫<code>value</code>的泛型函数，它通过测量产品的库存值来为<code>product</code>调用实施方法：</p>
+<pre class="r"><code>value = function(x, ...)
+    UseMethod(&quot;value&quot;)
+value.default = function(x, ...){
+    stop(&quot;Value is undefined&quot;)
+}
+value.product = function(x, ...){
+    x$price * x$inventory
+}</code></pre>
+<p>针对其他类，<code>value</code>调用<code>default</code>方法并终止运行。</p>
+<pre class="r"><code>value(laptop)
+#&gt; [1] 149700
+value(cellphone)
+#&gt; [1] 2988000
+value(data_frame)
+#&gt; Error in value.default(data_frame): Value is undefined</code></pre>
+</div>
+<div id="使用原子向量作为底层数据结构" class="section level4">
+<h4>使用原子向量作为底层数据结构</h4>
+<p>上面我们已经演示了创建S3类和泛型函数的过程，有时候我们需要使用原子向量创建新类，下面展示<strong>百分比</strong>形式向量创建过程。</p>
+<p>首先定义一个<code>percent</code>函数，它检查输入是否是数值向量并将输入对象类型改为<code>percent</code>，<code>percent</code>类继承<code>numeric</code>类：</p>
+<pre class="r"><code>percent = function(x){
+    stopifnot(is.numeric(x))
+    class(x) = c(&quot;percent&quot;, &quot;numeric&quot;)
+    x
+}</code></pre>
+<p><strong>这里的继承指方法分派首先在<code>percent</code>类中方法找，找不到就去<code>numeric</code>类方法中找。寻找的顺序由类名称的顺序决定</strong>。</p>
+<pre class="r"><code>pct = percent(c(0.1, 0.05, 0.25))
+pct
+#&gt; [1] 0.10 0.05 0.25
+#&gt; attr(,&quot;class&quot;)
+#&gt; [1] &quot;percent&quot; &quot;numeric&quot;</code></pre>
+<p>现在定义方法，让<code>percent</code>类以百分比形式存在：</p>
+<pre class="r"><code>as.character.percent = function(x, ...){
+    paste0(as.numeric(x) * 100, &quot;%&quot;)
+}</code></pre>
+<p>现在我们可以得到字符型了：</p>
+<pre class="r"><code>as.character(pct)
+#&gt; [1] &quot;10%&quot; &quot;5%&quot;  &quot;25%&quot;</code></pre>
+<p>也可以直接调用<code>as.character()</code>为<code>percent</code>提供一个<code>format</code>方法：</p>
+<pre class="r"><code>format.percent = function(x, ...){
+    as.character(x, ...)
+}</code></pre>
+<p><code>format</code>现在有相同的效果：</p>
+<pre class="r"><code>format(pct)
+#&gt; [1] &quot;10%&quot; &quot;5%&quot;  &quot;25%&quot;</code></pre>
+<p>类似地，我们调用<code>format.percent()</code>为<code>percent</code>提供<code>print</code>方法：</p>
+<pre class="r"><code>print.percent = function(x, ...){
+    print(format.percent(x), quote = FALSE)
+}</code></pre>
+<p>这里指定<code>quote=FALSE</code>使得打印的格式化字符串更像数字而非字符串。</p>
+<pre class="r"><code>pct
+#&gt; [1] 10% 5%  25%</code></pre>
+<p>注意，使用算术运算符操作后会自动保持输出向量类不变：</p>
+<pre class="r"><code>pct + 0.2
+#&gt; [1] 30% 25% 45%
+pct * 0.5
+#&gt; [1] 5%    2.5%  12.5%</code></pre>
+<p>可惜使用其他函数可能不会保持输入对象的类，比如<code>sum()</code>、<code>mean()</code>等：</p>
+<pre class="r"><code>sum(pct)
+#&gt; [1] 0.4
+mean(pct)
+#&gt; [1] 0.133
+max(pct)
+#&gt; [1] 0.25
+min(pct)
+#&gt; [1] 0.05</code></pre>
+<p>为了确保百分比形式保存，我们对<code>percent</code>类实施一些操作：</p>
+<pre class="r"><code>sum.percent = function(...){
+    percent(NextMethod(&quot;sum&quot;))
+}
+mean.percent = function(x, ...){
+    percent(NextMethod(&quot;mean&quot;))
+}
+max.percent = function(...){
+    percent(NextMethod(&quot;max&quot;))
+}
+min.percent = function(...){
+    percent(NextMethod(&quot;max&quot;))
+}</code></pre>
+<p><code>NextMethod(&quot;sum&quot;)</code>对<code>numeric</code>类调用<code>sum()</code>函数，然后再调用<code>percent()</code>函数将输出的数值向量包装为百分比形式：</p>
+<pre class="r"><code>sum(pct)
+#&gt; [1] 40%
+mean(pct)
+#&gt; [1] 13.3333333333333%
+max(pct)
+#&gt; [1] 25%
+min(pct)
+#&gt; [1] 5%</code></pre>
+<p>但如果我们组合一个百分比向量和其他数值型的值，<code>percent</code>类又会消失掉，我们进行相同的改进：</p>
+<pre class="r"><code>c.percent = function(x, ...){
+    percent(NextMethod(&quot;c&quot;))
+}</code></pre>
+<pre class="r"><code>c(pct, 0.12)
+#&gt; [1] 10% 5%  25% 12%</code></pre>
+<p>dan….我们取子集又会有问题</p>
+<pre class="r"><code>pct[1:3]
+#&gt; [1] 0.10 0.05 0.25
+pct[[2]]
+#&gt; [1] 0.05</code></pre>
+<p>同样地，我们对<code>[</code>和<code>[[</code>函数进行改造：</p>
+<pre class="r"><code>`[.percent` = function(x, i) {
+    percent(NextMethod(&#39;[&#39;))
+}
+`[[.percent` = function(x, i){
+    percent(NextMethod(&quot;[[&quot;))
+}</code></pre>
+<p>此时显示就正常了：</p>
+<pre class="r"><code>pct[1:3]
+#&gt; [1] 10% 5%  25%
+pct[[2]]
+#&gt; [1] 5%</code></pre>
+<p>实现这些方法后，我们可以在数据框中使用：</p>
+<pre class="r"><code>data.frame(id = 1:3, pct)
+#&gt;   id pct
+#&gt; 1  1 10%
+#&gt; 2  2  5%
+#&gt; 3  3 25%</code></pre>
+</div>
+<div id="s3继承" class="section level4">
+<h4>S3继承</h4>
+<p>假设我们想要对一些交通工具，例如汽车、公共汽车和飞机进行建模。这些交通工具有一些共性，它们都有名称、速度、位置，而且都可以移动。为了形象化描述它们，我们定义一个基本类，称为<code>vehichle</code>，用于存储公共部分，另外定义<code>car</code>、<code>bus</code>和<code>airplane</code>这3个子类，它们继承<code>vehichle</code>，但具有自定义的行为。</p>
+<p>首先，定义一个函数来创建<code>vehicle</code>对象，它本质上是一个环境。<strong>我们选择环境而不是列表，因为需要用到环境的引用语义，也就是说，我们传递一个对象，然后原地修改它，而不会创建这个对象的副本。因此无论什么位置将对象传递给函数，对象总是指向同一个交通工具</strong>。</p>
+<pre class="r"><code>Vehicle = function(class, name, speed) {
+    obj = new.env(parent = emptyenv())
+    obj$name = name
+    obj$speed = speed
+    obj$position = c(0, 0, 0)
+    class(obj) = c(class, &quot;vehicle&quot;)
+    obj
+}</code></pre>
+<p>这里的<code>class(obj) = c(class, &quot;vehicle&quot;)</code>似乎有点语义不明。但前者是基础函数，后者是输入参数，R能够判断好。</p>
+<p>下面函数创建继承<code>vehicle</code>的<code>car</code>、<code>bus</code>和<code>airplane</code>的特定函数：</p>
+<pre class="r"><code>Car = function(...){
+    Vehicle(class = &quot;car&quot;, ...)
+}
+Bus = function(...){
+    Vehicle(class = &quot;bus&quot;, ...)
+}
+Airplane = function(...){
+    Vehicle(class = &quot;airplane&quot;, ...)
+}</code></pre>
+<p>现在我们可以为每一个子类创建实例：</p>
+<pre class="r"><code>car = Car(&quot;Model-A&quot;, 80)
+bus = Bus(&quot;Medium-Bus&quot;, 40)
+airplane = Airplane(&quot;Big-Plane&quot;, 800)</code></pre>
+<p>下面为<code>vehicle</code>提供通用的<code>print</code>方法：</p>
+<pre class="r"><code>print.vehicle = function(x, ...){
+    cat(sprintf(&quot;&lt;vehicle: %s&gt;\n&quot;, class(x)[1]))
+    cat(&quot;name:&quot;, x$name, &quot;\n&quot;)
+    cat(&quot;speed:&quot;, x$speed, &quot;km/h\n&quot;)
+    cat(&quot;position:&quot;, paste(x$position, collapse = &quot;, &quot;), &quot;\n&quot;)
+}</code></pre>
+<p>因为我们定义的3个子类都有了继承，所以<code>print</code>方法通用：</p>
+<pre class="r"><code>car
+#&gt; &lt;vehicle: car&gt;
+#&gt; name: Model-A 
+#&gt; speed: 80 km/h
+#&gt; position: 0, 0, 0
+bus
+#&gt; &lt;vehicle: bus&gt;
+#&gt; name: Medium-Bus 
+#&gt; speed: 40 km/h
+#&gt; position: 0, 0, 0
+airplane
+#&gt; &lt;vehicle: airplane&gt;
+#&gt; name: Big-Plane 
+#&gt; speed: 800 km/h
+#&gt; position: 0, 0, 0</code></pre>
+<p>因为交通工具可以移动，我们创建一个泛型函数<code>move</code>来表征这样的状态：</p>
+<pre class="r"><code>move = function(vehicle, x, y, z) {
+    UseMethod(&quot;move&quot;)
+}
+move.vehicle = function(vehicle, movement) {
+    if (length(movement) != 3){
+        stop(&quot;All three dimensions must be specified to move a vehicle&quot;)
+    }
+    
+    vehicle$position = vehicle$position + movement
+    vehicle
+}</code></pre>
+<p>这里我们将汽车和公共汽车的移动限定在二维平面上。</p>
+<pre class="r"><code>move.bus = move.car = function(vehicle, movement) {
+    if (length(movement) != 2){
+        stop(&quot;This vehicle only supports 2d movement&quot;)
+    }
+    
+    movement = c(movement, 0)
+    NextMethod(&quot;move&quot;)
+}</code></pre>
+<p>这里我们将<code>movement</code>的第3个纬度强制转换为0，然后调用<code>NextMethod(&quot;move&quot;)</code>来调用<code>move.vehicle()</code>。</p>
+<p>飞机既可以在2维也可以在3维：</p>
+<pre class="r"><code>move.airplane = function(vehicle, movement) {
+    if (length(movement) == 2){
+        movement = c(movement, 0)
+    }
+    
+    NextMethod(&quot;move&quot;)
+}</code></pre>
+<p>下载3种方法都实现了，进行测试。</p>
+<pre class="r"><code>move(car, c(1, 2, 3))
+#&gt; Error in move.car(car, c(1, 2, 3)): This vehicle only supports 2d movement</code></pre>
+<p>只能输入二维，所以提示报错了。</p>
+<pre class="r"><code>move(car, c(1, 2))
+#&gt; &lt;vehicle: car&gt;
+#&gt; name: Model-A 
+#&gt; speed: 80 km/h
+#&gt; position: 1, 2, 0</code></pre>
+<pre class="r"><code>move(airplane, c(1, 2))
+#&gt; &lt;vehicle: airplane&gt;
+#&gt; name: Big-Plane 
+#&gt; speed: 800 km/h
+#&gt; position: 1, 2, 0</code></pre>
+<p>飞机，3维：</p>
+<pre class="r"><code>move(airplane, c(20,100,50))
+#&gt; &lt;vehicle: airplane&gt;
+#&gt; name: Big-Plane 
+#&gt; speed: 800 km/h
+#&gt; position: 21, 102, 50</code></pre>
+<p><strong>注意，airplane的位置是累积的</strong>。因为前面说过，它本质是一个环境，因此修改<code>move.vehicle()</code>中的<code>position</code>不会创建一个副本再修改，而是本地修改！</p>
+<blockquote>
+<p>学习自《R语言编程指南》</p>
+</blockquote>
+</div>
+</div>
+</div>
