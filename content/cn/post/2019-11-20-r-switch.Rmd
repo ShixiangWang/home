@@ -1,0 +1,65 @@
+---
+title: "R使用switch语句"
+author: "王诗翔"
+date: "2018-05-07"
+lastmod: "`r Sys.Date()`"
+slug: ""
+categories: r
+tags:
+- r
+- switch
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, dev = "png", comment = "#>")
+#Sys.setenv("LANGUAGE"="EN") # Embed this for outputing English message
+#Sys.setlocale('LC_ALL','C') # Embed this directly in the Rmarkdown script that contains the Chinese character comment
+options(digits=3)
+options(max.print=200)
+```
+
+与常用处理`TRUE`和`FALSE`条件的`if`相比，`switch`语句主要用于处理数字或者字符串，并根据输入返回某个分支。
+
+假设输入一个整数`n`，`switch`返回从第1个参数开始的第n个参数值：
+
+```{r}
+switch(1, "x", "y")
+switch(2, "x", "y")
+```
+
+如果输入的整数超出了范围，无法匹配相应参数值，不可见的`NULL`会被返回：
+
+```{r}
+switch(3, "x", "y")
+```
+
+当输入字符串时，`switch`语句会有不同的处理方式。它将参数名称和输入进行匹配，并返回最先匹配参数的值。
+
+```{r}
+switch("a", a=1, b=2)
+switch("b", a=1, b=2)
+```
+
+为考虑所有的情况，我们可以增加**一个没有参数名的参数来捕获其他输入情况**：
+
+```{r}
+switch("c", a=1, b=2, 3)
+```
+
+
+下面是简单使用的一个例子：
+
+```{r}
+switch_test <- function(x){
+    switch(x,
+           a = c(1, 2, 3),
+           b = list(x = 0, y = 1),
+           c = {
+               cat("You choose c!\n")
+               list(name = "c", value = "something")
+           })
+}
+switch_test("a")
+switch_test("b")
+switch_test("c")
+```

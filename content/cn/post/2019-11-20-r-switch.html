@@ -1,0 +1,55 @@
+---
+title: "R使用switch语句"
+author: "王诗翔"
+date: "2018-05-07"
+lastmod: "2019-11-20"
+slug: ""
+categories: r
+tags:
+- r
+- switch
+---
+
+
+
+<p>与常用处理<code>TRUE</code>和<code>FALSE</code>条件的<code>if</code>相比，<code>switch</code>语句主要用于处理数字或者字符串，并根据输入返回某个分支。</p>
+<p>假设输入一个整数<code>n</code>，<code>switch</code>返回从第1个参数开始的第n个参数值：</p>
+<pre class="r"><code>switch(1, &quot;x&quot;, &quot;y&quot;)
+#&gt; [1] &quot;x&quot;
+switch(2, &quot;x&quot;, &quot;y&quot;)
+#&gt; [1] &quot;y&quot;</code></pre>
+<p>如果输入的整数超出了范围，无法匹配相应参数值，不可见的<code>NULL</code>会被返回：</p>
+<pre class="r"><code>switch(3, &quot;x&quot;, &quot;y&quot;)</code></pre>
+<p>当输入字符串时，<code>switch</code>语句会有不同的处理方式。它将参数名称和输入进行匹配，并返回最先匹配参数的值。</p>
+<pre class="r"><code>switch(&quot;a&quot;, a=1, b=2)
+#&gt; [1] 1
+switch(&quot;b&quot;, a=1, b=2)
+#&gt; [1] 2</code></pre>
+<p>为考虑所有的情况，我们可以增加<strong>一个没有参数名的参数来捕获其他输入情况</strong>：</p>
+<pre class="r"><code>switch(&quot;c&quot;, a=1, b=2, 3)
+#&gt; [1] 3</code></pre>
+<p>下面是简单使用的一个例子：</p>
+<pre class="r"><code>switch_test &lt;- function(x){
+    switch(x,
+           a = c(1, 2, 3),
+           b = list(x = 0, y = 1),
+           c = {
+               cat(&quot;You choose c!\n&quot;)
+               list(name = &quot;c&quot;, value = &quot;something&quot;)
+           })
+}
+switch_test(&quot;a&quot;)
+#&gt; [1] 1 2 3
+switch_test(&quot;b&quot;)
+#&gt; $x
+#&gt; [1] 0
+#&gt; 
+#&gt; $y
+#&gt; [1] 1
+switch_test(&quot;c&quot;)
+#&gt; You choose c!
+#&gt; $name
+#&gt; [1] &quot;c&quot;
+#&gt; 
+#&gt; $value
+#&gt; [1] &quot;something&quot;</code></pre>
