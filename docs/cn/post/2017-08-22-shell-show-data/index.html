@@ -92,7 +92,7 @@
 
 
 
-<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2017-08-22-shell-show-data.md" target="_blank">编辑</a></li>
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn%5cpost%5c2017-08-22-shell-show-data.md" target="_blank">编辑</a></li>
 
 
 <li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
@@ -123,11 +123,8 @@
       </header>
 
 
-
-
 <blockquote>
 <p>本章内容：</p>
-
 <ul>
 <li>再探重定向</li>
 <li>标准输入和输出</li>
@@ -136,25 +133,17 @@
 <li>创建日志文件</li>
 </ul>
 </blockquote>
-
-<!-- more -->
-
-<h2 id="理解输入和输出">理解输入和输出</h2>
-
+<!-- raw HTML omitted -->
+<h2 id="heading">理解输入和输出</h2>
 <p>显示输出的方法有：</p>
-
 <ul>
 <li>在显示器屏幕上输出</li>
 <li>将输出重定向到文件中</li>
 <li>有时将一部分数据显示在显示器上；一部分保存到文件中。</li>
 </ul>
-
 <p>之前涉及的脚本都是以第一种方式输出。现在我们来具体了解下输入和输出。</p>
-
-<h3 id="标准文件描述符">标准文件描述符</h3>
-
+<h3 id="heading-1">标准文件描述符</h3>
 <p><strong>Linux系统将每个对象当作文件处理</strong>。着包括输入和输出进程。而标识文件对象是通过<strong>文件描述符</strong>完成的。文件描述符是一个非负整数，可以唯一标识会话中打开的文件。每个进程一次最多有九个文件描述符，bash shell保留勒前三个（0,1,2），见下表。</p>
-
 <table>
 <thead>
 <tr>
@@ -163,20 +152,17 @@
 <th>描述</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>0</td>
 <td>STDIN</td>
 <td>标准输入</td>
 </tr>
-
 <tr>
 <td>1</td>
 <td>STDOUT</td>
 <td>标准输出</td>
 </tr>
-
 <tr>
 <td>2</td>
 <td>STDERR</td>
@@ -184,182 +170,127 @@
 </tr>
 </tbody>
 </table>
-
 <p>shell用他们将shell默认的输入和输出导向到相应的位置。</p>
-
 <p><strong>STDIN</strong></p>
-
 <p>在使用输入重定向符号（&lt;）时，Linux会用重定向指定的文件夹来替换标准输入文件描述符。它会读取文件并提取数据，就像它是从键盘上键入的。</p>
-
-<pre><code class="language-shell">wangsx@SC-201708020022:~/tmp$ cat
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ cat
 this is a test
 this is a test
 this is a second test
 this is a second test
-</code></pre>
-
-<p>输入<code>cat</code>命令时，它从STDIN接受输入。输入一行，<code>cat</code>命令会显示一行。</p>
-
+</code></pre></div><p>输入<code>cat</code>命令时，它从STDIN接受输入。输入一行，<code>cat</code>命令会显示一行。</p>
 <p>当然也可以通过<code>&lt;</code>符号强制<code>cat</code>命令接受来自另一个非STDIN文件的输入。</p>
-
-<pre><code class="language-shell">wangsx@SC-201708020022:~$ cat &lt; testfile
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~$ cat &lt; testfile
 This is the first line.
 This is the second line.
 This is the third line.
-</code></pre>
-
-<p><strong>STDOUT</strong></p>
-
+</code></pre></div><p><strong>STDOUT</strong></p>
 <p>标准输出就是终端显示器。我们可以使用<code>&lt;</code>输出重定向符号来改变它。</p>
-
-<pre><code class="language-shell">wangsx@SC-201708020022:~$ ls -l &gt; test2
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~$ ls -l &gt; test2
 wangsx@SC-201708020022:~$ cat test2
 总用量 28
-drwxrwxrwx 0 wangsx wangsx 4096 8月   2 11:48 biosoft
--rw-rw-rw- 1 wangsx wangsx 2156 8月   4 00:12 biostar.yml
-drwxrwxrwx 0 wangsx wangsx 4096 8月   3 22:24 miniconda2
-drwxrwxrwx 0 wangsx wangsx 4096 8月   2 11:50 ncbi
--rw-rw-rw- 1 wangsx wangsx 5230 8月  14 00:14 spf13-vim.sh
-drwxrwxrwx 0 wangsx wangsx 4096 8月  13 23:51 src
--rw-rw-rw- 1 wangsx wangsx    0 8月  21 22:43 test2
--rw-rw-rw- 1 wangsx wangsx   73 8月  21 22:39 testfile
-drwxrwxrwx 0 wangsx wangsx 4096 8月  19 17:15 tmp
--rw-rw-rw- 1 wangsx wangsx 2156 8月  14 12:20 wsx_biostar.yml
-</code></pre>
-
-<p>如果文件存在，<code>&gt;</code>符号会将导向的文件全部重写。如果想要以追加的形式，则使用<code>&gt;&gt;</code>。</p>
-
+drwxrwxrwx <span style="color:#ae81ff">0</span> wangsx wangsx <span style="color:#ae81ff">4096</span> 8月   <span style="color:#ae81ff">2</span> 11:48 biosoft
+-rw-rw-rw- <span style="color:#ae81ff">1</span> wangsx wangsx <span style="color:#ae81ff">2156</span> 8月   <span style="color:#ae81ff">4</span> 00:12 biostar.yml
+drwxrwxrwx <span style="color:#ae81ff">0</span> wangsx wangsx <span style="color:#ae81ff">4096</span> 8月   <span style="color:#ae81ff">3</span> 22:24 miniconda2
+drwxrwxrwx <span style="color:#ae81ff">0</span> wangsx wangsx <span style="color:#ae81ff">4096</span> 8月   <span style="color:#ae81ff">2</span> 11:50 ncbi
+-rw-rw-rw- <span style="color:#ae81ff">1</span> wangsx wangsx <span style="color:#ae81ff">5230</span> 8月  <span style="color:#ae81ff">14</span> 00:14 spf13-vim.sh
+drwxrwxrwx <span style="color:#ae81ff">0</span> wangsx wangsx <span style="color:#ae81ff">4096</span> 8月  <span style="color:#ae81ff">13</span> 23:51 src
+-rw-rw-rw- <span style="color:#ae81ff">1</span> wangsx wangsx    <span style="color:#ae81ff">0</span> 8月  <span style="color:#ae81ff">21</span> 22:43 test2
+-rw-rw-rw- <span style="color:#ae81ff">1</span> wangsx wangsx   <span style="color:#ae81ff">73</span> 8月  <span style="color:#ae81ff">21</span> 22:39 testfile
+drwxrwxrwx <span style="color:#ae81ff">0</span> wangsx wangsx <span style="color:#ae81ff">4096</span> 8月  <span style="color:#ae81ff">19</span> 17:15 tmp
+-rw-rw-rw- <span style="color:#ae81ff">1</span> wangsx wangsx <span style="color:#ae81ff">2156</span> 8月  <span style="color:#ae81ff">14</span> 12:20 wsx_biostar.yml
+</code></pre></div><p>如果文件存在，<code>&gt;</code>符号会将导向的文件全部重写。如果想要以追加的形式，则使用<code>&gt;&gt;</code>。</p>
 <p><strong>STDERR</strong></p>
-
 <p>STDERR文件描述符代表shell的标准错误输出。运行脚本或命令的错误信息都会发送到这个位置。</p>
-
 <p>默认，STDERR会和STDOUT指向同样的地方（屏幕终端）。使用脚本时，我们常常会希望将错误信息保存到日志文件中。</p>
-
-<h3 id="重定向错误">重定向错误</h3>
-
+<h3 id="heading-2">重定向错误</h3>
 <p>几种实现方法：</p>
-
 <ol>
-<li>只重定向错误</li>
-</ol>
-
+<li>
+<p>只重定向错误</p>
 <p>将文件描述符值（2）放在重定向符号前。</p>
-
-<pre><code class="language-shell">   wangsx@SC-201708020022:~$ ls -al badfile 2&gt; test4
-   wangsx@SC-201708020022:~$ cat test4
-   ls: 无法访问'badfile': 没有那个文件或目录
-</code></pre>
-
-<p>命令生成的任何错误信息都会保存在输出文件中。<strong>这个方法只重定向错误信息。</strong></p>
-
-<ol>
-<li>重定向错误和数据</li>
-</ol>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~$ ls -al badfile 2&gt; test4
+wangsx@SC-201708020022:~$ cat test4
+ls: 无法访问<span style="color:#e6db74">&#39;badfile&#39;</span>: 没有那个文件或目录
+</code></pre></div><p>命令生成的任何错误信息都会保存在输出文件中。<strong>这个方法只重定向错误信息。</strong></p>
+</li>
+<li>
+<p>重定向错误和数据</p>
 <p>这必须用两个重定向符号。需要在符号前面放上待重定向数据所对应的文件描述符，然后指向用于保存数据的输出文件。</p>
-
-<pre><code class="language-shell">   wangsx@SC-201708020022:~$ ls -al test test2 test3 bad test 2&gt; test6 1&gt; test7
-   wangsx@SC-201708020022:~$ cat test6
-   ls: 无法访问'test': 没有那个文件或目录
-   ls: 无法访问'test3': 没有那个文件或目录
-   ls: 无法访问'bad': 没有那个文件或目录
-   ls: 无法访问'test': 没有那个文件或目录
-   wangsx@SC-201708020022:~$ cat test7
-   -rw-rw-rw- 1 wangsx wangsx 571 8月  21 22:43 test2
-</code></pre>
-
-<p>可以看到正常输出重定向到了test7，错误重定向到了test6。另外，也可以将STDERR和STDOUT的输出重定向到同一个输出文件，bash shell提供了符号<code>&amp;&gt;</code>。</p>
-
-<pre><code class="language-shell">   wangsx@SC-201708020022:~$ ls -al test test2 test3 bad &amp;&gt; test7
-   wangsx@SC-201708020022:~$ cat test7
-   ls: 无法访问'test': 没有那个文件或目录
-   ls: 无法访问'test3': 没有那个文件或目录
-   ls: 无法访问'bad': 没有那个文件或目录
-   -rw-rw-rw- 1 wangsx wangsx 571 8月  21 22:43 test2
-</code></pre>
-
-<p>使用这个符号的话，bash shell会自动赋予错误消息更高的优先级。这样能够集中浏览错误信息。</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~$ ls -al test test2 test3 bad test 2&gt; test6 1&gt; test7
+wangsx@SC-201708020022:~$ cat test6
+ls: 无法访问<span style="color:#e6db74">&#39;test&#39;</span>: 没有那个文件或目录
+ls: 无法访问<span style="color:#e6db74">&#39;test3&#39;</span>: 没有那个文件或目录
+ls: 无法访问<span style="color:#e6db74">&#39;bad&#39;</span>: 没有那个文件或目录
+ls: 无法访问<span style="color:#e6db74">&#39;test&#39;</span>: 没有那个文件或目录
+wangsx@SC-201708020022:~$ cat test7
+-rw-rw-rw- <span style="color:#ae81ff">1</span> wangsx wangsx <span style="color:#ae81ff">571</span> 8月  <span style="color:#ae81ff">21</span> 22:43 test2
+</code></pre></div><p>可以看到正常输出重定向到了test7，错误重定向到了test6。另外，也可以将STDERR和STDOUT的输出重定向到同一个输出文件，bash shell提供了符号<code>&amp;&gt;</code>。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~$ ls -al test test2 test3 bad &amp;&gt; test7
+wangsx@SC-201708020022:~$ cat test7
+ls: 无法访问<span style="color:#e6db74">&#39;test&#39;</span>: 没有那个文件或目录
+ls: 无法访问<span style="color:#e6db74">&#39;test3&#39;</span>: 没有那个文件或目录
+ls: 无法访问<span style="color:#e6db74">&#39;bad&#39;</span>: 没有那个文件或目录
+-rw-rw-rw- <span style="color:#ae81ff">1</span> wangsx wangsx <span style="color:#ae81ff">571</span> 8月  <span style="color:#ae81ff">21</span> 22:43 test2
+</code></pre></div><p>使用这个符号的话，bash shell会自动赋予错误消息更高的优先级。这样能够集中浏览错误信息。</p>
 <p>​</p>
-
-<h2 id="在脚本中重定向输出">在脚本中重定向输出</h2>
-
+</li>
+</ol>
+<h2 id="heading-3">在脚本中重定向输出</h2>
 <p>两种方法在脚本中重定向输出：</p>
-
 <ul>
 <li>临时重定向输出</li>
 <li>永久重定向脚本中的所有命令</li>
 </ul>
-
-<h3 id="临时重定向">临时重定向</h3>
-
+<h3 id="heading-4">临时重定向</h3>
 <p>如果<strong>有意</strong>在脚本中生成错误信息，可以将单独的一行输出重定向到STDERR。</p>
-
 <p>使用时需要在文件描述符数字前加<code>&amp;</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">echo <span style="color:#e6db74">&#34;This is an error message&#34;</span> &gt;&amp;2
+</code></pre></div><p>下面看个例子：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~$ cat test8
+<span style="color:#75715e">#!/bin/bash</span>
+<span style="color:#75715e"># testing STDERR message</span>
 
-<pre><code class="language-shell">echo &quot;This is an error message&quot; &gt;&amp;2
-</code></pre>
-
-<p>下面看个例子：</p>
-
-<pre><code class="language-shell">wangsx@SC-201708020022:~$ cat test8
-#!/bin/bash
-# testing STDERR message
-
-echo &quot;This is an error&quot; &gt;&amp;2
-echo &quot;This is normal output&quot;
-</code></pre>
-
-<p>像平常一样运行的话，看出不会有什么差别。</p>
-
-<pre><code class="language-shell">wangsx@SC-201708020022:~$ sh test8
+echo <span style="color:#e6db74">&#34;This is an error&#34;</span> &gt;&amp;2
+echo <span style="color:#e6db74">&#34;This is normal output&#34;</span>
+</code></pre></div><p>像平常一样运行的话，看出不会有什么差别。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~$ sh test8
 This is an error
 This is normal output
-</code></pre>
-
-<p>但是如果重定向STDERR的话，所有导向STDERR的文本都会被重定向</p>
-
-<pre><code class="language-shell">wangsx@SC-201708020022:~$ sh test8 2&gt; test9
+</code></pre></div><p>但是如果重定向STDERR的话，所有导向STDERR的文本都会被重定向</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~$ sh test8 2&gt; test9
 This is normal output
 wangsx@SC-201708020022:~$ cat test9
 This is an error
-</code></pre>
-
-<p><strong>这个方法非常适合在脚本中生成错误信息</strong>。</p>
-
-<h3 id="永久重定向">永久重定向</h3>
-
+</code></pre></div><p><strong>这个方法非常适合在脚本中生成错误信息</strong>。</p>
+<h3 id="heading-5">永久重定向</h3>
 <p>如果脚本中涉及大量重定向，上述的方法就会非常繁琐。我们可以用<code>exec</code>命令告诉shell在脚本执行期间重定向某个特定文件描述符。</p>
-
-<pre><code class="language-shell">wangsx@SC-201708020022:~$ cat test10
-#!/bin/bash
-# redirecting all output to a file
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~$ cat test10
+<span style="color:#75715e">#!/bin/bash</span>
+<span style="color:#75715e"># redirecting all output to a file</span>
 exec 1&gt;testout
 
-echo &quot;This is a test of redirecting all output&quot;
-echo &quot;from a script to another file&quot;
-echo &quot;without having to redirect every individual line&quot;
+echo <span style="color:#e6db74">&#34;This is a test of redirecting all output&#34;</span>
+echo <span style="color:#e6db74">&#34;from a script to another file&#34;</span>
+echo <span style="color:#e6db74">&#34;without having to redirect every individual line&#34;</span>
 wangsx@SC-201708020022:~$ sh test10
 wangsx@SC-201708020022:~$ cat testout
 This is a test of redirecting all output
 from a script to another file
 without having to redirect every individual line
-</code></pre>
-
-<p>再结合STDERR看看</p>
-
-<pre><code class="language-shell">wangsx@SC-201708020022:~$ cat test11
-#!/bin/bash
-# redirecting output to different locations
+</code></pre></div><p>再结合STDERR看看</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~$ cat test11
+<span style="color:#75715e">#!/bin/bash</span>
+<span style="color:#75715e"># redirecting output to different locations</span>
 
 exec 2&gt;testerror
 
-echo &quot;This is the start of the script&quot;
-echo &quot;now redirecting all output to another location&quot;
+echo <span style="color:#e6db74">&#34;This is the start of the script&#34;</span>
+echo <span style="color:#e6db74">&#34;now redirecting all output to another location&#34;</span>
 
 exec 1&gt;testout
-echo &quot;This output should go to the testout file&quot;
-echo &quot;but this should go to the testerror file&quot; &gt;&amp;2
+echo <span style="color:#e6db74">&#34;This output should go to the testout file&#34;</span>
+echo <span style="color:#e6db74">&#34;but this should go to the testerror file&#34;</span> &gt;&amp;2
 wangsx@SC-201708020022:~$ sh test11
 This is the start of the script
 now redirecting all output to another location
@@ -367,189 +298,133 @@ wangsx@SC-201708020022:~$ cat testout
 This output should go to the testout file
 wangsx@SC-201708020022:~$ cat testerror
 but this should go to the testerror file
-</code></pre>
-
-<p><strong>这个脚本用<code>exec</code>命令将STDERR的输出重定向到文件testerror。接着echo语句向STDOUT显示几行文本。随后使用<code>exec</code>命令将STDOUT重定向到testout文件。</strong>最后，虽然STDOUT被重定向了，但依然可以将echo语句发给STDERR。</p>
-
+</code></pre></div><p>**这个脚本用<code>exec</code>命令将STDERR的输出重定向到文件testerror。接着echo语句向STDOUT显示几行文本。随后使用<code>exec</code>命令将STDOUT重定向到testout文件。**最后，虽然STDOUT被重定向了，但依然可以将echo语句发给STDERR。</p>
 <p>这里存在一个问题，一旦重定向了STDOUT或STDERR，就很难将他们重定向回原来的位置。</p>
-
 <p>这个问题可以用以下方式解决。</p>
-
 <p>前面提到shell只用了3个文件描述符，而总共有9个，我们可以利用其他6个来操作。</p>
-
 <p>这里只需要另外使用一个，就可以重定向文件描述符：</p>
-
-<pre><code class="language-shell">wangsx@SC-201708020022:~$ cat test14
-#!/bin/bash
-# storing STDOUT, the coming back to it
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~$ cat test14
+<span style="color:#75715e">#!/bin/bash</span>
+<span style="color:#75715e"># storing STDOUT, the coming back to it</span>
 
 exec 3&gt;&amp;1
 exec 1&gt;test14out
 
-echo &quot;This should store in the output file&quot;
-echo &quot;along with this line&quot;
+echo <span style="color:#e6db74">&#34;This should store in the output file&#34;</span>
+echo <span style="color:#e6db74">&#34;along with this line&#34;</span>
 
 exec 1&gt;&amp;3
-echo &quot;Now things should be back to normal&quot;
+echo <span style="color:#e6db74">&#34;Now things should be back to normal&#34;</span>
 wangsx@SC-201708020022:~$ sh test14
 Now things should be back to normal
 wangsx@SC-201708020022:~$ cat test14out
 This should store in the output file
 along with this line
-</code></pre>
-
-<p>这里有意思的是把重定向当程序变量在玩，类似</p>
-
-<pre><code class="language-shell">a=b # 把b的内容存到a
-b=c # 修改b的内容
-# 使用完后
-b=a # 将b原来的内容还原
-</code></pre>
-
-<p>输入文件描述符也可以进行类似的操作。</p>
-
-<h2 id="阻止命令输出">阻止命令输出</h2>
-
+</code></pre></div><p>这里有意思的是把重定向当程序变量在玩，类似</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">a<span style="color:#f92672">=</span>b <span style="color:#75715e"># 把b的内容存到a</span>
+b<span style="color:#f92672">=</span>c <span style="color:#75715e"># 修改b的内容</span>
+<span style="color:#75715e"># 使用完后</span>
+b<span style="color:#f92672">=</span>a <span style="color:#75715e"># 将b原来的内容还原</span>
+</code></pre></div><p>输入文件描述符也可以进行类似的操作。</p>
+<h2 id="heading-6">阻止命令输出</h2>
 <p>有时候不想显示脚本的输出就要这么干。</p>
-
 <p>一种通用的方法是将STDERR重定向到<code>null</code>的特殊文件（里面什么都没有）。shell输出到null文件的任何数据都不会保存，全部被丢掉了。</p>
-
 <p>null文件在Linux中的标准位置是<code>/dev/null</code>。</p>
-
-<pre><code class="language-shell">wangsx@SC-201708020022:~$ ls -al &gt; /dev/null
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~$ ls -al &gt; /dev/null
 wangsx@SC-201708020022:~$ cat /dev/null
 wangsx@SC-201708020022:~$
-</code></pre>
-
-<p>这是避免出现错误消息，也无需保存它们的一个常用方法。</p>
-
-<pre><code class="language-shell">wangsx@SC-201708020022:~$ ls -al badfile test2 2&gt; /dev/null
--rw-rw-rw- 1 wangsx wangsx 571 8月  21 22:43 test2
-</code></pre>
-
-<p>由于null文件不含有任何内容，程序员通常用它来快速清除现有文件中的数据，而不用先删除文件再重新创建。</p>
-
-<pre><code class="language-shell">wangsx@SC-201708020022:~$ cat testfile
+</code></pre></div><p>这是避免出现错误消息，也无需保存它们的一个常用方法。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~$ ls -al badfile test2 2&gt; /dev/null
+-rw-rw-rw- <span style="color:#ae81ff">1</span> wangsx wangsx <span style="color:#ae81ff">571</span> 8月  <span style="color:#ae81ff">21</span> 22:43 test2
+</code></pre></div><p>由于null文件不含有任何内容，程序员通常用它来快速清除现有文件中的数据，而不用先删除文件再重新创建。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~$ cat testfile
 This is the first line.
 This is the second line.
 This is the third line.
 wangsx@SC-201708020022:~$ cat /dev/null &gt; testfile
 wangsx@SC-201708020022:~$ cat testfile
 wangsx@SC-201708020022:~$
-</code></pre>
-
-<h2 id="创建临时文件">创建临时文件</h2>
-
+</code></pre></div><h2 id="heading-7">创建临时文件</h2>
 <p>Linux使用/tmp目录来存放不需要永久保留的文件。大多数Linux发行版配置了在启动时删除/tmp目录的所有文件。</p>
-
-<h3 id="创建本地临时文件">创建本地临时文件</h3>
-
+<h3 id="heading-8">创建本地临时文件</h3>
 <p>默认<code>mktemp</code>会在本地目录创建一个文件。你只需要指定文件名模板，可以是任意文本名，后面加六个<code>X</code>即可。</p>
-
-<pre><code class="language-shell">wangsx@SC-201708020022:~/tmp$ mktemp testing.XXXXXX
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ mktemp testing.XXXXXX
 wangsx@SC-201708020022:~/tmp$ mktemp testing.XXXXXX
 wangsx@SC-201708020022:~/tmp$ ll
 总用量 12
-drwxrwxrwx 0 wangsx wangsx 4096 8月  22 21:34 ./
-drwxr-xr-x 0 wangsx wangsx 4096 8月  22 21:31 ../
--rw------- 1 wangsx wangsx    0 8月  22 21:33 testing.R6dAku
--rw------- 1 wangsx wangsx    0 8月  22 21:32 testing.V5psXP
-</code></pre>
-
-<p><code>mktemp</code>命令会用6个字符码替换这6个<code>X</code>，从而保证文件名在目录中是唯一的。</p>
-
+drwxrwxrwx <span style="color:#ae81ff">0</span> wangsx wangsx <span style="color:#ae81ff">4096</span> 8月  <span style="color:#ae81ff">22</span> 21:34 ./
+drwxr-xr-x <span style="color:#ae81ff">0</span> wangsx wangsx <span style="color:#ae81ff">4096</span> 8月  <span style="color:#ae81ff">22</span> 21:31 ../
+-rw------- <span style="color:#ae81ff">1</span> wangsx wangsx    <span style="color:#ae81ff">0</span> 8月  <span style="color:#ae81ff">22</span> 21:33 testing.R6dAku
+-rw------- <span style="color:#ae81ff">1</span> wangsx wangsx    <span style="color:#ae81ff">0</span> 8月  <span style="color:#ae81ff">22</span> 21:32 testing.V5psXP
+</code></pre></div><p><code>mktemp</code>命令会用6个字符码替换这6个<code>X</code>，从而保证文件名在目录中是唯一的。</p>
 <p>在脚本中使用<code>mktemp</code>命令时，可能要将文件名保存到变量中，这样就可以在脚本后面引用了。</p>
-
-<pre><code class="language-shell">wangsx@SC-201708020022:~/tmp$ cat test19
-#!/bin/bash t nomore&quot; \
-# creating and using a temp file
-tempfile=$(mktemp test19.XXXXXX)
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ cat test19
+<span style="color:#75715e">#!/bin/bash t nomore&#34; \</span>
+<span style="color:#75715e"># creating and using a temp file</span>
+tempfile<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>mktemp test19.XXXXXX<span style="color:#66d9ef">)</span>
 
 exec 3&gt;$tempfile
-echo &quot;This script writes to temp file $tempfile
-echo &quot;This is the first line.&quot; &gt;&amp;3
-echo &quot;This is the last line.&quot; &gt;&amp;3
-exec 3&gt;&amp;-
-
-echo &quot;Done creating temp file. The contents are:&quot;
-cat $tempfile
-rm -f $tempfile 2&gt; /dev/null
-wangsx@SC-201708020022:~/tmp$ sh test19
-This script writes to temp file test19.fVVEwn
-Done creating temp file. The contents are:
-This is the first line.
-This is the last line.
-</code></pre>
-
-<p>显示的内容大致如上，我的ubuntu子系统有点怪怪的，不知道为毛。</p>
-
+echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">This script writes to temp file </span>$tempfile<span style="color:#e6db74">
+</span><span style="color:#e6db74">echo </span><span style="color:#e6db74">&#34;</span>This is the first line.<span style="color:#e6db74">&#34; &gt;&amp;3
+</span><span style="color:#e6db74">echo &#34;</span>This is the last line.<span style="color:#e6db74">&#34; &gt;&amp;3
+</span><span style="color:#e6db74">exec 3&gt;&amp;-
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">echo &#34;</span>Done creating temp file. The contents are:<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">cat </span>$tempfile<span style="color:#e6db74">
+</span><span style="color:#e6db74">rm -f </span>$tempfile<span style="color:#e6db74"> 2&gt; /dev/null
+</span><span style="color:#e6db74">wangsx@SC-201708020022:~/tmp</span>$<span style="color:#e6db74"> sh test19
+</span><span style="color:#e6db74">This script writes to temp file test19.fVVEwn
+</span><span style="color:#e6db74">Done creating temp file. The contents are:
+</span><span style="color:#e6db74">This is the first line.
+</span><span style="color:#e6db74">This is the last line.
+</span></code></pre></div><p>显示的内容大致如上，我的ubuntu子系统有点怪怪的，不知道为毛。</p>
 <p><code>-t</code>选项回强制<code>mktemp</code>命令在系统的临时目录来创建该文件，它会返回临时文件的全路径，而不是只有文件名。</p>
-
-<pre><code class="language-shell">wangsx@SC-201708020022:~/tmp$ mktemp -t test20.XXXX
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ mktemp -t test20.XXXX
 /tmp/test20.bY3Q
 wangsx@SC-201708020022:~/tmp$ mktemp -t test20.XXXXXX
 /tmp/test20.WrkAia
-</code></pre>
-
-<p><code>-d</code>选项告诉<code>mktemp</code>创建一个临时目录而不是临时文件。</p>
-
-<h2 id="记录消息">记录消息</h2>
-
+</code></pre></div><p><code>-d</code>选项告诉<code>mktemp</code>创建一个临时目录而不是临时文件。</p>
+<h2 id="heading-9">记录消息</h2>
 <p>有时候想将消息同时发送到显示器和日志文件，用<code>tee</code>命令可以搞定。</p>
-
 <p><code>tee</code>命令的功能就像一个<code>T</code>，它将从STDIN过来的数据同时发往两处。一处是STDOUT，一处是<code>tee</code>命令行所指定的文件名。</p>
-
-<pre><code class="language-shell">wangsx@SC-201708020022:~/tmp$ date | tee testfile
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ date | tee testfile
 2017年 08月 22日 星期二 21:49:07 DST
 wangsx@SC-201708020022:~/tmp$ cat testfile
 2017年 08月 22日 星期二 21:49:07 DST
-</code></pre>
-
-<p>如果要追加文件，请使用<code>-a</code>选项。</p>
-
-<h2 id="实例">实例</h2>
-
+</code></pre></div><p>如果要追加文件，请使用<code>-a</code>选项。</p>
+<h2 id="heading-10">实例</h2>
 <p>文件重定向常见于脚本需要读入文件和输出文件时。</p>
-
 <p>下面是一个具体的实例：shell脚本使用命令行参数指定待读取的.csv文件。.csv格式用于从电子表格中导出数据，所以我们可以把数据库数据放入电子表格，把电子表格保存成.csv格式，读取文件，然后创建INSERT语句将数据插入MySQL数据库。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">#!/bin/bash
+</span><span style="color:#75715e"></span><span style="color:#75715e"># read file and create INSERT statements for MySQL</span>
 
-<pre><code class="language-shell">#!/bin/bash
-# read file and create INSERT statements for MySQL
-
-outfile='members.sql'
-IFS=&quot;,&quot;
-while read lname fname address city state zip # read 使用IFS字符解析读入的文本
-do
-    cat &gt;&gt; $outfile &lt;&lt; EOF
-    # &gt;&gt; 将cat的输出追加到$outfile指定的文件中
-    # cat的输入不再取自于标准输入，而是被重定向到脚本中存储的数据，EOF符号标记了追加到文件中的数据的起止（两个）
-    INSERT INTO members (lname,fname,address,city,state,zip) VALUES
-    ('$lname', '$fname', '$address', '$city', '$state', '$zip');
+outfile<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;members.sql&#39;</span>
+IFS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;,&#34;</span>
+<span style="color:#66d9ef">while</span> read lname fname address city state zip <span style="color:#75715e"># read 使用IFS字符解析读入的文本</span>
+<span style="color:#66d9ef">do</span>
+    cat &gt;&gt; $outfile <span style="color:#e6db74">&lt;&lt; EOF
+</span><span style="color:#e6db74">    # &gt;&gt; 将cat的输出追加到$outfile指定的文件中
+</span><span style="color:#e6db74">    # cat的输入不再取自于标准输入，而是被重定向到脚本中存储的数据，EOF</span>符号标记了追加到文件中的数据的起止（两个）
+    INSERT INTO members <span style="color:#f92672">(</span>lname,fname,address,city,state,zip<span style="color:#f92672">)</span> VALUES
+    <span style="color:#f92672">(</span><span style="color:#e6db74">&#39;$lname&#39;</span>, <span style="color:#e6db74">&#39;$fname&#39;</span>, <span style="color:#e6db74">&#39;$address&#39;</span>, <span style="color:#e6db74">&#39;$city&#39;</span>, <span style="color:#e6db74">&#39;$state&#39;</span>, <span style="color:#e6db74">&#39;$zip&#39;</span><span style="color:#f92672">)</span>;
 EOF
-    # 上面是标准的SQL语句
-done &lt; $1 # 将命令行第一个参数指明的数据文件导入while
-</code></pre>
-
-<p>造一个符合的csv文件</p>
-
-<pre><code class="language-shell">wangsx@SC-201708020022:~/tmp$ cat members.csv
+    <span style="color:#75715e"># 上面是标准的SQL语句</span>
+<span style="color:#66d9ef">done</span> &lt; $1 <span style="color:#75715e"># 将命令行第一个参数指明的数据文件导入while</span>
+</code></pre></div><p>造一个符合的csv文件</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ cat members.csv
 Blum,Richard,123 Main St.,Chicago,IL,60601
 Blum,Barbara,123 Main St.,Chicago,IL,60601
 Bresnahan,Timothy,456, Oak Ave.,Columbus,OH,43201
-</code></pre>
-
-<p>运行脚本</p>
-
-<pre><code class="language-shell">wangsx@SC-201708020022:~/tmp$ ./test23 members.csv
+</code></pre></div><p>运行脚本</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ ./test23 members.csv
 wangsx@SC-201708020022:~/tmp$ cat members.sql
-    INSERT INTO members (lname,fname,address,city,state,zip) VALUES
-    ('Blum', 'Richard', '123 Main St.', 'Chicago', 'IL', '60601');
-    INSERT INTO members (lname,fname,address,city,state,zip) VALUES
-    ('Blum', 'Barbara', '123 Main St.', 'Chicago', 'IL', '60601');
-    INSERT INTO members (lname,fname,address,city,state,zip) VALUES
-    ('Bresnahan', 'Timothy', '456', ' Oak Ave.', 'Columbus', 'OH,43201');
-</code></pre>
-
+    INSERT INTO members <span style="color:#f92672">(</span>lname,fname,address,city,state,zip<span style="color:#f92672">)</span> VALUES
+    <span style="color:#f92672">(</span><span style="color:#e6db74">&#39;Blum&#39;</span>, <span style="color:#e6db74">&#39;Richard&#39;</span>, <span style="color:#e6db74">&#39;123 Main St.&#39;</span>, <span style="color:#e6db74">&#39;Chicago&#39;</span>, <span style="color:#e6db74">&#39;IL&#39;</span>, <span style="color:#e6db74">&#39;60601&#39;</span><span style="color:#f92672">)</span>;
+    INSERT INTO members <span style="color:#f92672">(</span>lname,fname,address,city,state,zip<span style="color:#f92672">)</span> VALUES
+    <span style="color:#f92672">(</span><span style="color:#e6db74">&#39;Blum&#39;</span>, <span style="color:#e6db74">&#39;Barbara&#39;</span>, <span style="color:#e6db74">&#39;123 Main St.&#39;</span>, <span style="color:#e6db74">&#39;Chicago&#39;</span>, <span style="color:#e6db74">&#39;IL&#39;</span>, <span style="color:#e6db74">&#39;60601&#39;</span><span style="color:#f92672">)</span>;
+    INSERT INTO members <span style="color:#f92672">(</span>lname,fname,address,city,state,zip<span style="color:#f92672">)</span> VALUES
+    <span style="color:#f92672">(</span><span style="color:#e6db74">&#39;Bresnahan&#39;</span>, <span style="color:#e6db74">&#39;Timothy&#39;</span>, <span style="color:#e6db74">&#39;456&#39;</span>, <span style="color:#e6db74">&#39; Oak Ave.&#39;</span>, <span style="color:#e6db74">&#39;Columbus&#39;</span>, <span style="color:#e6db74">&#39;OH,43201&#39;</span><span style="color:#f92672">)</span>;
+</code></pre></div>
 
   <footer>
   
@@ -653,7 +528,7 @@ document.addEventListener('keyup', function(e) {
   
   
 
-  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> &middot; <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> &middot; <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> &middot; <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> &middot; <a href="https://orcid.org/0000-0001-9855-7357"><i class='ai ai-orcid ai-1x'></i></a> &middot; <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 &copy; <a href="../../../">王诗翔</a> 2017 - 2019 </div>
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://github.com/ShixiangWang"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://orcid.org/0000-0001-9855-7357"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> <!-- raw HTML omitted --> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 © <a href="../../../">王诗翔</a> 2017 - 2019 </div>
   
   
 
