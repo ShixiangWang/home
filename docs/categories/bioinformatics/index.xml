@@ -6,7 +6,7 @@
     <description>Recent content in bioinformatics on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 26 Aug 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 14 Dec 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/bioinformatics/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>UCSCXenaTools: Download Public Cancer Genomic Data from UCSC Xena Hubs</title>
       <link>/en/tools/ucscxenatools-intro/</link>
-      <pubDate>Mon, 26 Aug 2019 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 14 Dec 2019 00:00:00 +0000</pubDate>
       
       <guid>/en/tools/ucscxenatools-intro/</guid>
       <description>UCSCXenaTools is an R package for downloading and exploring data from UCSC Xena data hubs, which are

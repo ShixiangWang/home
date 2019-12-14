@@ -69,7 +69,10 @@ Currently, **UCSCXenaTools** supports 10 data hubs of UCSC Xena.
 * Treehouse Hub: <https://xena.treehouse.gi.ucsc.edu>
 * PCAWG Hub: <https://pcawg.xenahubs.net>
 * ATAC-seq Hub: <https://atacseq.xenahubs.net>
-* Singel Cell Xena hub: <https://singlecell.xenahubs.net>
+* Singel Cell Xena hub: <https://singlecellnew.xenahubs.net>
+
+Users can update dataset list from the newest version of UCSC Xena by hand with `XenaDataUpdate()` function, followed
+by restarting R and `library(UCSCXenaTools)`.
 
 If any url of data hubs are changed or a new data hub is online, please remind me by emailing to <w_shixiang@163.com> or [opening an issue on GitHub](https://github.com/ShixiangWang/UCSCXenaTools/issues).
 
@@ -258,7 +261,7 @@ names(cli1)
 
 ```{r}
 # way2: local files
-cli2 = XenaPrepare(file.path(destdir,"TCGA.LUAD.sampleMap__LUAD_clinicalMatrix.gz"))
+cli2 = XenaPrepare(file.path(destdir,"/TCGA.LUAD.sampleMap__LUAD_clinicalMatrix"))
 class(cli2)
 ```
 
@@ -266,9 +269,9 @@ class(cli2)
 # way3: urls
 cli3 = XenaPrepare(xe2_download$url[1:2])
 names(cli3)
-## [1] "LUSC_clinicalMatrix.gz" "LUNG_clinicalMatrix.gz"
+## [1] "LUSC_clinicalMatrix" "LUNG_clinicalMatrix"
 ```
-∂∂
+
 ```{r}
 # way4: xenadownload object
 cli4 = XenaPrepare(xe2_download)

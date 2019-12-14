@@ -3,13 +3,43 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>/tags/batch/</loc>
-    <lastmod>2019-10-23T00:00:00+00:00</lastmod>
+    <loc>/categories/bioinformatics/</loc>
+    <lastmod>2019-12-14T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/categories/</loc>
-    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <lastmod>2019-12-14T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/package/</loc>
+    <lastmod>2019-12-14T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/r/</loc>
+    <lastmod>2019-12-14T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2019-12-14T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/ucscxenatools/</loc>
+    <lastmod>2019-12-14T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/en/tools/ucscxenatools-intro/</loc>
+    <lastmod>2019-12-14T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/batch/</loc>
+    <lastmod>2019-10-23T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -23,17 +53,7 @@
   </url>
   
   <url>
-    <loc>/tags/r/</loc>
-    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/categories/r/</loc>
-    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
   </url>
   
@@ -75,26 +95,6 @@
   <url>
     <loc>/cn/post/2019-09-06-flexmix-model/</loc>
     <lastmod>2019-09-17T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/bioinformatics/</loc>
-    <lastmod>2019-09-06T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/package/</loc>
-    <lastmod>2019-10-22T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/ucscxenatools/</loc>
-    <lastmod>2019-09-06T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/en/tools/ucscxenatools-intro/</loc>
-    <lastmod>2019-08-26T00:00:00+00:00</lastmod>
   </url>
   
   <url>
