@@ -117,12 +117,13 @@
 
 
 <blockquote>
-<p>This post is published on rOpenSci at <a href="https://ropensci.org/technotes/2019/09/06/ucscxenatools-surv/" class="uri">https://ropensci.org/technotes/2019/09/06/ucscxenatools-surv/</a>,
-please read it for its better English after editted by <a href="https://github.com/stefaniebutland">Stefanie Butland</a>.</p>
+<p>I thank the edition made by <a href="https://github.com/stefaniebutland">Stefanie Butland</a>.</p>
 </blockquote>
-<p>In this technote I will outline how to use <strong>UCSCXenaTools</strong> package to pull gene expression and clinical data from UCSC Xena for survival analysis.</p>
-<p>For general usage of <strong>UCSCXenaTools</strong>, please refer to <a href="https://cran.r-project.org/web/packages/UCSCXenaTools/vignettes/USCSXenaTools.html">package vignette</a>.
-Any bug or feature request can be reported in <a href="https://github.com/ropensci/UCSCXenaTools/issues">GitHub issues</a>.</p>
+<p>The <a href="https://xenabrowser.net/">UCSC Xena platform</a> provides an unprecedented resource for public omics data from big projects like <a href="https://www.cancer.gov/about-nci/organization/ccg/research/structural-genomics/tcga">The Cancer Genome Atlas (TCGA)</a>, however, it is hard
+for users to incorporate multiple datasets or data types, integrate the selected data with
+popular analysis tools or homebrewed code, and reproduce analysis procedures. To address this issue, we developed an R package UCSCXenaTools for enabling data retrieval, analysis integration and reproducible research for omics data from the UCSC Xena platform<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>.</p>
+<p>In this technote we will outline how to use the UCSCXenaTools package to pull gene expression and clinical data from <a href="https://xena.ucsc.edu/">UCSC Xena</a> for survival analysis.</p>
+<p>For general usage of UCSCXenaTools, please refer to the <a href="https://cran.r-project.org/web/packages/UCSCXenaTools/vignettes/USCSXenaTools.html">package vignette</a>. Any bug or feature request can be reported in <a href="https://github.com/ropensci/UCSCXenaTools/issues">GitHub issues</a>.</p>
 <div id="installation" class="section level2">
 <h2>Installation</h2>
 <p><strong>UCSCXenaTools</strong> is available from CRAN:</p>
@@ -132,7 +133,7 @@ Any bug or feature request can be reported in <a href="https://github.com/ropens
 </div>
 <div id="how-it-works" class="section level2">
 <h2>How it works</h2>
-<p>Before actually pulling data, understand how <strong>UCSCXenaTools</strong> <a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> works (see Figure 1) will help user locate the most important function to use.</p>
+<p>Before actually pulling data, understanding how UCSCXenaTools works (see Figure 1) will help users locate the most important function to use.</p>
 <p>Generally,</p>
 <ul>
 <li>for operating datasets, we use functions whose names start with <code>Xena</code></li>
@@ -140,13 +141,11 @@ Any bug or feature request can be reported in <a href="https://github.com/ropens
 </ul>
 <p><img src="https://raw.githubusercontent.com/ropensci/UCSCXenaTools/master/paper/overview.png" />
 <em>Figure 1. The UCSCXenaTools pipeline</em></p>
-<p>To illustrate how to download data and combine with other packages for analysis, here we retrieve
-expression data of gene <a href="https://ghr.nlm.nih.gov/gene/KRAS"><em>KRAS</em></a> (which is a known driver in LUAD) and survival status from <a href="https://xenabrowser.net/datapages/?cohort=TCGA%20Lung%20Adenocarcinoma%20(LUAD)&amp;removeHub=https%3A%2F%2Fxena.treehouse.gi.ucsc.edu%3A443">TCGA Lung Adenocarcinoma (LUAD)</a> as example data to finish a survival analysis procedure, which is frequently shown in cancer researches.</p>
+<p>We will provide an example illustrating how to use UCSCXenaTools to study the effect of expression of the <a href="https://ghr.nlm.nih.gov/gene/KRAS"><em>KRAS</em></a> gene on prognosis of Lung Adenocarcinoma (LUAD) patients. <em>KRAS</em> is a known driver gene in LUAD. We retrieve expression data for the <em>KRAS</em> gene and survival status data for <a href="https://xenabrowser.net/datapages/?cohort=TCGA%20Lung%20Adenocarcinoma%20(LUAD)&amp;removeHub=https%3A%2F%2Fxena.treehouse.gi.ucsc.edu%3A443">LUAD patients from the TCGA</a> and use these as input to a survival analysis, frequently used in cancer research.</p>
 </div>
 <div id="download-data" class="section level2">
 <h2>Download data</h2>
-<p>For obtaining survival status of TCGA LUAD samples, we need to download the TCGA LUAD clinical dataset.
-For obtaining <em>KRAS</em> gene expression, we need to download a subset of TCGA LUAD expression matrix.</p>
+<p>First we get information on all datasets in the TCGA LUAD cohort and store as <code>luad_cohort</code> object.</p>
 <pre class="r"><code>suppressMessages(library(UCSCXenaTools))
 suppressMessages(library(dplyr))</code></pre>
 <pre class="r"><code>luad_cohort = XenaData %&gt;% 
@@ -154,120 +153,79 @@ suppressMessages(library(dplyr))</code></pre>
   XenaScan(&quot;TCGA Lung Adenocarcinoma&quot;)   # select LUAD cohort
 
 luad_cohort
-#&gt; # A tibble: 27 x 17
+#&gt; # A tibble: 23 x 17
 #&gt;    XenaHosts XenaHostNames XenaCohorts XenaDatasets SampleCount DataSubtype
-#&gt;    &lt;chr&gt;     &lt;chr&gt;         &lt;chr&gt;       &lt;chr&gt;        &lt;chr&gt;       &lt;chr&gt;      
-#&gt;  1 https://… tcgaHub       TCGA Lung … RABIT/separ… 467         Transcript…
-#&gt;  2 https://… tcgaHub       TCGA Lung … RABIT/separ… 120         Transcript…
-#&gt;  3 https://… tcgaHub       TCGA Lung … TCGA.LUAD.s… 151         DNA methyl…
-#&gt;  4 https://… tcgaHub       TCGA Lung … TCGA.LUAD.s… 492         DNA methyl…
-#&gt;  5 https://… tcgaHub       TCGA Lung … TCGA.LUAD.s… 516         copy numbe…
-#&gt;  6 https://… tcgaHub       TCGA Lung … TCGA.LUAD.s… 543         somatic mu…
-#&gt;  7 https://… tcgaHub       TCGA Lung … TCGA.LUAD.s… 237         protein ex…
-#&gt;  8 https://… tcgaHub       TCGA Lung … TCGA.LUAD.s… 576         gene expre…
-#&gt;  9 https://… tcgaHub       TCGA Lung … TCGA.LUAD.s… 60          miRNA matu…
-#&gt; 10 https://… tcgaHub       TCGA Lung … TCGA.LUAD.s… 576         gene expre…
-#&gt; # … with 17 more rows, and 11 more variables: Label &lt;chr&gt;, Type &lt;chr&gt;,
+#&gt;    &lt;chr&gt;     &lt;chr&gt;         &lt;chr&gt;       &lt;chr&gt;              &lt;int&gt; &lt;chr&gt;      
+#&gt;  1 https://… tcgaHub       TCGA Lung … RABIT/separ…         467 pathway ac…
+#&gt;  2 https://… tcgaHub       TCGA Lung … RABIT/separ…         120 pathway ac…
+#&gt;  3 https://… tcgaHub       TCGA Lung … TCGA.LUAD.s…         151 DNA methyl…
+#&gt;  4 https://… tcgaHub       TCGA Lung … TCGA.LUAD.s…         492 DNA methyl…
+#&gt;  5 https://… tcgaHub       TCGA Lung … TCGA.LUAD.s…         516 copy numbe…
+#&gt;  6 https://… tcgaHub       TCGA Lung … TCGA.LUAD.s…         237 protein ex…
+#&gt;  7 https://… tcgaHub       TCGA Lung … TCGA.LUAD.s…         576 gene expre…
+#&gt;  8 https://… tcgaHub       TCGA Lung … TCGA.LUAD.s…          60 miRNA matu…
+#&gt;  9 https://… tcgaHub       TCGA Lung … TCGA.LUAD.s…         576 gene expre…
+#&gt; 10 https://… tcgaHub       TCGA Lung … TCGA.LUAD.s…         576 gene expre…
+#&gt; # … with 13 more rows, and 11 more variables: Label &lt;chr&gt;, Type &lt;chr&gt;,
 #&gt; #   AnatomicalOrigin &lt;chr&gt;, SampleType &lt;chr&gt;, Tags &lt;chr&gt;, ProbeMap &lt;chr&gt;,
-#&gt; #   LongTitle &lt;chr&gt;, Citation &lt;chr&gt;, Version &lt;chr&gt;, Unit &lt;chr&gt;,
-#&gt; #   Platform &lt;chr&gt;</code></pre>
-<p><code>luad_cohort</code> contains information of all datasets in TCGA LUAD cohort.</p>
+#&gt; #   LongTitle &lt;chr&gt;, Citation &lt;chr&gt;, Version &lt;chr&gt;, Unit &lt;chr&gt;, Platform &lt;chr&gt;</code></pre>
 <div id="download-clinical-dataset" class="section level3">
 <h3>Download clinical dataset</h3>
-<p>Now we download clinical dataset of TCGA LUAD cohort and load it into R.</p>
+<p>Now we download clinical datasets of TCGA LUAD cohort and load them into R.</p>
 <pre class="r"><code>cli_query = luad_cohort %&gt;% 
   filter(DataSubtype == &quot;phenotype&quot;) %&gt;%  # select clinical dataset
   XenaGenerate() %&gt;%  # generate a XenaHub object
   XenaQuery() %&gt;% 
   XenaDownload()
 #&gt; This will check url status, please be patient.
-#&gt; All downloaded files will under directory /var/folders/mx/rfkl27z90c96wbmn3_kjk8c80000gn/T//RtmpKdvDbN.
+#&gt; All downloaded files will under directory D:/Tool/Rtmp\Rtmpy0kf8P.
 #&gt; The &#39;trans_slash&#39; option is FALSE, keep same directory structure as Xena.
 #&gt; Creating directories for datasets...
-#&gt; Downloading TCGA.LUAD.sampleMap/LUAD_clinicalMatrix.gz
+#&gt; Downloading TCGA.LUAD.sampleMap/LUAD_clinicalMatrix
+#&gt; Downloading survival/LUAD_survival.txt.gz
 
-cli = XenaPrepare(cli_query)
+cli = XenaPrepare(cli_query)</code></pre>
+<blockquote>
+<p>NOTE: from 2019-12-06, UCSC Xena stores phenotype data in two
+datasets, one is survival data, the other is other phenotype data.
+So <code>cli</code> is a list here.</p>
+</blockquote>
+<p>Keep survival data here, we only need it.</p>
+<pre class="r"><code>cli = cli$LUAD_survival.txt.gz
 
 # See a few rows
 head(cli)
-#&gt; # A tibble: 6 x 157
-#&gt;   sampleID ABSOLUTE_Ploidy ABSOLUTE_Purity AKT1  ALK_translocati… BRAF 
-#&gt;   &lt;chr&gt;              &lt;dbl&gt;           &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;            &lt;chr&gt;
-#&gt; 1 TCGA-05…           NA              NA    &lt;NA&gt;  &lt;NA&gt;             &lt;NA&gt; 
-#&gt; 2 TCGA-05…            3.77            0.46 none  &lt;NA&gt;             p.A7…
-#&gt; 3 TCGA-05…           NA              NA    &lt;NA&gt;  &lt;NA&gt;             &lt;NA&gt; 
-#&gt; 4 TCGA-05…           NA              NA    none  &lt;NA&gt;             p.L6…
-#&gt; 5 TCGA-05…            2.04            0.48 none  &lt;NA&gt;             none 
-#&gt; 6 TCGA-05…            3.29            0.48 none  &lt;NA&gt;             p.G4…
-#&gt; # … with 151 more variables: CBL &lt;chr&gt;, CTNNB1 &lt;chr&gt;,
-#&gt; #   Canonical_mut_in_KRAS_EGFR_ALK &lt;chr&gt;,
-#&gt; #   Cnncl_mt_n_KRAS_EGFR_ALK_RET_ROS1_BRAF_ERBB2_HRAS_NRAS_AKT1_MAP2 &lt;chr&gt;,
-#&gt; #   EGFR &lt;chr&gt;, ERBB2 &lt;chr&gt;, ERBB4 &lt;chr&gt;,
-#&gt; #   Estimated_allele_fraction_of_a_clonal_varnt_prsnt_t_1_cpy_pr_cll &lt;dbl&gt;,
-#&gt; #   Expression_Subtype &lt;chr&gt;, HRAS &lt;chr&gt;, KRAS &lt;chr&gt;, MAP2K1 &lt;chr&gt;,
-#&gt; #   MET &lt;chr&gt;, NRAS &lt;chr&gt;, PIK3CA &lt;chr&gt;, PTPN11 &lt;chr&gt;, Pathology &lt;chr&gt;,
-#&gt; #   Pathology_Updated &lt;chr&gt;, RET_translocation &lt;chr&gt;,
-#&gt; #   ROS1_translocation &lt;chr&gt;, STK11 &lt;chr&gt;,
-#&gt; #   WGS_as_of_20120731_0_no_1_yes &lt;dbl&gt;, `_EVENT` &lt;dbl&gt;,
-#&gt; #   `_INTEGRATION` &lt;chr&gt;, OS.time &lt;dbl&gt;, OS &lt;dbl&gt;, OS.unit &lt;chr&gt;,
-#&gt; #   `_PANCAN_CNA_PANCAN_K8` &lt;chr&gt;, `_PANCAN_Cluster_Cluster_PANCAN` &lt;chr&gt;,
-#&gt; #   `_PANCAN_DNAMethyl_LUAD` &lt;chr&gt;, `_PANCAN_DNAMethyl_PANCAN` &lt;chr&gt;,
-#&gt; #   `_PANCAN_RPPA_PANCAN_K8` &lt;chr&gt;, `_PANCAN_UNC_RNAseq_PANCAN_K16` &lt;chr&gt;,
-#&gt; #   `_PANCAN_miRNA_PANCAN` &lt;chr&gt;, `_PANCAN_mirna_LUAD` &lt;chr&gt;,
-#&gt; #   `_PANCAN_mutation_PANCAN` &lt;chr&gt;, `_PATIENT` &lt;chr&gt;, RFS.time &lt;dbl&gt;,
-#&gt; #   RFS &lt;dbl&gt;, RFS.unit &lt;chr&gt;, `_TIME_TO_EVENT` &lt;dbl&gt;,
-#&gt; #   `_TIME_TO_EVENT_UNIT` &lt;chr&gt;, `_cohort` &lt;chr&gt;,
-#&gt; #   `_primary_disease` &lt;chr&gt;, `_primary_site` &lt;chr&gt;,
-#&gt; #   additional_pharmaceutical_therapy &lt;chr&gt;,
-#&gt; #   additional_radiation_therapy &lt;chr&gt;,
-#&gt; #   additional_surgery_locoregional_procedure &lt;chr&gt;,
-#&gt; #   additional_surgery_metastatic_procedure &lt;chr&gt;,
-#&gt; #   age_at_initial_pathologic_diagnosis &lt;dbl&gt;,
-#&gt; #   anatomic_neoplasm_subdivision &lt;chr&gt;,
-#&gt; #   anatomic_neoplasm_subdivision_other &lt;chr&gt;, bcr_followup_barcode &lt;chr&gt;,
-#&gt; #   bcr_patient_barcode &lt;chr&gt;, bcr_sample_barcode &lt;chr&gt;,
-#&gt; #   days_to_additional_surgery_locoregional_procedure &lt;dbl&gt;,
-#&gt; #   days_to_additional_surgery_metastatic_procedure &lt;dbl&gt;,
-#&gt; #   days_to_birth &lt;dbl&gt;, days_to_collection &lt;dbl&gt;, days_to_death &lt;dbl&gt;,
-#&gt; #   days_to_initial_pathologic_diagnosis &lt;dbl&gt;,
-#&gt; #   days_to_last_followup &lt;dbl&gt;,
-#&gt; #   days_to_new_tumor_event_after_initial_treatment &lt;dbl&gt;,
-#&gt; #   disease_code &lt;chr&gt;, dlco_predictive_percent &lt;dbl&gt;,
-#&gt; #   eastern_cancer_oncology_group &lt;dbl&gt;, egfr_mutation_performed &lt;chr&gt;,
-#&gt; #   egfr_mutation_result &lt;chr&gt;, eml4_alk_translocation_method &lt;chr&gt;,
-#&gt; #   eml4_alk_translocation_performed &lt;chr&gt;,
-#&gt; #   followup_case_report_form_submission_reason &lt;chr&gt;,
-#&gt; #   followup_treatment_success &lt;chr&gt;, form_completion_date &lt;chr&gt;,
-#&gt; #   gender &lt;chr&gt;, histological_type &lt;chr&gt;,
-#&gt; #   history_of_neoadjuvant_treatment &lt;chr&gt;, icd_10 &lt;chr&gt;,
-#&gt; #   icd_o_3_histology &lt;chr&gt;, icd_o_3_site &lt;chr&gt;,
-#&gt; #   informed_consent_verified &lt;chr&gt;, initial_weight &lt;dbl&gt;,
-#&gt; #   intermediate_dimension &lt;dbl&gt;, is_ffpe &lt;chr&gt;,
-#&gt; #   karnofsky_performance_score &lt;dbl&gt;, kras_gene_analysis_performed &lt;chr&gt;,
-#&gt; #   kras_mutation_found &lt;chr&gt;, kras_mutation_result &lt;chr&gt;,
-#&gt; #   location_in_lung_parenchyma &lt;chr&gt;, longest_dimension &lt;dbl&gt;,
-#&gt; #   lost_follow_up &lt;chr&gt;, new_neoplasm_event_type &lt;chr&gt;,
-#&gt; #   new_tumor_event_after_initial_treatment &lt;chr&gt;,
-#&gt; #   number_pack_years_smoked &lt;dbl&gt;, oct_embedded &lt;lgl&gt;, other_dx &lt;chr&gt;,
-#&gt; #   pathologic_M &lt;chr&gt;, pathologic_N &lt;chr&gt;, pathologic_T &lt;chr&gt;,
-#&gt; #   pathologic_stage &lt;chr&gt;, pathology_report_file_name &lt;chr&gt;, …</code></pre>
+#&gt; # A tibble: 6 x 11
+#&gt;   sample `_PATIENT`    OS OS.time   DSS DSS.time   DFI DFI.time   PFI PFI.time
+#&gt;   &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;
+#&gt; 1 TCGA-… TCGA-05-4…     0       0     0        0    NA       NA     0        0
+#&gt; 2 TCGA-… TCGA-05-4…     0    1523     0     1523    NA       NA     0     1523
+#&gt; 3 TCGA-… TCGA-05-4…     1     121    NA      121    NA       NA     0      121
+#&gt; 4 TCGA-… TCGA-05-4…     0     607     0      607     1      334     1      334
+#&gt; 5 TCGA-… TCGA-05-4…     0     426     0      426    NA       NA     1      183
+#&gt; 6 TCGA-… TCGA-05-4…     0    1369     0     1369    NA       NA     0     1369
+#&gt; # … with 1 more variable: Redaction &lt;lgl&gt;</code></pre>
 </div>
 <div id="download-kras-gene-expression" class="section level3">
 <h3>Download <em>KRAS</em> gene expression</h3>
-<p>To download gene expression data, we need select the right dataset firstly.</p>
+<p>To download gene expression data, first we need to select the right dataset.</p>
 <pre class="r"><code>ge = luad_cohort %&gt;% 
   filter(DataSubtype == &quot;gene expression RNAseq&quot;, Label == &quot;IlluminaHiSeq&quot;)
 ge
 #&gt; # A tibble: 1 x 17
-#&gt;   XenaHosts XenaHostNames XenaCohorts XenaDatasets SampleCount DataSubtype
-#&gt;   &lt;chr&gt;     &lt;chr&gt;         &lt;chr&gt;       &lt;chr&gt;        &lt;chr&gt;       &lt;chr&gt;      
-#&gt; 1 https://… tcgaHub       TCGA Lung … TCGA.LUAD.s… 576         gene expre…
-#&gt; # … with 11 more variables: Label &lt;chr&gt;, Type &lt;chr&gt;,
-#&gt; #   AnatomicalOrigin &lt;chr&gt;, SampleType &lt;chr&gt;, Tags &lt;chr&gt;, ProbeMap &lt;chr&gt;,
-#&gt; #   LongTitle &lt;chr&gt;, Citation &lt;chr&gt;, Version &lt;chr&gt;, Unit &lt;chr&gt;,
-#&gt; #   Platform &lt;chr&gt;</code></pre>
+#&gt;   XenaHosts XenaHostNames XenaCohorts XenaDatasets SampleCount DataSubtype Label
+#&gt;   &lt;chr&gt;     &lt;chr&gt;         &lt;chr&gt;       &lt;chr&gt;              &lt;int&gt; &lt;chr&gt;       &lt;chr&gt;
+#&gt; 1 https://… tcgaHub       TCGA Lung … TCGA.LUAD.s…         576 gene expre… Illu…
+#&gt; # … with 10 more variables: Type &lt;chr&gt;, AnatomicalOrigin &lt;chr&gt;,
+#&gt; #   SampleType &lt;chr&gt;, Tags &lt;chr&gt;, ProbeMap &lt;chr&gt;, LongTitle &lt;chr&gt;,
+#&gt; #   Citation &lt;chr&gt;, Version &lt;chr&gt;, Unit &lt;chr&gt;, Platform &lt;chr&gt;</code></pre>
 <p>Now we fetch <em>KRAS</em> gene expression values.</p>
-<pre class="r"><code>KRAS = fetch_dense_values(host = ge$XenaHosts, 
+<pre class="r"><code># You can pass gene symbols to &#39;identifiers&#39; option
+# to obtain their values in a dataset.
+# A matrix will be returned by &#39;fetch_dense_values&#39; function
+# with rows corresponding to genes,
+# so here we extract the first row.
+KRAS = fetch_dense_values(host = ge$XenaHosts, 
                           dataset = ge$XenaDatasets, 
                           identifiers = &quot;KRAS&quot;,
                           use_probeMap = TRUE) %&gt;% 
@@ -281,27 +239,27 @@ ge
 #&gt; -&gt; Done. ProbeMap is found.
 
 head(KRAS)
-#&gt; TCGA-69-7978-01 TCGA-62-8399-01 TCGA-78-7539-01 TCGA-50-5931-11 
-#&gt;           10.25           10.29           10.82           10.29 
-#&gt; TCGA-73-4658-01 TCGA-44-6775-01 
-#&gt;           10.36           10.03</code></pre>
+#&gt; TCGA-69-7978-01 TCGA-62-8399-01 TCGA-78-7539-01 TCGA-50-5931-11 TCGA-73-4658-01 
+#&gt;           10.25           10.29           10.82           10.29           10.36 
+#&gt; TCGA-44-6775-01 
+#&gt;           10.03</code></pre>
 </div>
 <div id="merge-expression-data-and-survival-status" class="section level3">
 <h3>Merge expression data and survival status</h3>
-<p>Next, we join the two <code>data.frame</code> by <code>sampleID</code> and keep necessary columns.
+<p>Next, we join the two <code>data.frame</code> by <code>sample</code> and keep necessary columns.
 Here we focus on ‘Primary Tumor’ for simplicity.</p>
-<pre class="r"><code>merged_data = tibble(sampleID = names(KRAS),
+<pre class="r"><code>merged_data = tibble(sample = names(KRAS),
                      KRAS_expression = as.numeric(KRAS)) %&gt;% 
-  left_join(cli, by = &quot;sampleID&quot;) %&gt;% 
-  filter(sample_type == &quot;Primary Tumor&quot;) %&gt;%  # Keep only &#39;Primary Tumor&#39;
-  select(sampleID, KRAS_expression, OS.time, OS) %&gt;% 
+  left_join(cli, by = &quot;sample&quot;) %&gt;% 
+  filter(substr(sample, 14, 15) == &quot;01&quot;) %&gt;%  # Keep only &#39;Primary Tumor&#39;
+  select(sample, KRAS_expression, OS.time, OS) %&gt;% 
   rename(time = OS.time, 
          status = OS)
   
 
 head(merged_data)
 #&gt; # A tibble: 6 x 4
-#&gt;   sampleID        KRAS_expression  time status
+#&gt;   sample          KRAS_expression  time status
 #&gt;   &lt;chr&gt;                     &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
 #&gt; 1 TCGA-69-7978-01           10.2    134      0
 #&gt; 2 TCGA-62-8399-01           10.3   2696      0
@@ -313,13 +271,12 @@ head(merged_data)
 </div>
 <div id="survival-analysis" class="section level2">
 <h2>Survival analysis</h2>
-<p>To study the effect of <em>KRAS</em> gene expression on prognosis of LUAD patients, we have two ways:</p>
+<p>To study the effect of <em>KRAS</em> gene expression on prognosis of LUAD patients, we show two approaches:</p>
 <ol style="list-style-type: decimal">
-<li>use Cox model to determine the function of <em>KRAS</em> gene expression increase</li>
-<li>use Kaplan-Meier curve and log-rank test to determine the function of different status of
-<em>KRAS</em> gene expression, i.e. high or low</li>
+<li>use Cox model to determine the effect when <em>KRAS</em> gene expression increases</li>
+<li>use Kaplan-Meier curve and log-rank test to observe the difference in different of<em>KRAS</em> gene expression status, i.e. high or low</li>
 </ol>
-<p>We will use package <strong>survival</strong> and <strong>survminer</strong> to create models and plot survival curves, respectively.</p>
+<p>We will use package <a href="https://cran.r-project.org/web/packages/survival/index.html"><strong>survival</strong></a> and <a href="https://cran.r-project.org/web/packages/survminer/index.html"><strong>survminer</strong></a> to create models and plot survival curves, respectively.</p>
 <pre class="r"><code>library(survival)
 library(survminer)
 #&gt; Loading required package: ggplot2
@@ -332,14 +289,20 @@ fit
 #&gt; Call:
 #&gt; coxph(formula = Surv(time, status) ~ KRAS_expression, data = merged_data)
 #&gt; 
-#&gt;                   coef exp(coef) se(coef)     z      p
-#&gt; KRAS_expression 0.2927    1.3400   0.1020 2.871 0.0041
+#&gt;                   coef exp(coef) se(coef)     z       p
+#&gt; KRAS_expression 0.2922    1.3394   0.1020 2.864 0.00418
 #&gt; 
-#&gt; Likelihood ratio test=7.67  on 1 df, p=0.005604
-#&gt; n= 502, number of events= 183 
-#&gt;    (12 observations deleted due to missingness)</code></pre>
-<p>We can find that patients with higher <em>KRAS</em> gene expression have higher risk (1.34),
-and this data is statistically significant.</p>
+#&gt; Likelihood ratio test=7.64  on 1 df, p=0.0057
+#&gt; n= 506, number of events= 183 
+#&gt;    (9 observations deleted due to missingness)</code></pre>
+<p>We can find that patients with higher <em>KRAS</em> gene expression have higher risk (34% increase per <em>KRAS</em> gene expression unit increase), and the effect of <em>KRAS</em> gene expression is statistically significant (<em>p</em>&lt;0.05).</p>
+<blockquote>
+<p>If you know little about survival analysis, two blogs are recommended to read:</p>
+<ol style="list-style-type: decimal">
+<li><a href="http://www.sthda.com/english/wiki/survival-analysis-basics">Survival Analysis Basics</a></li>
+<li><a href="http://www.sthda.com/english/wiki/cox-proportional-hazards-model">Cox Proportional-Hazards Model</a></li>
+</ol>
+</blockquote>
 </div>
 <div id="risk-between-expression-groups" class="section level3">
 <h3>Risk between expression groups</h3>
@@ -354,14 +317,22 @@ and this data is statistically significant.</p>
 fit = survfit(Surv(time, status) ~ group, data = merged_data)</code></pre>
 <p>Then we can plot the survival curves for each group.</p>
 <pre class="r"><code>ggsurvplot(fit, pval = TRUE)</code></pre>
-<p><img src="../../../en/post/2019-08-20-UCSCXenaTools-notes-to-rOpenSci_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
-<p>We can clearly see that patients in ‘KRAS_Low’ group have better survival than patients in ‘KRAS_High’ group.</p>
+<p><img src="../../../en/post/2019-08-20-UCSCXenaTools-notes-to-rOpenSci_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p>The Kaplan-Meier plot shows what percent of patients are alive at a time point. We can clearly see that patients in ‘KRAS_Low’ group have better survival than patients in ‘KRAS_High’ group because the survival probability of ‘KRAS_High’ group is always lower than ‘KRAS_Low’ group over time (the unit is ‘day’ here). The difference between the two groups is statistically significant (<em>p</em>&lt;0.05 by log-rank test).</p>
+</div>
+<div id="related-project" class="section level3">
+<h3>Related project</h3>
+<p><a href="https://github.com/openbiox/XenaShiny"><strong>XenaShiny</strong></a>, a Shiny project based on UCSCXenaTools, is under development by my friends and me.</p>
+</div>
+<div id="acknowledgements" class="section level3">
+<h3>Acknowledgements</h3>
+<p>We thank <a href="https://github.com/cstawitz">Christine Stawitz</a> and <a href="https://github.com/carlganz">Carl Ganz</a> for their constructive comments. This package is reviewed by rOpenSci at <a href="https://github.com/ropensci/software-review/issues/315" class="uri">https://github.com/ropensci/software-review/issues/315</a>.</p>
 </div>
 </div>
 <div class="footnotes">
 <hr />
 <ol>
-<li id="fn1"><p>Wang et al., (2019). The UCSCXenaTools R package: a toolkit for accessing genomics data from UCSC Xena platform, from cancer multi-omics to single-cell RNA-seq. Journal of Open Source Software, 4(40), 1627, <a href="https://doi.org/10.21105/joss.01627" class="uri">https://doi.org/10.21105/joss.01627</a><a href="#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn1"><p>Wang et al., (2019). The UCSCXenaTools R package: a toolkit for accessing genomics data from UCSC Xena platform, from cancer multi-omics to single-cell RNA-seq. Journal of Open Source Software, 4(40), 1627, <a href="https://doi.org/10.21105/joss.01627" class="uri">https://doi.org/10.21105/joss.01627</a><a href="#fnref1" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
 
