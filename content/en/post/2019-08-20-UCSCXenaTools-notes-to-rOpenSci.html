@@ -16,7 +16,12 @@ tags:
   - UCSCXenaTools
   - 生存分析
 lastmod: "2019-12-21"
+header-includes:
+- \usepackage{caption}
+- \captionsetup[figure]{labelformat=empty}
 ---
+
+
 
 
 
@@ -82,7 +87,7 @@ luad_cohort
   XenaQuery() %&gt;% 
   XenaDownload()
 #&gt; This will check url status, please be patient.
-#&gt; All downloaded files will under directory D:/Tool/Rtmp\Rtmpy0kf8P.
+#&gt; All downloaded files will under directory D:/Tool/Rtmp\RtmpWqN24p.
 #&gt; The &#39;trans_slash&#39; option is FALSE, keep same directory structure as Xena.
 #&gt; Creating directories for datasets...
 #&gt; Downloading TCGA.LUAD.sampleMap/LUAD_clinicalMatrix
@@ -221,7 +226,12 @@ fit
 fit = survfit(Surv(time, status) ~ group, data = merged_data)</code></pre>
 <p>Then we can plot the survival curves for each group.</p>
 <pre class="r"><code>ggsurvplot(fit, pval = TRUE)</code></pre>
-<p><img src="/en/post/2019-08-20-UCSCXenaTools-notes-to-rOpenSci_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<div class="figure"><span id="fig:unnamed-chunk-14"></span>
+<img src="/en/post/2019-08-20-UCSCXenaTools-notes-to-rOpenSci_files/figure-html/unnamed-chunk-14-1.png" alt="Figure 2. Kaplan-Meier curve. Survival probability vs Time (days)" width="672" />
+<p class="caption">
+Figure 1: Figure 2. Kaplan-Meier curve. Survival probability vs Time (days)
+</p>
+</div>
 <p>The Kaplan-Meier plot shows what percent of patients are alive at a time point. We can clearly see that patients in ‘KRAS_Low’ group have better survival than patients in ‘KRAS_High’ group because the survival probability of ‘KRAS_High’ group is always lower than ‘KRAS_Low’ group over time (the unit is ‘day’ here). The difference between the two groups is statistically significant (<em>p</em>&lt;0.05 by log-rank test).</p>
 </div>
 <div id="related-project" class="section level3">

@@ -16,6 +16,9 @@ tags:
   - UCSCXenaTools
   - 生存分析
 lastmod: "`r Sys.Date()`"
+header-includes:
+- \usepackage{caption}
+- \captionsetup[figure]{labelformat=empty}
 ---
 
 ```{r, include=FALSE}
@@ -200,7 +203,7 @@ fit = survfit(Surv(time, status) ~ group, data = merged_data)
 
 Then we can plot the survival curves for each group.
 
-```{r}
+```{r, fig.cap="Figure 2. Kaplan-Meier curve. Survival probability vs Time (days)"}
 ggsurvplot(fit, pval = TRUE)
 ```
 
