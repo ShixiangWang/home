@@ -1,0 +1,563 @@
+---
+title: "R 语言统计检验函数汇总"
+author: "王诗翔"
+date: "2019-12-25"
+lastmod: "2019-12-25"
+slug: ""
+categories: r
+tags:
+- r
+- stats
+- 统计检验
+---
+
+
+
+<blockquote>
+<p>资料来源：《R 语言核心技术手册》和 R 文档</p>
+<p>数据基本来自胡编乱造 和 R 文档</p>
+</blockquote>
+<p>本文基本囊括了常用的统计检验在 R 中的实现函数和使用方法。</p>
+<div id="连续型数据" class="section level2">
+<h2>连续型数据</h2>
+<div id="基于正态分布的检验" class="section level3">
+<h3>基于正态分布的检验</h3>
+<div id="均值检验" class="section level4">
+<h4>均值检验</h4>
+<pre class="r"><code>t.test(1:10, 10:20)
+#&gt; 
+#&gt;  Welch Two Sample t-test
+#&gt; 
+#&gt; data:  1:10 and 10:20
+#&gt; t = -7, df = 19, p-value = 2e-06
+#&gt; alternative hypothesis: true difference in means is not equal to 0
+#&gt; 95 percent confidence interval:
+#&gt;  -12.4  -6.6
+#&gt; sample estimates:
+#&gt; mean of x mean of y 
+#&gt;       5.5      15.0</code></pre>
+<p>配对 t 检验：</p>
+<pre class="r"><code>t.test(rnorm(10), rnorm(10, mean = 1), paired = TRUE)
+#&gt; 
+#&gt;  Paired t-test
+#&gt; 
+#&gt; data:  rnorm(10) and rnorm(10, mean = 1)
+#&gt; t = -5, df = 9, p-value = 7e-04
+#&gt; alternative hypothesis: true difference in means is not equal to 0
+#&gt; 95 percent confidence interval:
+#&gt;  -2.541 -0.962
+#&gt; sample estimates:
+#&gt; mean of the differences 
+#&gt;                   -1.75</code></pre>
+<p>使用公式：</p>
+<pre class="r"><code>df &lt;- data.frame(
+  value = c(rnorm(10), rnorm(10, mean = 1)),
+  group = c(rep(&quot;control&quot;, 10), rep(&quot;test&quot;, 10))
+)
+
+t.test(value ~ group, data = df)
+#&gt; 
+#&gt;  Welch Two Sample t-test
+#&gt; 
+#&gt; data:  value by group
+#&gt; t = -0.4, df = 15, p-value = 0.7
+#&gt; alternative hypothesis: true difference in means is not equal to 0
+#&gt; 95 percent confidence interval:
+#&gt;  -1.62  1.08
+#&gt; sample estimates:
+#&gt; mean in group control    mean in group test 
+#&gt;                 0.532                 0.802</code></pre>
+<p>假设方差同质：</p>
+<pre class="r"><code>t.test(value ~ group, data = df, var.equal = TRUE)
+#&gt; 
+#&gt;  Two Sample t-test
+#&gt; 
+#&gt; data:  value by group
+#&gt; t = -0.4, df = 18, p-value = 0.7
+#&gt; alternative hypothesis: true difference in means is not equal to 0
+#&gt; 95 percent confidence interval:
+#&gt;  -1.60  1.06
+#&gt; sample estimates:
+#&gt; mean in group control    mean in group test 
+#&gt;                 0.532                 0.802</code></pre>
+<p>更多查看 <code>?t.test</code>。</p>
+</div>
+<div id="两总体方差检验" class="section level4">
+<h4>两总体方差检验</h4>
+<p>上面的例子假设方差同质，我们通过检验查看。</p>
+<p>服从正态分布的两总体方差比较。</p>
+<pre class="r"><code># 进行的是 F 检验
+var.test(value ~ group, data = df)
+#&gt; 
+#&gt;  F test to compare two variances
+#&gt; 
+#&gt; data:  value by group
+#&gt; F = 0.4, num df = 9, denom df = 9, p-value = 0.2
+#&gt; alternative hypothesis: true ratio of variances is not equal to 1
+#&gt; 95 percent confidence interval:
+#&gt;  0.103 1.671
+#&gt; sample estimates:
+#&gt; ratio of variances 
+#&gt;              0.415</code></pre>
+<p>使用 Bartlett 检验比较每个组（样本）数据的方差是否一致。</p>
+<pre class="r"><code>bartlett.test(value ~ group, data = df)
+#&gt; 
+#&gt;  Bartlett test of homogeneity of variances
+#&gt; 
+#&gt; data:  value by group
+#&gt; Bartlett&#39;s K-squared = 2, df = 1, p-value = 0.2</code></pre>
+</div>
+<div id="多个组间均值的比较" class="section level4">
+<h4>多个组间均值的比较</h4>
+<p>对于两组以上数据间均值的比较，使用方差分析 ANOVA。</p>
+<pre class="r"><code>aov(wt ~ factor(cyl), data = mtcars)
+#&gt; Call:
+#&gt;    aov(formula = wt ~ factor(cyl), data = mtcars)
+#&gt; 
+#&gt; Terms:
+#&gt;                 factor(cyl) Residuals
+#&gt; Sum of Squares         18.2      11.5
+#&gt; Deg. of Freedom           2        29
+#&gt; 
+#&gt; Residual standard error: 0.63
+#&gt; Estimated effects may be unbalanced</code></pre>
+<p>查看详细信息：</p>
+<pre class="r"><code>model.tables(aov(wt ~ factor(cyl), data = mtcars))
+#&gt; Tables of effects
+#&gt; 
+#&gt;  factor(cyl) 
+#&gt;           4       6      8
+#&gt;     -0.9315 -0.1001  0.782
+#&gt; rep 11.0000  7.0000 14.000</code></pre>
+<p>通常先用 <code>lm()</code> 函数对数据建立线性模型，再用 <code>anova()</code> 函数提取方差分析的信息更方便。</p>
+<pre class="r"><code>md &lt;- lm(wt ~ factor(cyl), data = mtcars)
+anova(md)
+#&gt; Analysis of Variance Table
+#&gt; 
+#&gt; Response: wt
+#&gt;             Df Sum Sq Mean Sq F value  Pr(&gt;F)    
+#&gt; factor(cyl)  2   18.2    9.09    22.9 1.1e-06 ***
+#&gt; Residuals   29   11.5    0.40                    
+#&gt; ---
+#&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>ANOVA 分析假设各组样本数据的方差是相等的，如果知道（或怀疑）不相等，可以使用 <code>oneway.test()</code> 函数。</p>
+<pre class="r"><code>oneway.test(wt ~ cyl, data = mtcars)
+#&gt; 
+#&gt;  One-way analysis of means (not assuming equal variances)
+#&gt; 
+#&gt; data:  wt and cyl
+#&gt; F = 20, num df = 2, denom df = 19, p-value = 2e-05</code></pre>
+<p>这与设定了 <code>var.equal=FALSE</code> 的 t.test 类似（两种方法都是 Welch 提出）。</p>
+</div>
+<div id="多组样本的配对-t-检验" class="section level4">
+<h4>多组样本的配对 t 检验</h4>
+<pre class="r"><code>pairwise.t.test(mtcars$wt, mtcars$cyl)
+#&gt; 
+#&gt;  Pairwise comparisons using t tests with pooled SD 
+#&gt; 
+#&gt; data:  mtcars$wt and mtcars$cyl 
+#&gt; 
+#&gt;   4     6   
+#&gt; 6 0.01  -   
+#&gt; 8 6e-07 0.01
+#&gt; 
+#&gt; P value adjustment method: holm</code></pre>
+<p>可以自定义 p 值校正方法。</p>
+</div>
+<div id="正态性检验" class="section level4">
+<h4>正态性检验</h4>
+<p>使用 Shapiro-Wilk 检验：</p>
+<pre class="r"><code>shapiro.test(rnorm(30))
+#&gt; 
+#&gt;  Shapiro-Wilk normality test
+#&gt; 
+#&gt; data:  rnorm(30)
+#&gt; W = 1, p-value = 1</code></pre>
+<p>可以通过 QQ 图辅助查看。</p>
+<pre class="r"><code>qqnorm(rnorm(30))</code></pre>
+<p><img src="/cn/post/2019-12-25-r-stats-funs-summary_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+</div>
+<div id="分布的对称性检验" class="section level4">
+<h4>分布的对称性检验</h4>
+<p>用 Kolmogorov-Smirnov 检验查看一个向量是否来自对称的概率分布（不限于正态分布）。</p>
+<pre class="r"><code>ks.test(rnorm(10), pnorm)
+#&gt; 
+#&gt;  One-sample Kolmogorov-Smirnov test
+#&gt; 
+#&gt; data:  rnorm(10)
+#&gt; D = 0.2, p-value = 0.7
+#&gt; alternative hypothesis: two-sided</code></pre>
+<p>函数第 1 个参数指定待检验的数据，第 2 个参数指定对称分布的类型，可以是数值型向量、指定概率分布函数的字符串或一个分布函数。</p>
+<pre class="r"><code>ks.test(rnorm(10), &quot;pnorm&quot;)
+#&gt; 
+#&gt;  One-sample Kolmogorov-Smirnov test
+#&gt; 
+#&gt; data:  rnorm(10)
+#&gt; D = 0.4, p-value = 0.09
+#&gt; alternative hypothesis: two-sided
+
+ks.test(rpois(10, lambda = 1), &quot;pnorm&quot;)
+#&gt; Warning in ks.test(rpois(10, lambda = 1), &quot;pnorm&quot;): ties should not be present
+#&gt; for the Kolmogorov-Smirnov test
+#&gt; 
+#&gt;  One-sample Kolmogorov-Smirnov test
+#&gt; 
+#&gt; data:  rpois(10, lambda = 1)
+#&gt; D = 0.5, p-value = 0.01
+#&gt; alternative hypothesis: two-sided</code></pre>
+</div>
+<div id="检验两个向量是否服从同一分布" class="section level4">
+<h4>检验两个向量是否服从同一分布</h4>
+<p>还是用上面的函数。</p>
+<pre class="r"><code>ks.test(rnorm(20), rnorm(30))
+#&gt; 
+#&gt;  Two-sample Kolmogorov-Smirnov test
+#&gt; 
+#&gt; data:  rnorm(20) and rnorm(30)
+#&gt; D = 0.1, p-value = 1
+#&gt; alternative hypothesis: two-sided</code></pre>
+</div>
+<div id="相关性检验" class="section level4">
+<h4>相关性检验</h4>
+<p>使用 <code>cor.test()</code> 函数。</p>
+<pre class="r"><code>cor.test(mtcars$mpg, mtcars$wt)
+#&gt; 
+#&gt;  Pearson&#39;s product-moment correlation
+#&gt; 
+#&gt; data:  mtcars$mpg and mtcars$wt
+#&gt; t = -10, df = 30, p-value = 1e-10
+#&gt; alternative hypothesis: true correlation is not equal to 0
+#&gt; 95 percent confidence interval:
+#&gt;  -0.934 -0.744
+#&gt; sample estimates:
+#&gt;    cor 
+#&gt; -0.868</code></pre>
+<p>一共有 3 种方法，具体看选项 <code>method</code> 的说明。</p>
+<pre class="r"><code>cor.test(mtcars$mpg, mtcars$wt, method = &quot;spearman&quot;, exact = F)
+#&gt; 
+#&gt;  Spearman&#39;s rank correlation rho
+#&gt; 
+#&gt; data:  mtcars$mpg and mtcars$wt
+#&gt; S = 10292, p-value = 1e-11
+#&gt; alternative hypothesis: true rho is not equal to 0
+#&gt; sample estimates:
+#&gt;    rho 
+#&gt; -0.886</code></pre>
+</div>
+</div>
+<div id="不依赖分布的检验" class="section level3">
+<h3>不依赖分布的检验</h3>
+<div id="均值检验-1" class="section level4">
+<h4>均值检验</h4>
+<p>Wilcoxon 检验是 t 检验的非参数版本。</p>
+<p>默认是秩和检验。</p>
+<pre class="r"><code>wilcox.test(1:10, 10:20)
+#&gt; Warning in wilcox.test.default(1:10, 10:20): cannot compute exact p-value with
+#&gt; ties
+#&gt; 
+#&gt;  Wilcoxon rank sum test with continuity correction
+#&gt; 
+#&gt; data:  1:10 and 10:20
+#&gt; W = 0.5, p-value = 1e-04
+#&gt; alternative hypothesis: true location shift is not equal to 0</code></pre>
+<p>可以设定为符号检验。</p>
+<pre class="r"><code>wilcox.test(1:10, 10:19, paired = TRUE)
+#&gt; Warning in wilcox.test.default(1:10, 10:19, paired = TRUE): cannot compute exact
+#&gt; p-value with ties
+#&gt; 
+#&gt;  Wilcoxon signed rank test with continuity correction
+#&gt; 
+#&gt; data:  1:10 and 10:19
+#&gt; V = 0, p-value = 0.002
+#&gt; alternative hypothesis: true location shift is not equal to 0</code></pre>
+</div>
+<div id="多均值比较" class="section level4">
+<h4>多均值比较</h4>
+<p>多均值比较使 Kruskal-Wallis 秩和检验。</p>
+<pre class="r"><code>kruskal.test(wt ~ factor(cyl), data = mtcars)
+#&gt; 
+#&gt;  Kruskal-Wallis rank sum test
+#&gt; 
+#&gt; data:  wt by factor(cyl)
+#&gt; Kruskal-Wallis chi-squared = 23, df = 2, p-value = 1e-05</code></pre>
+</div>
+<div id="方差检验" class="section level4">
+<h4>方差检验</h4>
+<p>使用Fligner-Killeen（中位数）检验完成不同组别的方差比较</p>
+<pre class="r"><code>fligner.test(wt ~ cyl, data = mtcars)
+#&gt; 
+#&gt;  Fligner-Killeen test of homogeneity of variances
+#&gt; 
+#&gt; data:  wt by cyl
+#&gt; Fligner-Killeen:med chi-squared = 0.5, df = 2, p-value = 0.8</code></pre>
+</div>
+<div id="尺度参数差异" class="section level4">
+<h4>尺度参数差异</h4>
+<p>R 有一些检验可以用来确定尺度参数的差异。分布的尺度参数确定分布函数的尺度，如 t 分布的自由度。</p>
+<p>下面是针对两样本尺度参数差异的 Ansari-Bradley 检验。</p>
+<pre class="r"><code>## Hollander &amp; Wolfe (1973, p. 86f):
+## Serum iron determination using Hyland control sera
+ramsay &lt;- c(111, 107, 100, 99, 102, 106, 109, 108, 104, 99,
+            101, 96, 97, 102, 107, 113, 116, 113, 110, 98)
+jung.parekh &lt;- c(107, 108, 106, 98, 105, 103, 110, 105, 104,
+            100, 96, 108, 103, 104, 114, 114, 113, 108, 106, 99)
+ansari.test(ramsay, jung.parekh)
+#&gt; Warning in ansari.test.default(ramsay, jung.parekh): cannot compute exact p-
+#&gt; value with ties
+#&gt; 
+#&gt;  Ansari-Bradley test
+#&gt; 
+#&gt; data:  ramsay and jung.parekh
+#&gt; AB = 186, p-value = 0.2
+#&gt; alternative hypothesis: true ratio of scales is not equal to 1</code></pre>
+<p>还可以使用 Mood 两样本检验做。</p>
+<pre class="r"><code>mood.test(ramsay, jung.parekh)
+#&gt; 
+#&gt;  Mood two-sample test of scale
+#&gt; 
+#&gt; data:  ramsay and jung.parekh
+#&gt; Z = 1, p-value = 0.3
+#&gt; alternative hypothesis: two.sided</code></pre>
+</div>
+</div>
+</div>
+<div id="离散数据" class="section level2">
+<h2>离散数据</h2>
+<div id="比例检验" class="section level3">
+<h3>比例检验</h3>
+<p>使用 <code>prop.test()</code> 比较两组观测值发生的概率是否有差异。</p>
+<pre class="r"><code>heads &lt;- rbinom(1, size = 100, prob = .5)
+prop.test(heads, 100)          # continuity correction TRUE by default
+#&gt; 
+#&gt;  1-sample proportions test with continuity correction
+#&gt; 
+#&gt; data:  heads out of 100, null probability 0.5
+#&gt; X-squared = 0.2, df = 1, p-value = 0.6
+#&gt; alternative hypothesis: true p is not equal to 0.5
+#&gt; 95 percent confidence interval:
+#&gt;  0.370 0.572
+#&gt; sample estimates:
+#&gt;    p 
+#&gt; 0.47
+prop.test(heads, 100, correct = FALSE)
+#&gt; 
+#&gt;  1-sample proportions test without continuity correction
+#&gt; 
+#&gt; data:  heads out of 100, null probability 0.5
+#&gt; X-squared = 0.4, df = 1, p-value = 0.5
+#&gt; alternative hypothesis: true p is not equal to 0.5
+#&gt; 95 percent confidence interval:
+#&gt;  0.375 0.567
+#&gt; sample estimates:
+#&gt;    p 
+#&gt; 0.47</code></pre>
+<p>可以给定概率值。</p>
+<pre class="r"><code>prop.test(heads, 100, p = 0.3, correct = FALSE)
+#&gt; 
+#&gt;  1-sample proportions test without continuity correction
+#&gt; 
+#&gt; data:  heads out of 100, null probability 0.3
+#&gt; X-squared = 14, df = 1, p-value = 2e-04
+#&gt; alternative hypothesis: true p is not equal to 0.3
+#&gt; 95 percent confidence interval:
+#&gt;  0.375 0.567
+#&gt; sample estimates:
+#&gt;    p 
+#&gt; 0.47</code></pre>
+</div>
+<div id="二项式检验" class="section level3">
+<h3>二项式检验</h3>
+<pre class="r"><code>binom.test(c(682, 243), p = 3/4)
+#&gt; 
+#&gt;  Exact binomial test
+#&gt; 
+#&gt; data:  c(682, 243)
+#&gt; number of successes = 682, number of trials = 925, p-value = 0.4
+#&gt; alternative hypothesis: true probability of success is not equal to 0.75
+#&gt; 95 percent confidence interval:
+#&gt;  0.708 0.765
+#&gt; sample estimates:
+#&gt; probability of success 
+#&gt;                  0.737
+binom.test(682, 682 + 243, p = 3/4)  # The same
+#&gt; 
+#&gt;  Exact binomial test
+#&gt; 
+#&gt; data:  682 and 682 + 243
+#&gt; number of successes = 682, number of trials = 925, p-value = 0.4
+#&gt; alternative hypothesis: true probability of success is not equal to 0.75
+#&gt; 95 percent confidence interval:
+#&gt;  0.708 0.765
+#&gt; sample estimates:
+#&gt; probability of success 
+#&gt;                  0.737</code></pre>
+<p><strong>与其他的检验函数不同，这里的 p 值表示试验成功率与假设值的最小差值</strong>。</p>
+</div>
+<div id="列联表检验" class="section level3">
+<h3>列联表检验</h3>
+<p>用来确定两个分类变量是否相关。</p>
+<p>对于小的列联表，试验 Fisher 精确检验获得较好的检验结果。</p>
+<p>Fisher 检验有一个关于喝茶的故事。</p>
+<pre class="r"><code>## Agresti (1990, p. 61f; 2002, p. 91) Fisher&#39;s Tea Drinker
+## A British woman claimed to be able to distinguish whether milk or
+##  tea was added to the cup first.  To test, she was given 8 cups of
+##  tea, in four of which milk was added first.  The null hypothesis
+##  is that there is no association between the true order of pouring
+##  and the woman&#39;s guess, the alternative that there is a positive
+##  association (that the odds ratio is greater than 1).
+TeaTasting &lt;-
+matrix(c(3, 1, 1, 3),
+       nrow = 2,
+       dimnames = list(Guess = c(&quot;Milk&quot;, &quot;Tea&quot;),
+                       Truth = c(&quot;Milk&quot;, &quot;Tea&quot;)))
+fisher.test(TeaTasting, alternative = &quot;greater&quot;)
+#&gt; 
+#&gt;  Fisher&#39;s Exact Test for Count Data
+#&gt; 
+#&gt; data:  TeaTasting
+#&gt; p-value = 0.2
+#&gt; alternative hypothesis: true odds ratio is greater than 1
+#&gt; 95 percent confidence interval:
+#&gt;  0.314   Inf
+#&gt; sample estimates:
+#&gt; odds ratio 
+#&gt;       6.41
+## =&gt; p = 0.2429, association could not be established</code></pre>
+<p>当列联表较大时，Fisher 计算量很大，可以使用卡方检验替代。</p>
+<pre class="r"><code>chisq.test(TeaTasting)
+#&gt; Warning in chisq.test(TeaTasting): Chi-squared approximation may be incorrect
+#&gt; 
+#&gt;  Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
+#&gt; 
+#&gt; data:  TeaTasting
+#&gt; X-squared = 0.5, df = 1, p-value = 0.5</code></pre>
+<p>对于三变量的混合影响，使用 Cochran-Mantel-Haenszel 检验。</p>
+<pre class="r"><code>## Agresti (1990), pages 231--237, Penicillin and Rabbits
+## Investigation of the effectiveness of immediately injected or 1.5
+##  hours delayed penicillin in protecting rabbits against a lethal
+##  injection with beta-hemolytic streptococci.
+Rabbits &lt;-
+array(c(0, 0, 6, 5,
+        3, 0, 3, 6,
+        6, 2, 0, 4,
+        5, 6, 1, 0,
+        2, 5, 0, 0),
+      dim = c(2, 2, 5),
+      dimnames = list(
+          Delay = c(&quot;None&quot;, &quot;1.5h&quot;),
+          Response = c(&quot;Cured&quot;, &quot;Died&quot;),
+          Penicillin.Level = c(&quot;1/8&quot;, &quot;1/4&quot;, &quot;1/2&quot;, &quot;1&quot;, &quot;4&quot;)))
+Rabbits
+#&gt; , , Penicillin.Level = 1/8
+#&gt; 
+#&gt;       Response
+#&gt; Delay  Cured Died
+#&gt;   None     0    6
+#&gt;   1.5h     0    5
+#&gt; 
+#&gt; , , Penicillin.Level = 1/4
+#&gt; 
+#&gt;       Response
+#&gt; Delay  Cured Died
+#&gt;   None     3    3
+#&gt;   1.5h     0    6
+#&gt; 
+#&gt; , , Penicillin.Level = 1/2
+#&gt; 
+#&gt;       Response
+#&gt; Delay  Cured Died
+#&gt;   None     6    0
+#&gt;   1.5h     2    4
+#&gt; 
+#&gt; , , Penicillin.Level = 1
+#&gt; 
+#&gt;       Response
+#&gt; Delay  Cured Died
+#&gt;   None     5    1
+#&gt;   1.5h     6    0
+#&gt; 
+#&gt; , , Penicillin.Level = 4
+#&gt; 
+#&gt;       Response
+#&gt; Delay  Cured Died
+#&gt;   None     2    0
+#&gt;   1.5h     5    0
+## Classical Mantel-Haenszel test
+mantelhaen.test(Rabbits)
+#&gt; 
+#&gt;  Mantel-Haenszel chi-squared test with continuity correction
+#&gt; 
+#&gt; data:  Rabbits
+#&gt; Mantel-Haenszel X-squared = 4, df = 1, p-value = 0.05
+#&gt; alternative hypothesis: true common odds ratio is not equal to 1
+#&gt; 95 percent confidence interval:
+#&gt;   1.03 47.73
+#&gt; sample estimates:
+#&gt; common odds ratio 
+#&gt;                 7</code></pre>
+<p>用 McNemar 卡方检验检验二维列联表的对称性。</p>
+<pre class="r"><code>## Agresti (1990), p. 350.
+## Presidential Approval Ratings.
+##  Approval of the President&#39;s performance in office in two surveys,
+##  one month apart, for a random sample of 1600 voting-age Americans.
+Performance &lt;-
+matrix(c(794, 86, 150, 570),
+       nrow = 2,
+       dimnames = list(&quot;1st Survey&quot; = c(&quot;Approve&quot;, &quot;Disapprove&quot;),
+                       &quot;2nd Survey&quot; = c(&quot;Approve&quot;, &quot;Disapprove&quot;)))
+Performance
+#&gt;             2nd Survey
+#&gt; 1st Survey   Approve Disapprove
+#&gt;   Approve        794        150
+#&gt;   Disapprove      86        570
+mcnemar.test(Performance)
+#&gt; 
+#&gt;  McNemar&#39;s Chi-squared test with continuity correction
+#&gt; 
+#&gt; data:  Performance
+#&gt; McNemar&#39;s chi-squared = 17, df = 1, p-value = 4e-05</code></pre>
+</div>
+<div id="列联表非参数检验" class="section level3">
+<h3>列联表非参数检验</h3>
+<p>Friedman 秩和检验是一个非参数版本的双边 ANOVA 检验。</p>
+<pre class="r"><code>## Hollander &amp; Wolfe (1973), p. 140ff.
+## Comparison of three methods (&quot;round out&quot;, &quot;narrow angle&quot;, and
+##  &quot;wide angle&quot;) for rounding first base.  For each of 18 players
+##  and the three method, the average time of two runs from a point on
+##  the first base line 35ft from home plate to a point 15ft short of
+##  second base is recorded.
+RoundingTimes &lt;-
+matrix(c(5.40, 5.50, 5.55,
+         5.85, 5.70, 5.75,
+         5.20, 5.60, 5.50,
+         5.55, 5.50, 5.40,
+         5.90, 5.85, 5.70,
+         5.45, 5.55, 5.60,
+         5.40, 5.40, 5.35,
+         5.45, 5.50, 5.35,
+         5.25, 5.15, 5.00,
+         5.85, 5.80, 5.70,
+         5.25, 5.20, 5.10,
+         5.65, 5.55, 5.45,
+         5.60, 5.35, 5.45,
+         5.05, 5.00, 4.95,
+         5.50, 5.50, 5.40,
+         5.45, 5.55, 5.50,
+         5.55, 5.55, 5.35,
+         5.45, 5.50, 5.55,
+         5.50, 5.45, 5.25,
+         5.65, 5.60, 5.40,
+         5.70, 5.65, 5.55,
+         6.30, 6.30, 6.25),
+       nrow = 22,
+       byrow = TRUE,
+       dimnames = list(1 : 22,
+                       c(&quot;Round Out&quot;, &quot;Narrow Angle&quot;, &quot;Wide Angle&quot;)))
+friedman.test(RoundingTimes)
+#&gt; 
+#&gt;  Friedman rank sum test
+#&gt; 
+#&gt; data:  RoundingTimes
+#&gt; Friedman chi-squared = 11, df = 2, p-value = 0.004</code></pre>
+</div>
+</div>

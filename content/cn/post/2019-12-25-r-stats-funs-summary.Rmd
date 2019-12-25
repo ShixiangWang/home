@@ -1,0 +1,364 @@
+---
+title: "R 语言统计检验函数汇总"
+author: "王诗翔"
+date: "2019-12-25"
+lastmod: "`r Sys.Date()`"
+slug: ""
+categories: r
+tags:
+- r
+- stats
+- 统计检验
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, dev = "png", comment = "#>")
+#Sys.setenv("LANGUAGE"="EN") # Embed this for outputing English message
+#Sys.setlocale('LC_ALL','C') # Embed this directly in the Rmarkdown script that contains the Chinese character comment
+options(digits=3)
+options(max.print=200)
+```
+
+> 资料来源：《R 语言核心技术手册》和 R 文档
+>
+> 数据基本来自胡编乱造 和 R 文档
+
+本文基本囊括了常用的统计检验在 R 中的实现函数和使用方法。
+
+## 连续型数据
+
+### 基于正态分布的检验
+
+#### 均值检验
+
+```{r}
+t.test(1:10, 10:20)
+```
+
+配对 t 检验：
+
+```{r}
+t.test(rnorm(10), rnorm(10, mean = 1), paired = TRUE)
+```
+
+使用公式：
+
+```{r}
+df <- data.frame(
+  value = c(rnorm(10), rnorm(10, mean = 1)),
+  group = c(rep("control", 10), rep("test", 10))
+)
+
+t.test(value ~ group, data = df)
+```
+
+假设方差同质：
+
+```{r}
+t.test(value ~ group, data = df, var.equal = TRUE)
+```
+
+
+更多查看 `?t.test`。
+
+#### 两总体方差检验
+
+上面的例子假设方差同质，我们通过检验查看。
+
+服从正态分布的两总体方差比较。
+
+
+```{r}
+# 进行的是 F 检验
+var.test(value ~ group, data = df)
+```
+
+使用 Bartlett 检验比较每个组（样本）数据的方差是否一致。
+
+```{r}
+bartlett.test(value ~ group, data = df)
+```
+
+#### 多个组间均值的比较
+
+对于两组以上数据间均值的比较，使用方差分析 ANOVA。
+
+```{r}
+aov(wt ~ factor(cyl), data = mtcars)
+```
+
+查看详细信息：
+
+```{r}
+model.tables(aov(wt ~ factor(cyl), data = mtcars))
+```
+
+通常先用 `lm()` 函数对数据建立线性模型，再用 `anova()` 函数提取方差分析的信息更方便。
+
+```{r}
+md <- lm(wt ~ factor(cyl), data = mtcars)
+anova(md)
+```
+
+ANOVA 分析假设各组样本数据的方差是相等的，如果知道（或怀疑）不相等，可以使用 `oneway.test()` 函数。
+
+```{r}
+oneway.test(wt ~ cyl, data = mtcars)
+```
+
+这与设定了 `var.equal=FALSE` 的 t.test 类似（两种方法都是 Welch 提出）。
+
+#### 多组样本的配对 t 检验
+
+```{r}
+pairwise.t.test(mtcars$wt, mtcars$cyl)
+```
+
+可以自定义 p 值校正方法。
+
+#### 正态性检验
+
+使用 Shapiro-Wilk 检验：
+
+```{r}
+shapiro.test(rnorm(30))
+```
+
+可以通过 QQ 图辅助查看。
+
+```{r}
+qqnorm(rnorm(30))
+```
+
+#### 分布的对称性检验
+
+用 Kolmogorov-Smirnov 检验查看一个向量是否来自对称的概率分布（不限于正态分布）。
+
+```{r}
+ks.test(rnorm(10), pnorm)
+```
+
+函数第 1 个参数指定待检验的数据，第 2 个参数指定对称分布的类型，可以是数值型向量、指定概率分布函数的字符串或一个分布函数。
+
+```{r}
+ks.test(rnorm(10), "pnorm")
+
+ks.test(rpois(10, lambda = 1), "pnorm")
+```
+
+#### 检验两个向量是否服从同一分布
+
+还是用上面的函数。
+
+```{r}
+ks.test(rnorm(20), rnorm(30))
+```
+
+#### 相关性检验
+
+使用 `cor.test()` 函数。
+
+```{r}
+cor.test(mtcars$mpg, mtcars$wt)
+```
+
+一共有 3 种方法，具体看选项 `method` 的说明。
+
+```{r}
+cor.test(mtcars$mpg, mtcars$wt, method = "spearman", exact = F)
+```
+
+### 不依赖分布的检验
+
+#### 均值检验
+
+Wilcoxon 检验是 t 检验的非参数版本。
+
+默认是秩和检验。
+
+```{r}
+wilcox.test(1:10, 10:20)
+```
+
+可以设定为符号检验。
+
+```{r}
+wilcox.test(1:10, 10:19, paired = TRUE)
+```
+
+#### 多均值比较
+ 
+多均值比较使 Kruskal-Wallis 秩和检验。
+
+```{r}
+kruskal.test(wt ~ factor(cyl), data = mtcars)
+```
+
+#### 方差检验
+
+使用Fligner-Killeen（中位数）检验完成不同组别的方差比较
+
+```{r}
+fligner.test(wt ~ cyl, data = mtcars)
+```
+
+#### 尺度参数差异
+
+R 有一些检验可以用来确定尺度参数的差异。分布的尺度参数确定分布函数的尺度，如 t 分布的自由度。
+
+下面是针对两样本尺度参数差异的 Ansari-Bradley 检验。
+
+```{r}
+## Hollander & Wolfe (1973, p. 86f):
+## Serum iron determination using Hyland control sera
+ramsay <- c(111, 107, 100, 99, 102, 106, 109, 108, 104, 99,
+            101, 96, 97, 102, 107, 113, 116, 113, 110, 98)
+jung.parekh <- c(107, 108, 106, 98, 105, 103, 110, 105, 104,
+            100, 96, 108, 103, 104, 114, 114, 113, 108, 106, 99)
+ansari.test(ramsay, jung.parekh)
+```
+
+还可以使用 Mood 两样本检验做。
+
+```{r}
+mood.test(ramsay, jung.parekh)
+```
+
+## 离散数据
+
+### 比例检验
+
+使用 `prop.test()` 比较两组观测值发生的概率是否有差异。
+
+```{r}
+heads <- rbinom(1, size = 100, prob = .5)
+prop.test(heads, 100)          # continuity correction TRUE by default
+prop.test(heads, 100, correct = FALSE)
+```
+
+可以给定概率值。
+
+```{r}
+prop.test(heads, 100, p = 0.3, correct = FALSE)
+```
+
+### 二项式检验
+
+```{r}
+binom.test(c(682, 243), p = 3/4)
+binom.test(682, 682 + 243, p = 3/4)  # The same
+```
+
+**与其他的检验函数不同，这里的 p 值表示试验成功率与假设值的最小差值**。
+
+### 列联表检验
+
+用来确定两个分类变量是否相关。
+
+对于小的列联表，试验 Fisher 精确检验获得较好的检验结果。
+
+Fisher 检验有一个关于喝茶的故事。
+
+```{r}
+## Agresti (1990, p. 61f; 2002, p. 91) Fisher's Tea Drinker
+## A British woman claimed to be able to distinguish whether milk or
+##  tea was added to the cup first.  To test, she was given 8 cups of
+##  tea, in four of which milk was added first.  The null hypothesis
+##  is that there is no association between the true order of pouring
+##  and the woman's guess, the alternative that there is a positive
+##  association (that the odds ratio is greater than 1).
+TeaTasting <-
+matrix(c(3, 1, 1, 3),
+       nrow = 2,
+       dimnames = list(Guess = c("Milk", "Tea"),
+                       Truth = c("Milk", "Tea")))
+fisher.test(TeaTasting, alternative = "greater")
+## => p = 0.2429, association could not be established
+```
+
+当列联表较大时，Fisher 计算量很大，可以使用卡方检验替代。
+
+```{r}
+chisq.test(TeaTasting)
+```
+
+对于三变量的混合影响，使用 Cochran-Mantel-Haenszel 检验。
+
+```{r}
+## Agresti (1990), pages 231--237, Penicillin and Rabbits
+## Investigation of the effectiveness of immediately injected or 1.5
+##  hours delayed penicillin in protecting rabbits against a lethal
+##  injection with beta-hemolytic streptococci.
+Rabbits <-
+array(c(0, 0, 6, 5,
+        3, 0, 3, 6,
+        6, 2, 0, 4,
+        5, 6, 1, 0,
+        2, 5, 0, 0),
+      dim = c(2, 2, 5),
+      dimnames = list(
+          Delay = c("None", "1.5h"),
+          Response = c("Cured", "Died"),
+          Penicillin.Level = c("1/8", "1/4", "1/2", "1", "4")))
+Rabbits
+## Classical Mantel-Haenszel test
+mantelhaen.test(Rabbits)
+```
+
+用 McNemar 卡方检验检验二维列联表的对称性。
+
+```{r}
+## Agresti (1990), p. 350.
+## Presidential Approval Ratings.
+##  Approval of the President's performance in office in two surveys,
+##  one month apart, for a random sample of 1600 voting-age Americans.
+Performance <-
+matrix(c(794, 86, 150, 570),
+       nrow = 2,
+       dimnames = list("1st Survey" = c("Approve", "Disapprove"),
+                       "2nd Survey" = c("Approve", "Disapprove")))
+Performance
+mcnemar.test(Performance)
+```
+
+### 列联表非参数检验
+
+Friedman 秩和检验是一个非参数版本的双边 ANOVA 检验。
+
+```{r}
+## Hollander & Wolfe (1973), p. 140ff.
+## Comparison of three methods ("round out", "narrow angle", and
+##  "wide angle") for rounding first base.  For each of 18 players
+##  and the three method, the average time of two runs from a point on
+##  the first base line 35ft from home plate to a point 15ft short of
+##  second base is recorded.
+RoundingTimes <-
+matrix(c(5.40, 5.50, 5.55,
+         5.85, 5.70, 5.75,
+         5.20, 5.60, 5.50,
+         5.55, 5.50, 5.40,
+         5.90, 5.85, 5.70,
+         5.45, 5.55, 5.60,
+         5.40, 5.40, 5.35,
+         5.45, 5.50, 5.35,
+         5.25, 5.15, 5.00,
+         5.85, 5.80, 5.70,
+         5.25, 5.20, 5.10,
+         5.65, 5.55, 5.45,
+         5.60, 5.35, 5.45,
+         5.05, 5.00, 4.95,
+         5.50, 5.50, 5.40,
+         5.45, 5.55, 5.50,
+         5.55, 5.55, 5.35,
+         5.45, 5.50, 5.55,
+         5.50, 5.45, 5.25,
+         5.65, 5.60, 5.40,
+         5.70, 5.65, 5.55,
+         6.30, 6.30, 6.25),
+       nrow = 22,
+       byrow = TRUE,
+       dimnames = list(1 : 22,
+                       c("Round Out", "Narrow Angle", "Wide Angle")))
+friedman.test(RoundingTimes)
+```
+

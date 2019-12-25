@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>bioinformatics on Shixiang Wang | 王诗翔</title>
@@ -18,9 +18,9 @@
       
       <guid>/en/tools/ucscxenatools-intro/</guid>
       <description>UCSCXenaTools is an R package for downloading and exploring data from UCSC Xena data hubs, which are
-a collection of UCSC-hosted public databases such as TCGA, ICGC, TARGET, GTEx, CCLE, and others. Databases are normalized so they can be combined, linked, filtered, explored and downloaded.
+ a collection of UCSC-hosted public databases such as TCGA, ICGC, TARGET, GTEx, CCLE, and others. Databases are normalized so they can be combined, linked, filtered, explored and downloaded.
 – UCSC Xena
-If you use this package in academic field, please cite:
+ If you use this package in academic field, please cite:
 Wang, Shixiang, et al. &amp;quot;The predictive power of tumor mutational burden in lung cancer immunotherapy response is influenced by patients&amp;#39; sex.</description>
     </item>
     
@@ -32,8 +32,8 @@ Wang, Shixiang, et al. &amp;quot;The predictive power of tumor mutational burden
       <guid>/en/tools/ucscxenatools-api/</guid>
       <description>This vignette gives users the summary information of API functions provided by UCSCXenaTools for UCSC Xena.
 Before using API, user should know some concepts about Xena elements. Following description is copied from xenaPython __init__.py.
-Data rows are associated with “sample” IDs.
-Sample IDs are unique within a “cohort”.sA “dataset” is a particular assay of a cohort, e.g. gene expression.
+ Data rows are associated with “sample” IDs.
+Sample IDs are unique within a “cohort”. s A “dataset” is a particular assay of a cohort, e.g. gene expression.
 Datasets have associated metadata, specifying their data type and cohort.</description>
     </item>
     
@@ -106,7 +106,7 @@ Datasets have associated metadata, specifying their data type and cohort.</descr
       <pubDate>Mon, 09 Oct 2017 00:00:00 +0000</pubDate>
       
       <guid>/cn/post/2017-10-09-microarray-data-analysis/</guid>
-      <description>参考学习《R语言与Bioconductor——生物信息学应用》第五章，根据自己学习有删改，欢迎分享。本文中有些预备知识或一些方法的原理没有提</description>
+      <description>*参考学习《R语言与Bioconductor——生物信息学应用》第五章*，根据自己学习有删改，欢迎分享。本文中有些预备知识或一些方法的原理没</description>
     </item>
     
   </channel>

@@ -92,7 +92,7 @@
 
 
 
-<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn%5cpost%5c2017-11-26-shell-create-function.md" target="_blank">编辑</a></li>
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2017-11-26-shell-create-function.md" target="_blank">编辑</a></li>
 
 
 <li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
@@ -123,8 +123,12 @@
       </header>
 
 
+
+
 <p><em>来源： Linux命令行与shell脚本编程大全</em></p>
+
 <p><strong>内容</strong></p>
+
 <blockquote>
 <ul>
 <li>基本的脚本函数</li>
@@ -136,515 +140,677 @@
 <li>在命令行上使用函数</li>
 </ul>
 </blockquote>
+
 <p>我们可以将shell脚本代码放进函数中封装起来，这样就能在脚本中的任何地方多次使用它了。</p>
+
 <p>下面我们来逐步了解如何创建自己的shell脚本函数并在应用中使用它们。</p>
-<!-- raw HTML omitted -->
-<h2 id="heading">基本的脚本函数</h2>
+
+<!-- more -->
+
+<h2 id="基本的脚本函数">基本的脚本函数</h2>
+
 <p>函数是一个脚本代码块，我们可以为其命名并在代码中任何位置重用。要在脚本中使用该代码块，只要使用所起的函数名就行了。</p>
-<h3 id="heading-1">创建函数</h3>
+
+<h3 id="创建函数">创建函数</h3>
+
 <p>有两种格式可以创建函数。第一种格式是使用关键字<code>function</code>，后跟分配给该代码块的函数名。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">funtion name<span style="color:#f92672">{</span>
+
+<pre><code class="language-shell">funtion name{
 	commands
-<span style="color:#f92672">}</span>
-</code></pre></div><p><code>name</code>属性定义了赋予函数的唯一名称，<code>commands</code>是构成函数的一条或多条bash shell命令。</p>
+}
+</code></pre>
+
+<p><code>name</code>属性定义了赋予函数的唯一名称，<code>commands</code>是构成函数的一条或多条bash shell命令。</p>
+
 <p>第二种格式更接近其他编程语言中定义函数的方式：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">name<span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+
+<pre><code class="language-shell">name() {
   commands
-<span style="color:#f92672">}</span>
-</code></pre></div><h3 id="heading-2">使用函数</h3>
+}
+</code></pre>
+
+<h3 id="使用函数">使用函数</h3>
+
 <p>要使用函数，只需要像其他shell命令一样，在行中指定函数名就行了。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx:~/tmp$ cat test1
-<span style="color:#75715e">#!/bin/bash</span>
-<span style="color:#75715e"># using a function in a script</span>
 
-<span style="color:#66d9ef">function</span> func1 <span style="color:#f92672">{</span>
-    echo <span style="color:#e6db74">&#34;This is an example of a function&#34;</span>
-<span style="color:#f92672">}</span>
+<pre><code class="language-shell">wsx@wsx:~/tmp$ cat test1
+#!/bin/bash
+# using a function in a script
 
-count<span style="color:#f92672">=</span>1
-<span style="color:#66d9ef">while</span> <span style="color:#f92672">[</span> $count -le <span style="color:#ae81ff">5</span> <span style="color:#f92672">]</span>
-<span style="color:#66d9ef">do</span>
+function func1 {
+    echo &quot;This is an example of a function&quot;
+}
+
+count=1
+while [ $count -le 5 ]
+do
   func1
-  count<span style="color:#f92672">=</span>$<span style="color:#f92672">[</span> $count + <span style="color:#ae81ff">1</span> <span style="color:#f92672">]</span>
-<span style="color:#66d9ef">done</span>
+  count=$[ $count + 1 ]
+done
 
-echo <span style="color:#e6db74">&#34;This is the end of the loop&#34;</span>
+echo &quot;This is the end of the loop&quot;
 func1
-echo <span style="color:#e6db74">&#34;Now, this is the end of the script&#34;</span>
+echo &quot;Now, this is the end of the script&quot;
 
 wsx@wsx:~/tmp$ ./test1
-This is an example of a <span style="color:#66d9ef">function</span>
-This is an example of a <span style="color:#66d9ef">function</span>
-This is an example of a <span style="color:#66d9ef">function</span>
-This is an example of a <span style="color:#66d9ef">function</span>
-This is an example of a <span style="color:#66d9ef">function</span>
+This is an example of a function
+This is an example of a function
+This is an example of a function
+This is an example of a function
+This is an example of a function
 This is the end of the loop
-This is an example of a <span style="color:#66d9ef">function</span>
+This is an example of a function
 Now, this is the end of the script
-</code></pre></div><p>注意，定义函数名<code>func1</code>的后面一定要跟<code>{</code>有空格隔开，不然会报错。<strong>函数要先定义再使用，接触过编程的想必不陌生吧</strong>。</p>
-<h2 id="heading-3">返回值</h2>
+</code></pre>
+
+<p>注意，定义函数名<code>func1</code>的后面一定要跟<code>{</code>有空格隔开，不然会报错。<strong>函数要先定义再使用，接触过编程的想必不陌生吧</strong>。</p>
+
+<h2 id="返回值">返回值</h2>
+
 <p>bash shell会把函数当做一个小型脚本，运行结束时会返回一个退出状态码，有3种不同的方法来为函数生成退出状态码。</p>
-<h3 id="heading-4">默认退出状态码</h3>
+
+<h3 id="默认退出状态码">默认退出状态码</h3>
+
 <p>默认函数的退出状态码是函数中最后一条命令返回的退出状态码。我们可以使用标准变量<code>$?</code>在函数执行结束后确定函数的状态码。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx:~/tmp$ cat test2
-<span style="color:#75715e">#!/bin/bash</span>
-<span style="color:#75715e"># testing the exit status of a function</span>
 
-func1<span style="color:#f92672">(</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-	echo <span style="color:#e6db74">&#34;trying to display a non-existent file&#34;</span>
+<pre><code class="language-shell">wsx@wsx:~/tmp$ cat test2
+#!/bin/bash
+# testing the exit status of a function
+
+func1() {
+	echo &quot;trying to display a non-existent file&quot;
 	ls -l badfile
-<span style="color:#f92672">}</span>
+}
 
-echo <span style="color:#e6db74">&#34;testing the function&#34;</span>
+echo &quot;testing the function&quot;
 func1
-echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">The exit status is: </span>$?<span style="color:#e6db74">&#34;</span>
+echo &quot;The exit status is: $?&quot;
 wsx@wsx:~/tmp$ ./test2
-testing the <span style="color:#66d9ef">function</span>
+testing the function
 trying to display a non-existent file
-ls: 无法访问<span style="color:#e6db74">&#39;badfile&#39;</span>: 没有那个文件或目录
+ls: 无法访问'badfile': 没有那个文件或目录
 The exit status is: 2
-</code></pre></div><p>函数的退出状态码是2，说明函数的最后一条命令没有成功运行。但你无法知道函数中其他命令中是否成功运行，我们来看看下面一个例子。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx:~/tmp$ cat test3
-<span style="color:#75715e">#!/bin/bash</span>
-<span style="color:#75715e"># testing the exit status of a function</span>
+</code></pre>
 
-func1<span style="color:#f92672">(</span><span style="color:#f92672">)</span><span style="color:#f92672">{</span>
+<p>函数的退出状态码是2，说明函数的最后一条命令没有成功运行。但你无法知道函数中其他命令中是否成功运行，我们来看看下面一个例子。</p>
+
+<pre><code class="language-shell">wsx@wsx:~/tmp$ cat test3
+#!/bin/bash
+# testing the exit status of a function
+
+func1(){
 	ls -l badfile
-	echo <span style="color:#e6db74">&#34;This was a test of a bad command&#34;</span>
-<span style="color:#f92672">}</span>
+	echo &quot;This was a test of a bad command&quot;
+}
 
-echo <span style="color:#e6db74">&#34;testing the function:&#34;</span>
+echo &quot;testing the function:&quot;
 func1
-echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">The exit status is: </span>$?<span style="color:#e6db74">&#34;</span>
+echo &quot;The exit status is: $?&quot;
 wsx@wsx:~/tmp$ ./test3
-testing the <span style="color:#66d9ef">function</span>:
-ls: 无法访问<span style="color:#e6db74">&#39;badfile&#39;</span>: 没有那个文件或目录
+testing the function:
+ls: 无法访问'badfile': 没有那个文件或目录
 This was a test of a bad command
 The exit status is: 0
-</code></pre></div><p>这次函数的退出状态码是0，尽管其中有一条命令没有正常运行。可见使用函数的默认退出状态码是很危险的，幸运的是，我们有几种办法解决它。</p>
-<h3 id="return">使用return命令</h3>
-<p><code>return</code>命令允许指定一个<strong>整数值</strong>来定义函数的退出状态码，从而提供了一种简单的途径来编码设定函数退出状态码。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx:~/tmp$ cat test4
-<span style="color:#75715e">#!/bin/bash</span>
-<span style="color:#75715e"># using the return command in a function</span>
+</code></pre>
 
-<span style="color:#66d9ef">function</span> db1 <span style="color:#f92672">{</span>
-	read -p <span style="color:#e6db74">&#34;Enter a value: &#34;</span> value
-	echo <span style="color:#e6db74">&#34;doubling the value&#34;</span>
-	<span style="color:#66d9ef">return</span> $<span style="color:#f92672">[</span> $value * <span style="color:#ae81ff">2</span> <span style="color:#f92672">]</span>
-<span style="color:#f92672">}</span>
+<p>这次函数的退出状态码是0，尽管其中有一条命令没有正常运行。可见使用函数的默认退出状态码是很危险的，幸运的是，我们有几种办法解决它。</p>
+
+<h3 id="使用return命令">使用return命令</h3>
+
+<p><code>return</code>命令允许指定一个<strong>整数值</strong>来定义函数的退出状态码，从而提供了一种简单的途径来编码设定函数退出状态码。</p>
+
+<pre><code class="language-shell">wsx@wsx:~/tmp$ cat test4
+#!/bin/bash
+# using the return command in a function
+
+function db1 {
+	read -p &quot;Enter a value: &quot; value
+	echo &quot;doubling the value&quot;
+	return $[ $value * 2 ]
+}
 
 db1
-echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">The new value is </span>$?<span style="color:#e6db74">&#34;</span>
+echo &quot;The new value is $?&quot;
 wsx@wsx:~/tmp$ ./test4
 Enter a value: 4
 doubling the value
 The new value is 8
-</code></pre></div><p>当使用这种方法时要小心，记住下面两条技巧来避免问题：</p>
+</code></pre>
+
+<p>当使用这种方法时要小心，记住下面两条技巧来避免问题：</p>
+
 <ul>
 <li>函数一结束就取返回值</li>
 <li>退出状态码必须是0~255</li>
 </ul>
+
 <p>如果在用<code>$?</code>变量提取函数的返回值之前使用了其他命令，函数的返回值就会丢失。任何大于255的整数值都会产生一个错误值。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx:~/tmp$ ./test4
+
+<pre><code class="language-shell">wsx@wsx:~/tmp$ ./test4
 Enter a value: 200
 doubling the value
 The new value is 144
-</code></pre></div><h3 id="heading-5">使用函数输出</h3>
+</code></pre>
+
+<h3 id="使用函数输出">使用函数输出</h3>
+
 <p>如同可以将命令的输出保存到shell变量一样，我们也可以对函数的输出采用同样的处理办法。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">result<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>db1<span style="color:#e6db74">`</span>
-</code></pre></div><p>这个命令会将<code>db1</code>函数的输出赋值给<code>$result</code>变量。下面是脚本的一个实例：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx:~/tmp$ cat test4b
-<span style="color:#75715e">#!/bin/bash</span>
-<span style="color:#75715e"># using the echo to return a value</span>
 
-<span style="color:#66d9ef">function</span> db1 <span style="color:#f92672">{</span>
-	read -p <span style="color:#e6db74">&#34;Enter a value: &#34;</span> value
-	echo $<span style="color:#f92672">[</span> $value * <span style="color:#ae81ff">2</span> <span style="color:#f92672">]</span>
-<span style="color:#f92672">}</span>
+<pre><code class="language-shell">result=`db1`
+</code></pre>
 
-result<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>db1<span style="color:#66d9ef">)</span>
-echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">The new value is </span>$result<span style="color:#e6db74">&#34;</span>
+<p>这个命令会将<code>db1</code>函数的输出赋值给<code>$result</code>变量。下面是脚本的一个实例：</p>
+
+<pre><code class="language-shell">wsx@wsx:~/tmp$ cat test4b
+#!/bin/bash
+# using the echo to return a value
+
+function db1 {
+	read -p &quot;Enter a value: &quot; value
+	echo $[ $value * 2 ]
+}
+
+result=$(db1)
+echo &quot;The new value is $result&quot;
 wsx@wsx:~/tmp$ ./test4b
 Enter a value: 200
 The new value is 400
-</code></pre></div><p>函数会用<code>echo</code>语句来显示计算的结果，该脚本会查看<code>db1</code>函数的输出，而不是查看退出状态码。</p>
+</code></pre>
+
+<p>函数会用<code>echo</code>语句来显示计算的结果，该脚本会查看<code>db1</code>函数的输出，而不是查看退出状态码。</p>
+
 <blockquote>
 <p>通过这种技术，我们还可以返回浮点值和字符串值，这使它成为一种获取函数返回值的强大方法。</p>
 </blockquote>
-<h2 id="heading-6">在函数中使用变量</h2>
+
+<h2 id="在函数中使用变量">在函数中使用变量</h2>
+
 <p>在函数中使用变量时，我们需要注意它们的定义方式以及处理方法。这是shell脚本常见错误的根源。</p>
-<h3 id="heading-7">向函数传递参数</h3>
+
+<h3 id="向函数传递参数">向函数传递参数</h3>
+
 <p>函数可以使用标准的参数环境变量来表示命令行上传给函数的参数。例如，函数名会在<code>$0</code>变量中定义，函数命令行上的任何参数都会通过<code>$1</code>、<code>$2</code>定义。也可以用特殊变量<code>$#</code>来判断给函数的参数数目。</p>
+
 <p>指定函数时，必须将参数和函数放在同一行：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">func1 $value1 10
-</code></pre></div><p>然后函数可以用参数环境变量来获得参数值。下面是一个例子：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx:~/tmp$ cat test5
-<span style="color:#75715e">#!/bin/bash</span>
-<span style="color:#75715e"># passing parameters to a function</span>
 
-<span style="color:#66d9ef">function</span> addem <span style="color:#f92672">{</span>
-	<span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> $# -eq <span style="color:#ae81ff">0</span> <span style="color:#f92672">]</span> <span style="color:#f92672">||</span> <span style="color:#f92672">[</span> $# -gt <span style="color:#ae81ff">2</span> <span style="color:#f92672">]</span>
-	<span style="color:#66d9ef">then</span>
+<pre><code class="language-shell">func1 $value1 10
+</code></pre>
+
+<p>然后函数可以用参数环境变量来获得参数值。下面是一个例子：</p>
+
+<pre><code class="language-shell">wsx@wsx:~/tmp$ cat test5
+#!/bin/bash
+# passing parameters to a function
+
+function addem {
+	if [ $# -eq 0 ] || [ $# -gt 2 ]
+	then
 		echo -1
-	<span style="color:#66d9ef">elif</span> <span style="color:#f92672">[</span> $# -eq <span style="color:#ae81ff">1</span> <span style="color:#f92672">]</span>
-	<span style="color:#66d9ef">then</span>
-		echo $<span style="color:#f92672">[</span> $1 + $1 <span style="color:#f92672">]</span>
-	<span style="color:#66d9ef">else</span>
-		echo $<span style="color:#f92672">[</span> $1 + $2 <span style="color:#f92672">]</span>
-	<span style="color:#66d9ef">fi</span>
-<span style="color:#f92672">}</span>
+	elif [ $# -eq 1 ]
+	then
+		echo $[ $1 + $1 ]
+	else
+		echo $[ $1 + $2 ]
+	fi
+}
 
-echo -n <span style="color:#e6db74">&#34;Adding 10 and 15: &#34;</span>
-value<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>addem <span style="color:#ae81ff">10</span> 15<span style="color:#66d9ef">)</span>
+echo -n &quot;Adding 10 and 15: &quot;
+value=$(addem 10 15)
 echo $value
-echo -n <span style="color:#e6db74">&#34;Let&#39;s try adding just one number: &#34;</span>
-value<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>addem 10<span style="color:#66d9ef">)</span>
+echo -n &quot;Let's try adding just one number: &quot;
+value=$(addem 10)
 echo $value
-echo -n <span style="color:#e6db74">&#34;Now trying adding no numbers: &#34;</span>
-value<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>addem<span style="color:#66d9ef">)</span>
+echo -n &quot;Now trying adding no numbers: &quot;
+value=$(addem)
 echo $value
-echo -n <span style="color:#e6db74">&#34;Finally, try add three numbers: &#34;</span>
-value<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>addem <span style="color:#ae81ff">10</span> <span style="color:#ae81ff">15</span> 20<span style="color:#66d9ef">)</span>
+echo -n &quot;Finally, try add three numbers: &quot;
+value=$(addem 10 15 20)
 echo $value
 wsx@wsx:~/tmp$ ./test5
-Adding <span style="color:#ae81ff">10</span> and 15: 25
-Let<span style="color:#960050;background-color:#1e0010">&#39;</span>s try adding just one number: 20
+Adding 10 and 15: 25
+Let's try adding just one number: 20
 Now trying adding no numbers: -1
 Finally, try add three numbers: -1
 
-</code></pre></div><p><code>addem</code>函数首先会检查脚本传给它的参数数目。如果没有任何参数，或者参数多于两个，<code>addem</code>会返回<code>-1</code>。如果只有一个参数，<code>addem</code>会将参数与自身相加。如果有两个参数，<code>addem</code>会将它们相加。</p>
-<p>**由于函数使用特殊参数环境变量作为自己的参数值，因此它无法直接获取脚本在命令行中的参数值。**下面是个失败的例子：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx:~/tmp$ cat badtest1
-<span style="color:#75715e">#!/bin/bash</span>
-<span style="color:#75715e"># trying to access script parameters inside a function</span>
+</code></pre>
 
-<span style="color:#66d9ef">function</span> badfunc1 <span style="color:#f92672">{</span>
-	echo $<span style="color:#f92672">[</span> $1 * $2 <span style="color:#f92672">]</span>
-<span style="color:#f92672">}</span>
+<p><code>addem</code>函数首先会检查脚本传给它的参数数目。如果没有任何参数，或者参数多于两个，<code>addem</code>会返回<code>-1</code>。如果只有一个参数，<code>addem</code>会将参数与自身相加。如果有两个参数，<code>addem</code>会将它们相加。</p>
 
-<span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> $# -eq <span style="color:#ae81ff">2</span> <span style="color:#f92672">]</span>
-<span style="color:#66d9ef">then</span>
-	value<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>badfunc1<span style="color:#66d9ef">)</span>
-	echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">The result is </span>$value<span style="color:#e6db74">&#34;</span>
-<span style="color:#66d9ef">else</span>
-	echo <span style="color:#e6db74">&#34;Usage: badtest1 a b&#34;</span>
-<span style="color:#66d9ef">fi</span>
+<p><strong>由于函数使用特殊参数环境变量作为自己的参数值，因此它无法直接获取脚本在命令行中的参数值。</strong>下面是个失败的例子：</p>
 
-wsx@wsx:~/tmp$ ./badtest1 <span style="color:#ae81ff">10</span> 15
-./badtest1: 行 5: *  : 语法错误: 需要操作数 <span style="color:#f92672">(</span>错误符号是 <span style="color:#e6db74">&#34;*  &#34;</span><span style="color:#f92672">)</span>
+<pre><code class="language-shell">wsx@wsx:~/tmp$ cat badtest1
+#!/bin/bash
+# trying to access script parameters inside a function
+
+function badfunc1 {
+	echo $[ $1 * $2 ]
+}
+
+if [ $# -eq 2 ]
+then
+	value=$(badfunc1)
+	echo &quot;The result is $value&quot;
+else
+	echo &quot;Usage: badtest1 a b&quot;
+fi
+
+wsx@wsx:~/tmp$ ./badtest1 10 15
+./badtest1: 行 5: *  : 语法错误: 需要操作数 (错误符号是 &quot;*  &quot;)
 The result is
 
-</code></pre></div><p>尽管函数也使用了<code>$1</code>与<code>$2</code>变量，但它们与主脚本中的变量不同，要使用它们必须在调用函数时手动传入。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx:~/tmp$ cat test6
-<span style="color:#75715e">#!/bin/bash</span>
-<span style="color:#75715e"># trying to access script parameters inside a function</span>
+</code></pre>
 
-<span style="color:#66d9ef">function</span> func1 <span style="color:#f92672">{</span>
-	echo $<span style="color:#f92672">[</span> $1 * $2 <span style="color:#f92672">]</span>
-<span style="color:#f92672">}</span>
+<p>尽管函数也使用了<code>$1</code>与<code>$2</code>变量，但它们与主脚本中的变量不同，要使用它们必须在调用函数时手动传入。</p>
 
-<span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> $# -eq <span style="color:#ae81ff">2</span> <span style="color:#f92672">]</span>
-<span style="color:#66d9ef">then</span>
-	value<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>func1 $1 $2<span style="color:#66d9ef">)</span>
-	echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">The result is </span>$value<span style="color:#e6db74">&#34;</span>
-<span style="color:#66d9ef">else</span>
-	echo <span style="color:#e6db74">&#34;Usage: badtest1 a b&#34;</span>
-<span style="color:#66d9ef">fi</span>
+<pre><code class="language-shell">wsx@wsx:~/tmp$ cat test6
+#!/bin/bash
+# trying to access script parameters inside a function
+
+function func1 {
+	echo $[ $1 * $2 ]
+}
+
+if [ $# -eq 2 ]
+then
+	value=$(func1 $1 $2)
+	echo &quot;The result is $value&quot;
+else
+	echo &quot;Usage: badtest1 a b&quot;
+fi
 
 wsx@wsx:~/tmp$ ./test6
 Usage: badtest1 a b
-wsx@wsx:~/tmp$ ./test6 <span style="color:#ae81ff">10</span> 15
+wsx@wsx:~/tmp$ ./test6 10 15
 The result is 150
 
-</code></pre></div><h3 id="heading-8">在函数中处理变量</h3>
+</code></pre>
+
+<h3 id="在函数中处理变量">在函数中处理变量</h3>
+
 <p><strong>作用域</strong>是变量可见的区域。对脚本的其他部分而言，函数定义的变量是隐藏的。这些概念其实是编程语言中通用的，想必学过一些其他编程的朋友早已有所理解了。</p>
+
 <p>函数使用两种类型的变量：</p>
+
 <ul>
 <li>全局变量</li>
 <li>局部变量</li>
 </ul>
-<h4 id="heading-9">全局变量</h4>
+
+<h4 id="全局变量">全局变量</h4>
+
 <p><strong>全局变量</strong>是在shell脚本中任何地方都有效的变量，如果你在函数内定义了一个全局变量，也可以在脚本的主体部分读取它的值。</p>
+
 <p>默认情况下，我们在脚本中定义的任何变量都是全局变量。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx:~/tmp$ cat test7
-<span style="color:#75715e">#!/bin/bash</span>
-<span style="color:#75715e"># using a global variable to pass a value</span>
 
-<span style="color:#66d9ef">function</span> db1 <span style="color:#f92672">{</span>
-	value<span style="color:#f92672">=</span>$<span style="color:#f92672">[</span> $value * <span style="color:#ae81ff">2</span> <span style="color:#f92672">]</span>
-<span style="color:#f92672">}</span>
+<pre><code class="language-shell">wsx@wsx:~/tmp$ cat test7
+#!/bin/bash
+# using a global variable to pass a value
 
-read -p <span style="color:#e6db74">&#34;Enter a value: &#34;</span> value
+function db1 {
+	value=$[ $value * 2 ]
+}
+
+read -p &quot;Enter a value: &quot; value
 db1
-echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">The new value is: </span>$value<span style="color:#e6db74">&#34;</span>
+echo &quot;The new value is: $value&quot;
 
 wsx@wsx:~/tmp$ ./test7
 Enter a value: 10
 The new value is: 20
 
-</code></pre></div><p>无论变量在函数内外定义，在脚本中引用该变量都有效。这样其实非常危险，尤其是如果你想在不同的shell脚本中使用函数的话。它要求你清清楚楚地知道函数中具体使用了哪些变量，包括那些用来计算非返回值的变量。下面是一个如何搞砸的例子：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx:~/tmp$ cat badtest2
-<span style="color:#75715e">#!/bin/bash</span>
-<span style="color:#75715e"># demonstrating a bad use of variable</span>
+</code></pre>
 
-<span style="color:#66d9ef">function</span> func1 <span style="color:#f92672">{</span>
-	temp<span style="color:#f92672">=</span>$<span style="color:#f92672">[</span> $value + <span style="color:#ae81ff">5</span> <span style="color:#f92672">]</span>
-	result<span style="color:#f92672">=</span>$<span style="color:#f92672">[</span> $temp * <span style="color:#ae81ff">2</span> <span style="color:#f92672">]</span>
-<span style="color:#f92672">}</span>
+<p>无论变量在函数内外定义，在脚本中引用该变量都有效。这样其实非常危险，尤其是如果你想在不同的shell脚本中使用函数的话。它要求你清清楚楚地知道函数中具体使用了哪些变量，包括那些用来计算非返回值的变量。下面是一个如何搞砸的例子：</p>
 
-temp<span style="color:#f92672">=</span>4
-value<span style="color:#f92672">=</span>6
+<pre><code class="language-shell">wsx@wsx:~/tmp$ cat badtest2
+#!/bin/bash
+# demonstrating a bad use of variable
+
+function func1 {
+	temp=$[ $value + 5 ]
+	result=$[ $temp * 2 ]
+}
+
+temp=4
+value=6
 
 func1
-echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">The result is </span>$result<span style="color:#e6db74">&#34;</span>
-<span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> $temp -gt $value <span style="color:#f92672">]</span>
-<span style="color:#66d9ef">then</span>
-	echo <span style="color:#e6db74">&#34;temp is larger&#34;</span>
-<span style="color:#66d9ef">else</span>
-	echo <span style="color:#e6db74">&#34;temp is smaller&#34;</span>
-<span style="color:#66d9ef">fi</span>
+echo &quot;The result is $result&quot;
+if [ $temp -gt $value ]
+then
+	echo &quot;temp is larger&quot;
+else
+	echo &quot;temp is smaller&quot;
+fi
 wsx@wsx:~/tmp$ ./badtest2
 The result is 22
 temp is larger
 
-</code></pre></div><p>由于函数中用到了<code>$temp</code>变量，它的值在脚本中使用时受到了影响，产生了意想不到的后果。后面我们会学习如何处理这样的问题。</p>
-<h4 id="heading-10">局部变量</h4>
+</code></pre>
+
+<p>由于函数中用到了<code>$temp</code>变量，它的值在脚本中使用时受到了影响，产生了意想不到的后果。后面我们会学习如何处理这样的问题。</p>
+
+<h4 id="局部变量">局部变量</h4>
+
 <p>无需在函数中使用全局变量，函数内部使用的任何变量都可以被声明成局部变量。<strong>我们只需要在变量声明前加上local关键字就可以了</strong>。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">local temp
-</code></pre></div><p>也可以在变量赋值时使用local关键字：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">local temp<span style="color:#f92672">=</span>$<span style="color:#f92672">[</span> $value + <span style="color:#ae81ff">5</span> <span style="color:#f92672">]</span>
-</code></pre></div><p><code>local</code>关键字保证了变量只局限于该函数中。我们再回看刚才的例子：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx:~/tmp$ cat test8
-<span style="color:#75715e">#!/bin/bash</span>
-<span style="color:#75715e"># demonstrating the local keyword</span>
 
-<span style="color:#66d9ef">function</span> func1 <span style="color:#f92672">{</span>
-	local temp<span style="color:#f92672">=</span>$<span style="color:#f92672">[</span> $value + <span style="color:#ae81ff">5</span> <span style="color:#f92672">]</span>
-	result<span style="color:#f92672">=</span>$<span style="color:#f92672">[</span> $temp * <span style="color:#ae81ff">2</span> <span style="color:#f92672">]</span>
-<span style="color:#f92672">}</span>
+<pre><code class="language-shell">local temp
+</code></pre>
 
-temp<span style="color:#f92672">=</span>4
-value<span style="color:#f92672">=</span>6
+<p>也可以在变量赋值时使用local关键字：</p>
+
+<pre><code class="language-shell">local temp=$[ $value + 5 ]
+</code></pre>
+
+<p><code>local</code>关键字保证了变量只局限于该函数中。我们再回看刚才的例子：</p>
+
+<pre><code class="language-shell">wsx@wsx:~/tmp$ cat test8
+#!/bin/bash
+# demonstrating the local keyword
+
+function func1 {
+	local temp=$[ $value + 5 ]
+	result=$[ $temp * 2 ]
+}
+
+temp=4
+value=6
 
 func1
-echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">The result is </span>$result<span style="color:#e6db74">&#34;</span>
-<span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> $temp -gt $value <span style="color:#f92672">]</span>
-<span style="color:#66d9ef">then</span>
-	echo <span style="color:#e6db74">&#34;temp is larger&#34;</span>
-<span style="color:#66d9ef">else</span>
-	echo <span style="color:#e6db74">&#34;temp is smaller&#34;</span>
-<span style="color:#66d9ef">fi</span>
+echo &quot;The result is $result&quot;
+if [ $temp -gt $value ]
+then
+	echo &quot;temp is larger&quot;
+else
+	echo &quot;temp is smaller&quot;
+fi
 
 wsx@wsx:~/tmp$ ./test8
 The result is 22
 temp is smaller
 
-</code></pre></div><h2 id="heading-11">数组变量和函数</h2>
+</code></pre>
+
+<h2 id="数组变量和函数">数组变量和函数</h2>
+
 <p>在函数中使用数组变量值有点麻烦，还需要一些特殊考虑。下面我们使用一种方法来解决问题。</p>
-<h3 id="heading-12">向函数传数组参数</h3>
+
+<h3 id="向函数传数组参数">向函数传数组参数</h3>
+
 <p>这个方法有点不好理解，将数组变量当做单个参数传递的话不起作用，下面我们看一个bad例子：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx:~/tmp$ cat badtest3
-<span style="color:#75715e">#!/bin/bash</span>
-<span style="color:#75715e"># trying to pass an array variable</span>
 
-<span style="color:#66d9ef">function</span> testit <span style="color:#f92672">{</span>
-	echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">The parameters are: </span>$@<span style="color:#e6db74">&#34;</span>
-	thisarray<span style="color:#f92672">=</span>$1
-	echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">The received array is </span><span style="color:#e6db74">${</span>thisarray[*]<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
-<span style="color:#f92672">}</span>
+<pre><code class="language-shell">wsx@wsx:~/tmp$ cat badtest3
+#!/bin/bash
+# trying to pass an array variable
 
-myarray<span style="color:#f92672">=</span><span style="color:#f92672">(</span><span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> 5<span style="color:#f92672">)</span>
-echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">The original array is: </span><span style="color:#e6db74">${</span>myarray[*]<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+function testit {
+	echo &quot;The parameters are: $@&quot;
+	thisarray=$1
+	echo &quot;The received array is ${thisarray[*]}&quot;
+}
+
+myarray=(1 2 3 4 5)
+echo &quot;The original array is: ${myarray[*]}&quot;
 testit $myarray
 wsx@wsx:~/tmp$ ./badtest3
-The original array is: <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> 5
+The original array is: 1 2 3 4 5
 The parameters are: 1
 The received array is 1
-</code></pre></div><p>可以看到，当我们将数组变量当做函数参数传递时，函数只会取数组变量的第一个值。</p>
+</code></pre>
+
+<p>可以看到，当我们将数组变量当做函数参数传递时，函数只会取数组变量的第一个值。</p>
+
 <p>针对这个问题，我们的一个解决方案是将数组变量全部拆分为单个值，然后作为参数传入函数，在函数内部又重新对这些值进行组装。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx:~/tmp$ cat test9
-<span style="color:#75715e">#!/bin/bash</span>
-<span style="color:#75715e"># array variable to function test</span>
 
-<span style="color:#66d9ef">function</span> testit <span style="color:#f92672">{</span>
+<pre><code class="language-shell">wsx@wsx:~/tmp$ cat test9
+#!/bin/bash
+# array variable to function test
+
+function testit {
 	local newarray
-	newarray<span style="color:#f92672">=</span><span style="color:#f92672">(</span><span style="color:#e6db74">`</span>echo <span style="color:#e6db74">&#34;</span>$@<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">`</span><span style="color:#f92672">)</span>
-	echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">The new array value is: </span><span style="color:#e6db74">${</span>newarray[*]<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
-<span style="color:#f92672">}</span>
+	newarray=(`echo &quot;$@&quot;`)
+	echo &quot;The new array value is: ${newarray[*]}&quot;
+}
 
-myarray<span style="color:#f92672">=</span><span style="color:#f92672">(</span><span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> 5<span style="color:#f92672">)</span>
-echo <span style="color:#e6db74">${</span>myarray[*]<span style="color:#e6db74">}</span>
-testit <span style="color:#e6db74">${</span>myarray[*]<span style="color:#e6db74">}</span>
+myarray=(1 2 3 4 5)
+echo ${myarray[*]}
+testit ${myarray[*]}
 
 wsx@wsx:~/tmp$ ./test9
-<span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> 5
-The new array value is: <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> 5
+1 2 3 4 5
+The new array value is: 1 2 3 4 5
 
-</code></pre></div><h3 id="heading-13">从函数中返回数组</h3>
+</code></pre>
+
+<h3 id="从函数中返回数组">从函数中返回数组</h3>
+
 <p>采用与上面类似的方法，函数用<code>echo</code>语句来按正确顺序输出单个数组值，然后脚本再将它们重新放进一个新的数组变量中。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx:~/tmp$ cat test10
-<span style="color:#75715e">#!/bin/bash</span>
-<span style="color:#75715e"># returning an array value</span>
 
-<span style="color:#66d9ef">function</span> arraydblr <span style="color:#f92672">{</span>
+<pre><code class="language-shell">wsx@wsx:~/tmp$ cat test10
+#!/bin/bash
+# returning an array value
+
+function arraydblr {
 	local origarray
 	local newarray
 	local elements
 	local i
-	origarray<span style="color:#f92672">=</span><span style="color:#f92672">(</span><span style="color:#66d9ef">$(</span>echo <span style="color:#e6db74">&#34;</span>$@<span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">)</span><span style="color:#f92672">)</span>
-	newarray<span style="color:#f92672">=</span><span style="color:#f92672">(</span><span style="color:#66d9ef">$(</span>echo <span style="color:#e6db74">&#34;</span>$@<span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">)</span><span style="color:#f92672">)</span>
-	elements<span style="color:#f92672">=</span>$<span style="color:#f92672">[</span> $# - <span style="color:#ae81ff">1</span> <span style="color:#f92672">]</span>
-	<span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#f92672">(</span> i <span style="color:#f92672">=</span> 0; i &lt;<span style="color:#f92672">=</span> $elements; i++ <span style="color:#f92672">)</span><span style="color:#f92672">)</span>
-	<span style="color:#f92672">{</span>
-		newarray<span style="color:#f92672">[</span>$i<span style="color:#f92672">]</span><span style="color:#f92672">=</span>$<span style="color:#f92672">[</span> <span style="color:#e6db74">${</span>origarray[$i]<span style="color:#e6db74">}</span> * 2<span style="color:#f92672">]</span>
-	<span style="color:#f92672">}</span>
-	echo <span style="color:#e6db74">${</span>newarray[*]<span style="color:#e6db74">}</span>
-<span style="color:#f92672">}</span>
+	origarray=($(echo &quot;$@&quot;))
+	newarray=($(echo &quot;$@&quot;))
+	elements=$[ $# - 1 ]
+	for (( i = 0; i &lt;= $elements; i++ ))
+	{
+		newarray[$i]=$[ ${origarray[$i]} * 2]
+	}
+	echo ${newarray[*]}
+}
 
-myarray<span style="color:#f92672">=</span><span style="color:#f92672">(</span><span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> 5<span style="color:#f92672">)</span>
-echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">The orignal array is </span><span style="color:#e6db74">${</span>myarray[*]<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
-arg1<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>echo <span style="color:#e6db74">${</span>myarray[*]<span style="color:#e6db74">}</span><span style="color:#66d9ef">)</span>
-result<span style="color:#f92672">=</span><span style="color:#f92672">(</span><span style="color:#66d9ef">$(</span>arraydblr $arg1<span style="color:#66d9ef">)</span><span style="color:#f92672">)</span>
-echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">The new array is: </span><span style="color:#e6db74">${</span>result[*]<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+myarray=(1 2 3 4 5)
+echo &quot;The orignal array is ${myarray[*]}&quot;
+arg1=$(echo ${myarray[*]})
+result=($(arraydblr $arg1))
+echo &quot;The new array is: ${result[*]}&quot;
 
 wsx@wsx:~/tmp$ ./test10
-The orignal array is <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> 5
-The new array is: <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">4</span> <span style="color:#ae81ff">6</span> <span style="color:#ae81ff">8</span> 10
+The orignal array is 1 2 3 4 5
+The new array is: 2 4 6 8 10
 
-</code></pre></div><p>该脚本用<code>$arg1</code>变量将数组值传给<code>arraydblr</code>函数。该函数将数组重组到新的数组变量中，生成输出数组变量的一个副本，然后对数据元素进行遍历，将每个元素值翻倍，并将结果存入函数中该数组变量的副本。</p>
-<h2 id="heading-14">函数递归</h2>
+</code></pre>
+
+<p>该脚本用<code>$arg1</code>变量将数组值传给<code>arraydblr</code>函数。该函数将数组重组到新的数组变量中，生成输出数组变量的一个副本，然后对数据元素进行遍历，将每个元素值翻倍，并将结果存入函数中该数组变量的副本。</p>
+
+<h2 id="函数递归">函数递归</h2>
+
 <p>局部函数变量的一个特征是<strong>自成体系</strong>。这个特性使得函数可以递归地调用，也就是函数可以调用自己来得到结果。<strong>通常递归函数都有一个最终可以迭代到的基准值。</strong></p>
+
 <p>递归算法的经典例子是计算阶乘：一个数的阶乘是该数之前的所有数乘以该数的值。</p>
+
 <p>比如5的阶乘：</p>
+
 <pre><code>5! = 1 * 2 * 3 * 4 * 5
-</code></pre><p>方程可以简化为通用形式：</p>
+</code></pre>
+
+<p>方程可以简化为通用形式：</p>
+
 <pre><code>x! = x * (x-1)!
-</code></pre><p>这可以用简单的递归脚本表达为：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#66d9ef">function</span> factorial <span style="color:#f92672">{</span>
-  <span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> $1 -eq <span style="color:#ae81ff">1</span> <span style="color:#f92672">]</span>
-  <span style="color:#66d9ef">then</span>
+</code></pre>
+
+<p>这可以用简单的递归脚本表达为：</p>
+
+<pre><code class="language-shell">function factorial {
+  if [ $1 -eq 1 ]
+  then
   	echo 1
-  <span style="color:#66d9ef">else</span>
-  	local temp<span style="color:#f92672">=</span>$<span style="color:#f92672">[</span> $1 - <span style="color:#ae81ff">1</span> <span style="color:#f92672">]</span>
-  	local result<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>factorial $temp<span style="color:#e6db74">`</span>
-  	echo $<span style="color:#f92672">[</span> $result * $1 <span style="color:#f92672">]</span>
-  <span style="color:#66d9ef">fi</span>
-<span style="color:#f92672">}</span>
-</code></pre></div><p>下面用它来进行计算：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx:~/tmp$ cat test11
-<span style="color:#75715e">#!/bin/bash</span>
-<span style="color:#75715e"># using recursion</span>
+  else
+  	local temp=$[ $1 - 1 ]
+  	local result=`factorial $temp`
+  	echo $[ $result * $1 ]
+  fi
+}
+</code></pre>
 
-<span style="color:#66d9ef">function</span> factorial <span style="color:#f92672">{</span>
-	<span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> $1 -eq <span style="color:#ae81ff">1</span> <span style="color:#f92672">]</span>
-	<span style="color:#66d9ef">then</span>
+<p>下面用它来进行计算：</p>
+
+<pre><code class="language-shell">wsx@wsx:~/tmp$ cat test11
+#!/bin/bash
+# using recursion
+
+function factorial {
+	if [ $1 -eq 1 ]
+	then
 		echo 1
-	<span style="color:#66d9ef">else</span>
-		local temp<span style="color:#f92672">=</span>$<span style="color:#f92672">[</span> $1 - 1<span style="color:#f92672">]</span>
-		local result<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>factorial $temp<span style="color:#e6db74">`</span>
-		echo $<span style="color:#f92672">[</span> $result * $1 <span style="color:#f92672">]</span>
-	<span style="color:#66d9ef">fi</span>
-<span style="color:#f92672">}</span>
+	else
+		local temp=$[ $1 - 1]
+		local result=`factorial $temp`
+		echo $[ $result * $1 ]
+	fi
+}
 
-read -p <span style="color:#e6db74">&#34;Enter value: &#34;</span> value
-result<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>factorial $value<span style="color:#66d9ef">)</span>
-echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">The factorial of </span>$value<span style="color:#e6db74"> is: </span>$result<span style="color:#e6db74">&#34;</span>
+read -p &quot;Enter value: &quot; value
+result=$(factorial $value)
+echo &quot;The factorial of $value is: $result&quot;
 
 wsx@wsx:~/tmp$ ./test11
 Enter value: 5
-The factorial of <span style="color:#ae81ff">5</span> is: 120
+The factorial of 5 is: 120
 
-</code></pre></div><h2 id="heading-15">创建库</h2>
+</code></pre>
+
+<h2 id="创建库">创建库</h2>
+
 <p>如果你碰巧要在多个脚本中使用同一段代码呢？显然在每个脚本中都定义同样的函数太麻烦了，一种解决方法就是创建<strong>库文件</strong>，然后在脚本中引用它。</p>
+
 <p><strong>第一步</strong>是创建一个包含脚本中所需函数的公用库文件。下面是一个叫做myfuncs的库文件，定义了3个简单的函数。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx:~/tmp$ cat myfuncs
-<span style="color:#75715e">#!/bin/bash</span>
-<span style="color:#75715e"># my script functions</span>
 
-<span style="color:#66d9ef">function</span> addem <span style="color:#f92672">{</span>
-	echo $<span style="color:#f92672">[</span> $1 + $2 <span style="color:#f92672">]</span>
-<span style="color:#f92672">}</span>
+<pre><code class="language-shell">wsx@wsx:~/tmp$ cat myfuncs
+#!/bin/bash
+# my script functions
 
-<span style="color:#66d9ef">function</span> multem <span style="color:#f92672">{</span>
-	echo $<span style="color:#f92672">[</span> $1 * $2 <span style="color:#f92672">]</span>
-<span style="color:#f92672">}</span>
+function addem {
+	echo $[ $1 + $2 ]
+}
 
-<span style="color:#66d9ef">function</span> divem <span style="color:#f92672">{</span>
-	<span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> $2 -ne <span style="color:#ae81ff">0</span> <span style="color:#f92672">]</span>
-	<span style="color:#66d9ef">then</span>
-		echo $<span style="color:#f92672">[</span> $1 / $2 <span style="color:#f92672">]</span>
-	<span style="color:#66d9ef">else</span>
+function multem {
+	echo $[ $1 * $2 ]
+}
+
+function divem {
+	if [ $2 -ne 0 ]
+	then
+		echo $[ $1 / $2 ]
+	else
 		echo -1
-	<span style="color:#66d9ef">fi</span>
-<span style="color:#f92672">}</span>
-</code></pre></div><p><strong>下一步</strong>是在用到这些函数的脚本文件中包含myfuncs库文件。</p>
+	fi
+}
+</code></pre>
+
+<p><strong>下一步</strong>是在用到这些函数的脚本文件中包含myfuncs库文件。</p>
+
 <p>这里有点复杂，主要问题出在shell函数的作用域上。如果我们尝试像普通脚本一样运行库文件，函数不会出现在脚本中。</p>
-<p>使用函数库的<strong>关键</strong>在于<code>source</code>命令。**<code>source</code>命令会在当前shell上下文中执行命令，而不是创建一个新的shell。**通过<code>source</code>命令就可以使用库中的函数了。</p>
+
+<p>使用函数库的<strong>关键</strong>在于<code>source</code>命令。<strong><code>source</code>命令会在当前shell上下文中执行命令，而不是创建一个新的shell。</strong>通过<code>source</code>命令就可以使用库中的函数了。</p>
+
 <p><code>source</code>命令有一个<strong>快捷别名</strong>，称为<strong>点操作符</strong>。要在shell脚本中运行myfuncs库文件，只需要使用下面这行：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">. ./myfuncs
-</code></pre></div><p>注意第一个点是点操作符，而第二个点指向当前目录（相对路径）。</p>
+
+<pre><code class="language-shell">. ./myfuncs
+</code></pre>
+
+<p>注意第一个点是点操作符，而第二个点指向当前目录（相对路径）。</p>
+
 <p>下面这个例子假定myfuncs库文件与要使用它的脚本位于同一目录，不然需要使用相对应的路径进行访问。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx:~/tmp$ cat test12
-<span style="color:#75715e">#!/bin/bash</span>
-<span style="color:#75715e"># using functions defined in a library file</span>
+
+<pre><code class="language-shell">wsx@wsx:~/tmp$ cat test12
+#!/bin/bash
+# using functions defined in a library file
 
 . ./myfuncs
 
-value1<span style="color:#f92672">=</span>10
-value2<span style="color:#f92672">=</span>5
-result1<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>addem $value1 $value2<span style="color:#66d9ef">)</span>
-result2<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>multem $value1 $value2<span style="color:#66d9ef">)</span>
-result3<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>divem $value1 $value2<span style="color:#66d9ef">)</span>
-echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">The result of adding them is: </span>$result1<span style="color:#e6db74">&#34;</span>
-echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">The result of multiplying them is: </span>$result2<span style="color:#e6db74">&#34;</span>
-echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">The result of dividing them is: </span>$result3<span style="color:#e6db74">&#34;</span>
+value1=10
+value2=5
+result1=$(addem $value1 $value2)
+result2=$(multem $value1 $value2)
+result3=$(divem $value1 $value2)
+echo &quot;The result of adding them is: $result1&quot;
+echo &quot;The result of multiplying them is: $result2&quot;
+echo &quot;The result of dividing them is: $result3&quot;
 
-</code></pre></div><p>运行：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx:~/tmp$ ./test12
+</code></pre>
+
+<p>运行：</p>
+
+<pre><code class="language-shell">wsx@wsx:~/tmp$ ./test12
 The result of adding them is: 15
 The result of multiplying them is: 50
 The result of dividing them is: 2
-</code></pre></div><h2 id="heading-16">在命令行上使用函数</h2>
+</code></pre>
+
+<h2 id="在命令行上使用函数">在命令行上使用函数</h2>
+
 <p>有时候有必要在命令行界面的提示符下直接使用这些函数。这是个灰常不错的功能，在shell中定义的函数可以在整个系统中使用它，无需担心脚本是不是在PATH环境变量中。</p>
+
 <p><strong>重点在于让shell能够识别这些函数</strong>。以下有几种方法可以实现。</p>
-<h3 id="heading-17">在命令行上创建函数</h3>
+
+<h3 id="在命令行上创建函数">在命令行上创建函数</h3>
+
 <p>shell会解释用户输入的命令，所以可以在命令行上直接定义一个函数。</p>
+
 <p>有两种方法。</p>
+
 <p><strong>一种是采用单行方式定义函数。</strong></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx:~/tmp$ <span style="color:#66d9ef">function</span> divem <span style="color:#f92672">{</span> echo $<span style="color:#f92672">[</span> $1 / $2 <span style="color:#f92672">]</span>; <span style="color:#f92672">}</span>
-wsx@wsx:~/tmp$ divem <span style="color:#ae81ff">100</span> 5
+
+<pre><code class="language-shell">wsx@wsx:~/tmp$ function divem { echo $[ $1 / $2 ]; }
+wsx@wsx:~/tmp$ divem 100 5
 20
-</code></pre></div><p>当在命令行上定义函数时，你<strong>必须</strong>记得在每个命令后面加个分号，这样shell能识别命令的起始。</p>
-<p>**另一种是采用多行方式来定义函数。**在定义时bash shell会使用次提示符来提示输入更多命令。这种方法不必在命令末尾加分号，只要按回车键就可。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx:~/tmp$ <span style="color:#66d9ef">function</span> multem <span style="color:#f92672">{</span>
-&gt; echo $<span style="color:#f92672">[</span> $1 * $2 <span style="color:#f92672">]</span>
-&gt; <span style="color:#f92672">}</span>
-wsx@wsx:~/tmp$ multem <span style="color:#ae81ff">2</span> 5
+</code></pre>
+
+<p>当在命令行上定义函数时，你<strong>必须</strong>记得在每个命令后面加个分号，这样shell能识别命令的起始。</p>
+
+<p><strong>另一种是采用多行方式来定义函数。</strong>在定义时bash shell会使用次提示符来提示输入更多命令。这种方法不必在命令末尾加分号，只要按回车键就可。</p>
+
+<pre><code class="language-shell">wsx@wsx:~/tmp$ function multem {
+&gt; echo $[ $1 * $2 ]
+&gt; }
+wsx@wsx:~/tmp$ multem 2 5
 10
-</code></pre></div><p><strong>注意</strong>：在命令行上创建函数不要跟内建命令重名，函数会覆盖原来的命令。</p>
-<h3 id="bashrc">在.bashrc文件中定义函数</h3>
+</code></pre>
+
+<p><strong>注意</strong>：在命令行上创建函数不要跟内建命令重名，函数会覆盖原来的命令。</p>
+
+<h3 id="在-bashrc文件中定义函数">在.bashrc文件中定义函数</h3>
+
 <p>在bash shell每次启动时都会在主目录下查找<code>.bashrc</code>文件，不管是交互式shell还是shell中启动的新shell。所以我们可以将函数写入该文件，或者在脚本中写入命令读取函数文件。操作前面都讲过，不再赘述，<strong>只要把该文件当做脚本对待就可以了</strong>。理解这一点这部分就会了。</p>
-<h2 id="heading-18">实例</h2>
-<p>**在开源的世界里，共享代码才是关键，而这一点同样适用于脚本函数。**我们可以下载大量各式各样的函数然后用于自己的应用程序。</p>
+
+<h2 id="实例">实例</h2>
+
+<p><strong>在开源的世界里，共享代码才是关键，而这一点同样适用于脚本函数。</strong>我们可以下载大量各式各样的函数然后用于自己的应用程序。</p>
+
 <p>这一节介绍<strong>如何下载、安装和使用GNU shtool shell脚本函数库</strong>。shtool库提供了一些简单的shell脚本函数，可以用来完成日常的shell功能。</p>
-<h3 id="heading-19">下载和安装</h3>
+
+<h3 id="下载和安装">下载和安装</h3>
+
 <p>shtool软件包下载地址：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">http://mirrors.ustc.edu.cn/gnu/shtool/shtool-2.0.8.tar.gz <span style="color:#75715e"># China</span>
-</code></pre></div><p>可以浏览器或者命令行下载：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx:~/tmp$ wget http://mirrors.ustc.edu.cn/gnu/shtool/shtool-2.0.8.tar.gz
+
+<pre><code class="language-shell">http://mirrors.ustc.edu.cn/gnu/shtool/shtool-2.0.8.tar.gz # China
+</code></pre>
+
+<p>可以浏览器或者命令行下载：</p>
+
+<pre><code class="language-shell">wsx@wsx:~/tmp$ wget http://mirrors.ustc.edu.cn/gnu/shtool/shtool-2.0.8.tar.gz
 --2017-11-24 00:34:32--  http://mirrors.ustc.edu.cn/gnu/shtool/shtool-2.0.8.tar.gz
-正在解析主机 mirrors.ustc.edu.cn <span style="color:#f92672">(</span>mirrors.ustc.edu.cn<span style="color:#f92672">)</span>... 202.141.176.110, 218.104.71.170, 2001:da8:d800:95::110
-正在连接 mirrors.ustc.edu.cn <span style="color:#f92672">(</span>mirrors.ustc.edu.cn<span style="color:#f92672">)</span>|202.141.176.110|:80... 已连接。
-已发出 HTTP 请求，正在等待回应... <span style="color:#ae81ff">200</span> OK
-长度： <span style="color:#ae81ff">97033</span> <span style="color:#f92672">(</span>95K<span style="color:#f92672">)</span> <span style="color:#f92672">[</span>application/gzip<span style="color:#f92672">]</span>
+正在解析主机 mirrors.ustc.edu.cn (mirrors.ustc.edu.cn)... 202.141.176.110, 218.104.71.170, 2001:da8:d800:95::110
+正在连接 mirrors.ustc.edu.cn (mirrors.ustc.edu.cn)|202.141.176.110|:80... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 97033 (95K) [application/gzip]
 正在保存至: “shtool-2.0.8.tar.gz”
 
-shtool-2.0.8.tar.gz 100%<span style="color:#f92672">[</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span><span style="color:#f92672">=</span>&gt;<span style="color:#f92672">]</span>  94.76K  --.-KB/s    用时 0.1s
+shtool-2.0.8.tar.gz 100%[===================&gt;]  94.76K  --.-KB/s    用时 0.1s
 
-2017-11-24 00:34:32 <span style="color:#f92672">(</span><span style="color:#ae81ff">783</span> KB/s<span style="color:#f92672">)</span> - 已保存 “shtool-2.0.8.tar.gz” <span style="color:#f92672">[</span>97033/97033<span style="color:#f92672">]</span><span style="color:#f92672">)</span>
-</code></pre></div><p>复制到主目录，然后用<code>tar</code>命令提取文件：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx:~$ tar -zxvf shtool-2.0.8.tar.gz
+2017-11-24 00:34:32 (783 KB/s) - 已保存 “shtool-2.0.8.tar.gz” [97033/97033])
+</code></pre>
+
+<p>复制到主目录，然后用<code>tar</code>命令提取文件：</p>
+
+<pre><code class="language-shell">wsx@wsx:~$ tar -zxvf shtool-2.0.8.tar.gz
 shtool-2.0.8/AUTHORS
 shtool-2.0.8/COPYING
 shtool-2.0.8/ChangeLog
@@ -685,16 +851,21 @@ shtool-2.0.8/shtoolize.pod
 shtool-2.0.8/test.db
 shtool-2.0.8/test.sh
 
-</code></pre></div><p>接下来可以构建shell脚本库文件了。</p>
-<h3 id="heading-20">构建库</h3>
+</code></pre>
+
+<p>接下来可以构建shell脚本库文件了。</p>
+
+<h3 id="构建库">构建库</h3>
+
 <p>shtool文件必须针对特定的Linux环境进行配置。<strong>配置工作必须使用标准的configure和make命令</strong>：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx:~$ cd shtool-2.0.8/
+
+<pre><code class="language-shell">wsx@wsx:~$ cd shtool-2.0.8/
 wsx@wsx:~/shtool-2.0.8$ ./configure
-Configuring GNU shtool <span style="color:#f92672">(</span>Portable Shell Tool<span style="color:#f92672">)</span>, version 2.0.8 <span style="color:#f92672">(</span>18-Jul-2008<span style="color:#f92672">)</span>
-Copyright <span style="color:#f92672">(</span>c<span style="color:#f92672">)</span> 1994-2008 Ralf S. Engelschall &lt;rse@engelschall.com&gt;
-checking whether make sets <span style="color:#66d9ef">$(</span>MAKE<span style="color:#66d9ef">)</span>... yes
-checking <span style="color:#66d9ef">for</span> perl interpreter... /usr/bin/perl
-checking <span style="color:#66d9ef">for</span> pod2man conversion tool... /usr/bin/pod2man
+Configuring GNU shtool (Portable Shell Tool), version 2.0.8 (18-Jul-2008)
+Copyright (c) 1994-2008 Ralf S. Engelschall &lt;rse@engelschall.com&gt;
+checking whether make sets $(MAKE)... yes
+checking for perl interpreter... /usr/bin/perl
+checking for pod2man conversion tool... /usr/bin/pod2man
 configure: creating ./config.status
 config.status: creating Makefile
 config.status: creating shtoolize
@@ -702,24 +873,24 @@ config.status: executing adjustment commands
 wsx@wsx:~/shtool-2.0.8$ make
 building program shtool
 ./shtoolize -o shtool all
-Use of assignment to $<span style="color:#f92672">[</span> is deprecated at ./shtoolize line 60.
-Generating shtool...<span style="color:#f92672">(</span>echo 11808/12742 bytes<span style="color:#f92672">)</span>...<span style="color:#f92672">(</span>mdate 3695/4690 bytes<span style="color:#f92672">)</span>...<span style="color:#f92672">(</span>table 1818/2753 bytes<span style="color:#f92672">)</span>...<span style="color:#f92672">(</span>prop 1109/2038 bytes<span style="color:#f92672">)</span>...<span style="color:#f92672">(</span>move 2685/3614 bytes<span style="color:#f92672">)</span>...<span style="color:#f92672">(</span>install 4567/5495 bytes<span style="color:#f92672">)</span>...<span style="color:#f92672">(</span>mkdir 2904/3821 bytes<span style="color:#f92672">)</span>...<span style="color:#f92672">(</span>mkln 4429/5361 bytes<span style="color:#f92672">)</span>...<span style="color:#f92672">(</span>mkshadow 3260/4193 bytes<span style="color:#f92672">)</span>...<span style="color:#f92672">(</span>fixperm 1471/2403 bytes<span style="color:#f92672">)</span>...<span style="color:#f92672">(</span>rotate 13425/14331 bytes<span style="color:#f92672">)</span>...<span style="color:#f92672">(</span>tarball 5297/6214 bytes<span style="color:#f92672">)</span>...<span style="color:#f92672">(</span>subst 5255/6180 bytes<span style="color:#f92672">)</span>...<span style="color:#f92672">(</span>platform 21739/22662 bytes<span style="color:#f92672">)</span>...<span style="color:#f92672">(</span>arx 2401/3312 bytes<span style="color:#f92672">)</span>...<span style="color:#f92672">(</span>slo 4139/5066 bytes<span style="color:#f92672">)</span>...<span style="color:#f92672">(</span>scpp 6295/7206 bytes<span style="color:#f92672">)</span>...<span style="color:#f92672">(</span>version 10234/11160 bytes<span style="color:#f92672">)</span>...<span style="color:#f92672">(</span>path 4041/4952 bytes<span style="color:#f92672">)</span>
+Use of assignment to $[ is deprecated at ./shtoolize line 60.
+Generating shtool...(echo 11808/12742 bytes)...(mdate 3695/4690 bytes)...(table 1818/2753 bytes)...(prop 1109/2038 bytes)...(move 2685/3614 bytes)...(install 4567/5495 bytes)...(mkdir 2904/3821 bytes)...(mkln 4429/5361 bytes)...(mkshadow 3260/4193 bytes)...(fixperm 1471/2403 bytes)...(rotate 13425/14331 bytes)...(tarball 5297/6214 bytes)...(subst 5255/6180 bytes)...(platform 21739/22662 bytes)...(arx 2401/3312 bytes)...(slo 4139/5066 bytes)...(scpp 6295/7206 bytes)...(version 10234/11160 bytes)...(path 4041/4952 bytes)
 building manpage shtoolize.1
 building manpage shtool.1
 building manpage shtool-echo.1
 building manpage shtool-mdate.1
-shtool-mdate.tmp around line 222: You forgot a <span style="color:#e6db74">&#39;=back&#39;</span> before <span style="color:#e6db74">&#39;=head1&#39;</span>
+shtool-mdate.tmp around line 222: You forgot a '=back' before '=head1'
 POD document had syntax errors at /usr/bin/pod2man line 71.
 building manpage shtool-table.1
 building manpage shtool-prop.1
 building manpage shtool-move.1
 building manpage shtool-install.1
 building manpage shtool-mkdir.1
-shtool-mkdir.tmp around line 186: You forgot a <span style="color:#e6db74">&#39;=back&#39;</span> before <span style="color:#e6db74">&#39;=head1&#39;</span>
+shtool-mkdir.tmp around line 186: You forgot a '=back' before '=head1'
 POD document had syntax errors at /usr/bin/pod2man line 71.
 building manpage shtool-mkln.1
 building manpage shtool-mkshadow.1
-shtool-mkshadow.tmp around line 191: You forgot a <span style="color:#e6db74">&#39;=back&#39;</span> before <span style="color:#e6db74">&#39;=head1&#39;</span>
+shtool-mkshadow.tmp around line 191: You forgot a '=back' before '=head1'
 POD document had syntax errors at /usr/bin/pod2man line 71.
 building manpage shtool-fixperm.1
 building manpage shtool-rotate.1
@@ -732,32 +903,37 @@ building manpage shtool-scpp.1
 building manpage shtool-version.1
 building manpage shtool-path.1
 
-</code></pre></div><p><code>configure</code>命令会检查构建shtool库文件所必需的软件。一旦发现所需工具，它会使用工具路径修改配置文件。</p>
+</code></pre>
+
+<p><code>configure</code>命令会检查构建shtool库文件所必需的软件。一旦发现所需工具，它会使用工具路径修改配置文件。</p>
+
 <p><code>make</code>命令负责构建shtool库文件。最终的结果（shtool）是一个完整的库软件包。</p>
+
 <p>我们可以测试下这个库文件：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx:~/shtool-2.0.8$ make test
+
+<pre><code class="language-shell">wsx@wsx:~/shtool-2.0.8$ make test
 Running test suite:
 echo..........FAILED
 +---Test------------------------------
-| test <span style="color:#e6db74">&#34;.`../shtool echo foo bar quux`&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;.foo bar quux&#34;</span> <span style="color:#f92672">||</span> exit 1
-| bytes<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>../shtool echo -n foo | wc -c | awk <span style="color:#e6db74">&#39;{ printf(&#34;%s&#34;, $1); }&#39;</span><span style="color:#e6db74">`</span> <span style="color:#f92672">||</span> exit 1
-| test <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">.</span>$bytes<span style="color:#e6db74">&#34;</span> <span style="color:#f92672">=</span> .3 <span style="color:#f92672">||</span> exit 1
-| bytes<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>../shtool echo <span style="color:#e6db74">&#39;\1&#39;</span> | wc -c | awk <span style="color:#e6db74">&#39;{ printf(&#34;%s&#34;, $1); }&#39;</span><span style="color:#e6db74">`</span> <span style="color:#f92672">||</span> exit 1
-| test <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">.</span>$bytes<span style="color:#e6db74">&#34;</span> <span style="color:#f92672">=</span> .3 <span style="color:#f92672">||</span> exit 1
+| test &quot;.`../shtool echo foo bar quux`&quot; = &quot;.foo bar quux&quot; || exit 1
+| bytes=`../shtool echo -n foo | wc -c | awk '{ printf(&quot;%s&quot;, $1); }'` || exit 1
+| test &quot;.$bytes&quot; = .3 || exit 1
+| bytes=`../shtool echo '\1' | wc -c | awk '{ printf(&quot;%s&quot;, $1); }'` || exit 1
+| test &quot;.$bytes&quot; = .3 || exit 1
 | exit 0
 +---Trace-----------------------------
 | + ../shtool echo foo bar quux
-| + test .foo bar quux <span style="color:#f92672">=</span> .foo bar quux
+| + test .foo bar quux = .foo bar quux
 | + ../shtool echo -n foo
 | + wc -c
-| + awk <span style="color:#f92672">{</span> printf<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;%s&#34;</span>, $1<span style="color:#f92672">)</span>; <span style="color:#f92672">}</span>
-| + bytes<span style="color:#f92672">=</span>3
-| + test .3 <span style="color:#f92672">=</span> .3
-| + ../shtool echo <span style="color:#ae81ff">\1</span>
+| + awk { printf(&quot;%s&quot;, $1); }
+| + bytes=3
+| + test .3 = .3
+| + ../shtool echo \1
 | + wc -c
-| + awk <span style="color:#f92672">{</span> printf<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;%s&#34;</span>, $1<span style="color:#f92672">)</span>; <span style="color:#f92672">}</span>
-| + bytes<span style="color:#f92672">=</span>2
-| + test .2 <span style="color:#f92672">=</span> .3
+| + awk { printf(&quot;%s&quot;, $1); }
+| + bytes=2
+| + test .2 = .3
 | + exit 1
 +-------------------------------------
 mdate.........ok
@@ -780,71 +956,80 @@ version.......ok
 path..........ok
 FAILED: passed: 18/19, failed: 1/19
 
-</code></pre></div><p>（有一个没通过～）</p>
-<p>如果全部通过测试，就可以将库安装到系统中，这样所有脚本都能使用这个库了。</p>
-<p>要完成安装，需要使用<code>make</code>命令的<code>install</code>选项。需要使用root权限。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx:~/shtool-2.0.8$ make install
-./shtool mkdir -f -p -m <span style="color:#ae81ff">755</span> /usr/local
-./shtool mkdir -f -p -m <span style="color:#ae81ff">755</span> /usr/local/bin
-./shtool mkdir -f -p -m <span style="color:#ae81ff">755</span> /usr/local/share/man/man1
-mkdir: cannot create directory <span style="color:#e6db74">&#39;/usr/local/share/man/man1&#39;</span>: Permission denied
-chmod: cannot access <span style="color:#e6db74">&#39;/usr/local/share/man/man1&#39;</span>: No such file or directory
-Makefile:94: recipe <span style="color:#66d9ef">for</span> target <span style="color:#e6db74">&#39;install&#39;</span> failed
-make: *** <span style="color:#f92672">[</span>install<span style="color:#f92672">]</span> Error 1
-wsx@wsx:~/shtool-2.0.8$ sudo make install
-<span style="color:#f92672">[</span>sudo<span style="color:#f92672">]</span> wsx 的密码：
-./shtool mkdir -f -p -m <span style="color:#ae81ff">755</span> /usr/local
-./shtool mkdir -f -p -m <span style="color:#ae81ff">755</span> /usr/local/bin
-./shtool mkdir -f -p -m <span style="color:#ae81ff">755</span> /usr/local/share/man/man1
-./shtool mkdir -f -p -m <span style="color:#ae81ff">755</span> /usr/local/share/aclocal
-./shtool mkdir -f -p -m <span style="color:#ae81ff">755</span> /usr/local/share/shtool
-./shtool install -c -m <span style="color:#ae81ff">755</span> shtool /usr/local/bin/shtool
-./shtool install -c -m <span style="color:#ae81ff">755</span> shtoolize /usr/local/bin/shtoolize
-./shtool install -c -m <span style="color:#ae81ff">644</span> shtoolize.1 /usr/local/share/man/man1/shtoolize.1
-./shtool install -c -m <span style="color:#ae81ff">644</span> shtool.1 /usr/local/share/man/man1/shtool.1
-./shtool install -c -m <span style="color:#ae81ff">644</span> shtool-echo.1 /usr/local/share/man/man1/shtool-echo.1
-./shtool install -c -m <span style="color:#ae81ff">644</span> shtool-mdate.1 /usr/local/share/man/man1/shtool-mdate.1
-./shtool install -c -m <span style="color:#ae81ff">644</span> shtool-table.1 /usr/local/share/man/man1/shtool-table.1
-./shtool install -c -m <span style="color:#ae81ff">644</span> shtool-prop.1 /usr/local/share/man/man1/shtool-prop.1
-./shtool install -c -m <span style="color:#ae81ff">644</span> shtool-move.1 /usr/local/share/man/man1/shtool-move.1
-./shtool install -c -m <span style="color:#ae81ff">644</span> shtool-install.1 /usr/local/share/man/man1/shtool-install.1
-./shtool install -c -m <span style="color:#ae81ff">644</span> shtool-mkdir.1 /usr/local/share/man/man1/shtool-mkdir.1
-./shtool install -c -m <span style="color:#ae81ff">644</span> shtool-mkln.1 /usr/local/share/man/man1/shtool-mkln.1
-./shtool install -c -m <span style="color:#ae81ff">644</span> shtool-mkshadow.1 /usr/local/share/man/man1/shtool-mkshadow.1
-./shtool install -c -m <span style="color:#ae81ff">644</span> shtool-fixperm.1 /usr/local/share/man/man1/shtool-fixperm.1
-./shtool install -c -m <span style="color:#ae81ff">644</span> shtool-rotate.1 /usr/local/share/man/man1/shtool-rotate.1
-./shtool install -c -m <span style="color:#ae81ff">644</span> shtool-tarball.1 /usr/local/share/man/man1/shtool-tarball.1
-./shtool install -c -m <span style="color:#ae81ff">644</span> shtool-subst.1 /usr/local/share/man/man1/shtool-subst.1
-./shtool install -c -m <span style="color:#ae81ff">644</span> shtool-platform.1 /usr/local/share/man/man1/shtool-platform.1
-./shtool install -c -m <span style="color:#ae81ff">644</span> shtool-arx.1 /usr/local/share/man/man1/shtool-arx.1
-./shtool install -c -m <span style="color:#ae81ff">644</span> shtool-slo.1 /usr/local/share/man/man1/shtool-slo.1
-./shtool install -c -m <span style="color:#ae81ff">644</span> shtool-scpp.1 /usr/local/share/man/man1/shtool-scpp.1
-./shtool install -c -m <span style="color:#ae81ff">644</span> shtool-version.1 /usr/local/share/man/man1/shtool-version.1
-./shtool install -c -m <span style="color:#ae81ff">644</span> shtool-path.1 /usr/local/share/man/man1/shtool-path.1
-./shtool install -c -m <span style="color:#ae81ff">644</span> shtool.m4 /usr/local/share/aclocal/shtool.m4
-./shtool install -c -m <span style="color:#ae81ff">644</span> sh.common /usr/local/share/shtool/sh.common
-./shtool install -c -m <span style="color:#ae81ff">644</span> sh.echo /usr/local/share/shtool/sh.echo
-./shtool install -c -m <span style="color:#ae81ff">644</span> sh.mdate /usr/local/share/shtool/sh.mdate
-./shtool install -c -m <span style="color:#ae81ff">644</span> sh.table /usr/local/share/shtool/sh.table
-./shtool install -c -m <span style="color:#ae81ff">644</span> sh.prop /usr/local/share/shtool/sh.prop
-./shtool install -c -m <span style="color:#ae81ff">644</span> sh.move /usr/local/share/shtool/sh.move
-./shtool install -c -m <span style="color:#ae81ff">644</span> sh.install /usr/local/share/shtool/sh.install
-./shtool install -c -m <span style="color:#ae81ff">644</span> sh.mkdir /usr/local/share/shtool/sh.mkdir
-./shtool install -c -m <span style="color:#ae81ff">644</span> sh.mkln /usr/local/share/shtool/sh.mkln
-./shtool install -c -m <span style="color:#ae81ff">644</span> sh.mkshadow /usr/local/share/shtool/sh.mkshadow
-./shtool install -c -m <span style="color:#ae81ff">644</span> sh.fixperm /usr/local/share/shtool/sh.fixperm
-./shtool install -c -m <span style="color:#ae81ff">644</span> sh.rotate /usr/local/share/shtool/sh.rotate
-./shtool install -c -m <span style="color:#ae81ff">644</span> sh.tarball /usr/local/share/shtool/sh.tarball
-./shtool install -c -m <span style="color:#ae81ff">644</span> sh.subst /usr/local/share/shtool/sh.subst
-./shtool install -c -m <span style="color:#ae81ff">644</span> sh.platform /usr/local/share/shtool/sh.platform
-./shtool install -c -m <span style="color:#ae81ff">644</span> sh.arx /usr/local/share/shtool/sh.arx
-./shtool install -c -m <span style="color:#ae81ff">644</span> sh.slo /usr/local/share/shtool/sh.slo
-./shtool install -c -m <span style="color:#ae81ff">644</span> sh.scpp /usr/local/share/shtool/sh.scpp
-./shtool install -c -m <span style="color:#ae81ff">644</span> sh.version /usr/local/share/shtool/sh.version
-./shtool install -c -m <span style="color:#ae81ff">644</span> sh.path /usr/local/share/shtool/sh.path
+</code></pre>
 
-</code></pre></div><p>现在我们能在自己的shell脚本中使用这些函数咯。</p>
-<h3 id="shtool">shtool库函数</h3>
+<p>（有一个没通过～）</p>
+
+<p>如果全部通过测试，就可以将库安装到系统中，这样所有脚本都能使用这个库了。</p>
+
+<p>要完成安装，需要使用<code>make</code>命令的<code>install</code>选项。需要使用root权限。</p>
+
+<pre><code class="language-shell">wsx@wsx:~/shtool-2.0.8$ make install
+./shtool mkdir -f -p -m 755 /usr/local
+./shtool mkdir -f -p -m 755 /usr/local/bin
+./shtool mkdir -f -p -m 755 /usr/local/share/man/man1
+mkdir: cannot create directory '/usr/local/share/man/man1': Permission denied
+chmod: cannot access '/usr/local/share/man/man1': No such file or directory
+Makefile:94: recipe for target 'install' failed
+make: *** [install] Error 1
+wsx@wsx:~/shtool-2.0.8$ sudo make install
+[sudo] wsx 的密码：
+./shtool mkdir -f -p -m 755 /usr/local
+./shtool mkdir -f -p -m 755 /usr/local/bin
+./shtool mkdir -f -p -m 755 /usr/local/share/man/man1
+./shtool mkdir -f -p -m 755 /usr/local/share/aclocal
+./shtool mkdir -f -p -m 755 /usr/local/share/shtool
+./shtool install -c -m 755 shtool /usr/local/bin/shtool
+./shtool install -c -m 755 shtoolize /usr/local/bin/shtoolize
+./shtool install -c -m 644 shtoolize.1 /usr/local/share/man/man1/shtoolize.1
+./shtool install -c -m 644 shtool.1 /usr/local/share/man/man1/shtool.1
+./shtool install -c -m 644 shtool-echo.1 /usr/local/share/man/man1/shtool-echo.1
+./shtool install -c -m 644 shtool-mdate.1 /usr/local/share/man/man1/shtool-mdate.1
+./shtool install -c -m 644 shtool-table.1 /usr/local/share/man/man1/shtool-table.1
+./shtool install -c -m 644 shtool-prop.1 /usr/local/share/man/man1/shtool-prop.1
+./shtool install -c -m 644 shtool-move.1 /usr/local/share/man/man1/shtool-move.1
+./shtool install -c -m 644 shtool-install.1 /usr/local/share/man/man1/shtool-install.1
+./shtool install -c -m 644 shtool-mkdir.1 /usr/local/share/man/man1/shtool-mkdir.1
+./shtool install -c -m 644 shtool-mkln.1 /usr/local/share/man/man1/shtool-mkln.1
+./shtool install -c -m 644 shtool-mkshadow.1 /usr/local/share/man/man1/shtool-mkshadow.1
+./shtool install -c -m 644 shtool-fixperm.1 /usr/local/share/man/man1/shtool-fixperm.1
+./shtool install -c -m 644 shtool-rotate.1 /usr/local/share/man/man1/shtool-rotate.1
+./shtool install -c -m 644 shtool-tarball.1 /usr/local/share/man/man1/shtool-tarball.1
+./shtool install -c -m 644 shtool-subst.1 /usr/local/share/man/man1/shtool-subst.1
+./shtool install -c -m 644 shtool-platform.1 /usr/local/share/man/man1/shtool-platform.1
+./shtool install -c -m 644 shtool-arx.1 /usr/local/share/man/man1/shtool-arx.1
+./shtool install -c -m 644 shtool-slo.1 /usr/local/share/man/man1/shtool-slo.1
+./shtool install -c -m 644 shtool-scpp.1 /usr/local/share/man/man1/shtool-scpp.1
+./shtool install -c -m 644 shtool-version.1 /usr/local/share/man/man1/shtool-version.1
+./shtool install -c -m 644 shtool-path.1 /usr/local/share/man/man1/shtool-path.1
+./shtool install -c -m 644 shtool.m4 /usr/local/share/aclocal/shtool.m4
+./shtool install -c -m 644 sh.common /usr/local/share/shtool/sh.common
+./shtool install -c -m 644 sh.echo /usr/local/share/shtool/sh.echo
+./shtool install -c -m 644 sh.mdate /usr/local/share/shtool/sh.mdate
+./shtool install -c -m 644 sh.table /usr/local/share/shtool/sh.table
+./shtool install -c -m 644 sh.prop /usr/local/share/shtool/sh.prop
+./shtool install -c -m 644 sh.move /usr/local/share/shtool/sh.move
+./shtool install -c -m 644 sh.install /usr/local/share/shtool/sh.install
+./shtool install -c -m 644 sh.mkdir /usr/local/share/shtool/sh.mkdir
+./shtool install -c -m 644 sh.mkln /usr/local/share/shtool/sh.mkln
+./shtool install -c -m 644 sh.mkshadow /usr/local/share/shtool/sh.mkshadow
+./shtool install -c -m 644 sh.fixperm /usr/local/share/shtool/sh.fixperm
+./shtool install -c -m 644 sh.rotate /usr/local/share/shtool/sh.rotate
+./shtool install -c -m 644 sh.tarball /usr/local/share/shtool/sh.tarball
+./shtool install -c -m 644 sh.subst /usr/local/share/shtool/sh.subst
+./shtool install -c -m 644 sh.platform /usr/local/share/shtool/sh.platform
+./shtool install -c -m 644 sh.arx /usr/local/share/shtool/sh.arx
+./shtool install -c -m 644 sh.slo /usr/local/share/shtool/sh.slo
+./shtool install -c -m 644 sh.scpp /usr/local/share/shtool/sh.scpp
+./shtool install -c -m 644 sh.version /usr/local/share/shtool/sh.version
+./shtool install -c -m 644 sh.path /usr/local/share/shtool/sh.path
+
+</code></pre>
+
+<p>现在我们能在自己的shell脚本中使用这些函数咯。</p>
+
+<h3 id="shtool库函数">shtool库函数</h3>
+
 <table>
 <thead>
 <tr>
@@ -852,101 +1037,133 @@ wsx@wsx:~/shtool-2.0.8$ sudo make install
 <th>描述</th>
 </tr>
 </thead>
+
 <tbody>
 <tr>
 <td>Arx</td>
 <td>创建归档文件（包含一些扩展功能）</td>
 </tr>
+
 <tr>
 <td>Echo</td>
 <td>显示字符串，并提供了一些扩展构件</td>
 </tr>
+
 <tr>
 <td>fixperm</td>
 <td>改变目录树的文件权限</td>
 </tr>
+
 <tr>
 <td>install</td>
 <td>安装脚本或文件</td>
 </tr>
+
 <tr>
 <td>mdate</td>
 <td>显示文件或目录修改时间</td>
 </tr>
+
 <tr>
 <td>mkdir</td>
 <td>创建一个或更多目录</td>
 </tr>
+
 <tr>
 <td>Mkln</td>
 <td>使用相对路径创建链接</td>
 </tr>
+
 <tr>
 <td>mkshadow</td>
 <td>创建一棵阴影树</td>
 </tr>
+
 <tr>
 <td>move</td>
 <td>带有替换功能的文件移动</td>
 </tr>
+
 <tr>
 <td>Path</td>
 <td>处理程序路径</td>
 </tr>
+
 <tr>
 <td>platform</td>
 <td>显示平台标识</td>
 </tr>
+
 <tr>
 <td>Prop</td>
 <td>显示一个带有动画效果的进度条</td>
 </tr>
+
 <tr>
 <td>rotate</td>
 <td>转置日志文件</td>
 </tr>
+
 <tr>
 <td>Scpp</td>
 <td>共享的C预处理器</td>
 </tr>
+
 <tr>
 <td>Slo</td>
 <td>根据库的类别，分离链接器选项</td>
 </tr>
+
 <tr>
 <td>Subst</td>
 <td>使用sed的替换操作</td>
 </tr>
+
 <tr>
 <td>Table</td>
 <td>以表格的形式显示由字段分隔的数据</td>
 </tr>
+
 <tr>
 <td>tarball</td>
 <td>从文件和目录中创建tar文件</td>
 </tr>
+
 <tr>
 <td>version</td>
 <td>创建版本信息文件</td>
 </tr>
 </tbody>
 </table>
+
 <p>每个shtool函数都包含大量的选项和参数。下面是使用格式：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">shtool <span style="color:#f92672">[</span>option<span style="color:#f92672">]</span> <span style="color:#f92672">[</span><span style="color:#66d9ef">function</span> <span style="color:#f92672">[</span>option<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>args<span style="color:#f92672">]</span><span style="color:#f92672">]</span>
-</code></pre></div><h3 id="heading-21">使用库</h3>
+
+<pre><code class="language-shell">shtool [option] [function [option] [args]]
+</code></pre>
+
+<h3 id="使用库">使用库</h3>
+
 <p>我们能直接在命令行或者在自己构建的脚本中使用shtool的函数。</p>
+
 <p>下面是在脚本中使用的简单例子：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx:~/tmp$ cat test13
-<span style="color:#75715e">#!/bin/bash</span>
+
+<pre><code class="language-shell">wsx@wsx:~/tmp$ cat test13
+#!/bin/bash
 shtool platform
 wsx@wsx:~/tmp$ ./test13
-Ubuntu 17.10 <span style="color:#f92672">(</span>AMD64<span style="color:#f92672">)</span>
+Ubuntu 17.10 (AMD64)
 
-</code></pre></div><p><code>platform</code>函数会返回Linux发行版以及系统使用的CPU硬件相关信息。</p>
+</code></pre>
+
+<p><code>platform</code>函数会返回Linux发行版以及系统使用的CPU硬件相关信息。</p>
+
 <p><code>prop</code>函数可以使用<code>\</code>,<code>|</code>,<code>/</code>和<code>-</code>字符创建一个旋转的进度条。它可以告诉shell脚本用户目前正在处理一些后台处理工作。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx:~/tmp$ ls -al /usr/bin | shtool prop -p <span style="color:#e6db74">&#34;waiting...&#34;</span>
+
+<pre><code class="language-shell">wsx@wsx:~/tmp$ ls -al /usr/bin | shtool prop -p &quot;waiting...&quot;
 waiting...
-</code></pre></div><p>在脚本学习中涉及到诸多的符号，在运行时我们可能会感觉到顺利，但自己写的时候往往会用不太对，推荐阅读一下常用的一些符号区分，像小括号、中括号、花括号等等。觉的不懂的可以看看<a href="http://blog.csdn.net/yangtalent1206/article/details/12996797">Linux_Bash脚本_单引号’双引号“”反引号`小括号()中括号[]大括号{}</a>以及相关的百度资料。</p>
+</code></pre>
+
+<p>在脚本学习中涉及到诸多的符号，在运行时我们可能会感觉到顺利，但自己写的时候往往会用不太对，推荐阅读一下常用的一些符号区分，像小括号、中括号、花括号等等。觉的不懂的可以看看<a href="http://blog.csdn.net/yangtalent1206/article/details/12996797">Linux_Bash脚本_单引号’双引号“”反引号`小括号()中括号[]大括号{}</a>以及相关的百度资料。</p>
 
 
   <footer>
@@ -1051,7 +1268,7 @@ document.addEventListener('keyup', function(e) {
   
   
 
-  <div class="copyright"><a href="mailto:w_shixiang@163.com"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://github.com/ShixiangWang"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://orcid.org/0000-0001-9855-7357"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> <!-- raw HTML omitted --> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 © <a href="../../../">王诗翔</a> 2017 - 2019 </div>
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> &middot; <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> &middot; <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> &middot; <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> &middot; <a href="https://orcid.org/0000-0001-9855-7357"><i class='ai ai-orcid ai-1x'></i></a> &middot; <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 &copy; <a href="../../../">王诗翔</a> 2017 - 2019 </div>
   
   
 

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>stats on Shixiang Wang | 王诗翔</title>
+    <link>/tags/stats/</link>
+    <description>Recent content in stats on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 25 Dec 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/stats/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>R 语言统计检验函数汇总</title>
+      <link>/cn/post/2019-12-25-r-stats-funs-summary/</link>
+      <pubDate>Wed, 25 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-12-25-r-stats-funs-summary/</guid>
+      <description>资料来源：《R 语言核心技术手册》和 R 文档 数据基本来自胡编乱造 和 R 文档 本文基本囊括了常用的统计检验在 R 中的实现函数和使用方法。 连续型数据 基于正</description>
+    </item>
+    
+  </channel>
+</rss>
