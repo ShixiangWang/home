@@ -161,7 +161,7 @@
     echo <span style="color:#e6db74">&#34;This is an example of a function&#34;</span>
 <span style="color:#f92672">}</span>
 
-count<span style="color:#f92672">=</span>1
+count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
 <span style="color:#66d9ef">while</span> <span style="color:#f92672">[</span> $count -le <span style="color:#ae81ff">5</span> <span style="color:#f92672">]</span>
 <span style="color:#66d9ef">do</span>
   func1
@@ -202,7 +202,7 @@ wsx@wsx:~/tmp$ ./test2
 testing the <span style="color:#66d9ef">function</span>
 trying to display a non-existent file
 ls: 无法访问<span style="color:#e6db74">&#39;badfile&#39;</span>: 没有那个文件或目录
-The exit status is: 2
+The exit status is: <span style="color:#ae81ff">2</span>
 </code></pre></div><p>函数的退出状态码是2，说明函数的最后一条命令没有成功运行。但你无法知道函数中其他命令中是否成功运行，我们来看看下面一个例子。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx:~/tmp$ cat test3
 <span style="color:#75715e">#!/bin/bash</span>
@@ -220,7 +220,7 @@ wsx@wsx:~/tmp$ ./test3
 testing the <span style="color:#66d9ef">function</span>:
 ls: 无法访问<span style="color:#e6db74">&#39;badfile&#39;</span>: 没有那个文件或目录
 This was a test of a bad command
-The exit status is: 0
+The exit status is: <span style="color:#ae81ff">0</span>
 </code></pre></div><p>这次函数的退出状态码是0，尽管其中有一条命令没有正常运行。可见使用函数的默认退出状态码是很危险的，幸运的是，我们有几种办法解决它。</p>
 <h3 id="return">使用return命令</h3>
 <p><code>return</code>命令允许指定一个<strong>整数值</strong>来定义函数的退出状态码，从而提供了一种简单的途径来编码设定函数退出状态码。</p>
@@ -237,9 +237,9 @@ The exit status is: 0
 db1
 echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">The new value is </span>$?<span style="color:#e6db74">&#34;</span>
 wsx@wsx:~/tmp$ ./test4
-Enter a value: 4
+Enter a value: <span style="color:#ae81ff">4</span>
 doubling the value
-The new value is 8
+The new value is <span style="color:#ae81ff">8</span>
 </code></pre></div><p>当使用这种方法时要小心，记住下面两条技巧来避免问题：</p>
 <ul>
 <li>函数一结束就取返回值</li>
@@ -247,9 +247,9 @@ The new value is 8
 </ul>
 <p>如果在用<code>$?</code>变量提取函数的返回值之前使用了其他命令，函数的返回值就会丢失。任何大于255的整数值都会产生一个错误值。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx:~/tmp$ ./test4
-Enter a value: 200
+Enter a value: <span style="color:#ae81ff">200</span>
 doubling the value
-The new value is 144
+The new value is <span style="color:#ae81ff">144</span>
 </code></pre></div><h3 id="heading-5">使用函数输出</h3>
 <p>如同可以将命令的输出保存到shell变量一样，我们也可以对函数的输出采用同样的处理办法。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">result<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>db1<span style="color:#e6db74">`</span>
@@ -266,8 +266,8 @@ The new value is 144
 result<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>db1<span style="color:#66d9ef">)</span>
 echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">The new value is </span>$result<span style="color:#e6db74">&#34;</span>
 wsx@wsx:~/tmp$ ./test4b
-Enter a value: 200
-The new value is 400
+Enter a value: <span style="color:#ae81ff">200</span>
+The new value is <span style="color:#ae81ff">400</span>
 </code></pre></div><p>函数会用<code>echo</code>语句来显示计算的结果，该脚本会查看<code>db1</code>函数的输出，而不是查看退出状态码。</p>
 <blockquote>
 <p>通过这种技术，我们还可以返回浮点值和字符串值，这使它成为一种获取函数返回值的强大方法。</p>
@@ -277,7 +277,7 @@ The new value is 400
 <h3 id="heading-7">向函数传递参数</h3>
 <p>函数可以使用标准的参数环境变量来表示命令行上传给函数的参数。例如，函数名会在<code>$0</code>变量中定义，函数命令行上的任何参数都会通过<code>$1</code>、<code>$2</code>定义。也可以用特殊变量<code>$#</code>来判断给函数的参数数目。</p>
 <p>指定函数时，必须将参数和函数放在同一行：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">func1 $value1 10
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">func1 $value1 <span style="color:#ae81ff">10</span>
 </code></pre></div><p>然后函数可以用参数环境变量来获得参数值。下面是一个例子：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx:~/tmp$ cat test5
 <span style="color:#75715e">#!/bin/bash</span>
@@ -308,8 +308,8 @@ echo -n <span style="color:#e6db74">&#34;Finally, try add three numbers: &#34;</
 value<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>addem <span style="color:#ae81ff">10</span> <span style="color:#ae81ff">15</span> 20<span style="color:#66d9ef">)</span>
 echo $value
 wsx@wsx:~/tmp$ ./test5
-Adding <span style="color:#ae81ff">10</span> and 15: 25
-Let<span style="color:#960050;background-color:#1e0010">&#39;</span>s try adding just one number: 20
+Adding <span style="color:#ae81ff">10</span> and 15: <span style="color:#ae81ff">25</span>
+Let<span style="color:#960050;background-color:#1e0010">&#39;</span>s try adding just one number: <span style="color:#ae81ff">20</span>
 Now trying adding no numbers: -1
 Finally, try add three numbers: -1
 
@@ -331,7 +331,7 @@ Finally, try add three numbers: -1
 	echo <span style="color:#e6db74">&#34;Usage: badtest1 a b&#34;</span>
 <span style="color:#66d9ef">fi</span>
 
-wsx@wsx:~/tmp$ ./badtest1 <span style="color:#ae81ff">10</span> 15
+wsx@wsx:~/tmp$ ./badtest1 <span style="color:#ae81ff">10</span> <span style="color:#ae81ff">15</span>
 ./badtest1: 行 5: *  : 语法错误: 需要操作数 <span style="color:#f92672">(</span>错误符号是 <span style="color:#e6db74">&#34;*  &#34;</span><span style="color:#f92672">)</span>
 The result is
 
@@ -354,8 +354,8 @@ The result is
 
 wsx@wsx:~/tmp$ ./test6
 Usage: badtest1 a b
-wsx@wsx:~/tmp$ ./test6 <span style="color:#ae81ff">10</span> 15
-The result is 150
+wsx@wsx:~/tmp$ ./test6 <span style="color:#ae81ff">10</span> <span style="color:#ae81ff">15</span>
+The result is <span style="color:#ae81ff">150</span>
 
 </code></pre></div><h3 id="heading-8">在函数中处理变量</h3>
 <p><strong>作用域</strong>是变量可见的区域。对脚本的其他部分而言，函数定义的变量是隐藏的。这些概念其实是编程语言中通用的，想必学过一些其他编程的朋友早已有所理解了。</p>
@@ -380,8 +380,8 @@ db1
 echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">The new value is: </span>$value<span style="color:#e6db74">&#34;</span>
 
 wsx@wsx:~/tmp$ ./test7
-Enter a value: 10
-The new value is: 20
+Enter a value: <span style="color:#ae81ff">10</span>
+The new value is: <span style="color:#ae81ff">20</span>
 
 </code></pre></div><p>无论变量在函数内外定义，在脚本中引用该变量都有效。这样其实非常危险，尤其是如果你想在不同的shell脚本中使用函数的话。它要求你清清楚楚地知道函数中具体使用了哪些变量，包括那些用来计算非返回值的变量。下面是一个如何搞砸的例子：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx:~/tmp$ cat badtest2
@@ -393,8 +393,8 @@ The new value is: 20
 	result<span style="color:#f92672">=</span>$<span style="color:#f92672">[</span> $temp * <span style="color:#ae81ff">2</span> <span style="color:#f92672">]</span>
 <span style="color:#f92672">}</span>
 
-temp<span style="color:#f92672">=</span>4
-value<span style="color:#f92672">=</span>6
+temp<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span>
+value<span style="color:#f92672">=</span><span style="color:#ae81ff">6</span>
 
 func1
 echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">The result is </span>$result<span style="color:#e6db74">&#34;</span>
@@ -405,7 +405,7 @@ echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">The res
 	echo <span style="color:#e6db74">&#34;temp is smaller&#34;</span>
 <span style="color:#66d9ef">fi</span>
 wsx@wsx:~/tmp$ ./badtest2
-The result is 22
+The result is <span style="color:#ae81ff">22</span>
 temp is larger
 
 </code></pre></div><p>由于函数中用到了<code>$temp</code>变量，它的值在脚本中使用时受到了影响，产生了意想不到的后果。后面我们会学习如何处理这样的问题。</p>
@@ -424,8 +424,8 @@ temp is larger
 	result<span style="color:#f92672">=</span>$<span style="color:#f92672">[</span> $temp * <span style="color:#ae81ff">2</span> <span style="color:#f92672">]</span>
 <span style="color:#f92672">}</span>
 
-temp<span style="color:#f92672">=</span>4
-value<span style="color:#f92672">=</span>6
+temp<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span>
+value<span style="color:#f92672">=</span><span style="color:#ae81ff">6</span>
 
 func1
 echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">The result is </span>$result<span style="color:#e6db74">&#34;</span>
@@ -437,7 +437,7 @@ echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">The res
 <span style="color:#66d9ef">fi</span>
 
 wsx@wsx:~/tmp$ ./test8
-The result is 22
+The result is <span style="color:#ae81ff">22</span>
 temp is smaller
 
 </code></pre></div><h2 id="heading-11">数组变量和函数</h2>
@@ -458,9 +458,9 @@ myarray<span style="color:#f92672">=</span><span style="color:#f92672">(</span><
 echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">The original array is: </span><span style="color:#e6db74">${</span>myarray[*]<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
 testit $myarray
 wsx@wsx:~/tmp$ ./badtest3
-The original array is: <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> 5
-The parameters are: 1
-The received array is 1
+The original array is: <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> <span style="color:#ae81ff">5</span>
+The parameters are: <span style="color:#ae81ff">1</span>
+The received array is <span style="color:#ae81ff">1</span>
 </code></pre></div><p>可以看到，当我们将数组变量当做函数参数传递时，函数只会取数组变量的第一个值。</p>
 <p>针对这个问题，我们的一个解决方案是将数组变量全部拆分为单个值，然后作为参数传入函数，在函数内部又重新对这些值进行组装。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx:~/tmp$ cat test9
@@ -478,8 +478,8 @@ echo <span style="color:#e6db74">${</span>myarray[*]<span style="color:#e6db74">
 testit <span style="color:#e6db74">${</span>myarray[*]<span style="color:#e6db74">}</span>
 
 wsx@wsx:~/tmp$ ./test9
-<span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> 5
-The new array value is: <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> 5
+<span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> <span style="color:#ae81ff">5</span>
+The new array value is: <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> <span style="color:#ae81ff">5</span>
 
 </code></pre></div><h3 id="heading-13">从函数中返回数组</h3>
 <p>采用与上面类似的方法，函数用<code>echo</code>语句来按正确顺序输出单个数组值，然后脚本再将它们重新放进一个新的数组变量中。</p>
@@ -509,8 +509,8 @@ result<span style="color:#f92672">=</span><span style="color:#f92672">(</span><s
 echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">The new array is: </span><span style="color:#e6db74">${</span>result[*]<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
 
 wsx@wsx:~/tmp$ ./test10
-The orignal array is <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> 5
-The new array is: <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">4</span> <span style="color:#ae81ff">6</span> <span style="color:#ae81ff">8</span> 10
+The orignal array is <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> <span style="color:#ae81ff">5</span>
+The new array is: <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">4</span> <span style="color:#ae81ff">6</span> <span style="color:#ae81ff">8</span> <span style="color:#ae81ff">10</span>
 
 </code></pre></div><p>该脚本用<code>$arg1</code>变量将数组值传给<code>arraydblr</code>函数。该函数将数组重组到新的数组变量中，生成输出数组变量的一个副本，然后对数据元素进行遍历，将每个元素值翻倍，并将结果存入函数中该数组变量的副本。</p>
 <h2 id="heading-14">函数递归</h2>
@@ -524,7 +524,7 @@ The new array is: <span style="color:#ae81ff">2</span> <span style="color:#ae81f
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#66d9ef">function</span> factorial <span style="color:#f92672">{</span>
   <span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> $1 -eq <span style="color:#ae81ff">1</span> <span style="color:#f92672">]</span>
   <span style="color:#66d9ef">then</span>
-  	echo 1
+  	echo <span style="color:#ae81ff">1</span>
   <span style="color:#66d9ef">else</span>
   	local temp<span style="color:#f92672">=</span>$<span style="color:#f92672">[</span> $1 - <span style="color:#ae81ff">1</span> <span style="color:#f92672">]</span>
   	local result<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>factorial $temp<span style="color:#e6db74">`</span>
@@ -539,7 +539,7 @@ The new array is: <span style="color:#ae81ff">2</span> <span style="color:#ae81f
 <span style="color:#66d9ef">function</span> factorial <span style="color:#f92672">{</span>
 	<span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> $1 -eq <span style="color:#ae81ff">1</span> <span style="color:#f92672">]</span>
 	<span style="color:#66d9ef">then</span>
-		echo 1
+		echo <span style="color:#ae81ff">1</span>
 	<span style="color:#66d9ef">else</span>
 		local temp<span style="color:#f92672">=</span>$<span style="color:#f92672">[</span> $1 - 1<span style="color:#f92672">]</span>
 		local result<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>factorial $temp<span style="color:#e6db74">`</span>
@@ -552,8 +552,8 @@ result<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>f
 echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">The factorial of </span>$value<span style="color:#e6db74"> is: </span>$result<span style="color:#e6db74">&#34;</span>
 
 wsx@wsx:~/tmp$ ./test11
-Enter value: 5
-The factorial of <span style="color:#ae81ff">5</span> is: 120
+Enter value: <span style="color:#ae81ff">5</span>
+The factorial of <span style="color:#ae81ff">5</span> is: <span style="color:#ae81ff">120</span>
 
 </code></pre></div><h2 id="heading-15">创建库</h2>
 <p>如果你碰巧要在多个脚本中使用同一段代码呢？显然在每个脚本中都定义同样的函数太麻烦了，一种解决方法就是创建<strong>库文件</strong>，然后在脚本中引用它。</p>
@@ -591,8 +591,8 @@ The factorial of <span style="color:#ae81ff">5</span> is: 120
 
 . ./myfuncs
 
-value1<span style="color:#f92672">=</span>10
-value2<span style="color:#f92672">=</span>5
+value1<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>
+value2<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>
 result1<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>addem $value1 $value2<span style="color:#66d9ef">)</span>
 result2<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>multem $value1 $value2<span style="color:#66d9ef">)</span>
 result3<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>divem $value1 $value2<span style="color:#66d9ef">)</span>
@@ -602,9 +602,9 @@ echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">The res
 
 </code></pre></div><p>运行：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx:~/tmp$ ./test12
-The result of adding them is: 15
-The result of multiplying them is: 50
-The result of dividing them is: 2
+The result of adding them is: <span style="color:#ae81ff">15</span>
+The result of multiplying them is: <span style="color:#ae81ff">50</span>
+The result of dividing them is: <span style="color:#ae81ff">2</span>
 </code></pre></div><h2 id="heading-16">在命令行上使用函数</h2>
 <p>有时候有必要在命令行界面的提示符下直接使用这些函数。这是个灰常不错的功能，在shell中定义的函数可以在整个系统中使用它，无需担心脚本是不是在PATH环境变量中。</p>
 <p><strong>重点在于让shell能够识别这些函数</strong>。以下有几种方法可以实现。</p>
@@ -613,15 +613,15 @@ The result of dividing them is: 2
 <p>有两种方法。</p>
 <p><strong>一种是采用单行方式定义函数。</strong></p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx:~/tmp$ <span style="color:#66d9ef">function</span> divem <span style="color:#f92672">{</span> echo $<span style="color:#f92672">[</span> $1 / $2 <span style="color:#f92672">]</span>; <span style="color:#f92672">}</span>
-wsx@wsx:~/tmp$ divem <span style="color:#ae81ff">100</span> 5
-20
+wsx@wsx:~/tmp$ divem <span style="color:#ae81ff">100</span> <span style="color:#ae81ff">5</span>
+<span style="color:#ae81ff">20</span>
 </code></pre></div><p>当在命令行上定义函数时，你<strong>必须</strong>记得在每个命令后面加个分号，这样shell能识别命令的起始。</p>
 <p>**另一种是采用多行方式来定义函数。**在定义时bash shell会使用次提示符来提示输入更多命令。这种方法不必在命令末尾加分号，只要按回车键就可。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx:~/tmp$ <span style="color:#66d9ef">function</span> multem <span style="color:#f92672">{</span>
 &gt; echo $<span style="color:#f92672">[</span> $1 * $2 <span style="color:#f92672">]</span>
 &gt; <span style="color:#f92672">}</span>
-wsx@wsx:~/tmp$ multem <span style="color:#ae81ff">2</span> 5
-10
+wsx@wsx:~/tmp$ multem <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">5</span>
+<span style="color:#ae81ff">10</span>
 </code></pre></div><p><strong>注意</strong>：在命令行上创建函数不要跟内建命令重名，函数会覆盖原来的命令。</p>
 <h3 id="bashrc">在.bashrc文件中定义函数</h3>
 <p>在bash shell每次启动时都会在主目录下查找<code>.bashrc</code>文件，不管是交互式shell还是shell中启动的新shell。所以我们可以将函数写入该文件，或者在脚本中写入命令读取函数文件。操作前面都讲过，不再赘述，<strong>只要把该文件当做脚本对待就可以了</strong>。理解这一点这部分就会了。</p>
@@ -739,26 +739,26 @@ building manpage shtool-path.1
 Running test suite:
 echo..........FAILED
 +---Test------------------------------
-| test <span style="color:#e6db74">&#34;.`../shtool echo foo bar quux`&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;.foo bar quux&#34;</span> <span style="color:#f92672">||</span> exit 1
-| bytes<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>../shtool echo -n foo | wc -c | awk <span style="color:#e6db74">&#39;{ printf(&#34;%s&#34;, $1); }&#39;</span><span style="color:#e6db74">`</span> <span style="color:#f92672">||</span> exit 1
-| test <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">.</span>$bytes<span style="color:#e6db74">&#34;</span> <span style="color:#f92672">=</span> .3 <span style="color:#f92672">||</span> exit 1
-| bytes<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>../shtool echo <span style="color:#e6db74">&#39;\1&#39;</span> | wc -c | awk <span style="color:#e6db74">&#39;{ printf(&#34;%s&#34;, $1); }&#39;</span><span style="color:#e6db74">`</span> <span style="color:#f92672">||</span> exit 1
-| test <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">.</span>$bytes<span style="color:#e6db74">&#34;</span> <span style="color:#f92672">=</span> .3 <span style="color:#f92672">||</span> exit 1
-| exit 0
+| test <span style="color:#e6db74">&#34;.`../shtool echo foo bar quux`&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;.foo bar quux&#34;</span> <span style="color:#f92672">||</span> exit <span style="color:#ae81ff">1</span>
+| bytes<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>../shtool echo -n foo | wc -c | awk <span style="color:#e6db74">&#39;{ printf(&#34;%s&#34;, $1); }&#39;</span><span style="color:#e6db74">`</span> <span style="color:#f92672">||</span> exit <span style="color:#ae81ff">1</span>
+| test <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">.</span>$bytes<span style="color:#e6db74">&#34;</span> <span style="color:#f92672">=</span> .3 <span style="color:#f92672">||</span> exit <span style="color:#ae81ff">1</span>
+| bytes<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>../shtool echo <span style="color:#e6db74">&#39;\1&#39;</span> | wc -c | awk <span style="color:#e6db74">&#39;{ printf(&#34;%s&#34;, $1); }&#39;</span><span style="color:#e6db74">`</span> <span style="color:#f92672">||</span> exit <span style="color:#ae81ff">1</span>
+| test <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">.</span>$bytes<span style="color:#e6db74">&#34;</span> <span style="color:#f92672">=</span> .3 <span style="color:#f92672">||</span> exit <span style="color:#ae81ff">1</span>
+| exit <span style="color:#ae81ff">0</span>
 +---Trace-----------------------------
 | + ../shtool echo foo bar quux
 | + test .foo bar quux <span style="color:#f92672">=</span> .foo bar quux
 | + ../shtool echo -n foo
 | + wc -c
 | + awk <span style="color:#f92672">{</span> printf<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;%s&#34;</span>, $1<span style="color:#f92672">)</span>; <span style="color:#f92672">}</span>
-| + bytes<span style="color:#f92672">=</span>3
+| + bytes<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>
 | + test .3 <span style="color:#f92672">=</span> .3
 | + ../shtool echo <span style="color:#ae81ff">\1</span>
 | + wc -c
 | + awk <span style="color:#f92672">{</span> printf<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;%s&#34;</span>, $1<span style="color:#f92672">)</span>; <span style="color:#f92672">}</span>
-| + bytes<span style="color:#f92672">=</span>2
+| + bytes<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>
 | + test .2 <span style="color:#f92672">=</span> .3
-| + exit 1
+| + exit <span style="color:#ae81ff">1</span>
 +-------------------------------------
 mdate.........ok
 table.........ok
@@ -790,7 +790,7 @@ FAILED: passed: 18/19, failed: 1/19
 mkdir: cannot create directory <span style="color:#e6db74">&#39;/usr/local/share/man/man1&#39;</span>: Permission denied
 chmod: cannot access <span style="color:#e6db74">&#39;/usr/local/share/man/man1&#39;</span>: No such file or directory
 Makefile:94: recipe <span style="color:#66d9ef">for</span> target <span style="color:#e6db74">&#39;install&#39;</span> failed
-make: *** <span style="color:#f92672">[</span>install<span style="color:#f92672">]</span> Error 1
+make: *** <span style="color:#f92672">[</span>install<span style="color:#f92672">]</span> Error <span style="color:#ae81ff">1</span>
 wsx@wsx:~/shtool-2.0.8$ sudo make install
 <span style="color:#f92672">[</span>sudo<span style="color:#f92672">]</span> wsx 的密码：
 ./shtool mkdir -f -p -m <span style="color:#ae81ff">755</span> /usr/local

@@ -203,9 +203,9 @@
 </li>
 <li>
 <p>暂停进程：使用<code>Ctrl</code>+<code>Z</code>，它会发送<code>SIGTSTP</code>信号。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~$ sleep 1000
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~$ sleep <span style="color:#ae81ff">1000</span>
 ^Z
-<span style="color:#f92672">[</span>2<span style="color:#f92672">]</span>+  已停止               sleep 1000
+<span style="color:#f92672">[</span>2<span style="color:#f92672">]</span>+  已停止               sleep <span style="color:#ae81ff">1000</span>
 
 </code></pre></div></li>
 </ol>
@@ -224,11 +224,11 @@ F S   UID   PID  PPID  C PRI  NI ADDR SZ WCHAN  TTY          TIME CMD
 
 </code></pre></div><p>在表示进程状态的S列中，<code>ps</code>命令将已经停止作业的状态显示为<code>T</code>。这说明命令要么被跟踪，要么被停止了。</p>
 <p>如果你仍想退出shell，只需要再输入一遍<code>exit</code>。也可以用<code>kill</code>生成<code>SIGKILL</code>信号标识上<code>PID</code>杀死进程。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~$ kill 5456
-wsx@wsx-ubuntu:~$ kill -9 5456
-wsx@wsx-ubuntu:~$ kill -9 5452
-<span style="color:#f92672">[</span>1<span style="color:#f92672">]</span>-  已杀死               sleep 1000
-<span style="color:#f92672">[</span>2<span style="color:#f92672">]</span>+  已杀死               sleep 1000
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~$ kill <span style="color:#ae81ff">5456</span>
+wsx@wsx-ubuntu:~$ kill -9 <span style="color:#ae81ff">5456</span>
+wsx@wsx-ubuntu:~$ kill -9 <span style="color:#ae81ff">5452</span>
+<span style="color:#f92672">[</span>1<span style="color:#f92672">]</span>-  已杀死               sleep <span style="color:#ae81ff">1000</span>
+<span style="color:#f92672">[</span>2<span style="color:#f92672">]</span>+  已杀死               sleep <span style="color:#ae81ff">1000</span>
 </code></pre></div><h3 id="heading-2">捕获信号</h3>
 <p><code>trap</code>命令允许我们来指定shell脚本要监看并从shell中拦截的Linux信号。</p>
 <p>格式为：</p>
@@ -242,11 +242,11 @@ trap <span style="color:#e6db74">&#34;echo &#39; Sorry! I have trapped Ctrl-C&#3
 #
 echo This is a test script
 #
-count<span style="color:#f92672">=</span>1
+count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
 <span style="color:#66d9ef">while</span> <span style="color:#f92672">[</span> $count -le <span style="color:#ae81ff">10</span> <span style="color:#f92672">]</span>
 <span style="color:#66d9ef">do</span>
     echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Loop #</span>$count<span style="color:#e6db74">&#34;</span>
-    sleep 1
+    sleep <span style="color:#ae81ff">1</span>
     count<span style="color:#f92672">=</span>$<span style="color:#f92672">[</span> $count + <span style="color:#ae81ff">1</span> <span style="color:#f92672">]</span>
 <span style="color:#66d9ef">done</span>
 #
@@ -275,11 +275,11 @@ This is the end of the test script
 #
 trap <span style="color:#e6db74">&#34;echo Goodbye...&#34;</span> EXIT
 #
-count<span style="color:#f92672">=</span>1
+count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
 <span style="color:#66d9ef">while</span> <span style="color:#f92672">[</span> $count -le <span style="color:#ae81ff">5</span> <span style="color:#f92672">]</span>
 <span style="color:#66d9ef">do</span>
     echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Loop #</span>$count<span style="color:#e6db74">&#34;</span>
-    sleep 1
+    sleep <span style="color:#ae81ff">1</span>
     count<span style="color:#f92672">=</span>$<span style="color:#f92672">[</span> $count + <span style="color:#ae81ff">1</span> <span style="color:#f92672">]</span>
 <span style="color:#66d9ef">done</span>
 #
@@ -300,7 +300,7 @@ Goodbye...
 #
 trap <span style="color:#e6db74">&#34;echo &#39; Sorry... Ctrc-C is trapped.&#39;&#34;</span> SIGINT <span style="color:#75715e"># SIGINT是退出信号</span>
 #
-count<span style="color:#f92672">=</span>1
+count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
 <span style="color:#66d9ef">while</span> <span style="color:#f92672">[</span> $count -le <span style="color:#ae81ff">5</span> <span style="color:#f92672">]</span>  <span style="color:#75715e"># 当count&lt;5的时候</span>
 <span style="color:#66d9ef">do</span>
     echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Loop #</span>$count<span style="color:#e6db74">&#34;</span>
@@ -311,7 +311,7 @@ count<span style="color:#f92672">=</span>1
 #
 trap <span style="color:#e6db74">&#34;echo &#39; I modified the trap!&#39;&#34;</span> SIGINT
 #
-count<span style="color:#f92672">=</span>1
+count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
 <span style="color:#66d9ef">while</span> <span style="color:#f92672">[</span> $count -le <span style="color:#ae81ff">5</span> <span style="color:#f92672">]</span>  <span style="color:#75715e"># 当count&lt;5的时候</span>
 <span style="color:#66d9ef">do</span>
     echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Loop #</span>$count<span style="color:#e6db74">&#34;</span>
@@ -339,7 +339,7 @@ Loop <span style="color:#75715e">#5</span>
 #
 trap <span style="color:#e6db74">&#34;echo &#39; Sorry... Ctrc-C is trapped.&#39;&#34;</span> SIGINT <span style="color:#75715e"># SIGINT是退出信号  在这里设置捕获</span>
 #
-count<span style="color:#f92672">=</span>1
+count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
 <span style="color:#66d9ef">while</span> <span style="color:#f92672">[</span> $count -le <span style="color:#ae81ff">5</span> <span style="color:#f92672">]</span>  <span style="color:#75715e"># 当count&lt;5的时候</span>
 <span style="color:#66d9ef">do</span>
     echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Loop #</span>$count<span style="color:#e6db74">&#34;</span>
@@ -351,7 +351,7 @@ count<span style="color:#f92672">=</span>1
 trap -- SIGINT <span style="color:#75715e"># 在这里删除捕获</span>
 echo <span style="color:#e6db74">&#34;I modified the trap!&#34;</span>
 #
-count<span style="color:#f92672">=</span>1
+count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
 <span style="color:#66d9ef">while</span> <span style="color:#f92672">[</span> $count -le <span style="color:#ae81ff">5</span> <span style="color:#f92672">]</span>  <span style="color:#75715e"># 当count&lt;5的时候</span>
 <span style="color:#66d9ef">do</span>
     echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Loop #</span>$count<span style="color:#e6db74">&#34;</span>
@@ -377,14 +377,14 @@ Loop <span style="color:#75715e">#3</span>
 <span style="color:#75715e">#!/bin/bash</span>
 <span style="color:#75715e"># Testing running in the background</span>
 #
-count<span style="color:#f92672">=</span>1
+count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
 <span style="color:#66d9ef">while</span> <span style="color:#f92672">[</span> $count -le <span style="color:#ae81ff">10</span> <span style="color:#f92672">]</span>
 <span style="color:#66d9ef">do</span>
-    sleep 1
+    sleep <span style="color:#ae81ff">1</span>
     count<span style="color:#f92672">=</span>$<span style="color:#f92672">[</span> $count + <span style="color:#ae81ff">1</span> <span style="color:#f92672">]</span>
 <span style="color:#66d9ef">done</span>
 wangsx@SC-201708020022:~$ ./test4.sh &amp;
-<span style="color:#f92672">[</span>1<span style="color:#f92672">]</span> 69
+<span style="color:#f92672">[</span>1<span style="color:#f92672">]</span> <span style="color:#ae81ff">69</span>
 </code></pre></div><p>当添加<code>&amp;</code>符号后，命令和bash shell会分离而作为一个独立的后台进行运行。并返回作业号（方括号内）和进程ID（PID），Linux系统上运行的每一个进程都必须有一个唯一的PID。</p>
 <p>当后台进程结束后，它会在终端显示出消息：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>1<span style="color:#f92672">]</span>   已完成               ./test4.sh
@@ -392,11 +392,11 @@ wangsx@SC-201708020022:~$ ./test4.sh &amp;
 <h3 id="heading-7">运行多个后台作业</h3>
 <p>我们可以在命令提示符中同时启动多个后台作用，然后用<code>ps</code>命令查看。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~$ ./test4.sh &amp;
-<span style="color:#f92672">[</span>1<span style="color:#f92672">]</span> 117
+<span style="color:#f92672">[</span>1<span style="color:#f92672">]</span> <span style="color:#ae81ff">117</span>
 wangsx@SC-201708020022:~$ ./test5.sh &amp;
-<span style="color:#f92672">[</span>2<span style="color:#f92672">]</span> 122
+<span style="color:#f92672">[</span>2<span style="color:#f92672">]</span> <span style="color:#ae81ff">122</span>
 wangsx@SC-201708020022:~$ ./test6.sh &amp;
-<span style="color:#f92672">[</span>3<span style="color:#f92672">]</span> 128
+<span style="color:#f92672">[</span>3<span style="color:#f92672">]</span> <span style="color:#ae81ff">128</span>
 wangsx@SC-201708020022:~$ ps
   PID TTY          TIME CMD
     <span style="color:#ae81ff">2</span> tty1     00:00:00 bash
@@ -413,7 +413,7 @@ wangsx@SC-201708020022:~$ ps
 <p><strong><code>nohup</code>命令运行了另外一个命令来阻断所有发送给该进程的<code>SIGHUP</code>信号。这会在退出终端会话时阻止进程退出。</strong></p>
 <p>其格式如下：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~$ nohup ./test4.sh  &amp;
-<span style="color:#f92672">[</span>1<span style="color:#f92672">]</span> 156
+<span style="color:#f92672">[</span>1<span style="color:#f92672">]</span> <span style="color:#ae81ff">156</span>
 wangsx@SC-201708020022:~$ nohup: 忽略输入并把输出追加到<span style="color:#e6db74">&#39;nohup.out&#39;</span>
 </code></pre></div><p>由于<code>nohup</code>命令会解除终端与进程的关联，进程也就不再同<code>STDOUT</code>和<code>STDERR</code>联系在一起。它会自动将这两者重定向到名为<code>nohup.out</code>的文件中。</p>
 <h2 id="heading-9">作业控制</h2>
@@ -426,25 +426,25 @@ wangsx@SC-201708020022:~$ nohup: 忽略输入并把输出追加到<span style="c
 #
 echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Script Process ID: </span>$$<span style="color:#e6db74">&#34;</span>
 #
-count<span style="color:#f92672">=</span>1
+count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
 <span style="color:#66d9ef">while</span> <span style="color:#f92672">[</span> $count -le <span style="color:#ae81ff">10</span> <span style="color:#f92672">]</span>
 <span style="color:#66d9ef">do</span>
     echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Loop #</span>$count<span style="color:#e6db74">&#34;</span>
-    sleep 10
+    sleep <span style="color:#ae81ff">10</span>
     count<span style="color:#f92672">=</span>$<span style="color:#f92672">[</span> $count + <span style="color:#ae81ff">1</span> <span style="color:#f92672">]</span>
 <span style="color:#66d9ef">done</span>
 #
 echo <span style="color:#e6db74">&#34;End of script...&#34;</span>
 #
 wangsx@SC-201708020022:~$ ./test10.sh
-Script Process ID: 27
+Script Process ID: <span style="color:#ae81ff">27</span>
 Loop <span style="color:#75715e">#1</span>
 Loop <span style="color:#75715e">#2</span>
 ^Z^C <span style="color:#75715e"># 我的ctrl+z好像不起作用</span>
 </code></pre></div><p>脚本用<code>$$</code>变量来显示系统分配给脚本的PID。使用Ctrl+Z组合键来停止脚本（我的在这不起作用~之前好像也是）。</p>
 <p>我们使用同样的脚本，利用<code>&amp;</code>将另外一个作业作为后台进程启动。我们通过<code>jobs -l</code>命令查看作业的PID。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ ./test10.sh &gt; test10.out &amp;
-<span style="color:#f92672">[</span>1<span style="color:#f92672">]</span> 121
+<span style="color:#f92672">[</span>1<span style="color:#f92672">]</span> <span style="color:#ae81ff">121</span>
 wangsx@SC-201708020022:~/tmp$ jobs -l
 <span style="color:#f92672">[</span>1<span style="color:#f92672">]</span>+   <span style="color:#ae81ff">121</span> 运行中               ./test10.sh &gt; test10.out &amp;
 </code></pre></div><p>下面看<code>jobs</code>命令的一些参数：</p>
@@ -486,16 +486,16 @@ wangsx@SC-201708020022:~/tmp$ jobs -l
 </code></pre></div><p>可以发现最好运行的脚本输出排在最前面。</p>
 <p>我们调用了<code>kill</code>命令向默认进程发送了一个<code>SIGHUP</code>信号，终止了该作业。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ ./test10.sh &gt; test10.out &amp;
-<span style="color:#f92672">[</span>1<span style="color:#f92672">]</span> 165
+<span style="color:#f92672">[</span>1<span style="color:#f92672">]</span> <span style="color:#ae81ff">165</span>
 wangsx@SC-201708020022:~/tmp$ ./test10.sh &gt; test10.out &amp;
-<span style="color:#f92672">[</span>2<span style="color:#f92672">]</span> 167
+<span style="color:#f92672">[</span>2<span style="color:#f92672">]</span> <span style="color:#ae81ff">167</span>
 wangsx@SC-201708020022:~/tmp$ ./test10.sh &gt; test10.out &amp;
-<span style="color:#f92672">[</span>3<span style="color:#f92672">]</span> 169
+<span style="color:#f92672">[</span>3<span style="color:#f92672">]</span> <span style="color:#ae81ff">169</span>
 wangsx@SC-201708020022:~/tmp$ jobs -l
 <span style="color:#f92672">[</span>1<span style="color:#f92672">]</span>    <span style="color:#ae81ff">165</span> 运行中               ./test10.sh &gt; test10.out &amp;
 <span style="color:#f92672">[</span>2<span style="color:#f92672">]</span>-   <span style="color:#ae81ff">167</span> 运行中               ./test10.sh &gt; test10.out &amp;
 <span style="color:#f92672">[</span>3<span style="color:#f92672">]</span>+   <span style="color:#ae81ff">169</span> 运行中               ./test10.sh &gt; test10.out &amp;
-wangsx@SC-201708020022:~/tmp$ kill 169
+wangsx@SC-201708020022:~/tmp$ kill <span style="color:#ae81ff">169</span>
 wangsx@SC-201708020022:~/tmp$ jobs -l
 <span style="color:#f92672">[</span>1<span style="color:#f92672">]</span>    <span style="color:#ae81ff">165</span> 运行中               ./test10.sh &gt; test10.out &amp;
 <span style="color:#f92672">[</span>2<span style="color:#f92672">]</span>-   <span style="color:#ae81ff">167</span> 运行中               ./test10.sh &gt; test10.out &amp;
@@ -507,7 +507,7 @@ wangsx@SC-201708020022:~/tmp$ jobs -l
 <p>我们可以将已经停止的作业作为后台进程或者前台进程重启。前台进程会接管当前工作的终端，所以使用时需要注意。</p>
 <p>要以后台模式重启一个作业，可以用<code>bg</code>命令加上作业号（我的Window10子系统好像确实不能使用Ctrl+Z的功能，有兴趣可以自己测试一下）。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ ./test10.sh
-Script Process ID: 13
+Script Process ID: <span style="color:#ae81ff">13</span>
 Loop <span style="color:#75715e">#1</span>
 ^ZLoop <span style="color:#75715e">#2</span>
 ^C
@@ -522,14 +522,14 @@ wangsx@SC-201708020022:~/tmp$ jobs
 <h3 id="nice">nice命令</h3>
 <p>要让命令以更低的优先级运行，只要用<code>nice</code>的<code>-n</code>命令行来指定新的优先级级别。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@ubuntu:~/tmp$ nice -n <span style="color:#ae81ff">10</span> ./test10.sh &gt; test10.out &amp;
-<span style="color:#f92672">[</span>5<span style="color:#f92672">]</span> 18953
+<span style="color:#f92672">[</span>5<span style="color:#f92672">]</span> <span style="color:#ae81ff">18953</span>
 wsx@ubuntu:~/tmp$ ps -p <span style="color:#ae81ff">18953</span> -o pid,ppid,ni,cmd
    PID   PPID  NI CMD
  <span style="color:#ae81ff">18953</span>  <span style="color:#ae81ff">18782</span>  <span style="color:#ae81ff">10</span> /bin/bash ./test10.sh
 
 </code></pre></div><p>如果想要提高优先级，需要使用超级用户权限。<code>nice</code>命令的<code>-n</code>选项不是必须的，只需要在破折号后面跟上优先级就行了。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@ubuntu:~/tmp$ nice -10 ./test10.sh &gt; test10.out &amp;
-<span style="color:#f92672">[</span>6<span style="color:#f92672">]</span> 18999
+<span style="color:#f92672">[</span>6<span style="color:#f92672">]</span> <span style="color:#ae81ff">18999</span>
 <span style="color:#f92672">[</span>5<span style="color:#f92672">]</span>   Done                    nice -n <span style="color:#ae81ff">10</span> ./test10.sh &gt; test10.out
 wsx@ubuntu:~/tmp$ ps -p <span style="color:#ae81ff">18999</span> -o pid,ppid,ni,cmd
    PID   PPID  NI CMD
@@ -537,12 +537,12 @@ wsx@ubuntu:~/tmp$ ps -p <span style="color:#ae81ff">18999</span> -o pid,ppid,ni,
 </code></pre></div><h3 id="renice">renice命令</h3>
 <p>有时候我们想要改变系统上已经运行命令的优先级，这是<code>renice</code>命令可以做到的。它允许我们指定PID来改变它的优先级。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@ubuntu:~/tmp$ ./test10.sh &amp;
-<span style="color:#f92672">[</span>3<span style="color:#f92672">]</span> 19086
+<span style="color:#f92672">[</span>3<span style="color:#f92672">]</span> <span style="color:#ae81ff">19086</span>
 wsx@ubuntu:~$ ps -p <span style="color:#ae81ff">19086</span> -o pid,ppid,ni,cmd
    PID   PPID  NI CMD
  <span style="color:#ae81ff">19086</span>  <span style="color:#ae81ff">19070</span>   <span style="color:#ae81ff">0</span> /bin/bash ./test10.sh
-wsx@ubuntu:~$ renice -n <span style="color:#ae81ff">10</span> -p 19086
-<span style="color:#ae81ff">19086</span> <span style="color:#f92672">(</span>process ID<span style="color:#f92672">)</span> old priority 0, new priority 10
+wsx@ubuntu:~$ renice -n <span style="color:#ae81ff">10</span> -p <span style="color:#ae81ff">19086</span>
+<span style="color:#ae81ff">19086</span> <span style="color:#f92672">(</span>process ID<span style="color:#f92672">)</span> old priority 0, new priority <span style="color:#ae81ff">10</span>
 wsx@ubuntu:~$ ps -p <span style="color:#ae81ff">19086</span> -o pid,ppid,ni,cmd
    PID   PPID  NI CMD
  <span style="color:#ae81ff">19086</span>  <span style="color:#ae81ff">19070</span>  <span style="color:#ae81ff">10</span> /bin/bash ./test10.sh
@@ -584,12 +584,12 @@ wangsx@SC-201708020022:~/tmp$ sudo /etc/init.d/atd start
 #
 echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">This script ran at </span><span style="color:#66d9ef">$(</span>date +%B%d,%T<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
 echo
-sleep 5
+sleep <span style="color:#ae81ff">5</span>
 echo <span style="color:#e6db74">&#34;This is the script&#39;s end...&#34;</span>
 #
 wangsx@SC-201708020022:~/tmp$ at -f test13.sh now
 warning: commands will be executed using /bin/sh
-job <span style="color:#ae81ff">4</span> at Tue Sep <span style="color:#ae81ff">26</span> 12:12:00 2017
+job <span style="color:#ae81ff">4</span> at Tue Sep <span style="color:#ae81ff">26</span> 12:12:00 <span style="color:#ae81ff">2017</span>
 </code></pre></div><p><code>at</code>命令会显示分配给作业的作业号以及为作业安排的运行时间。<code>at</code>命令利用<code>sendmail</code>应用程序来发送邮件。如果没有安装这个工具就无法获得输出，因此在使用<code>at</code>命令时，最好在脚本中对STDOUT和STDERR进行重定向。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ cat test13b.sh
 <span style="color:#75715e">#!/bin/bash</span>
@@ -597,12 +597,12 @@ job <span style="color:#ae81ff">4</span> at Tue Sep <span style="color:#ae81ff">
 #
 echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">This script ran at </span><span style="color:#66d9ef">$(</span>date +%B%d,%T<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span> &gt; test13b.out
 echo &gt;&gt; test13b.out
-sleep 5
+sleep <span style="color:#ae81ff">5</span>
 echo <span style="color:#e6db74">&#34;This is the script&#39;s end...&#34;</span> &gt;&gt; test13b.out
 #
 wangsx@SC-201708020022:~/tmp$ at -M -f test13b.sh now
 warning: commands will be executed using /bin/sh
-job <span style="color:#ae81ff">7</span> at Tue Sep <span style="color:#ae81ff">26</span> 12:16:00 2017
+job <span style="color:#ae81ff">7</span> at Tue Sep <span style="color:#ae81ff">26</span> 12:16:00 <span style="color:#ae81ff">2017</span>
 wangsx@SC-201708020022:~/tmp$ cat test13b.out
 This script ran at 九月26,12:16:24
 
@@ -612,20 +612,20 @@ This is the script<span style="color:#960050;background-color:#1e0010">&#39;</sp
 <p><code>atq</code>命令可以查看系统中有哪些作业再等待。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ at -M -f test13b.sh teatime
 warning: commands will be executed using /bin/sh
-job <span style="color:#ae81ff">11</span> at Wed Sep <span style="color:#ae81ff">27</span> 16:00:00 2017
+job <span style="color:#ae81ff">11</span> at Wed Sep <span style="color:#ae81ff">27</span> 16:00:00 <span style="color:#ae81ff">2017</span>
 Can<span style="color:#960050;background-color:#1e0010">&#39;</span>t open /var/run/atd.pid to signal atd. No atd running?
 wangsx@SC-201708020022:~/tmp$ sudo /etc/init.d/atd start
 <span style="color:#f92672">[</span>sudo<span style="color:#f92672">]</span> wangsx 的密码：
  * Starting deferred execution scheduler atd                                                                     <span style="color:#f92672">[</span> OK <span style="color:#f92672">]</span>
 wangsx@SC-201708020022:~/tmp$ at -M -f test13b.sh teatime
 warning: commands will be executed using /bin/sh
-job <span style="color:#ae81ff">12</span> at Wed Sep <span style="color:#ae81ff">27</span> 16:00:00 2017
+job <span style="color:#ae81ff">12</span> at Wed Sep <span style="color:#ae81ff">27</span> 16:00:00 <span style="color:#ae81ff">2017</span>
 wangsx@SC-201708020022:~/tmp$ at -M -f test13b.sh tomorrow
 warning: commands will be executed using /bin/sh
-job <span style="color:#ae81ff">13</span> at Wed Sep <span style="color:#ae81ff">27</span> 21:44:00 2017
+job <span style="color:#ae81ff">13</span> at Wed Sep <span style="color:#ae81ff">27</span> 21:44:00 <span style="color:#ae81ff">2017</span>
 wangsx@SC-201708020022:~/tmp$ at -M -f test13b.sh 13:30
 warning: commands will be executed using /bin/sh
-job <span style="color:#ae81ff">14</span> at Wed Sep <span style="color:#ae81ff">27</span> 13:30:00 2017
+job <span style="color:#ae81ff">14</span> at Wed Sep <span style="color:#ae81ff">27</span> 13:30:00 <span style="color:#ae81ff">2017</span>
 wangsx@SC-201708020022:~/tmp$ atq
 <span style="color:#ae81ff">11</span>      Wed Sep <span style="color:#ae81ff">27</span> 16:00:00 <span style="color:#ae81ff">2017</span> a wangsx
 <span style="color:#ae81ff">12</span>      Wed Sep <span style="color:#ae81ff">27</span> 16:00:00 <span style="color:#ae81ff">2017</span> a wangsx
@@ -639,7 +639,7 @@ wangsx@SC-201708020022:~/tmp$ atq
 <span style="color:#ae81ff">12</span>      Wed Sep <span style="color:#ae81ff">27</span> 16:00:00 <span style="color:#ae81ff">2017</span> a wangsx
 <span style="color:#ae81ff">13</span>      Wed Sep <span style="color:#ae81ff">27</span> 21:44:00 <span style="color:#ae81ff">2017</span> a wangsx
 <span style="color:#ae81ff">14</span>      Wed Sep <span style="color:#ae81ff">27</span> 13:30:00 <span style="color:#ae81ff">2017</span> a wangsx
-wangsx@SC-201708020022:~/tmp$ atrm 11
+wangsx@SC-201708020022:~/tmp$ atrm <span style="color:#ae81ff">11</span>
 wangsx@SC-201708020022:~/tmp$ atq
 <span style="color:#ae81ff">12</span>      Wed Sep <span style="color:#ae81ff">27</span> 16:00:00 <span style="color:#ae81ff">2017</span> a wangsx
 <span style="color:#ae81ff">13</span>      Wed Sep <span style="color:#ae81ff">27</span> 21:44:00 <span style="color:#ae81ff">2017</span> a wangsx
@@ -692,7 +692,7 @@ fstrim  man-db  update-notifier-common
 <p><code>anacron</code>程序使用自己的时间表来检查作业目录。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@ubuntu:~$ sudo cat /var/spool/anacron/cron.monthly
 <span style="color:#f92672">[</span>sudo<span style="color:#f92672">]</span> password <span style="color:#66d9ef">for</span> wsx:
-20170926
+<span style="color:#ae81ff">20170926</span>
 wsx@ubuntu:~$ sudo cat /etc/anacrontab
 <span style="color:#75715e"># /etc/anacrontab: configuration file for anacron</span>
 

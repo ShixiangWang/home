@@ -133,28 +133,28 @@
 </ol>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> tensorflow <span style="color:#f92672">as</span> tf 
 
-<span style="color:#75715e"># 通过 NumPy 生成模拟数据集</span>
+<span style="color:#75715e"># 通过 NumPy 生成模拟数据集</span>
 <span style="color:#f92672">from</span> numpy.random <span style="color:#f92672">import</span> RandomState
 
-<span style="color:#75715e"># 定义训练数据的 batch 大小</span>
+<span style="color:#75715e"># 定义训练数据的 batch 大小</span>
 batch_size <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>
 
-<span style="color:#75715e"># 定义神经网络的参数</span>
+<span style="color:#75715e"># 定义神经网络的参数</span>
 w1 <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>Variable(tf<span style="color:#f92672">.</span>random_normal([<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>], stddev<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, seed<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>))
 w2 <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>Variable(tf<span style="color:#f92672">.</span>random_normal([<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">1</span>], stddev<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, seed<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>))
 
-<span style="color:#75715e"># shape 的一个维度使用 None 可以方便使用不同的 batch 大小</span>
-<span style="color:#75715e"># 在训练时需要把数据分成比较小的 batch</span>
-<span style="color:#75715e"># 但在测试时，可以一次性使用全部的数据</span>
-<span style="color:#75715e"># 在数据较小时这样方便测试，但数据很大放入一个 batch 可能会内存溢出</span>
+<span style="color:#75715e"># shape 的一个维度使用 None 可以方便使用不同的 batch 大小</span>
+<span style="color:#75715e"># 在训练时需要把数据分成比较小的 batch</span>
+<span style="color:#75715e"># 但在测试时，可以一次性使用全部的数据</span>
+<span style="color:#75715e"># 在数据较小时这样方便测试，但数据很大放入一个 batch 可能会内存溢出</span>
 x  <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>placeholder(tf<span style="color:#f92672">.</span>float32, shape<span style="color:#f92672">=</span>(None, <span style="color:#ae81ff">2</span>), name<span style="color:#f92672">=</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">x-input</span><span style="color:#e6db74">&#34;</span>)
 y_ <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>placeholder(tf<span style="color:#f92672">.</span>float32, shape<span style="color:#f92672">=</span>(None, <span style="color:#ae81ff">1</span>), name<span style="color:#f92672">=</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">y-input</span><span style="color:#e6db74">&#34;</span>)
 
-<span style="color:#75715e"># 定义神经网络前向传播过程</span>
+<span style="color:#75715e"># 定义神经网络前向传播过程</span>
 a <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>matmul(x, w1)
 y <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>matmul(a, w2)
 
-<span style="color:#75715e"># 定义损失函数和反向传播算法</span>
+<span style="color:#75715e"># 定义损失函数和反向传播算法</span>
 y <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>sigmoid(y)
 cross_entropy <span style="color:#f92672">=</span> <span style="color:#f92672">-</span>tf<span style="color:#f92672">.</span>reduce_mean(
     y_ <span style="color:#f92672">*</span> tf<span style="color:#f92672">.</span>log(tf<span style="color:#f92672">.</span>clip_by_value(y, <span style="color:#ae81ff">1e-10</span>, <span style="color:#ae81ff">1.0</span>))
@@ -162,45 +162,45 @@ cross_entropy <span style="color:#f92672">=</span> <span style="color:#f92672">-
 )
 train_step <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>train<span style="color:#f92672">.</span>AdamOptimizer(<span style="color:#ae81ff">0.001</span>)<span style="color:#f92672">.</span>minimize(cross_entropy)
 
-<span style="color:#75715e"># 随机生成一个模拟数据集</span>
+<span style="color:#75715e"># 随机生成一个模拟数据集</span>
 rdm <span style="color:#f92672">=</span> RandomState(<span style="color:#ae81ff">1</span>)
 dataset_size <span style="color:#f92672">=</span> <span style="color:#ae81ff">128</span>
 X <span style="color:#f92672">=</span> rdm<span style="color:#f92672">.</span>rand(dataset_size, <span style="color:#ae81ff">2</span>)
 
-<span style="color:#75715e"># 定义规则来给出样本的标签。这里 x1+x2&lt;1 的样例认为是正样本（如零件合格）</span>
-<span style="color:#75715e"># 而其他为负样本。</span>
-<span style="color:#75715e"># 大部分解决分类问题的神经网络都会采用 0（负样本） 和 1（正样本） 的表示方法</span>
+<span style="color:#75715e"># 定义规则来给出样本的标签。这里 x1+x2&lt;1 的样例认为是正样本（如零件合格）</span>
+<span style="color:#75715e"># 而其他为负样本。</span>
+<span style="color:#75715e"># 大部分解决分类问题的神经网络都会采用 0（负样本） 和 1（正样本） 的表示方法</span>
 Y <span style="color:#f92672">=</span> [[int(x1<span style="color:#f92672">+</span>x2<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">1</span>)] <span style="color:#66d9ef">for</span> (x1, x2) <span style="color:#f92672">in</span> X]
 
-<span style="color:#75715e"># 创建一个会话运行 tensorflow</span>
+<span style="color:#75715e"># 创建一个会话运行 tensorflow</span>
 <span style="color:#66d9ef">with</span> tf<span style="color:#f92672">.</span>Session() <span style="color:#66d9ef">as</span> sess:
     init_op <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>global_variables_initializer()
-    <span style="color:#75715e"># 初始化变量</span>
+    <span style="color:#75715e"># 初始化变量</span>
     sess<span style="color:#f92672">.</span>run(init_op)
 
-    <span style="color:#75715e"># 训练之前神经网络参数的值</span>
+    <span style="color:#75715e"># 训练之前神经网络参数的值</span>
     <span style="color:#66d9ef">print</span>(sess<span style="color:#f92672">.</span>run(w1))
     <span style="color:#66d9ef">print</span>(sess<span style="color:#f92672">.</span>run(w2))
 
-    <span style="color:#75715e"># 设定训练的次数</span>
+    <span style="color:#75715e"># 设定训练的次数</span>
     STEPS <span style="color:#f92672">=</span> <span style="color:#ae81ff">5000</span>
     <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(STEPS):
-        <span style="color:#75715e"># 每次选出 batch_size 个样本进行训练</span>
+        <span style="color:#75715e"># 每次选出 batch_size 个样本进行训练</span>
         start <span style="color:#f92672">=</span> (i <span style="color:#f92672">*</span> batch_size) <span style="color:#f92672">%</span> dataset_size
         end <span style="color:#f92672">=</span> min(start<span style="color:#f92672">+</span>batch_size, dataset_size)
 
-        <span style="color:#75715e"># 通过选取的样本训练神经网络并更新参数</span>
+        <span style="color:#75715e"># 通过选取的样本训练神经网络并更新参数</span>
         sess<span style="color:#f92672">.</span>run(train_step, 
                 feed_dict<span style="color:#f92672">=</span>{x: X[start:end], y_: Y[start:end]})
         
         <span style="color:#66d9ef">if</span> i <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">or</span> (i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">%</span> <span style="color:#ae81ff">1000</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
-            <span style="color:#75715e"># 每隔一段时间计算在所有数据上的交叉熵并输出</span>
+            <span style="color:#75715e"># 每隔一段时间计算在所有数据上的交叉熵并输出</span>
             total_cross_entropy <span style="color:#f92672">=</span> sess<span style="color:#f92672">.</span>run(
                 cross_entropy, feed_dict<span style="color:#f92672">=</span>{x: X, y_: Y}
             )
             <span style="color:#66d9ef">print</span>(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">After </span><span style="color:#e6db74">%d</span><span style="color:#e6db74"> training step(s), cross entropy on all data is </span><span style="color:#e6db74">%g</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> (i <span style="color:#66d9ef">if</span> i<span style="color:#f92672">==</span><span style="color:#ae81ff">0</span> <span style="color:#66d9ef">else</span> i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, total_cross_entropy))
 
-    <span style="color:#75715e"># 更新后的神经网络参数值</span>
+    <span style="color:#75715e"># 更新后的神经网络参数值</span>
     <span style="color:#66d9ef">print</span>(sess<span style="color:#f92672">.</span>run(w1))
     <span style="color:#66d9ef">print</span>(sess<span style="color:#f92672">.</span>run(w2))
 </code></pre></div><p>运行结果：</p>

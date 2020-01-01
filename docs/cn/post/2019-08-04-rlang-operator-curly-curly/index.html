@@ -132,14 +132,14 @@
 starwars <span style="color:#f92672">%&gt;%</span>
   <span style="color:#a6e22e">group_by</span>(gender) <span style="color:#f92672">%&gt;%</span>
   <span style="color:#a6e22e">summarise</span>(mass_maximum <span style="color:#f92672">=</span> <span style="color:#a6e22e">max</span>(mass, na.rm <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>))
-<span style="color:#75715e">#&gt; # A tibble: 5 x 2</span>
-<span style="color:#75715e">#&gt;   gender        mass_maximum</span>
-<span style="color:#75715e">#&gt;   &lt;chr&gt;                &lt;dbl&gt;</span>
-<span style="color:#75715e">#&gt; 1 &lt;NA&gt;                    75</span>
-<span style="color:#75715e">#&gt; 2 female                  75</span>
-<span style="color:#75715e">#&gt; 3 hermaphrodite         1358</span>
-<span style="color:#75715e">#&gt; 4 male                   159</span>
-<span style="color:#75715e">#&gt; 5 none                   140</span>
+<span style="color:#75715e">#&gt; # A tibble: 5 x 2</span>
+<span style="color:#75715e">#&gt;   gender        mass_maximum</span>
+<span style="color:#75715e">#&gt;   &lt;chr&gt;                &lt;dbl&gt;</span>
+<span style="color:#75715e">#&gt; 1 &lt;NA&gt;                    75</span>
+<span style="color:#75715e">#&gt; 2 female                  75</span>
+<span style="color:#75715e">#&gt; 3 hermaphrodite         1358</span>
+<span style="color:#75715e">#&gt; 4 male                   159</span>
+<span style="color:#75715e">#&gt; 5 none                   140</span>
 </code></pre></div><p>将需要执行非标准计算的变量名使用<code>{{}}</code>括起来即可，不再需要<code>enquo()</code>和<code>!!</code>操作符。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">max_by <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">function</span>(data, var, by) {
   data <span style="color:#f92672">%&gt;%</span>
@@ -148,24 +148,24 @@ starwars <span style="color:#f92672">%&gt;%</span>
 }
 
 starwars <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">max_by</span>(height)
-<span style="color:#75715e">#&gt; # A tibble: 1 x 1</span>
-<span style="color:#75715e">#&gt;   maximum</span>
-<span style="color:#75715e">#&gt;     &lt;int&gt;</span>
-<span style="color:#75715e">#&gt; 1     264</span>
+<span style="color:#75715e">#&gt; # A tibble: 1 x 1</span>
+<span style="color:#75715e">#&gt;   maximum</span>
+<span style="color:#75715e">#&gt;     &lt;int&gt;</span>
+<span style="color:#75715e">#&gt; 1     264</span>
 
 starwars <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">max_by</span>(height, by <span style="color:#f92672">=</span> gender)
-<span style="color:#75715e">#&gt; # A tibble: 5 x 2</span>
-<span style="color:#75715e">#&gt;   gender        maximum</span>
-<span style="color:#75715e">#&gt;   &lt;chr&gt;           &lt;int&gt;</span>
-<span style="color:#75715e">#&gt; 1 &lt;NA&gt;              167</span>
-<span style="color:#75715e">#&gt; 2 female            213</span>
-<span style="color:#75715e">#&gt; 3 hermaphrodite     175</span>
-<span style="color:#75715e">#&gt; 4 male              264</span>
-<span style="color:#75715e">#&gt; 5 none              200</span>
+<span style="color:#75715e">#&gt; # A tibble: 5 x 2</span>
+<span style="color:#75715e">#&gt;   gender        maximum</span>
+<span style="color:#75715e">#&gt;   &lt;chr&gt;           &lt;int&gt;</span>
+<span style="color:#75715e">#&gt; 1 &lt;NA&gt;              167</span>
+<span style="color:#75715e">#&gt; 2 female            213</span>
+<span style="color:#75715e">#&gt; 3 hermaphrodite     175</span>
+<span style="color:#75715e">#&gt; 4 male              264</span>
+<span style="color:#75715e">#&gt; 5 none              200</span>
 </code></pre></div><p>注意这个语法和 glue 包是有区别的：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">var <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">sample</span>(<span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">woof&#34;</span>, <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">meow&#34;</span>, <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">mooh&#34;</span>), size <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>)
 glue<span style="color:#f92672">::</span><span style="color:#a6e22e">glue</span>(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Did you just say {var}?&#34;</span>)
-<span style="color:#75715e">#&gt; Did you just say mooh?</span>
+<span style="color:#75715e">#&gt; Did you just say mooh?</span>
 </code></pre></div><p>如果需要传递多个变量，还是使用<code>...</code>：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">  summarise_by <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">function</span>(data, <span style="color:#66d9ef">...</span>, by) {
     data <span style="color:#f92672">%&gt;%</span>
@@ -179,14 +179,14 @@ glue<span style="color:#f92672">::</span><span style="color:#a6e22e">glue</span>
       maximum <span style="color:#f92672">=</span> <span style="color:#a6e22e">max</span>(height, na.rm <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>),
       by <span style="color:#f92672">=</span> gender
     )
-  <span style="color:#75715e">#&gt; # A tibble: 5 x 3</span>
-  <span style="color:#75715e">#&gt;   gender        average maximum</span>
-  <span style="color:#75715e">#&gt;   &lt;chr&gt;           &lt;dbl&gt;   &lt;int&gt;</span>
-  <span style="color:#75715e">#&gt; 1 &lt;NA&gt;             120      167</span>
-  <span style="color:#75715e">#&gt; 2 female           165.     213</span>
-  <span style="color:#75715e">#&gt; 3 hermaphrodite    175      175</span>
-  <span style="color:#75715e">#&gt; 4 male             179.     264</span>
-  <span style="color:#75715e">#&gt; 5 none             200      200</span>
+  <span style="color:#75715e">#&gt; # A tibble: 5 x 3</span>
+  <span style="color:#75715e">#&gt;   gender        average maximum</span>
+  <span style="color:#75715e">#&gt;   &lt;chr&gt;           &lt;dbl&gt;   &lt;int&gt;</span>
+  <span style="color:#75715e">#&gt; 1 &lt;NA&gt;             120      167</span>
+  <span style="color:#75715e">#&gt; 2 female           165.     213</span>
+  <span style="color:#75715e">#&gt; 3 hermaphrodite    175      175</span>
+  <span style="color:#75715e">#&gt; 4 male             179.     264</span>
+  <span style="color:#75715e">#&gt; 5 none             200      200</span>
 </code></pre></div><p>现在<code>enquos()</code>和<code>!!!</code>只有在需要修改输入或者名字时才需要用到。</p>
 <ul>
 <li>如果有字符串输入，使用 <code>.data</code> 代词：</li>
@@ -198,14 +198,14 @@ glue<span style="color:#f92672">::</span><span style="color:#a6e22e">glue</span>
   }
   
   starwars <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">max_by</span>(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">height&#34;</span>, by <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">gender&#34;</span>)
-  <span style="color:#75715e">#&gt; # A tibble: 5 x 2</span>
-  <span style="color:#75715e">#&gt;   gender        maximum</span>
-  <span style="color:#75715e">#&gt;   &lt;chr&gt;           &lt;int&gt;</span>
-  <span style="color:#75715e">#&gt; 1 &lt;NA&gt;              167</span>
-  <span style="color:#75715e">#&gt; 2 female            213</span>
-  <span style="color:#75715e">#&gt; 3 hermaphrodite     175</span>
-  <span style="color:#75715e">#&gt; 4 male              264</span>
-  <span style="color:#75715e">#&gt; 5 none              200</span>
+  <span style="color:#75715e">#&gt; # A tibble: 5 x 2</span>
+  <span style="color:#75715e">#&gt;   gender        maximum</span>
+  <span style="color:#75715e">#&gt;   &lt;chr&gt;           &lt;int&gt;</span>
+  <span style="color:#75715e">#&gt; 1 &lt;NA&gt;              167</span>
+  <span style="color:#75715e">#&gt; 2 female            213</span>
+  <span style="color:#75715e">#&gt; 3 hermaphrodite     175</span>
+  <span style="color:#75715e">#&gt; 4 male              264</span>
+  <span style="color:#75715e">#&gt; 5 none              200</span>
 </code></pre></div><p>这里magrittr 提供的 <code>.</code> 代词并不适用，因为它代表整个数据框，但是<code>.data</code>这里代表的是当前的子数据集。</p>
 <p>更多阅读：</p>
 <ul>

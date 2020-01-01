@@ -455,7 +455,7 @@ ls: 无法访问<span style="color:#e6db74">&#39;/home/NoSuchUser/&#39;</span>: 
 <span style="color:#75715e">#!/bin/bash</span>
 <span style="color:#75715e"># using doble parenthesis</span>
 #
-val1<span style="color:#f92672">=</span>10
+val1<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>
 #
 <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span><span style="color:#f92672">(</span> $val1 ** <span style="color:#ae81ff">2</span> &gt; <span style="color:#ae81ff">90</span> <span style="color:#f92672">)</span><span style="color:#f92672">)</span>
 <span style="color:#66d9ef">then</span>
@@ -465,7 +465,7 @@ val1<span style="color:#f92672">=</span>10
 
 wsx@wsx-ubuntu:~/script_learn$ chmod u+x test23.sh
 wsx@wsx-ubuntu:~/script_learn$ ./test23.sh
-The square of <span style="color:#ae81ff">10</span> is 100
+The square of <span style="color:#ae81ff">10</span> is <span style="color:#ae81ff">100</span>
 
 </code></pre></div><p><strong>双方括号</strong></p>
 <p>双方括号命令提供了针对字符串比较的高级特性。命令格式如下：</p>
@@ -741,16 +741,16 @@ wsx@wsx-ubuntu:~/script_learn$ ./test5
 <span style="color:#66d9ef">done</span>
 
 wsx@wsx-ubuntu:~/script_learn$ ./test6
-The next number is 1
-The next number is 2
-The next number is 3
-The next number is 4
-The next number is 5
-The next number is 6
-The next number is 7
-The next number is 8
-The next number is 9
-The next number is 10
+The next number is <span style="color:#ae81ff">1</span>
+The next number is <span style="color:#ae81ff">2</span>
+The next number is <span style="color:#ae81ff">3</span>
+The next number is <span style="color:#ae81ff">4</span>
+The next number is <span style="color:#ae81ff">5</span>
+The next number is <span style="color:#ae81ff">6</span>
+The next number is <span style="color:#ae81ff">7</span>
+The next number is <span style="color:#ae81ff">8</span>
+The next number is <span style="color:#ae81ff">9</span>
+The next number is <span style="color:#ae81ff">10</span>
 </code></pre></div><h3 id="while">while命令</h3>
 <p><code>while</code>命令的格式为：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#66d9ef">while</span> test command
@@ -764,7 +764,7 @@ The next number is 10
 <span style="color:#75715e">#/bin/bash</span>
 <span style="color:#75715e"># while command test</span>
 
-var1<span style="color:#f92672">=</span>10
+var1<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>
 <span style="color:#66d9ef">while</span> <span style="color:#f92672">[</span> $var1 -gt <span style="color:#ae81ff">0</span> <span style="color:#f92672">]</span>
 <span style="color:#66d9ef">do</span>
         echo $var1
@@ -772,16 +772,16 @@ var1<span style="color:#f92672">=</span>10
 <span style="color:#66d9ef">done</span>
 
 wangsx@SC-201708020022:~/tmp$ ./test
-10
-9
-8
-7
-6
-5
-4
-3
-2
-1
+<span style="color:#ae81ff">10</span>
+<span style="color:#ae81ff">9</span>
+<span style="color:#ae81ff">8</span>
+<span style="color:#ae81ff">7</span>
+<span style="color:#ae81ff">6</span>
+<span style="color:#ae81ff">5</span>
+<span style="color:#ae81ff">4</span>
+<span style="color:#ae81ff">3</span>
+<span style="color:#ae81ff">2</span>
+<span style="color:#ae81ff">1</span>
 </code></pre></div><p><strong>使用多个测试命令</strong>
 <code>while</code>命令允许我们在<code>while</code>语句行中定义多个测试命令。只有最后一个测试命令的退出状态码会被用来决定什么时候结束循环。
 比如<code>while echo $var1 [ $var1 -ge 0 ]</code>检测的就是后面方括号命令的退出状态码。</p>
@@ -796,7 +796,7 @@ done
 <span style="color:#75715e">#!/bin/bash</span>
 <span style="color:#75715e"># using the until command</span>
 
-var1<span style="color:#f92672">=</span>100
+var1<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span>
 
 <span style="color:#66d9ef">until</span> <span style="color:#f92672">[</span> $var1 -eq <span style="color:#ae81ff">0</span> <span style="color:#f92672">]</span>
 <span style="color:#66d9ef">do</span>
@@ -805,10 +805,10 @@ var1<span style="color:#f92672">=</span>100
 <span style="color:#66d9ef">done</span>
 
 wangsx@SC-201708020022:~/tmp$ ./test12
-100
-75
-50
-25
+<span style="color:#ae81ff">100</span>
+<span style="color:#ae81ff">75</span>
+<span style="color:#ae81ff">50</span>
+<span style="color:#ae81ff">25</span>
 </code></pre></div><p>同样地，在<code>until</code>命令中放入多个测试命令时也要注意（类似<code>while</code>）。</p>
 <h3 id="heading-4">嵌套循环</h3>
 <p>在循环语句内使用任意类型的命令，包括其他循环命令，叫做嵌套循环。因为是在迭代中迭代，需要注意变量的使用以及程序的效率问题。</p>
@@ -828,24 +828,24 @@ wangsx@SC-201708020022:~/tmp$ ./test12
 
 wangsx@SC-201708020022:~/tmp$ . test14
 Starting loop 1:
-    Inside loop: 1
-    Inside loop: 2
-    Inside loop: 3
+    Inside loop: <span style="color:#ae81ff">1</span>
+    Inside loop: <span style="color:#ae81ff">2</span>
+    Inside loop: <span style="color:#ae81ff">3</span>
 Starting loop 2:
-    Inside loop: 1
-    Inside loop: 2
-    Inside loop: 3
+    Inside loop: <span style="color:#ae81ff">1</span>
+    Inside loop: <span style="color:#ae81ff">2</span>
+    Inside loop: <span style="color:#ae81ff">3</span>
 Starting loop 3:
-    Inside loop: 1
-    Inside loop: 2
-    Inside loop: 3
+    Inside loop: <span style="color:#ae81ff">1</span>
+    Inside loop: <span style="color:#ae81ff">2</span>
+    Inside loop: <span style="color:#ae81ff">3</span>
 </code></pre></div><p>shell能够自动识别匹配的<code>do</code>和<code>done</code>字符。这种模式很常见，比如通常的小括号（<code>(</code>与<code>)</code>）、中括号、花括号匹配等等。它们的本质都是字符匹配。</p>
 <p>在混用循环命令时也一样，比如在<code>while</code>循环中内嵌一个<code>for</code>循环：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ cat test15
 <span style="color:#75715e">#!/bin/bash</span>
 <span style="color:#75715e"># placing a for loop inside a while loop</span>
 
-var1<span style="color:#f92672">=</span>5
+var1<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>
 
 <span style="color:#66d9ef">while</span> <span style="color:#f92672">[</span> $var1 -ge <span style="color:#ae81ff">0</span> <span style="color:#f92672">]</span>
 <span style="color:#66d9ef">do</span>
@@ -859,35 +859,35 @@ var1<span style="color:#f92672">=</span>5
 <span style="color:#66d9ef">done</span>
 
 wangsx@SC-201708020022:~/tmp$ . test15
-Outer loop: 5
-  Inner loop: <span style="color:#ae81ff">5</span> * 1 <span style="color:#f92672">=</span> 5
-  Inner loop: <span style="color:#ae81ff">5</span> * 2 <span style="color:#f92672">=</span> 10
-Outer loop: 4
-  Inner loop: <span style="color:#ae81ff">4</span> * 1 <span style="color:#f92672">=</span> 4
-  Inner loop: <span style="color:#ae81ff">4</span> * 2 <span style="color:#f92672">=</span> 8
-Outer loop: 3
-  Inner loop: <span style="color:#ae81ff">3</span> * 1 <span style="color:#f92672">=</span> 3
-  Inner loop: <span style="color:#ae81ff">3</span> * 2 <span style="color:#f92672">=</span> 6
-Outer loop: 2
-  Inner loop: <span style="color:#ae81ff">2</span> * 1 <span style="color:#f92672">=</span> 2
-  Inner loop: <span style="color:#ae81ff">2</span> * 2 <span style="color:#f92672">=</span> 4
-Outer loop: 1
-  Inner loop: <span style="color:#ae81ff">1</span> * 1 <span style="color:#f92672">=</span> 1
-  Inner loop: <span style="color:#ae81ff">1</span> * 2 <span style="color:#f92672">=</span> 2
-Outer loop: 0
-  Inner loop: <span style="color:#ae81ff">0</span> * 1 <span style="color:#f92672">=</span> 0
-  Inner loop: <span style="color:#ae81ff">0</span> * 2 <span style="color:#f92672">=</span> 0
+Outer loop: <span style="color:#ae81ff">5</span>
+  Inner loop: <span style="color:#ae81ff">5</span> * 1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>
+  Inner loop: <span style="color:#ae81ff">5</span> * 2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>
+Outer loop: <span style="color:#ae81ff">4</span>
+  Inner loop: <span style="color:#ae81ff">4</span> * 1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>
+  Inner loop: <span style="color:#ae81ff">4</span> * 2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>
+Outer loop: <span style="color:#ae81ff">3</span>
+  Inner loop: <span style="color:#ae81ff">3</span> * 1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>
+  Inner loop: <span style="color:#ae81ff">3</span> * 2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>
+Outer loop: <span style="color:#ae81ff">2</span>
+  Inner loop: <span style="color:#ae81ff">2</span> * 1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+  Inner loop: <span style="color:#ae81ff">2</span> * 2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>
+Outer loop: <span style="color:#ae81ff">1</span>
+  Inner loop: <span style="color:#ae81ff">1</span> * 1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+  Inner loop: <span style="color:#ae81ff">1</span> * 2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+Outer loop: <span style="color:#ae81ff">0</span>
+  Inner loop: <span style="color:#ae81ff">0</span> * 1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+  Inner loop: <span style="color:#ae81ff">0</span> * 2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
 </code></pre></div><p>如果想要挑战脑力，可以混用<code>until</code>和<code>while</code>循环。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ cat test16
 <span style="color:#75715e">#!/bin/bash</span>
 <span style="color:#75715e"># using until and while loop</span>
 
-var1<span style="color:#f92672">=</span>3
+var1<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>
 
 <span style="color:#66d9ef">until</span> <span style="color:#f92672">[</span> $var1 -eq <span style="color:#ae81ff">0</span> <span style="color:#f92672">]</span>
 <span style="color:#66d9ef">do</span>
         echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Outer loop: </span>$var1<span style="color:#e6db74">&#34;</span>
-        var2<span style="color:#f92672">=</span>1
+        var2<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
         <span style="color:#66d9ef">while</span> <span style="color:#f92672">[</span> $var2 -lt <span style="color:#ae81ff">5</span> <span style="color:#f92672">]</span>
         <span style="color:#66d9ef">do</span>
                 var3<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">scale=4; </span>$var1<span style="color:#e6db74"> / </span>$var2<span style="color:#e6db74">&#34;</span> | bc<span style="color:#66d9ef">)</span>
@@ -898,17 +898,17 @@ var1<span style="color:#f92672">=</span>3
 <span style="color:#66d9ef">done</span>
 
 wangsx@SC-201708020022:~/tmp$ . test16
-Outer loop: 3
+Outer loop: <span style="color:#ae81ff">3</span>
   Inner loop: <span style="color:#ae81ff">3</span> / 1 <span style="color:#f92672">=</span> 3.0000
   Inner loop: <span style="color:#ae81ff">3</span> / 2 <span style="color:#f92672">=</span> 1.5000
   Inner loop: <span style="color:#ae81ff">3</span> / 3 <span style="color:#f92672">=</span> 1.0000
   Inner loop: <span style="color:#ae81ff">3</span> / 4 <span style="color:#f92672">=</span> .7500
-Outer loop: 2
+Outer loop: <span style="color:#ae81ff">2</span>
   Inner loop: <span style="color:#ae81ff">2</span> / 1 <span style="color:#f92672">=</span> 2.0000
   Inner loop: <span style="color:#ae81ff">2</span> / 2 <span style="color:#f92672">=</span> 1.0000
   Inner loop: <span style="color:#ae81ff">2</span> / 3 <span style="color:#f92672">=</span> .6666
   Inner loop: <span style="color:#ae81ff">2</span> / 4 <span style="color:#f92672">=</span> .5000
-Outer loop: 1
+Outer loop: <span style="color:#ae81ff">1</span>
   Inner loop: <span style="color:#ae81ff">1</span> / 1 <span style="color:#f92672">=</span> 1.0000
   Inner loop: <span style="color:#ae81ff">1</span> / 2 <span style="color:#f92672">=</span> .5000
   Inner loop: <span style="color:#ae81ff">1</span> / 3 <span style="color:#f92672">=</span> .3333

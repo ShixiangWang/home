@@ -126,11 +126,11 @@
 <p>使用 MySQL 数据库创建一个用于存储用户信息的数据表：包含 username, email, password 三个字段，并分别使用 SQL 和 Python/R 客户端插入、删除和更新一行数据，密码使用 SHA256 进行加密</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(RMySQL)
 con <span style="color:#f92672">=</span> <span style="color:#a6e22e">dbConnect</span>(<span style="color:#a6e22e">MySQL</span>(), user <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">root&#34;</span>, password <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">xxx&#34;</span>)
-<span style="color:#75715e"># creating a database using RMySQL in R</span>
+<span style="color:#75715e"># creating a database using RMySQL in R</span>
 <span style="color:#a6e22e">dbSendQuery</span>(con, <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">CREATE DATABASE test_user;&#34;</span>)
 <span style="color:#a6e22e">dbSendQuery</span>(con, <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">USE test_user;&#34;</span>)
 <span style="color:#a6e22e">dbDisconnect</span>(con)
-<span style="color:#75715e"># reconnecting to database we just created using following command in R :</span>
+<span style="color:#75715e"># reconnecting to database we just created using following command in R :</span>
 mydb <span style="color:#f92672">=</span> <span style="color:#a6e22e">dbConnect</span>(<span style="color:#a6e22e">MySQL</span>(), user <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">root&#34;</span>, password <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">xxx&#34;</span>, dbname<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">test_user&#34;</span>)
 
 init_table <span style="color:#f92672">=</span> <span style="color:#a6e22e">data.frame</span>(
@@ -150,15 +150,15 @@ append_table <span style="color:#f92672">=</span> <span style="color:#a6e22e">da
 <span style="color:#a6e22e">dbWriteTable</span>(mydb, name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">test&#34;</span>, value <span style="color:#f92672">=</span> init_table, row.names <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>, overwrite <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>)
 <span style="color:#a6e22e">dbReadTable</span>(mydb, <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">test&#34;</span>)
 
-<span style="color:#75715e"># 追加数据</span>
+<span style="color:#75715e"># 追加数据</span>
 <span style="color:#a6e22e">dbWriteTable</span>(mydb, name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">test&#34;</span>, value <span style="color:#f92672">=</span> append_table, row.names <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>, append <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>)
 <span style="color:#a6e22e">dbReadTable</span>(mydb, <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">test&#34;</span>)
 
-<span style="color:#75715e"># 更新数据</span>
+<span style="color:#75715e"># 更新数据</span>
 <span style="color:#a6e22e">dbSendQuery</span>(mydb, <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">UPDATE test set username = &#39;user3&#39; where username = &#39;user2&#39;&#34;</span>)
 <span style="color:#a6e22e">dbReadTable</span>(mydb, <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">test&#34;</span>)
 
-<span style="color:#75715e"># 删除数据</span>
+<span style="color:#75715e"># 删除数据</span>
 <span style="color:#a6e22e">dbSendQuery</span>(mydb, <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">DELETE FROM test where username = &#39;user1&#39;&#34;</span>)
 <span style="color:#a6e22e">dbReadTable</span>(mydb, <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">test&#34;</span>)
 

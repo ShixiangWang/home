@@ -390,15 +390,15 @@ mail<span style="color:#e6db74">&#39;s home directory is /var/mail
 </code></pre></div><h4 id="heading-9">在处理数据前运行脚本</h4>
 <p>使用BEGIN关键字可以强制gawk再读取数据前执行BEGIN关键字指定的程序脚本。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-laptop:~/tmp$ cat data3.txt
-Line 1
-Line 2
-Line 3
+Line <span style="color:#ae81ff">1</span>
+Line <span style="color:#ae81ff">2</span>
+Line <span style="color:#ae81ff">3</span>
 wsx@wsx-laptop:~/tmp$ gawk <span style="color:#e6db74">&#39;BEGIN {print &#34;The data3 File Contents:&#34;}
 </span><span style="color:#e6db74">&gt; {print $0}&#39;</span> data3.txt
 The data3 File Contents:
-Line 1
-Line 2
-Line 3
+Line <span style="color:#ae81ff">1</span>
+Line <span style="color:#ae81ff">2</span>
+Line <span style="color:#ae81ff">3</span>
 </code></pre></div><p>在gawk执行了BEGIN脚本后，它会用第二段脚本来处理文件数据。</p>
 <h4 id="heading-10">在处理数据后允许脚本</h4>
 <p>与BEGIN关键字类似，END关键字允许我们指定一个脚本，gawk在读完数据后执行。</p>
@@ -406,9 +406,9 @@ Line 3
 </span><span style="color:#e6db74">&gt; {print $0}
 </span><span style="color:#e6db74">&gt; END {print &#34;End of File&#34;}&#39;</span> data3.txt
 The data3 File Contents:
-Line 1
-Line 2
-Line 3
+Line <span style="color:#ae81ff">1</span>
+Line <span style="color:#ae81ff">2</span>
+Line <span style="color:#ae81ff">3</span>
 End of File
 </code></pre></div><p>我们把所有的内容放在一起组成一个漂亮的小程序脚本，用它从简单的数据文件中创建一份完整报告。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-laptop:~/tmp$ cat script4.gawk
@@ -681,11 +681,11 @@ This is the last line in the file.
 </ul>
 <p>注意，它们不能在单个命令行上使用，必须要指定是要插入还是要附加到的那一行。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-laptop:~/tmp$ echo <span style="color:#e6db74">&#34;Test Line 2&#34;</span> | sed <span style="color:#e6db74">&#39;i\Test Line 1&#39;</span>
-Test Line 1
-Test Line 2
+Test Line <span style="color:#ae81ff">1</span>
+Test Line <span style="color:#ae81ff">2</span>
 wsx@wsx-laptop:~/tmp$ echo <span style="color:#e6db74">&#34;Test Line 2&#34;</span> | sed <span style="color:#e6db74">&#39;a\Test Line 1&#39;</span>
-Test Line 2
-Test Line 1
+Test Line <span style="color:#ae81ff">2</span>
+Test Line <span style="color:#ae81ff">1</span>
 </code></pre></div><p>要向数据流行内部插入或附加数据，必须用寻址来告诉sed数据应该出现在什么位置。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-laptop:~/tmp$ sed <span style="color:#e6db74">&#39;3i\ This is an inserted line.&#39;</span> data6.txt
 This is line number 1.
@@ -763,30 +763,30 @@ The quick brown fox jumps over the lazy dog.
 The quick brown fox jumps over the lazy dog.
 The quick brown fox jumps over the lazy dog.
 wsx@wsx-laptop:~/tmp$ sed <span style="color:#e6db74">&#39;=&#39;</span> data1.txt
-1
+<span style="color:#ae81ff">1</span>
 The quick brown fox jumps over the lazy dog.
-2
+<span style="color:#ae81ff">2</span>
 The quick brown fox jumps over the lazy dog.
-3
+<span style="color:#ae81ff">3</span>
 The quick brown fox jumps over the lazy dog.
-4
+<span style="color:#ae81ff">4</span>
 The quick brown fox jumps over the lazy dog.
-5
+<span style="color:#ae81ff">5</span>
 The quick brown fox jumps over the lazy dog.
-6
+<span style="color:#ae81ff">6</span>
 The quick brown fox jumps over the lazy dog.
-7
+<span style="color:#ae81ff">7</span>
 The quick brown fox jumps over the lazy dog.
-8
+<span style="color:#ae81ff">8</span>
 The quick brown fox jumps over the lazy dog.
-9
+<span style="color:#ae81ff">9</span>
 The quick brown fox jumps over the lazy dog.
 </code></pre></div><p>这用来查找特定文本模式的话非常方便：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-laptop:~/tmp$ sed -n <span style="color:#e6db74">&#39;/number 4/{
 </span><span style="color:#e6db74">&gt; =
 </span><span style="color:#e6db74">&gt; p
 </span><span style="color:#e6db74">&gt; }&#39;</span> data6.txt
-4
+<span style="color:#ae81ff">4</span>
 This is line number 4.
 </code></pre></div><h4 id="heading-25">列出行</h4>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-laptop:~/tmp$ cat data9.txt

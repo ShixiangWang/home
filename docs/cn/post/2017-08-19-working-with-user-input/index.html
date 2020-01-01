@@ -140,7 +140,7 @@
 <h2 id="heading">命令行参数</h2>
 <p>使用命令行参数是向脚本传递数据的最基本方法，在运行脚本的同时可以在命令行添加数据。</p>
 <p>比如：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">./addem <span style="color:#ae81ff">10</span> 30
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">./addem <span style="color:#ae81ff">10</span> <span style="color:#ae81ff">30</span>
 </code></pre></div><p>运行当前目录下名为<code>addem</code>脚本的同时向内部传递2个参数（10和30）。而脚本会通过特殊的变量来处理命令行参数。</p>
 <p>下面介绍如何使用它们。</p>
 <h3 id="heading-1">读入参数</h3>
@@ -151,14 +151,14 @@
 
 <span style="color:#75715e"># using one command line parameter</span>
 #
-factorial<span style="color:#f92672">=</span>1
+factorial<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
 <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#f92672">(</span> number <span style="color:#f92672">=</span> 1; number &lt;<span style="color:#f92672">=</span> $1; number++ <span style="color:#f92672">)</span><span style="color:#f92672">)</span>
 <span style="color:#66d9ef">do</span>
 	factorial<span style="color:#f92672">=</span>$<span style="color:#f92672">[</span> $factorial * $number <span style="color:#f92672">]</span>
 <span style="color:#66d9ef">done</span>
 echo The factorial of $1 is $factorial
-wsx@wsx-ubuntu:~/script_learn$ ./test1.sh 5
-The factorial of <span style="color:#ae81ff">5</span> is 120
+wsx@wsx-ubuntu:~/script_learn$ ./test1.sh <span style="color:#ae81ff">5</span>
+The factorial of <span style="color:#ae81ff">5</span> is <span style="color:#ae81ff">120</span>
 </code></pre></div><p>我们可以像使用其他变量一样使用<code>$1</code>变量。shell脚本会自动分配，不需要我们做任何处理。可以看得出来这样非常方便，不过如果输入参数过多，很容易让人混淆。</p>
 <p>如果需要输入更多的参数，只需要用空格分隔即可。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~/script_learn$ cat test2.sh
@@ -171,7 +171,7 @@ echo The first parameter is $1.
 echo The second parameter is $2.
 echo The total value is $total.
 
-wsx@wsx-ubuntu:~/script_learn$ ./test2.sh <span style="color:#ae81ff">2</span> 5
+wsx@wsx-ubuntu:~/script_learn$ ./test2.sh <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">5</span>
 The first parameter is 2.
 The second parameter is 5.
 The total value is 10.
@@ -246,10 +246,10 @@ wsx@wsx-ubuntu:~/script_learn$ ln -s test6.sh multem
 wsx@wsx-ubuntu:~/script_learn$ ll *em
 -rwxrw-r-- <span style="color:#ae81ff">1</span> wsx wsx <span style="color:#ae81ff">216</span> 8月  <span style="color:#ae81ff">18</span> 16:47 addem*
 lrwxrwxrwx <span style="color:#ae81ff">1</span> wsx wsx   <span style="color:#ae81ff">8</span> 8月  <span style="color:#ae81ff">18</span> 16:47 multem -&gt; test6.sh*
-wsx@wsx-ubuntu:~/script_learn$ ./addem <span style="color:#ae81ff">2</span> 5
+wsx@wsx-ubuntu:~/script_learn$ ./addem <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">5</span>
 
 The calculated value is 7.
-wsx@wsx-ubuntu:~/script_learn$ ./multem <span style="color:#ae81ff">2</span> 5
+wsx@wsx-ubuntu:~/script_learn$ ./multem <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">5</span>
 
 The calculated value is 10.
 
@@ -297,13 +297,13 @@ wangsx@SC-201708020022:~/tmp$ bash test9.sh
 
 Usage: test9.sh a b
 
-wangsx@SC-201708020022:~/tmp$ bash test9.sh 10
+wangsx@SC-201708020022:~/tmp$ bash test9.sh <span style="color:#ae81ff">10</span>
 
 Usage: test9.sh a b
 
-wangsx@SC-201708020022:~/tmp$ bash test9.sh <span style="color:#ae81ff">2</span> 5
+wangsx@SC-201708020022:~/tmp$ bash test9.sh <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">5</span>
 
-The total is 7
+The total is <span style="color:#ae81ff">7</span>
 </code></pre></div><p>例子中，<code>if-then</code>语句用<code>-ne</code>测试命令行参数数量。如果参数数量不对，会显示一条错误信息告诉脚本的正确用法。</p>
 <p>这个变量还提供了一个简便方法来获取命令行最后一个参数，完全不需要知道实际上有多少个参数。不过要实现它需要花些功夫。</p>
 <p>也许，我们会有这样的想法，既然<code>$#</code>变量含有参数的总数，那么变量<code>{% raw %}${$#}{% endraw %}</code>就代表了最后一个命令行参数变量。试试看呗：</p>
@@ -314,8 +314,8 @@ The total is 7
 #
 echo The last parameter was <span style="color:#e6db74">${</span>$#<span style="color:#e6db74">}</span>
 
-wangsx@SC-201708020022:~/tmp$ ./test10.sh 10
-The last parameter was 65
+wangsx@SC-201708020022:~/tmp$ ./test10.sh <span style="color:#ae81ff">10</span>
+The last parameter was <span style="color:#ae81ff">65</span>
 
 </code></pre></div><p>我擦，明显不对。这说明<code>{% raw %}${$#}{% endraw %}</code>的用法错误。实际上，花括号能不能使用美元符，必须把它换成感叹号。虽然有点奇怪，但的确有用。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ cat test10.sh
@@ -325,10 +325,10 @@ The last parameter was 65
 #
 echo The last parameter was <span style="color:#e6db74">${</span>!#<span style="color:#e6db74">}</span>
 
-wangsx@SC-201708020022:~/tmp$ ./test10.sh 10
-The last parameter was 10
-wangsx@SC-201708020022:~/tmp$ ./test10.sh <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> 5
-The last parameter was 5
+wangsx@SC-201708020022:~/tmp$ ./test10.sh <span style="color:#ae81ff">10</span>
+The last parameter was <span style="color:#ae81ff">10</span>
+wangsx@SC-201708020022:~/tmp$ ./test10.sh <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> <span style="color:#ae81ff">5</span>
+The last parameter was <span style="color:#ae81ff">5</span>
 </code></pre></div><h3 id="heading-5">抓取所有的数据</h3>
 <p><code>$*</code>与<code>$@</code>变量可以用来轻松访问所有的参数。它们都能够在单个变量中存储所有的命令行参数。</p>
 <p><code>$*</code>变量会将命令行提供的所有参数当作一个单词保存。这个单词包含了命令行中出现的每一个参数值。基本上<code>$*</code>变量会将这些参数视为一个整体，而不是多个个体。</p>
@@ -352,7 +352,7 @@ Using the $@ method: rich barbara katie jessica
 wangsx@SC-201708020022:~/tmp$ cat test12.sh
 <span style="color:#75715e">#!/bin/bash</span>
 echo
-count<span style="color:#f92672">=</span>1
+count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
 #
 <span style="color:#66d9ef">for</span> param in <span style="color:#e6db74">&#34;</span>$*<span style="color:#e6db74">&#34;</span>
 <span style="color:#66d9ef">do</span>
@@ -361,7 +361,7 @@ count<span style="color:#f92672">=</span>1
 <span style="color:#66d9ef">done</span>
 #
 echo
-count<span style="color:#f92672">=</span>1
+count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
 #
 
 <span style="color:#66d9ef">for</span> param in <span style="color:#e6db74">&#34;</span>$@<span style="color:#e6db74">&#34;</span>
@@ -386,7 +386,7 @@ $@ Parameter <span style="color:#75715e">#4 = jessica</span>
 <span style="color:#75715e"># demonstrating the shift command</span>
 #
 echo
-count<span style="color:#f92672">=</span>1
+count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
 <span style="color:#66d9ef">while</span> <span style="color:#f92672">[</span> -n <span style="color:#e6db74">&#34;</span>$1<span style="color:#e6db74">&#34;</span> <span style="color:#f92672">]</span>
 <span style="color:#66d9ef">do</span>
     echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Parameter #</span>$count<span style="color:#e6db74"> = </span>$1<span style="color:#e6db74">&#34;</span>
@@ -455,7 +455,7 @@ echo
     shift
 <span style="color:#66d9ef">done</span>
 #
-count<span style="color:#f92672">=</span>1
+count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
 <span style="color:#66d9ef">for</span> param in $@
 <span style="color:#66d9ef">do</span>
     echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Parameter #</span>$count<span style="color:#e6db74">: </span>$param<span style="color:#e6db74">&#34;</span>
@@ -505,7 +505,7 @@ echo
     shift
 <span style="color:#66d9ef">done</span>
 #
-count<span style="color:#f92672">=</span>1
+count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
 <span style="color:#66d9ef">for</span> param in <span style="color:#e6db74">&#34;</span>$@<span style="color:#e6db74">&#34;</span>
 <span style="color:#66d9ef">do</span>
     echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Paramter #</span>$count<span style="color:#e6db74">: </span>$param<span style="color:#e6db74">&#34;</span>
@@ -576,7 +576,7 @@ echo
     shift
 <span style="color:#66d9ef">done</span>
 #
-count<span style="color:#f92672">=</span>1
+count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
 <span style="color:#66d9ef">for</span> param in <span style="color:#e6db74">&#34;</span>$@<span style="color:#e6db74">&#34;</span>
 <span style="color:#66d9ef">do</span>
     echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Parameter #</span>$count<span style="color:#e6db74">: </span>$param<span style="color:#e6db74">&#34;</span>
@@ -680,7 +680,7 @@ echo
 shift $<span style="color:#f92672">[</span> $OPTIND -1 <span style="color:#f92672">]</span>
 #
 echo
-count<span style="color:#f92672">=</span>1
+count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
 <span style="color:#66d9ef">for</span> param in  <span style="color:#e6db74">&#34;</span>$@<span style="color:#e6db74">&#34;</span>
 <span style="color:#66d9ef">do</span>
     echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Parameter </span>$count<span style="color:#e6db74">: </span>$param<span style="color:#e6db74">&#34;</span>
@@ -789,7 +789,7 @@ days<span style="color:#f92672">=</span>$<span style="color:#f92672">[</span> $a
 echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">That makes you over </span>$days<span style="color:#e6db74"> days old!</span><span style="color:#e6db74">&#34;</span>
 #
 wangsx@SC-201708020022:~/tmp$ ./test21.sh
-Please enter your age: 23
+Please enter your age: <span style="color:#ae81ff">23</span>
 That makes you over <span style="color:#ae81ff">8395</span> days old!
 </code></pre></div><p><code>read</code>命令会将提示符后输入的所有数据分配给单个变量，要么我们需要指定多个变量。当变量数量不够时，剩下的数据就全部分配给最后一个变量。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ cat test22.sh
@@ -870,7 +870,7 @@ Is your password really shixiang?
 <span style="color:#75715e">#!/bin/bash</span>
 <span style="color:#75715e"># reading data from a file</span>
 #
-count<span style="color:#f92672">=</span>1
+count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
 cat test | <span style="color:#66d9ef">while</span> read line
 <span style="color:#66d9ef">do</span>
     echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Line </span>$count<span style="color:#e6db74">: </span>$line<span style="color:#e6db74">&#34;</span>

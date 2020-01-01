@@ -188,7 +188,7 @@ This is the third line.
 <p>标准输出就是终端显示器。我们可以使用<code>&lt;</code>输出重定向符号来改变它。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~$ ls -l &gt; test2
 wangsx@SC-201708020022:~$ cat test2
-总用量 28
+总用量 <span style="color:#ae81ff">28</span>
 drwxrwxrwx <span style="color:#ae81ff">0</span> wangsx wangsx <span style="color:#ae81ff">4096</span> 8月   <span style="color:#ae81ff">2</span> 11:48 biosoft
 -rw-rw-rw- <span style="color:#ae81ff">1</span> wangsx wangsx <span style="color:#ae81ff">2156</span> 8月   <span style="color:#ae81ff">4</span> 00:12 biostar.yml
 drwxrwxrwx <span style="color:#ae81ff">0</span> wangsx wangsx <span style="color:#ae81ff">4096</span> 8月   <span style="color:#ae81ff">3</span> 22:24 miniconda2
@@ -245,13 +245,13 @@ ls: 无法访问<span style="color:#e6db74">&#39;bad&#39;</span>: 没有那个�
 <h3 id="heading-4">临时重定向</h3>
 <p>如果<strong>有意</strong>在脚本中生成错误信息，可以将单独的一行输出重定向到STDERR。</p>
 <p>使用时需要在文件描述符数字前加<code>&amp;</code>:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">echo <span style="color:#e6db74">&#34;This is an error message&#34;</span> &gt;&amp;2
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">echo <span style="color:#e6db74">&#34;This is an error message&#34;</span> &gt;&amp;<span style="color:#ae81ff">2</span>
 </code></pre></div><p>下面看个例子：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~$ cat test8
 <span style="color:#75715e">#!/bin/bash</span>
 <span style="color:#75715e"># testing STDERR message</span>
 
-echo <span style="color:#e6db74">&#34;This is an error&#34;</span> &gt;&amp;2
+echo <span style="color:#e6db74">&#34;This is an error&#34;</span> &gt;&amp;<span style="color:#ae81ff">2</span>
 echo <span style="color:#e6db74">&#34;This is normal output&#34;</span>
 </code></pre></div><p>像平常一样运行的话，看出不会有什么差别。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~$ sh test8
@@ -290,7 +290,7 @@ echo <span style="color:#e6db74">&#34;now redirecting all output to another loca
 
 exec 1&gt;testout
 echo <span style="color:#e6db74">&#34;This output should go to the testout file&#34;</span>
-echo <span style="color:#e6db74">&#34;but this should go to the testerror file&#34;</span> &gt;&amp;2
+echo <span style="color:#e6db74">&#34;but this should go to the testerror file&#34;</span> &gt;&amp;<span style="color:#ae81ff">2</span>
 wangsx@SC-201708020022:~$ sh test11
 This is the start of the script
 now redirecting all output to another location
@@ -307,13 +307,13 @@ but this should go to the testerror file
 <span style="color:#75715e">#!/bin/bash</span>
 <span style="color:#75715e"># storing STDOUT, the coming back to it</span>
 
-exec 3&gt;&amp;1
+exec 3&gt;&amp;<span style="color:#ae81ff">1</span>
 exec 1&gt;test14out
 
 echo <span style="color:#e6db74">&#34;This should store in the output file&#34;</span>
 echo <span style="color:#e6db74">&#34;along with this line&#34;</span>
 
-exec 1&gt;&amp;3
+exec 1&gt;&amp;<span style="color:#ae81ff">3</span>
 echo <span style="color:#e6db74">&#34;Now things should be back to normal&#34;</span>
 wangsx@SC-201708020022:~$ sh test14
 Now things should be back to normal
@@ -351,7 +351,7 @@ wangsx@SC-201708020022:~$
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ mktemp testing.XXXXXX
 wangsx@SC-201708020022:~/tmp$ mktemp testing.XXXXXX
 wangsx@SC-201708020022:~/tmp$ ll
-总用量 12
+总用量 <span style="color:#ae81ff">12</span>
 drwxrwxrwx <span style="color:#ae81ff">0</span> wangsx wangsx <span style="color:#ae81ff">4096</span> 8月  <span style="color:#ae81ff">22</span> 21:34 ./
 drwxr-xr-x <span style="color:#ae81ff">0</span> wangsx wangsx <span style="color:#ae81ff">4096</span> 8月  <span style="color:#ae81ff">22</span> 21:31 ../
 -rw------- <span style="color:#ae81ff">1</span> wangsx wangsx    <span style="color:#ae81ff">0</span> 8月  <span style="color:#ae81ff">22</span> 21:33 testing.R6dAku

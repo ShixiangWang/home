@@ -226,7 +226,7 @@ echo HOME: $HOME
 wsx@wsx-ubuntu:~/script_learn$ chmod u+x test2
 wsx@wsx-ubuntu:~/script_learn$ ./test2
 User info <span style="color:#66d9ef">for</span> userid: wsx
-UID: 1000
+UID: <span style="color:#ae81ff">1000</span>
 HOME: /home/wsx
 </code></pre></div><p>可以想象的到，如果我们想要使用实际的美元符而不是引用变量，肯定会出问题。这时候我们需要在美元符前面加上<code>\</code>进行转义，以显示美元符本身。</p>
 <p><strong>用户变量</strong></p>
@@ -235,10 +235,10 @@ HOME: /home/wsx
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~/script_learn$ cat test3
 <span style="color:#75715e">#!/bin/bash</span>
 <span style="color:#75715e"># testing variables</span>
-days<span style="color:#f92672">=</span>10
+days<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>
 guest<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Katie&#34;</span>
 echo <span style="color:#e6db74">&#34;</span>$guest<span style="color:#e6db74"> checked in </span>$days<span style="color:#e6db74"> days ago</span><span style="color:#e6db74">&#34;</span>
-days<span style="color:#f92672">=</span>5
+days<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>
 guest<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Jessica&#34;</span>
 echo <span style="color:#e6db74">&#34;</span>$guest<span style="color:#e6db74"> checked in </span>$days<span style="color:#e6db74"> days ago</span><span style="color:#e6db74">&#34;</span>
 wsx@wsx-ubuntu:~/script_learn$ chmod u+x test3
@@ -284,14 +284,14 @@ wsx@wsx-ubuntu:~/script_learn$ cat test6
 </blockquote>
 <p>比如用wc命令检查文本的行数、词数和字节数。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~/script_learn$ wc &lt; test6
- <span style="color:#ae81ff">1</span>  <span style="color:#ae81ff">6</span> 43
+ <span style="color:#ae81ff">1</span>  <span style="color:#ae81ff">6</span> <span style="color:#ae81ff">43</span>
 </code></pre></div><p>另一种输入重定向的方法是<strong>内联输入重定向</strong>。它无需使用文件进行重定向，只需要在命令行中指定用于输入重定向的数据即可。它使用的符号是远小于号（&laquo;），除了这个符号，我们还需要指定一个文本标记用来划分输入数据的开始和结尾。任何字符串都可以作为文本标记，但在数据的开始和结尾文本标记必须一致。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~/script_learn$ wc <span style="color:#e6db74">&lt;&lt; EOF
 </span><span style="color:#e6db74">&gt; test string1
 </span><span style="color:#e6db74">&gt; test string2
 </span><span style="color:#e6db74">&gt; test string3
 </span><span style="color:#e6db74">&gt; EOF</span>
- <span style="color:#ae81ff">3</span>  <span style="color:#ae81ff">6</span> 39
+ <span style="color:#ae81ff">3</span>  <span style="color:#ae81ff">6</span> <span style="color:#ae81ff">39</span>
 </code></pre></div><p>它的形式为：</p>
 <pre><code>command &lt;&lt; marker
 data
@@ -314,7 +314,7 @@ wsx@wsx-ubuntu:~/script_learn$ cat test1 | head -2 | sort
 <p>对shell脚本来说，执行数学运算非常麻烦。有两种实现方式。</p>
 <p><strong>expr</strong>命令</p>
 <p><code>expr</code>命令允许在命令行上处理数学表达式，但是特别笨拙。（Bourne shell中）</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~/script_learn$ exrpr <span style="color:#ae81ff">1</span> + 5
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~/script_learn$ exrpr <span style="color:#ae81ff">1</span> + <span style="color:#ae81ff">5</span>
 未找到 <span style="color:#e6db74">&#39;exrpr&#39;</span> 命令，您要输入的是否是：
  命令 <span style="color:#e6db74">&#39;expr&#39;</span> 来自于包 <span style="color:#e6db74">&#39;coreutils&#39;</span> <span style="color:#f92672">(</span>main<span style="color:#f92672">)</span>
 exrpr：未找到命令
@@ -324,10 +324,10 @@ exrpr：未找到命令
 <p>bash shell提供了一种更简单的方法来执行数学表达式。在bash中，在将一个数学运算结果赋给某个变量时，可以用美元符和方括号（$[operator]）将数学表达式围起来。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~/script_learn$ var1<span style="color:#f92672">=</span>$<span style="color:#f92672">[</span>1+5<span style="color:#f92672">]</span>
 wsx@wsx-ubuntu:~/script_learn$ echo $var1
-6
+<span style="color:#ae81ff">6</span>
 wsx@wsx-ubuntu:~/script_learn$ var2<span style="color:#f92672">=</span>$<span style="color:#f92672">[</span>$var1+2<span style="color:#f92672">]</span>
 wsx@wsx-ubuntu:~/script_learn$ echo $var2
-8
+<span style="color:#ae81ff">8</span>
 </code></pre></div><p>这种方式不仅方便，而且因为在方括号内，不会让shell误解乘号或其他符号。</p>
 <p>但bash shell计算有一个主要限制：<strong>它只支持整数运算！</strong></p>
 <p><strong>浮点解决方案</strong></p>
@@ -378,7 +378,7 @@ EOF)
 var1<span style="color:#f92672">=</span>10.46
 var2<span style="color:#f92672">=</span>43.67
 var3<span style="color:#f92672">=</span>33.2
-var4<span style="color:#f92672">=</span>71
+var4<span style="color:#f92672">=</span><span style="color:#ae81ff">71</span>
 
 var5<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>bc <span style="color:#e6db74">&lt;&lt;EOF
 </span><span style="color:#e6db74">scale=4
@@ -399,7 +399,7 @@ The final answer <span style="color:#66d9ef">for</span> this mess is 2813.9882
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~/script_learn$ date
 2017年 07月 27日 星期四 10:44:18 CST
 wsx@wsx-ubuntu:~/script_learn$ echo $?
-0
+<span style="color:#ae81ff">0</span>
 </code></pre></div><p>按照惯例，一个成功结束的命令的退出状态码是0。如果有错误，则显示一个正数值。</p>
 <p>Linux错误退出状态码没有什么标准，但有一些参考：</p>
 <table>
@@ -453,24 +453,24 @@ wsx@wsx-ubuntu:~/script_learn$ echo $?
  命令 <span style="color:#e6db74">&#39;asdfg&#39;</span> 来自于包 <span style="color:#e6db74">&#39;aoeui&#39;</span> <span style="color:#f92672">(</span>universe<span style="color:#f92672">)</span>
 asfg：未找到命令
 wsx@wsx-ubuntu:~/script_learn$ echo $?
-127
+<span style="color:#ae81ff">127</span>
 </code></pre></div><p><strong>exit命令</strong></p>
 <p>默认，shell脚本会以脚本最后的一个命令的退出状态码退出。</p>
 <p>但是我们可以改变这种默认行为，返回自己的退出状态码。exit命令允许在脚本结束时指定一个状态退出码。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~/script_learn$ cat test13
 <span style="color:#75715e">#!/bin/bash</span>
 <span style="color:#75715e"># testing the exit status</span>
-var1<span style="color:#f92672">=</span>10
-var2<span style="color:#f92672">=</span>30
+var1<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>
+var2<span style="color:#f92672">=</span><span style="color:#ae81ff">30</span>
 var3<span style="color:#f92672">=</span>$<span style="color:#f92672">[</span>$var1 + $var2<span style="color:#f92672">]</span>
 echo The answer is $var3
-exit 5
+exit <span style="color:#ae81ff">5</span>
 
 wsx@wsx-ubuntu:~/script_learn$ chmod u+x test13
 wsx@wsx-ubuntu:~/script_learn$ ./test13
-The answer is 40
+The answer is <span style="color:#ae81ff">40</span>
 wsx@wsx-ubuntu:~/script_learn$ echo $?
-5
+<span style="color:#ae81ff">5</span>
 </code></pre></div><p>注意最大255，如果大于它，得到的是求模的结果（余数）。</p>
 
 
