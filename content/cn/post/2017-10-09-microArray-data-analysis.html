@@ -1,131 +1,15 @@
-<!DOCTYPE html>
-<html lang="en-us">
-  <head>
-    <meta charset="utf-8">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
-    
-    <link rel="stylesheet" href="../../../fonts/academicons-1.8.6/css/academicons.min.css"/>
-    <link rel="icon" type="image/png" sizes="32x32" href="../../../logo/bodhi.png"> 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-    
-    
-    <title>Bioconductor分析基因芯片数据 - 王诗翔</title>
-    
-     
-    <meta property="og:title" content="Bioconductor分析基因芯片数据 - Shixiang Wang | 王诗翔">
-    
-
-    
-      
-    
-
-    
-
-    
-    
-
-
-<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
-
-
-
-    <link rel="stylesheet" href="../../../css/style.css" />
-    <link rel="stylesheet" href="../../../css/mystyle.css" /> 
-    <link rel="stylesheet" href="../../../css/fonts.css" />
-    
-<script async src="../../../js/load-typekit.js"></script>
-
-
-<link rel="stylesheet" href="../../../css/custom.css" />
-
-  </head>
-
-  
-  <body class="cn">
-    <header class="masthead">
-      
-
-<h1><a href="../../../"><img src="https://avatars1.githubusercontent.com/u/25057508?s=460&amp;v=4" alt="Shixiang Wang" /></a></h1>
-
-
-
-      <nav class="menu">
-        <input id="menu-check" type="checkbox" />
-        <label id="menu-label" for="menu-check" class="unselectable">
-          <span class="icon close-icon">✕</span>
-          <span class="icon open-icon">☰</span>
-          <span class="text">Menu</span>
-        </label>
-        <ul>
-        
-        
-        <li><a href="../../../">首页</a></li>
-        
-        <li><a href="../../../cn/about/">关于</a></li>
-        
-        <li><a href="../../../cn/post/">博客</a></li>
-        
-        <li><a href="../../../cn/read/">读书</a></li>
-        
-        <li><a href="../../../cn/writing">写作</a></li>
-        
-        <li><a href="../../../cn/research/">研究</a></li>
-        
-        <li><a href="../../../cn/tools/">工具</a></li>
-        
-        <li><a href="../../../cn/cv-cn/shixiang">简历</a></li>
-        
-        <li><a href="../../../logo/qrcode.jpg">公众号</a></li>
-        
-        <li><a href="https://www.jianshu.com/u/b6608e27dc74">简书</a></li>
-        
-        <li><a href="../../../cn/todo">ToDo</a></li>
-        
-        <li><a href="../../../en/">English</a></li>
-        
-        
-
-<li class="menu-extra"></li>
-
-
-
-
-
-
-<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2017-10-09-microArray-data-analysis.Rmd" target="_blank">编辑</a></li>
-
-
-<li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
-
-<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
-
-
-        </ul>
-      </nav>
-    </header>
-
-    <article class="main">
-      <header class="title">
-        
-
-<h1>Bioconductor分析基因芯片数据</h1>
-
-
-
-<h3>王诗翔 &middot 
-2017-10-09</h3> 
-
-
-   
-  
-
-
-      </header>
-
-
+---
+title: "Bioconductor分析基因芯片数据"
+date: 2017-10-09
+categories: 
+- bioinformatics
+tags:
+- bioinformatics
+- r
+- DEG
+- GO
+- KEGG
+---
 
 
 
@@ -272,7 +156,7 @@ An object of class &#39;AnnotatedDataFrame&#39;: none
 <p>我们先直观地看一下芯片上所有位点的灰度图像。</p>
 <pre class="r"><code># 查看第一张芯片的灰度图像
 image(CLLbatch[,1])</code></pre>
-<p><img src="../../../figures/cel.png" /></p>
+<p><img src="/figures/cel.png" /></p>
 <p>芯片左上角的花纹和芯片名称可以帮助我们来了解芯片数据是否可靠。根据图像信息，可以对芯片的信号强度产生一个总体认识：图像特别黑，信号强度低；图像特别亮，信号可能过饱和。</p>
 <p>很显然这种方法非常粗糙，不能量化。比它好的简单方法是基于各种平均值的方法。<strong>这类方法的一个共同特点就是假设一组实验中的每个芯片数据对于某个平均值指标都相差不大</strong>。Affymetrix公司在指导手册中进行了详细描述。</p>
 <ul>
@@ -292,7 +176,7 @@ data(CLLbatch)
 Data.qc &lt;- qc(CLLbatch)
 # visualize report
 plot(Data.qc)</code></pre>
-<p><img src="../../../figures/qc.png" /></p>
+<p><img src="/figures/qc.png" /></p>
 <p>上图显示的是全部数据的质量控制总览图。第一列是所有样本的名称；第二列是两个数字，上面的是以百分比形式出现的检出率，下面的数字表明平均背景噪声。第三列（“QC Stats”）最下面的横轴是尺度因子等指标对应的坐标，取值范围从-3到3。第3列用到了三项指标：尺度因子、GAPDH 3’/5’ 比值和actin 3’/5’比值，分别用实心圆、空心圆和三角标志表示出来。如果出现红色的“bioB”字样，说明该样品中未能检测到BioB。</p>
 <p>简单地讲，<strong>所有指标出现蓝色表示正常，红色表示可能存在质量问题</strong>。但这样根据实际情况进一步分析。一般来讲，如果有一个芯片各项指标都不太正常，尤其是BioB无法检测到，建议判定该芯片实验失败。比如CLL15.CEL这个数据的检出率明显低于其他样品，actin3/actin5远大于3，而且没有检测到BioB，因此数据可以判定为无效。</p>
 <p><strong>基于平均值假设的评价指标都有一个默认的假设，那就是对于每一块芯片，质量是均匀的，不会随位置不同发生较大的变化</strong>。但事实上，芯片的每一个小格之间的质量也是有差异的。</p>
@@ -323,12 +207,12 @@ colors &lt;- brewer.pal(12, &quot;Set3&quot;)
 Mbox(Pset, ylim=c(-1, 1), col=colors, main=&quot;RLE&quot;, las=3)
 # NUSE
 boxplot(Pset, ylim=c(0.95, 1.22), col=colors, main=&quot;NUSE&quot;, las=3)</code></pre>
-<p><img src="../../../figures/rle.png" /></p>
+<p><img src="/figures/rle.png" /></p>
 <p>NUSE是一种比RLE更为敏感的质量检测手段。我们可以结合NUSE图来确定是否某个芯片质量有问题。NUSE定义为一个探针组在某个样品的PM值的标准差除以该探针值在各样品中的PM标准差的中位数。<strong>如果所有芯片的质量都是非常可靠的话，那么它们的标准差会非常接近，因此它们的NUSE值都会在1附近</strong>。</p>
 <blockquote>
 <p>然而，如果有些芯片质量有问题的话，就会严重地偏离1，进而导致其他芯片地NUSE值偏向相反的方向。当然，存在一种极端的情况，就是大部分芯片都出问题了，但是它们的标准差却比较接近，反而会显得没有质量问题的芯片的NUSE值会明显偏离1，所以必须结合两种图作出可靠的判断。</p>
 </blockquote>
-<p><img src="../../../figures/nuse.png" /></p>
+<p><img src="/figures/nuse.png" /></p>
 <p>可以看到CLL1和CLL10的质量明显有别于其他样品，需要舍弃。</p>
 <p><strong>RNA降解是影响芯片质量的一个很重要因素</strong>。因为RNA是从5’端开始降解的，理论上5‘端的荧光强度应该低于3’端的荧光强度。如果RNA降解曲线的斜率太小，甚至接近于0，很可能是RNA降解太严重，需要作为坏数据去除（下图显示的CLL13）。</p>
 <pre class="r"><code># RNA degradation
@@ -336,7 +220,7 @@ boxplot(Pset, ylim=c(0.95, 1.22), col=colors, main=&quot;NUSE&quot;, las=3)</cod
 data.deg &lt;- AffyRNAdeg(CLLbatch)
 plotAffyRNAdeg(data.deg, col=colors)
 legend(&quot;topleft&quot;, rownames(pData(CLLbatch)), col=colors, lwd=1, inset=0.05, cex=0.5)</code></pre>
-<p><img src="../../../figures/RNAdeg.png" /></p>
+<p><img src="/figures/RNAdeg.png" /></p>
 <pre class="r"><code>CLLbatch &lt;- CLLbatch[, -match(c(&quot;CLL10.CEL&quot;, &quot;CLL1.CEL&quot;, &quot;CLL13.CEL&quot;),
                               sampleNames(CLLbatch))]</code></pre>
 <p>去掉三个质量差的。</p>
@@ -371,10 +255,10 @@ plot(hc)
 samplenames &lt;- sub(pattern = &quot;\\.CEL&quot;, replacement = &quot;&quot;, colnames(eset))
 groups &lt;- factor(disease[,2])
 plotPCA(eset, addtext=samplenames, groups=groups, groupnames=levels(groups))</code></pre>
-<p><img src="../../../figures/cluster.png" /></p>
+<p><img src="/figures/cluster.png" /></p>
 <p>从聚类分析的结果来看，稳定组和恶化组根本不能很好分开。这还不能判定实验失败。<strong>理论上讲，如果总体上两组数据是分开的，那么说明我们关心的导致癌症从稳定到恶化的因素起到了主要因素。如果不是，需要具体问题具体分析。</strong>CLL数据的实验样本来自不同个体，而不是细胞，很可能个体差异起到了主导作用，因此导致聚类被整体打乱。所以只有当聚类图中有明显的类别差异时，才适合考虑去除个别不归类的样品；如果整体分类被打乱，则不能简单判定所有样品都出了问题。</p>
 <p>芯片分析往往采用两个主成分来构建分类图，我们从下图可以看出两组根本就不能很好分开。</p>
-<p><img src="../../../figures/pca.png" /></p>
+<p><img src="/figures/pca.png" /></p>
 <p>注意，使用主成分分析时，还必须考虑前2个主成分是否具有代表性，这要看前2个主成分的累计贡献率，如果低于60%，可以考虑采用多维尺度分析来构建分类图。</p>
 </div>
 <div id="背景校正标准化和汇总" class="section level3">
@@ -544,20 +428,20 @@ boxplot(CLLmas5, col=colors, las=3, ylim=c(0,1000), main=&quot;MAS 5.0&quot;)
 boxplot(CLLrma, col=colors, las=3, main=&quot;RMA&quot;)
 boxplot(CLLgcrma, col=colors, las=3, main=&quot;gcRMA&quot;)</code></pre>
 <p>先看信号强度分布图</p>
-<p><img src="../../../figures/intensity_original.png" /></p>
-<p><img src="../../../figures/intensity_mas5.png" /></p>
-<p><img src="../../../figures/intensity_rma.png" /></p>
-<p><img src="../../../figures/intensity_gcrma.png" /></p>
+<p><img src="/figures/intensity_original.png" /></p>
+<p><img src="/figures/intensity_mas5.png" /></p>
+<p><img src="/figures/intensity_rma.png" /></p>
+<p><img src="/figures/intensity_gcrma.png" /></p>
 <p>这里简要说明：RMA算法将多条曲线重合到了一起，有利于进一步的差异分析，但却出现了双峰现象，不符合高斯正态分布。很显然gcRMA算法在这里表现的更好。当然，这不意味着gcRMA算法总是优越于RMA算法。</p>
 <p>下面看箱线图结果：</p>
-<p><img src="../../../figures/boxplot_original.png" /></p>
-<p><img src="../../../figures/boxplot_mas.png" /></p>
-<p><img src="../../../figures/boxplot_rma.png" /></p>
-<p><img src="../../../figures/boxplot_gcrma.png" /></p>
+<p><img src="/figures/boxplot_original.png" /></p>
+<p><img src="/figures/boxplot_mas.png" /></p>
+<p><img src="/figures/boxplot_rma.png" /></p>
+<p><img src="/figures/boxplot_gcrma.png" /></p>
 <p>三个算法处理后的各样品的中值都十分接近。MAS5算法总体而言还不错，有一定拖尾现象；而gcRMA的拖尾现象比RMA要明显得多。<strong>这说明针对低表达量的基因，RMA算法比gcRMA算法表现更好一些。</strong></p>
 <p>最后我们可以通过MA图来查看标准化处理的效果。</p>
-<p><img src="../../../figures/orignal_ma_plot.png" /></p>
-<p><img src="../../../figures/gcrma_ma_plot.png" /></p>
+<p><img src="/figures/orignal_ma_plot.png" /></p>
+<p><img src="/figures/gcrma_ma_plot.png" /></p>
 <p>原始数据中，中值（红线）偏离0，经过gcRMA处理后，中值基本保持在零线上。</p>
 </div>
 </div>
@@ -781,7 +665,7 @@ rownames(selected) &lt;- dif$symbols
 pheatmap(selected[1:20,], color = colorRampPalette(c(&quot;green&quot;, &quot;black&quot;, &quot;red&quot;))(100),
          fontsize_row = 4, scale = &quot;row&quot;, border_color = NA)</code></pre>
 <p><strong>热图</strong></p>
-<p><img src="../../../figures/pheatmap.png" /></p>
+<p><img src="/figures/pheatmap.png" /></p>
 <p>(截图原因，没有显示完全)</p>
 <pre class="r"><code>biocLite(&quot;Rgraphviz&quot;)
 library(Rgraphviz)
@@ -791,7 +675,7 @@ ghandle &lt;- goDag(hgOver)
 subGHandle &lt;- subGraph(snodes=as.character(summary(hgOver)[,1]), graph = ghandle)
 plot(subGHandle)</code></pre>
 <p><strong>显著富集的GO term关系图</strong></p>
-<p><img src="../../../figures/subgraph_go.png" /></p>
+<p><img src="/figures/subgraph_go.png" /></p>
 <pre class="r"><code># 显著富集的KEGG通路的关系图
 yy &lt;- geneAnswersReadable(y, verbose = FALSE)
 geneAnswersConceptNet(yy, colorValueColumn = &quot;logFC&quot;, centroidSize = &quot;pvalue&quot;,
@@ -837,118 +721,3 @@ loaded via a namespace (and not attached):
 [21] magrittr_1.5           GO.db_3.4.1            blob_1.1.0             splines_3.4.1          AnnotationForge_1.18.2
 [26] xtable_1.8-2           affyio_1.46.0         </code></pre>
 </div>
-
-
-  <footer>
-  
-<nav class="post-nav">
-  <span class="nav-prev">&larr; <a href="../../../cn/post/2017-09-04-control_shell/">控制脚本</a></span>
-  <span class="nav-next"><a href="../../../cn/post/2017-10-27-rnaseq-data-analysis/">Bioconductor分析RNA-seq数据</a> &rarr;</span>
-</nav>
-<script type="text/javascript">
-document.addEventListener('keyup', function(e) {
-  if (e.target.nodeName.toUpperCase() != 'BODY') return;
-  var url = false;
-  if (e.which == 37) {  
-    
-    url = '\/cn\/post\/2017-09-04-control_shell\/';
-    
-  } else if (e.which == 39) {  
-    
-    url = '\/cn\/post\/2017-10-27-rnaseq-data-analysis\/';
-    
-  }
-  if (url) window.location = url;
-});
-</script>
-
-
-
-<section class="comments">
-  <div id="disqus_thread"></div>
-  <script src="../../../js/disqusloader.min.js"></script>
-  <script>
-  var disqus_config = function () {
-  
-    this.page.url = "https:\/\/shixiangwang.github.io\/home\/" + location.pathname;
-  
-  };
-  (function() {
-    var inIFrame = function() {
-      var iframe = true;
-      try { iframe = window.self !== window.top; } catch (e) {}
-      return iframe;
-    };
-    if (inIFrame()) return;
-    var disqus_js = '//home-xjdzylqrzp.disqus.com/embed.js';
-    
-    if (location.hash.match(/^#comment/)) {
-      var d = document, s = d.createElement('script');
-      s.src = disqus_js; s.async = true;
-      s.setAttribute('data-timestamp', +new Date());
-      (d.head || d.body).appendChild(s);
-    } else {
-      disqusLoader('#disqus_thread', {
-        scriptUrl: disqus_js, laziness: 0, disqusConfig: disqus_config
-      });
-    }
-  })();
-  </script>
-  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</section>
-
-
-
-
-<script async src="../../../js/fix-toc.js"></script>
-
-<script async src="../../../js/center-img.js"></script>
-
-<script async src="../../../js/right-quote.js"></script>
-
-<script async src="../../../js/no-highlight.js"></script>
-
-<script async src="../../../js/fix-footnote.js"></script>
-
-<script async src="../../../js/math-code.js"></script>
-
-<script async src="../../../js/external-link.js"></script>
-
-<script async src="../../../js/alt-title.js"></script>
-
-<script async src="../../../js/header-link.js"></script>
-
-
-<script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-
-  
-
-
-
-<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-
-
-
-<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
-<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
-<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
-<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
-
-
-
-
-  
-  
-  
-
-  <div class="copyright"><a href="mailto:w_shixiang@163.com"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://github.com/ShixiangWang"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://orcid.org/0000-0001-9855-7357"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> <!-- raw HTML omitted --> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 © <a href="../../../">王诗翔</a> 2017 - 2019 </div>
-  
-  
-
-  <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56h9es09xn7&amp;m=6&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=1" async="async"></script>
-  </footer>
-  </article>
-  
-  </body>
-</html>
-

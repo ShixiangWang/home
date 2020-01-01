@@ -92,7 +92,7 @@
 
 
 
-<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2019-08-23-read-dbGap-subjects-samples-info.md" target="_blank">编辑</a></li>
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn%5cpost%5c2019-08-23-read-dbGap-subjects-samples-info.md" target="_blank">编辑</a></li>
 
 
 <li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
@@ -124,28 +124,19 @@
 
 
 <p>dbGaP 表型等信息零散地却有规律地分布在 <code>files/</code> 目录下，为了理解哪些文件存储了数据，我对下载的文件类型进行了查看，包括 xml, pdf 以及 gz 文件。大致有以下整理：</p>
-
 <ul>
 <li>pdf 文件存储的是各种文件的大致说明</li>
 <li>xml 文件存储一些文件的元信息和一些数据</li>
 <li>tar.gz 文件存储的是打包压缩的 xml 文件</li>
 <li>txt.gz 文件基本存储的是数据</li>
 </ul>
-
 <p>xml 文件中的数据很难查看和导入，我也不懂 xml，放弃治疗。</p>
-
 <p>tar.gz 文件存储的 xml 文件包含了 txt.gz 文件列名的描述，如果有这方面的疑问，推荐直接用文本模式看看它们，文件不大，还是比较好查看的。</p>
-
 <p>带 MULTI 字符的 txt 文件虽然汇总了该研究所有的病人或样本信息，但很多信息没有存储！可惜了（如果读者发现自己下载的数据有存储最全面的信息，那还是推荐使用这个，减少麻烦）。</p>
-
-<p><img src="https://upload-images.jianshu.io/upload_images/3884693-d311c4cce527a31d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="" /></p>
-
+<p><img src="https://upload-images.jianshu.io/upload_images/3884693-d311c4cce527a31d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
 <p>实际包含详细信息的病人文件会带 Subject_Phenotypes 字符，而样本带 Sample_Attributes 字符。而它们还能相互补充，所以我要想办法导入 2 种数据，后面再进行合并处理。</p>
-
-<p><img src="https://upload-images.jianshu.io/upload_images/3884693-52d68d36bb542828.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="" /></p>
-
+<p><img src="https://upload-images.jianshu.io/upload_images/3884693-52d68d36bb542828.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
 <p>了解规律之后写函数处理：</p>
-
 <pre><code>read_dbGap = function(accession, destdir=getwd(), 
                       type = c(&quot;subject&quot;, &quot;sample&quot;), 
                       col_types = cols(.default = &quot;c&quot;),
@@ -178,12 +169,8 @@
             unique()
     }
 }
-</code></pre>
-
-<p>用户只要指定前 3 个参数，这里设定 <code>col_types = cols(.default = &quot;c&quot;)</code> 是通过将所有列都读入为字符串以解决报错 <code>Too many conversion specifiers in format string</code>，你可以试试 <code>col_types = dplyr::cols()</code>，如果报错，再使用函数设定的默认参数。</p>
-
+</code></pre><p>用户只要指定前 3 个参数，这里设定 <code>col_types = cols(.default = &quot;c&quot;)</code> 是通过将所有列都读入为字符串以解决报错 <code>Too many conversion specifiers in format string</code>，你可以试试 <code>col_types = dplyr::cols()</code>，如果报错，再使用函数设定的默认参数。</p>
 <p>因为我工作要处理的是多个 dbGap Study，所以我再创建一个函数来进行批量处理：</p>
-
 <pre><code>read_dbGapList = function(accession_list, destdir=getwd(),
                           col_types = cols(.default = &quot;c&quot;),
                           pattern_subject_file = &quot;Subject_Phenotypes&quot;, 
@@ -201,10 +188,7 @@
             setNames(accession_list)
     }
 }
-</code></pre>
-
-<p>效果如下：</p>
-
+</code></pre><p>效果如下：</p>
 <pre><code>&gt; df_list = read_dbGapList(accession_list = paste0(&quot;phs00&quot;,
 +                                                  c(&quot;0447&quot;, &quot;0554&quot;, &quot;0909&quot;, &quot;0915&quot;, &quot;1141&quot;)),
 +                          destdir = &quot;dbGap/phenotype/&quot;)
@@ -237,12 +221,8 @@
 [1] &quot;dbGap/phenotype//phs001141.v1.pht005601.v1.p1.c1.PROMOTE_Subject_Phenotypes.GRU.txt.gz&quot;
 ==&gt; Finding out files with type sample
 [1] &quot;dbGap/phenotype//phs001141.v1.pht005602.v1.p1.c1.PROMOTE_Sample_Attributes.GRU.txt.gz&quot;
-</code></pre>
-
-<p>后续的合并就需要更多的 dirty work 了。。。</p>
-
-<hr />
-
+</code></pre><p>后续的合并就需要更多的 dirty work 了。。。</p>
+<hr>
 <p>注：公布的函数是开源的，抄可以，但封装或修改时还是要有点开源精神，以GPL协议附上本人 copyright。如果是发表研究，应当适当引用。</p>
 
 
@@ -348,7 +328,7 @@ document.addEventListener('keyup', function(e) {
   
   
 
-  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> &middot; <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> &middot; <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> &middot; <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> &middot; <a href="https://orcid.org/0000-0001-9855-7357"><i class='ai ai-orcid ai-1x'></i></a> &middot; <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 &copy; <a href="../../../">王诗翔</a> 2017 - 2019 </div>
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://github.com/ShixiangWang"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://orcid.org/0000-0001-9855-7357"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> <!-- raw HTML omitted --> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 © <a href="../../../">王诗翔</a> 2017 - 2019 </div>
   
   
 
