@@ -20,3 +20,59 @@ knitr::opts_chunk$set(collapse = TRUE, dev = "png", comment = "#>")
 options(digits=3)
 options(max.print=200)
 ```
+
+
+## 参与发表的文献
+
+- [The predictive power of tumor mutational burden in lung cancer immunotherapy response is influenced by patients’ sex, *IJC*](https://www.ncbi.nlm.nih.gov/pubmed/30972745)
+- [The UCSCXenaTools R package: a toolkit for accessing genomics data from UCSC Xena platform, from cancer multi-omics to single-cell RNA-seq, *JOSS*](https://www.theoj.org/joss-papers/joss.01627/10.21105.joss.01627.pdf)
+- [Sex Differences in Cancer Immunotherapy Efficacy, Biomarkers, and Therapeutic Strategy, *Molecules*](https://www.mdpi.com/1420-3049/24/18/3214)
+- [Ras Downstream Effector GGCT Alleviates Oncogenic Stress, *iScience*](https://www.sciencedirect.com/science/article/pii/S2589004219302639)
+- [Antigen presentation and tumor immunogenicity in cancer immunotherapy response prediction, *eLife*](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6879305/)
+
+## 开发和维护的工具包或脚本
+
+- ezcox
+- metawho
+- UCSCXenaTools
+- UCSCXenaShiny
+- contribution
+- DoAbsolute
+- sigminer
+- loon
+- flymaps
+- install_GISTIC
+
+## 贡献的工具
+
+- copynumber
+- maftools
+- forestmodel
+
+## 其他
+
+## 展望与计划
+
+课题和研究内容相关：
+
+- UCSCXenaShiny
+- neopeptides
+- sigminer
+- [ImmuneDR]()
+
+兴趣相关：
+
+- [pyshields](https://github.com/ShixiangWang/pyshields)
+- flymaps
+
+学习相关：
+
+- [shinyshining](https://github.com/ShixiangWang/shinyshining)
+- [Pythonshining](https://github.com/ShixiangWang/Pythonshining)
+- [SnakeFlow](https://github.com/ShixiangWang/SnakeFlow)
+
+翻译相关：
+
+- [shiny-book](https://github.com/ShixiangWang/shiny-book)
+- [gentle-ggplot2](https://github.com/ShixiangWang/gentle-ggplot2)
+
