@@ -31,6 +31,11 @@ BiocManager::install("Bioconductor/BiocWorkshops")
 
 - [100系列: 适合每个人的 R 和 Bioconductor 介绍](../read/biocworkshop-100-r-and-bioconductor-intro)
 
+## 生物统计学与R手册
+
+### 项目链接
+
+项目主页：<https://github.com/ShixiangWang/Handbook_of_biostatistic_R>
 
 # 学术写作
 

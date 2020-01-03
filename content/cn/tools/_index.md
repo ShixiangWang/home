@@ -8,6 +8,28 @@ date: '2019-01-01'
 
 ## R 包
 
+### ezcox
+
+<!-- badges: start -->
+
+[![CRAN
+status](https://www.r-pkg.org/badges/version/ezcox)](https://CRAN.R-project.org/package=ezcox)
+[![](http://cranlogs.r-pkg.org/badges/grand-total/ezcox?color=blue)](https://cran.r-project.org/package=ezcox)
+[![HitCount](http://hits.dwyl.io/ShixiangWang/ezcox.svg)](http://hits.dwyl.io/ShixiangWang/ezcox)
+[![AppVeyor build
+status](https://ci.appveyor.com/api/projects/status/github/ShixiangWang/ezcox?branch=master&svg=true)](https://ci.appveyor.com/project/ShixiangWang/ezcox)
+[![Travis build
+status](https://travis-ci.org/ShixiangWang/ezcox.svg?branch=master)](https://travis-ci.org/ShixiangWang/ezcox)
+[![Codecov test
+coverage](https://codecov.io/gh/ShixiangWang/ezcox/branch/master/graph/badge.svg)](https://codecov.io/gh/ShixiangWang/ezcox?branch=master)
+[![Lifecycle:
+maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+<!-- badges: end -->
+
+**主页**: <https://github.com/ShixiangWang/ezcox>
+
+The goal of ezcox is to operate a batch of univariate or multivariate Cox models and return tidy result.
+
 ### DoAbsolute
 
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
@@ -147,6 +169,35 @@ This is inspired by Nick Steinmetz (see twitter <https://twitter.com/SteinmetzNe
 
 - [A Tiny Contribution Table Generator Based on ggplot2](../../en/tools/contribution-table)
 
+### copynumber
+
+<!-- badges: start -->
+
+[![HitCount](http://hits.dwyl.io/ShixiangWang/copynumber.svg)](http://hits.dwyl.io/ShixiangWang/copynumber)
+<!-- badges: end -->
+
+**主页**: <https://github.com/ShixiangWang/copynumber>
+
+This package is a fork of Bioconductor R package
+[‘copynumber’](https://bioconductor.org/packages/release/bioc/html/copynumber.html)
+with minor modification for supporting hg38 genome assembly. 
+
+## Python 包
+
+### loon
+
+![GitHub repo size](https://img.shields.io/github/repo-size/ShixiangWang/loon) 
+[![PyPI](https://img.shields.io/pypi/v/loon?color=blue)](https://pypi.org/project/loon/) 
+[![pylint](https://img.shields.io/badge/pylint%20score-10-blue.svg)](https://pypi.org/project/loon/)
+[![Documentation Status](https://readthedocs.org/projects/loon/badge/?version=latest)](https://loon.readthedocs.io/en/latest/?badge=latest) 
+[![Downloads](https://pepy.tech/badge/loon)](https://pepy.tech/project/loon)
+[![HitCount](http://hits.dwyl.io/ShixiangWang/loon.svg)](http://hits.dwyl.io/ShixiangWang/loon)
+[![GitHub issues](https://img.shields.io/github/issues-raw/ShixiangWang/loon)](https://github.com/ShixiangWang/loon/issues?q=is%3Aopen+is%3Aissue) 
+[![GitHub last commit](https://img.shields.io/github/last-commit/ShixiangWang/loon)](https://github.com/ShixiangWang/loon/commits/master) 
+
+**主页**: <https://github.com/ShixiangWang/loon>
+
+**loon** is a Python toolkit for operating remote host based on SSH. Idea for developing **loon** comes from [**sync-deploy**](https://github.com/ShixiangWang/sync-deploy), which is limited by its pure bash code. 
 
 ## Linux 工具
 
@@ -165,3 +216,19 @@ This is inspired by Nick Steinmetz (see twitter <https://twitter.com/SteinmetzNe
 **Variants2Neoanitgen** is a neoantigen calling pipeline begins from variants record file (MAF).
 
 > Of note, VCF file as input is not supported
+
+### install_GISTIC
+
+**主页**: <https://github.com/ShixiangWang/install_GISTIC>
+
+I have written two [Chinese blogs](https://www.jianshu.com/p/5822759a67e2) for telling readers how to install GISTIC 2.0 (a famous software for copy numbeer analysis) step by step. Recently I realize the installation steps can be implemented automatically, so I write this program.
+
+## VSCode 插件
+
+### flymaps
+
+**主页**: <https://github.com/ShixiangWang/flymaps>
+
+Convenient keymaps for data science work with Python, R, Markdown and Rmarkdown in VS Code.
+
+> Currently, it is very simple.
