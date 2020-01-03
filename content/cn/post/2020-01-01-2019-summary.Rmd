@@ -78,13 +78,13 @@ options(max.print=200)
 
 ### 课题和研究内容
 
-- [UCSCXenaShiny](https://github.com/openbiox/XenaShiny) - 很久之前就有重构的打算，一些设计也已经经过讨论。接下来会花更多的时间带领 XenaShiny 小队完成目标。 
 - [neopeptides](https://github.com/ShixiangWang/neopeptides) - 尝试开发工具用于肿瘤新抗原一些属性的解读
 - [sigminer](https://github.com/ShixiangWang/sigminer) - 这个工具在今年能够顺利发表并成为领域的标准工具之一吗？
 - [ImmuneDR](https://github.com/ShixiangWang/ImmuneDR) - 免疫组学分析常用数据集的收集和整理，希望有更多相关人员参与
 
 ### 兴趣
 
+- [UCSCXenaShiny](https://github.com/openbiox/XenaShiny) - 很久之前就有重构的打算，一些设计也已经经过讨论。接下来会花更多的时间带领 XenaShiny 小队完成目标。 
 - [pyshields](https://github.com/ShixiangWang/pyshields) - Python README 能否肆意添加和转换 badge 呢？
 - [flymaps](https://github.com/ShixiangWang/flymaps) - 维护和拓展相关的快捷键
 - [GoArduino](https://github.com/ShixiangWang/GoArduino) - 尝试学习下硬件相关编程和设计
