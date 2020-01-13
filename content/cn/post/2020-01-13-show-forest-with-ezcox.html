@@ -1,0 +1,132 @@
+---
+title: "使用 ezcox 展示森林图"
+author: "王诗翔"
+date: "2020-01-13"
+lastmod: "2020-01-13"
+slug: ""
+categories: r
+tags:
+- r
+---
+
+
+
+<p>我之前写过<a href="https://shixiangwang.github.io/home/cn/post/2019-10-23-ezcox-for-batch-cox-models/">一篇文章</a>介绍最近写的一个包 <strong>ezcox</strong>，它可以用来进行批量处理 Cox 模型（支持并行计算）。那个时候我已经关注到了 <strong>forestmodel</strong> 包并修复了几个 Bug，但作者没有将更新推到 CRAN 上，所以我就没将它加入到 <strong>ezcox</strong> 的早期版本中。最近我通过版本检查巧妙地规避了这个问题，因此写一篇文章来介绍下如何使用 ezcox 绘制森林图。</p>
+<p>请先检查 <strong>ezcox</strong> 是不是已经更新到最新版本（&gt;=0.4.0）。</p>
+<pre class="r"><code>packageVersion(&quot;ezcox&quot;)
+#&gt; [1] &#39;0.4.0&#39;</code></pre>
+<p>如果不是，请使用 <code>install_packages()</code> 进行更新。</p>
+<p>导入包：</p>
+<pre class="r"><code>library(survival)
+library(ezcox)
+#&gt; Welcome to &#39;ezcox&#39; package!
+#&gt; =======================================================================
+#&gt; You are using ezcox version 0.4.0
+#&gt; 
+#&gt; Github page  : https://github.com/ShixiangWang/ezcox
+#&gt; Documentation: https://shixiangwang.github.io/ezcox/articles/ezcox.html
+#&gt; 
+#&gt; Run citation(&quot;ezcox&quot;) to see how to cite &#39;ezcox&#39;.
+#&gt; =======================================================================
+#&gt; </code></pre>
+<div id="工作流" class="section level2">
+<h2>工作流</h2>
+<div id="计算" class="section level3">
+<h3>计算</h3>
+<p>我们先构造两个多变量 Cox 分析模型。</p>
+<pre class="r"><code>lung$ph.ecog &lt;- factor(lung$ph.ecog)
+zz &lt;- ezcox(lung, covariates = c(&quot;sex&quot;, &quot;ph.ecog&quot;), controls = &quot;age&quot;, return_models = TRUE)
+#&gt; =&gt; Processing variable sex
+#&gt; ==&gt; Building Surv object...
+#&gt; ==&gt; Building Cox model...
+#&gt; ==&gt; Done.
+#&gt; =&gt; Processing variable ph.ecog
+#&gt; ==&gt; Building Surv object...
+#&gt; ==&gt; Building Cox model...
+#&gt; ==&gt; Done.
+zz
+#&gt; $res
+#&gt; # A tibble: 6 x 12
+#&gt;   Variable is_control contrast_level ref_level n_contrast n_ref    beta    HR
+#&gt;   &lt;chr&gt;    &lt;lgl&gt;      &lt;chr&gt;          &lt;chr&gt;          &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1 sex      FALSE      sex            sex              228   228 -0.513  0.599
+#&gt; 2 sex      TRUE       age            age              228   228  0.017  1.02 
+#&gt; 3 ph.ecog  FALSE      1              0                113    63  0.359  1.43 
+#&gt; 4 ph.ecog  FALSE      2              0                 50    63  0.857  2.36 
+#&gt; 5 ph.ecog  FALSE      3              0                  1    63  2.11   8.23 
+#&gt; 6 ph.ecog  TRUE       age            age              228   228  0.0108 1.01 
+#&gt; # … with 4 more variables: lower_95 &lt;dbl&gt;, upper_95 &lt;dbl&gt;, p.value &lt;dbl&gt;,
+#&gt; #   global.pval &lt;dbl&gt;
+#&gt; 
+#&gt; $models
+#&gt; # A tibble: 2 x 5
+#&gt;   Variable control model_file                                      model  status
+#&gt;   &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;                                           &lt;list&gt; &lt;lgl&gt; 
+#&gt; 1 sex      age     /var/folders/mx/rfkl27z90c96wbmn3_kjk8c80000gn… &lt;coxp… TRUE  
+#&gt; 2 ph.ecog  age     /var/folders/mx/rfkl27z90c96wbmn3_kjk8c80000gn… &lt;coxp… TRUE  
+#&gt; 
+#&gt; attr(,&quot;class&quot;)
+#&gt; [1] &quot;ezcox&quot; &quot;list&quot; 
+#&gt; attr(,&quot;controls&quot;)
+#&gt; [1] &quot;age&quot;</code></pre>
+<p>结果返回了很多信息，本文关注绘图，所以都跳过了。</p>
+</div>
+<div id="获取模型" class="section level3">
+<h3>获取模型</h3>
+<p>得到计算结果后，我们下一步提取模型。</p>
+<pre class="r"><code>mds &lt;- get_models(zz)
+# 查看模型结构，其实是列表而已
+str(mds, max.level = 1)
+#&gt; List of 2
+#&gt;  $ Surv ~ sex + age    :List of 19
+#&gt;   ..- attr(*, &quot;class&quot;)= chr &quot;coxph&quot;
+#&gt;   ..- attr(*, &quot;Variable&quot;)= chr &quot;sex&quot;
+#&gt;  $ Surv ~ ph.ecog + age:List of 22
+#&gt;   ..- attr(*, &quot;class&quot;)= chr &quot;coxph&quot;
+#&gt;   ..- attr(*, &quot;Variable&quot;)= chr &quot;ph.ecog&quot;
+#&gt;  - attr(*, &quot;class&quot;)= chr [1:2] &quot;ezcox_models&quot; &quot;list&quot;
+#&gt;  - attr(*, &quot;has_control&quot;)= logi TRUE</code></pre>
+</div>
+<div id="见证奇迹" class="section level3">
+<h3>见证奇迹</h3>
+<p>Show time 使用 <code>show_models()</code>。</p>
+<pre class="r"><code>show_models(mds)</code></pre>
+<p><img src="/cn/post/2020-01-13-show-forest-with-ezcox_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<blockquote>
+<p>可视化功能需要 <code>forestmodels &gt;= 0.6.0</code> 的支持，如果出现安装提示，请按照操作更新该包。</p>
+</blockquote>
+<p>默认的模型名字很好地展现了模型拟合的信息，我们也可以自定义。</p>
+<pre class="r"><code># Set model names
+show_models(mds, model_names = paste0(&quot;Model &quot;, 1:2))</code></pre>
+<p><img src="/cn/post/2020-01-13-show-forest-with-ezcox_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>有时候我们想让图形更精简一些，我们可以将模型合并并去掉控制变量。</p>
+<pre class="r"><code># Merge all models and drop control variables
+show_models(mds, merge_models = TRUE, drop_controls = TRUE)
+#&gt; covariates=NULL but drop_controls=TRUE, detecting controls...
+#&gt; Yes. Setting variables to keep...
+#&gt; Done.</code></pre>
+<p><img src="/cn/post/2020-01-13-show-forest-with-ezcox_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<blockquote>
+<p>注意这种图形一定要在文字部分表明进行的是多变量分析，控制了变量 age。</p>
+</blockquote>
+</div>
+</div>
+<div id="一站式" class="section level2">
+<h2>一站式</h2>
+<p>考虑到图形展示了我们需要的模型信息，所以前几步的操作就略显繁琐的（了解是必要的），我写了个
+包装器 <code>show_forest()</code> 一步生成图形。</p>
+<pre class="r"><code>show_forest(lung, covariates = c(&quot;sex&quot;, &quot;ph.ecog&quot;), controls = &quot;age&quot;)
+#&gt; =&gt; Processing variable sex
+#&gt; ==&gt; Building Surv object...
+#&gt; ==&gt; Building Cox model...
+#&gt; ==&gt; Done.
+#&gt; =&gt; Processing variable ph.ecog
+#&gt; ==&gt; Building Surv object...
+#&gt; ==&gt; Building Cox model...
+#&gt; ==&gt; Done.</code></pre>
+<p><img src="/cn/post/2020-01-13-show-forest-with-ezcox_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>相信比 <strong>survminer</strong> 的 <code>ggforest()</code> 好看不少。</p>
+<blockquote>
+<p>致谢 <strong>forestmodels</strong> 开发者。</p>
+</blockquote>
+</div>

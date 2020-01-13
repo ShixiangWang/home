@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>About on Shixiang Wang | 王诗翔</title>
@@ -10,6 +10,15 @@
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>使用 ezcox 展示森林图</title>
+      <link>/cn/post/2020-01-13-show-forest-with-ezcox/</link>
+      <pubDate>Mon, 13 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2020-01-13-show-forest-with-ezcox/</guid>
+      <description>我之前写过一篇文章介绍最近写的一个包 ezcox，它可以用来进行批量处理 Cox 模型（支持并行计算）。那个时候我已经关注到了 forestmodel 包并修复了几个 Bug，</description>
+    </item>
     
     <item>
       <title>2019 年度总结</title>
@@ -250,7 +259,7 @@ Datasets have associated metadata, specifying their data type and cohort.</descr
       <pubDate>Thu, 20 Jun 2019 00:00:00 +0000</pubDate>
       
       <guid>/cn/read/sci-writing-composing-a-first-draft/</guid>
-      <description>本文是《Successful scientific wrting》一书的阅读笔记之一。 大部分的学术文章都遵循相似的模式，即所谓的 IMRAD 格式——它是**Introduc</description>
+      <description>本文是《Successful scientific wrting》一书的阅读笔记之一。 大部分的学术文章都遵循相似的模式，即所谓的 IMRAD 格式——它是Introducti</description>
     </item>
     
     <item>

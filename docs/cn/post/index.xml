@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>中文博客 on Shixiang Wang | 王诗翔</title>
@@ -10,6 +10,15 @@
     
 	<atom:link href="/cn/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>使用 ezcox 展示森林图</title>
+      <link>/cn/post/2020-01-13-show-forest-with-ezcox/</link>
+      <pubDate>Mon, 13 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2020-01-13-show-forest-with-ezcox/</guid>
+      <description>我之前写过一篇文章介绍最近写的一个包 ezcox，它可以用来进行批量处理 Cox 模型（支持并行计算）。那个时候我已经关注到了 forestmodel 包并修复了几个 Bug，</description>
+    </item>
     
     <item>
       <title>2019 年度总结</title>

@@ -1,0 +1,99 @@
+---
+title: "使用 ezcox 展示森林图"
+author: "王诗翔"
+date: "2020-01-13"
+lastmod: "`r Sys.Date()`"
+slug: ""
+categories: r
+tags:
+- r
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, dev = "png", comment = "#>", tidy = "styler")
+Sys.setenv("LANGUAGE"="EN") # Embed this for outputing English message
+#Sys.setlocale('LC_ALL','C') # Embed this directly in the Rmarkdown script that contains the Chinese character comment
+options(digits=3)
+options(max.print=200)
+```
+
+我之前写过[一篇文章](https://shixiangwang.github.io/home/cn/post/2019-10-23-ezcox-for-batch-cox-models/)介绍最近写的一个包 **ezcox**，它可以用来进行批量处理 Cox 模型（支持并行计算）。那个时候我已经关注到了 **forestmodel** 包并修复了几个 Bug，但作者没有将更新推到 CRAN 上，所以我就没将它加入到 **ezcox** 的早期版本中。最近我通过版本检查巧妙地规避了这个问题，因此写一篇文章来介绍下如何使用 ezcox 绘制森林图。
+
+请先检查 **ezcox** 是不是已经更新到最新版本（>=0.4.0）。
+
+```{r}
+packageVersion("ezcox")
+```
+
+如果不是，请使用 `install_packages()` 进行更新。
+
+导入包：
+
+```{r}
+library(survival)
+library(ezcox)
+```
+
+
+## 工作流
+
+### 计算
+
+我们先构造两个多变量 Cox 分析模型。
+
+```{r}
+lung$ph.ecog = factor(lung$ph.ecog)
+zz = ezcox(lung, covariates = c("sex", "ph.ecog"), controls = "age", return_models = TRUE)
+zz
+```
+
+结果返回了很多信息，本文关注绘图，所以都跳过了。
+
+### 获取模型
+
+得到计算结果后，我们下一步提取模型。
+
+```{r}
+mds = get_models(zz)
+# 查看模型结构，其实是列表而已
+str(mds, max.level = 1)
+```
+
+### 见证奇迹
+
+Show time 使用 `show_models()`。
+
+```{r}
+show_models(mds)
+```
+
+> 可视化功能需要 `forestmodels >= 0.6.0` 的支持，如果出现安装提示，请按照操作更新该包。
+
+默认的模型名字很好地展现了模型拟合的信息，我们也可以自定义。
+
+```{r}
+# Set model names
+show_models(mds, model_names = paste0("Model ", 1:2))
+```
+
+有时候我们想让图形更精简一些，我们可以将模型合并并去掉控制变量。
+
+```{r}
+# Merge all models and drop control variables
+show_models(mds, merge_models = TRUE, drop_controls = TRUE)
+```
+
+> 注意这种图形一定要在文字部分表明进行的是多变量分析，控制了变量 age。
+
+## 一站式
+
+考虑到图形展示了我们需要的模型信息，所以前几步的操作就略显繁琐的（了解是必要的），我写了个
+包装器 `show_forest()` 一步生成图形。
+
+```{r}
+show_forest(lung, covariates = c("sex", "ph.ecog"), controls = "age")
+```
+
+相信比 **survminer** 的 `ggforest()` 好看不少。
+
+> 致谢 **forestmodels** 开发者。

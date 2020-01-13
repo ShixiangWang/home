@@ -10,7 +10,7 @@ tags:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(collapse = TRUE, dev = "png", comment = "#>")
+knitr::opts_chunk$set(collapse = TRUE, dev = "png", comment = "#>", tidy = "styler")
 #Sys.setenv("LANGUAGE"="EN") # Embed this for outputing English message
 #Sys.setlocale('LC_ALL','C') # Embed this directly in the Rmarkdown script that contains the Chinese character comment
 options(digits=3)
