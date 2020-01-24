@@ -92,7 +92,7 @@
 
 
 
-<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2019-08-22-using-rmysql.md" target="_blank">编辑</a></li>
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn%5cpost%5c2019-08-22-using-rmysql.md" target="_blank">编辑</a></li>
 
 
 <li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
@@ -124,49 +124,46 @@
 
 
 <p>使用 MySQL 数据库创建一个用于存储用户信息的数据表：包含 username, email, password 三个字段，并分别使用 SQL 和 Python/R 客户端插入、删除和更新一行数据，密码使用 SHA256 进行加密</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(RMySQL)
+con <span style="color:#f92672">=</span> <span style="color:#a6e22e">dbConnect</span>(<span style="color:#a6e22e">MySQL</span>(), user <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">root&#34;</span>, password <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">xxx&#34;</span>)
+<span style="color:#75715e"># creating a database using RMySQL in R</span>
+<span style="color:#a6e22e">dbSendQuery</span>(con, <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">CREATE DATABASE test_user;&#34;</span>)
+<span style="color:#a6e22e">dbSendQuery</span>(con, <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">USE test_user;&#34;</span>)
+<span style="color:#a6e22e">dbDisconnect</span>(con)
+<span style="color:#75715e"># reconnecting to database we just created using following command in R :</span>
+mydb <span style="color:#f92672">=</span> <span style="color:#a6e22e">dbConnect</span>(<span style="color:#a6e22e">MySQL</span>(), user <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">root&#34;</span>, password <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">xxx&#34;</span>, dbname<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">test_user&#34;</span>)
 
-<pre><code class="language-r">library(RMySQL)
-con = dbConnect(MySQL(), user = &quot;root&quot;, password = &quot;xxx&quot;)
-# creating a database using RMySQL in R
-dbSendQuery(con, &quot;CREATE DATABASE test_user;&quot;)
-dbSendQuery(con, &quot;USE test_user;&quot;)
-dbDisconnect(con)
-# reconnecting to database we just created using following command in R :
-mydb = dbConnect(MySQL(), user = &quot;root&quot;, password = &quot;xxx&quot;, dbname=&quot;test_user&quot;)
-
-init_table = data.frame(
-    username = &quot;user1&quot;,
-    email = &quot;wxxx@163.com&quot;,
-    password = digest::sha1(&quot;yes&quot;,algo = &quot;sha256&quot;),
-    stringsAsFactors = FALSE
+init_table <span style="color:#f92672">=</span> <span style="color:#a6e22e">data.frame</span>(
+    username <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">user1&#34;</span>,
+    email <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">wxxx@163.com&#34;</span>,
+    password <span style="color:#f92672">=</span> digest<span style="color:#f92672">::</span><span style="color:#a6e22e">sha1</span>(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">yes&#34;</span>,algo <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">sha256&#34;</span>),
+    stringsAsFactors <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>
 )
 
-append_table = data.frame(
-    username = &quot;user2&quot;,
-    email = &quot;wxxx@163.com&quot;,
-    password = digest::sha1(&quot;another password&quot;,algo = &quot;sha256&quot;),
-    stringsAsFactors = FALSE
+append_table <span style="color:#f92672">=</span> <span style="color:#a6e22e">data.frame</span>(
+    username <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">user2&#34;</span>,
+    email <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">wxxx@163.com&#34;</span>,
+    password <span style="color:#f92672">=</span> digest<span style="color:#f92672">::</span><span style="color:#a6e22e">sha1</span>(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">another password&#34;</span>,algo <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">sha256&#34;</span>),
+    stringsAsFactors <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>
 )
 
-dbWriteTable(mydb, name = &quot;test&quot;, value = init_table, row.names = FALSE, overwrite = TRUE)
-dbReadTable(mydb, &quot;test&quot;)
+<span style="color:#a6e22e">dbWriteTable</span>(mydb, name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">test&#34;</span>, value <span style="color:#f92672">=</span> init_table, row.names <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>, overwrite <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>)
+<span style="color:#a6e22e">dbReadTable</span>(mydb, <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">test&#34;</span>)
 
-# 追加数据
-dbWriteTable(mydb, name = &quot;test&quot;, value = append_table, row.names = FALSE, append = TRUE)
-dbReadTable(mydb, &quot;test&quot;)
+<span style="color:#75715e"># 追加数据</span>
+<span style="color:#a6e22e">dbWriteTable</span>(mydb, name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">test&#34;</span>, value <span style="color:#f92672">=</span> append_table, row.names <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>, append <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>)
+<span style="color:#a6e22e">dbReadTable</span>(mydb, <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">test&#34;</span>)
 
-# 更新数据
-dbSendQuery(mydb, &quot;UPDATE test set username = 'user3' where username = 'user2'&quot;)
-dbReadTable(mydb, &quot;test&quot;)
+<span style="color:#75715e"># 更新数据</span>
+<span style="color:#a6e22e">dbSendQuery</span>(mydb, <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">UPDATE test set username = &#39;user3&#39; where username = &#39;user2&#39;&#34;</span>)
+<span style="color:#a6e22e">dbReadTable</span>(mydb, <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">test&#34;</span>)
 
-# 删除数据
-dbSendQuery(mydb, &quot;DELETE FROM test where username = 'user1'&quot;)
-dbReadTable(mydb, &quot;test&quot;)
+<span style="color:#75715e"># 删除数据</span>
+<span style="color:#a6e22e">dbSendQuery</span>(mydb, <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">DELETE FROM test where username = &#39;user1&#39;&#34;</span>)
+<span style="color:#a6e22e">dbReadTable</span>(mydb, <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">test&#34;</span>)
 
-dbDisconnect(mydb)
-</code></pre>
-
-<p>参考： <a href="https://mkmanu.wordpress.com/2014/07/24/r-and-mysql-a-tutorial-for-beginners/">https://mkmanu.wordpress.com/2014/07/24/r-and-mysql-a-tutorial-for-beginners/</a></p>
+<span style="color:#a6e22e">dbDisconnect</span>(mydb)
+</code></pre></div><p>参考： <a href="https://mkmanu.wordpress.com/2014/07/24/r-and-mysql-a-tutorial-for-beginners/">https://mkmanu.wordpress.com/2014/07/24/r-and-mysql-a-tutorial-for-beginners/</a></p>
 
 
   <footer>
@@ -271,7 +268,7 @@ document.addEventListener('keyup', function(e) {
   
   
 
-  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> &middot; <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> &middot; <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> &middot; <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> &middot; <a href="https://orcid.org/0000-0001-9855-7357"><i class='ai ai-orcid ai-1x'></i></a> &middot; <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 &copy; <a href="../../../">王诗翔</a> 2017 - 2020 </div>
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://github.com/ShixiangWang"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://orcid.org/0000-0001-9855-7357"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> <!-- raw HTML omitted --> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 © <a href="../../../">王诗翔</a> 2017 - 2020 </div>
   
   
 

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>golang on Shixiang Wang | 王诗翔</title>
+    <link>/tags/golang/</link>
+    <description>Recent content in golang on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 24 Jan 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/golang/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>使用 Golang 绘制爱心文本</title>
+      <link>/cn/post/golang-text-heart/</link>
+      <pubDate>Fri, 24 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/golang-text-heart/</guid>
+      <description>这两天利用最近所学，编写了一个 Golang 绘制爱心文本程序。 package main import ( &amp;#34;flag&amp;#34; &amp;#34;fmt&amp;#34; &amp;#34;math&amp;#34; &amp;#34;strings&amp;#34; &amp;#34;time&amp;#34; ) // Print text heart // Author: ShixiangWang // LICENSE: MIT // Reference: https://blog.csdn.net/su_bao/article/details/80355001 func main() { // MYWORD My word var head string var tail string var MYWORD string var sep string var zoom float64</description>
+    </item>
+    
+  </channel>
+</rss>
