@@ -4,6 +4,13 @@ author: "王诗翔"
 date: '2019-01-01'
 ---
 
+# 写作
+
+## 优雅R：极简数据分析之道
+
+- 项目地址：<https://github.com/ShixiangWang/geek-r-tutorial>
+- 在线阅读：<https://shixiangwang.github.io/geek-r-tutorial/>
+
 # 翻译
 
 ## Cookbook for R 中文版
