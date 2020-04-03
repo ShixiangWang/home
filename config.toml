@@ -142,8 +142,8 @@ publishDir = "docs"
     cn = "王诗翔"
 
 [params.logo.en]
-    img = "https://avatars1.githubusercontent.com/u/25057508?s=460&v=4"
-    url = "/"
+    img = "/logo/ShixiangWang.png"
+    url = "/logo/ShixiangWang.png"
     alt = "Shixiang Wang"
     tag = ""
 
