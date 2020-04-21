@@ -1,0 +1,127 @@
+---
+title: "do.call 妙用——参数更新"
+author: "王诗翔"
+date: "2020-04-21"
+lastmod: "`r Sys.Date()`"
+slug: ""
+categories: r
+tags:
+- r
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, dev = "png", comment = "#>", tidy = "styler")
+#Sys.setenv("LANGUAGE"="EN") # Embed this for outputing English message
+#Sys.setlocale('LC_ALL','C') # Embed this directly in the Rmarkdown script that contains the Chinese character comment
+options(digits=3)
+options(max.print=200)
+```
+
+R 中的 `do.call()` 是我极少用到的一个函数，不过它在很多情况下是蛮有用的，之前我也做过简单的介绍。
+
+它可以在实际调用函数时将参数以列表的形式传入，下面是一个简单的函数：
+
+```{r}
+f <- function(x) print(x^2)
+```
+
+我们可以用下面的方式调用 `do.call()`：
+
+```{r}
+do.call(f, list(x = 4))
+```
+
+大部分情况下这样的用法是啰嗦的，直接 `f(4)` 其实已经解决上面的问题了。
+
+最近我需要批量更新参数时发现了 `do.call()` 的好用之处。
+
+在批量建模时可能需要比较对建模函数设定不同的参数，我们以求和函数作为建模函数举例。
+
+假设建模需要 4 个参数，造一个类似的求和函数：
+
+```{r}
+Sum = function(a=1, b=2, c=3, d=4) {
+  return(sum(a, b, c, d))
+}
+```
+
+而我们需要批量运行这个函数，而且只修改其中 3 个参数，另外参数是外部定义的，比如说其他使用这个函数的人。
+
+有可能只使用 a, b, c：
+
+```{r}
+Sum(a = 1, b = 3, c = 5)
+```
+
+也可能使用 b, c, d。
+
+```{r}
+Sum(d = 1, b = 3, c = 5)
+```
+
+这并不能直接通过 `for` 循环、`apply` 之类的操作进行批量调用。我们来看看 `do.call()` 如何解决这个问题。
+
+我们构建一个参数矩阵：
+
+```{r}
+Args = expand.grid(
+  c(1, 2),
+  c(3, 4, 5),
+  c(6, 7, 8, 9)
+)
+
+Args
+```
+
+假设现在是使用 a, b, c 3 个参数：
+
+```{r}
+colnames(Args) = c("a", "b", "c")
+head(Args)
+```
+
+
+创建批处理函数：
+
+```{r}
+batchSum = function(ArgsMat) {
+  args = list()
+  for (i in 1:nrow(ArgsMat)) {
+    args_update = c(args, ArgsMat[i, , drop = FALSE])
+    do.call(Sum, args = args_update)
+  }
+}
+```
+
+为了查看调用效果，我们修改下 `Sum()` 函数：
+
+```{r}
+Sum = function(a=1, b=2, c=3, d=4) {
+  message("a:", a, " b:", b, " c:", c, " d:", d)
+  return(sum(a, b, c, d))
+}
+```
+
+调用参数矩阵试试：
+
+```{r}
+batchSum(Args)
+```
+
+可以看出来整个过程中 `d` 是没有变的。我们再修改参数矩阵：
+
+```{r}
+colnames(Args) = c("a", "c", "d")
+```
+
+再次调用函数：
+
+```{r}
+batchSum(Args)
+```
+
+此时 `b` 是没有变的。
+
+以上我们通过 `do.call()` 实现了内部函数对外部输入的自动匹配。
+
+该操作我把它实际用在了批量 Keras 模型的调用上：<https://github.com/ShixiangWang/sigminer.prediction/blob/f64bcdf7bc8d5d819d48edc4344ed9af8b984738/R/batch_modeling_and_fitting.R#L37-L63>，有兴趣的读者可以看一下。

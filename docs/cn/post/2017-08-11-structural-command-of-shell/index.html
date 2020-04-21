@@ -92,7 +92,7 @@
 
 
 
-<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn%5cpost%5c2017-08-11-structural-command-of-shell.md" target="_blank">编辑</a></li>
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2017-08-11-structural-command-of-shell.md" target="_blank">编辑</a></li>
 
 
 <li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
@@ -123,10 +123,15 @@
       </header>
 
 
-<!-- raw HTML omitted -->
-<h2 id="heading">条件控制</h2>
+
+
+<!-- more -->
+
+<h2 id="条件控制">条件控制</h2>
+
 <blockquote>
 <p><strong>内容</strong></p>
+
 <ul>
 <li>使用if-then语句</li>
 <li>嵌套if语句</li>
@@ -136,48 +141,65 @@
 <li>case命令</li>
 </ul>
 </blockquote>
+
 <p>许多程序要求对shell脚本中的命令施加一些逻辑流程控制。而某些命令会根据条件判断执行相应的命令，这样的命令通常叫做<strong>结构化命令</strong>。从概念上理解，结构化命令是shell脚本的逻辑结构，不像顺序执行shell脚本，而是有组织地执行命令以应对复杂任务需求。</p>
-<h3 id="if-then">if-then语句</h3>
+
+<h3 id="if-then语句">if-then语句</h3>
+
 <p>最基本的结构化命令是if-then语句，它的格式如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#66d9ef">if</span> command
-<span style="color:#66d9ef">then</span>
+
+<pre><code class="language-shell">if command
+then
 	commands
-<span style="color:#66d9ef">fi</span>
-</code></pre></div><p><strong>注意</strong>，在其他编程语言中，<code>if</code>语句之后的对象是一个等式，等式的结果为<code>TRUE</code>或者<code>FALSE</code>，但是bash shell中的<code>if</code>语句是运行<code>if</code>后面的命令，如果该命令的退出状态码是0（命令成功执行），则运行<code>then</code>语句后面的命令。<code>fi</code>表示<code>if</code>语句到此结束。</p>
+fi
+</code></pre>
+
+<p><strong>注意</strong>，在其他编程语言中，<code>if</code>语句之后的对象是一个等式，等式的结果为<code>TRUE</code>或者<code>FALSE</code>，但是bash shell中的<code>if</code>语句是运行<code>if</code>后面的命令，如果该命令的退出状态码是0（命令成功执行），则运行<code>then</code>语句后面的命令。<code>fi</code>表示<code>if</code>语句到此结束。</p>
+
 <p>下面是一个简单的例子：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~/script_learn$ cat test1.sh
-<span style="color:#75715e">#! /bin/bash</span>
-<span style="color:#75715e"># testing the if statement</span>
-<span style="color:#66d9ef">if</span> pwd
-<span style="color:#66d9ef">then</span>
-    echo <span style="color:#e6db74">&#34;It worked&#34;</span>
-<span style="color:#66d9ef">fi</span>
+
+<pre><code class="language-shell">wsx@wsx-ubuntu:~/script_learn$ cat test1.sh
+#! /bin/bash
+# testing the if statement
+if pwd
+then
+    echo &quot;It worked&quot;
+fi
 
 wsx@wsx-ubuntu:~/script_learn$ chmod u+x test1.sh
 wsx@wsx-ubuntu:~/script_learn$ ./test1.sh
 /home/wsx/script_learn
 It worked
-</code></pre></div><p>这个例子中在判断成功执行<code>pwd</code>命令后，执行输出文本字符串。</p>
+</code></pre>
+
+<p>这个例子中在判断成功执行<code>pwd</code>命令后，执行输出文本字符串。</p>
+
 <p>大家可以尝试把<code>pwd</code>命令改成随便乱打的字符试试结果。它会显示报错信息，<code>then</code>后面的语句也不会执行。</p>
+
 <p>if-then语句的另一种形式：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#66d9ef">if</span> command; <span style="color:#66d9ef">then</span>
+
+<pre><code class="language-shell">if command; then
 commands
-<span style="color:#66d9ef">fi</span>
-</code></pre></div><p>在then部分，我们可以使用多个命令（从格式中command结尾有没有s也可以看出）。</p>
+fi
+</code></pre>
+
+<p>在then部分，我们可以使用多个命令（从格式中command结尾有没有s也可以看出）。</p>
+
 <p>我们再来一个例子：在<code>if</code>语句中用<code>grep</code>命令在<code>/etc/passwd</code>文件中查找某个用户名当前是否在系统上使用。如果有用户使用了哪个登录名，脚本会显示一些文本信息并列出该用户HOME目录的bash文件。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~/script_learn$ cat test3.sh
-<span style="color:#75715e">#!/bin/bash</span>
-<span style="color:#75715e"># testing multiple commands in the then section</span>
+
+<pre><code class="language-shell">wsx@wsx-ubuntu:~/script_learn$ cat test3.sh
+#!/bin/bash
+# testing multiple commands in the then section
 #
-testuser<span style="color:#f92672">=</span>wsx
+testuser=wsx
 #
-<span style="color:#66d9ef">if</span> grep $testuser /etc/passwd
-<span style="color:#66d9ef">then</span>
-  echo <span style="color:#e6db74">&#34;This is my first command&#34;</span>
-  echo <span style="color:#e6db74">&#34;This is my second command&#34;</span>
-  echo <span style="color:#e6db74">&#34;I can even put in other commands besides echo:&#34;</span>
+if grep $testuser /etc/passwd
+then
+  echo &quot;This is my first command&quot;
+  echo &quot;This is my second command&quot;
+  echo &quot;I can even put in other commands besides echo:&quot;
   ls -a /home/$testuser/.b*
-<span style="color:#66d9ef">fi</span>
+fi
 
 wsx@wsx-ubuntu:~/script_learn$ chmod u+x test3.sh
 wsx@wsx-ubuntu:~/script_learn$ ./test3.sh
@@ -188,62 +210,92 @@ I can even put in other commands besides echo:
 /home/wsx/.bash_history  /home/wsx/.bashrc
 /home/wsx/.bash_logout	 /home/wsx/.bashrc-anaconda3.bak
 
-</code></pre></div><p>如果设置的用户名不存在，那么就没有输出。那么如果在这里显示的一些消息可以说明用户名在系统中未找到，这样可能就会显得更友好。所以接下来看看<code>if-then-else</code>语句。</p>
-<h3 id="if-then-else">if-then-else语句</h3>
-<p>我相信意思非常容易理解，这里较之前我们添加了一个<code>else</code>块来处理<code>if</code>中命令没有成功执行的步骤。格式为：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#66d9ef">if</span> command
-<span style="color:#66d9ef">then</span>
-  commands
-<span style="color:#66d9ef">else</span> commands
-<span style="color:#66d9ef">fi</span>
-</code></pre></div><h3 id="if">嵌套if</h3>
-<p>有时我们需要检查脚本代码中的多种条件，可以是用嵌套的<code>if-then</code>语句。</p>
-<p>处理一个例子：检查<code>/etc/passwd</code>文件中是否存在某个用户名以及该用户名的目录是否存在。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~/script_learn$ cat test5.sh
-<span style="color:#75715e">#!/bin/bash</span>
+</code></pre>
 
-<span style="color:#75715e"># Testing nested ifs</span>
+<p>如果设置的用户名不存在，那么就没有输出。那么如果在这里显示的一些消息可以说明用户名在系统中未找到，这样可能就会显得更友好。所以接下来看看<code>if-then-else</code>语句。</p>
+
+<h3 id="if-then-else语句">if-then-else语句</h3>
+
+<p>我相信意思非常容易理解，这里较之前我们添加了一个<code>else</code>块来处理<code>if</code>中命令没有成功执行的步骤。格式为：</p>
+
+<pre><code class="language-shell">if command
+then
+  commands
+else commands
+fi
+</code></pre>
+
+<h3 id="嵌套if">嵌套if</h3>
+
+<p>有时我们需要检查脚本代码中的多种条件，可以是用嵌套的<code>if-then</code>语句。</p>
+
+<p>处理一个例子：检查<code>/etc/passwd</code>文件中是否存在某个用户名以及该用户名的目录是否存在。</p>
+
+<pre><code class="language-shell">wsx@wsx-ubuntu:~/script_learn$ cat test5.sh
+#!/bin/bash
+
+# Testing nested ifs
 #
-testuser<span style="color:#f92672">=</span>NoSuchUser
+testuser=NoSuchUser
 #
-<span style="color:#66d9ef">if</span> grep $testuser /etc/passwd
-<span style="color:#66d9ef">then</span>
-  echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">The user </span>$testuser<span style="color:#e6db74"> exits on this system.</span><span style="color:#e6db74">&#34;</span>
-<span style="color:#66d9ef">else</span>
-  echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">The user </span>$testuser<span style="color:#e6db74"> does not exit on this system.</span><span style="color:#e6db74">&#34;</span>
-  <span style="color:#66d9ef">if</span> ls -d /home/$testuser/
-  <span style="color:#66d9ef">then</span>
-     echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">However, </span>$testuser<span style="color:#e6db74"> has a directory.</span><span style="color:#e6db74">&#34;</span>
-  <span style="color:#66d9ef">fi</span>
-<span style="color:#66d9ef">fi</span>
+if grep $testuser /etc/passwd
+then
+  echo &quot;The user $testuser exits on this system.&quot;
+else
+  echo &quot;The user $testuser does not exit on this system.&quot;
+  if ls -d /home/$testuser/
+  then
+     echo &quot;However, $testuser has a directory.&quot;
+  fi
+fi
 
 wsx@wsx-ubuntu:~/script_learn$ chmod u+x test5.sh
 wsx@wsx-ubuntu:~/script_learn$ ./test5.sh
 The user NoSuchUser does not exit on this system.
-ls: 无法访问<span style="color:#e6db74">&#39;/home/NoSuchUser/&#39;</span>: 没有那个文件或目录
-</code></pre></div><p>可以使用<code>else</code>部分的另一种形式:<code>elif</code>。这样我们就不再用书写多个<code>if-then</code>语句了。在其他语言中，有的是用<code>elif</code>的形式，有的使用<code>else if</code>等形式。面对相同内含在不同语言中不同的表示方式，我们需要有意识地区别，以免接触的东西多了可能各种语言代码串写喔。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#66d9ef">if</span> command1
-<span style="color:#66d9ef">then</span>
+ls: 无法访问'/home/NoSuchUser/': 没有那个文件或目录
+</code></pre>
+
+<p>可以使用<code>else</code>部分的另一种形式:<code>elif</code>。这样我们就不再用书写多个<code>if-then</code>语句了。在其他语言中，有的是用<code>elif</code>的形式，有的使用<code>else if</code>等形式。面对相同内含在不同语言中不同的表示方式，我们需要有意识地区别，以免接触的东西多了可能各种语言代码串写喔。</p>
+
+<pre><code class="language-shell">if command1
+then
 	commands
-<span style="color:#66d9ef">elif</span> command2
-<span style="color:#66d9ef">then</span>
+elif command2
+then
 	more commands
-<span style="color:#66d9ef">fi</span>
-</code></pre></div><p>这种表示方式逻辑更为清晰，但是也有点容易让写的人搞混。其实可以看到一个<code>if</code>对应一个<code>fi</code>。这是一个大的嵌套<code>if</code>结构。</p>
+fi
+</code></pre>
+
+<p>这种表示方式逻辑更为清晰，但是也有点容易让写的人搞混。其实可以看到一个<code>if</code>对应一个<code>fi</code>。这是一个大的嵌套<code>if</code>结构。</p>
+
 <p><strong>记住</strong>，在<code>elif</code>语句中，紧跟其后的<code>else</code>语句属于<code>elif</code>代码块，而不是属于<code>if-then</code>代码块。</p>
-<h3 id="test">test命令</h3>
+
+<h3 id="test命令">test命令</h3>
+
 <p>到此为止，我们很清楚<code>if</code>后面跟着的是普通的shell命令，那么我们需要测试其他条件怎么办呢？</p>
+
 <p><code>test</code>命令提供了在<code>if-then</code>语句中测试不同条件的途径。如果<code>test</code>命令中列出的条件成立，<code>test</code>命令就会退出并返回状态码0。这样<code>if-then</code>语句就与其他编程语言中的<code>if-then</code>语句以类似的方式工作了。</p>
+
 <p>test命令格式：</p>
+
 <pre><code>test condition
-</code></pre><p><code>condition</code>是<code>test</code>命令要测试的一系列参数和值。如果不写这个<code>condition</code>，<code>test</code>返回非0，<code>if</code>语句跳转到<code>else</code>进行执行。</p>
+</code></pre>
+
+<p><code>condition</code>是<code>test</code>命令要测试的一系列参数和值。如果不写这个<code>condition</code>，<code>test</code>返回非0，<code>if</code>语句跳转到<code>else</code>进行执行。</p>
+
 <p>bash shell提供了一种条件测试方法，无需在<code>if-then</code>语句中声明<code>test</code>命令。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> condition <span style="color:#f92672">]</span>
-<span style="color:#66d9ef">then</span> commands
-<span style="color:#66d9ef">fi</span>
-</code></pre></div><p>这跟我们其他的编程习惯非常接近。建议使用这种方式。</p>
+
+<pre><code class="language-shell">if [ condition ]
+then commands
+fi
+</code></pre>
+
+<p>这跟我们其他的编程习惯非常接近。建议使用这种方式。</p>
+
 <p>如果使用<code>test</code>命令，需要记住的是各种条件参数。</p>
+
 <p><strong>数值比较</strong></p>
+
 <table>
 <thead>
 <tr>
@@ -251,34 +303,42 @@ ls: 无法访问<span style="color:#e6db74">&#39;/home/NoSuchUser/&#39;</span>: 
 <th>描述</th>
 </tr>
 </thead>
+
 <tbody>
 <tr>
 <td>n1 -eq n2</td>
 <td>(n1)等于(n2)</td>
 </tr>
+
 <tr>
 <td>n1 -ge n2</td>
 <td>大于或等于</td>
 </tr>
+
 <tr>
 <td>n1 -gt n2</td>
 <td>大于</td>
 </tr>
+
 <tr>
 <td>n1 -le n2</td>
 <td>小于或等于</td>
 </tr>
+
 <tr>
 <td>n1 -lt n2</td>
 <td>小于</td>
 </tr>
+
 <tr>
 <td>n1 -ne n2</td>
 <td>不等于</td>
 </tr>
 </tbody>
 </table>
+
 <p><strong>字符串比较</strong></p>
+
 <table>
 <thead>
 <tr>
@@ -286,35 +346,44 @@ ls: 无法访问<span style="color:#e6db74">&#39;/home/NoSuchUser/&#39;</span>: 
 <th>描述</th>
 </tr>
 </thead>
+
 <tbody>
 <tr>
 <td>str1 = str2</td>
 <td>（str1与str2比较）相同</td>
 </tr>
+
 <tr>
 <td>str1 != str2</td>
 <td>不同</td>
 </tr>
+
 <tr>
 <td>str1 &lt; str2</td>
 <td>小</td>
 </tr>
+
 <tr>
 <td>str1 &gt; str2</td>
 <td>大</td>
 </tr>
+
 <tr>
 <td>-n str1</td>
 <td>检查string1的长度非0</td>
 </tr>
+
 <tr>
 <td>-z str1</td>
 <td>检查string1的长度是否为0</td>
 </tr>
 </tbody>
 </table>
+
 <p>注意，大于和小于号必须转义；大于和小于顺序和sort命令所采用的不同。</p>
+
 <p><strong>文件比较</strong></p>
+
 <table>
 <thead>
 <tr>
@@ -322,72 +391,95 @@ ls: 无法访问<span style="color:#e6db74">&#39;/home/NoSuchUser/&#39;</span>: 
 <th>描述</th>
 </tr>
 </thead>
+
 <tbody>
 <tr>
 <td>-d file</td>
 <td>检查file是否存在并是一个目录</td>
 </tr>
+
 <tr>
 <td>-e file</td>
 <td>～是否存在</td>
 </tr>
+
 <tr>
 <td>-f file</td>
 <td>～是否存在并是一个文件</td>
 </tr>
+
 <tr>
 <td>-r file</td>
 <td>～是否存在并可读</td>
 </tr>
+
 <tr>
 <td>-s file</td>
 <td>～是否存在并非空</td>
 </tr>
+
 <tr>
 <td>-w file</td>
 <td>～是否存在并可写</td>
 </tr>
+
 <tr>
 <td></td>
 <td></td>
 </tr>
+
 <tr>
 <td>-x file</td>
 <td>～是否存在并可执行</td>
 </tr>
+
 <tr>
 <td>-O file</td>
 <td>～是否存在并属当前用户所有</td>
 </tr>
+
 <tr>
 <td>-G file</td>
 <td>～是否存在并且默认组与当前用户相同</td>
 </tr>
+
 <tr>
 <td>file1 -nt file2</td>
 <td>检查file1是否比file2新</td>
 </tr>
+
 <tr>
 <td>file1 -ot file2</td>
 <td>检查file1是否比file2旧</td>
 </tr>
 </tbody>
 </table>
-<h3 id="heading-1">复合条件测试</h3>
+
+<h3 id="复合条件测试">复合条件测试</h3>
+
 <p><code>if-then</code>语句允许我们使用布尔逻辑来组合测试。可用</p>
+
 <ul>
 <li>[ condition1] &amp;&amp; [ condition2]</li>
 <li><code>[ condition1] || [ condition2]</code></li>
 </ul>
-<h3 id="if-then-1">if-then的高级特性</h3>
+
+<h3 id="if-then的高级特性">if-then的高级特性</h3>
+
 <ul>
 <li>用于数学表达式的双括号</li>
 <li>用于高级字符串处理功能的双方括号</li>
 </ul>
+
 <p><strong>双括号</strong></p>
+
 <p>命令格式：</p>
+
 <pre><code>(( expresiion ))
-</code></pre><p><code>expression</code>可以是任意的数学赋值或比较表达式。除了<code>test</code>命令使用的标准数学运算符，下面列出了一些其他的：</p>
+</code></pre>
+
+<p><code>expression</code>可以是任意的数学赋值或比较表达式。除了<code>test</code>命令使用的标准数学运算符，下面列出了一些其他的：</p>
+
 <table>
 <thead>
 <tr>
@@ -395,162 +487,212 @@ ls: 无法访问<span style="color:#e6db74">&#39;/home/NoSuchUser/&#39;</span>: 
 <th>描述</th>
 </tr>
 </thead>
+
 <tbody>
 <tr>
 <td>val ++</td>
 <td>后增</td>
 </tr>
+
 <tr>
 <td>val &ndash;</td>
 <td>后减</td>
 </tr>
+
 <tr>
 <td>++ val</td>
 <td>先增</td>
 </tr>
+
 <tr>
 <td>&ndash; val</td>
 <td>先减</td>
 </tr>
+
 <tr>
 <td>!</td>
 <td>逻辑取反</td>
 </tr>
+
 <tr>
 <td>~</td>
 <td>位求反</td>
 </tr>
+
 <tr>
 <td>**</td>
 <td>幂运算</td>
 </tr>
+
 <tr>
-<td>&laquo;</td>
+<td>&lt;&lt;</td>
 <td>左位移</td>
 </tr>
+
 <tr>
-<td>&raquo;</td>
+<td>&gt;&gt;</td>
 <td>右位移</td>
 </tr>
+
 <tr>
 <td>&amp;</td>
 <td>位布尔和</td>
 </tr>
+
 <tr>
 <td>|</td>
 <td>位布尔或</td>
 </tr>
+
 <tr>
 <td>&amp;&amp;</td>
 <td>逻辑和</td>
 </tr>
+
 <tr>
 <td>||</td>
 <td>逻辑或</td>
 </tr>
 </tbody>
 </table>
+
 <p>看一个例子：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~/script_learn$ cat test23.sh
-<span style="color:#75715e">#!/bin/bash</span>
-<span style="color:#75715e"># using doble parenthesis</span>
+
+<pre><code class="language-shell">wsx@wsx-ubuntu:~/script_learn$ cat test23.sh
+#!/bin/bash
+# using doble parenthesis
 #
-val1<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>
+val1=10
 #
-<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span><span style="color:#f92672">(</span> $val1 ** <span style="color:#ae81ff">2</span> &gt; <span style="color:#ae81ff">90</span> <span style="color:#f92672">)</span><span style="color:#f92672">)</span>
-<span style="color:#66d9ef">then</span>
-  <span style="color:#f92672">(</span><span style="color:#f92672">(</span> val2 <span style="color:#f92672">=</span> $val1 ** <span style="color:#ae81ff">2</span> <span style="color:#f92672">)</span><span style="color:#f92672">)</span>
-  echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">The square of </span>$val1<span style="color:#e6db74"> is </span>$val2<span style="color:#e6db74">&#34;</span>
-<span style="color:#66d9ef">fi</span>
+if (( $val1 ** 2 &gt; 90 ))
+then
+  (( val2 = $val1 ** 2 ))
+  echo &quot;The square of $val1 is $val2&quot;
+fi
 
 wsx@wsx-ubuntu:~/script_learn$ chmod u+x test23.sh
 wsx@wsx-ubuntu:~/script_learn$ ./test23.sh
-The square of <span style="color:#ae81ff">10</span> is <span style="color:#ae81ff">100</span>
+The square of 10 is 100
 
-</code></pre></div><p><strong>双方括号</strong></p>
+</code></pre>
+
+<p><strong>双方括号</strong></p>
+
 <p>双方括号命令提供了针对字符串比较的高级特性。命令格式如下：</p>
+
 <pre><code>[[ expression ]]
-</code></pre><p>双方括号里的<code>expression</code>使用了<code>test</code>命令中采用的标准字符串比较。但它提供了<code>test</code>没有提供的一个特性——模式匹配。</p>
+</code></pre>
+
+<p>双方括号里的<code>expression</code>使用了<code>test</code>命令中采用的标准字符串比较。但它提供了<code>test</code>没有提供的一个特性——模式匹配。</p>
+
 <p>在模式匹配中，可以定义一个正则表达式来匹配字符串值。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~/script_learn$ cat test24.sh
-<span style="color:#75715e">#! /bin/bash</span>
-<span style="color:#75715e"># using pattern matching</span>
+
+<pre><code class="language-shell">wsx@wsx-ubuntu:~/script_learn$ cat test24.sh
+#! /bin/bash
+# using pattern matching
 #
-<span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span><span style="color:#f92672">[</span> $USER <span style="color:#f92672">=</span><span style="color:#f92672">=</span> r* <span style="color:#f92672">]</span><span style="color:#f92672">]</span>
-<span style="color:#66d9ef">then</span>
-  echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Hello </span>$USER<span style="color:#e6db74">&#34;</span>
-<span style="color:#66d9ef">else</span>
-  echo <span style="color:#e6db74">&#34;Sorry, I do not know you&#34;</span>
-<span style="color:#66d9ef">fi</span>
+if [[ $USER == r* ]]
+then
+  echo &quot;Hello $USER&quot;
+else
+  echo &quot;Sorry, I do not know you&quot;
+fi
 
 wsx@wsx-ubuntu:~/script_learn$ chmod u+x test24.sh
 wsx@wsx-ubuntu:~/script_learn$ ./test24.sh
-Sorry, I <span style="color:#66d9ef">do</span> not know you
-</code></pre></div><p>上面一个脚本中，我们使用了双等号。双等号将右边的字符串视为一个模式，并将其应用模式匹配规则。</p>
-<h3 id="case">case命令</h3>
+Sorry, I do not know you
+</code></pre>
+
+<p>上面一个脚本中，我们使用了双等号。双等号将右边的字符串视为一个模式，并将其应用模式匹配规则。</p>
+
+<h3 id="case命令">case命令</h3>
+
 <p>有了<code>case</code>命令，就不需要写出所有的<code>elif</code>语句来不停地检查同一个变量的值了。<code>case</code>命令会采用列表格式来检查单个变量的多值。</p>
+
 <p>下面是两个脚本实现相同功能进行对比：</p>
+
 <p>if语句：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~/script_learn$ cat test25.sh
-<span style="color:#75715e">#!/bin/bash</span>
-<span style="color:#75715e"># looking for a possible value</span>
+
+<pre><code class="language-shell">wsx@wsx-ubuntu:~/script_learn$ cat test25.sh
+#!/bin/bash
+# looking for a possible value
 #
-<span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> $USER <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;rich&#34;</span> <span style="color:#f92672">]</span>
-<span style="color:#66d9ef">then</span>
-  echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Welcome </span>$USER<span style="color:#e6db74">&#34;</span>
-  echo <span style="color:#e6db74">&#34;Please enjoy you visit&#34;</span>
-<span style="color:#66d9ef">elif</span> <span style="color:#f92672">[</span> $USER <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;barbara&#34;</span> <span style="color:#f92672">]</span>
-<span style="color:#66d9ef">then</span>
-  echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Welcome </span>$USER<span style="color:#e6db74">&#34;</span>
-  echo <span style="color:#e6db74">&#34;Please enjoy you visit&#34;</span>
-<span style="color:#66d9ef">elif</span> <span style="color:#f92672">[</span> $USER <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;testing&#34;</span> <span style="color:#f92672">]</span>
-<span style="color:#66d9ef">then</span>
-  echo <span style="color:#e6db74">&#34;Special testing account&#34;</span>
-<span style="color:#66d9ef">elif</span> <span style="color:#f92672">[</span> $USER <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;jessica&#34;</span> <span style="color:#f92672">]</span>
-<span style="color:#66d9ef">then</span>
-  echo <span style="color:#e6db74">&#34;Do not forget to logout when you&#39;re done&#34;</span>
-</code></pre></div><p>case语句：</p>
+if [ $USER = &quot;rich&quot; ]
+then
+  echo &quot;Welcome $USER&quot;
+  echo &quot;Please enjoy you visit&quot;
+elif [ $USER = &quot;barbara&quot; ]
+then
+  echo &quot;Welcome $USER&quot;
+  echo &quot;Please enjoy you visit&quot;
+elif [ $USER = &quot;testing&quot; ]
+then
+  echo &quot;Special testing account&quot;
+elif [ $USER = &quot;jessica&quot; ]
+then
+  echo &quot;Do not forget to logout when you're done&quot;
+</code></pre>
+
+<p>case语句：</p>
+
 <pre><code>case variable in
 pattern1 | pattern2) commands1;;
 pattern3) commands2;;
 *) default commands;;
 esac
-</code></pre><p>上面的实例可以用<code>case</code>语句表示为：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~/script_learn$ cat test26.sh
-<span style="color:#75715e">#!/bin/bash</span>
-<span style="color:#75715e"># using the case command</span>
+</code></pre>
+
+<p>上面的实例可以用<code>case</code>语句表示为：</p>
+
+<pre><code class="language-shell">wsx@wsx-ubuntu:~/script_learn$ cat test26.sh
+#!/bin/bash
+# using the case command
 #
-<span style="color:#66d9ef">case</span> $USER in
-rich | barbara<span style="color:#f92672">)</span>
-  echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Welcome, </span>$USER<span style="color:#e6db74">&#34;</span>
-  echo <span style="color:#e6db74">&#34;Please enjoy your visits&#34;</span>;;
-testing<span style="color:#f92672">)</span>
-  echo <span style="color:#e6db74">&#34;Special testing account&#34;</span>;;
-jessica<span style="color:#f92672">)</span>
-  echo <span style="color:#e6db74">&#34;Do not forget to log off whe you&#39;re done&#34;</span>;;
-*<span style="color:#f92672">)</span>
-  echo <span style="color:#e6db74">&#34;Sorry, you are not allowed here&#34;</span>;;
-<span style="color:#66d9ef">esac</span>
+case $USER in
+rich | barbara)
+  echo &quot;Welcome, $USER&quot;
+  echo &quot;Please enjoy your visits&quot;;;
+testing)
+  echo &quot;Special testing account&quot;;;
+jessica)
+  echo &quot;Do not forget to log off whe you're done&quot;;;
+*)
+  echo &quot;Sorry, you are not allowed here&quot;;;
+esac
 
 wsx@wsx-ubuntu:~/script_learn$ chmod u+x test26.sh
 wsx@wsx-ubuntu:~/script_learn$ ./test26.sh
 Sorry, you are not allowed here
 
-</code></pre></div><p><code>case</code>命令会将指定的变量与不同模式进行比较。如果变量和模式是匹配的，那么shell会执行为该模式指定的命令。可以通过竖线操作符在一行中分隔出多个模式。星号会捕获所有与已知模式不匹配的值。注意双分号的使用。</p>
-<h3 id="heading-2">小结</h3>
+</code></pre>
+
+<p><code>case</code>命令会将指定的变量与不同模式进行比较。如果变量和模式是匹配的，那么shell会执行为该模式指定的命令。可以通过竖线操作符在一行中分隔出多个模式。星号会捕获所有与已知模式不匹配的值。注意双分号的使用。</p>
+
+<h3 id="小结">小结</h3>
+
 <blockquote>
 <p>最基本的命令是<code>if-then</code>语句；</p>
+
 <p>可以拓展<code>if-then</code>语句为<code>if-then-else</code>语句；</p>
+
 <p>可以将<code>if-then-else</code>语句通过<code>elif</code>语句连接起来；</p>
+
 <p>在脚本中，我们需要测试一种条件而不是命令时，比如数值、字符串内容、文件或目录的状态，<code>test</code>命令提供了简单方法；</p>
+
 <p>方括号是<code>test</code>命令统一的特殊bash命令；</p>
+
 <p>双括号使用另一种操作符进行高级数学运算双方括号允许高级字符串模式匹配运算；</p>
+
 <p><code>case</code>命令是执行多个<code>if-then-else</code>命令的简便方式，它会参照一个值列表来检查单个变量的值。</p>
 </blockquote>
+
 <p>关于结构化命令中循环，将在下次整理的笔记中阐述。</p>
-<h2 id="heading-3">循环控制</h2>
+
+<h2 id="循环控制">循环控制</h2>
+
 <blockquote>
 <p><strong>内容</strong></p>
+
 <ul>
 <li>for循环语句</li>
 <li>until迭代语句使用while语句</li>
@@ -558,25 +700,36 @@ Sorry, you are not allowed here
 <li>重定向循环的输出</li>
 </ul>
 </blockquote>
-<p>这一节我们来了解如何重复一些过程和命令，也就是循环执行一组命令直到达到了某个特定条件。</p>
-<h3 id="for">for命令</h3>
-<p>基本格式：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#66d9ef">for</span> var in list
-<span style="color:#66d9ef">do</span>
-	commands
-<span style="color:#66d9ef">done</span>
-</code></pre></div><p>也可以</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#66d9ef">for</span> var in list; <span style="color:#66d9ef">do</span>
-</code></pre></div><p>分号只用来分隔命令的，让代码更简约。</p>
-<p>来个简单例子：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~/script_learn$ cat test1
-<span style="color:#75715e">#!/bin/bash</span>
-<span style="color:#75715e"># basic for command</span>
 
-<span style="color:#66d9ef">for</span> test in Alabama Alaska Arizona Arkansas California Colorado
-<span style="color:#66d9ef">do</span>
+<p>这一节我们来了解如何重复一些过程和命令，也就是循环执行一组命令直到达到了某个特定条件。</p>
+
+<h3 id="for命令">for命令</h3>
+
+<p>基本格式：</p>
+
+<pre><code class="language-shell">for var in list
+do
+	commands
+done
+</code></pre>
+
+<p>也可以</p>
+
+<pre><code class="language-shell">for var in list; do
+</code></pre>
+
+<p>分号只用来分隔命令的，让代码更简约。</p>
+
+<p>来个简单例子：</p>
+
+<pre><code class="language-shell">wsx@wsx-ubuntu:~/script_learn$ cat test1
+#!/bin/bash
+# basic for command
+
+for test in Alabama Alaska Arizona Arkansas California Colorado
+do
     echo The next state is $test
-<span style="color:#66d9ef">done</span>
+done
 
 wsx@wsx-ubuntu:~/script_learn$ ./test1
 The next state is Alabama
@@ -585,55 +738,70 @@ The next state is Arizona
 The next state is Arkansas
 The next state is California
 The next state is Colorado
-</code></pre></div><p>这里操作基本和其他语言一致（格式不同），不多讲啦。</p>
-<p><strong>在读取列表中的复杂值时</strong>，我们可能会遇到问题。比如下面这个例子：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~/script_learn$ cat badtest1
-<span style="color:#75715e">#!/bin/bash</span>
-<span style="color:#75715e"># another example of how not to use the for command</span>
+</code></pre>
 
-<span style="color:#66d9ef">for</span> test in I don<span style="color:#e6db74">&#39;t know if this&#39;</span>ll work
-<span style="color:#66d9ef">do</span>
-    echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">word:</span>$test<span style="color:#e6db74">&#34;</span>
-<span style="color:#66d9ef">done</span>
+<p>这里操作基本和其他语言一致（格式不同），不多讲啦。</p>
+
+<p><strong>在读取列表中的复杂值时</strong>，我们可能会遇到问题。比如下面这个例子：</p>
+
+<pre><code class="language-shell">wsx@wsx-ubuntu:~/script_learn$ cat badtest1
+#!/bin/bash
+# another example of how not to use the for command
+
+for test in I don't know if this'll work
+do
+    echo &quot;word:$test&quot;
+done
 
 wsx@wsx-ubuntu:~/script_learn$ ./badtest1
 word:I
-word:dont know <span style="color:#66d9ef">if</span> thisll
+word:dont know if thisll
 word:work
-</code></pre></div><p>我们可以看到shell看到了列表值中的单引号尝试使用它们来定义一个单独的数据值。</p>
+</code></pre>
+
+<p>我们可以看到shell看到了列表值中的单引号尝试使用它们来定义一个单独的数据值。</p>
+
 <p>这里有两种解决办法：</p>
+
 <ul>
 <li>使用转义字符将单引号转义</li>
 <li>使用双引号来定义用到单引号的值</li>
 </ul>
-<p>我们将这两种解决办法同时用到上个例子：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~/script_learn$ cat test2
-<span style="color:#75715e">#! /bin/bash</span>
-<span style="color:#75715e"># another example of how not to use the for command</span>
 
-<span style="color:#66d9ef">for</span> test in I don<span style="color:#ae81ff">\&#39;</span>t know <span style="color:#66d9ef">if</span> <span style="color:#e6db74">&#34;this&#39;ll&#34;</span> work; <span style="color:#66d9ef">do</span>
-echo  <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">word:</span>$test<span style="color:#e6db74">&#34;</span>
-<span style="color:#66d9ef">done</span>
+<p>我们将这两种解决办法同时用到上个例子：</p>
+
+<pre><code class="language-shell">wsx@wsx-ubuntu:~/script_learn$ cat test2
+#! /bin/bash
+# another example of how not to use the for command
+
+for test in I don\'t know if &quot;this'll&quot; work; do
+echo  &quot;word:$test&quot;
+done
 wsx@wsx-ubuntu:~/script_learn$ ./test2
 word:I
-word:don<span style="color:#e6db74">&#39;t
-</span><span style="color:#e6db74">word:know
-</span><span style="color:#e6db74">word:if
-</span><span style="color:#e6db74">word:this&#39;</span>ll
+word:don't
+word:know
+word:if
+word:this'll
 word:work
-</code></pre></div><p>我们可能明白了<code>for</code>循环是假定每个值是用空格分隔的，所以当有包含空格的数据时，我们需要用双引号括起来。</p>
+</code></pre>
+
+<p>我们可能明白了<code>for</code>循环是假定每个值是用空格分隔的，所以当有包含空格的数据时，我们需要用双引号括起来。</p>
+
 <p><strong>通常我们会将列表值存储在一个变量中</strong>，然后通过遍历变量的方式遍历了其内容的的列表。</p>
+
 <p>看看怎么完成这个任务：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~/script_learn$ cat test3
-<span style="color:#75715e">#!/bin/bash</span>
 
-<span style="color:#75715e"># using a variable to hold the list</span>
-list<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Alabama Alaska Arizona Arkansas Colorado&#34;</span>
-list<span style="color:#f92672">=</span>$list<span style="color:#e6db74">&#34; Connecticut&#34;</span> <span style="color:#75715e"># 在尾部拼接文本</span>
+<pre><code class="language-shell">wsx@wsx-ubuntu:~/script_learn$ cat test3
+#!/bin/bash
 
-<span style="color:#66d9ef">for</span> state in $list; <span style="color:#66d9ef">do</span>
-  echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Have you ever visited </span>$state<span style="color:#e6db74">?</span><span style="color:#e6db74">&#34;</span>
-<span style="color:#66d9ef">done</span>
+# using a variable to hold the list
+list=&quot;Alabama Alaska Arizona Arkansas Colorado&quot;
+list=$list&quot; Connecticut&quot; # 在尾部拼接文本
+
+for state in $list; do
+  echo &quot;Have you ever visited $state?&quot;
+done
 
 wsx@wsx-ubuntu:~/script_learn$ ./test3
 Have you ever visited Alabama?
@@ -642,18 +810,22 @@ Have you ever visited Arizona?
 Have you ever visited Arkansas?
 Have you ever visited Colorado?
 Have you ever visited Connecticut?
-</code></pre></div><p>注意，代码中还用了另一个赋值语句向<code>$list</code>变量包含的已有列表中添加了一个值。这是在已有文本字符串尾部添加文本的一种常用方法。</p>
+</code></pre>
+
+<p>注意，代码中还用了另一个赋值语句向<code>$list</code>变量包含的已有列表中添加了一个值。这是在已有文本字符串尾部添加文本的一种常用方法。</p>
+
 <p>我们还可以<strong>用命令来输出我们需要的列表内容</strong>：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~/script_learn$ cat test4
-<span style="color:#75715e">#!/bin/bash</span>
-<span style="color:#75715e"># reading values from a file</span>
 
-file<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;states&#34;</span>
+<pre><code class="language-shell">wsx@wsx-ubuntu:~/script_learn$ cat test4
+#!/bin/bash
+# reading values from a file
 
-<span style="color:#66d9ef">for</span> state in <span style="color:#66d9ef">$(</span>cat $file<span style="color:#66d9ef">)</span>
-<span style="color:#66d9ef">do</span>
-    echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Visit beautiful </span>$state<span style="color:#e6db74">&#34;</span>
-<span style="color:#66d9ef">done</span>
+file=&quot;states&quot;
+
+for state in $(cat $file)
+do
+    echo &quot;Visit beautiful $state&quot;
+done
 
 wsx@wsx-ubuntu:~/script_learn$ cat states
 Alabama
@@ -675,38 +847,58 @@ Visit beautiful Connecticut
 Visit beautiful Delaware
 Visit beautiful Florida
 Visit beautiful Georgia
-</code></pre></div><p><strong>更改字段分隔符</strong></p>
+</code></pre>
+
+<p><strong>更改字段分隔符</strong></p>
+
 <p>环境变量<code>IFS</code>，也叫作字段分隔符。它定义了bash shell用作字段分隔符的一系列字符。默认情况下，bash shell会将<strong>空格、制表符和换行符</strong>当作字段分隔符。</p>
+
 <p>如果想修改<code>IFS</code>的值，比如使其只能识别换行符，我们可以将下面这行代码加入脚本：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">IFS<span style="color:#f92672">=</span><span style="color:#e6db74">$&#39;\n&#39;</span>
-</code></pre></div><p>在处理大量脚本时，我们可能只在某一部分使用其他的分隔符，这时候可以先保存原有的<code>IFS</code>值，然后修改，最后恢复：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">IFS.OLD<span style="color:#f92672">=</span>$IFS
-IFS<span style="color:#f92672">=</span><span style="color:#e6db74">$&#39;\n&#39;</span>
+
+<pre><code class="language-shell">IFS=$'\n'
+</code></pre>
+
+<p>在处理大量脚本时，我们可能只在某一部分使用其他的分隔符，这时候可以先保存原有的<code>IFS</code>值，然后修改，最后恢复：</p>
+
+<pre><code class="language-shell">IFS.OLD=$IFS
+IFS=$'\n'
 &lt;在代码中使用新的IFS值&gt;
-IFS<span style="color:#f92672">=</span>$IFS.OLD
-</code></pre></div><p>假如我们要遍历一个文件中用冒号分隔的值：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">IFS<span style="color:#f92672">=</span>:
-</code></pre></div><p>假如要指定多个<code>IFS</code>字符，只要将它们的赋值行串起来：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">IFS<span style="color:#f92672">=</span><span style="color:#e6db74">$&#39;\n&#39;</span>:;<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">
-</span></code></pre></div><p>这个赋值会将换行符、冒号、分号以及双引号作为字段分隔符。</p>
+IFS=$IFS.OLD
+</code></pre>
+
+<p>假如我们要遍历一个文件中用冒号分隔的值：</p>
+
+<pre><code class="language-shell">IFS=:
+</code></pre>
+
+<p>假如要指定多个<code>IFS</code>字符，只要将它们的赋值行串起来：</p>
+
+<pre><code class="language-shell">IFS=$'\n':;&quot;
+</code></pre>
+
+<p>这个赋值会将换行符、冒号、分号以及双引号作为字段分隔符。</p>
+
 <p><strong>用通配符读取目录</strong></p>
+
 <p>我们可以用<code>for</code>命令来自动遍历目录中的文件。进行此操作时，必须在文件名或路径名中使用通配符。它会强制shell使用<strong>文件扩展匹配</strong>。文件扩展匹配是生成匹配指定通配符的文件名或路径名的过程。</p>
+
 <p>我拿我的一个目录来尝试一下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~/script_learn$ cat test5
-<span style="color:#75715e">#!/bin/bash</span>
 
-<span style="color:#75715e"># iterate through all the files in a directory</span>
+<pre><code class="language-shell">wsx@wsx-ubuntu:~/script_learn$ cat test5
+#!/bin/bash
 
-<span style="color:#66d9ef">for</span> file in /home/wsx/python_learn/*
-<span style="color:#66d9ef">do</span>
-  <span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> -d <span style="color:#e6db74">&#34;</span>$file<span style="color:#e6db74">&#34;</span> <span style="color:#f92672">]</span>
-  <span style="color:#66d9ef">then</span>
-    echo <span style="color:#e6db74">&#34;</span>$file<span style="color:#e6db74"> is a directory</span><span style="color:#e6db74">&#34;</span>
-  <span style="color:#66d9ef">elif</span> <span style="color:#f92672">[</span> -f <span style="color:#e6db74">&#34;</span>$file<span style="color:#e6db74">&#34;</span> <span style="color:#f92672">]</span>
-  <span style="color:#66d9ef">then</span>
-    echo <span style="color:#e6db74">&#34;</span>$file<span style="color:#e6db74"> is a file</span><span style="color:#e6db74">&#34;</span>
-  <span style="color:#66d9ef">fi</span>
-<span style="color:#66d9ef">done</span>
+# iterate through all the files in a directory
+
+for file in /home/wsx/python_learn/*
+do
+  if [ -d &quot;$file&quot; ]
+  then
+    echo &quot;$file is a directory&quot;
+  elif [ -f &quot;$file&quot; ]
+  then
+    echo &quot;$file is a file&quot;
+  fi
+done
 wsx@wsx-ubuntu:~/script_learn$ ./test5
 /home/wsx/python_learn/athletelist.py is a file
 /home/wsx/python_learn/athletemodel.py is a file
@@ -717,280 +909,364 @@ wsx@wsx-ubuntu:~/script_learn$ ./test5
 /home/wsx/python_learn/chapter6_third.py is a file
 /home/wsx/python_learn/coinFlips.py is a file
 /home/wsx/python_learn/Dive_into_python is a directory
-</code></pre></div><p>**注意：**第一个方括号之后和第二个方括号之前必须加上一个空格，否则会报错。</p>
+</code></pre>
+
+<p><strong>注意：</strong>第一个方括号之后和第二个方括号之前必须加上一个空格，否则会报错。</p>
+
 <p>在Linux中，目录名和文件名中包含空格是合法的，所以将<code>$file</code>变量用双引号圈起来。当然，大家尽量不要让文件或目录包含空格，不然很容易出问题（命令会把空格当做文件的分隔符）。</p>
-<h3 id="cfor">C语言风格的for命令</h3>
+
+<h3 id="c语言风格的for命令">C语言风格的for命令</h3>
+
 <p>C语言风格的<code>for</code>命令看起来如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#f92672">(</span> a <span style="color:#f92672">=</span> 1; a &lt; 10; a++ <span style="color:#f92672">)</span><span style="color:#f92672">)</span>
-</code></pre></div><p>值得注意的是，这里有些部分没有遵循bash shell标准的<code>for</code>命令：</p>
+
+<pre><code class="language-shell">for (( a = 1; a &lt; 10; a++ ))
+</code></pre>
+
+<p>值得注意的是，这里有些部分没有遵循bash shell标准的<code>for</code>命令：</p>
+
 <ul>
 <li>变量赋值可以有空格；</li>
 <li>条件中的变量不以美元符开头；</li>
 <li>迭代过程的算式未用<code>expr</code>命令格式。</li>
 </ul>
+
 <p>在使用这种格式时要小心，不同的格式不注意就会出错。</p>
+
 <p>下面举个例子：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~/script_learn$ cat test6
-<span style="color:#75715e">#!/bin/bash</span>
 
-<span style="color:#75715e"># testing the C-style for loop</span>
+<pre><code class="language-shell">wsx@wsx-ubuntu:~/script_learn$ cat test6
+#!/bin/bash
 
-<span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#f92672">(</span> i<span style="color:#f92672">=</span>1; i &lt;<span style="color:#f92672">=</span> 10; i++ <span style="color:#f92672">)</span><span style="color:#f92672">)</span>
-<span style="color:#66d9ef">do</span>
-  echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">The next number is </span>$i<span style="color:#e6db74">&#34;</span>
-<span style="color:#66d9ef">done</span>
+# testing the C-style for loop
+
+for (( i=1; i &lt;= 10; i++ ))
+do
+  echo &quot;The next number is $i&quot;
+done
 
 wsx@wsx-ubuntu:~/script_learn$ ./test6
-The next number is <span style="color:#ae81ff">1</span>
-The next number is <span style="color:#ae81ff">2</span>
-The next number is <span style="color:#ae81ff">3</span>
-The next number is <span style="color:#ae81ff">4</span>
-The next number is <span style="color:#ae81ff">5</span>
-The next number is <span style="color:#ae81ff">6</span>
-The next number is <span style="color:#ae81ff">7</span>
-The next number is <span style="color:#ae81ff">8</span>
-The next number is <span style="color:#ae81ff">9</span>
-The next number is <span style="color:#ae81ff">10</span>
-</code></pre></div><h3 id="while">while命令</h3>
+The next number is 1
+The next number is 2
+The next number is 3
+The next number is 4
+The next number is 5
+The next number is 6
+The next number is 7
+The next number is 8
+The next number is 9
+The next number is 10
+</code></pre>
+
+<h3 id="while命令">while命令</h3>
+
 <p><code>while</code>命令的格式为：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#66d9ef">while</span> test command
-<span style="color:#66d9ef">do</span>
-  other commands
-<span style="color:#66d9ef">done</span>
-</code></pre></div><p><code>while</code>命令某种意义上是<code>if-then</code>语句和<code>for</code>循环的混杂体。注意，这里<code>while</code>后面接的也是命令。<code>while</code>命令允许定义一个要测试的命令，然后循环执行一组命令，只要定义的测试命令返回的是退出状态码是0（类似一般语言中 的TRUE）。直到非0时退出循环。</p>
-<p><code>while</code>命令中定义的<code>test command</code>和<code>if-then</code>语句中的格式一模一样。可以使用任何普通的bash shell命令，或者用<code>test</code>命令进行条件测试，比如测试变量值。</p>
-<p>最常见的用法是用方括号来检查循环命令中用到的<code>shell</code>变量的值。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ cat test
-<span style="color:#75715e">#/bin/bash</span>
-<span style="color:#75715e"># while command test</span>
 
-var1<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>
-<span style="color:#66d9ef">while</span> <span style="color:#f92672">[</span> $var1 -gt <span style="color:#ae81ff">0</span> <span style="color:#f92672">]</span>
-<span style="color:#66d9ef">do</span>
-        echo $var1
-        var1<span style="color:#f92672">=</span>$<span style="color:#f92672">[</span> $var1 - <span style="color:#ae81ff">1</span> <span style="color:#f92672">]</span>
-<span style="color:#66d9ef">done</span>
-
-wangsx@SC-201708020022:~/tmp$ ./test
-<span style="color:#ae81ff">10</span>
-<span style="color:#ae81ff">9</span>
-<span style="color:#ae81ff">8</span>
-<span style="color:#ae81ff">7</span>
-<span style="color:#ae81ff">6</span>
-<span style="color:#ae81ff">5</span>
-<span style="color:#ae81ff">4</span>
-<span style="color:#ae81ff">3</span>
-<span style="color:#ae81ff">2</span>
-<span style="color:#ae81ff">1</span>
-</code></pre></div><p><strong>使用多个测试命令</strong>
-<code>while</code>命令允许我们在<code>while</code>语句行中定义多个测试命令。只有最后一个测试命令的退出状态码会被用来决定什么时候结束循环。
-比如<code>while echo $var1 [ $var1 -ge 0 ]</code>检测的就是后面方括号命令的退出状态码。</p>
-<h3 id="until">until命令</h3>
-<p><code>until</code>命令和<code>while</code>命令工作的方式完全相反。只有测试命令的退出状态码不为0，bash shell才会执行循环中列出的命令。一旦测试命令返回了退出状态码0，循环就结束了。</p>
-<pre><code class="language-{shell}" data-lang="{shell}">until test command
+<pre><code class="language-shell">while test command
 do
   other commands
 done
-</code></pre><p>一个例子：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ cat test12
-<span style="color:#75715e">#!/bin/bash</span>
-<span style="color:#75715e"># using the until command</span>
+</code></pre>
 
-var1<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span>
+<p><code>while</code>命令某种意义上是<code>if-then</code>语句和<code>for</code>循环的混杂体。注意，这里<code>while</code>后面接的也是命令。<code>while</code>命令允许定义一个要测试的命令，然后循环执行一组命令，只要定义的测试命令返回的是退出状态码是0（类似一般语言中 的TRUE）。直到非0时退出循环。</p>
 
-<span style="color:#66d9ef">until</span> <span style="color:#f92672">[</span> $var1 -eq <span style="color:#ae81ff">0</span> <span style="color:#f92672">]</span>
-<span style="color:#66d9ef">do</span>
+<p><code>while</code>命令中定义的<code>test command</code>和<code>if-then</code>语句中的格式一模一样。可以使用任何普通的bash shell命令，或者用<code>test</code>命令进行条件测试，比如测试变量值。</p>
+
+<p>最常见的用法是用方括号来检查循环命令中用到的<code>shell</code>变量的值。</p>
+
+<pre><code class="language-shell">wangsx@SC-201708020022:~/tmp$ cat test
+#/bin/bash
+# while command test
+
+var1=10
+while [ $var1 -gt 0 ]
+do
         echo $var1
-        var1<span style="color:#f92672">=</span>$<span style="color:#f92672">[</span> $var1 - <span style="color:#ae81ff">25</span> <span style="color:#f92672">]</span>
-<span style="color:#66d9ef">done</span>
+        var1=$[ $var1 - 1 ]
+done
+
+wangsx@SC-201708020022:~/tmp$ ./test
+10
+9
+8
+7
+6
+5
+4
+3
+2
+1
+</code></pre>
+
+<p><strong>使用多个测试命令</strong>
+<code>while</code>命令允许我们在<code>while</code>语句行中定义多个测试命令。只有最后一个测试命令的退出状态码会被用来决定什么时候结束循环。
+比如<code>while echo $var1 [ $var1 -ge 0 ]</code>检测的就是后面方括号命令的退出状态码。</p>
+
+<h3 id="until命令">until命令</h3>
+
+<p><code>until</code>命令和<code>while</code>命令工作的方式完全相反。只有测试命令的退出状态码不为0，bash shell才会执行循环中列出的命令。一旦测试命令返回了退出状态码0，循环就结束了。</p>
+
+<pre><code class="language-shell">until test command
+do
+  other commands
+done
+</code></pre>
+
+<p>一个例子：</p>
+
+<pre><code class="language-shell">wangsx@SC-201708020022:~/tmp$ cat test12
+#!/bin/bash
+# using the until command
+
+var1=100
+
+until [ $var1 -eq 0 ]
+do
+        echo $var1
+        var1=$[ $var1 - 25 ]
+done
 
 wangsx@SC-201708020022:~/tmp$ ./test12
-<span style="color:#ae81ff">100</span>
-<span style="color:#ae81ff">75</span>
-<span style="color:#ae81ff">50</span>
-<span style="color:#ae81ff">25</span>
-</code></pre></div><p>同样地，在<code>until</code>命令中放入多个测试命令时也要注意（类似<code>while</code>）。</p>
-<h3 id="heading-4">嵌套循环</h3>
-<p>在循环语句内使用任意类型的命令，包括其他循环命令，叫做嵌套循环。因为是在迭代中迭代，需要注意变量的使用以及程序的效率问题。</p>
-<p>下面举一个<code>for</code>循环嵌套<code>for</code>循环的例子：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ cat test14
-<span style="color:#75715e">#!/bin/bash</span>
-<span style="color:#75715e"># nesting for loops</span>
+100
+75
+50
+25
+</code></pre>
 
-<span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#f92672">(</span> a <span style="color:#f92672">=</span> 1; a &lt;<span style="color:#f92672">=</span> 3; a++ <span style="color:#f92672">)</span><span style="color:#f92672">)</span>
-<span style="color:#66d9ef">do</span>
-        echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Starting loop </span>$a<span style="color:#e6db74">:</span><span style="color:#e6db74">&#34;</span>
-        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#f92672">(</span> b <span style="color:#f92672">=</span> 1; b &lt;<span style="color:#f92672">=</span> 3; b++ <span style="color:#f92672">)</span><span style="color:#f92672">)</span>
-        <span style="color:#66d9ef">do</span>
-                echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">    Inside loop: </span>$b<span style="color:#e6db74">&#34;</span>
-        <span style="color:#66d9ef">done</span>
-<span style="color:#66d9ef">done</span>
+<p>同样地，在<code>until</code>命令中放入多个测试命令时也要注意（类似<code>while</code>）。</p>
+
+<h3 id="嵌套循环">嵌套循环</h3>
+
+<p>在循环语句内使用任意类型的命令，包括其他循环命令，叫做嵌套循环。因为是在迭代中迭代，需要注意变量的使用以及程序的效率问题。</p>
+
+<p>下面举一个<code>for</code>循环嵌套<code>for</code>循环的例子：</p>
+
+<pre><code class="language-shell">wangsx@SC-201708020022:~/tmp$ cat test14
+#!/bin/bash
+# nesting for loops
+
+for (( a = 1; a &lt;= 3; a++ ))
+do
+        echo &quot;Starting loop $a:&quot;
+        for (( b = 1; b &lt;= 3; b++ ))
+        do
+                echo &quot;    Inside loop: $b&quot;
+        done
+done
 
 wangsx@SC-201708020022:~/tmp$ . test14
 Starting loop 1:
-    Inside loop: <span style="color:#ae81ff">1</span>
-    Inside loop: <span style="color:#ae81ff">2</span>
-    Inside loop: <span style="color:#ae81ff">3</span>
+    Inside loop: 1
+    Inside loop: 2
+    Inside loop: 3
 Starting loop 2:
-    Inside loop: <span style="color:#ae81ff">1</span>
-    Inside loop: <span style="color:#ae81ff">2</span>
-    Inside loop: <span style="color:#ae81ff">3</span>
+    Inside loop: 1
+    Inside loop: 2
+    Inside loop: 3
 Starting loop 3:
-    Inside loop: <span style="color:#ae81ff">1</span>
-    Inside loop: <span style="color:#ae81ff">2</span>
-    Inside loop: <span style="color:#ae81ff">3</span>
-</code></pre></div><p>shell能够自动识别匹配的<code>do</code>和<code>done</code>字符。这种模式很常见，比如通常的小括号（<code>(</code>与<code>)</code>）、中括号、花括号匹配等等。它们的本质都是字符匹配。</p>
+    Inside loop: 1
+    Inside loop: 2
+    Inside loop: 3
+</code></pre>
+
+<p>shell能够自动识别匹配的<code>do</code>和<code>done</code>字符。这种模式很常见，比如通常的小括号（<code>(</code>与<code>)</code>）、中括号、花括号匹配等等。它们的本质都是字符匹配。</p>
+
 <p>在混用循环命令时也一样，比如在<code>while</code>循环中内嵌一个<code>for</code>循环：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ cat test15
-<span style="color:#75715e">#!/bin/bash</span>
-<span style="color:#75715e"># placing a for loop inside a while loop</span>
 
-var1<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>
+<pre><code class="language-shell">wangsx@SC-201708020022:~/tmp$ cat test15
+#!/bin/bash
+# placing a for loop inside a while loop
 
-<span style="color:#66d9ef">while</span> <span style="color:#f92672">[</span> $var1 -ge <span style="color:#ae81ff">0</span> <span style="color:#f92672">]</span>
-<span style="color:#66d9ef">do</span>
-        echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Outer loop: </span>$var1<span style="color:#e6db74">&#34;</span>
-        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#f92672">(</span> var2 <span style="color:#f92672">=</span> 1; $var2 &lt; 3; var2++<span style="color:#f92672">)</span><span style="color:#f92672">)</span>
-        <span style="color:#66d9ef">do</span>
-                var3<span style="color:#f92672">=</span>$<span style="color:#f92672">[</span> $var1 * $var2 <span style="color:#f92672">]</span>
-                echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">  Inner loop: </span>$var1<span style="color:#e6db74"> * </span>$var2<span style="color:#e6db74"> = </span>$var3<span style="color:#e6db74">&#34;</span>
-        <span style="color:#66d9ef">done</span>
-        var1<span style="color:#f92672">=</span>$<span style="color:#f92672">[</span> $var1 - <span style="color:#ae81ff">1</span> <span style="color:#f92672">]</span>
-<span style="color:#66d9ef">done</span>
+var1=5
+
+while [ $var1 -ge 0 ]
+do
+        echo &quot;Outer loop: $var1&quot;
+        for (( var2 = 1; $var2 &lt; 3; var2++))
+        do
+                var3=$[ $var1 * $var2 ]
+                echo &quot;  Inner loop: $var1 * $var2 = $var3&quot;
+        done
+        var1=$[ $var1 - 1 ]
+done
 
 wangsx@SC-201708020022:~/tmp$ . test15
-Outer loop: <span style="color:#ae81ff">5</span>
-  Inner loop: <span style="color:#ae81ff">5</span> * 1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>
-  Inner loop: <span style="color:#ae81ff">5</span> * 2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>
-Outer loop: <span style="color:#ae81ff">4</span>
-  Inner loop: <span style="color:#ae81ff">4</span> * 1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>
-  Inner loop: <span style="color:#ae81ff">4</span> * 2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>
-Outer loop: <span style="color:#ae81ff">3</span>
-  Inner loop: <span style="color:#ae81ff">3</span> * 1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>
-  Inner loop: <span style="color:#ae81ff">3</span> * 2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>
-Outer loop: <span style="color:#ae81ff">2</span>
-  Inner loop: <span style="color:#ae81ff">2</span> * 1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
-  Inner loop: <span style="color:#ae81ff">2</span> * 2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>
-Outer loop: <span style="color:#ae81ff">1</span>
-  Inner loop: <span style="color:#ae81ff">1</span> * 1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
-  Inner loop: <span style="color:#ae81ff">1</span> * 2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
-Outer loop: <span style="color:#ae81ff">0</span>
-  Inner loop: <span style="color:#ae81ff">0</span> * 1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
-  Inner loop: <span style="color:#ae81ff">0</span> * 2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
-</code></pre></div><p>如果想要挑战脑力，可以混用<code>until</code>和<code>while</code>循环。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ cat test16
-<span style="color:#75715e">#!/bin/bash</span>
-<span style="color:#75715e"># using until and while loop</span>
+Outer loop: 5
+  Inner loop: 5 * 1 = 5
+  Inner loop: 5 * 2 = 10
+Outer loop: 4
+  Inner loop: 4 * 1 = 4
+  Inner loop: 4 * 2 = 8
+Outer loop: 3
+  Inner loop: 3 * 1 = 3
+  Inner loop: 3 * 2 = 6
+Outer loop: 2
+  Inner loop: 2 * 1 = 2
+  Inner loop: 2 * 2 = 4
+Outer loop: 1
+  Inner loop: 1 * 1 = 1
+  Inner loop: 1 * 2 = 2
+Outer loop: 0
+  Inner loop: 0 * 1 = 0
+  Inner loop: 0 * 2 = 0
+</code></pre>
 
-var1<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>
+<p>如果想要挑战脑力，可以混用<code>until</code>和<code>while</code>循环。</p>
 
-<span style="color:#66d9ef">until</span> <span style="color:#f92672">[</span> $var1 -eq <span style="color:#ae81ff">0</span> <span style="color:#f92672">]</span>
-<span style="color:#66d9ef">do</span>
-        echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Outer loop: </span>$var1<span style="color:#e6db74">&#34;</span>
-        var2<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
-        <span style="color:#66d9ef">while</span> <span style="color:#f92672">[</span> $var2 -lt <span style="color:#ae81ff">5</span> <span style="color:#f92672">]</span>
-        <span style="color:#66d9ef">do</span>
-                var3<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">scale=4; </span>$var1<span style="color:#e6db74"> / </span>$var2<span style="color:#e6db74">&#34;</span> | bc<span style="color:#66d9ef">)</span>
-                echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">  Inner loop: </span>$var1<span style="color:#e6db74"> / </span>$var2<span style="color:#e6db74"> = </span>$var3<span style="color:#e6db74">&#34;</span>
-                var2<span style="color:#f92672">=</span>$<span style="color:#f92672">[</span> $var2 + <span style="color:#ae81ff">1</span> <span style="color:#f92672">]</span>
-        <span style="color:#66d9ef">done</span>
-        var1<span style="color:#f92672">=</span>$<span style="color:#f92672">[</span> $var1 - <span style="color:#ae81ff">1</span> <span style="color:#f92672">]</span>
-<span style="color:#66d9ef">done</span>
+<pre><code class="language-shell">wangsx@SC-201708020022:~/tmp$ cat test16
+#!/bin/bash
+# using until and while loop
+
+var1=3
+
+until [ $var1 -eq 0 ]
+do
+        echo &quot;Outer loop: $var1&quot;
+        var2=1
+        while [ $var2 -lt 5 ]
+        do
+                var3=$(echo &quot;scale=4; $var1 / $var2&quot; | bc)
+                echo &quot;  Inner loop: $var1 / $var2 = $var3&quot;
+                var2=$[ $var2 + 1 ]
+        done
+        var1=$[ $var1 - 1 ]
+done
 
 wangsx@SC-201708020022:~/tmp$ . test16
-Outer loop: <span style="color:#ae81ff">3</span>
-  Inner loop: <span style="color:#ae81ff">3</span> / 1 <span style="color:#f92672">=</span> 3.0000
-  Inner loop: <span style="color:#ae81ff">3</span> / 2 <span style="color:#f92672">=</span> 1.5000
-  Inner loop: <span style="color:#ae81ff">3</span> / 3 <span style="color:#f92672">=</span> 1.0000
-  Inner loop: <span style="color:#ae81ff">3</span> / 4 <span style="color:#f92672">=</span> .7500
-Outer loop: <span style="color:#ae81ff">2</span>
-  Inner loop: <span style="color:#ae81ff">2</span> / 1 <span style="color:#f92672">=</span> 2.0000
-  Inner loop: <span style="color:#ae81ff">2</span> / 2 <span style="color:#f92672">=</span> 1.0000
-  Inner loop: <span style="color:#ae81ff">2</span> / 3 <span style="color:#f92672">=</span> .6666
-  Inner loop: <span style="color:#ae81ff">2</span> / 4 <span style="color:#f92672">=</span> .5000
-Outer loop: <span style="color:#ae81ff">1</span>
-  Inner loop: <span style="color:#ae81ff">1</span> / 1 <span style="color:#f92672">=</span> 1.0000
-  Inner loop: <span style="color:#ae81ff">1</span> / 2 <span style="color:#f92672">=</span> .5000
-  Inner loop: <span style="color:#ae81ff">1</span> / 3 <span style="color:#f92672">=</span> .3333
-  Inner loop: <span style="color:#ae81ff">1</span> / 4 <span style="color:#f92672">=</span> .2500
-</code></pre></div><p>外部的<code>until</code>循环以值3开始，并继续执行到值等于0。内部<code>while</code>循环以值1开始一直执行，只要值小于5。需要注意循环条件的设置，我跑的几次都没写完整，然后无限循环只好重开终端。</p>
-<h3 id="heading-5">控制循环</h3>
+Outer loop: 3
+  Inner loop: 3 / 1 = 3.0000
+  Inner loop: 3 / 2 = 1.5000
+  Inner loop: 3 / 3 = 1.0000
+  Inner loop: 3 / 4 = .7500
+Outer loop: 2
+  Inner loop: 2 / 1 = 2.0000
+  Inner loop: 2 / 2 = 1.0000
+  Inner loop: 2 / 3 = .6666
+  Inner loop: 2 / 4 = .5000
+Outer loop: 1
+  Inner loop: 1 / 1 = 1.0000
+  Inner loop: 1 / 2 = .5000
+  Inner loop: 1 / 3 = .3333
+  Inner loop: 1 / 4 = .2500
+</code></pre>
+
+<p>外部的<code>until</code>循环以值3开始，并继续执行到值等于0。内部<code>while</code>循环以值1开始一直执行，只要值小于5。需要注意循环条件的设置，我跑的几次都没写完整，然后无限循环只好重开终端。</p>
+
+<h3 id="控制循环">控制循环</h3>
+
 <p>之前的学的命令已经可以让我们写循环程序了，设定好以后等待命令开始执行和等待循环结束。但是很多情况下，在循环中我们设定的某个（多个）变量达到某种条件时，我们就想要停止循环，然后运行循环下面的命令。这时候我们需要用到<code>break</code>和<code>continue</code>命令来帮我们控制住循环。</p>
+
 <p>这两个命令在其他语言中基本都时关键字，特别是<code>C</code>，用法差不多。我也就不具体介绍了，只点出它们的功能。</p>
+
 <p><strong>break</strong></p>
+
 <blockquote>
 <p>在shell执行break命令时，它会尝试跳出当前正在执行的循环。</p>
+
 <p>在处理多个循环时，break命令会自动终止你所在的最内层循环。</p>
+
 <p>break命令接受单个命令行参数值：</p>
-<p>​	break n</p>
-<p>​	其中n制订了要跳出的循环层级（层数）</p>
+
+<p>​ break n</p>
+
+<p>​ 其中n制订了要跳出的循环层级（层数）</p>
 </blockquote>
+
 <p><strong>continue</strong></p>
+
 <blockquote>
 <p>continue命令可以提前终止某次循环的命令，但并不会完全终止整个循环。可以在循环内部设置shell不执行命令的条件。</p>
+
 <p>也就是说使用continue命令时，它会自动跳过本次循环中接下来的运行步骤，跳转到下一次循环。但注意不是跳出，跳出时break的功能。</p>
+
 <p>同样的可以使用continue n         n制定要继续执行哪一级循环</p>
 </blockquote>
-<h3 id="heading-6">处理循环的输出</h3>
+
+<h3 id="处理循环的输出">处理循环的输出</h3>
+
 <p>在shell脚本中，我们可以对循环的输出使用管道或进行重定向。这是通过在<code>done</code>命令之后添加一个处理命令来实现的。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ cat test
-<span style="color:#75715e">#!/bin/bash</span>
-<span style="color:#66d9ef">for</span> file in /home/*
-<span style="color:#66d9ef">do</span>
-        <span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> -d <span style="color:#e6db74">&#34;</span>$file<span style="color:#e6db74">&#34;</span> <span style="color:#f92672">]</span>
-        <span style="color:#66d9ef">then</span>
-                echo <span style="color:#e6db74">&#34;</span>$file<span style="color:#e6db74"> is a directory</span><span style="color:#e6db74">&#34;</span>
-        <span style="color:#66d9ef">else</span>
-                echo <span style="color:#e6db74">&#34;</span>$file<span style="color:#e6db74"> is a file</span><span style="color:#e6db74">&#34;</span>
-        <span style="color:#66d9ef">fi</span>
-<span style="color:#66d9ef">done</span> &gt; output.txt
+
+<pre><code class="language-shell">wangsx@SC-201708020022:~/tmp$ cat test
+#!/bin/bash
+for file in /home/*
+do
+        if [ -d &quot;$file&quot; ]
+        then
+                echo &quot;$file is a directory&quot;
+        else
+                echo &quot;$file is a file&quot;
+        fi
+done &gt; output.txt
 wangsx@SC-201708020022:~/tmp$ cat output.txt
 /home/wangsx is a directory
-</code></pre></div><p>shell将<code>for</code>命令的结果重定向到文件<code>output.txt</code>中，而不是显示在屏幕上。</p>
-<h3 id="heading-7">实例</h3>
+</code></pre>
+
+<p>shell将<code>for</code>命令的结果重定向到文件<code>output.txt</code>中，而不是显示在屏幕上。</p>
+
+<h3 id="实例">实例</h3>
+
 <p>下面两个例子演示如何用简单循环来处理数据。</p>
+
 <p><strong>查找可执行文件</strong></p>
+
 <p>Linux运行程序时通过环境变量<code>$PATH</code>提供的目录搜索可执行文件。如果徒手找的话，比较费时间，我们可以写个脚本来搞定它。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~$ cat test25
-<span style="color:#75715e">#!/bin/bash</span>
-<span style="color:#75715e"># finding files in the PATH</span>
 
-IFS<span style="color:#f92672">=</span>:
-<span style="color:#66d9ef">for</span> folder in $PATH
-<span style="color:#66d9ef">do</span>
-        echo <span style="color:#e6db74">&#34;</span>$folder<span style="color:#e6db74">:</span><span style="color:#e6db74">&#34;</span>
-        <span style="color:#66d9ef">for</span> file in $folder/*
-        <span style="color:#66d9ef">do</span>
-                <span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> -x $file <span style="color:#f92672">]</span>
-                <span style="color:#66d9ef">then</span>
-                        echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">  </span>$file<span style="color:#e6db74">&#34;</span>
-                <span style="color:#66d9ef">fi</span>
-        <span style="color:#66d9ef">done</span>
-<span style="color:#66d9ef">done</span>
+<pre><code class="language-shell">wangsx@SC-201708020022:~$ cat test25
+#!/bin/bash
+# finding files in the PATH
 
-<span style="color:#75715e"># 输出结果太多，我就不拷贝结果了</span>
-</code></pre></div><p>先设定<code>IFS</code>分隔符以便于能正确分隔目录，然后将目录存放在<code>$folder</code>中，用<code>for</code>循环来迭代特定的目录中所有文件，然后用<code>if-then</code>命令检查文件的可执行权限。</p>
+IFS=:
+for folder in $PATH
+do
+        echo &quot;$folder:&quot;
+        for file in $folder/*
+        do
+                if [ -x $file ]
+                then
+                        echo &quot;  $file&quot;
+                fi
+        done
+done
+
+# 输出结果太多，我就不拷贝结果了
+</code></pre>
+
+<p>先设定<code>IFS</code>分隔符以便于能正确分隔目录，然后将目录存放在<code>$folder</code>中，用<code>for</code>循环来迭代特定的目录中所有文件，然后用<code>if-then</code>命令检查文件的可执行权限。</p>
+
 <p>Linux有一个<code>tree</code>工具，非常方便输出目录结构，推荐使用下。</p>
-<p><strong>创建多个用户账号</strong></p>
-<p>如果你是管理员，需要创建大量账号时。不必每次都有<code>useradd</code>命令添加用户。将用户信息存放在指定文件，然后用脚本进行处理就可以了。</p>
-<p>用户信息的格式如下：</p>
-<pre><code>userid, user name
-</code></pre><p>第一个是你为用户选择的id，第二个是用户的全名。这是<code>csv</code>文件格式。</p>
-<p>为了能够读取它，我们使用以下命令：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#66d9ef">while</span> IFS<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;,&#39;</span> read -r userid name
-</code></pre></div><p><code>read</code>命令会自动获取<code>.csv</code>文本文件的下一行内容，所以不用再写一个循环来处理。当<code>read</code>命令返回<code>FALSE</code>时（也就是读完了），<code>while</code>命令就会退出。</p>
-<p>为了把数据从文件导向<code>while</code>命令，只要再<code>while</code>命令尾部加一个重定向符号。</p>
-<p>处理过程写成脚本如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">#!/bin/bash
-</span><span style="color:#75715e"></span><span style="color:#75715e"># process new user accounts</span>
 
-input<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;users.csv&#34;</span>
-<span style="color:#66d9ef">while</span> IFS<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;,&#39;</span>, read -r userid name
-<span style="color:#66d9ef">do</span>
-	echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">adding </span>$userid<span style="color:#e6db74">&#34;</span>
-	useradd -c <span style="color:#e6db74">&#34;</span>$name<span style="color:#e6db74">&#34;</span> -m $userid
-<span style="color:#66d9ef">done</span> &lt; <span style="color:#e6db74">&#34;</span>$input<span style="color:#e6db74">&#34;</span>
-</code></pre></div>
+<p><strong>创建多个用户账号</strong></p>
+
+<p>如果你是管理员，需要创建大量账号时。不必每次都有<code>useradd</code>命令添加用户。将用户信息存放在指定文件，然后用脚本进行处理就可以了。</p>
+
+<p>用户信息的格式如下：</p>
+
+<pre><code>userid, user name
+</code></pre>
+
+<p>第一个是你为用户选择的id，第二个是用户的全名。这是<code>csv</code>文件格式。</p>
+
+<p>为了能够读取它，我们使用以下命令：</p>
+
+<pre><code class="language-shell">while IFS=',' read -r userid name
+</code></pre>
+
+<p><code>read</code>命令会自动获取<code>.csv</code>文本文件的下一行内容，所以不用再写一个循环来处理。当<code>read</code>命令返回<code>FALSE</code>时（也就是读完了），<code>while</code>命令就会退出。</p>
+
+<p>为了把数据从文件导向<code>while</code>命令，只要再<code>while</code>命令尾部加一个重定向符号。</p>
+
+<p>处理过程写成脚本如下：</p>
+
+<pre><code class="language-shell">#!/bin/bash
+# process new user accounts
+
+input=&quot;users.csv&quot;
+while IFS=',', read -r userid name
+do
+	echo &quot;adding $userid&quot;
+	useradd -c &quot;$name&quot; -m $userid
+done &lt; &quot;$input&quot;
+</code></pre>
+
 
   <footer>
   
@@ -1094,7 +1370,7 @@ document.addEventListener('keyup', function(e) {
   
   
 
-  <div class="copyright"><a href="mailto:w_shixiang@163.com"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://github.com/ShixiangWang"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://orcid.org/0000-0001-9855-7357"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> <!-- raw HTML omitted --> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 © <a href="../../../">王诗翔</a> 2017 - 2020 </div>
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> &middot; <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> &middot; <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> &middot; <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> &middot; <a href="https://orcid.org/0000-0001-9855-7357"><i class='ai ai-orcid ai-1x'></i></a> &middot; <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 &copy; <a href="../../../">王诗翔</a> 2017 - 2020 </div>
   
   
 

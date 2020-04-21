@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>r on Shixiang Wang | 王诗翔</title>
@@ -6,10 +6,19 @@
     <description>Recent content in r on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 13 Jan 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 21 Apr 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/r/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>do.call 妙用——参数更新</title>
+      <link>/cn/post/2020-04-21-benefit-from-do-call/</link>
+      <pubDate>Tue, 21 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2020-04-21-benefit-from-do-call/</guid>
+      <description>R 中的 do.call() 是我极少用到的一个函数，不过它在很多情况下是蛮有用的，之前我也做过简单的介绍。 它可以在实际调用函数时将参数以列表的形式传入，下面是一</description>
+    </item>
     
     <item>
       <title>使用 ezcox 展示森林图</title>

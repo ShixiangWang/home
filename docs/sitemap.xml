@@ -1,40 +1,51 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
     <loc>/categories/</loc>
-    <lastmod>2020-01-24T00:00:00+00:00</lastmod>
+    <lastmod>2020-04-21T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/golang/</loc>
-    <lastmod>2020-01-24T00:00:00+00:00</lastmod>
+    <loc>/tags/</loc>
+    <lastmod>2020-04-21T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/cn/post/2020-04-21-benefit-from-do-call/</loc>
+    <lastmod>2020-04-21T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/r/</loc>
+    <lastmod>2020-04-21T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/r/</loc>
+    <lastmod>2020-04-21T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/golang/</loc>
     <lastmod>2020-01-24T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/</loc>
+    <loc>/tags/golang/</loc>
     <lastmod>2020-01-24T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/cn/post/golang-text-heart/</loc>
     <lastmod>2020-01-24T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/r/</loc>
-    <lastmod>2020-01-13T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/r/</loc>
-    <lastmod>2020-01-13T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -50,26 +61,31 @@
   <url>
     <loc>/tags/coding/</loc>
     <lastmod>2020-01-03T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/life/</loc>
     <lastmod>2020-01-03T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/python/</loc>
     <lastmod>2020-01-03T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/summary/</loc>
     <lastmod>2020-01-03T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/thinking/</loc>
     <lastmod>2020-01-03T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -80,26 +96,19 @@
   <url>
     <loc>/tags/stats/</loc>
     <lastmod>2019-12-25T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/%E7%BB%9F%E8%AE%A1%E6%A3%80%E9%AA%8C/</loc>
     <lastmod>2019-12-25T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/bioinformatics/</loc>
-    <lastmod>2019-12-21T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/package/</loc>
-    <lastmod>2019-12-14T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/ucscxenatools/</loc>
     <lastmod>2019-12-21T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -108,18 +117,33 @@
   </url>
   
   <url>
+    <loc>/categories/bioinformatics/</loc>
+    <lastmod>2019-12-21T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/package/</loc>
+    <lastmod>2019-12-14T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/tags/batch/</loc>
     <lastmod>2019-10-23T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/cox/</loc>
     <lastmod>2019-10-23T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/forestplot/</loc>
     <lastmod>2019-10-23T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -130,21 +154,25 @@
   <url>
     <loc>/tags/font/</loc>
     <lastmod>2019-10-18T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/life/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/rstudio/</loc>
     <lastmod>2019-10-18T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/vscode/</loc>
     <lastmod>2019-10-18T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -168,43 +196,50 @@
   </url>
   
   <url>
-    <loc>/tags/bioinformatics/</loc>
-    <lastmod>2019-12-21T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/data-access/</loc>
-    <lastmod>2019-12-21T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/packages/</loc>
-    <lastmod>2019-12-21T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/software/</loc>
-    <lastmod>2019-12-21T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/survival-analysis/</loc>
-    <lastmod>2019-12-21T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/en/post/ucscxenatools-201908/</loc>
     <lastmod>2019-12-21T00:00:00+00:00</lastmod>
   </url>
   
   <url>
+    <loc>/tags/bioinformatics/</loc>
+    <lastmod>2019-12-21T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/data-access/</loc>
+    <lastmod>2019-12-21T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/packages/</loc>
+    <lastmod>2019-12-21T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/software/</loc>
+    <lastmod>2019-12-21T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/survival-analysis/</loc>
+    <lastmod>2019-12-21T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/tags/%E7%94%9F%E5%AD%98%E5%88%86%E6%9E%90/</loc>
     <lastmod>2019-12-21T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/dbgap/</loc>
     <lastmod>2019-08-23T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -215,11 +250,13 @@
   <url>
     <loc>/tags/meta-analysis/</loc>
     <lastmod>2019-08-22T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/mysql/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -230,6 +267,7 @@
   <url>
     <loc>/tags/%E5%85%83%E5%88%86%E6%9E%90/</loc>
     <lastmod>2019-08-22T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -240,6 +278,7 @@
   <url>
     <loc>/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/</loc>
     <lastmod>2019-08-22T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -250,11 +289,13 @@
   <url>
     <loc>/tags/ggplot2/</loc>
     <lastmod>2019-11-06T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/ggplotify/</loc>
     <lastmod>2019-08-26T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -265,21 +306,25 @@
   <url>
     <loc>/tags/%E7%BB%98%E5%9B%BE/</loc>
     <lastmod>2019-08-26T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/rlang/</loc>
     <lastmod>2019-08-04T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/tidyeval/</loc>
     <lastmod>2019-08-04T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/tidyverse/</loc>
     <lastmod>2019-11-06T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -288,18 +333,20 @@
   </url>
   
   <url>
-    <loc>/tags/grid/</loc>
-    <lastmod>2019-08-26T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/cn/post/2019-07-29-grid-graph-model/</loc>
     <lastmod>2019-08-26T00:00:00+00:00</lastmod>
   </url>
   
   <url>
+    <loc>/tags/grid/</loc>
+    <lastmod>2019-08-26T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/tags/contribution/</loc>
     <lastmod>2019-10-22T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -310,6 +357,7 @@
   <url>
     <loc>/tags/dplyr/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -320,6 +368,7 @@
   <url>
     <loc>/tags/%E5%85%83%E7%BC%96%E7%A8%8B/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -330,16 +379,7 @@
   <url>
     <loc>/tags/%E7%BB%9F%E8%AE%A1%E5%88%86%E6%9E%90/</loc>
     <lastmod>2019-08-27T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/ml/</loc>
-    <lastmod>2019-07-04T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/tensorflow/</loc>
-    <lastmod>2019-07-04T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -348,13 +388,21 @@
   </url>
   
   <url>
-    <loc>/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</loc>
+    <loc>/categories/ml/</loc>
     <lastmod>2019-07-04T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/baseplot/</loc>
-    <lastmod>2019-08-26T00:00:00+00:00</lastmod>
+    <loc>/tags/tensorflow/</loc>
+    <lastmod>2019-07-04T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</loc>
+    <lastmod>2019-07-04T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -368,13 +416,21 @@
   </url>
   
   <url>
+    <loc>/tags/baseplot/</loc>
+    <lastmod>2019-08-26T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/tags/%E5%A4%9A%E5%9B%BE/</loc>
     <lastmod>2019-08-26T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/%E5%AE%89%E8%A3%85/</loc>
     <lastmod>2019-08-26T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -390,31 +446,19 @@
   <url>
     <loc>/tags/icb/</loc>
     <lastmod>2019-06-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/logo/</loc>
-    <lastmod>2019-08-26T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/mutational-signature/</loc>
-    <lastmod>2019-06-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/nsclc/</loc>
     <lastmod>2019-06-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/read/</loc>
+    <loc>/tags/tmb/</loc>
     <lastmod>2019-06-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/research/</loc>
-    <lastmod>2019-06-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -423,8 +467,27 @@
   </url>
   
   <url>
-    <loc>/tags/tmb/</loc>
+    <loc>/tags/logo/</loc>
+    <lastmod>2019-08-26T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/mutational-signature/</loc>
     <lastmod>2019-06-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/read/</loc>
+    <lastmod>2019-06-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/research/</loc>
+    <lastmod>2019-06-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -435,6 +498,7 @@
   <url>
     <loc>/tags/%E7%AC%94%E8%AE%B0/</loc>
     <lastmod>2019-08-26T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -445,11 +509,13 @@
   <url>
     <loc>/tags/thinking/</loc>
     <lastmod>2019-06-05T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/%E9%9A%8F%E7%AC%94/</loc>
     <lastmod>2019-06-05T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -460,6 +526,7 @@
   <url>
     <loc>/tags/bioconductor/</loc>
     <lastmod>2019-08-26T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -508,13 +575,15 @@
   </url>
   
   <url>
-    <loc>/tags/heatmap/</loc>
+    <loc>/tags/nmf/</loc>
     <lastmod>2019-09-23T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/nmf/</loc>
+    <loc>/tags/heatmap/</loc>
     <lastmod>2019-09-23T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -530,11 +599,13 @@
   <url>
     <loc>/tags/broom/</loc>
     <lastmod>2018-10-15T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/purrr/</loc>
     <lastmod>2018-10-15T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -545,11 +616,13 @@
   <url>
     <loc>/tags/%E8%BF%AD%E4%BB%A3%E8%AE%A1%E7%AE%97/</loc>
     <lastmod>2018-10-15T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/modelr/</loc>
     <lastmod>2018-10-05T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -560,6 +633,7 @@
   <url>
     <loc>/tags/%E5%BB%BA%E6%A8%A1/</loc>
     <lastmod>2018-10-05T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -575,11 +649,13 @@
   <url>
     <loc>/tags/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/</loc>
     <lastmod>2018-09-30T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/%E9%A2%84%E6%B5%8B/</loc>
     <lastmod>2018-09-30T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -590,6 +666,7 @@
   <url>
     <loc>/tags/%E5%AD%97%E4%BD%93/</loc>
     <lastmod>2018-09-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -600,6 +677,7 @@
   <url>
     <loc>/tags/stringr/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -610,16 +688,19 @@
   <url>
     <loc>/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/</loc>
     <lastmod>2018-09-17T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86/</loc>
     <lastmod>2018-09-17T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/%E7%88%AC%E8%99%AB/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -635,16 +716,19 @@
   <url>
     <loc>/tags/%E6%A3%AE%E6%9E%97%E5%9B%BE/</loc>
     <lastmod>2018-09-10T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/shiny/</loc>
     <lastmod>2018-08-31T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/shinydashboard/</loc>
     <lastmod>2018-08-31T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -655,6 +739,7 @@
   <url>
     <loc>/tags/%E9%AB%98%E6%80%A7%E8%83%BD%E8%AE%A1%E7%AE%97/</loc>
     <lastmod>2018-08-29T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -663,28 +748,32 @@
   </url>
   
   <url>
-    <loc>/tags/data.table/</loc>
-    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/cn/post/2019-11-20-r-hight-level-data-operation/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
   </url>
   
   <url>
+    <loc>/tags/data.table/</loc>
+    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/tags/rlist/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/sqldf/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/mongodb/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -695,26 +784,19 @@
   <url>
     <loc>/tags/redis/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/sql/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/sqlite/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/class/</loc>
-    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/instance/</loc>
-    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -725,16 +807,31 @@
   <url>
     <loc>/tags/r6/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/s3/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/s4/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/class/</loc>
+    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/instance/</loc>
+    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -775,11 +872,13 @@
   <url>
     <loc>/tags/ggplot/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/patchwork/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -790,6 +889,7 @@
   <url>
     <loc>/tags/%E5%80%BE%E5%90%91%E5%8C%B9%E9%85%8D/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -800,6 +900,7 @@
   <url>
     <loc>/tags/apply/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -815,11 +916,13 @@
   <url>
     <loc>/tags/docall/</loc>
     <lastmod>2018-06-07T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/lattice/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -830,11 +933,13 @@
   <url>
     <loc>/tags/%E9%80%92%E5%BD%92%E8%B0%83%E7%94%A8/</loc>
     <lastmod>2018-06-07T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/prepare/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -845,6 +950,7 @@
   <url>
     <loc>/tags/information/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -855,6 +961,7 @@
   <url>
     <loc>/tags/ggpubr/</loc>
     <lastmod>2019-09-23T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -865,20 +972,17 @@
   <url>
     <loc>/tags/bayesian/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/math/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/cn/post/2019-11-20-bayesian-condition-engines/</loc>
-    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/object/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
   </url>
   
@@ -888,17 +992,19 @@
   </url>
   
   <url>
+    <loc>/tags/object/</loc>
+    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/tags/type/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/cn/post/2019-11-20-r-class-and-type/</loc>
-    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/option/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
   </url>
   
@@ -908,17 +1014,19 @@
   </url>
   
   <url>
+    <loc>/tags/option/</loc>
+    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/tags/switch/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/cn/post/2019-11-20-r-global-options/</loc>
-    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/notion/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
   </url>
   
@@ -928,13 +1036,21 @@
   </url>
   
   <url>
+    <loc>/tags/notion/</loc>
+    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/tags/subset/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/survival/</loc>
     <lastmod>2019-10-18T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -950,6 +1066,7 @@
   <url>
     <loc>/tags/poem/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -965,21 +1082,25 @@
   <url>
     <loc>/tags/%E5%9F%BA%E7%A1%80/</loc>
     <lastmod>2018-04-15T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/</loc>
     <lastmod>2018-04-15T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/pubmed/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/yyplot/</loc>
     <lastmod>2019-11-20T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -995,11 +1116,13 @@
   <url>
     <loc>/tags/linux/</loc>
     <lastmod>2017-12-25T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/shell/</loc>
     <lastmod>2017-12-25T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -1020,11 +1143,13 @@
   <url>
     <loc>/tags/deg/</loc>
     <lastmod>2017-10-27T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/rnaseq/</loc>
     <lastmod>2017-10-27T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -1035,11 +1160,13 @@
   <url>
     <loc>/tags/go/</loc>
     <lastmod>2017-10-09T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/kegg/</loc>
     <lastmod>2017-10-09T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -1055,6 +1182,7 @@
   <url>
     <loc>/tags/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/</loc>
     <lastmod>2017-09-03T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>

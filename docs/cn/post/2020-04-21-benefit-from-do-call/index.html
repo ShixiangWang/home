@@ -12,10 +12,10 @@
     
     
     
-    <title>使用RMySQL简单操作mysql数据库 - 王诗翔</title>
+    <title>do.call 妙用——参数更新 - 王诗翔</title>
     
      
-    <meta property="og:title" content="使用RMySQL简单操作mysql数据库 - Shixiang Wang | 王诗翔">
+    <meta property="og:title" content="do.call 妙用——参数更新 - Shixiang Wang | 王诗翔">
     
 
     
@@ -92,7 +92,10 @@
 
 
 
-<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2019-08-22-using-rmysql.md" target="_blank">编辑</a></li>
+
+
+
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2020-04-21-benefit-from-do-call.Rmd" target="_blank">编辑</a></li>
 
 
 <li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
@@ -108,12 +111,12 @@
       <header class="title">
         
 
-<h1>使用RMySQL简单操作mysql数据库</h1>
+<h1>do.call 妙用——参数更新</h1>
 
 
 
 <h3>王诗翔 &middot 
-2019-08-22</h3> 
+2020-04-21</h3> 
 
 
    
@@ -123,57 +126,150 @@
       </header>
 
 
-<p>使用 MySQL 数据库创建一个用于存储用户信息的数据表：包含 username, email, password 三个字段，并分别使用 SQL 和 Python/R 客户端插入、删除和更新一行数据，密码使用 SHA256 进行加密</p>
 
-<pre><code class="language-r">library(RMySQL)
-con = dbConnect(MySQL(), user = &quot;root&quot;, password = &quot;xxx&quot;)
-# creating a database using RMySQL in R
-dbSendQuery(con, &quot;CREATE DATABASE test_user;&quot;)
-dbSendQuery(con, &quot;USE test_user;&quot;)
-dbDisconnect(con)
-# reconnecting to database we just created using following command in R :
-mydb = dbConnect(MySQL(), user = &quot;root&quot;, password = &quot;xxx&quot;, dbname=&quot;test_user&quot;)
 
-init_table = data.frame(
-    username = &quot;user1&quot;,
-    email = &quot;wxxx@163.com&quot;,
-    password = digest::sha1(&quot;yes&quot;,algo = &quot;sha256&quot;),
-    stringsAsFactors = FALSE
+
+<p>R 中的 <code>do.call()</code> 是我极少用到的一个函数，不过它在很多情况下是蛮有用的，之前我也做过简单的介绍。</p>
+<p>它可以在实际调用函数时将参数以列表的形式传入，下面是一个简单的函数：</p>
+<pre class="r"><code>f &lt;- function(x) print(x^2)</code></pre>
+<p>我们可以用下面的方式调用 <code>do.call()</code>：</p>
+<pre class="r"><code>do.call(f, list(x = 4))
+#&gt; [1] 16</code></pre>
+<p>大部分情况下这样的用法是啰嗦的，直接 <code>f(4)</code> 其实已经解决上面的问题了。</p>
+<p>最近我需要批量更新参数时发现了 <code>do.call()</code> 的好用之处。</p>
+<p>在批量建模时可能需要比较对建模函数设定不同的参数，我们以求和函数作为建模函数举例。</p>
+<p>假设建模需要 4 个参数，造一个类似的求和函数：</p>
+<pre class="r"><code>Sum &lt;- function(a = 1, b = 2, c = 3, d = 4) {
+  return(sum(a, b, c, d))
+}</code></pre>
+<p>而我们需要批量运行这个函数，而且只修改其中 3 个参数，另外参数是外部定义的，比如说其他使用这个函数的人。</p>
+<p>有可能只使用 a, b, c：</p>
+<pre class="r"><code>Sum(a = 1, b = 3, c = 5)
+#&gt; [1] 13</code></pre>
+<p>也可能使用 b, c, d。</p>
+<pre class="r"><code>Sum(d = 1, b = 3, c = 5)
+#&gt; [1] 10</code></pre>
+<p>这并不能直接通过 <code>for</code> 循环、<code>apply</code> 之类的操作进行批量调用。我们来看看 <code>do.call()</code> 如何解决这个问题。</p>
+<p>我们构建一个参数矩阵：</p>
+<pre class="r"><code>Args &lt;- expand.grid(
+  c(1, 2),
+  c(3, 4, 5),
+  c(6, 7, 8, 9)
 )
 
-append_table = data.frame(
-    username = &quot;user2&quot;,
-    email = &quot;wxxx@163.com&quot;,
-    password = digest::sha1(&quot;another password&quot;,algo = &quot;sha256&quot;),
-    stringsAsFactors = FALSE
-)
-
-dbWriteTable(mydb, name = &quot;test&quot;, value = init_table, row.names = FALSE, overwrite = TRUE)
-dbReadTable(mydb, &quot;test&quot;)
-
-# 追加数据
-dbWriteTable(mydb, name = &quot;test&quot;, value = append_table, row.names = FALSE, append = TRUE)
-dbReadTable(mydb, &quot;test&quot;)
-
-# 更新数据
-dbSendQuery(mydb, &quot;UPDATE test set username = 'user3' where username = 'user2'&quot;)
-dbReadTable(mydb, &quot;test&quot;)
-
-# 删除数据
-dbSendQuery(mydb, &quot;DELETE FROM test where username = 'user1'&quot;)
-dbReadTable(mydb, &quot;test&quot;)
-
-dbDisconnect(mydb)
-</code></pre>
-
-<p>参考： <a href="https://mkmanu.wordpress.com/2014/07/24/r-and-mysql-a-tutorial-for-beginners/">https://mkmanu.wordpress.com/2014/07/24/r-and-mysql-a-tutorial-for-beginners/</a></p>
+Args
+#&gt;    Var1 Var2 Var3
+#&gt; 1     1    3    6
+#&gt; 2     2    3    6
+#&gt; 3     1    4    6
+#&gt; 4     2    4    6
+#&gt; 5     1    5    6
+#&gt; 6     2    5    6
+#&gt; 7     1    3    7
+#&gt; 8     2    3    7
+#&gt; 9     1    4    7
+#&gt; 10    2    4    7
+#&gt; 11    1    5    7
+#&gt; 12    2    5    7
+#&gt; 13    1    3    8
+#&gt; 14    2    3    8
+#&gt; 15    1    4    8
+#&gt; 16    2    4    8
+#&gt; 17    1    5    8
+#&gt; 18    2    5    8
+#&gt; 19    1    3    9
+#&gt; 20    2    3    9
+#&gt; 21    1    4    9
+#&gt; 22    2    4    9
+#&gt; 23    1    5    9
+#&gt; 24    2    5    9</code></pre>
+<p>假设现在是使用 a, b, c 3 个参数：</p>
+<pre class="r"><code>colnames(Args) &lt;- c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;)
+head(Args)
+#&gt;   a b c
+#&gt; 1 1 3 6
+#&gt; 2 2 3 6
+#&gt; 3 1 4 6
+#&gt; 4 2 4 6
+#&gt; 5 1 5 6
+#&gt; 6 2 5 6</code></pre>
+<p>创建批处理函数：</p>
+<pre class="r"><code>batchSum &lt;- function(ArgsMat) {
+  args &lt;- list()
+  for (i in 1:nrow(ArgsMat)) {
+    args_update &lt;- c(args, ArgsMat[i, , drop = FALSE])
+    do.call(Sum, args = args_update)
+  }
+}</code></pre>
+<p>为了查看调用效果，我们修改下 <code>Sum()</code> 函数：</p>
+<pre class="r"><code>Sum &lt;- function(a = 1, b = 2, c = 3, d = 4) {
+  message(&quot;a:&quot;, a, &quot; b:&quot;, b, &quot; c:&quot;, c, &quot; d:&quot;, d)
+  return(sum(a, b, c, d))
+}</code></pre>
+<p>调用参数矩阵试试：</p>
+<pre class="r"><code>batchSum(Args)
+#&gt; a:1 b:3 c:6 d:4
+#&gt; a:2 b:3 c:6 d:4
+#&gt; a:1 b:4 c:6 d:4
+#&gt; a:2 b:4 c:6 d:4
+#&gt; a:1 b:5 c:6 d:4
+#&gt; a:2 b:5 c:6 d:4
+#&gt; a:1 b:3 c:7 d:4
+#&gt; a:2 b:3 c:7 d:4
+#&gt; a:1 b:4 c:7 d:4
+#&gt; a:2 b:4 c:7 d:4
+#&gt; a:1 b:5 c:7 d:4
+#&gt; a:2 b:5 c:7 d:4
+#&gt; a:1 b:3 c:8 d:4
+#&gt; a:2 b:3 c:8 d:4
+#&gt; a:1 b:4 c:8 d:4
+#&gt; a:2 b:4 c:8 d:4
+#&gt; a:1 b:5 c:8 d:4
+#&gt; a:2 b:5 c:8 d:4
+#&gt; a:1 b:3 c:9 d:4
+#&gt; a:2 b:3 c:9 d:4
+#&gt; a:1 b:4 c:9 d:4
+#&gt; a:2 b:4 c:9 d:4
+#&gt; a:1 b:5 c:9 d:4
+#&gt; a:2 b:5 c:9 d:4</code></pre>
+<p>可以看出来整个过程中 <code>d</code> 是没有变的。我们再修改参数矩阵：</p>
+<pre class="r"><code>colnames(Args) &lt;- c(&quot;a&quot;, &quot;c&quot;, &quot;d&quot;)</code></pre>
+<p>再次调用函数：</p>
+<pre class="r"><code>batchSum(Args)
+#&gt; a:1 b:2 c:3 d:6
+#&gt; a:2 b:2 c:3 d:6
+#&gt; a:1 b:2 c:4 d:6
+#&gt; a:2 b:2 c:4 d:6
+#&gt; a:1 b:2 c:5 d:6
+#&gt; a:2 b:2 c:5 d:6
+#&gt; a:1 b:2 c:3 d:7
+#&gt; a:2 b:2 c:3 d:7
+#&gt; a:1 b:2 c:4 d:7
+#&gt; a:2 b:2 c:4 d:7
+#&gt; a:1 b:2 c:5 d:7
+#&gt; a:2 b:2 c:5 d:7
+#&gt; a:1 b:2 c:3 d:8
+#&gt; a:2 b:2 c:3 d:8
+#&gt; a:1 b:2 c:4 d:8
+#&gt; a:2 b:2 c:4 d:8
+#&gt; a:1 b:2 c:5 d:8
+#&gt; a:2 b:2 c:5 d:8
+#&gt; a:1 b:2 c:3 d:9
+#&gt; a:2 b:2 c:3 d:9
+#&gt; a:1 b:2 c:4 d:9
+#&gt; a:2 b:2 c:4 d:9
+#&gt; a:1 b:2 c:5 d:9
+#&gt; a:2 b:2 c:5 d:9</code></pre>
+<p>此时 <code>b</code> 是没有变的。</p>
+<p>以上我们通过 <code>do.call()</code> 实现了内部函数对外部输入的自动匹配。</p>
+<p>该操作我把它实际用在了批量 Keras 模型的调用上：<a href="https://github.com/ShixiangWang/sigminer.prediction/blob/f64bcdf7bc8d5d819d48edc4344ed9af8b984738/R/batch_modeling_and_fitting.R#L37-L63" class="uri">https://github.com/ShixiangWang/sigminer.prediction/blob/f64bcdf7bc8d5d819d48edc4344ed9af8b984738/R/batch_modeling_and_fitting.R#L37-L63</a>，有兴趣的读者可以看一下。</p>
 
 
   <footer>
   
 <nav class="post-nav">
-  <span class="nav-prev">&larr; <a href="../../../cn/post/2019-08-22-metawho-add-deft-show-fun/">可视化 deft 方法进行的 subgroup 分析结果</a></span>
-  <span class="nav-next"><a href="../../../cn/post/2019-08-23-read-dbgap-subjects-samples-info/">读入 dbGap 的表型/注释信息</a> &rarr;</span>
+  <span class="nav-prev">&larr; <a href="../../../cn/post/golang-text-heart/">使用 Golang 绘制爱心文本</a></span>
+  <span class="nav-next"></span>
 </nav>
 <script type="text/javascript">
 document.addEventListener('keyup', function(e) {
@@ -181,11 +277,9 @@ document.addEventListener('keyup', function(e) {
   var url = false;
   if (e.which == 37) {  
     
-    url = '\/cn\/post\/2019-08-22-metawho-add-deft-show-fun\/';
+    url = '\/cn\/post\/golang-text-heart\/';
     
   } else if (e.which == 39) {  
-    
-    url = '\/cn\/post\/2019-08-23-read-dbgap-subjects-samples-info\/';
     
   }
   if (url) window.location = url;
