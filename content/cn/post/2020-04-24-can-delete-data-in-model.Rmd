@@ -1,0 +1,181 @@
+---
+title: "模型结果为什么那么占存储空间？可以缩小吗？"
+author: "王诗翔"
+date: "2020-04-24"
+lastmod: "`r Sys.Date()`"
+slug: ""
+categories: r
+tags:
+- r
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, dev = "png", comment = "#>", tidy = "styler")
+#Sys.setenv("LANGUAGE"="EN") # Embed this for outputing English message
+#Sys.setlocale('LC_ALL','C') # Embed this directly in the Rmarkdown script that contains the Chinese character comment
+options(digits=3)
+options(max.print=200)
+```
+
+在使用 R 处理逻辑回归建模问题时发现保存的模型对象非常之大，不可思议。正常情况下，我们建模之后所需要的就是模型的系数，以此对新的数据进行预测。当然，为了方便获取和处理一些模型信息，可能有一些汇总或关键的参数信息。
+
+**但是，模型结果大小远超乎我的想象，有必要彻查一番**。
+
+为了了解逻辑回归模型结果中到底存储了什么信息，我先造一个简单的模型。
+
+简单起见，我使用 Cookbook for R 中的[【逻辑回归】](https://shixiangwang.gitee.io/cookbook-for-r-chinese/section-7.html#section-7.5)一节的第一个例子。
+
+```{r}
+data(mtcars)
+dat <- subset(mtcars, select = c(mpg, am, vs))
+dat
+```
+
+
+建模：
+
+```{r}
+# 执行逻辑回归 —— 下面两种方式等效
+# logit是二项分布家族的默认模型
+logr_vm <- glm(vs ~ mpg, data = dat, family = binomial)
+#logr_vm <- glm(vs ~ mpg, data = dat, family = binomial(link = "logit"))
+logr_vm
+```
+
+显示的结果还是比较简洁的，包括调用、系数及其其他模型参数。
+
+用训练数据预测如下：
+
+```{r}
+pred = predict(logr_vm, type = "response", newdata = dat)
+pred
+```
+
+
+大部分情况下，我们得到一个模型后想要做的事情**可能仅仅只是用得到的模型系数来预测新的数据**，也就是得到类似上面的结果。
+
+到底是什么占据了大量的存储空间呢？我们实际看看这个对象到底存储了些什么：
+
+```{r}
+str(logr_vm)
+```
+
+我勒个去，看得眼睛都花了。仔细扫读一下，发现有很多的信息会随着拟合（训练）数据的增大而增大，包括残差、拟合值、效应值、模型。奇葩的是，拟合数据本身也被存储了，这是一个非常明显的负担。而且 `model` 项把数据又存储了一遍。
+
+大部分的信息在预测时根本用不到，我们可以试着删除一些信息后看是否还能够进行模型预测。
+
+存储的数据对模型预测应该没有影响：
+
+```{r}
+logr_vm$data = NULL
+predict(logr_vm, type = "response", newdata = dat)
+```
+
+删除残差和拟合值：
+
+```{r}
+logr_vm$residuals = NULL
+logr_vm$fitted.values = NULL
+predict(logr_vm, type = "response", newdata = dat)
+```
+
+删除权重：
+
+```{r}
+logr_vm$weights = NULL
+logr_vm$prior.weights = NULL
+predict(logr_vm, type = "response", newdata = dat)
+```
+
+从以上操作来看基本上与拟合模型数据等量级的信息在预测时都不会用到，如果模型结果很大时可以考虑删除。
+
+## 工具“屠夫”
+
+搜索了一下，tidymodels 组织有开发一个专门的工具包 **butcher** （屠夫！）来处理这个问题。
+
+```r
+install.packages("butcher")
+```
+
+它有一些斧头函数可以砍掉各种不同的数据，适用于常用的模型（见[列表](https://tidymodels.github.io/butcher/articles/available-axe-methods.html)）。
+
+- `axe_call()`: To remove the call object.
+- `axe_ctrl()`: To remove controls associated with training.
+- `axe_data()`: To remove the original training data.
+- `axe_env()`: To remove environments.
+- `axe_fitted()`: To remove fitted values.
+
+
+我们来试一试把这几个都砍掉是否还可以预测：
+
+```{r}
+library(butcher)
+```
+
+先重新弄一个完整模型：
+
+```{r}
+logr_vm <- glm(vs ~ mpg, data = dat, family = binomial)
+```
+
+查看占用：
+
+```{r}
+butcher::weigh(logr_vm)
+```
+
+搞事：
+
+```{r}
+cleaned_lm <- butcher::axe_env(logr_vm, verbose = TRUE)
+cleaned_lm <- butcher::axe_call(cleaned_lm, verbose = TRUE)
+cleaned_lm <- butcher::axe_data(cleaned_lm, verbose = TRUE)
+cleaned_lm <- butcher::axe_fitted(cleaned_lm, verbose = TRUE)
+cleaned_lm <- butcher::axe_ctrl(logr_vm, verbose = TRUE)
+```
+
+
+```{r}
+predict(cleaned_lm, type = "response", newdata = dat)
+```
+
+
+奇怪的是 `data` 没有被砍掉：
+
+```{r}
+cleaned_lm$data
+```
+
+是因为模型太小，没必要吗？试一下官方示例模型。
+
+```{r}
+our_model <- function() {
+  some_junk_in_the_environment <- runif(1e6) # we didn't know about
+  lm(mpg ~ ., data = mtcars) 
+}
+```
+
+```{r}
+big_lm <- our_model()
+```
+
+```{r}
+butcher::weigh(big_lm)
+```
+
+```{r}
+clean_lm <- butcher::axe_data(big_lm, verbose = TRUE)
+```
+
+奇怪了。还是不是砍掉数据。我试着查看了下底层的程序，才发现它有内部的评估机制看砍掉后是否能够释放空间，如果不会，就不砍了。
+
+```{r}
+butcher:::assess_object(big_lm, clean_lm)
+```
+
+最后看一下与包同名的函数，应该是可以自动删除不必要的东西：
+
+```{r}
+butcher::butcher(big_lm, verbose = TRUE)
+```
+

@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    
+    <link rel="stylesheet" href="../../../fonts/academicons-1.8.6/css/academicons.min.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../logo/bodhi.png"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    
+    <title>模型结果为什么那么占存储空间？可以缩小吗？ - 王诗翔</title>
+    
+     
+    <meta property="og:title" content="模型结果为什么那么占存储空间？可以缩小吗？ - Shixiang Wang | 王诗翔">
+    
+
+    
+      
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="../../../css/style.css" />
+    <link rel="stylesheet" href="../../../css/mystyle.css" /> 
+    <link rel="stylesheet" href="../../../css/fonts.css" />
+    
+<script async src="../../../js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="../../../css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="../../../logo/ShixiangWang.png"><img src="../../../logo/ShixiangWang.png" alt="Shixiang Wang" /></a></h1>
+
+
+
+      <nav class="menu">
+        <input id="menu-check" type="checkbox" />
+        <label id="menu-label" for="menu-check" class="unselectable">
+          <span class="icon close-icon">✕</span>
+          <span class="icon open-icon">☰</span>
+          <span class="text">Menu</span>
+        </label>
+        <ul>
+        
+        
+        <li><a href="../../../">首页</a></li>
+        
+        <li><a href="../../../cn/about/">关于</a></li>
+        
+        <li><a href="../../../cn/post/">博客</a></li>
+        
+        <li><a href="../../../cn/read/">读书</a></li>
+        
+        <li><a href="../../../cn/writing">写作</a></li>
+        
+        <li><a href="../../../cn/research/">研究</a></li>
+        
+        <li><a href="../../../cn/tools/">工具</a></li>
+        
+        <li><a href="../../../cn/cv-cn/shixiang">简历</a></li>
+        
+        <li><a href="../../../logo/qrcode.jpg">公众号</a></li>
+        
+        <li><a href="https://www.jianshu.com/u/b6608e27dc74">简书</a></li>
+        
+        <li><a href="../../../cn/todo">ToDo</a></li>
+        
+        <li><a href="../../../en/">English</a></li>
+        
+        
+
+<li class="menu-extra"></li>
+
+
+
+
+
+
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2020-04-24-can-delete-data-in-model.Rmd" target="_blank">编辑</a></li>
+
+
+<li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+        </ul>
+      </nav>
+    </header>
+
+    <article class="main">
+      <header class="title">
+        
+
+<h1>模型结果为什么那么占存储空间？可以缩小吗？</h1>
+
+
+
+<h3>王诗翔 &middot 
+2020-04-24</h3> 
+
+
+   
+  
+
+
+      </header>
+
+
+
+
+
+<p>在使用 R 处理逻辑回归建模问题时发现保存的模型对象非常之大，不可思议。正常情况下，我们建模之后所需要的就是模型的系数，以此对新的数据进行预测。当然，为了方便获取和处理一些模型信息，可能有一些汇总或关键的参数信息。</p>
+<p><strong>但是，模型结果大小远超乎我的想象，有必要彻查一番</strong>。</p>
+<p>为了了解逻辑回归模型结果中到底存储了什么信息，我先造一个简单的模型。</p>
+<p>简单起见，我使用 Cookbook for R 中的<a href="https://shixiangwang.gitee.io/cookbook-for-r-chinese/section-7.html#section-7.5">【逻辑回归】</a>一节的第一个例子。</p>
+<pre class="r"><code>data(mtcars)
+dat &lt;- subset(mtcars, select = c(mpg, am, vs))
+dat
+#&gt;                      mpg am vs
+#&gt; Mazda RX4           21.0  1  0
+#&gt; Mazda RX4 Wag       21.0  1  0
+#&gt; Datsun 710          22.8  1  1
+#&gt; Hornet 4 Drive      21.4  0  1
+#&gt; Hornet Sportabout   18.7  0  0
+#&gt; Valiant             18.1  0  1
+#&gt; Duster 360          14.3  0  0
+#&gt; Merc 240D           24.4  0  1
+#&gt; Merc 230            22.8  0  1
+#&gt; Merc 280            19.2  0  1
+#&gt; Merc 280C           17.8  0  1
+#&gt; Merc 450SE          16.4  0  0
+#&gt; Merc 450SL          17.3  0  0
+#&gt; Merc 450SLC         15.2  0  0
+#&gt; Cadillac Fleetwood  10.4  0  0
+#&gt; Lincoln Continental 10.4  0  0
+#&gt; Chrysler Imperial   14.7  0  0
+#&gt; Fiat 128            32.4  1  1
+#&gt; Honda Civic         30.4  1  1
+#&gt; Toyota Corolla      33.9  1  1
+#&gt; Toyota Corona       21.5  0  1
+#&gt; Dodge Challenger    15.5  0  0
+#&gt; AMC Javelin         15.2  0  0
+#&gt; Camaro Z28          13.3  0  0
+#&gt; Pontiac Firebird    19.2  0  0
+#&gt; Fiat X1-9           27.3  1  1
+#&gt; Porsche 914-2       26.0  1  0
+#&gt; Lotus Europa        30.4  1  1
+#&gt; Ford Pantera L      15.8  1  0
+#&gt; Ferrari Dino        19.7  1  0
+#&gt; Maserati Bora       15.0  1  0
+#&gt; Volvo 142E          21.4  1  1</code></pre>
+<p>建模：</p>
+<pre class="r"><code># 执行逻辑回归 —— 下面两种方式等效
+# logit是二项分布家族的默认模型
+logr_vm &lt;- glm(vs ~ mpg, data = dat, family = binomial)
+# logr_vm &lt;- glm(vs ~ mpg, data = dat, family = binomial(link = &quot;logit&quot;))
+logr_vm
+#&gt; 
+#&gt; Call:  glm(formula = vs ~ mpg, family = binomial, data = dat)
+#&gt; 
+#&gt; Coefficients:
+#&gt; (Intercept)          mpg  
+#&gt;       -8.83         0.43  
+#&gt; 
+#&gt; Degrees of Freedom: 31 Total (i.e. Null);  30 Residual
+#&gt; Null Deviance:       43.9 
+#&gt; Residual Deviance: 25.5  AIC: 29.5</code></pre>
+<p>显示的结果还是比较简洁的，包括调用、系数及其其他模型参数。</p>
+<p>用训练数据预测如下：</p>
+<pre class="r"><code>pred &lt;- predict(logr_vm, type = &quot;response&quot;, newdata = dat)
+pred
+#&gt;           Mazda RX4       Mazda RX4 Wag          Datsun 710      Hornet 4 Drive 
+#&gt;              0.5512              0.5512              0.7272              0.5933 
+#&gt;   Hornet Sportabout             Valiant          Duster 360           Merc 240D 
+#&gt;              0.3134              0.2607              0.0643              0.8414 
+#&gt;            Merc 230            Merc 280           Merc 280C          Merc 450SE 
+#&gt;              0.7272              0.3614              0.2365              0.1450 
+#&gt;          Merc 450SL         Merc 450SLC  Cadillac Fleetwood Lincoln Continental 
+#&gt;              0.1999              0.0919              0.0127              0.0127 
+#&gt;   Chrysler Imperial            Fiat 128         Honda Civic      Toyota Corolla 
+#&gt;              0.0754              0.9940              0.9860              0.9969 
+#&gt;       Toyota Corona    Dodge Challenger         AMC Javelin          Camaro Z28 
+#&gt;              0.6037              0.1032              0.0919              0.0428 
+#&gt;    Pontiac Firebird           Fiat X1-9       Porsche 914-2        Lotus Europa 
+#&gt;              0.3614              0.9487              0.9135              0.9860 
+#&gt;      Ford Pantera L        Ferrari Dino       Maserati Bora          Volvo 142E 
+#&gt;              0.1158              0.4124              0.0850              0.5933</code></pre>
+<p>大部分情况下，我们得到一个模型后想要做的事情<strong>可能仅仅只是用得到的模型系数来预测新的数据</strong>，也就是得到类似上面的结果。</p>
+<p>到底是什么占据了大量的存储空间呢？我们实际看看这个对象到底存储了些什么：</p>
+<pre class="r"><code>str(logr_vm)
+#&gt; List of 30
+#&gt;  $ coefficients     : Named num [1:2] -8.83 0.43
+#&gt;   ..- attr(*, &quot;names&quot;)= chr [1:2] &quot;(Intercept)&quot; &quot;mpg&quot;
+#&gt;  $ residuals        : Named num [1:32] -2.23 -2.23 1.38 1.69 -1.46 ...
+#&gt;   ..- attr(*, &quot;names&quot;)= chr [1:32] &quot;Mazda RX4&quot; &quot;Mazda RX4 Wag&quot; &quot;Datsun 710&quot; &quot;Hornet 4 Drive&quot; ...
+#&gt;  $ fitted.values    : Named num [1:32] 0.551 0.551 0.727 0.593 0.313 ...
+#&gt;   ..- attr(*, &quot;names&quot;)= chr [1:32] &quot;Mazda RX4&quot; &quot;Mazda RX4 Wag&quot; &quot;Datsun 710&quot; &quot;Hornet 4 Drive&quot; ...
+#&gt;  $ effects          : Named num [1:32] 0.703 -2.717 0.972 1.135 -0.549 ...
+#&gt;   ..- attr(*, &quot;names&quot;)= chr [1:32] &quot;(Intercept)&quot; &quot;mpg&quot; &quot;&quot; &quot;&quot; ...
+#&gt;  $ R                : num [1:2, 1:2] -2.03 0 -40.04 -6.31
+#&gt;   ..- attr(*, &quot;dimnames&quot;)=List of 2
+#&gt;   .. ..$ : chr [1:2] &quot;(Intercept)&quot; &quot;mpg&quot;
+#&gt;   .. ..$ : chr [1:2] &quot;(Intercept)&quot; &quot;mpg&quot;
+#&gt;  $ rank             : int 2
+#&gt;  $ qr               :List of 5
+#&gt;   ..$ qr   : num [1:32, 1:2] -2.031 0.245 0.219 0.242 0.228 ...
+#&gt;   .. ..- attr(*, &quot;dimnames&quot;)=List of 2
+#&gt;   .. .. ..$ : chr [1:32] &quot;Mazda RX4&quot; &quot;Mazda RX4 Wag&quot; &quot;Datsun 710&quot; &quot;Hornet 4 Drive&quot; ...
+#&gt;   .. .. ..$ : chr [1:2] &quot;(Intercept)&quot; &quot;mpg&quot;
+#&gt;   ..$ rank : int 2
+#&gt;   ..$ qraux: num [1:2] 1.24 1.08
+#&gt;   ..$ pivot: int [1:2] 1 2
+#&gt;   ..$ tol  : num 1e-11
+#&gt;   ..- attr(*, &quot;class&quot;)= chr &quot;qr&quot;
+#&gt;  $ family           :List of 12
+#&gt;   ..$ family    : chr &quot;binomial&quot;
+#&gt;   ..$ link      : chr &quot;logit&quot;
+#&gt;   ..$ linkfun   :function (mu)  
+#&gt;   ..$ linkinv   :function (eta)  
+#&gt;   ..$ variance  :function (mu)  
+#&gt;   ..$ dev.resids:function (y, mu, wt)  
+#&gt;   ..$ aic       :function (y, n, mu, wt, dev)  
+#&gt;   ..$ mu.eta    :function (eta)  
+#&gt;   ..$ initialize:  expression({  if (NCOL(y) == 1) {  if (is.factor(y))  y &lt;- y != levels(y)[1L]  n &lt;- rep.int(1, nobs)  y[weights =| __truncated__
+#&gt;   ..$ validmu   :function (mu)  
+#&gt;   ..$ valideta  :function (eta)  
+#&gt;   ..$ simulate  :function (object, nsim)  
+#&gt;   ..- attr(*, &quot;class&quot;)= chr &quot;family&quot;
+#&gt;  $ linear.predictors: Named num [1:32] 0.206 0.206 0.98 0.378 -0.784 ...
+#&gt;   ..- attr(*, &quot;names&quot;)= chr [1:32] &quot;Mazda RX4&quot; &quot;Mazda RX4 Wag&quot; &quot;Datsun 710&quot; &quot;Hornet 4 Drive&quot; ...
+#&gt;  $ deviance         : num 25.5
+#&gt;  $ aic              : num 29.5
+#&gt;  $ null.deviance    : num 43.9
+#&gt;  $ iter             : int 6
+#&gt;  $ weights          : Named num [1:32] 0.247 0.247 0.198 0.241 0.215 ...
+#&gt;   ..- attr(*, &quot;names&quot;)= chr [1:32] &quot;Mazda RX4&quot; &quot;Mazda RX4 Wag&quot; &quot;Datsun 710&quot; &quot;Hornet 4 Drive&quot; ...
+#&gt;  $ prior.weights    : Named num [1:32] 1 1 1 1 1 1 1 1 1 1 ...
+#&gt;   ..- attr(*, &quot;names&quot;)= chr [1:32] &quot;Mazda RX4&quot; &quot;Mazda RX4 Wag&quot; &quot;Datsun 710&quot; &quot;Hornet 4 Drive&quot; ...
+#&gt;  $ df.residual      : int 30
+#&gt;  $ df.null          : int 31
+#&gt;  $ y                : Named num [1:32] 0 0 1 1 0 1 0 1 1 1 ...
+#&gt;   ..- attr(*, &quot;names&quot;)= chr [1:32] &quot;Mazda RX4&quot; &quot;Mazda RX4 Wag&quot; &quot;Datsun 710&quot; &quot;Hornet 4 Drive&quot; ...
+#&gt;  $ converged        : logi TRUE
+#&gt;  $ boundary         : logi FALSE
+#&gt;  $ model            :&#39;data.frame&#39;:   32 obs. of  2 variables:
+#&gt;   ..$ vs : num [1:32] 0 0 1 1 0 1 0 1 1 1 ...
+#&gt;   ..$ mpg: num [1:32] 21 21 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 ...
+#&gt;   ..- attr(*, &quot;terms&quot;)=Classes &#39;terms&#39;, &#39;formula&#39;  language vs ~ mpg
+#&gt;   .. .. ..- attr(*, &quot;variables&quot;)= language list(vs, mpg)
+#&gt;   .. .. ..- attr(*, &quot;factors&quot;)= int [1:2, 1] 0 1
+#&gt;   .. .. .. ..- attr(*, &quot;dimnames&quot;)=List of 2
+#&gt;   .. .. .. .. ..$ : chr [1:2] &quot;vs&quot; &quot;mpg&quot;
+#&gt;   .. .. .. .. ..$ : chr &quot;mpg&quot;
+#&gt;   .. .. ..- attr(*, &quot;term.labels&quot;)= chr &quot;mpg&quot;
+#&gt;   .. .. ..- attr(*, &quot;order&quot;)= int 1
+#&gt;   .. .. ..- attr(*, &quot;intercept&quot;)= int 1
+#&gt;   .. .. ..- attr(*, &quot;response&quot;)= int 1
+#&gt;   .. .. ..- attr(*, &quot;.Environment&quot;)=&lt;environment: R_GlobalEnv&gt; 
+#&gt;   .. .. ..- attr(*, &quot;predvars&quot;)= language list(vs, mpg)
+#&gt;   .. .. ..- attr(*, &quot;dataClasses&quot;)= Named chr [1:2] &quot;numeric&quot; &quot;numeric&quot;
+#&gt;   .. .. .. ..- attr(*, &quot;names&quot;)= chr [1:2] &quot;vs&quot; &quot;mpg&quot;
+#&gt;  $ call             : language glm(formula = vs ~ mpg, family = binomial, data = dat)
+#&gt;  $ formula          :Class &#39;formula&#39;  language vs ~ mpg
+#&gt;   .. ..- attr(*, &quot;.Environment&quot;)=&lt;environment: R_GlobalEnv&gt; 
+#&gt;  $ terms            :Classes &#39;terms&#39;, &#39;formula&#39;  language vs ~ mpg
+#&gt;   .. ..- attr(*, &quot;variables&quot;)= language list(vs, mpg)
+#&gt;   .. ..- attr(*, &quot;factors&quot;)= int [1:2, 1] 0 1
+#&gt;   .. .. ..- attr(*, &quot;dimnames&quot;)=List of 2
+#&gt;   .. .. .. ..$ : chr [1:2] &quot;vs&quot; &quot;mpg&quot;
+#&gt;   .. .. .. ..$ : chr &quot;mpg&quot;
+#&gt;   .. ..- attr(*, &quot;term.labels&quot;)= chr &quot;mpg&quot;
+#&gt;   .. ..- attr(*, &quot;order&quot;)= int 1
+#&gt;   .. ..- attr(*, &quot;intercept&quot;)= int 1
+#&gt;   .. ..- attr(*, &quot;response&quot;)= int 1
+#&gt;   .. ..- attr(*, &quot;.Environment&quot;)=&lt;environment: R_GlobalEnv&gt; 
+#&gt;   .. ..- attr(*, &quot;predvars&quot;)= language list(vs, mpg)
+#&gt;   .. ..- attr(*, &quot;dataClasses&quot;)= Named chr [1:2] &quot;numeric&quot; &quot;numeric&quot;
+#&gt;   .. .. ..- attr(*, &quot;names&quot;)= chr [1:2] &quot;vs&quot; &quot;mpg&quot;
+#&gt;  $ data             :&#39;data.frame&#39;:   32 obs. of  3 variables:
+#&gt;   ..$ mpg: num [1:32] 21 21 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 ...
+#&gt;   ..$ am : num [1:32] 1 1 1 0 0 0 0 0 0 0 ...
+#&gt;   ..$ vs : num [1:32] 0 0 1 1 0 1 0 1 1 1 ...
+#&gt;  $ offset           : NULL
+#&gt;  $ control          :List of 3
+#&gt;   ..$ epsilon: num 1e-08
+#&gt;   ..$ maxit  : num 25
+#&gt;   ..$ trace  : logi FALSE
+#&gt;  $ method           : chr &quot;glm.fit&quot;
+#&gt;  $ contrasts        : NULL
+#&gt;  $ xlevels          : Named list()
+#&gt;  - attr(*, &quot;class&quot;)= chr [1:2] &quot;glm&quot; &quot;lm&quot;</code></pre>
+<p>我勒个去，看得眼睛都花了。仔细扫读一下，发现有很多的信息会随着拟合（训练）数据的增大而增大，包括残差、拟合值、效应值、模型。奇葩的是，拟合数据本身也被存储了，这是一个非常明显的负担。而且 <code>model</code> 项把数据又存储了一遍。</p>
+<p>大部分的信息在预测时根本用不到，我们可以试着删除一些信息后看是否还能够进行模型预测。</p>
+<p>存储的数据对模型预测应该没有影响：</p>
+<pre class="r"><code>logr_vm$data &lt;- NULL
+predict(logr_vm, type = &quot;response&quot;, newdata = dat)
+#&gt;           Mazda RX4       Mazda RX4 Wag          Datsun 710      Hornet 4 Drive 
+#&gt;              0.5512              0.5512              0.7272              0.5933 
+#&gt;   Hornet Sportabout             Valiant          Duster 360           Merc 240D 
+#&gt;              0.3134              0.2607              0.0643              0.8414 
+#&gt;            Merc 230            Merc 280           Merc 280C          Merc 450SE 
+#&gt;              0.7272              0.3614              0.2365              0.1450 
+#&gt;          Merc 450SL         Merc 450SLC  Cadillac Fleetwood Lincoln Continental 
+#&gt;              0.1999              0.0919              0.0127              0.0127 
+#&gt;   Chrysler Imperial            Fiat 128         Honda Civic      Toyota Corolla 
+#&gt;              0.0754              0.9940              0.9860              0.9969 
+#&gt;       Toyota Corona    Dodge Challenger         AMC Javelin          Camaro Z28 
+#&gt;              0.6037              0.1032              0.0919              0.0428 
+#&gt;    Pontiac Firebird           Fiat X1-9       Porsche 914-2        Lotus Europa 
+#&gt;              0.3614              0.9487              0.9135              0.9860 
+#&gt;      Ford Pantera L        Ferrari Dino       Maserati Bora          Volvo 142E 
+#&gt;              0.1158              0.4124              0.0850              0.5933</code></pre>
+<p>删除残差和拟合值：</p>
+<pre class="r"><code>logr_vm$residuals &lt;- NULL
+logr_vm$fitted.values &lt;- NULL
+predict(logr_vm, type = &quot;response&quot;, newdata = dat)
+#&gt;           Mazda RX4       Mazda RX4 Wag          Datsun 710      Hornet 4 Drive 
+#&gt;              0.5512              0.5512              0.7272              0.5933 
+#&gt;   Hornet Sportabout             Valiant          Duster 360           Merc 240D 
+#&gt;              0.3134              0.2607              0.0643              0.8414 
+#&gt;            Merc 230            Merc 280           Merc 280C          Merc 450SE 
+#&gt;              0.7272              0.3614              0.2365              0.1450 
+#&gt;          Merc 450SL         Merc 450SLC  Cadillac Fleetwood Lincoln Continental 
+#&gt;              0.1999              0.0919              0.0127              0.0127 
+#&gt;   Chrysler Imperial            Fiat 128         Honda Civic      Toyota Corolla 
+#&gt;              0.0754              0.9940              0.9860              0.9969 
+#&gt;       Toyota Corona    Dodge Challenger         AMC Javelin          Camaro Z28 
+#&gt;              0.6037              0.1032              0.0919              0.0428 
+#&gt;    Pontiac Firebird           Fiat X1-9       Porsche 914-2        Lotus Europa 
+#&gt;              0.3614              0.9487              0.9135              0.9860 
+#&gt;      Ford Pantera L        Ferrari Dino       Maserati Bora          Volvo 142E 
+#&gt;              0.1158              0.4124              0.0850              0.5933</code></pre>
+<p>删除权重：</p>
+<pre class="r"><code>logr_vm$weights &lt;- NULL
+logr_vm$prior.weights &lt;- NULL
+predict(logr_vm, type = &quot;response&quot;, newdata = dat)
+#&gt;           Mazda RX4       Mazda RX4 Wag          Datsun 710      Hornet 4 Drive 
+#&gt;              0.5512              0.5512              0.7272              0.5933 
+#&gt;   Hornet Sportabout             Valiant          Duster 360           Merc 240D 
+#&gt;              0.3134              0.2607              0.0643              0.8414 
+#&gt;            Merc 230            Merc 280           Merc 280C          Merc 450SE 
+#&gt;              0.7272              0.3614              0.2365              0.1450 
+#&gt;          Merc 450SL         Merc 450SLC  Cadillac Fleetwood Lincoln Continental 
+#&gt;              0.1999              0.0919              0.0127              0.0127 
+#&gt;   Chrysler Imperial            Fiat 128         Honda Civic      Toyota Corolla 
+#&gt;              0.0754              0.9940              0.9860              0.9969 
+#&gt;       Toyota Corona    Dodge Challenger         AMC Javelin          Camaro Z28 
+#&gt;              0.6037              0.1032              0.0919              0.0428 
+#&gt;    Pontiac Firebird           Fiat X1-9       Porsche 914-2        Lotus Europa 
+#&gt;              0.3614              0.9487              0.9135              0.9860 
+#&gt;      Ford Pantera L        Ferrari Dino       Maserati Bora          Volvo 142E 
+#&gt;              0.1158              0.4124              0.0850              0.5933</code></pre>
+<p>从以上操作来看基本上与拟合模型数据等量级的信息在预测时都不会用到，如果模型结果很大时可以考虑删除。</p>
+<div id="工具屠夫" class="section level2">
+<h2>工具“屠夫”</h2>
+<p>搜索了一下，tidymodels 组织有开发一个专门的工具包 <strong>butcher</strong> （屠夫！）来处理这个问题。</p>
+<pre class="r"><code>install.packages(&quot;butcher&quot;)</code></pre>
+<p>它有一些斧头函数可以砍掉各种不同的数据，适用于常用的模型（见<a href="https://tidymodels.github.io/butcher/articles/available-axe-methods.html">列表</a>）。</p>
+<ul>
+<li><code>axe_call()</code>: To remove the call object.</li>
+<li><code>axe_ctrl()</code>: To remove controls associated with training.</li>
+<li><code>axe_data()</code>: To remove the original training data.</li>
+<li><code>axe_env()</code>: To remove environments.</li>
+<li><code>axe_fitted()</code>: To remove fitted values.</li>
+</ul>
+<p>我们来试一试把这几个都砍掉是否还可以预测：</p>
+<pre class="r"><code>library(butcher)</code></pre>
+<p>先重新弄一个完整模型：</p>
+<pre class="r"><code>logr_vm &lt;- glm(vs ~ mpg, data = dat, family = binomial)</code></pre>
+<p>查看占用：</p>
+<pre class="r"><code>butcher::weigh(logr_vm)
+#&gt; # A tibble: 47 x 2
+#&gt;    object               size
+#&gt;    &lt;chr&gt;               &lt;dbl&gt;
+#&gt;  1 family.variance   0.0571 
+#&gt;  2 family.dev.resids 0.0571 
+#&gt;  3 family.aic        0.0571 
+#&gt;  4 family.validmu    0.0571 
+#&gt;  5 family.simulate   0.0571 
+#&gt;  6 family.initialize 0.0146 
+#&gt;  7 qr.qr             0.00418
+#&gt;  8 terms             0.00318
+#&gt;  9 residuals         0.00286
+#&gt; 10 fitted.values     0.00286
+#&gt; # … with 37 more rows</code></pre>
+<p>搞事：</p>
+<pre class="r"><code>cleaned_lm &lt;- butcher::axe_env(logr_vm, verbose = TRUE)
+#&gt; x No memory released. Do not butcher.
+cleaned_lm &lt;- butcher::axe_call(cleaned_lm, verbose = TRUE)
+#&gt; ✓ Memory released: &#39;320 B&#39;
+#&gt; x Disabled: `print()`, `summary()`
+cleaned_lm &lt;- butcher::axe_data(cleaned_lm, verbose = TRUE)
+#&gt; x No memory released. Do not butcher.
+cleaned_lm &lt;- butcher::axe_fitted(cleaned_lm, verbose = TRUE)
+#&gt; ✓ Memory released: &#39;232 B&#39;
+#&gt; x Disabled: `print()`, `summary()`, `fitted()`
+cleaned_lm &lt;- butcher::axe_ctrl(logr_vm, verbose = TRUE)
+#&gt; x No memory released. Do not butcher.</code></pre>
+<pre class="r"><code>predict(cleaned_lm, type = &quot;response&quot;, newdata = dat)
+#&gt;           Mazda RX4       Mazda RX4 Wag          Datsun 710      Hornet 4 Drive 
+#&gt;              0.5512              0.5512              0.7272              0.5933 
+#&gt;   Hornet Sportabout             Valiant          Duster 360           Merc 240D 
+#&gt;              0.3134              0.2607              0.0643              0.8414 
+#&gt;            Merc 230            Merc 280           Merc 280C          Merc 450SE 
+#&gt;              0.7272              0.3614              0.2365              0.1450 
+#&gt;          Merc 450SL         Merc 450SLC  Cadillac Fleetwood Lincoln Continental 
+#&gt;              0.1999              0.0919              0.0127              0.0127 
+#&gt;   Chrysler Imperial            Fiat 128         Honda Civic      Toyota Corolla 
+#&gt;              0.0754              0.9940              0.9860              0.9969 
+#&gt;       Toyota Corona    Dodge Challenger         AMC Javelin          Camaro Z28 
+#&gt;              0.6037              0.1032              0.0919              0.0428 
+#&gt;    Pontiac Firebird           Fiat X1-9       Porsche 914-2        Lotus Europa 
+#&gt;              0.3614              0.9487              0.9135              0.9860 
+#&gt;      Ford Pantera L        Ferrari Dino       Maserati Bora          Volvo 142E 
+#&gt;              0.1158              0.4124              0.0850              0.5933</code></pre>
+<p>奇怪的是 <code>data</code> 没有被砍掉：</p>
+<pre class="r"><code>cleaned_lm$data
+#&gt;                      mpg am vs
+#&gt; Mazda RX4           21.0  1  0
+#&gt; Mazda RX4 Wag       21.0  1  0
+#&gt; Datsun 710          22.8  1  1
+#&gt; Hornet 4 Drive      21.4  0  1
+#&gt; Hornet Sportabout   18.7  0  0
+#&gt; Valiant             18.1  0  1
+#&gt; Duster 360          14.3  0  0
+#&gt; Merc 240D           24.4  0  1
+#&gt; Merc 230            22.8  0  1
+#&gt; Merc 280            19.2  0  1
+#&gt; Merc 280C           17.8  0  1
+#&gt; Merc 450SE          16.4  0  0
+#&gt; Merc 450SL          17.3  0  0
+#&gt; Merc 450SLC         15.2  0  0
+#&gt; Cadillac Fleetwood  10.4  0  0
+#&gt; Lincoln Continental 10.4  0  0
+#&gt; Chrysler Imperial   14.7  0  0
+#&gt; Fiat 128            32.4  1  1
+#&gt; Honda Civic         30.4  1  1
+#&gt; Toyota Corolla      33.9  1  1
+#&gt; Toyota Corona       21.5  0  1
+#&gt; Dodge Challenger    15.5  0  0
+#&gt; AMC Javelin         15.2  0  0
+#&gt; Camaro Z28          13.3  0  0
+#&gt; Pontiac Firebird    19.2  0  0
+#&gt; Fiat X1-9           27.3  1  1
+#&gt; Porsche 914-2       26.0  1  0
+#&gt; Lotus Europa        30.4  1  1
+#&gt; Ford Pantera L      15.8  1  0
+#&gt; Ferrari Dino        19.7  1  0
+#&gt; Maserati Bora       15.0  1  0
+#&gt; Volvo 142E          21.4  1  1</code></pre>
+<p>是因为模型太小，没必要吗？试一下官方示例模型。</p>
+<pre class="r"><code>our_model &lt;- function() {
+  some_junk_in_the_environment &lt;- runif(1e6) # we didn&#39;t know about
+  lm(mpg ~ ., data = mtcars)
+}</code></pre>
+<pre class="r"><code>big_lm &lt;- our_model()</code></pre>
+<pre class="r"><code>butcher::weigh(big_lm)
+#&gt; # A tibble: 25 x 2
+#&gt;    object            size
+#&gt;    &lt;chr&gt;            &lt;dbl&gt;
+#&gt;  1 terms         8.01    
+#&gt;  2 qr.qr         0.00666 
+#&gt;  3 residuals     0.00286 
+#&gt;  4 fitted.values 0.00286 
+#&gt;  5 effects       0.0014  
+#&gt;  6 coefficients  0.00109 
+#&gt;  7 call          0.000728
+#&gt;  8 model.mpg     0.000304
+#&gt;  9 model.cyl     0.000304
+#&gt; 10 model.disp    0.000304
+#&gt; # … with 15 more rows</code></pre>
+<pre class="r"><code>clean_lm &lt;- butcher::axe_data(big_lm, verbose = TRUE)
+#&gt; x No memory released. Do not butcher.</code></pre>
+<p>奇怪了。还是不是砍掉数据。我试着查看了下底层的程序，才发现它有内部的评估机制看砍掉后是否能够释放空间，如果不会，就不砍了。</p>
+<pre class="r"><code>butcher:::assess_object(big_lm, clean_lm)
+#&gt; x No memory released. Do not butcher.</code></pre>
+<p>最后看一下与包同名的函数，应该是可以自动删除不必要的东西：</p>
+<pre class="r"><code>butcher::butcher(big_lm, verbose = TRUE)
+#&gt; ✓ Memory released: &#39;7,999,696 B&#39;
+#&gt; x Disabled: `print()`, `summary()`, `fitted()`
+#&gt; 
+#&gt; Call:
+#&gt; dummy_call()
+#&gt; 
+#&gt; Coefficients:
+#&gt; (Intercept)          cyl         disp           hp         drat           wt  
+#&gt;     12.3034      -0.1114       0.0133      -0.0215       0.7871      -3.7153  
+#&gt;        qsec           vs           am         gear         carb  
+#&gt;      0.8210       0.3178       2.5202       0.6554      -0.1994</code></pre>
+</div>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="../../../cn/post/2020-04-21-benefit-from-do-call/">do.call 妙用——参数更新</a></span>
+  <span class="nav-next"></span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/post\/2020-04-21-benefit-from-do-call\/';
+    
+  } else if (e.which == 39) {  
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+<section class="comments">
+  <div id="disqus_thread"></div>
+  <script src="../../../js/disqusloader.min.js"></script>
+  <script>
+  var disqus_config = function () {
+  
+    this.page.url = "https:\/\/shixiangwang.github.io\/home\/" + location.pathname;
+  
+  };
+  (function() {
+    var inIFrame = function() {
+      var iframe = true;
+      try { iframe = window.self !== window.top; } catch (e) {}
+      return iframe;
+    };
+    if (inIFrame()) return;
+    var disqus_js = '//home-xjdzylqrzp.disqus.com/embed.js';
+    
+    if (location.hash.match(/^#comment/)) {
+      var d = document, s = d.createElement('script');
+      s.src = disqus_js; s.async = true;
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    } else {
+      disqusLoader('#disqus_thread', {
+        scriptUrl: disqus_js, laziness: 0, disqusConfig: disqus_config
+      });
+    }
+  })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+
+
+<script async src="../../../js/fix-toc.js"></script>
+
+<script async src="../../../js/center-img.js"></script>
+
+<script async src="../../../js/right-quote.js"></script>
+
+<script async src="../../../js/no-highlight.js"></script>
+
+<script async src="../../../js/fix-footnote.js"></script>
+
+<script async src="../../../js/math-code.js"></script>
+
+<script async src="../../../js/external-link.js"></script>
+
+<script async src="../../../js/alt-title.js"></script>
+
+<script async src="../../../js/header-link.js"></script>
+
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+  
+  
+
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> &middot; <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> &middot; <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> &middot; <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> &middot; <a href="https://orcid.org/0000-0001-9855-7357"><i class='ai ai-orcid ai-1x'></i></a> &middot; <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 &copy; <a href="../../../">王诗翔</a> 2017 - 2020 </div>
+  
+  
+
+  <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56h9es09xn7&amp;m=6&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=1" async="async"></script>
+  </footer>
+  </article>
+  
+  </body>
+</html>
+
