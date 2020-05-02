@@ -1,0 +1,80 @@
+---
+title: "ezcox 森林图中点估计方块大小设定"
+author: "王诗翔"
+date: "2020-05-02"
+lastmod: "2020-05-02"
+slug: ""
+categories: r
+tags:
+- r
+---
+
+
+
+<p>这篇文章与 <a href="https://github.com/ShixiangWang/MessageBoard/issues/69" class="uri">https://github.com/ShixiangWang/MessageBoard/issues/69</a> 与 <a href="https://github.com/ShixiangWang/ezcox/issues/12" class="uri">https://github.com/ShixiangWang/ezcox/issues/12</a> 相关。</p>
+<hr />
+<p>之前开发的 ezcox 包提供了批量建模和展示森林图的功能，我自认为森林图要比 ggpubr 提供的 ggforest 好看。森林图的绘制实际是基于 <a href="https://github.com/NikNakk/forestmodel">forestmodel</a> 的实现。</p>
+<p>forestmodel 一个简单的使用示例如下：</p>
+<pre class="r"><code>library(&quot;forestmodel&quot;)
+#&gt; 载入需要的程辑包：ggplot2
+library(&quot;survival&quot;)
+library(&quot;dplyr&quot;)
+#&gt; 
+#&gt; 载入程辑包：&#39;dplyr&#39;
+#&gt; The following objects are masked from &#39;package:stats&#39;:
+#&gt; 
+#&gt;     filter, lag
+#&gt; The following objects are masked from &#39;package:base&#39;:
+#&gt; 
+#&gt;     intersect, setdiff, setequal, union
+pretty_lung &lt;- lung %&gt;%
+  transmute(time,
+            status,
+            Age = age,
+            Sex = factor(sex, labels = c(&quot;Male&quot;, &quot;Female&quot;)),
+            ECOG = factor(lung$ph.ecog),
+            `Meal Cal` = meal.cal)
+
+print(forest_model(coxph(Surv(time, status) ~ ., pretty_lung)))</code></pre>
+<p><img src="/cn/post/2020-05-02-ezcox-forest-set-square-size_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>有读者说展示点估计的方块比较大，能否方便调节。我检查了下这个设置的底层代码，发现默认设定是 5，由于 forestmodel 包本身没有支持这个设定的修改，所以我只有改源码解决。</p>
+<p>安装修改后的版本：</p>
+<pre class="r"><code>remotes::install_github(&quot;ShixiangWang/forestmodel&quot;)</code></pre>
+<p>修改方式如下：</p>
+<pre class="r"><code>pretty_lung &lt;- lung %&gt;%
+  transmute(time,
+            status,
+            Age = age,
+            Sex = factor(sex, labels = c(&quot;Male&quot;, &quot;Female&quot;)),
+            ECOG = factor(lung$ph.ecog),
+            `Meal Cal` = meal.cal)
+
+print(forest_model(coxph(Surv(time, status) ~ ., pretty_lung),
+                   format_options= forestmodel::forest_model_format_options(point_size = 3)))</code></pre>
+<p><img src="/cn/post/2020-05-02-ezcox-forest-set-square-size_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>这个修改也可以直接应用到 ezcox 的图形绘制中去。</p>
+<blockquote>
+<p>不需要更新 ezcox</p>
+</blockquote>
+<pre class="r"><code>library(ezcox)
+#&gt; Welcome to &#39;ezcox&#39; package!
+#&gt; =======================================================================
+#&gt; You are using ezcox version 0.4.0
+#&gt; 
+#&gt; Github page  : https://github.com/ShixiangWang/ezcox
+#&gt; Documentation: https://shixiangwang.github.io/ezcox/articles/ezcox.html
+#&gt; 
+#&gt; Run citation(&quot;ezcox&quot;) to see how to cite &#39;ezcox&#39;.
+#&gt; =======================================================================
+#&gt; 
+show_forest(lung, covariates = c(&quot;sex&quot;, &quot;ph.ecog&quot;), controls = &quot;age&quot;, 
+            format_options= forestmodel::forest_model_format_options(point_size = 3))
+#&gt; =&gt; Processing variable sex
+#&gt; ==&gt; Building Surv object...
+#&gt; ==&gt; Building Cox model...
+#&gt; ==&gt; Done.
+#&gt; =&gt; Processing variable ph.ecog
+#&gt; ==&gt; Building Surv object...
+#&gt; ==&gt; Building Cox model...
+#&gt; ==&gt; Done.</code></pre>
+<p><img src="/cn/post/2020-05-02-ezcox-forest-set-square-size_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>

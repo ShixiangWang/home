@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    
+    <link rel="stylesheet" href="../../../fonts/academicons-1.8.6/css/academicons.min.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../logo/bodhi.png"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    
+    <title>ezcox 森林图中点估计方块大小设定 - 王诗翔</title>
+    
+     
+    <meta property="og:title" content="ezcox 森林图中点估计方块大小设定 - Shixiang Wang | 王诗翔">
+    
+
+    
+      
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="../../../css/style.css" />
+    <link rel="stylesheet" href="../../../css/mystyle.css" /> 
+    <link rel="stylesheet" href="../../../css/fonts.css" />
+    
+<script async src="../../../js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="../../../css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="../../../logo/ShixiangWang.png"><img src="../../../logo/ShixiangWang.png" alt="Shixiang Wang" /></a></h1>
+
+
+
+      <nav class="menu">
+        <input id="menu-check" type="checkbox" />
+        <label id="menu-label" for="menu-check" class="unselectable">
+          <span class="icon close-icon">✕</span>
+          <span class="icon open-icon">☰</span>
+          <span class="text">Menu</span>
+        </label>
+        <ul>
+        
+        
+        <li><a href="../../../">首页</a></li>
+        
+        <li><a href="../../../cn/about/">关于</a></li>
+        
+        <li><a href="../../../cn/post/">博客</a></li>
+        
+        <li><a href="../../../cn/read/">读书</a></li>
+        
+        <li><a href="../../../cn/writing">写作</a></li>
+        
+        <li><a href="../../../cn/research/">研究</a></li>
+        
+        <li><a href="../../../cn/tools/">工具</a></li>
+        
+        <li><a href="../../../cn/cv-cn/shixiang">简历</a></li>
+        
+        <li><a href="../../../logo/qrcode.jpg">公众号</a></li>
+        
+        <li><a href="https://www.jianshu.com/u/b6608e27dc74">简书</a></li>
+        
+        <li><a href="../../../cn/todo">ToDo</a></li>
+        
+        <li><a href="../../../en/">English</a></li>
+        
+        
+
+<li class="menu-extra"></li>
+
+
+
+
+
+
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2020-05-02-ezcox-forest-set-square-size.Rmd" target="_blank">编辑</a></li>
+
+
+<li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+        </ul>
+      </nav>
+    </header>
+
+    <article class="main">
+      <header class="title">
+        
+
+<h1>ezcox 森林图中点估计方块大小设定</h1>
+
+
+
+<h3>王诗翔 &middot 
+2020-05-02</h3> 
+
+
+   
+  
+
+
+      </header>
+
+
+
+
+
+<p>这篇文章与 <a href="https://github.com/ShixiangWang/MessageBoard/issues/69" class="uri">https://github.com/ShixiangWang/MessageBoard/issues/69</a> 与 <a href="https://github.com/ShixiangWang/ezcox/issues/12" class="uri">https://github.com/ShixiangWang/ezcox/issues/12</a> 相关。</p>
+<hr />
+<p>之前开发的 ezcox 包提供了批量建模和展示森林图的功能，我自认为森林图要比 ggpubr 提供的 ggforest 好看。森林图的绘制实际是基于 <a href="https://github.com/NikNakk/forestmodel">forestmodel</a> 的实现。</p>
+<p>forestmodel 一个简单的使用示例如下：</p>
+<pre class="r"><code>library(&quot;forestmodel&quot;)
+#&gt; 载入需要的程辑包：ggplot2
+library(&quot;survival&quot;)
+library(&quot;dplyr&quot;)
+#&gt; 
+#&gt; 载入程辑包：&#39;dplyr&#39;
+#&gt; The following objects are masked from &#39;package:stats&#39;:
+#&gt; 
+#&gt;     filter, lag
+#&gt; The following objects are masked from &#39;package:base&#39;:
+#&gt; 
+#&gt;     intersect, setdiff, setequal, union
+pretty_lung &lt;- lung %&gt;%
+  transmute(time,
+            status,
+            Age = age,
+            Sex = factor(sex, labels = c(&quot;Male&quot;, &quot;Female&quot;)),
+            ECOG = factor(lung$ph.ecog),
+            `Meal Cal` = meal.cal)
+
+print(forest_model(coxph(Surv(time, status) ~ ., pretty_lung)))</code></pre>
+<p><img src="../../../cn/post/2020-05-02-ezcox-forest-set-square-size_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>有读者说展示点估计的方块比较大，能否方便调节。我检查了下这个设置的底层代码，发现默认设定是 5，由于 forestmodel 包本身没有支持这个设定的修改，所以我只有改源码解决。</p>
+<p>安装修改后的版本：</p>
+<pre class="r"><code>remotes::install_github(&quot;ShixiangWang/forestmodel&quot;)</code></pre>
+<p>修改方式如下：</p>
+<pre class="r"><code>pretty_lung &lt;- lung %&gt;%
+  transmute(time,
+            status,
+            Age = age,
+            Sex = factor(sex, labels = c(&quot;Male&quot;, &quot;Female&quot;)),
+            ECOG = factor(lung$ph.ecog),
+            `Meal Cal` = meal.cal)
+
+print(forest_model(coxph(Surv(time, status) ~ ., pretty_lung),
+                   format_options= forestmodel::forest_model_format_options(point_size = 3)))</code></pre>
+<p><img src="../../../cn/post/2020-05-02-ezcox-forest-set-square-size_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>这个修改也可以直接应用到 ezcox 的图形绘制中去。</p>
+<blockquote>
+<p>不需要更新 ezcox</p>
+</blockquote>
+<pre class="r"><code>library(ezcox)
+#&gt; Welcome to &#39;ezcox&#39; package!
+#&gt; =======================================================================
+#&gt; You are using ezcox version 0.4.0
+#&gt; 
+#&gt; Github page  : https://github.com/ShixiangWang/ezcox
+#&gt; Documentation: https://shixiangwang.github.io/ezcox/articles/ezcox.html
+#&gt; 
+#&gt; Run citation(&quot;ezcox&quot;) to see how to cite &#39;ezcox&#39;.
+#&gt; =======================================================================
+#&gt; 
+show_forest(lung, covariates = c(&quot;sex&quot;, &quot;ph.ecog&quot;), controls = &quot;age&quot;, 
+            format_options= forestmodel::forest_model_format_options(point_size = 3))
+#&gt; =&gt; Processing variable sex
+#&gt; ==&gt; Building Surv object...
+#&gt; ==&gt; Building Cox model...
+#&gt; ==&gt; Done.
+#&gt; =&gt; Processing variable ph.ecog
+#&gt; ==&gt; Building Surv object...
+#&gt; ==&gt; Building Cox model...
+#&gt; ==&gt; Done.</code></pre>
+<p><img src="../../../cn/post/2020-05-02-ezcox-forest-set-square-size_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="../../../cn/post/2020-04-24-can-delete-data-in-model/">模型结果为什么那么占存储空间？可以缩小吗？</a></span>
+  <span class="nav-next"></span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/post\/2020-04-24-can-delete-data-in-model\/';
+    
+  } else if (e.which == 39) {  
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+<section class="comments">
+  <div id="disqus_thread"></div>
+  <script src="../../../js/disqusloader.min.js"></script>
+  <script>
+  var disqus_config = function () {
+  
+    this.page.url = "https:\/\/shixiangwang.github.io\/home\/" + location.pathname;
+  
+  };
+  (function() {
+    var inIFrame = function() {
+      var iframe = true;
+      try { iframe = window.self !== window.top; } catch (e) {}
+      return iframe;
+    };
+    if (inIFrame()) return;
+    var disqus_js = '//home-xjdzylqrzp.disqus.com/embed.js';
+    
+    if (location.hash.match(/^#comment/)) {
+      var d = document, s = d.createElement('script');
+      s.src = disqus_js; s.async = true;
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    } else {
+      disqusLoader('#disqus_thread', {
+        scriptUrl: disqus_js, laziness: 0, disqusConfig: disqus_config
+      });
+    }
+  })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+
+
+<script async src="../../../js/fix-toc.js"></script>
+
+<script async src="../../../js/center-img.js"></script>
+
+<script async src="../../../js/right-quote.js"></script>
+
+<script async src="../../../js/no-highlight.js"></script>
+
+<script async src="../../../js/fix-footnote.js"></script>
+
+<script async src="../../../js/math-code.js"></script>
+
+<script async src="../../../js/external-link.js"></script>
+
+<script async src="../../../js/alt-title.js"></script>
+
+<script async src="../../../js/header-link.js"></script>
+
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+  
+  
+
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://github.com/ShixiangWang"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://orcid.org/0000-0001-9855-7357"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> <!-- raw HTML omitted --> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 © <a href="../../../">王诗翔</a> 2017 - 2020 </div>
+  
+  
+
+  <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56h9es09xn7&amp;m=6&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=1" async="async"></script>
+  </footer>
+  </article>
+  
+  </body>
+</html>
+
