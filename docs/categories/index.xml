@@ -21,6 +21,15 @@
     </item>
     
     <item>
+      <title>life</title>
+      <link>/categories/life/</link>
+      <pubDate>Wed, 29 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/life/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>golang</title>
       <link>/categories/golang/</link>
       <pubDate>Fri, 24 Jan 2020 00:00:00 +0000</pubDate>
@@ -44,15 +53,6 @@
       <pubDate>Sat, 14 Dec 2019 00:00:00 +0000</pubDate>
       
       <guid>/categories/bioinformatics/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>life</title>
-      <link>/categories/life/</link>
-      <pubDate>Fri, 18 Oct 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/life/</guid>
       <description></description>
     </item>
     

@@ -4,7 +4,7 @@
   
   <url>
     <loc>/categories/</loc>
-    <lastmod>2020-05-02T00:00:00+00:00</lastmod>
+    <lastmod>2020-05-05T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -24,7 +24,27 @@
   
   <url>
     <loc>/tags/</loc>
-    <lastmod>2020-05-02T00:00:00+00:00</lastmod>
+    <lastmod>2020-05-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/life/</loc>
+    <lastmod>2020-05-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/life/</loc>
+    <lastmod>2020-05-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/poem/</loc>
+    <lastmod>2020-05-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/cn/post/2020-05-05-birthday-2020/</loc>
+    <lastmod>2020-05-05T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -69,11 +89,6 @@
   
   <url>
     <loc>/tags/coding/</loc>
-    <lastmod>2020-01-03T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/life/</loc>
     <lastmod>2020-01-03T00:00:00+00:00</lastmod>
   </url>
   
@@ -150,11 +165,6 @@
   <url>
     <loc>/tags/font/</loc>
     <lastmod>2019-10-18T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/life/</loc>
-    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -965,11 +975,6 @@
   <url>
     <loc>/cn/post/2019-11-06-eda-with-tidyverse/</loc>
     <lastmod>2019-11-06T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/poem/</loc>
-    <lastmod>2019-11-20T00:00:00+00:00</lastmod>
   </url>
   
   <url>
