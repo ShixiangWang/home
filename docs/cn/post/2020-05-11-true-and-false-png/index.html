@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    
+    <link rel="stylesheet" href="../../../fonts/academicons-1.8.6/css/academicons.min.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../logo/bodhi.png"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    
+    <title>事实不等于标签：关于真假 png 的找 bug 记录 - 王诗翔</title>
+    
+     
+    <meta property="og:title" content="事实不等于标签：关于真假 png 的找 bug 记录 - Shixiang Wang | 王诗翔">
+    
+
+    
+      
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="../../../css/style.css" />
+    <link rel="stylesheet" href="../../../css/mystyle.css" /> 
+    <link rel="stylesheet" href="../../../css/fonts.css" />
+    
+<script async src="../../../js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="../../../css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="../../../logo/ShixiangWang.png"><img src="../../../logo/ShixiangWang.png" alt="Shixiang Wang" /></a></h1>
+
+
+
+      <nav class="menu">
+        <input id="menu-check" type="checkbox" />
+        <label id="menu-label" for="menu-check" class="unselectable">
+          <span class="icon close-icon">✕</span>
+          <span class="icon open-icon">☰</span>
+          <span class="text">Menu</span>
+        </label>
+        <ul>
+        
+        
+        <li><a href="../../../">首页</a></li>
+        
+        <li><a href="../../../cn/about/">关于</a></li>
+        
+        <li><a href="../../../cn/post/">博客</a></li>
+        
+        <li><a href="../../../cn/read/">读书</a></li>
+        
+        <li><a href="../../../cn/writing">写作</a></li>
+        
+        <li><a href="../../../cn/research/">研究</a></li>
+        
+        <li><a href="../../../cn/tools/">工具</a></li>
+        
+        <li><a href="../../../cn/cv-cn/shixiang">简历</a></li>
+        
+        <li><a href="../../../logo/qrcode.jpg">公众号</a></li>
+        
+        <li><a href="https://www.jianshu.com/u/b6608e27dc74">简书</a></li>
+        
+        <li><a href="../../../cn/todo">ToDo</a></li>
+        
+        <li><a href="../../../en/">English</a></li>
+        
+        
+
+<li class="menu-extra"></li>
+
+
+
+
+
+
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2020-05-11-true-and-false-png.Rmd" target="_blank">编辑</a></li>
+
+
+<li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+        </ul>
+      </nav>
+    </header>
+
+    <article class="main">
+      <header class="title">
+        
+
+<h1>事实不等于标签：关于真假 png 的找 bug 记录</h1>
+
+
+
+<h3>王诗翔 &middot 
+2020-05-11</h3> 
+
+
+   
+  
+
+
+      </header>
+
+
+
+
+
+<p>这是针对今天找 bug 的记录。</p>
+<hr />
+<p>我在日常更改 sigminer 手册后使用 knitr 生成网页文档时发现一直报错：</p>
+<pre class="r"><code>Quitting from lines 42-43 (sigminer-doc.Rmd) 
+Error in png::readPNG(path, native = TRUE, info = TRUE) : 
+  file is not in PNG format</code></pre>
+<p>这个报错源自于我使用了 <code>knitr::include_graphics()</code> 插入 png 图片。图片来自一篇自然综述，用于介绍 Mutation Signatures。</p>
+<p><img src="https://shixiangwang.github.io/sigminer-doc/fig/sbs_signature_overview_nat_review2.png" /><!-- --></p>
+<p>之前我也遇到过这种报错，后来莫名其妙好了，我也就没管了。今天不知道为什么又出现这种情况，所以还是自动动手想办法解决吧。</p>
+<p>在 RStudio 的 code chunk 运行中，我是能正常看到预览的图片的，按理来说没有问题。我又试着使用 <code>png::readPNG()</code> 直接在控制台读入一张 png <strong>图片</strong>（这是一个重点），出现了跟报错无关的警告，但能够正常读入。这就奇怪了。。。</p>
+<p>我试着使用 <code>debug()</code> 函数后再运行 knit，这样可以跳入报错代码，按逐步运行确实有出现了上述的报错！</p>
+<p>我依稀想起来之前重装 <code>knitr</code> 包好像解决了问题，我又重装 <code>knitr</code>，还是报错。</p>
+<p>面对这个重复的报错，我越想越偏，我看到 <code>png</code> 包在读入数据时底层应该是调用了 C(++) 代码，难道是 png 包问题？我重装它还是没解决，我又试着安装源码包，还是有问题。。。</p>
+<p>真是奇怪，不可能存在两份代码，我 knitr 外不报错，而在 knitr 使用时报错。想不明白的我暂时把问题扔到了 Stack overflow <a href="https://stackoverflow.com/questions/61721837/cannot-use-include-graphics-to-insert-png-in-rmarkdown-error-file-is-not-in-pn" class="uri">https://stackoverflow.com/questions/61721837/cannot-use-include-graphics-to-insert-png-in-rmarkdown-error-file-is-not-in-pn</a>，吃饭去吧。</p>
+<p>吃饭回来休息后打开一开发现有一回答：</p>
+<blockquote>
+<p>I think that the issue might be where your Rmd is located</p>
+</blockquote>
+<p>这个回答我内心觉得不对，因为我一直是在 Rmd 所在目录进行 knit 的，之前我使用 <code>knitr</code> 也没遇到这方面问题。不过如果真是这样呢？还是试试吧。</p>
+<p>紧接着问题来了，我发现在 knit 的过程中我是无法在控制台看到输出的！这该怎么办呢？？搜解决办法。</p>
+<p>通过谷歌我找到 2 种比较靠谱的方法来查看 knit 时使用的根目录。</p>
+<p>第一种是根据 <code>knitr</code> 进行设定：</p>
+<pre class="r"><code>knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())</code></pre>
+<p>这样就把 knit 时候的根目录跟 RStudio 使用的根目录保持一致了。但还是报错，而且这里我无法查看到底根目录是什么。</p>
+<p>第二种方法的来源链接我忘了，是在 Stack overflow 上，我做了一点小的修改：</p>
+<pre class="r"><code>knitr::knit_hooks$set(debug = function(before, options, envir) {
+  if (!before) {
+    envir = as.list(envir)
+    message(&quot;Objects: &quot;, paste(names(envir), collapse = &quot; &quot;))
+    for (i in names(envir)) {
+      if (!startsWith(i, &quot;.&quot;)) {
+        message(
+          i, &quot; = &quot;, envir[[i]]
+        )
+      }
+    }
+  }
+})</code></pre>
+<p>加入这段代码后我就可以在 code chunk 的设定中加 <code>debug = TRUE</code>，然后将 <code>rprojroot::find_rstudio_root_file()</code> 和 <code>getwd()</code> 的结果赋值给变量，knit 的时候会提示变量信息。</p>
+<pre class="r"><code>Objects: workdir root.dir
+workdir = /Users/wsx/Documents/GitHub/sigminer-doc
+root.dir = /Users/wsx/Documents/GitHub/sigminer-doc
+  |.....                                                                                                                                 |   4%
+  ordinary text without R code
+
+  |......                                                                                                                                |   5%
+label: unnamed-chunk-3 (with options) 
+List of 2
+ $ echo   : logi FALSE
+ $ fig.cap: chr &quot;The illustration of SBS signature, fig source: https://www.nature.com/articles/nrg3729&quot;
+
+Quitting from lines 64-65 (sigminer-doc.Rmd) 
+Error in png::readPNG(path, native = TRUE, info = TRUE) : 
+  file is not in PNG format</code></pre>
+<p>从输出来看 Rmd 的工作目录是完全没有问题的。那问题到底在哪里呢？？看着 <code>file is not in PNG format</code> 这个错误提示，我久久不能释怀，还是要搞掉它。</p>
+<p>目前我在这个文档中我引入了外部 3 张 png 图片，我一个一个读取试试。</p>
+<p>我 Ca，怎么有失败的。</p>
+<pre class="r"><code>&gt; png::readPNG(&quot;fig/sbs_signature_overview.png&quot;)
+ [ reached getOption(&quot;max.print&quot;) -- omitted 3 matrix slice(s) ]
+Warning message:
+In png::readPNG(&quot;fig/sbs_signature_overview.png&quot;) :
+  libpng warning: iCCP: known incorrect sRGB profile
+&gt; png::readPNG(&quot;fig/sbs_signature_overview_nat_review.png&quot;)
+Error in png::readPNG(&quot;fig/sbs_signature_overview_nat_review.png&quot;) : 
+  file is not in PNG format</code></pre>
+<p>恍然大悟，之前我读取正常的并不是我 knit 引起报错的。<strong>因为它们都是 png 文件，所以我觉得没什么不同，也就没有额外注意</strong>。</p>
+<p>既然格式不对，那就得想办法知道报错图片的格式。我试了下 <code>jpeg::readJPEG()</code>，发现还是报错。这样搞不行，鬼知道有多少种图片格式，得找个工具。</p>
+<p>接着我找到了正确的工具 <code>magick</code>。</p>
+<p>一查，报错图片还真不是 png 格式：</p>
+<pre class="r"><code>&gt; error_file = magick::image_read(&quot;fig/sbs_signature_overview_nat_review.png&quot;)
+&gt; print(error_file)
+  format width height colorspace matte filesize density
+1   WEBP   685    521       sRGB FALSE    18390   72x72</code></pre>
+<p><strong>原来我以为网络图片另存为 .png 就成了 png 图片。。。。</strong></p>
+<p>最后还是通过这个工具转换生成一张 png 格式的，从根本上解决了问题：</p>
+<pre class="r"><code>&gt; right_png &lt;- magick::image_convert(error_file, &quot;png&quot;)
+&gt; right_png
+  format width height colorspace matte filesize density
+1    PNG   685    521       sRGB FALSE        0   72x72
+&gt; magick::image_write(right_png, path = &quot;fig/sbs_signature_overview_nat_review2.png&quot;, format = &quot;png&quot;)</code></pre>
+<p>那么问题又来了，为什么使用在 RStudio 中使用 <code>knitr::include_graphics()</code> 预览是正常的呢？在写到这里的时候，我突然想到预览时 <code>knitr</code> 应该不是调用的 <code>png</code> 进行读取，所以没有报错。</p>
+<p>现在回想起来有点想骂自己没脑子，有两个点如果注意了，我不会花这么多时间：</p>
+<ul>
+<li>测试 <code>png</code> 读取时应该使用报错的图片。</li>
+<li>认真理解报错信息。</li>
+</ul>
+<p>但作为一个人，往往难以客观准确高效地看清问题本质。另一方面说，没有愚蠢的操作，我也不会想尽办法各种深挖，事后写篇文章记录下了。</p>
+<p>程序不会错，错的是我们的思维；bug 不可怕，可怕的它生出一堆 bugs（刚好看到 Y 叔今日推文）。</p>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="../../../cn/post/2020-05-02-ezcox-forest-set-square-size/">ezcox 森林图中点估计方块大小设定</a></span>
+  <span class="nav-next"></span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/post\/2020-05-02-ezcox-forest-set-square-size\/';
+    
+  } else if (e.which == 39) {  
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+<section class="comments">
+  <div id="disqus_thread"></div>
+  <script src="../../../js/disqusloader.min.js"></script>
+  <script>
+  var disqus_config = function () {
+  
+    this.page.url = "https:\/\/shixiangwang.github.io\/home\/" + location.pathname;
+  
+  };
+  (function() {
+    var inIFrame = function() {
+      var iframe = true;
+      try { iframe = window.self !== window.top; } catch (e) {}
+      return iframe;
+    };
+    if (inIFrame()) return;
+    var disqus_js = '//home-xjdzylqrzp.disqus.com/embed.js';
+    
+    if (location.hash.match(/^#comment/)) {
+      var d = document, s = d.createElement('script');
+      s.src = disqus_js; s.async = true;
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    } else {
+      disqusLoader('#disqus_thread', {
+        scriptUrl: disqus_js, laziness: 0, disqusConfig: disqus_config
+      });
+    }
+  })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+
+
+<script async src="../../../js/fix-toc.js"></script>
+
+<script async src="../../../js/center-img.js"></script>
+
+<script async src="../../../js/right-quote.js"></script>
+
+<script async src="../../../js/no-highlight.js"></script>
+
+<script async src="../../../js/fix-footnote.js"></script>
+
+<script async src="../../../js/math-code.js"></script>
+
+<script async src="../../../js/external-link.js"></script>
+
+<script async src="../../../js/alt-title.js"></script>
+
+<script async src="../../../js/header-link.js"></script>
+
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+  
+  
+
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> &middot; <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> &middot; <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> &middot; <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> &middot; <a href="https://orcid.org/0000-0001-9855-7357"><i class='ai ai-orcid ai-1x'></i></a> &middot; <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 &copy; <a href="../../../">王诗翔</a> 2017 - 2020 </div>
+  
+  
+
+  <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56h9es09xn7&amp;m=6&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=1" async="async"></script>
+  </footer>
+  </article>
+  
+  </body>
+</html>
+

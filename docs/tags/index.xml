@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Shixiang Wang | 王诗翔</title>
@@ -6,7 +6,7 @@
     <description>Recent content in Tags on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 02 May 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 11 May 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>r</title>
       <link>/tags/r/</link>
-      <pubDate>Sat, 02 May 2020 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 11 May 2020 00:00:00 +0000</pubDate>
       
       <guid>/tags/r/</guid>
       <description></description>
@@ -35,15 +35,6 @@
       <pubDate>Wed, 29 Apr 2020 00:00:00 +0000</pubDate>
       
       <guid>/tags/poem/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>GO</title>
-      <link>/tags/go/</link>
-      <pubDate>Fri, 24 Jan 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/go/</guid>
       <description></description>
     </item>
     
@@ -102,20 +93,20 @@
     </item>
     
     <item>
-      <title>package</title>
-      <link>/tags/package/</link>
-      <pubDate>Sat, 14 Dec 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/package/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>UCSCXenaTools</title>
       <link>/tags/ucscxenatools/</link>
       <pubDate>Sat, 14 Dec 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/ucscxenatools/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>package</title>
+      <link>/tags/package/</link>
+      <pubDate>Sat, 14 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/package/</guid>
       <description></description>
     </item>
     
@@ -210,15 +201,6 @@
     </item>
     
     <item>
-      <title>survival</title>
-      <link>/tags/survival/</link>
-      <pubDate>Sun, 25 Aug 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/survival/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>survival-analysis</title>
       <link>/tags/survival-analysis/</link>
       <pubDate>Sun, 25 Aug 2019 00:00:00 +0000</pubDate>
@@ -278,15 +260,6 @@
       <pubDate>Thu, 22 Aug 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>ggplot</title>
-      <link>/tags/ggplot/</link>
-      <pubDate>Mon, 05 Aug 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/ggplot/</guid>
       <description></description>
     </item>
     
@@ -444,24 +417,6 @@
     </item>
     
     <item>
-      <title>logo</title>
-      <link>/tags/logo/</link>
-      <pubDate>Thu, 20 Jun 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/logo/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>mutational-signature</title>
-      <link>/tags/mutational-signature/</link>
-      <pubDate>Thu, 20 Jun 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/mutational-signature/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>NSCLC</title>
       <link>/tags/nsclc/</link>
       <pubDate>Thu, 20 Jun 2019 00:00:00 +0000</pubDate>
@@ -476,6 +431,24 @@
       <pubDate>Thu, 20 Jun 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/tmb/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>logo</title>
+      <link>/tags/logo/</link>
+      <pubDate>Thu, 20 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/logo/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>mutational-signature</title>
+      <link>/tags/mutational-signature/</link>
+      <pubDate>Thu, 20 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/mutational-signature/</guid>
       <description></description>
     </item>
     
@@ -516,20 +489,20 @@
     </item>
     
     <item>
-      <title>heatmap</title>
-      <link>/tags/heatmap/</link>
-      <pubDate>Thu, 20 Dec 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/heatmap/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>NMF</title>
       <link>/tags/nmf/</link>
       <pubDate>Thu, 20 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/nmf/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>heatmap</title>
+      <link>/tags/heatmap/</link>
+      <pubDate>Thu, 20 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/heatmap/</guid>
       <description></description>
     </item>
     
@@ -696,15 +669,6 @@
     </item>
     
     <item>
-      <title>SQL</title>
-      <link>/tags/sql/</link>
-      <pubDate>Sat, 25 Aug 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/sql/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>sqldf</title>
       <link>/tags/sqldf/</link>
       <pubDate>Sat, 25 Aug 2018 00:00:00 +0000</pubDate>
@@ -732,29 +696,20 @@
     </item>
     
     <item>
+      <title>SQL</title>
+      <link>/tags/sql/</link>
+      <pubDate>Sun, 19 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/sql/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>SQLite</title>
       <link>/tags/sqlite/</link>
       <pubDate>Sun, 19 Aug 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/sqlite/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>class</title>
-      <link>/tags/class/</link>
-      <pubDate>Sat, 18 Aug 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/class/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>instance</title>
-      <link>/tags/instance/</link>
-      <pubDate>Sat, 18 Aug 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/instance/</guid>
       <description></description>
     </item>
     
@@ -782,6 +737,33 @@
       <pubDate>Sat, 18 Aug 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/s4/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>class</title>
+      <link>/tags/class/</link>
+      <pubDate>Sat, 18 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/class/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>instance</title>
+      <link>/tags/instance/</link>
+      <pubDate>Sat, 18 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/instance/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ggplot</title>
+      <link>/tags/ggplot/</link>
+      <pubDate>Fri, 06 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/ggplot/</guid>
       <description></description>
     </item>
     
@@ -939,6 +921,15 @@
     </item>
     
     <item>
+      <title>survival</title>
+      <link>/tags/survival/</link>
+      <pubDate>Sat, 28 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/survival/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>基础</title>
       <link>/tags/%E5%9F%BA%E7%A1%80/</link>
       <pubDate>Sun, 15 Apr 2018 00:00:00 +0000</pubDate>
@@ -998,6 +989,15 @@
       <pubDate>Fri, 27 Oct 2017 00:00:00 +0000</pubDate>
       
       <guid>/tags/rnaseq/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>GO</title>
+      <link>/tags/go/</link>
+      <pubDate>Mon, 09 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/go/</guid>
       <description></description>
     </item>
     

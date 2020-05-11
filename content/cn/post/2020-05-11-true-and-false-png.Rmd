@@ -1,0 +1,159 @@
+---
+title: "事实不等于标签：关于真假 png 的找 bug 记录"
+author: "王诗翔"
+date: "2020-05-11"
+lastmod: "`r Sys.Date()`"
+slug: ""
+categories: r
+tags:
+- r
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, dev = "png", comment = "#>", tidy = "styler")
+#Sys.setenv("LANGUAGE"="EN") # Embed this for outputing English message
+#Sys.setlocale('LC_ALL','C') # Embed this directly in the Rmarkdown script that contains the Chinese character comment
+options(digits=3)
+options(max.print=200)
+```
+
+这是针对今天找 bug 的记录。
+
+***
+
+我在日常更改 sigminer 手册后使用 knitr 生成网页文档时发现一直报错：
+
+```r
+Quitting from lines 42-43 (sigminer-doc.Rmd) 
+Error in png::readPNG(path, native = TRUE, info = TRUE) : 
+  file is not in PNG format
+```
+
+这个报错源自于我使用了 `knitr::include_graphics()` 插入 png 图片。图片来自一篇自然综述，用于介绍 Mutation Signatures。
+
+```{r, echo=FALSE}
+knitr::include_graphics("https://shixiangwang.github.io/sigminer-doc/fig/sbs_signature_overview_nat_review2.png")
+```
+
+之前我也遇到过这种报错，后来莫名其妙好了，我也就没管了。今天不知道为什么又出现这种情况，所以还是自动动手想办法解决吧。
+
+在 RStudio 的 code chunk 运行中，我是能正常看到预览的图片的，按理来说没有问题。我又试着使用 `png::readPNG()` 直接在控制台读入一张 png **图片**（这是一个重点），出现了跟报错无关的警告，但能够正常读入。这就奇怪了。。。
+
+我试着使用 `debug()` 函数后再运行 knit，这样可以跳入报错代码，按逐步运行确实有出现了上述的报错！
+
+我依稀想起来之前重装 `knitr` 包好像解决了问题，我又重装 `knitr`，还是报错。
+
+面对这个重复的报错，我越想越偏，我看到 `png` 包在读入数据时底层应该是调用了 C(++) 代码，难道是 png 包问题？我重装它还是没解决，我又试着安装源码包，还是有问题。。。
+
+真是奇怪，不可能存在两份代码，我 knitr 外不报错，而在 knitr 使用时报错。想不明白的我暂时把问题扔到了 Stack overflow <https://stackoverflow.com/questions/61721837/cannot-use-include-graphics-to-insert-png-in-rmarkdown-error-file-is-not-in-pn>，吃饭去吧。
+
+吃饭回来休息后打开一开发现有一回答：
+
+> I think that the issue might be where your Rmd is located
+
+这个回答我内心觉得不对，因为我一直是在 Rmd 所在目录进行 knit 的，之前我使用 `knitr` 也没遇到这方面问题。不过如果真是这样呢？还是试试吧。
+
+紧接着问题来了，我发现在 knit 的过程中我是无法在控制台看到输出的！这该怎么办呢？？搜解决办法。
+
+通过谷歌我找到 2 种比较靠谱的方法来查看 knit 时使用的根目录。
+
+第一种是根据 `knitr` 进行设定：
+
+```r
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+```
+
+这样就把 knit 时候的根目录跟 RStudio 使用的根目录保持一致了。但还是报错，而且这里我无法查看到底根目录是什么。
+
+第二种方法的来源链接我忘了，是在 Stack overflow 上，我做了一点小的修改：
+
+```r
+knitr::knit_hooks$set(debug = function(before, options, envir) {
+  if (!before) {
+    envir = as.list(envir)
+    message("Objects: ", paste(names(envir), collapse = " "))
+    for (i in names(envir)) {
+      if (!startsWith(i, ".")) {
+        message(
+          i, " = ", envir[[i]]
+        )
+      }
+    }
+  }
+})
+```
+
+加入这段代码后我就可以在 code chunk 的设定中加 `debug = TRUE`，然后将 `rprojroot::find_rstudio_root_file()` 和 `getwd()` 的结果赋值给变量，knit 的时候会提示变量信息。
+
+```r
+Objects: workdir root.dir
+workdir = /Users/wsx/Documents/GitHub/sigminer-doc
+root.dir = /Users/wsx/Documents/GitHub/sigminer-doc
+  |.....                                                                                                                                 |   4%
+  ordinary text without R code
+
+  |......                                                                                                                                |   5%
+label: unnamed-chunk-3 (with options) 
+List of 2
+ $ echo   : logi FALSE
+ $ fig.cap: chr "The illustration of SBS signature, fig source: https://www.nature.com/articles/nrg3729"
+
+Quitting from lines 64-65 (sigminer-doc.Rmd) 
+Error in png::readPNG(path, native = TRUE, info = TRUE) : 
+  file is not in PNG format
+```
+
+从输出来看 Rmd 的工作目录是完全没有问题的。那问题到底在哪里呢？？看着 `file is not in PNG format` 这个错误提示，我久久不能释怀，还是要搞掉它。
+
+目前我在这个文档中我引入了外部 3 张 png 图片，我一个一个读取试试。
+
+我 Ca，怎么有失败的。
+
+```r
+> png::readPNG("fig/sbs_signature_overview.png")
+ [ reached getOption("max.print") -- omitted 3 matrix slice(s) ]
+Warning message:
+In png::readPNG("fig/sbs_signature_overview.png") :
+  libpng warning: iCCP: known incorrect sRGB profile
+> png::readPNG("fig/sbs_signature_overview_nat_review.png")
+Error in png::readPNG("fig/sbs_signature_overview_nat_review.png") : 
+  file is not in PNG format
+```
+
+恍然大悟，之前我读取正常的并不是我 knit 引起报错的。**因为它们都是 png 文件，所以我觉得没什么不同，也就没有额外注意**。
+
+既然格式不对，那就得想办法知道报错图片的格式。我试了下 `jpeg::readJPEG()`，发现还是报错。这样搞不行，鬼知道有多少种图片格式，得找个工具。
+
+接着我找到了正确的工具 `magick`。
+
+一查，报错图片还真不是 png 格式：
+
+```r
+> error_file = magick::image_read("fig/sbs_signature_overview_nat_review.png")
+> print(error_file)
+  format width height colorspace matte filesize density
+1   WEBP   685    521       sRGB FALSE    18390   72x72
+```
+
+**原来我以为网络图片另存为 .png 就成了 png 图片。。。。**
+
+最后还是通过这个工具转换生成一张 png 格式的，从根本上解决了问题：
+
+```r
+> right_png <- magick::image_convert(error_file, "png")
+> right_png
+  format width height colorspace matte filesize density
+1    PNG   685    521       sRGB FALSE        0   72x72
+> magick::image_write(right_png, path = "fig/sbs_signature_overview_nat_review2.png", format = "png")
+```
+
+那么问题又来了，为什么使用在 RStudio 中使用 `knitr::include_graphics()` 预览是正常的呢？在写到这里的时候，我突然想到预览时 `knitr` 应该不是调用的 `png` 进行读取，所以没有报错。
+
+现在回想起来有点想骂自己没脑子，有两个点如果注意了，我不会花这么多时间：
+
+- 测试 `png` 读取时应该使用报错的图片。
+- 认真理解报错信息。
+
+但作为一个人，往往难以客观准确高效地看清问题本质。另一方面说，没有愚蠢的操作，我也不会想尽办法各种深挖，事后写篇文章记录下了。
+
+程序不会错，错的是我们的思维；bug 不可怕，可怕的它生出一堆 bugs（刚好看到 Y 叔今日推文）。
