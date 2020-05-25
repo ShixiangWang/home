@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020) (preloaded format=xelatex 2020.5.25)  26 MAY 2020 00:20
+This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020) (preloaded format=xelatex 2020.5.25)  26 MAY 2020 00:27
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1091,9 +1091,9 @@ can be viewed at [][]github.com/ShixiangWang[][].
  []
 
 LaTeX Font Info:    Font shape `TU/Palatino(0)/m/it' will be
-(Font)              scaled to size 11.80109pt on input line 219.
+(Font)              scaled to size 11.80109pt on input line 220.
 [2]
-Overfull \hbox (20.80421pt too wide) in paragraph at lines 234--240
+Overfull \hbox (20.80421pt too wide) in paragraph at lines 235--241
 \TU/Palatino(0)/m/n/13 RNA-seq. \TU/Palatino(0)/m/it/13 Journal of Open Source 
 Software\TU/Palatino(0)/m/n/13 , 4(40), 1627, https://doi.org/10.21105/joss.016
 27
@@ -1102,14 +1102,14 @@ Software\TU/Palatino(0)/m/n/13 , 4(40), 1627, https://doi.org/10.21105/joss.016
 
 AED: lastpage setting LastPage
 [3]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 258.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 258.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 259.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 259.
 (./Shixiang.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 258.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 258.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 259.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 259.
 Package rerunfilecheck Info: File `Shixiang.out' has not changed.
 (rerunfilecheck)             Checksum: CAB161B1B5BD3B2D9F7E418B09323AEE;591.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 258.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 259.
  ) 
 Here is how much of TeX's memory you used:
  22604 strings out of 481249
