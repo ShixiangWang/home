@@ -123,84 +123,49 @@
       </header>
 
 
-
-
 <p>参考学习《Bioinformatics. Data. Skills》，这里简要地整理下Linux用来处理数据文本的工具。具体命令详情请在<a href="http://man.linuxde.net/">Linux命令大全</a>中搜索或者查阅其他相关资料。</p>
-
-<!-- more -->
-
+<!-- raw HTML omitted -->
 <p><code>head</code>,<code>tail</code>查看文档头尾。<code>-n</code>选项可以指定行数。</p>
-
 <p><code>less</code>用来查阅文档，<code>q</code>退出，<code>space bar</code>翻页，<code>g</code>第一行，<code>G</code>最后一行，<code>j</code>下，<code>k</code>上,<code>/&lt;pattern&gt;</code>往下搜索模式，<code>?&lt;pattern&gt;</code>往上搜索模式，<code>n</code>前一个匹配字符，<code>N</code>后一个匹配字符。</p>
-
 <p><code>less</code>可以用于debug，查看中间输出结果。比如</p>
-
-<pre><code class="language-shell">step1 input.txt | step2 | step3 &gt; output.txt
-# step1,2,3为程序或命令名
-</code></pre>
-
-<p>可以写为</p>
-
-<pre><code class="language-shell">step1 input.txt | less
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">step1 input.txt | step2 | step3 &gt; output.txt
+<span style="color:#75715e"># step1,2,3为程序或命令名</span>
+</code></pre></div><p>可以写为</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">step1 input.txt | less
 step1 input.txt | step2 | less
 step1 input.txt | step2 | step3 | less
-</code></pre>
-
-<h2 id="纯文本信息汇总">纯文本信息汇总</h2>
-
+</code></pre></div><h2 id="纯文本信息汇总">纯文本信息汇总</h2>
 <p><code>wc</code>命令默认依次输出单词数、行数、总字符数。查看行数使用<code>wc -l</code>。
 如果存在空行，空行会被计数。可以使用<code>grep</code>命令实现非空行计数
 <code>grep -c &quot;[^ \\n\\t]&quot; some_data.bed</code></p>
-
 <p><code>ls -lh</code>以易读形式查看文件大小。</p>
-
 <p>输出文件列数：</p>
-
-<pre><code class="language-shell"># -F指定分隔符，此处假定是table键分隔，默认空格键
-awk -F &quot;\t&quot; '{print NF; exit}' some_data.bed
-</code></pre>
-
-<h3 id="怎么去除注释的元数据行呢-怎么计数非注释行行数呢">怎么去除注释的元数据行呢？怎么计数非注释行行数呢？</h3>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># -F指定分隔符，此处假定是table键分隔，默认空格键</span>
+awk -F <span style="color:#e6db74">&#34;\t&#34;</span> <span style="color:#e6db74">&#39;{print NF; exit}&#39;</span> some_data.bed
+</code></pre></div><h3 id="怎么去除注释的元数据行呢怎么计数非注释行行数呢">怎么去除注释的元数据行呢？怎么计数非注释行行数呢？</h3>
 <p>可以使用<code>tail</code>结合<code>awk</code>，试试gtf(基因组注释文件)</p>
-
-<pre><code class="language-shell">wsx@wsx-ubuntu:~/Work/research/Promoter_Research$ head -n 6 Homo_sapiens.GRCh37.75.gtf
-#!genome-build GRCh37.p13
-#!genome-version GRCh37
-#!genome-date 2009-02
-#!genome-build-accession NCBI:GCA_000001405.14
-#!genebuild-last-updated 2013-09
-1	pseudogene	gene	11869	14412	.	+	.	gene_id &quot;ENSG00000223972&quot;; gene_name &quot;DDX11L1&quot;; gene_source &quot;ensembl_havana&quot;; gene_biotype &quot;pseudogene&quot;;
-</code></pre>
-
-<p>可以看到注释行是5行，我们利用<code>tail</code>试试去掉它</p>
-
-<pre><code class="language-shell"># 注意此处 -n后接的&quot;+&quot;号
-wsx@wsx-ubuntu:~/Work/research/Promoter_Research$ tail -n +5 Homo_sapiens.GRCh37.75.gtf | head -n 1
-#!genebuild-last-updated 2013-09
-</code></pre>
-
-<p>发现还有一行没去掉</p>
-
-<pre><code class="language-shell">wsx@wsx-ubuntu:~/Work/research/Promoter_Research$ tail -n +6 Homo_sapiens.GRCh37.75.gtf | head -n 1
-1	pseudogene	gene	11869	14412	.	+	.	gene_id &quot;ENSG00000223972&quot;; gene_name &quot;DDX11L1&quot;; gene_source &quot;ensembl_havana&quot;; gene_biotype &quot;pseudogene&quot;;
-</code></pre>
-
-<p>成功搞定，然后结合前面提到的<code>awk</code>命令即可计算行数。</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~/Work/research/Promoter_Research$ head -n <span style="color:#ae81ff">6</span> Homo_sapiens.GRCh37.75.gtf
+<span style="color:#75715e">#!genome-build GRCh37.p13</span>
+<span style="color:#75715e">#!genome-version GRCh37</span>
+<span style="color:#75715e">#!genome-date 2009-02</span>
+<span style="color:#75715e">#!genome-build-accession NCBI:GCA_000001405.14</span>
+<span style="color:#75715e">#!genebuild-last-updated 2013-09</span>
+1	pseudogene	gene	11869	14412	.	+	.	gene_id <span style="color:#e6db74">&#34;ENSG00000223972&#34;</span>; gene_name <span style="color:#e6db74">&#34;DDX11L1&#34;</span>; gene_source <span style="color:#e6db74">&#34;ensembl_havana&#34;</span>; gene_biotype <span style="color:#e6db74">&#34;pseudogene&#34;</span>;
+</code></pre></div><p>可以看到注释行是5行，我们利用<code>tail</code>试试去掉它</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># 注意此处 -n后接的&#34;+&#34;号</span>
+wsx@wsx-ubuntu:~/Work/research/Promoter_Research$ tail -n +5 Homo_sapiens.GRCh37.75.gtf | head -n <span style="color:#ae81ff">1</span>
+<span style="color:#75715e">#!genebuild-last-updated 2013-09</span>
+</code></pre></div><p>发现还有一行没去掉</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~/Work/research/Promoter_Research$ tail -n +6 Homo_sapiens.GRCh37.75.gtf | head -n <span style="color:#ae81ff">1</span>
+1	pseudogene	gene	11869	14412	.	+	.	gene_id <span style="color:#e6db74">&#34;ENSG00000223972&#34;</span>; gene_name <span style="color:#e6db74">&#34;DDX11L1&#34;</span>; gene_source <span style="color:#e6db74">&#34;ensembl_havana&#34;</span>; gene_biotype <span style="color:#e6db74">&#34;pseudogene&#34;</span>;
+</code></pre></div><p>成功搞定，然后结合前面提到的<code>awk</code>命令即可计算行数。</p>
 <p>上面方法鲁棒性不够（人为地确定行数），一种更为通用的方法是<code>grep</code>结合<code>awk</code>命令</p>
-
-<pre><code class="language-shell">wsx@wsx-ubuntu:~/Work/research/Promoter_Research$ grep -v &quot;^#&quot; Homo_sapiens.GRCh37.75.gtf | head -n 1
-1	pseudogene	gene	11869	14412	.	+	.	gene_id &quot;ENSG00000223972&quot;; gene_name &quot;DDX11L1&quot;; gene_source &quot;ensembl_havana&quot;; gene_biotype &quot;pseudogene&quot;;
-</code></pre>
-
-<p>推荐使用这种。</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~/Work/research/Promoter_Research$ grep -v <span style="color:#e6db74">&#34;^#&#34;</span> Homo_sapiens.GRCh37.75.gtf | head -n <span style="color:#ae81ff">1</span>
+1	pseudogene	gene	11869	14412	.	+	.	gene_id <span style="color:#e6db74">&#34;ENSG00000223972&#34;</span>; gene_name <span style="color:#e6db74">&#34;DDX11L1&#34;</span>; gene_source <span style="color:#e6db74">&#34;ensembl_havana&#34;</span>; gene_biotype <span style="color:#e6db74">&#34;pseudogene&#34;</span>;
+</code></pre></div><p>推荐使用这种。</p>
 <h2 id="cut">Cut</h2>
-
 <p><code>cut</code>可以处理列数据，<code>-f</code>选项指定列，可以是一个范围（比如2-8），注意不能用它给列排序。</p>
-
-<pre><code class="language-shell">wsx@wsx-ubuntu:~/Work/research/Promoter_Research$ grep -v &quot;^#&quot; Homo_sapiens.GRCh37.75.gtf | head -n 10 | cut -f 3
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~/Work/research/Promoter_Research$ grep -v <span style="color:#e6db74">&#34;^#&#34;</span> Homo_sapiens.GRCh37.75.gtf | head -n <span style="color:#ae81ff">10</span> | cut -f <span style="color:#ae81ff">3</span>
 gene
 transcript
 exon
@@ -211,43 +176,34 @@ exon
 exon
 exon
 transcript
-wsx@wsx-ubuntu:~/Work/research/Promoter_Research$ grep -v &quot;^#&quot; Homo_sapiens.GRCh37.75.gtf | head -n 10 | cut -f 3-5
-gene	11869	14412
-transcript	11869	14409
-exon	11869	12227
-exon	12613	12721
-exon	13221	14409
-transcript	11872	14412
-exon	11872	12227
-exon	12613	12721
-exon	13225	14412
-transcript	11874	14409
-</code></pre>
-
-<p><code>-d</code>选项可以指定分隔符，比如<code>-d,</code>指定<code>,</code>为分隔符。</p>
-
+wsx@wsx-ubuntu:~/Work/research/Promoter_Research$ grep -v <span style="color:#e6db74">&#34;^#&#34;</span> Homo_sapiens.GRCh37.75.gtf | head -n <span style="color:#ae81ff">10</span> | cut -f 3-5
+gene	11869	<span style="color:#ae81ff">14412</span>
+transcript	11869	<span style="color:#ae81ff">14409</span>
+exon	11869	<span style="color:#ae81ff">12227</span>
+exon	12613	<span style="color:#ae81ff">12721</span>
+exon	13221	<span style="color:#ae81ff">14409</span>
+transcript	11872	<span style="color:#ae81ff">14412</span>
+exon	11872	<span style="color:#ae81ff">12227</span>
+exon	12613	<span style="color:#ae81ff">12721</span>
+exon	13225	<span style="color:#ae81ff">14412</span>
+transcript	11874	<span style="color:#ae81ff">14409</span>
+</code></pre></div><p><code>-d</code>选项可以指定分隔符，比如<code>-d,</code>指定<code>,</code>为分隔符。</p>
 <p>使用<code>column</code>命令来格式化输出，上次的命令结果输出明显没对齐，我们把它对齐看看：</p>
-
-<pre><code class="language-shell">wsx@wsx-ubuntu:~/Work/research/Promoter_Research$ grep -v &quot;^#&quot; Homo_sapiens.GRCh37.75.gtf | head -n 10 | cut -f 3-5 | column -t
-gene        11869  14412
-transcript  11869  14409
-exon        11869  12227
-exon        12613  12721
-exon        13221  14409
-transcript  11872  14412
-exon        11872  12227
-exon        12613  12721
-exon        13225  14412
-transcript  11874  14409
-</code></pre>
-
-<p>注意，使用这个命令是为了好观察，不要把用它处理然后把结果传入文本（会导致程序处理文件效率降低，因为文本解析速度会下降）。</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~/Work/research/Promoter_Research$ grep -v <span style="color:#e6db74">&#34;^#&#34;</span> Homo_sapiens.GRCh37.75.gtf | head -n <span style="color:#ae81ff">10</span> | cut -f 3-5 | column -t
+gene        <span style="color:#ae81ff">11869</span>  <span style="color:#ae81ff">14412</span>
+transcript  <span style="color:#ae81ff">11869</span>  <span style="color:#ae81ff">14409</span>
+exon        <span style="color:#ae81ff">11869</span>  <span style="color:#ae81ff">12227</span>
+exon        <span style="color:#ae81ff">12613</span>  <span style="color:#ae81ff">12721</span>
+exon        <span style="color:#ae81ff">13221</span>  <span style="color:#ae81ff">14409</span>
+transcript  <span style="color:#ae81ff">11872</span>  <span style="color:#ae81ff">14412</span>
+exon        <span style="color:#ae81ff">11872</span>  <span style="color:#ae81ff">12227</span>
+exon        <span style="color:#ae81ff">12613</span>  <span style="color:#ae81ff">12721</span>
+exon        <span style="color:#ae81ff">13225</span>  <span style="color:#ae81ff">14412</span>
+transcript  <span style="color:#ae81ff">11874</span>  <span style="color:#ae81ff">14409</span>
+</code></pre></div><p>注意，使用这个命令是为了好观察，不要把用它处理然后把结果传入文本（会导致程序处理文件效率降低，因为文本解析速度会下降）。</p>
 <p><code>cut</code>和<code>column</code>默认以<code>\t</code>为分隔符，这里也能够用<code>-s</code>选项指定。</p>
-
 <p>先把之前的tab分隔文件弄成逗号分隔文件，然后使用<code>-s</code>选项看看：</p>
-
-<pre><code class="language-shell">wsx@wsx-ubuntu:~/Work/research/Promoter_Research$ grep -v &quot;^#&quot; Homo_sapiens.GRCh37.75.gtf | head -n 10 | cut -f 3-5 |  awk '{FS=&quot;\t&quot;;OFS=&quot;,&quot;;}{print $1,$2,$3}'
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~/Work/research/Promoter_Research$ grep -v <span style="color:#e6db74">&#34;^#&#34;</span> Homo_sapiens.GRCh37.75.gtf | head -n <span style="color:#ae81ff">10</span> | cut -f 3-5 |  awk <span style="color:#e6db74">&#39;{FS=&#34;\t&#34;;OFS=&#34;,&#34;;}{print $1,$2,$3}&#39;</span>
 gene,11869,14412
 transcript,11869,14409
 exon,11869,12227
@@ -259,40 +215,31 @@ exon,12613,12721
 exon,13225,14412
 transcript,11874,14409
 
-wsx@wsx-ubuntu:~/Work/research/Promoter_Research$ grep -v &quot;^#&quot; Homo_sapiens.GRCh37.75.gtf | head -n 10 | cut -f 3-5 |  awk '{FS=&quot;\t&quot;;OFS=&quot;,&quot;;}{print $1,$2,$3}'| column -s &quot;,&quot; -t
-gene        11869  14412
-transcript  11869  14409
-exon        11869  12227
-exon        12613  12721
-exon        13221  14409
-transcript  11872  14412
-exon        11872  12227
-exon        12613  12721
-exon        13225  14412
-transcript  11874  14409
-</code></pre>
-
-<h2 id="grep">grep</h2>
-
+wsx@wsx-ubuntu:~/Work/research/Promoter_Research$ grep -v <span style="color:#e6db74">&#34;^#&#34;</span> Homo_sapiens.GRCh37.75.gtf | head -n <span style="color:#ae81ff">10</span> | cut -f 3-5 |  awk <span style="color:#e6db74">&#39;{FS=&#34;\t&#34;;OFS=&#34;,&#34;;}{print $1,$2,$3}&#39;</span>| column -s <span style="color:#e6db74">&#34;,&#34;</span> -t
+gene        <span style="color:#ae81ff">11869</span>  <span style="color:#ae81ff">14412</span>
+transcript  <span style="color:#ae81ff">11869</span>  <span style="color:#ae81ff">14409</span>
+exon        <span style="color:#ae81ff">11869</span>  <span style="color:#ae81ff">12227</span>
+exon        <span style="color:#ae81ff">12613</span>  <span style="color:#ae81ff">12721</span>
+exon        <span style="color:#ae81ff">13221</span>  <span style="color:#ae81ff">14409</span>
+transcript  <span style="color:#ae81ff">11872</span>  <span style="color:#ae81ff">14412</span>
+exon        <span style="color:#ae81ff">11872</span>  <span style="color:#ae81ff">12227</span>
+exon        <span style="color:#ae81ff">12613</span>  <span style="color:#ae81ff">12721</span>
+exon        <span style="color:#ae81ff">13225</span>  <span style="color:#ae81ff">14412</span>
+transcript  <span style="color:#ae81ff">11874</span>  <span style="color:#ae81ff">14409</span>
+</code></pre></div><h2 id="grep">grep</h2>
 <p><code>grep</code>处理速度非常之快，能用它尽量用它。<code>--color=auto</code>可以激活颜色（标记匹配文字），更方便查看。</p>
-
 <p><code>-v</code>选项排除匹配到的，<code>-w</code>进行完全匹配。这样可以防止，你想排除<code>abc</code>结果把<code>abc1</code>，<code>abcd</code>也排除掉了。</p>
-
 <p><code>-B</code>指定输出包括匹配到的前多少行，比如<code>-B1</code>就是前一行；<code>-A</code>指定输出包括匹配到的后多少行，比如<code>-A2</code>就是包括了后两行。<code>-C</code>指定输出包括匹配到的前后多少行。
 <code>grep</code>支持基本正则表达式，<code>-E</code>指定支持扩展表达式，或者用<code>egrep</code>命令。
 <code>-c</code>选项对匹配的行计数；<code>-o</code>选项只抽离输出匹配的部分</p>
-
-<pre><code class="language-shell">wsx@wsx-ubuntu:~/Work/research/Promoter_Research$ grep -E -o 'gene_id &quot;\w+&quot;' Homo_sapiens.GRCh37.75.gtf | head -n 5
-gene_id &quot;ENSG00000223972&quot;
-gene_id &quot;ENSG00000223972&quot;
-gene_id &quot;ENSG00000223972&quot;
-gene_id &quot;ENSG00000223972&quot;
-gene_id &quot;ENSG00000223972&quot;
-</code></pre>
-
-<p>发现冗余项非常多，如果我们只要唯一的呢，怎么办？</p>
-
-<pre><code class="language-shell">wsx@wsx-ubuntu:~/Work/research/Promoter_Research$ grep -E -o 'gene_id &quot;(\w+)&quot;' Homo_sapiens.GRCh37.75.gtf | cut -f2 -d&quot; &quot;| sed 's/&quot;//g' | sort | uniq | head -n 10
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~/Work/research/Promoter_Research$ grep -E -o <span style="color:#e6db74">&#39;gene_id &#34;\w+&#34;&#39;</span> Homo_sapiens.GRCh37.75.gtf | head -n <span style="color:#ae81ff">5</span>
+gene_id <span style="color:#e6db74">&#34;ENSG00000223972&#34;</span>
+gene_id <span style="color:#e6db74">&#34;ENSG00000223972&#34;</span>
+gene_id <span style="color:#e6db74">&#34;ENSG00000223972&#34;</span>
+gene_id <span style="color:#e6db74">&#34;ENSG00000223972&#34;</span>
+gene_id <span style="color:#e6db74">&#34;ENSG00000223972&#34;</span>
+</code></pre></div><p>发现冗余项非常多，如果我们只要唯一的呢，怎么办？</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~/Work/research/Promoter_Research$ grep -E -o <span style="color:#e6db74">&#39;gene_id &#34;(\w+)&#34;&#39;</span> Homo_sapiens.GRCh37.75.gtf | cut -f2 -d<span style="color:#e6db74">&#34; &#34;</span>| sed <span style="color:#e6db74">&#39;s/&#34;//g&#39;</span> | sort | uniq | head -n <span style="color:#ae81ff">10</span>
 ENSG00000000003
 ENSG00000000005
 ENSG00000000419
@@ -303,138 +250,99 @@ ENSG00000000971
 ENSG00000001036
 ENSG00000001084
 ENSG00000001167
-</code></pre>
-
-<p>虽然我的笔记本呼啦啦作响，但是还是非常快就跑完了。</p>
-
+</code></pre></div><p>虽然我的笔记本呼啦啦作响，但是还是非常快就跑完了。</p>
 <h2 id="file查看文件编码">file查看文件编码</h2>
-
-<pre><code class="language-shell">wsx@wsx-ubuntu:~$ file regular_express.txt
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~$ file regular_express.txt
 regular_express.txt: ASCII text, with CRLF, LF line terminators
-</code></pre>
-
-<p>常用的大型数据文件一般存为ASCII码形式（像几大基因bank的数据文件），而我们自己认为创建的常为UTF-8，所以有时候认为处理文件需要会碰到把UTF-8编码的字符插入到ASCII码文件里去了。遇到这种问题，我们可以用<code>hexdump -c</code>命令查看出错的地方（手边没有这样的文件，就不举例了）。</p>
-
+</code></pre></div><p>常用的大型数据文件一般存为ASCII码形式（像几大基因bank的数据文件），而我们自己认为创建的常为UTF-8，所以有时候认为处理文件需要会碰到把UTF-8编码的字符插入到ASCII码文件里去了。遇到这种问题，我们可以用<code>hexdump -c</code>命令查看出错的地方（手边没有这样的文件，就不举例了）。</p>
 <h2 id="用sort对文本排序">用sort对文本排序</h2>
-
 <p>我们先创建一个bed格式文件来试试这个命令：</p>
-
-<pre><code class="language-shell">wsx@wsx-ubuntu:~$ cat test.bed
-chr1	26	39
-chr3	32	47
-chr1	40	50
-chr1	9	28
-chr2	35	54
-chr1	10	19
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~$ cat test.bed
+chr1	26	<span style="color:#ae81ff">39</span>
+chr3	32	<span style="color:#ae81ff">47</span>
+chr1	40	<span style="color:#ae81ff">50</span>
+chr1	9	<span style="color:#ae81ff">28</span>
+chr2	35	<span style="color:#ae81ff">54</span>
+chr1	10	<span style="color:#ae81ff">19</span>
 wsx@wsx-ubuntu:~$ sort test.bed
-chr1	10	19
-chr1	26	39
-chr1	40	50
-chr1	9	28
-chr2	35	54
-chr3	32	47
+chr1	10	<span style="color:#ae81ff">19</span>
+chr1	26	<span style="color:#ae81ff">39</span>
+chr1	40	<span style="color:#ae81ff">50</span>
+chr1	9	<span style="color:#ae81ff">28</span>
+chr2	35	<span style="color:#ae81ff">54</span>
+chr3	32	<span style="color:#ae81ff">47</span>
 
-</code></pre>
-
-<p>可以明显看到文本按照第一列进行了排序。
+</code></pre></div><p>可以明显看到文本按照第一列进行了排序。
 默认，<code>sort</code>用空格或tab键作为域（列）分隔符。如果我们用其他形式的分隔符，需要用<code>-t</code>选项指定。</p>
-
 <p>下面是对<code>bed</code>文件最通用的排序命令：</p>
-
-<pre><code class="language-shell">wsx@wsx-ubuntu:~$ sort -k1,1 -k2,2n test.bed
-chr1	9	28
-chr1	10	19
-chr1	26	39
-chr1	40	50
-chr2	35	54
-chr3	32	47
-</code></pre>
-
-<p>基本操作<code>bedtools</code>软件都会先用这个命令对<code>bedtools</code>文件排序。
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~$ sort -k1,1 -k2,2n test.bed
+chr1	9	<span style="color:#ae81ff">28</span>
+chr1	10	<span style="color:#ae81ff">19</span>
+chr1	26	<span style="color:#ae81ff">39</span>
+chr1	40	<span style="color:#ae81ff">50</span>
+chr2	35	<span style="color:#ae81ff">54</span>
+chr3	32	<span style="color:#ae81ff">47</span>
+</code></pre></div><p>基本操作<code>bedtools</code>软件都会先用这个命令对<code>bedtools</code>文件排序。
 现在略加解释一下，<code>sort</code>用<code>-k</code>选项指定某列的排序方式。而每次使用<code>-k</code>选项都要带上指定列的范围(start, end)。如果只指定一列，就为(start,start)了，像上面命令的<code>-k1,1</code>就是。也许你会觉得<code>-k2,2n</code>很奇怪，这里的<code>n</code>指定程序把第二列当做数值对待。如果不做设定，都是当做字符对待（shell都是这么对待数值数据的）。所以总结其他这一行命令就是对第一列按照字符排序，第二列按照数值排序。</p>
-
 <p>我们可以用<code>-c</code>选项检查一个文件是不是已经按照过某种方式排过序了。</p>
-
-<pre><code class="language-shell">wsx@wsx-ubuntu:~$ sort -k1,1 -k2,2n test.bed | sort -k1,1 -k2,2 -c
-sort：-:2：无序： chr1	10	19
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~$ sort -k1,1 -k2,2n test.bed | sort -k1,1 -k2,2 -c
+sort：-:2：无序： chr1	10	<span style="color:#ae81ff">19</span>
 wsx@wsx-ubuntu:~$ echo $?
-1
+<span style="color:#ae81ff">1</span>
 wsx@wsx-ubuntu:~$ sort -k1,1 -k2,2n test.bed | sort -k1,1 -k2,2n -c
 wsx@wsx-ubuntu:~$ echo $?
-0
+<span style="color:#ae81ff">0</span>
 
-</code></pre>
-
-<p>上面可以清楚地看到<code>sort</code>是怎么对待文件的（一般shell返回0表示成功执行）。</p>
-
-<pre><code class="language-shell">wsx@wsx-ubuntu:~$ tsfds
+</code></pre></div><p>上面可以清楚地看到<code>sort</code>是怎么对待文件的（一般shell返回0表示成功执行）。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~$ tsfds
 tsfds：未找到命令
 wsx@wsx-ubuntu:~$ echo $?
-127
+<span style="color:#ae81ff">127</span>
 wsx@wsx-ubuntu:~$ echo test
 test
 wsx@wsx-ubuntu:~$ echo $?
-0
-</code></pre>
-
-<p>shell的命令退出状态码表示了该命令执行的完成的某种情况。不同的状态码有不同的含义，具体可以百度查阅（我之前整理的shell笔记应该讲过，可以看看）。</p>
-
+<span style="color:#ae81ff">0</span>
+</code></pre></div><p>shell的命令退出状态码表示了该命令执行的完成的某种情况。不同的状态码有不同的含义，具体可以百度查阅（我之前整理的shell笔记应该讲过，可以看看）。</p>
 <p>反向排序用<code>-r</code>选项。如果你只想反转一列，可以把它加在<code>-k</code>选项后。</p>
-
-<pre><code class="language-shell">wsx@wsx-ubuntu:~$ sort -k1,1 -k2,2nr test.bed
-chr1	40	50
-chr1	26	39
-chr1	10	19
-chr1	9	28
-chr2	35	54
-chr3	32	47
-</code></pre>
-
-<p>现在我给<code>test.bed</code>加一行：</p>
-
-<pre><code class="language-shell">wsx@wsx-ubuntu:~$ cat test.bed
-chr1	26	39
-chr3	32	47
-chr1	40	50
-chr1	9	28
-chr2	35	54
-chr1	10	19
-chr11	22	56
-</code></pre>
-
-<p>你会发现有点奇怪</p>
-
-<pre><code class="language-shell">wsx@wsx-ubuntu:~$ sort -k1,1 -k2,2n test.bed
-chr1	9	28
-chr1	10	19
-chr1	26	39
-chr1	40	50
-chr11	22	56
-chr2	35	54
-chr3	32	47
-</code></pre>
-
-<p>怎么<code>chr11</code>在<code>chr2</code>前面？其实<code>sort</code>排序的方式有点像查字典。例子中，命令先比较<code>c</code>，然后比较<code>h</code>，然后比较<code>r</code>，接着比较<code>1</code>，自然<code>11</code>会在<code>2</code>前面了。这里可以添加<code>V</code>选项修改。</p>
-
-<pre><code class="language-shell">wsx@wsx-ubuntu:~$ sort -k1,1V -k2,2n test.bed
-chr1	9	28
-chr1	10	19
-chr1	26	39
-chr1	40	50
-chr2	35	54
-chr3	32	47
-chr11	22	56
-</code></pre>
-
-<p>是不是觉得这样更可观一些？不过通常在处理数据时不做此处理，符合 规范的数据可以让后续处理程序效率更高。</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~$ sort -k1,1 -k2,2nr test.bed
+chr1	40	<span style="color:#ae81ff">50</span>
+chr1	26	<span style="color:#ae81ff">39</span>
+chr1	10	<span style="color:#ae81ff">19</span>
+chr1	9	<span style="color:#ae81ff">28</span>
+chr2	35	<span style="color:#ae81ff">54</span>
+chr3	32	<span style="color:#ae81ff">47</span>
+</code></pre></div><p>现在我给<code>test.bed</code>加一行：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~$ cat test.bed
+chr1	26	<span style="color:#ae81ff">39</span>
+chr3	32	<span style="color:#ae81ff">47</span>
+chr1	40	<span style="color:#ae81ff">50</span>
+chr1	9	<span style="color:#ae81ff">28</span>
+chr2	35	<span style="color:#ae81ff">54</span>
+chr1	10	<span style="color:#ae81ff">19</span>
+chr11	22	<span style="color:#ae81ff">56</span>
+</code></pre></div><p>你会发现有点奇怪</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~$ sort -k1,1 -k2,2n test.bed
+chr1	9	<span style="color:#ae81ff">28</span>
+chr1	10	<span style="color:#ae81ff">19</span>
+chr1	26	<span style="color:#ae81ff">39</span>
+chr1	40	<span style="color:#ae81ff">50</span>
+chr11	22	<span style="color:#ae81ff">56</span>
+chr2	35	<span style="color:#ae81ff">54</span>
+chr3	32	<span style="color:#ae81ff">47</span>
+</code></pre></div><p>怎么<code>chr11</code>在<code>chr2</code>前面？其实<code>sort</code>排序的方式有点像查字典。例子中，命令先比较<code>c</code>，然后比较<code>h</code>，然后比较<code>r</code>，接着比较<code>1</code>，自然<code>11</code>会在<code>2</code>前面了。这里可以添加<code>V</code>选项修改。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~$ sort -k1,1V -k2,2n test.bed
+chr1	9	<span style="color:#ae81ff">28</span>
+chr1	10	<span style="color:#ae81ff">19</span>
+chr1	26	<span style="color:#ae81ff">39</span>
+chr1	40	<span style="color:#ae81ff">50</span>
+chr2	35	<span style="color:#ae81ff">54</span>
+chr3	32	<span style="color:#ae81ff">47</span>
+chr11	22	<span style="color:#ae81ff">56</span>
+</code></pre></div><p>是不是觉得这样更可观一些？不过通常在处理数据时不做此处理，符合 规范的数据可以让后续处理程序效率更高。</p>
 <p>基本掌握<code>sort</code>这些也够用了，它主要为后续处理服务。如果想知道其他的用法，查查吧，同时欢迎发文来交流。</p>
-
 <h2 id="用uniq寻找唯一值">用uniq寻找唯一值</h2>
-
 <p>首先创建样例文本</p>
-
-<pre><code class="language-shell">wsx@wsx-ubuntu:~$ cat test.letter
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~$ cat test.letter
 A
 A
 B
@@ -446,11 +354,8 @@ C
 D
 F
 D
-</code></pre>
-
-<p>使用<code>uniq</code>看看</p>
-
-<pre><code class="language-shell">wsx@wsx-ubuntu:~$ uniq test.letter
+</code></pre></div><p>使用<code>uniq</code>看看</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~$ uniq test.letter
 A
 B
 C
@@ -459,43 +364,30 @@ C
 D
 F
 D
-</code></pre>
-
-<p>尼玛，怎么不对。它好像只去掉了连续的同一字符。怎么办？想想我们刚学了什么命令？<code>sort</code>不是刚好可以把同样的字符弄到一起去吗，然后再使用<code>uniq</code>，嘿嘿：</p>
-
-<pre><code class="language-shell">wsx@wsx-ubuntu:~$ sort test.letter | uniq
+</code></pre></div><p>尼玛，怎么不对。它好像只去掉了连续的同一字符。怎么办？想想我们刚学了什么命令？<code>sort</code>不是刚好可以把同样的字符弄到一起去吗，然后再使用<code>uniq</code>，嘿嘿：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~$ sort test.letter | uniq
 A
 B
 C
 D
 F
-</code></pre>
-
-<p>哟呵，got you。</p>
-
+</code></pre></div><p>哟呵，got you。</p>
 <p>加<code>-c</code>选项计数：</p>
-
-<pre><code class="language-shell">wsx@wsx-ubuntu:~$ sort test.letter | uniq -c
-      2 A
-      2 B
-      4 C
-      2 D
-      1 F
-</code></pre>
-
-<p>把结果再排序</p>
-
-<pre><code class="language-shell">wsx@wsx-ubuntu:~$ sort test.letter | uniq -c | sort -rn
-      4 C
-      2 D
-      2 B
-      2 A
-      1 F
-</code></pre>
-
-<p><code>-d</code>选项只输出重复行</p>
-
-<pre><code class="language-shell">wsx@wsx-ubuntu:~$ cat test.letter
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~$ sort test.letter | uniq -c
+      <span style="color:#ae81ff">2</span> A
+      <span style="color:#ae81ff">2</span> B
+      <span style="color:#ae81ff">4</span> C
+      <span style="color:#ae81ff">2</span> D
+      <span style="color:#ae81ff">1</span> F
+</code></pre></div><p>把结果再排序</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~$ sort test.letter | uniq -c | sort -rn
+      <span style="color:#ae81ff">4</span> C
+      <span style="color:#ae81ff">2</span> D
+      <span style="color:#ae81ff">2</span> B
+      <span style="color:#ae81ff">2</span> A
+      <span style="color:#ae81ff">1</span> F
+</code></pre></div><p><code>-d</code>选项只输出重复行</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~$ cat test.letter
 A
 A
 B
@@ -516,110 +408,80 @@ B
 C
 D
 
-</code></pre>
-
-<p>使用时需要注意处理不同导致的结果差异。</p>
-
+</code></pre></div><p>使用时需要注意处理不同导致的结果差异。</p>
 <h2 id="join-命令">Join 命令</h2>
-
 <p>用来连接文件。
 假设现在我们有两个文件：</p>
-
-<pre><code class="language-shell">wsx@wsx-ubuntu:/tmp$ cat example.bed
-chr1	26	39
-chr1	32	47
-chr3	11	28
-chr1	40	49
-chr3	16	27
-chr1	9	28
-chr2	35	53
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:/tmp$ cat example.bed
+chr1	26	<span style="color:#ae81ff">39</span>
+chr1	32	<span style="color:#ae81ff">47</span>
+chr3	11	<span style="color:#ae81ff">28</span>
+chr1	40	<span style="color:#ae81ff">49</span>
+chr3	16	<span style="color:#ae81ff">27</span>
+chr1	9	<span style="color:#ae81ff">28</span>
+chr2	35	<span style="color:#ae81ff">53</span>
 wsx@wsx-ubuntu:/tmp$ cat example_length.txt
-chr1	53453
-chr2	34356
-chr3	24356
-</code></pre>
-
-<p>我想把第二个文件说明染色体长度添加到第一个文件对应染色体的第三列。
+chr1	<span style="color:#ae81ff">53453</span>
+chr2	<span style="color:#ae81ff">34356</span>
+chr3	<span style="color:#ae81ff">24356</span>
+</code></pre></div><p>我想把第二个文件说明染色体长度添加到第一个文件对应染色体的第三列。
 我们首先要给文件排序（使用<code>join</code>前必须做），然后使用<code>join</code>命令。</p>
-
-<pre><code class="language-shell">wsx@wsx-ubuntu:/tmp$ sort -k1,1 example.bed &gt; example_sorted.bed
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:/tmp$ sort -k1,1 example.bed &gt; example_sorted.bed
 wsx@wsx-ubuntu:/tmp$ sort -c -k1,1 example_length.txt
 wsx@wsx-ubuntu:/tmp$ cat example_sorted.bed
-chr1	26	39
-chr1	32	47
-chr1	40	49
-chr1	9	28
-chr2	35	53
-chr3	11	28
-chr3	16	27
-wsx@wsx-ubuntu:/tmp$ join -1 1 -2 1 example_sorted.bed  example_length.txt &gt; example_with_length.txt
+chr1	26	<span style="color:#ae81ff">39</span>
+chr1	32	<span style="color:#ae81ff">47</span>
+chr1	40	<span style="color:#ae81ff">49</span>
+chr1	9	<span style="color:#ae81ff">28</span>
+chr2	35	<span style="color:#ae81ff">53</span>
+chr3	11	<span style="color:#ae81ff">28</span>
+chr3	16	<span style="color:#ae81ff">27</span>
+wsx@wsx-ubuntu:/tmp$ join -1 <span style="color:#ae81ff">1</span> -2 <span style="color:#ae81ff">1</span> example_sorted.bed  example_length.txt &gt; example_with_length.txt
 wsx@wsx-ubuntu:/tmp$ cat example_with_length.txt
-chr1 26 39 53453
-chr1 32 47 53453
-chr1 40 49 53453
-chr1 9 28 53453
-chr2 35 53 34356
-chr3 11 28 24356
-chr3 16 27 24356
-</code></pre>
-
-<p>命令基本语法是</p>
-
+chr1 <span style="color:#ae81ff">26</span> <span style="color:#ae81ff">39</span> <span style="color:#ae81ff">53453</span>
+chr1 <span style="color:#ae81ff">32</span> <span style="color:#ae81ff">47</span> <span style="color:#ae81ff">53453</span>
+chr1 <span style="color:#ae81ff">40</span> <span style="color:#ae81ff">49</span> <span style="color:#ae81ff">53453</span>
+chr1 <span style="color:#ae81ff">9</span> <span style="color:#ae81ff">28</span> <span style="color:#ae81ff">53453</span>
+chr2 <span style="color:#ae81ff">35</span> <span style="color:#ae81ff">53</span> <span style="color:#ae81ff">34356</span>
+chr3 <span style="color:#ae81ff">11</span> <span style="color:#ae81ff">28</span> <span style="color:#ae81ff">24356</span>
+chr3 <span style="color:#ae81ff">16</span> <span style="color:#ae81ff">27</span> <span style="color:#ae81ff">24356</span>
+</code></pre></div><p>命令基本语法是</p>
 <pre><code>join -1 &lt;file_1_field&gt; -2 &lt;file_2_field&gt; &lt;file_1&gt; &lt;file_2&gt;
-</code></pre>
-
-<p>既然名字叫<code>join</code>，就是两者必须有共同之处，通过共同的支点将两者连为一体。
+</code></pre><p>既然名字叫<code>join</code>，就是两者必须有共同之处，通过共同的支点将两者连为一体。
 <code>-1</code>和<code>-2</code>选项后接参数分别指定了这个支点，也就是连接的域（列）。比如例子中，都是两个文件的第一列。</p>
-
 <p>两个文件中，第一列都共有<code>chr1(2)(3)</code>。 如果不一致会出现什么情况呢？</p>
-
-<pre><code class="language-shell">wsx@wsx-ubuntu:/tmp$ join -1 1 -2 1 example_sorted.bed  example_length_alt.txt chr1 26 39 53453
-chr1 32 47 53453
-chr1 40 49 53453
-chr1 9 28 53453
-chr2 35 53 34356
-</code></pre>
-
-<p>如果第二个文件没有<code>chr3</code>，<code>join</code>之后也没了！！</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:/tmp$ join -1 <span style="color:#ae81ff">1</span> -2 <span style="color:#ae81ff">1</span> example_sorted.bed  example_length_alt.txt chr1 <span style="color:#ae81ff">26</span> <span style="color:#ae81ff">39</span> <span style="color:#ae81ff">53453</span>
+chr1 <span style="color:#ae81ff">32</span> <span style="color:#ae81ff">47</span> <span style="color:#ae81ff">53453</span>
+chr1 <span style="color:#ae81ff">40</span> <span style="color:#ae81ff">49</span> <span style="color:#ae81ff">53453</span>
+chr1 <span style="color:#ae81ff">9</span> <span style="color:#ae81ff">28</span> <span style="color:#ae81ff">53453</span>
+chr2 <span style="color:#ae81ff">35</span> <span style="color:#ae81ff">53</span> <span style="color:#ae81ff">34356</span>
+</code></pre></div><p>如果第二个文件没有<code>chr3</code>，<code>join</code>之后也没了！！</p>
 <p>我们可以通过<code>-a</code>选项指定哪一个文件可以不遵循配对</p>
-
-<pre><code class="language-shell">wsx@wsx-ubuntu:/tmp$ join -1 1 -2 1 -a 1 example_sorted.bed  example_length_alt.txt
-chr1 26 39 53453
-chr1 32 47 53453
-chr1 40 49 53453
-chr1 9 28 53453
-chr2 35 53 34356
-chr3 11 28
-chr3 16 27
-</code></pre>
-
-<h2 id="awk">awk</h2>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:/tmp$ join -1 <span style="color:#ae81ff">1</span> -2 <span style="color:#ae81ff">1</span> -a <span style="color:#ae81ff">1</span> example_sorted.bed  example_length_alt.txt
+chr1 <span style="color:#ae81ff">26</span> <span style="color:#ae81ff">39</span> <span style="color:#ae81ff">53453</span>
+chr1 <span style="color:#ae81ff">32</span> <span style="color:#ae81ff">47</span> <span style="color:#ae81ff">53453</span>
+chr1 <span style="color:#ae81ff">40</span> <span style="color:#ae81ff">49</span> <span style="color:#ae81ff">53453</span>
+chr1 <span style="color:#ae81ff">9</span> <span style="color:#ae81ff">28</span> <span style="color:#ae81ff">53453</span>
+chr2 <span style="color:#ae81ff">35</span> <span style="color:#ae81ff">53</span> <span style="color:#ae81ff">34356</span>
+chr3 <span style="color:#ae81ff">11</span> <span style="color:#ae81ff">28</span>
+chr3 <span style="color:#ae81ff">16</span> <span style="color:#ae81ff">27</span>
+</code></pre></div><h2 id="awk">awk</h2>
 <p><code>awk</code>是文本处理的一把好手，虽然它不能像<code>python</code>，<code>R</code>干一些高级复杂的主题工作，但是它具备完整的命令操作和编程体系。</p>
-
-<p><code>awk</code>是一门语言，我不可能在学习的时候能够逻辑清晰详细地介绍给大家。主要是还通过实例来了解用法，加深认识。手册可以参考<a href="http://man.linuxde.net/awk。">http://man.linuxde.net/awk。</a></p>
-
+<p><code>awk</code>是一门语言，我不可能在学习的时候能够逻辑清晰详细地介绍给大家。主要是还通过实例来了解用法，加深认识。手册可以参考http://man.linuxde.net/awk。</p>
 <p>首先要明白的是，<code>awk</code>按行处理数据。在shell知识里，如果把一个文档看做一张表。那么一行就是一个<strong>记录</strong>，一列就是一个<strong>域</strong>。可以看出，<code>awk</code>就是按记录处理文本的。</p>
-
 <p>其次是<code>awk</code>的程序结构是</p>
-
 <pre><code>pattern {action}
-</code></pre>
-
-<p>pattern可以是表达式或者正则表达式。pattern有点像<code>if</code>语句，当它满足时就会执行相应的动作。</p>
-
+</code></pre><p>pattern可以是表达式或者正则表达式。pattern有点像<code>if</code>语句，当它满足时就会执行相应的动作。</p>
 <p>另一个<code>awk</code>核心是它用<code>$0</code>表示所有列，<code>$1</code>，<code>$2</code>&hellip;等等表示对应的列。我们可以很方便地用它进行操作。</p>
-
-<pre><code class="language-shell">wsx@wsx-ubuntu:/tmp$ awk '{print $0}' example.bed
-chr1	26	39
-chr1	32	47
-chr3	11	28
-chr1	40	49
-chr3	16	27
-chr1	9	28
-chr2	35	53
-wsx@wsx-ubuntu:/tmp$ awk '{print $1}' example.bed
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:/tmp$ awk <span style="color:#e6db74">&#39;{print $0}&#39;</span> example.bed
+chr1	26	<span style="color:#ae81ff">39</span>
+chr1	32	<span style="color:#ae81ff">47</span>
+chr3	11	<span style="color:#ae81ff">28</span>
+chr1	40	<span style="color:#ae81ff">49</span>
+chr3	16	<span style="color:#ae81ff">27</span>
+chr1	9	<span style="color:#ae81ff">28</span>
+chr2	35	<span style="color:#ae81ff">53</span>
+wsx@wsx-ubuntu:/tmp$ awk <span style="color:#e6db74">&#39;{print $1}&#39;</span> example.bed
 chr1
 chr1
 chr3
@@ -627,51 +489,43 @@ chr1
 chr3
 chr1
 chr2
-wsx@wsx-ubuntu:/tmp$ awk '{print $2}' example.bed
-26
-32
-11
-40
-16
-9
-</code></pre>
+wsx@wsx-ubuntu:/tmp$ awk <span style="color:#e6db74">&#39;{print $2}&#39;</span> example.bed
+<span style="color:#ae81ff">26</span>
+<span style="color:#ae81ff">32</span>
+<span style="color:#ae81ff">11</span>
+<span style="color:#ae81ff">40</span>
+<span style="color:#ae81ff">16</span>
+<span style="color:#ae81ff">9</span>
+</code></pre></div><p><code>print</code>语句就像动作一样输出你操作的结果。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:/tmp$ awk <span style="color:#e6db74">&#39;{ print $2 &#34;\t&#34; $3}&#39;</span> example.bed
+26	<span style="color:#ae81ff">39</span>
+32	<span style="color:#ae81ff">47</span>
+11	<span style="color:#ae81ff">28</span>
+40	<span style="color:#ae81ff">49</span>
+16	<span style="color:#ae81ff">27</span>
+9	<span style="color:#ae81ff">28</span>
+35	<span style="color:#ae81ff">53</span>
+wsx@wsx-ubuntu:/tmp$ awk <span style="color:#e6db74">&#39;{ print $2  $3}&#39;</span> example.bed
+<span style="color:#ae81ff">2639</span>
+<span style="color:#ae81ff">3247</span>
+<span style="color:#ae81ff">1128</span>
+<span style="color:#ae81ff">4049</span>
+<span style="color:#ae81ff">1627</span>
+<span style="color:#ae81ff">928</span>
+<span style="color:#ae81ff">3553</span>
+wsx@wsx-ubuntu:/tmp$ awk <span style="color:#e6db74">&#39;{ print $2 , $3}&#39;</span> example.bed
+<span style="color:#ae81ff">26</span> <span style="color:#ae81ff">39</span>
+<span style="color:#ae81ff">32</span> <span style="color:#ae81ff">47</span>
+<span style="color:#ae81ff">11</span> <span style="color:#ae81ff">28</span>
+<span style="color:#ae81ff">40</span> <span style="color:#ae81ff">49</span>
+<span style="color:#ae81ff">16</span> <span style="color:#ae81ff">27</span>
+<span style="color:#ae81ff">9</span> <span style="color:#ae81ff">28</span>
+<span style="color:#ae81ff">35</span> <span style="color:#ae81ff">53</span>
 
-<p><code>print</code>语句就像动作一样输出你操作的结果。</p>
-
-<pre><code class="language-shell">wsx@wsx-ubuntu:/tmp$ awk '{ print $2 &quot;\t&quot; $3}' example.bed
-26	39
-32	47
-11	28
-40	49
-16	27
-9	28
-35	53
-wsx@wsx-ubuntu:/tmp$ awk '{ print $2  $3}' example.bed
-2639
-3247
-1128
-4049
-1627
-928
-3553
-wsx@wsx-ubuntu:/tmp$ awk '{ print $2 , $3}' example.bed
-26 39
-32 47
-11 28
-40 49
-16 27
-9 28
-35 53
-
-</code></pre>
-
-<p>了解上述几个语句的不同。</p>
-
+</code></pre></div><p>了解上述几个语句的不同。</p>
 <p>表示染色体名一般用带<code>chr</code>或者不带<code>chr</code>标志两种方式。当我们要用到这两种时，肯定要让它们能够对应起来，也就是转换。<code>awk</code>命令可以非常方便地添加<code>chr</code>标记。</p>
-
 <p>下面我先把例子文件的<code>chr</code>去掉，然后加上试试。</p>
-
-<pre><code class="language-shell">wsx@wsx-ubuntu:/tmp$ awk '{ print $1}' example.bed
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:/tmp$ awk <span style="color:#e6db74">&#39;{ print $1}&#39;</span> example.bed
 chr1
 chr1
 chr3
@@ -679,15 +533,15 @@ chr1
 chr3
 chr1
 chr2
-wsx@wsx-ubuntu:/tmp$ awk '{ print $1}' example.bed | cut -c4
-1
-1
-3
-1
-3
-1
-2
-wsx@wsx-ubuntu:/tmp$ awk '{ print $1}' example.bed | cut -c4 | awk '{print &quot;chr&quot;$1}'
+wsx@wsx-ubuntu:/tmp$ awk <span style="color:#e6db74">&#39;{ print $1}&#39;</span> example.bed | cut -c4
+<span style="color:#ae81ff">1</span>
+<span style="color:#ae81ff">1</span>
+<span style="color:#ae81ff">3</span>
+<span style="color:#ae81ff">1</span>
+<span style="color:#ae81ff">3</span>
+<span style="color:#ae81ff">1</span>
+<span style="color:#ae81ff">2</span>
+wsx@wsx-ubuntu:/tmp$ awk <span style="color:#e6db74">&#39;{ print $1}&#39;</span> example.bed | cut -c4 | awk <span style="color:#e6db74">&#39;{print &#34;chr&#34;$1}&#39;</span>
 chr1
 chr1
 chr3
@@ -695,265 +549,154 @@ chr1
 chr3
 chr1
 chr2
-</code></pre>
+</code></pre></div><p><code>awk</code>作为一门编程语言，它支持各种操作符（运算，逻辑，判断）喔。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:/tmp$ awk <span style="color:#e6db74">&#39;$3 - $2 &gt;18&#39;</span> example.bed
+chr1	9	<span style="color:#ae81ff">28</span>
+wsx@wsx-ubuntu:/tmp$ awk <span style="color:#e6db74">&#39;$1 ~/chr1/ &amp;&amp; $3 - $2 &gt; 10&#39;</span> example.bed
+chr1	26	<span style="color:#ae81ff">39</span>
+chr1	32	<span style="color:#ae81ff">47</span>
+chr1	9	<span style="color:#ae81ff">28</span>
 
-<p><code>awk</code>作为一门编程语言，它支持各种操作符（运算，逻辑，判断）喔。</p>
-
-<pre><code class="language-shell">wsx@wsx-ubuntu:/tmp$ awk '$3 - $2 &gt;18' example.bed
-chr1	9	28
-wsx@wsx-ubuntu:/tmp$ awk '$1 ~/chr1/ &amp;&amp; $3 - $2 &gt; 10' example.bed
-chr1	26	39
-chr1	32	47
-chr1	9	28
-
-# 这里 ~ 符号用来匹配正则表达式
-</code></pre>
-
-<p>还有<code>awk</code>存在一些变量，像<code>NR</code>表示行号，<code>OFS</code>表示输出分隔符等。</p>
-
-<pre><code class="language-shell">wsx@wsx-ubuntu:/tmp$ awk 'NR &gt;= 3 &amp;&amp; NR &lt;= 5' example.bed
-chr3	11	28
-chr1	40	49
-chr3	16	27
-</code></pre>
-
-<p>如果我们想把<code>gtf</code>文件转换成为<code>bed</code>格式，可以使用</p>
-
-<pre><code class="language-shell">wsx@wsx-ubuntu:~/Work/research/Promoter_Research$ head -n1000 Homo_sapiens.GRCh37.75.gtf | awk '!/^#/{ print $1 &quot;\t&quot; $4-1 &quot;\t&quot; $5} ' | head -n 3
-1	11868	14412
-1	11868	14409
-1	11868	12227
-</code></pre>
-
-<p>因为篇幅有限，我不可能输出所有结果，所以只取部分数据做了运算。</p>
-
+<span style="color:#75715e"># 这里 ~ 符号用来匹配正则表达式</span>
+</code></pre></div><p>还有<code>awk</code>存在一些变量，像<code>NR</code>表示行号，<code>OFS</code>表示输出分隔符等。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:/tmp$ awk <span style="color:#e6db74">&#39;NR &gt;= 3 &amp;&amp; NR &lt;= 5&#39;</span> example.bed
+chr3	11	<span style="color:#ae81ff">28</span>
+chr1	40	<span style="color:#ae81ff">49</span>
+chr3	16	<span style="color:#ae81ff">27</span>
+</code></pre></div><p>如果我们想把<code>gtf</code>文件转换成为<code>bed</code>格式，可以使用</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~/Work/research/Promoter_Research$ head -n1000 Homo_sapiens.GRCh37.75.gtf | awk <span style="color:#e6db74">&#39;!/^#/{ print $1 &#34;\t&#34; $4-1 &#34;\t&#34; $5} &#39;</span> | head -n <span style="color:#ae81ff">3</span>
+1	11868	<span style="color:#ae81ff">14412</span>
+1	11868	<span style="color:#ae81ff">14409</span>
+1	11868	<span style="color:#ae81ff">12227</span>
+</code></pre></div><p>因为篇幅有限，我不可能输出所有结果，所以只取部分数据做了运算。</p>
 <h2 id="用sed进行流编辑">用Sed进行流编辑</h2>
-
 <p><code>sed</code>命令从文本或者标准输入中每次读入一行数据。</p>
-
 <p>我们先从简单的实例出发，看下该命令怎么将一列中的<code>chrm12</code>,<code>chrom2</code>等转换成<code>chr12</code>，<code>chr2</code>的格式。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ cat chrms.txt
+chrom1    <span style="color:#ae81ff">3214482</span>    <span style="color:#ae81ff">3216968</span>
+chrom1    <span style="color:#ae81ff">3214234</span>    <span style="color:#ae81ff">3216968</span>
+chrom1    <span style="color:#ae81ff">3213425</span>    <span style="color:#ae81ff">3210653</span>
 
-<pre><code class="language-shell">wangsx@SC-201708020022:~/tmp$ cat chrms.txt
-chrom1    3214482    3216968
-chrom1    3214234    3216968
-chrom1    3213425    3210653
-
-wangsx@SC-201708020022:~/tmp$ sed 's/chrom/chr/' chrms.txt
-chr1    3214482    3216968
-chr1    3214234    3216968
-chr1    3213425    3210653
-</code></pre>
-
-<p>虽然示例文件处理仅仅只有三行，但我们可以将这种处理方式运用到上G甚至更大的数据文件中，而不用打开整个文件进行处理。并且，可以借助重导向实现对数据处理结果的输出。</p>
-
+wangsx@SC-201708020022:~/tmp$ sed <span style="color:#e6db74">&#39;s/chrom/chr/&#39;</span> chrms.txt
+chr1    <span style="color:#ae81ff">3214482</span>    <span style="color:#ae81ff">3216968</span>
+chr1    <span style="color:#ae81ff">3214234</span>    <span style="color:#ae81ff">3216968</span>
+chr1    <span style="color:#ae81ff">3213425</span>    <span style="color:#ae81ff">3210653</span>
+</code></pre></div><p>虽然示例文件处理仅仅只有三行，但我们可以将这种处理方式运用到上G甚至更大的数据文件中，而不用打开整个文件进行处理。并且，可以借助重导向实现对数据处理结果的输出。</p>
 <p><code>sed</code>替换命令采用的格式是</p>
-
-<pre><code class="language-shell">s/pattern/replacement/
-</code></pre>
-
-<p><code>sed</code>会自动搜索符合<code>pattern</code>的字符串，然后修改为<code>replacement</code>（我们想要修改后的样子）。一般默认<code>sed</code>只替换第一个匹配的<code>pattern</code>，我们可以通过添加全局标识<code>g</code>将其应用到数据的所有行中。</p>
-
-<pre><code class="language-shell">s/pattern/replacement/g
-</code></pre>
-
-<p>如果我们想要忽略匹配的大小写，使用<code>i</code>标识</p>
-
-<pre><code class="language-shell">s/pattern/replacement/i
-</code></pre>
-
-<p>默认<code>sed</code>命令支持基本的POSIX正则表达式（BRE），可以通过<code>-E</code>选项进行拓展（ERE）。很多的Linux命令都这种方式，像常用的<code>grep</code>命令。</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">s/pattern/replacement/
+</code></pre></div><p><code>sed</code>会自动搜索符合<code>pattern</code>的字符串，然后修改为<code>replacement</code>（我们想要修改后的样子）。一般默认<code>sed</code>只替换第一个匹配的<code>pattern</code>，我们可以通过添加全局标识<code>g</code>将其应用到数据的所有行中。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">s/pattern/replacement/g
+</code></pre></div><p>如果我们想要忽略匹配的大小写，使用<code>i</code>标识</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">s/pattern/replacement/i
+</code></pre></div><p>默认<code>sed</code>命令支持基本的POSIX正则表达式（BRE），可以通过<code>-E</code>选项进行拓展（ERE）。很多的Linux命令都这种方式，像常用的<code>grep</code>命令。</p>
 <p>再看一个实例，如果我们想把<code>chr1:28647389-28659480</code>这样格式的文字转换为三列，可以使用：</p>
-
-<pre><code class="language-shell">wangsx@SC-201708020022:~/tmp$ echo &quot;chr1:28647389-28659480&quot; | \
-&gt;  sed -E 's/^(chr[^:]+):([0-9]+)-([0-9]+)/\1\t\2\t\3/'
-chr1    28647389        28659480
-</code></pre>
-
-<p>我们聚焦在第二个命令<code>sed</code>上。初看杂乱无章，但是从最大的结构看依旧是</p>
-
-<pre><code class="language-shell">s/pattern/replacement/
-</code></pre>
-
-<p>先看<code>pattern</code>部分，这是由几个简单正则表达式组成的复合体，几个<code>()</code>括起来的字符串可以单独看。第一个匹配<code>chr</code>加上一个非冒号的字符，第二个和第三个都是匹配多个数字。最开始的<code>^</code>表示以<code>chr</code>起始（前面没有字符），各个括号中间的是对应的字符。整体的<code>pattern</code>的目的就是为了找到文本中符合这种模式的字符串，如果只是想把这个模式找出来的话，几个括号可以不用加。显然这几个括号的作用就是将它们划分成多个域，帮助<code>sed</code>进行处理。可以看到<code>replacement</code>部分存在<code>\1</code>,<code>\2</code>,<code>\3</code>，它恰好对应<code>()</code>的顺序。这样我们在中间插入<code>\t</code>制表符，就可以完成我们想要的功能：将原字符串转换为三列。</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ echo <span style="color:#e6db74">&#34;chr1:28647389-28659480&#34;</span> | <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>&gt;  sed -E <span style="color:#e6db74">&#39;s/^(chr[^:]+):([0-9]+)-([0-9]+)/\1\t\2\t\3/&#39;</span>
+chr1    <span style="color:#ae81ff">28647389</span>        <span style="color:#ae81ff">28659480</span>
+</code></pre></div><p>我们聚焦在第二个命令<code>sed</code>上。初看杂乱无章，但是从最大的结构看依旧是</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">s/pattern/replacement/
+</code></pre></div><p>先看<code>pattern</code>部分，这是由几个简单正则表达式组成的复合体，几个<code>()</code>括起来的字符串可以单独看。第一个匹配<code>chr</code>加上一个非冒号的字符，第二个和第三个都是匹配多个数字。最开始的<code>^</code>表示以<code>chr</code>起始（前面没有字符），各个括号中间的是对应的字符。整体的<code>pattern</code>的目的就是为了找到文本中符合这种模式的字符串，如果只是想把这个模式找出来的话，几个括号可以不用加。显然这几个括号的作用就是将它们划分成多个域，帮助<code>sed</code>进行处理。可以看到<code>replacement</code>部分存在<code>\1</code>,<code>\2</code>,<code>\3</code>，它恰好对应<code>()</code>的顺序。这样我们在中间插入<code>\t</code>制表符，就可以完成我们想要的功能：将原字符串转换为三列。</p>
 <p>我本身对字符串并不是非常熟悉，懂一些元字符，可能讲解的不是很到位。不熟悉正则表达式的朋友，可以学习和参考下<a href="http://www.jianshu.com/p/7c50954651fa">学习正则表达式</a>，是我从Github上Copy到的非常好的学习资料，有兴趣也可以Fork学习。</p>
-
 <p>上山的路总是有很多条，我们下面看下其他实现该功能的办法：</p>
-
-<pre><code class="language-shell">wangsx@SC-201708020022:~/tmp$ echo &quot;chr1:28647389-28659480&quot; |  sed 's/[:-]/\t/g'
-chr1    28647389        28659480
-wangsx@SC-201708020022:~/tmp$ echo &quot;chr1:28647389-28659480&quot; |  sed 's/:/\t/' | sed 's/-/\t/'
-chr1    28647389        28659480
-wangsx@SC-201708020022:~/tmp$ echo &quot;chr1:28647389-28659480&quot; |  tr ':-' '\t'
-chr1    28647389        28659480
-</code></pre>
-
-<p>这三种方式看起来都非常简单有效。它处理字符串的思路不是从匹配pattern然后替换入手，不对，应该说是不是从匹配所有pattern然后替换入手。处理的关键是只处理字符串中看似无用的连字符<code>:</code>与<code>-</code>，将其替换成制表符从而轻松完成分割。</p>
-
-<p><code>sed 's/:/\t/' | sed 's/-/\t/'</code>可以通过<code>-e</code>选项写为<code>sed -e 's/:/\t/' -e 's/-/\t/'</code>，效果等价。</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ echo <span style="color:#e6db74">&#34;chr1:28647389-28659480&#34;</span> |  sed <span style="color:#e6db74">&#39;s/[:-]/\t/g&#39;</span>
+chr1    <span style="color:#ae81ff">28647389</span>        <span style="color:#ae81ff">28659480</span>
+wangsx@SC-201708020022:~/tmp$ echo <span style="color:#e6db74">&#34;chr1:28647389-28659480&#34;</span> |  sed <span style="color:#e6db74">&#39;s/:/\t/&#39;</span> | sed <span style="color:#e6db74">&#39;s/-/\t/&#39;</span>
+chr1    <span style="color:#ae81ff">28647389</span>        <span style="color:#ae81ff">28659480</span>
+wangsx@SC-201708020022:~/tmp$ echo <span style="color:#e6db74">&#34;chr1:28647389-28659480&#34;</span> |  tr <span style="color:#e6db74">&#39;:-&#39;</span> <span style="color:#e6db74">&#39;\t&#39;</span>
+chr1    <span style="color:#ae81ff">28647389</span>        <span style="color:#ae81ff">28659480</span>
+</code></pre></div><p>这三种方式看起来都非常简单有效。它处理字符串的思路不是从匹配pattern然后替换入手，不对，应该说是不是从匹配所有pattern然后替换入手。处理的关键是只处理字符串中看似无用的连字符<code>:</code>与<code>-</code>，将其替换成制表符从而轻松完成分割。</p>
+<p><code> sed 's/:/\t/' | sed 's/-/\t/'</code>可以通过<code>-e</code>选项写为<code> sed -e 's/:/\t/' -e 's/-/\t/'</code>，效果等价。</p>
 <p>默认<code>sed</code>命令支持基本的POSIX正则表达式（BRE），可以通过<code>-E</code>选项进行拓展（ERE）。很多的Linux命令都这种方式，像常用的<code>grep</code>命令。</p>
-
 <p>再看一个实例，如果我们想把<code>chr1:28647389-28659480</code>这样格式的文字转换为三列，可以使用：</p>
-
-<pre><code class="language-shell">wangsx@SC-201708020022:~/tmp$ echo &quot;chr1:28647389-28659480&quot; | \
-&gt;  sed -E 's/^(chr[^:]+):([0-9]+)-([0-9]+)/\1\t\2\t\3/'
-chr1    28647389        28659480
-</code></pre>
-
-<p>我们聚焦在第二个命令<code>sed</code>上。初看杂乱无章，但是从最大的结构看依旧是</p>
-
-<pre><code class="language-shell">s/pattern/replacement/
-</code></pre>
-
-<p>先看<code>pattern</code>部分，这是由几个简单正则表达式组成的复合体，几个<code>()</code>括起来的字符串可以单独看。第一个匹配<code>chr</code>加上一个非冒号的字符，第二个和第三个都是匹配多个数字。最开始的<code>^</code>表示以<code>chr</code>起始（前面没有字符），各个括号中间的是对应的字符。整体的<code>pattern</code>的目的就是为了找到文本中符合这种模式的字符串，如果只是想把这个模式找出来的话，几个括号可以不用加。显然这几个括号的作用就是将它们划分成多个域，帮助<code>sed</code>进行处理。可以看到<code>replacement</code>部分存在<code>\1</code>,<code>\2</code>,<code>\3</code>，它恰好对应<code>()</code>的顺序。这样我们在中间插入<code>\t</code>制表符，就可以完成我们想要的功能：将原字符串转换为三列。</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ echo <span style="color:#e6db74">&#34;chr1:28647389-28659480&#34;</span> | <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>&gt;  sed -E <span style="color:#e6db74">&#39;s/^(chr[^:]+):([0-9]+)-([0-9]+)/\1\t\2\t\3/&#39;</span>
+chr1    <span style="color:#ae81ff">28647389</span>        <span style="color:#ae81ff">28659480</span>
+</code></pre></div><p>我们聚焦在第二个命令<code>sed</code>上。初看杂乱无章，但是从最大的结构看依旧是</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">s/pattern/replacement/
+</code></pre></div><p>先看<code>pattern</code>部分，这是由几个简单正则表达式组成的复合体，几个<code>()</code>括起来的字符串可以单独看。第一个匹配<code>chr</code>加上一个非冒号的字符，第二个和第三个都是匹配多个数字。最开始的<code>^</code>表示以<code>chr</code>起始（前面没有字符），各个括号中间的是对应的字符。整体的<code>pattern</code>的目的就是为了找到文本中符合这种模式的字符串，如果只是想把这个模式找出来的话，几个括号可以不用加。显然这几个括号的作用就是将它们划分成多个域，帮助<code>sed</code>进行处理。可以看到<code>replacement</code>部分存在<code>\1</code>,<code>\2</code>,<code>\3</code>，它恰好对应<code>()</code>的顺序。这样我们在中间插入<code>\t</code>制表符，就可以完成我们想要的功能：将原字符串转换为三列。</p>
 <p>我本身对字符串并不是非常熟悉，懂一些元字符，可能讲解的不是很到位。不熟悉正则表达式的朋友，可以学习和参考下<a href="http://www.jianshu.com/p/7c50954651fa">学习正则表达式</a>，是我从Github上Copy到的非常好的学习资料，有兴趣也可以Fork学习。</p>
-
 <p>上山的路总是有很多条，我们下面看下其他实现该功能的办法：</p>
-
-<pre><code class="language-shell">wangsx@SC-201708020022:~/tmp$ echo &quot;chr1:28647389-28659480&quot; |  sed 's/[:-]/\t/g'
-chr1    28647389        28659480
-wangsx@SC-201708020022:~/tmp$ echo &quot;chr1:28647389-28659480&quot; |  sed 's/:/\t/' | sed 's/-/\t/'
-chr1    28647389        28659480
-wangsx@SC-201708020022:~/tmp$ echo &quot;chr1:28647389-28659480&quot; |  tr ':-' '\t'
-chr1    28647389        28659480
-</code></pre>
-
-<p>这三种方式看起来都非常简单有效。它处理字符串的思路不是从匹配pattern然后替换入手，不对，应该说是不是从匹配所有pattern然后替换入手。处理的关键是只处理字符串中看似无用的连字符<code>:</code>与<code>-</code>，将其替换成制表符从而轻松完成分割。</p>
-
-<p><code>sed 's/:/\t/' | sed 's/-/\t/'</code>可以通过<code>-e</code>选项写为<code>sed -e 's/:/\t/' -e 's/-/\t/'</code>，效果等价。</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ echo <span style="color:#e6db74">&#34;chr1:28647389-28659480&#34;</span> |  sed <span style="color:#e6db74">&#39;s/[:-]/\t/g&#39;</span>
+chr1    <span style="color:#ae81ff">28647389</span>        <span style="color:#ae81ff">28659480</span>
+wangsx@SC-201708020022:~/tmp$ echo <span style="color:#e6db74">&#34;chr1:28647389-28659480&#34;</span> |  sed <span style="color:#e6db74">&#39;s/:/\t/&#39;</span> | sed <span style="color:#e6db74">&#39;s/-/\t/&#39;</span>
+chr1    <span style="color:#ae81ff">28647389</span>        <span style="color:#ae81ff">28659480</span>
+wangsx@SC-201708020022:~/tmp$ echo <span style="color:#e6db74">&#34;chr1:28647389-28659480&#34;</span> |  tr <span style="color:#e6db74">&#39;:-&#39;</span> <span style="color:#e6db74">&#39;\t&#39;</span>
+chr1    <span style="color:#ae81ff">28647389</span>        <span style="color:#ae81ff">28659480</span>
+</code></pre></div><p>这三种方式看起来都非常简单有效。它处理字符串的思路不是从匹配pattern然后替换入手，不对，应该说是不是从匹配所有pattern然后替换入手。处理的关键是只处理字符串中看似无用的连字符<code>:</code>与<code>-</code>，将其替换成制表符从而轻松完成分割。</p>
+<p><code> sed 's/:/\t/' | sed 's/-/\t/'</code>可以通过<code>-e</code>选项写为<code> sed -e 's/:/\t/' -e 's/-/\t/'</code>，效果等价。</p>
 <p>默认，<code>sed</code>会输出每一行的结果，用<code>replacement</code>替换<code>pattern</code>，但实际中我们可能会因此得到不想要的结果。比如下面的这个例子。</p>
-
 <p>如果我们想要抓出<code>gtf</code>文件第九列的转录名，可能会使用以下命令</p>
-
-<pre><code class="language-shell">wangsx@SC-201708020022:~/database$ zgrep -v &quot;^#&quot; gencode.v27lift37.annotation.gtf.gz | head -n 3 | \
-&gt; sed -E 's/.*transcript_id &quot;([^&quot;]+)&quot;.*/\1/'
-chr1    HAVANA  gene    11869   14409   .       +       .       gene_id &quot;ENSG00000223972.5_2&quot;; gene_type &quot;transcribed_unprocessed_pseudogene&quot;; gene_name &quot;DDX11L1&quot;; level 2; havana_gene &quot;OTTHUMG00000000961.2_2&quot;; remap_status &quot;full_contig&quot;; remap_num_mappings 1; remap_target_status &quot;overlap&quot;;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/database$ zgrep -v <span style="color:#e6db74">&#34;^#&#34;</span> gencode.v27lift37.annotation.gtf.gz | head -n <span style="color:#ae81ff">3</span> | <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>&gt; sed -E <span style="color:#e6db74">&#39;s/.*transcript_id &#34;([^&#34;]+)&#34;.*/\1/&#39;</span>
+chr1    HAVANA  gene    <span style="color:#ae81ff">11869</span>   <span style="color:#ae81ff">14409</span>   .       +       .       gene_id <span style="color:#e6db74">&#34;ENSG00000223972.5_2&#34;</span>; gene_type <span style="color:#e6db74">&#34;transcribed_unprocessed_pseudogene&#34;</span>; gene_name <span style="color:#e6db74">&#34;DDX11L1&#34;</span>; level 2; havana_gene <span style="color:#e6db74">&#34;OTTHUMG00000000961.2_2&#34;</span>; remap_status <span style="color:#e6db74">&#34;full_contig&#34;</span>; remap_num_mappings 1; remap_target_status <span style="color:#e6db74">&#34;overlap&#34;</span>;
 ENST00000456328.2_1
 ENST00000456328.2_1
-</code></pre>
-
-<p>我们可以发现一些没有转录名行的结果是输出整行，这可不是我们想要的。一种解决办法是在使用<code>sed</code>之前先抓出有<code>transcript_id</code>的行。其实<code>sed</code>命令本身也可以通过选项和参数设定解决这个问题，这里我们可以用<code>-n</code>选项关闭<code>sed</code>输出所有行，在最末的<code>/</code>后加<code>p</code>只输出匹配项。</p>
-
-<pre><code class="language-shell">wangsx@SC-201708020022:~/database$ zgrep -v &quot;^#&quot; gencode.v27lift37.annotation.gtf.gz | head -n 3 | sed -E -n 's/.*transc
-ript_id &quot;([^&quot;]+)&quot;.*/\1/p'
+</code></pre></div><p>我们可以发现一些没有转录名行的结果是输出整行，这可不是我们想要的。一种解决办法是在使用<code>sed</code>之前先抓出有<code>transcript_id</code>的行。其实<code>sed</code>命令本身也可以通过选项和参数设定解决这个问题，这里我们可以用<code>-n</code>选项关闭<code>sed</code>输出所有行，在最末的<code>/</code>后加<code>p</code>只输出匹配项。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/database$ zgrep -v <span style="color:#e6db74">&#34;^#&#34;</span> gencode.v27lift37.annotation.gtf.gz | head -n <span style="color:#ae81ff">3</span> | sed -E -n <span style="color:#e6db74">&#39;s/.*transc
+</span><span style="color:#e6db74">ript_id &#34;([^&#34;]+)&#34;.*/\1/p&#39;</span>
 ENST00000456328.2_1
 ENST00000456328.2_1
-</code></pre>
-
-<p>注意方括号内<code>^</code>是非（取反）的意思。</p>
-
+</code></pre></div><p>注意方括号内<code>^</code>是非（取反）的意思。</p>
 <p>解释如下：</p>
-
 <ol>
-<li>首先，匹配字符串&rdquo;transcript_id&rdquo;之前0或多个任意字符（<code>.</code>表示除换行键的任意字符）。</li>
+<li>首先，匹配字符串&quot;transcript_id&quot;之前0或多个任意字符（<code>.</code>表示除换行键的任意字符）。</li>
 <li>然后，匹配和捕获一个或多个不是引号的字符，用的是<code>[^&quot;]</code></li>
 </ol>
-
 <p><code>+</code>号的使用是一种非贪婪的方法。很多新手会用<code>*</code>，这是贪婪操作，往往会得不偿失，需要注意喔。</p>
-
-<pre><code class="language-shell">wangsx@SC-201708020022:~/database$ sed -E 's/transcript_id &quot;([^&quot;]+)&quot;.*/\1/' greedy_example.txt
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/database$ sed -E <span style="color:#e6db74">&#39;s/transcript_id &#34;([^&#34;]+)&#34;.*/\1/&#39;</span> greedy_example.txt
 ENSMUST00000160944
-wangsx@SC-201708020022:~/database$ sed -E 's/transcript_id &quot;(.*)&quot;.*/\1/' greedy_example.txt
-ENSMUST00000160944&quot;; gene_name &quot;Gm16088
-</code></pre>
-
-<p>使用<code>*</code>时它会尽量多地去匹配符合要求的模式。</p>
-
+wangsx@SC-201708020022:~/database$ sed -E <span style="color:#e6db74">&#39;s/transcript_id &#34;(.*)&#34;.*/\1/&#39;</span> greedy_example.txt
+ENSMUST00000160944<span style="color:#e6db74">&#34;; gene_name &#34;</span>Gm16088
+</code></pre></div><p>使用<code>*</code>时它会尽量多地去匹配符合要求的模式。</p>
 <p>我们也可以用<code>sed</code>命令来获取特定范围的行，比如说我要取出头10行，可以使用</p>
-
-<pre><code class="language-shell">sed -n '1,10p' filename
-</code></pre>
-
-<p>20到50行</p>
-
-<pre><code class="language-shell">sed -n '20,50p' filename
-</code></pre>
-
-<p>当然<code>sed</code>的功能特性远远不止这些，有待于大家更多地挖掘。不过需要注意的是，尽量让工具干它最擅长的事情。如果是复杂地大规模计算，还是最好写个Python脚本。</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sed -n <span style="color:#e6db74">&#39;1,10p&#39;</span> filename
+</code></pre></div><p>20到50行</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sed -n <span style="color:#e6db74">&#39;20,50p&#39;</span> filename
+</code></pre></div><p>当然<code>sed</code>的功能特性远远不止这些，有待于大家更多地挖掘。不过需要注意的是，尽量让工具干它最擅长的事情。如果是复杂地大规模计算，还是最好写个Python脚本。</p>
 <blockquote>
 <p><strong>KISS原则</strong>:</p>
-
 <p>Keep Incredible Sed Simple</p>
 </blockquote>
-
 <h2 id="高级shell用法">高级Shell用法</h2>
-
 <h3 id="子shell">子shell</h3>
-
 <p>首先需要记住<strong>连续</strong>命令和<strong>管道</strong>命令的区别：前者是简单地一个一个按顺序运行程序（一般用<code>&amp;&amp;</code>或者<code>;</code>）；后者前一个程序的输出结果会直接传到下一个命令程序的输入中（这不就是流程化操作么，用<code>|</code>分隔）。</p>
-
 <p>子shell可以让我们在一个独立的shell进程中执行连续命令。</p>
-
 <p>首先看个例子</p>
-
-<pre><code class="language-shell">wangsx@SC-201708020022:~/database$ echo &quot;this command&quot;; echo &quot;that command&quot; | sed 's/command/step/'
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/database$ echo <span style="color:#e6db74">&#34;this command&#34;</span>; echo <span style="color:#e6db74">&#34;that command&#34;</span> | sed <span style="color:#e6db74">&#39;s/command/step/&#39;</span>
 this command
 that step
-wangsx@SC-201708020022:~/database$ (echo &quot;this command&quot;; echo &quot;that command&quot;) | sed 's/command/step/'
+wangsx@SC-201708020022:~/database$ <span style="color:#f92672">(</span>echo <span style="color:#e6db74">&#34;this command&#34;</span>; echo <span style="color:#e6db74">&#34;that command&#34;</span><span style="color:#f92672">)</span> | sed <span style="color:#e6db74">&#39;s/command/step/&#39;</span>
 this step
 that step
-</code></pre>
-
-<p>发现仅仅加了个括号，结果就不同了。第二个命令就用了子shell，它把两个<code>echo</code>命令放进单独的空间执行后将结果传给下游。</p>
-
+</code></pre></div><p>发现仅仅加了个括号，结果就不同了。第二个命令就用了子shell，它把两个<code>echo</code>命令放进单独的空间执行后将结果传给下游。</p>
 <p>子shell在对<code>gtf</code>文件进行操作时有个非常有意思有用的用处。我们如果想对<code>gtf</code>文件排序，但是又想要保留文件头部注释信息，我们就能够用两次<code>grep</code>操作分别抓出注释和非注释信息，然后又把它结合在一起。下面看看效果，用<code>less</code>进行检查：</p>
-
-<pre><code class="language-shell">wangsx@SC-201708020022:~/database$ (zgrep &quot;^#&quot; gencode.v27lift37.annotation.gtf.gz; \
-&gt;  zgrep -v &quot;^#&quot; gencode.v27lift37.annotation.gtf.gz | \
-&gt;  sort -k1,1 -k4,4n) | less
-</code></pre>
-
-<p>可以看到，子shell确实能够给我们提供非常有用的操作去组合命令实现想要的功能。</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/database$ <span style="color:#f92672">(</span>zgrep <span style="color:#e6db74">&#34;^#&#34;</span> gencode.v27lift37.annotation.gtf.gz; <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>&gt;  zgrep -v <span style="color:#e6db74">&#34;^#&#34;</span> gencode.v27lift37.annotation.gtf.gz | <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>&gt;  sort -k1,1 -k4,4n<span style="color:#f92672">)</span> | less
+</code></pre></div><p>可以看到，子shell确实能够给我们提供非常有用的操作去组合命令实现想要的功能。</p>
 <h3 id="命令管道及进程替换">命令管道及进程替换</h3>
-
 <p>很多生信命令行工具需要提供多个输入和输出参数，这用在管道命令里可能会导致非常低效的情形（管道只接受一个标准输入和输出）。幸好，我们可以使用命令管道来解决此类问题。</p>
-
 <p><strong>命名管道</strong>，也成为FIFO（先入先出，额，这不是队列么😄）。它是一个特殊的排序文件，命名管道有点像文件，它可以永久保留在你的文件系统上（估计本质就是文件吧~）。</p>
-
 <p>我们用<code>mkfifo</code>来生成它</p>
-
-<pre><code class="language-shell">wangsx@SC-201708020022:~/tmp$ ls -l fqin
-prw-rw-rw- 1 wangsx wangsx 0 9月   3 20:45 fqin
-</code></pre>
-
-<p>可以它看它权限的第一个字符是p，指代是pipe。说明是个特殊文件。</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ ls -l fqin
+prw-rw-rw- <span style="color:#ae81ff">1</span> wangsx wangsx <span style="color:#ae81ff">0</span> 9月   <span style="color:#ae81ff">3</span> 20:45 fqin
+</code></pre></div><p>可以它看它权限的第一个字符是p，指代是pipe。说明是个特殊文件。</p>
 <p>我们像文件一样对它进行一些操作</p>
-
-<pre><code class="language-shell">wangsx@SC-201708020022:~/tmp$ cat fqin
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ cat fqin
 hello, named pipes
-[1]+  已完成               echo &quot;hello, named pipes&quot; &gt; fqin
+<span style="color:#f92672">[</span>1<span style="color:#f92672">]</span>+  已完成               echo <span style="color:#e6db74">&#34;hello, named pipes&#34;</span> &gt; fqin
 wangsx@SC-201708020022:~/tmp$ rm fqin
-</code></pre>
-
-<p>比如当使用一个生信命令行工具</p>
-
+</code></pre></div><p>比如当使用一个生信命令行工具</p>
 <pre><code>processing_tool --in1 in1.fq --in2 in2.fq --out1 out1.fq --out2 out2.fq
-</code></pre>
-
-<p><code>in1.fq in2.fq</code>就可以上游输出数据到<code>processing_tool</code>的命名管道；同理<code>out1.fq out2.fq</code>可以是命名管道用来写进输出数据。</p>
-
+</code></pre><p><code>in1.fq in2.fq</code>就可以上游输出数据到<code>processing_tool</code>的命名管道；同理<code>out1.fq out2.fq</code>可以是命名管道用来写进输出数据。</p>
 <p>但这样我们每次都得不停地创建和删除这些文件，解决办法是使用匿名管道，也叫进程替换。</p>
-
 <p>不能光说，看看例子就知道和理解了。</p>
-
-<pre><code class="language-shell">wangsx@SC-201708020022:~/tmp$ cat &lt;(echo &quot;hello, process substitution&quot;)
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ cat &lt;<span style="color:#f92672">(</span>echo <span style="color:#e6db74">&#34;hello, process substitution&#34;</span><span style="color:#f92672">)</span>
 hello, process substitution
-</code></pre>
-
-<p><code>echo</code>命令运行后使用了进程替换，产生匿名文件，然后匿名文件被重导向<code>cat</code>命令。</p>
-
+</code></pre></div><p><code>echo</code>命令运行后使用了进程替换，产生匿名文件，然后匿名文件被重导向<code>cat</code>命令。</p>
 <p>把它用到工具上，就变成了(假定上游zcat下游执行grep命令)</p>
-
-<pre><code class="language-shell">processing_tool --in1 &lt; (zcat file1) --in2 &lt; (zcat file2) --out1 (gzip &gt; outfile1) --out2 (gzip &gt; outfile2)
-</code></pre>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">processing_tool --in1 &lt; <span style="color:#f92672">(</span>zcat file1<span style="color:#f92672">)</span> --in2 &lt; <span style="color:#f92672">(</span>zcat file2<span style="color:#f92672">)</span> --out1 <span style="color:#f92672">(</span>gzip &gt; outfile1<span style="color:#f92672">)</span> --out2 <span style="color:#f92672">(</span>gzip &gt; outfile2<span style="color:#f92672">)</span>
+</code></pre></div>
 
   <footer>
   
@@ -1057,7 +800,7 @@ document.addEventListener('keyup', function(e) {
   
   
 
-  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> &middot; <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> &middot; <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> &middot; <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> &middot; <a href="https://orcid.org/0000-0001-9855-7357"><i class='ai ai-orcid ai-1x'></i></a> &middot; <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 &copy; <a href="../../../">王诗翔</a> 2017 - 2020 </div>
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://github.com/ShixiangWang"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://orcid.org/0000-0001-9855-7357"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> <!-- raw HTML omitted --> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 © <a href="../../../">王诗翔</a> 2017 - 2020 </div>
   
   
 
