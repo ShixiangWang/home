@@ -22,7 +22,8 @@ fontsize: 10pt
 # 王诗翔
 
 - 地址：上海市浦东新区上海科技大学生命学院L楼A406
-- 邮箱：<w_shixiang@163.com>
+- 工作邮箱：<wangshx@shanghaitech.edu.cn>
+- 个人邮箱：<w_shixiang@163.com> 或 <shixiang1994wang@gmail.com>
 - 个人网站：<https://shixiangwang.github.io>
 
 
@@ -32,13 +33,13 @@ fontsize: 10pt
   上海科技大学，生物学专业，肿瘤信息学方向博士在读
 
 - 2012.09 ~ 2016.07 <br>
-  电子科技大学，工学学士
+  电子科技大学，生物医学工程专业，工学学士
 
 ## 教学经历
 
 助教：
 
-- 细胞生物学II（研究生）
+- 细胞生物学II课程（研究生，一学期）
 
 教学：
 
@@ -46,18 +47,44 @@ fontsize: 10pt
 
 ## 专业技能
 
-- 统计。我有丰富 R 语言使用经验，尤其是 R 语言统计分析和统计作图。
-- 写作技能。我喜欢用 Markdown 和R Markdown 等现代书写工具写作。
+- 编程水平：
+  - R $\star\star\star\star\star$
+  - Shell $\star\star\star$
+  - Python $\star\star\star$
+  - Golang $\star\star$
+- 数据分析。我有使用 R 和 Shell 进行数据预处理、数据清洗和数据解释相关的丰富经验。
+- 统计。我对于使用 R 进行统计建模和可视化也相当有经验。
+- 软件包与流程开发。我精通纯 R 包的开发，也有一些 Python 包和 Shiny 开发经验。我能够组合多种不同的编程语言或技能创建分析流程。
+- 基因组学分析。我有能力处理原始基因组学数据并进行分析。在体细胞变异检测（包括 SNV、INDEL 和 **CNV**）、差异表达分析、富集分析方面有一些实际经验。使用过像 samtools、fastqc、bwa、VEP、bedtools、limma 等一些组学工具。
+- 临床分析。我了解领域文献常见的临床指标，知道如何构建生存分析模型并解释结果。
+- 机器学习。我了解机器学习（包括深度学习），掌握一些基本技术，像聚类、回归预测、分类预测，有将机器学习应用到项目中的能力。
+- 写作。我喜欢用 Markdown 和 R Markdown 等现代书写工具写作，并通过很多方式分享我的知识（如 [GitHub Issue](https://github.com/ShixiangWang/MessageBoard/issues?q=is%3Aissue+is%3Aclosed)、[简书](https://www.jianshu.com/u/b6608e27dc74)和[微信公众号](https://weixin.sogou.com/weixin?type=2&query=%E4%BC%98%E9%9B%85R&ie=utf8&s_from=input&_sug_=n&_sug_type_=&w=01019900&sut=2588&sst0=1590423588976&lkt=2%2C1590423588587%2C1590423588875))
 
+## 开发
+
+- **sigminer** (<https://cran.r-project.org/package=sigminer>): mutational signature analysis and visualization in R.
+- **ezcox** (<https://cran.r-project.org/package=ezcox>): operate a batch of univariate or multivariate Cox models and return tidy result.
+- **DoAbsolute** (<https://github.com/ShixiangWang/DoAbsolute>): automate ABSOLUTE calling for multiple samples in parallel way.
+- **metawho** (<https://cran.r-project.org/package=metawho>): simple R implementation of “[Meta-analytical method to Identify Who Benefits Most from Treatments](https://www.bmj.com/content/356/bmj.j573)”.
+- **UCSCXenaTools** (<https://cran.r-project.org/package=UCSCXenaTools>): an R package for downloading and exploring data from [UCSC Xena data hubs](https://xenabrowser.net/datapages/).
+- **UCSCXenaShiny** (<https://cran.r-project.org/package=UCSCXenaShiny>): a Shiny based on UCSCXenaTools.
+- **contribution** (<https://cran.r-project.org/package=contribution>): generate contribution table for credit assignment in a project.
+- **loon** (<https://pypi.org/project/loon/>): a Python toolkit for operating remote host based on SSH.
+- **sync-deploy** (<https://github.com/ShixiangWang/sync-deploy>): a Shell toolkit for deploying script/command task on a remote host, including up/download files, run script and more.
+
+关于我更多的开发活动和贡献也在 [github.com/ShixiangWang](https://github.com/ShixiangWang) 上查看。
 
 ## 出版物
 
-1. 杂志论文
+总引用：70 (数据源：[谷歌学术](https://scholar.google.com/citations?user=FvNp0NkAAAAJ)，更新时间：`r Sys.Date()`)
 
+- **Wang, S.**, He, Z., Wang, X., Li, H., & Liu, X. S. (2019). Antigen presentation and tumor immunogenicity in cancer immunotherapy response prediction. *eLife*, 8, e49020. <https://doi.org/10.7554/eLife.49020> <i class="fa fa-file-pdf-o"> [(PDF)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6879305/pdf/elife-49020.pdf)</i> 
+- **Wang, S.**, He, Z., Wang, X., Li, H., Wu, T., Sun, X., ... & Liu, X. S. (2019). Can tumor mutational burden determine the most effective treatment for lung cancer patients?. *Lung Cancer Management*. <https://doi.org/10.2217/lmt-2019-0013> <i class="fa fa-file-pdf-o"> [(PDF)](https://www.futuremedicine.com/doi/pdf/10.2217/lmt-2019-0013)</i> 
+- **Wang, S.**, Cowley, L. A., & Liu, X. S. (2019). Sex differences in Cancer immunotherapy efficacy, biomarkers, and therapeutic strategy. *Molecules*, 24(18), 3214. <i class="fa fa-file-pdf-o"> [(PDF)](https://www.mdpi.com/1420-3049/24/18/3214/pdf)</i> 
 - **Wang, S.** & Liu, X. S. (2019). The UCSCXenaTools R package: a toolkit for accessing genomics data from UCSC Xena platform, from cancer multi-omics to single-cell RNA-seq. *Journal of Open Source Software*, 4(40), 1627, https://doi.org/10.21105/joss.01627 <i class="fa fa-file-pdf-o"> [(PDF)](https://www.theoj.org/joss-papers/joss.01627/10.21105.joss.01627.pdf)</i>
 - He, Z., **Wang, S.**, Shao, Y., Zhang, J., Wu, X., Chen, Y., ... & Liu, X. S. (2019). Ras downstream effector GGCT alleviates oncogenic stress. *iScience*. <i class="fa fa-file-pdf-o"> [(PDF)](https://www.researchgate.net/publication/334723955_Ras_downstream_effector_GGCT_alleviates_oncogenic_stress)</i>
-- **Wang, S.**, Zhang, J., He, Z., Wu, K., & Liu, X. S. (2019). The predictive power of tumor mutational burden in lung cancer immunotherapy response is influenced by patients’ sex. *International journal of cancer*. <i class="fa fa-file-pdf-o"> [(PDF)](https://www.researchgate.net/publication/332372671_The_predictive_power_of_tumor_mutational_burden_in_lung_cancer_immunotherapy_response_is_influenced_by_patients'_sex)</i>
-- **Wang, S.**, Jia, M., He, Z., & Liu, X. S. (2018). APOBEC3B and APOBEC mutational signature as potential predictive markers for immunotherapy response in non-small cell lung cancer. *Oncogene*, 37(29), 3924. <i class="fa fa-file-pdf-o"> [(PDF)](https://www.researchgate.net/publication/324781475_APOBEC3B_and_APOBEC_mutational_signature_as_potential_predictive_markers_for_immunotherapy_response_in_non-small_cell_lung_cancer)</i>
+- **Wang, S.**, Zhang, J., He, Z., Wu, K., & Liu, X. S. (2019). The predictive power of tumor mutational burden in lung cancer immunotherapy response is influenced by patients’ sex. *International journal of cancer*, 145(10), 2840-2849. <i class="fa fa-file-pdf-o"> [(PDF)](https://www.researchgate.net/publication/332372671_The_predictive_power_of_tumor_mutational_burden_in_lung_cancer_immunotherapy_response_is_influenced_by_patients'_sex)</i>
+- **Wang, S.**, Jia, M., He, Z., & Liu, X. S. (2018). APOBEC3B and APOBEC mutational signature as potential predictive markers for immunotherapy response in non-small cell lung cancer. *Oncogene*, 37(29), 3924-3936. <i class="fa fa-file-pdf-o"> [(PDF)](https://www.researchgate.net/publication/324781475_APOBEC3B_and_APOBEC_mutational_signature_as_potential_predictive_markers_for_immunotherapy_response_in_non-small_cell_lung_cancer)</i>
 
 
 

@@ -45,10 +45,10 @@ fontsize: 10pt
 - Data analysis. I have advanced experience in using R and Shell for data preprocessing, data cleaning and data interpretation.
 - Statistics. I have moderate experience in using R for statistical modeling and data visualization. 
 - Package/pipeline development. I master developing pure R packages and have a little experience in Python package and R Shiny development. I can combine multiple languages to create analysis pipeline.
-- Genomic analysis. I can process raw genomic data and analyze them. I have moderate experience in somatic variant calling (including SNV, INDEL and CNV).
+- Genomic analysis. I can process raw genomic data and analyze them. I have moderate experience in somatic variant calling (including SNV, INDEL and CNV), differential expression analysis and enrichment analysis.
 - Clinical analysis. I know how to construct survival models and interpret results.
 - Machine learning. I know how to do machine learning (including deep learning) and have applied some technologies to my projects.
-- Writing. I like to write with R Markdown (including Markdown) and share my knowledge to others in many ways (e.g. [GitHub](https://github.com/ShixiangWang/MessageBoard), [Jianshu](https://www.jianshu.com/u/b6608e27dc74), [Wechat](https://weixin.sogou.com/weixin?type=2&query=%E4%BC%98%E9%9B%85R&ie=utf8&s_from=input&_sug_=n&_sug_type_=&w=01019900&sut=2588&sst0=1590423588976&lkt=2%2C1590423588587%2C1590423588875), and etc.). 
+- Writing. I like to write with R Markdown (including Markdown) and share my knowledge to others in many ways (e.g. [GitHub Issue](https://github.com/ShixiangWang/MessageBoard/issues?q=is%3Aissue+is%3Aclosed), [Jianshu](https://www.jianshu.com/u/b6608e27dc74), [Wechat](https://weixin.sogou.com/weixin?type=2&query=%E4%BC%98%E9%9B%85R&ie=utf8&s_from=input&_sug_=n&_sug_type_=&w=01019900&sut=2588&sst0=1590423588976&lkt=2%2C1590423588587%2C1590423588875), and etc.). 
 
 ## Developments
 
@@ -60,7 +60,7 @@ fontsize: 10pt
 - **UCSCXenaShiny** (<https://cran.r-project.org/package=UCSCXenaShiny>): a Shiny based on UCSCXenaTools.
 - **contribution** (<https://cran.r-project.org/package=contribution>): generate contribution table for credit assignment in a project.
 - **loon** (<https://pypi.org/project/loon/>): a Python toolkit for operating remote host based on SSH.
-- **sync-deploy** (<https://github.com/ShixiangWang/sync-deploy>): a shell toolkit for deploying script/command task on a remote host, including up/download files, run script and more.
+- **sync-deploy** (<https://github.com/ShixiangWang/sync-deploy>): a Shell toolkit for deploying script/command task on a remote host, including up/download files, run script and more.
 
 More activities about my development and contribution can be viewed at [github.com/ShixiangWang](https://github.com/ShixiangWang).
 
