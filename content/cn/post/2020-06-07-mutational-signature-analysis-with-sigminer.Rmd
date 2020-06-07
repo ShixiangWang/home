@@ -1,0 +1,200 @@
+---
+title: "使用 sigminer 进行突变模式分析"
+author: "王诗翔"
+date: "2020-06-07"
+lastmod: "`r Sys.Date()`"
+slug: ""
+categories: r
+tags:
+- r
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, dev = "png", comment = "#>", tidy = "styler")
+#Sys.setenv("LANGUAGE"="EN") # Embed this for outputing English message
+#Sys.setlocale('LC_ALL','C') # Embed this directly in the Rmarkdown script that contains the Chinese character comment
+options(digits=3)
+options(max.print=200)
+```
+
+突变模式分析（Mutational Signature Analysis）已经逐步成为变异检测后一个通用分析，这篇文章简单介绍如何使用 sigminer 进行突变模式分析，以解决 2 大分析任务：
+
+- 从头发现 Signatures
+- 已知一些参考 Signatures，我们想要定量 Signature 的 Exposure（或称为 Activity）
+
+支持 SBS、DBS、INDEL 以及 copynumber（研究中）。
+
+### 安装
+
+```r
+BiocManager::install("sigminer", dependencies = TRUE)
+```
+
+### 加载包
+
+```{r, message=FALSE, warning=FALSE}
+library(sigminer)
+library(NMF)
+```
+
+### 数据输入
+
+sigminer 的开发与 maftools 很有渊源，使用 MAF 对象作为数据的存储结构。如果你会使用 maftools 读入突变数据，那么就会使用 sigminer 读入突变数据，支持 `data.frame` 和 MAF 文件。
+
+这里我们使用 maftools 内置数据集，maftools 其实本身也可以做 signature 分析（但不是它的核心）。
+
+```{r, message=FALSE}
+laml.maf <- system.file("extdata", "tcga_laml.maf.gz", package = "maftools", mustWork = TRUE)
+laml <- read_maf(maf = laml.maf)
+# 与 maftools::read.maf(maf = laml.maf) 结果是一样的
+# read_maf 是对 read.maf 的封装
+```
+
+### 生成突变分类矩阵
+
+使用 `sig_tally()` 对突变进行归类整理，针对 MAF 对象，支持设定 `mode` 为 'SBS', 'DBS', 'ID' 以及 'ALL'。
+
+`mode` 为 'ALL` 时会尽量生成所有矩阵：
+
+```{r, message=FALSE}
+mats <- mt_tally <- sig_tally(
+  laml,
+  ref_genome = "BSgenome.Hsapiens.UCSC.hg19",
+  useSyn = TRUE,
+  mode = "ALL"
+)
+
+str(mats, max.level = 1)
+```
+
+> 这个数据集没有双碱基替换，所以没有相应的矩阵。
+
+```{r}
+mt_tally$SBS_96[1:5, 1:5]
+```
+
+针对整个数据集的分类就可以画图，Signatures 其实就是它的拆分。
+
+```{r, fig.width=12, fig.height=3}
+show_catalogue(mt_tally$SBS_96 %>% t(), mode = "SBS", style = "cosmic")
+```
+
+```{r, fig.width=6, fig.height=3}
+show_catalogue(mt_tally$SBS_6 %>% t(), mode = "SBS", style = "cosmic")
+```
+
+> 注意上面对矩阵进行了转置。
+
+### 估计 Signature 数目
+
+这一步实际上是多次运行 NMF，查看一些指标的变化，用于后续确定提取多少个 Signatures。
+
+```{r}
+est <- sig_estimate(mt_tally$SBS_96, range = 2:5, nrun = 2, pConstant = 1e-9, verbose = TRUE)
+```
+
+> 这里加入了一个 `pConstant = 1e-9`，是因为 NMF 包调用矩阵分解存在 bug，一个分类的和不能为 0。报错就加一个伪小数，不报错就可以不管。
+
+```{r}
+show_sig_number_survey2(est$survey)
+```
+
+cophenetic 是一个主要指标，我们看到一直在下降。不过我们观测到残差，sparseness在往好的方向变化，这里可以选择 4 个试试（上面运行最好30-50次可以得到稳定结果）。
+
+### 提取 signatures 和可视化
+
+```{r}
+sigs <- sig_extract(mt_tally$SBS_96, n_sig = 4, nrun = 2, pConstant = 1e-9)
+```
+
+生成的是一个带 `Signature` 类信息的列表：
+
+```{r}
+str(sigs, max.level = 1)
+```
+
+很多信息存在里面，用户可以自己提取自己感兴趣的信息。sigminer 也有很多函数专门用户提取一些信息、可视化等等。
+
+我们先看一个最常见的突变模式图谱：
+
+```{r, fig.width=12, fig.height=6}
+p <- show_sig_profile(sigs, mode = "SBS", style = "cosmic")
+p
+```
+
+接着可以计算下它与 COSMIC signatures 的相似性，评估病因，对于 SBS 有 2 个 COSMIC 数据库版本 legacy（30 个，目前最常用的） 与 SBS v3。
+
+```{r}
+get_sig_similarity(sigs, sig_db = "legacy")
+```
+
+```{r}
+sim <- get_sig_similarity(sigs, sig_db = "SBS")
+```
+
+```{r, fig.width=12, fig.height=6}
+add_labels(p, x = 0.72, y = 0.25, y_end = 0.9, labels = sim, n_label = 4)
+```
+
+> 这里的坐标位置需要自己细调一下。
+
+### 自动提取 signatures
+
+SignatureAnalyzer 提供的变异 NMF 提供了自动提取 Sigantures 的功能，无需要自己判断提取的 signature 数目，这个可以通过 `sig_auto_extract()` 实现。该算法会倾向生成更加稀疏（相互之间不一致）的 signatures，因此偏向于生成更多的 signatures。从我多年研究 signatures 的经验来看，它对于单点突变还是非常友好的。
+
+```{r}
+sigs2 <- sig_auto_extract(mt_tally$SBS_96, nrun = 2)
+```
+
+画图方式是完全一样的。
+
+```{r, fig.width=12, fig.height=6}
+p <- show_sig_profile(sigs2, mode = "SBS", style = "cosmic")
+p
+```
+
+虽然上面都是粗略的分析，但这种方法感觉更好。
+
+> 实际研究时选择哪种方法都需要根据数据还自己的需要决定，也可以比较两者的结果。
+
+### Signature 活动图谱
+
+sigminer 提供绝对和相对两种 Signature 活动度值。
+
+```{r}
+get_sig_exposure(sigs2) %>% head()
+get_sig_exposure(sigs2, type = "relative") %>% head()
+```
+
+画图直接把对象扔进去就可以了。
+
+```{r}
+show_sig_exposure(sigs, rm_space = TRUE, style = "cosmic")
+```
+
+### 根据已知的 Signatures 提取活动度
+
+这个比较有名的软件就是 deconstructSigs 了。sigminer 也支持了这个功能，而且能够使用目前 cosmic 的所有图谱，也可以使用自己从头发现的 signatures。函数就一个 `sig_fit()`。
+
+我们试着处理 5 个样本（支持单样本），使用 COSMIC v2 30 个 signatures 作为参考。
+
+```{r, message=FALSE}
+examp_fit <- sig_fit(mt_tally$SBS_96[1:5, ] %>% t(), sig_index = 'ALL', sig_db = 'legacy')
+head(examp_fit)
+```
+
+画图也很简单：
+
+```{r}
+show_sig_fit(examp_fit, palette = NULL) + ggpubr::rotate_x_text()
+```
+
+如果设置散点图，可以把单样本结果画出来。
+
+```{r}
+show_sig_fit(examp_fit, palette = NULL, plot_fun = "scatter", 
+             signatures = paste0("COSMIC_", c(1, 2, 4, 6, 19))) + ggpubr::rotate_x_text()
+```
+
+
+上面展示了最核心的分析和可视化功能，sigminer 还支持很多功能，我就不再详述了。用户可以阅读官方文档 <https://shixiangwang.github.io/sigminer-doc/> 进一步学习，后续我会根据研究情况进一步开发。当然，读者完全可以基于上面分析的结果值进行各种个性化分析。

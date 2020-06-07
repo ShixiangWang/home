@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    
+    <link rel="stylesheet" href="../../../fonts/academicons-1.8.6/css/academicons.min.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../logo/bodhi.png"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    
+    <title>使用 sigminer 进行突变模式分析 - 王诗翔</title>
+    
+     
+    <meta property="og:title" content="使用 sigminer 进行突变模式分析 - Shixiang Wang | 王诗翔">
+    
+
+    
+      
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="../../../css/style.css" />
+    <link rel="stylesheet" href="../../../css/mystyle.css" /> 
+    <link rel="stylesheet" href="../../../css/fonts.css" />
+    
+<script async src="../../../js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="../../../css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="../../../logo/ShixiangWang.png"><img src="../../../logo/ShixiangWang.png" alt="Shixiang Wang" /></a></h1>
+
+
+
+      <nav class="menu">
+        <input id="menu-check" type="checkbox" />
+        <label id="menu-label" for="menu-check" class="unselectable">
+          <span class="icon close-icon">✕</span>
+          <span class="icon open-icon">☰</span>
+          <span class="text">Menu</span>
+        </label>
+        <ul>
+        
+        
+        <li><a href="../../../">首页</a></li>
+        
+        <li><a href="../../../cn/about/">关于</a></li>
+        
+        <li><a href="../../../cn/post/">博客</a></li>
+        
+        <li><a href="../../../cn/read/">读书</a></li>
+        
+        <li><a href="../../../cn/writing">写作</a></li>
+        
+        <li><a href="../../../cn/research/">研究</a></li>
+        
+        <li><a href="../../../cn/tools/">工具</a></li>
+        
+        <li><a href="../../../cn/cv-cn/shixiang">简历</a></li>
+        
+        <li><a href="../../../logo/qrcode.jpg">公众号</a></li>
+        
+        <li><a href="https://www.jianshu.com/u/b6608e27dc74">简书</a></li>
+        
+        <li><a href="../../../cn/todo">ToDo</a></li>
+        
+        <li><a href="../../../en/">English</a></li>
+        
+        
+
+<li class="menu-extra"></li>
+
+
+
+
+
+
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2020-06-07-mutational-signature-analysis-with-sigminer.Rmd" target="_blank">编辑</a></li>
+
+
+<li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+        </ul>
+      </nav>
+    </header>
+
+    <article class="main">
+      <header class="title">
+        
+
+<h1>使用 sigminer 进行突变模式分析</h1>
+
+
+
+<h3>王诗翔 &middot 
+2020-06-07</h3> 
+
+
+   
+  
+
+
+      </header>
+
+
+
+
+
+<p>突变模式分析（Mutational Signature Analysis）已经逐步成为变异检测后一个通用分析，这篇文章简单介绍如何使用 sigminer 进行突变模式分析，以解决 2 大分析任务：</p>
+<ul>
+<li>从头发现 Signatures</li>
+<li>已知一些参考 Signatures，我们想要定量 Signature 的 Exposure（或称为 Activity）</li>
+</ul>
+<p>支持 SBS、DBS、INDEL 以及 copynumber（研究中）。</p>
+<div id="安装" class="section level3">
+<h3>安装</h3>
+<pre class="r"><code>BiocManager::install(&quot;sigminer&quot;, dependencies = TRUE)</code></pre>
+</div>
+<div id="加载包" class="section level3">
+<h3>加载包</h3>
+<pre class="r"><code>library(sigminer)
+library(NMF)</code></pre>
+</div>
+<div id="数据输入" class="section level3">
+<h3>数据输入</h3>
+<p>sigminer 的开发与 maftools 很有渊源，使用 MAF 对象作为数据的存储结构。如果你会使用 maftools 读入突变数据，那么就会使用 sigminer 读入突变数据，支持 <code>data.frame</code> 和 MAF 文件。</p>
+<p>这里我们使用 maftools 内置数据集，maftools 其实本身也可以做 signature 分析（但不是它的核心）。</p>
+<pre class="r"><code>laml.maf &lt;- system.file(&quot;extdata&quot;, &quot;tcga_laml.maf.gz&quot;, package = &quot;maftools&quot;, mustWork = TRUE)
+laml &lt;- read_maf(maf = laml.maf)
+#&gt; -Reading
+#&gt; -Validating
+#&gt; -Silent variants: 475 
+#&gt; -Summarizing
+#&gt; -Processing clinical data
+#&gt; --Missing clinical data
+#&gt; -Finished in 0.290s elapsed (0.269s cpu)
+# 与 maftools::read.maf(maf = laml.maf) 结果是一样的
+# read_maf 是对 read.maf 的封装</code></pre>
+</div>
+<div id="生成突变分类矩阵" class="section level3">
+<h3>生成突变分类矩阵</h3>
+<p>使用 <code>sig_tally()</code> 对突变进行归类整理，针对 MAF 对象，支持设定 <code>mode</code> 为 ‘SBS’, ‘DBS’, ‘ID’ 以及 ‘ALL’。</p>
+<p><code>mode</code> 为 ’ALL` 时会尽量生成所有矩阵：</p>
+<pre class="r"><code>mats &lt;- mt_tally &lt;- sig_tally(
+  laml,
+  ref_genome = &quot;BSgenome.Hsapiens.UCSC.hg19&quot;,
+  useSyn = TRUE,
+  mode = &quot;ALL&quot;
+)
+
+str(mats, max.level = 1)
+#&gt; List of 6
+#&gt;  $ SBS_6        : int [1:193, 1:6] 1 0 0 2 1 0 1 1 2 2 ...
+#&gt;   ..- attr(*, &quot;dimnames&quot;)=List of 2
+#&gt;  $ SBS_96       : int [1:193, 1:96] 0 0 0 0 0 0 1 0 1 0 ...
+#&gt;   ..- attr(*, &quot;dimnames&quot;)=List of 2
+#&gt;  $ SBS_1536     : int [1:193, 1:1536] 0 0 0 0 0 0 0 0 0 0 ...
+#&gt;   ..- attr(*, &quot;dimnames&quot;)=List of 2
+#&gt;  $ ID_28        : int [1:193, 1:28] 0 0 0 0 0 0 0 0 0 0 ...
+#&gt;   ..- attr(*, &quot;dimnames&quot;)=List of 2
+#&gt;  $ ID_83        : int [1:193, 1:83] 0 0 0 0 0 0 0 0 0 0 ...
+#&gt;   ..- attr(*, &quot;dimnames&quot;)=List of 2
+#&gt;  $ APOBEC_scores:Classes &#39;data.table&#39; and &#39;data.frame&#39;:  182 obs. of  44 variables:
+#&gt;   ..- attr(*, &quot;.internal.selfref&quot;)=&lt;externalptr&gt; 
+#&gt;   ..- attr(*, &quot;index&quot;)= int(0) 
+#&gt;   .. ..- attr(*, &quot;__APOBEC_Enriched&quot;)= int [1:182] 106 147 5 6 8 9 10 11 12 13 ...</code></pre>
+<blockquote>
+<p>这个数据集没有双碱基替换，所以没有相应的矩阵。</p>
+</blockquote>
+<pre class="r"><code>mt_tally$SBS_96[1:5, 1:5]
+#&gt;              A[T&gt;C]A C[T&gt;C]A G[T&gt;C]A T[T&gt;C]A A[C&gt;T]A
+#&gt; TCGA-AB-2802       0       0       0       0       0
+#&gt; TCGA-AB-2803       0       0       0       0       2
+#&gt; TCGA-AB-2804       0       0       0       0       2
+#&gt; TCGA-AB-2805       0       0       0       0       0
+#&gt; TCGA-AB-2806       0       0       0       0       0</code></pre>
+<p>针对整个数据集的分类就可以画图，Signatures 其实就是它的拆分。</p>
+<pre class="r"><code>show_catalogue(mt_tally$SBS_96 %&gt;% t(), mode = &quot;SBS&quot;, style = &quot;cosmic&quot;)</code></pre>
+<p><img src="../../../cn/post/2020-06-07-mutational-signature-analysis-with-sigminer_files/figure-html/unnamed-chunk-5-1.png" width="1152" /></p>
+<pre class="r"><code>show_catalogue(mt_tally$SBS_6 %&gt;% t(), mode = &quot;SBS&quot;, style = &quot;cosmic&quot;)</code></pre>
+<p><img src="../../../cn/post/2020-06-07-mutational-signature-analysis-with-sigminer_files/figure-html/unnamed-chunk-6-1.png" width="576" /></p>
+<blockquote>
+<p>注意上面对矩阵进行了转置。</p>
+</blockquote>
+</div>
+<div id="估计-signature-数目" class="section level3">
+<h3>估计 Signature 数目</h3>
+<p>这一步实际上是多次运行 NMF，查看一些指标的变化，用于后续确定提取多少个 Signatures。</p>
+<pre class="r"><code>est &lt;- sig_estimate(mt_tally$SBS_96, range = 2:5, nrun = 2, pConstant = 1e-9, verbose = TRUE)
+#&gt; Compute NMF rank= 2  ... + measures ... OK
+#&gt; Compute NMF rank= 3  ... + measures ... OK
+#&gt; Compute NMF rank= 4  ... + measures ... OK
+#&gt; Compute NMF rank= 5  ... + measures ... OK
+#&gt; Estimation of rank based on observed data.
+#&gt;   method   seed rng metric rank sparseness.basis sparseness.coef  rss  evar
+#&gt; 2 brunet random   1     KL    2            0.588           0.653 1924 0.411
+#&gt; 3 brunet random   1     KL    3            0.648           0.623 1875 0.426
+#&gt; 4 brunet random   1     KL    4            0.685           0.633 1802 0.448
+#&gt; 5 brunet random   1     KL    5            0.698           0.687 1723 0.472
+#&gt;   silhouette.coef silhouette.basis residuals niter   cpu cpu.all nrun
+#&gt; 2           1.000            1.000      2880  1040 0.496    4.86    2
+#&gt; 3           0.769            0.830      2718   800 0.409    4.72    2
+#&gt; 4           0.656            0.767      2543  1790 0.946    1.82    2
+#&gt; 5           0.609            0.712      2415  1750 1.044    5.23    2
+#&gt;   cophenetic dispersion silhouette.consensus
+#&gt; 2      0.888      0.576                0.712
+#&gt; 3      0.802      0.577                0.494
+#&gt; 4      0.784      0.655                0.473
+#&gt; 5      0.748      0.700                0.398</code></pre>
+<blockquote>
+<p>这里加入了一个 <code>pConstant = 1e-9</code>，是因为 NMF 包调用矩阵分解存在 bug，一个分类的和不能为 0。报错就加一个伪小数，不报错就可以不管。</p>
+</blockquote>
+<pre class="r"><code>show_sig_number_survey2(est$survey)</code></pre>
+<p><img src="../../../cn/post/2020-06-07-mutational-signature-analysis-with-sigminer_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>cophenetic 是一个主要指标，我们看到一直在下降。不过我们观测到残差，sparseness在往好的方向变化，这里可以选择 4 个试试（上面运行最好30-50次可以得到稳定结果）。</p>
+</div>
+<div id="提取-signatures-和可视化" class="section level3">
+<h3>提取 signatures 和可视化</h3>
+<pre class="r"><code>sigs &lt;- sig_extract(mt_tally$SBS_96, n_sig = 4, nrun = 2, pConstant = 1e-9)</code></pre>
+<p>生成的是一个带 <code>Signature</code> 类信息的列表：</p>
+<pre class="r"><code>str(sigs, max.level = 1)
+#&gt; List of 6
+#&gt;  $ Signature     : num [1:96, 1:4] 2.67e-16 7.00 6.00 1.00 1.06e-07 ...
+#&gt;   ..- attr(*, &quot;dimnames&quot;)=List of 2
+#&gt;  $ Signature.norm: num [1:96, 1:4] 4.86e-19 1.27e-02 1.09e-02 1.82e-03 1.93e-10 ...
+#&gt;   ..- attr(*, &quot;dimnames&quot;)=List of 2
+#&gt;  $ Exposure      : num [1:4, 1:193] 3.687 4.047 0.243 2.023 2.402 ...
+#&gt;   ..- attr(*, &quot;dimnames&quot;)=List of 2
+#&gt;  $ Exposure.norm : num [1:4, 1:193] 0.3687 0.4047 0.0243 0.2023 0.1716 ...
+#&gt;   ..- attr(*, &quot;dimnames&quot;)=List of 2
+#&gt;  $ K             : int 4
+#&gt;  $ Raw           :List of 3
+#&gt;  - attr(*, &quot;class&quot;)= chr &quot;Signature&quot;
+#&gt;  - attr(*, &quot;nrun&quot;)= num 2
+#&gt;  - attr(*, &quot;method&quot;)= chr &quot;brunet&quot;
+#&gt;  - attr(*, &quot;pConstant&quot;)= num 1e-09
+#&gt;  - attr(*, &quot;seed&quot;)= num 123456
+#&gt;  - attr(*, &quot;call_method&quot;)= chr &quot;NMF&quot;</code></pre>
+<p>很多信息存在里面，用户可以自己提取自己感兴趣的信息。sigminer 也有很多函数专门用户提取一些信息、可视化等等。</p>
+<p>我们先看一个最常见的突变模式图谱：</p>
+<pre class="r"><code>p &lt;- show_sig_profile(sigs, mode = &quot;SBS&quot;, style = &quot;cosmic&quot;)
+p</code></pre>
+<p><img src="../../../cn/post/2020-06-07-mutational-signature-analysis-with-sigminer_files/figure-html/unnamed-chunk-11-1.png" width="1152" /></p>
+<p>接着可以计算下它与 COSMIC signatures 的相似性，评估病因，对于 SBS 有 2 个 COSMIC 数据库版本 legacy（30 个，目前最常用的） 与 SBS v3。</p>
+<pre class="r"><code>get_sig_similarity(sigs, sig_db = &quot;legacy&quot;)
+#&gt; -Comparing against COSMIC signatures
+#&gt; ------------------------------------
+#&gt; --Found Sig1 most similar to COSMIC_6
+#&gt;    Aetiology: defective DNA mismatch repair [similarity: 0.797]
+#&gt; --Found Sig2 most similar to COSMIC_1
+#&gt;    Aetiology: spontaneous deamination of 5-methylcytosine [similarity: 0.8]
+#&gt; --Found Sig3 most similar to COSMIC_15
+#&gt;    Aetiology: defective DNA mismatch repair [similarity: 0.535]
+#&gt; --Found Sig4 most similar to COSMIC_1
+#&gt;    Aetiology: spontaneous deamination of 5-methylcytosine [similarity: 0.89]
+#&gt; ------------------------------------
+#&gt; Return result invisiblely.</code></pre>
+<pre class="r"><code>sim &lt;- get_sig_similarity(sigs, sig_db = &quot;SBS&quot;)
+#&gt; -Comparing against COSMIC signatures
+#&gt; ------------------------------------
+#&gt; --Found Sig1 most similar to SBS6
+#&gt;    Aetiology: defective DNA mismatch repair [similarity: 0.803]
+#&gt; --Found Sig2 most similar to SBS1
+#&gt;    Aetiology: spontaneous or enzymatic deamination of 5-methylcytosine [similarity: 0.737]
+#&gt; --Found Sig3 most similar to SBS15
+#&gt;    Aetiology: Defective DNA mismatch repair [similarity: 0.567]
+#&gt; --Found Sig4 most similar to SBS1
+#&gt;    Aetiology: spontaneous or enzymatic deamination of 5-methylcytosine [similarity: 0.878]
+#&gt; ------------------------------------
+#&gt; Return result invisiblely.</code></pre>
+<pre class="r"><code>add_labels(p, x = 0.72, y = 0.25, y_end = 0.9, labels = sim, n_label = 4)</code></pre>
+<p><img src="../../../cn/post/2020-06-07-mutational-signature-analysis-with-sigminer_files/figure-html/unnamed-chunk-14-1.png" width="1152" /></p>
+<blockquote>
+<p>这里的坐标位置需要自己细调一下。</p>
+</blockquote>
+</div>
+<div id="自动提取-signatures" class="section level3">
+<h3>自动提取 signatures</h3>
+<p>SignatureAnalyzer 提供的变异 NMF 提供了自动提取 Sigantures 的功能，无需要自己判断提取的 signature 数目，这个可以通过 <code>sig_auto_extract()</code> 实现。该算法会倾向生成更加稀疏（相互之间不一致）的 signatures，因此偏向于生成更多的 signatures。从我多年研究 signatures 的经验来看，它对于单点突变还是非常友好的。</p>
+<pre class="r"><code>sigs2 &lt;- sig_auto_extract(mt_tally$SBS_96, nrun = 2)
+#&gt; Warning: [ONE-TIME WARNING] Forked processing (&#39;multicore&#39;) is disabled
+#&gt; in future (&gt;= 1.13.0) when running R from RStudio, because it is
+#&gt; considered unstable. Because of this, plan(&quot;multicore&quot;) will fall
+#&gt; back to plan(&quot;sequential&quot;), and plan(&quot;multiprocess&quot;) will fall back to
+#&gt; plan(&quot;multisession&quot;) - not plan(&quot;multicore&quot;) as in the past. For more details,
+#&gt; how to control forked processing or not, and how to silence this warning in
+#&gt; future R sessions, see ?future::supportsMulticore
+#&gt; 
+#&gt; 载入程辑包：&#39;purrr&#39;
+#&gt; The following objects are masked from &#39;package:foreach&#39;:
+#&gt; 
+#&gt;     accumulate, when
+#&gt; The following object is masked from &#39;package:XVector&#39;:
+#&gt; 
+#&gt;     compact
+#&gt; The following object is masked from &#39;package:GenomicRanges&#39;:
+#&gt; 
+#&gt;     reduce
+#&gt; The following object is masked from &#39;package:IRanges&#39;:
+#&gt; 
+#&gt;     reduce
+#&gt; Select Run 2, which K = 2 as best solution.</code></pre>
+<p>画图方式是完全一样的。</p>
+<pre class="r"><code>p &lt;- show_sig_profile(sigs2, mode = &quot;SBS&quot;, style = &quot;cosmic&quot;)
+p</code></pre>
+<p><img src="../../../cn/post/2020-06-07-mutational-signature-analysis-with-sigminer_files/figure-html/unnamed-chunk-16-1.png" width="1152" /></p>
+<p>虽然上面都是粗略的分析，但这种方法感觉更好。</p>
+<blockquote>
+<p>实际研究时选择哪种方法都需要根据数据还自己的需要决定，也可以比较两者的结果。</p>
+</blockquote>
+</div>
+<div id="signature-活动图谱" class="section level3">
+<h3>Signature 活动图谱</h3>
+<p>sigminer 提供绝对和相对两种 Signature 活动度值。</p>
+<pre class="r"><code>get_sig_exposure(sigs2) %&gt;% head()
+#&gt;          sample  Sig1  Sig2
+#&gt; 1: TCGA-AB-2802 0.000  9.50
+#&gt; 2: TCGA-AB-2803 0.000 13.06
+#&gt; 3: TCGA-AB-2804 0.000  6.75
+#&gt; 4: TCGA-AB-2805 0.000 13.06
+#&gt; 5: TCGA-AB-2806 0.911 12.18
+#&gt; 6: TCGA-AB-2807 0.000 23.86
+get_sig_exposure(sigs2, type = &quot;relative&quot;) %&gt;% head()
+#&gt; Filtering the samples with no signature exposure:
+#&gt; TCGA-AB-2823 TCGA-AB-2834 TCGA-AB-2840 TCGA-AB-2848 TCGA-AB-2892 TCGA-AB-2909 TCGA-AB-2942
+#&gt;          sample   Sig1 Sig2
+#&gt; 1: TCGA-AB-2802 0.0000 1.00
+#&gt; 2: TCGA-AB-2803 0.0000 1.00
+#&gt; 3: TCGA-AB-2804 0.0000 1.00
+#&gt; 4: TCGA-AB-2805 0.0000 1.00
+#&gt; 5: TCGA-AB-2806 0.0696 0.93
+#&gt; 6: TCGA-AB-2807 0.0000 1.00</code></pre>
+<p>画图直接把对象扔进去就可以了。</p>
+<pre class="r"><code>show_sig_exposure(sigs, rm_space = TRUE, style = &quot;cosmic&quot;)</code></pre>
+<p><img src="../../../cn/post/2020-06-07-mutational-signature-analysis-with-sigminer_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+</div>
+<div id="根据已知的-signatures-提取活动度" class="section level3">
+<h3>根据已知的 Signatures 提取活动度</h3>
+<p>这个比较有名的软件就是 deconstructSigs 了。sigminer 也支持了这个功能，而且能够使用目前 cosmic 的所有图谱，也可以使用自己从头发现的 signatures。函数就一个 <code>sig_fit()</code>。</p>
+<p>我们试着处理 5 个样本（支持单样本），使用 COSMIC v2 30 个 signatures 作为参考。</p>
+<pre class="r"><code>examp_fit &lt;- sig_fit(mt_tally$SBS_96[1:5, ] %&gt;% t(), sig_index = &quot;ALL&quot;, sig_db = &quot;legacy&quot;)
+head(examp_fit)
+#&gt;          TCGA-AB-2802 TCGA-AB-2803 TCGA-AB-2804 TCGA-AB-2805 TCGA-AB-2806
+#&gt; COSMIC_1        3.129        10.00            7         13.6         10.8
+#&gt; COSMIC_2        0.895         0.00            0          0.0          0.0
+#&gt; COSMIC_3        0.000         0.00            0          0.0          0.0
+#&gt; COSMIC_4        0.000         1.72            0          0.0          0.0
+#&gt; COSMIC_5        0.000         0.00            0          0.0          0.0
+#&gt; COSMIC_6        1.088         0.00            0          0.0          0.0</code></pre>
+<p>画图也很简单：</p>
+<pre class="r"><code>show_sig_fit(examp_fit, palette = NULL) + ggpubr::rotate_x_text()
+#&gt; ℹ [2020-06-07 16:06:33]: Started.
+#&gt; ℹ [2020-06-07 16:06:33]: Checking input format.
+#&gt; ✓ [2020-06-07 16:06:33]: Checked.
+#&gt; ℹ [2020-06-07 16:06:33]: Checking filters.
+#&gt; ℹ [2020-06-07 16:06:33]: Checked.
+#&gt; ℹ [2020-06-07 16:06:33]: Plotting.
+#&gt; ℹ [2020-06-07 16:06:33]: 0.048 secs elapsed.</code></pre>
+<p><img src="../../../cn/post/2020-06-07-mutational-signature-analysis-with-sigminer_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<p>如果设置散点图，可以把单样本结果画出来。</p>
+<pre class="r"><code>show_sig_fit(examp_fit,
+  palette = NULL, plot_fun = &quot;scatter&quot;,
+  signatures = paste0(&quot;COSMIC_&quot;, c(1, 2, 4, 6, 19))
+) + ggpubr::rotate_x_text()
+#&gt; ℹ [2020-06-07 16:06:34]: Started.
+#&gt; ℹ [2020-06-07 16:06:34]: Checking input format.
+#&gt; ✓ [2020-06-07 16:06:34]: Checked.
+#&gt; ℹ [2020-06-07 16:06:34]: Checking filters.
+#&gt; ℹ [2020-06-07 16:06:34]: Checked.
+#&gt; ℹ [2020-06-07 16:06:34]: Plotting.
+#&gt; ! [2020-06-07 16:06:34]: When plot_fun=&#39;scatter&#39;, setting legend=&#39;top&#39; is recommended.
+#&gt; ℹ [2020-06-07 16:06:34]: 0.047 secs elapsed.</code></pre>
+<p><img src="../../../cn/post/2020-06-07-mutational-signature-analysis-with-sigminer_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p>上面展示了最核心的分析和可视化功能，sigminer 还支持很多功能，我就不再详述了。用户可以阅读官方文档 <a href="https://shixiangwang.github.io/sigminer-doc/" class="uri">https://shixiangwang.github.io/sigminer-doc/</a> 进一步学习，后续我会根据研究情况进一步开发。当然，读者完全可以基于上面分析的结果值进行各种个性化分析。</p>
+</div>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="../../../cn/post/2020-05-11-true-and-false-png/">事实不等于标签：关于真假 png 的找 bug 记录</a></span>
+  <span class="nav-next"></span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/post\/2020-05-11-true-and-false-png\/';
+    
+  } else if (e.which == 39) {  
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+<section class="comments">
+  <div id="disqus_thread"></div>
+  <script src="../../../js/disqusloader.min.js"></script>
+  <script>
+  var disqus_config = function () {
+  
+    this.page.url = "https:\/\/shixiangwang.github.io\/home\/" + location.pathname;
+  
+  };
+  (function() {
+    var inIFrame = function() {
+      var iframe = true;
+      try { iframe = window.self !== window.top; } catch (e) {}
+      return iframe;
+    };
+    if (inIFrame()) return;
+    var disqus_js = '//home-xjdzylqrzp.disqus.com/embed.js';
+    
+    if (location.hash.match(/^#comment/)) {
+      var d = document, s = d.createElement('script');
+      s.src = disqus_js; s.async = true;
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    } else {
+      disqusLoader('#disqus_thread', {
+        scriptUrl: disqus_js, laziness: 0, disqusConfig: disqus_config
+      });
+    }
+  })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
+
+
+
+<script async src="../../../js/fix-toc.js"></script>
+
+<script async src="../../../js/center-img.js"></script>
+
+<script async src="../../../js/right-quote.js"></script>
+
+<script async src="../../../js/no-highlight.js"></script>
+
+<script async src="../../../js/fix-footnote.js"></script>
+
+<script async src="../../../js/math-code.js"></script>
+
+<script async src="../../../js/external-link.js"></script>
+
+<script async src="../../../js/alt-title.js"></script>
+
+<script async src="../../../js/header-link.js"></script>
+
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+  
+  
+
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> &middot; <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> &middot; <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> &middot; <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> &middot; <a href="https://orcid.org/0000-0001-9855-7357"><i class='ai ai-orcid ai-1x'></i></a> &middot; <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 &copy; <a href="../../../">王诗翔</a> 2017 - 2020 </div>
+  
+  
+
+  <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56h9es09xn7&amp;m=6&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=1" async="async"></script>
+  </footer>
+  </article>
+  
+  </body>
+</html>
+
