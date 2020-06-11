@@ -15,13 +15,13 @@
   </url>
   
   <url>
-    <loc>/tags/r/</loc>
+    <loc>/categories/r/</loc>
     <lastmod>2020-06-07T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/r/</loc>
+    <loc>/tags/r/</loc>
     <lastmod>2020-06-07T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -42,13 +42,13 @@
   </url>
   
   <url>
-    <loc>/tags/life/</loc>
+    <loc>/categories/life/</loc>
     <lastmod>2020-05-05T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/life/</loc>
+    <loc>/tags/life/</loc>
     <lastmod>2020-05-05T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -75,13 +75,13 @@
   </url>
   
   <url>
-    <loc>/tags/golang/</loc>
+    <loc>/categories/golang/</loc>
     <lastmod>2020-01-24T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/golang/</loc>
+    <loc>/tags/golang/</loc>
     <lastmod>2020-01-24T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -567,7 +567,7 @@
   
   <url>
     <loc>/cn/cv-cn/shixiang/</loc>
-    <lastmod>2020-05-28T00:00:00+00:00</lastmod>
+    <lastmod>2020-06-11T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -1262,7 +1262,7 @@
   
   <url>
     <loc>/en/cv-en/shixiang/</loc>
-    <lastmod>2020-05-28T00:00:00+00:00</lastmod>
+    <lastmod>2020-06-11T00:00:00+00:00</lastmod>
   </url>
   
   <url>
