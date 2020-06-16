@@ -76,7 +76,7 @@ fontsize: 10pt
 
 ## 出版物
 
-总引用：76 (数据源：[谷歌学术](https://scholar.google.com/citations?user=FvNp0NkAAAAJ)，更新时间：`r Sys.Date()`)
+总引用：79 (数据源：[谷歌学术](https://scholar.google.com/citations?user=FvNp0NkAAAAJ)，更新时间：`r Sys.Date()`)
 
 - **Wang, S.**, He, Z., Wang, X., Li, H., & Liu, X. S. (2019). Antigen presentation and tumor immunogenicity in cancer immunotherapy response prediction. *eLife*, 8, e49020. <https://doi.org/10.7554/eLife.49020> <i class="fa fa-file-pdf-o"> [(PDF)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6879305/pdf/elife-49020.pdf)</i> 
 - **Wang, S.**, He, Z., Wang, X., Li, H., Wu, T., Sun, X., ... & Liu, X. S. (2019). Can tumor mutational burden determine the most effective treatment for lung cancer patients?. *Lung Cancer Management*. <https://doi.org/10.2217/lmt-2019-0013> <i class="fa fa-file-pdf-o"> [(PDF)](https://www.futuremedicine.com/doi/pdf/10.2217/lmt-2019-0013)</i> 
