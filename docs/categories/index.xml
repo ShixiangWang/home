@@ -6,10 +6,19 @@
     <description>Recent content in Categories on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 07 Jun 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 22 Jul 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>bioinformatics</title>
+      <link>/categories/bioinformatics/</link>
+      <pubDate>Wed, 22 Jul 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/bioinformatics/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>r</title>
@@ -44,15 +53,6 @@
       <pubDate>Wed, 01 Jan 2020 00:00:00 +0000</pubDate>
       
       <guid>/categories/thinking/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>bioinformatics</title>
-      <link>/categories/bioinformatics/</link>
-      <pubDate>Sat, 14 Dec 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/bioinformatics/</guid>
       <description></description>
     </item>
     

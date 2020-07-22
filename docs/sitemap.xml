@@ -4,24 +4,47 @@
   
   <url>
     <loc>/categories/</loc>
-    <lastmod>2020-06-07T00:00:00+00:00</lastmod>
+    <lastmod>2020-07-22T00:00:00+00:00</lastmod>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/en/tools/ucscxenatools-single-gene/</loc>
+    <lastmod>2020-07-22T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/tags/</loc>
-    <lastmod>2020-06-07T00:00:00+00:00</lastmod>
+    <lastmod>2020-07-22T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/r/</loc>
-    <lastmod>2020-06-07T00:00:00+00:00</lastmod>
+    <loc>/tags/ucscxenatools/</loc>
+    <lastmod>2020-07-22T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/bioinformatics/</loc>
+    <lastmod>2020-07-22T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/package/</loc>
+    <lastmod>2020-07-22T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/r/</loc>
+    <lastmod>2020-07-22T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/r/</loc>
     <lastmod>2020-06-07T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -143,26 +166,8 @@
   </url>
   
   <url>
-    <loc>/tags/ucscxenatools/</loc>
-    <lastmod>2019-12-21T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>/en/tools/ucscxenatools-intro/</loc>
     <lastmod>2019-12-14T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/bioinformatics/</loc>
-    <lastmod>2019-12-21T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/package/</loc>
-    <lastmod>2019-12-14T00:00:00+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>

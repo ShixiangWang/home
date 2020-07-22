@@ -6,10 +6,19 @@
     <description>Recent content in UCSCXenaTools on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 14 Dec 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 22 Jul 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/ucscxenatools/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Obtain RNAseq Values for a Specific Gene in Xena Database</title>
+      <link>/en/tools/ucscxenatools-single-gene/</link>
+      <pubDate>Wed, 22 Jul 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/en/tools/ucscxenatools-single-gene/</guid>
+      <description>When using UCSCXenaTools package, you may want to focus on single gene analysis, a typical case has been shown in my previous blog UCSCXenaTools: Retrieve Gene Expression and Clinical Information from UCSC Xena for Survival Analysis. Here I will describe how to get single gene values (especially RNAseq data) in details. Let’s load package. library(UCSCXenaTools) #&amp;gt; ========================================================================================= #&amp;gt; UCSCXenaTools version 1.3.1 #&amp;gt; Project URL: https://github.com/ropensci/UCSCXenaTools #&amp;gt;</description>
+    </item>
     
     <item>
       <title>UCSCXenaTools: Download Public Cancer Genomic Data from UCSC Xena Hubs</title>
