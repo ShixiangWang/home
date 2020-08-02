@@ -44,3 +44,33 @@ go get -v 包URL地址
 ```bash
 go clean -i -v -x 包URL地址
 ```
+
+### stdin, stdout, stderr
+
+对应 `os.Stdin`, `os.Stdout`, `os.Stderr`.
+
+### 打印 output
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	v1 := "123"
+	v2 := 123
+	v3 := "Have a nice day\n"
+	v4 := "abc"
+
+	fmt.Print(v1, v2, v3, v4)
+	fmt.Println()
+	fmt.Println(v1, v2, v3, v4)
+	fmt.Print(v1, " ", v2, " ", v3, " ", v4, "\n")
+	fmt.Printf("%s%d %s %s\n", v1, v2, v3, v4)
+}
+```
+
+S 家族函数，如 `Sprint()` 用于创建字符串；F 家族函数用于使用 `io.Writer` 将内容写入文件。
+
+### 使用标准输出
+

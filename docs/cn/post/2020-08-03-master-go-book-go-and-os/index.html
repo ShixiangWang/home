@@ -141,7 +141,28 @@ godoc -http<span style="color:#f92672">=</span>:8001
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">go get -v 包URL地址
 </code></pre></div><p>删除下载安装生成的中间文件</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">go clean -i -v -x 包URL地址
-</code></pre></div>
+</code></pre></div><h3 id="stdin-stdout-stderr">stdin, stdout, stderr</h3>
+<p>对应 <code>os.Stdin</code>, <code>os.Stdout</code>, <code>os.Stderr</code>.</p>
+<h3 id="打印-output">打印 output</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">v1</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;123&#34;</span>
+	<span style="color:#a6e22e">v2</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">123</span>
+	<span style="color:#a6e22e">v3</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;Have a nice day\n&#34;</span>
+	<span style="color:#a6e22e">v4</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;abc&#34;</span>
+
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Print</span>(<span style="color:#a6e22e">v1</span>, <span style="color:#a6e22e">v2</span>, <span style="color:#a6e22e">v3</span>, <span style="color:#a6e22e">v4</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>()
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">v1</span>, <span style="color:#a6e22e">v2</span>, <span style="color:#a6e22e">v3</span>, <span style="color:#a6e22e">v4</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Print</span>(<span style="color:#a6e22e">v1</span>, <span style="color:#e6db74">&#34; &#34;</span>, <span style="color:#a6e22e">v2</span>, <span style="color:#e6db74">&#34; &#34;</span>, <span style="color:#a6e22e">v3</span>, <span style="color:#e6db74">&#34; &#34;</span>, <span style="color:#a6e22e">v4</span>, <span style="color:#e6db74">&#34;\n&#34;</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%s%d %s %s\n&#34;</span>, <span style="color:#a6e22e">v1</span>, <span style="color:#a6e22e">v2</span>, <span style="color:#a6e22e">v3</span>, <span style="color:#a6e22e">v4</span>)
+}
+</code></pre></div><p>S 家族函数，如 <code>Sprint()</code> 用于创建字符串；F 家族函数用于使用 <code>io.Writer</code> 将内容写入文件。</p>
+<h3 id="使用标准输出">使用标准输出</h3>
+
 
   <footer>
   
