@@ -3,12 +3,37 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>/categories/bioinformatics/</loc>
-    <lastmod>2020-07-22T00:00:00+00:00</lastmod>
+    <loc>/categories/</loc>
+    <lastmod>2020-08-03T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/categories/</loc>
+    <loc>/tags/go/</loc>
+    <lastmod>2020-08-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/go/</loc>
+    <lastmod>2020-08-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/os/</loc>
+    <lastmod>2020-08-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2020-08-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/cn/post/2020-08-03-master-go-book-go-and-os/</loc>
+    <lastmod>2020-08-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/bioinformatics/</loc>
     <lastmod>2020-07-22T00:00:00+00:00</lastmod>
   </url>
   
@@ -24,11 +49,6 @@
   
   <url>
     <loc>/tags/r/</loc>
-    <lastmod>2020-07-22T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/</loc>
     <lastmod>2020-07-22T00:00:00+00:00</lastmod>
   </url>
   
@@ -1064,11 +1084,6 @@
   
   <url>
     <loc>/cn/post/2017-10-09-microarray-data-analysis/</loc>
-    <lastmod>2017-10-09T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/go/</loc>
     <lastmod>2017-10-09T00:00:00+00:00</lastmod>
   </url>
   
