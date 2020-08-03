@@ -74,3 +74,105 @@ S 家族函数，如 `Sprint()` 用于创建字符串；F 家族函数用于使�
 
 ### 使用标准输出
 
+`io` 包提供函数，`os` 包提供设备：
+
+```go
+package main
+
+import (
+	"io"
+	"os"
+)
+
+func main() {
+	myString := ""
+	arguments := os.Args
+	if len(arguments) == 1 {
+		myString = "Please give me one argument!"
+	} else {
+		myString = arguments[1]
+	}
+
+	io.WriteString(os.Stdout, myString)
+	io.WriteString(os.Stdout, "\n")
+}
+```
+
+### 从标准输入读入
+
+`bufio` 包用来批处理数据（文件）。
+
+```go
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"os"
+)
+
+func main() {
+	var f *os.File
+	f = os.Stdin
+	defer f.Close()
+
+	scanner := bufio.NewScanner(f)
+	for scanner.Scan() {
+		fmt.Println(">", scanner.Text())
+	}
+}
+```
+
+下面 `CTRL + D` 以告诉终端停止输入。
+
+```sh
+$ go run ./0005-stdin.go 
+hello world!
+```
+
+### 处理命令行参数
+
+下面是一个找到最小值、最大值的命令行程序。
+
+```go
+package main
+
+import (
+	"fmt"
+	"os"
+	"strconv"
+)
+
+func main() {
+	if len(os.Args) == 1 {
+		fmt.Println("Please give one or two floats.")
+		os.Exit(1)
+	}
+
+	arguments := os.Args
+	min, _ := strconv.ParseFloat(arguments[1], 64)
+	max := min
+
+	for i := 2; i < len(arguments); i++ {
+		n, _ := strconv.ParseFloat(arguments[i], 64)
+		if n < min {
+			min = n
+		}
+		if n > max {
+			max = n
+		}
+	}
+
+	fmt.Println("Min:", min)
+	fmt.Println("Max:", max)
+}
+
+```
+
+运行：
+
+```sh
+$ go run ./0006-cla.go 1.2 0.9 3
+Min: 0.9
+Max: 3
+```
