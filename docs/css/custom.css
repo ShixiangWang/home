@@ -165,3 +165,11 @@ a {
   border-bottom: 1px solid;
 }
 
+
+#menu-check {
+  display: none;
+}
+
+#menu-label {
+  display: none;
+}

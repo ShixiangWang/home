@@ -208,5 +208,7 @@ text(1, 1.1, "A fancy dot", family = "lobster", col = "steelblue", cex = 3)
 
 更多例子和用法查看说明文档 <https://github.com/yixuan/showtext>
 
+> 读者也可以通过 <https://www.websiteplanet.com/blog/best-free-fonts/> 查找一些免费字体。
+
 ------
 从使用上看，我更喜欢这个包~

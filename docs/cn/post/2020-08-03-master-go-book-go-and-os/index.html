@@ -123,44 +123,65 @@
       </header>
 
 
+
+
 <h3 id="godoc-使用">godoc 使用</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">go doc fmt.Printf
+
+<pre><code class="language-bash">go doc fmt.Printf
 go doc fmt
-<span style="color:#75715e"># Open a Go doc server</span>
-godoc -http<span style="color:#f92672">=</span>:8001
-</code></pre></div><h3 id="运行和编译-go-代码">运行和编译 go 代码</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+# Open a Go doc server
+godoc -http=:8001
+</code></pre>
 
-<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+<h3 id="运行和编译-go-代码">运行和编译 go 代码</h3>
 
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;This is a sample Go program!&#34;</span>)
+<pre><code class="language-go">package main
+
+import &quot;fmt&quot;
+
+func main() {
+	fmt.Println(&quot;This is a sample Go program!&quot;)
 }
-</code></pre></div><p>使用 <code>go run filename</code> 运行代码文件；使用 <code>go buils filename</code> 编译 go 代码形成可执行文件。</p>
+</code></pre>
+
+<p>使用 <code>go run filename</code> 运行代码文件；使用 <code>go buils filename</code> 编译 go 代码形成可执行文件。</p>
+
 <h3 id="下载-go-包">下载 go 包</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">go get -v 包URL地址
-</code></pre></div><p>删除下载安装生成的中间文件</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">go clean -i -v -x 包URL地址
-</code></pre></div><h3 id="stdin-stdout-stderr">stdin, stdout, stderr</h3>
+
+<pre><code class="language-bash">go get -v 包URL地址
+</code></pre>
+
+<p>删除下载安装生成的中间文件</p>
+
+<pre><code class="language-bash">go clean -i -v -x 包URL地址
+</code></pre>
+
+<h3 id="stdin-stdout-stderr">stdin, stdout, stderr</h3>
+
 <p>对应 <code>os.Stdin</code>, <code>os.Stdout</code>, <code>os.Stderr</code>.</p>
+
 <h3 id="打印-output">打印 output</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
-<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+<pre><code class="language-go">package main
 
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-	<span style="color:#a6e22e">v1</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;123&#34;</span>
-	<span style="color:#a6e22e">v2</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">123</span>
-	<span style="color:#a6e22e">v3</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;Have a nice day\n&#34;</span>
-	<span style="color:#a6e22e">v4</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;abc&#34;</span>
+import &quot;fmt&quot;
 
-	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Print</span>(<span style="color:#a6e22e">v1</span>, <span style="color:#a6e22e">v2</span>, <span style="color:#a6e22e">v3</span>, <span style="color:#a6e22e">v4</span>)
-	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>()
-	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">v1</span>, <span style="color:#a6e22e">v2</span>, <span style="color:#a6e22e">v3</span>, <span style="color:#a6e22e">v4</span>)
-	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Print</span>(<span style="color:#a6e22e">v1</span>, <span style="color:#e6db74">&#34; &#34;</span>, <span style="color:#a6e22e">v2</span>, <span style="color:#e6db74">&#34; &#34;</span>, <span style="color:#a6e22e">v3</span>, <span style="color:#e6db74">&#34; &#34;</span>, <span style="color:#a6e22e">v4</span>, <span style="color:#e6db74">&#34;\n&#34;</span>)
-	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%s%d %s %s\n&#34;</span>, <span style="color:#a6e22e">v1</span>, <span style="color:#a6e22e">v2</span>, <span style="color:#a6e22e">v3</span>, <span style="color:#a6e22e">v4</span>)
+func main() {
+	v1 := &quot;123&quot;
+	v2 := 123
+	v3 := &quot;Have a nice day\n&quot;
+	v4 := &quot;abc&quot;
+
+	fmt.Print(v1, v2, v3, v4)
+	fmt.Println()
+	fmt.Println(v1, v2, v3, v4)
+	fmt.Print(v1, &quot; &quot;, v2, &quot; &quot;, v3, &quot; &quot;, v4, &quot;\n&quot;)
+	fmt.Printf(&quot;%s%d %s %s\n&quot;, v1, v2, v3, v4)
 }
-</code></pre></div><p>S 家族函数，如 <code>Sprint()</code> 用于创建字符串；F 家族函数用于使用 <code>io.Writer</code> 将内容写入文件。</p>
+</code></pre>
+
+<p>S 家族函数，如 <code>Sprint()</code> 用于创建字符串；F 家族函数用于使用 <code>io.Writer</code> 将内容写入文件。</p>
+
 <h3 id="使用标准输出">使用标准输出</h3>
 
 
@@ -264,7 +285,7 @@ document.addEventListener('keyup', function(e) {
   
   
 
-  <div class="copyright"><a href="mailto:w_shixiang@163.com"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://github.com/ShixiangWang"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://orcid.org/0000-0001-9855-7357"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> <!-- raw HTML omitted --> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 © <a href="../../../">王诗翔</a> 2017 - 2020 </div>
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> &middot; <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> &middot; <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> &middot; <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> &middot; <a href="https://orcid.org/0000-0001-9855-7357"><i class='ai ai-orcid ai-1x'></i></a> &middot; <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 &copy; <a href="../../../">王诗翔</a> 2017 - 2020 </div>
   
   
 
