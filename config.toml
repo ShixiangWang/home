@@ -129,7 +129,7 @@ publishDir = "docs"
     highlightjsVersion = "9.12.0"
     highlightjsLang = ["r", "yaml", "tex"]
     highlightjsCDN = "//cdn.bootcss.com"
-    highlightjsTheme = "github"
+    highlightjsTheme = "Xcode"
     dateFormat = "2006-01-02" # "2006-01-02, Mon, "
 
 [params.footer]
