@@ -12,10 +12,10 @@
     
     
     
-    <title>Must-Read List - Shixiang Wang</title>
+    <title>Curated List For Learning and Studying - Shixiang Wang</title>
     
      
-    <meta property="og:title" content="Must-Read List - Shixiang Wang | 王诗翔">
+    <meta property="og:title" content="Curated List For Learning and Studying - Shixiang Wang | 王诗翔">
     
 
     
@@ -68,9 +68,25 @@
         
         <li><a href="../../en/cv-en/shixiang">CV</a></li>
         
+        <li><a href="../../categories/">Categories</a></li>
+        
+        <li><a href="../../tags/">Tags</a></li>
+        
         <li><a href="../../cn/">中文</a></li>
         
         
+
+<li class="menu-extra"></li>
+
+
+
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/en/list/_index.md" target="_blank">Edit Me</a></li>
+
+
+<li><a href="../../en/index.xml" type="application/rss+xml" title="RSS feed">Subscribe</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">License</a></li>
+
 
         </ul>
       </nav>
@@ -80,7 +96,7 @@
       <header class="title">
         
 
-<h1>Must-Read List</h1>
+<h1>Curated List For Learning and Studying</h1>
 
 
    
@@ -94,11 +110,9 @@
 
 
 
+<h2 id="learning">Learning</h2>
+<h2 id="studying">Studying</h2>
 
-
-<div class="archive">
-  
-</div>
 
 
 
@@ -122,6 +136,39 @@ document.addEventListener('keyup', function(e) {
 </script>
 
 
+
+<section class="comments">
+  <div id="disqus_thread"></div>
+  <script src="../../js/disqusloader.min.js"></script>
+  <script>
+  var disqus_config = function () {
+  
+    this.page.url = "https:\/\/shixiangwang.github.io\/home\/" + location.pathname;
+  
+  };
+  (function() {
+    var inIFrame = function() {
+      var iframe = true;
+      try { iframe = window.self !== window.top; } catch (e) {}
+      return iframe;
+    };
+    if (inIFrame()) return;
+    var disqus_js = '//home-xjdzylqrzp.disqus.com/embed.js';
+    
+    if (location.hash.match(/^#comment/)) {
+      var d = document, s = d.createElement('script');
+      s.src = disqus_js; s.async = true;
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    } else {
+      disqusLoader('#disqus_thread', {
+        scriptUrl: disqus_js, laziness: 0, disqusConfig: disqus_config
+      });
+    }
+  })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
 
 
 

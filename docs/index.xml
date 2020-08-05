@@ -308,30 +308,12 @@ Datasets have associated metadata, specifying their data type and cohort.</descr
     </item>
     
     <item>
-      <title>APOBEC3B and APOBEC mutational signature as potential predictive markers for immunotherapy response in non-small cell lung cancer</title>
-      <link>/cn/research/apobec3b_signature/</link>
-      <pubDate>Thu, 20 Jun 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/cn/research/apobec3b_signature/</guid>
-      <description>主要发现：APOBEC mutational signature 在 NSCLC 免疫治疗反应组内特异性富集。 摘要 Non-small cell lung cancer (NSCLC) is known to carry heavy mutation load. Besides smoking, cytidine deaminase APOBEC3B plays a key role in the mutation process of NSCLC. APOBEC3B is also reported to be upregulated and predicts bad prognosis in</description>
-    </item>
-    
-    <item>
       <title>Create logo for R package UCSCXenaTools with hexSticker</title>
       <link>/en/post/2019-06-20-how-i-create-ucscxenatools-logo/</link>
       <pubDate>Thu, 20 Jun 2019 00:00:00 +0000</pubDate>
       
       <guid>/en/post/2019-06-20-how-i-create-ucscxenatools-logo/</guid>
       <description>A few days ago, I asked Tyler about how did he create the logo of R package exoplanets. Figure 1: logo of R package exoplanets I really love this logo because it is very simple and elegant. He told me he used a software called omnigraffle to make the logos. I tried learning this software and still did not know how to use it to create a nice logo because</description>
-    </item>
-    
-    <item>
-      <title>The predictive power of tumor mutational burden in lung cancer immunotherapy response is influenced by patients’ sex</title>
-      <link>/cn/research/tmb_diff_in_sex/</link>
-      <pubDate>Thu, 20 Jun 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/cn/research/tmb_diff_in_sex/</guid>
-      <description>主要发现：NSCLC 中，TMB 对于免疫治疗反应的预测效果在不同的性别中有差异。 摘要 Immunotherapy, represented by immune checkpoint inhibitors (ICI), is transforming the treatment of cancer. However, only a fraction of patients show response to ICI, and there is an unmet need</description>
     </item>
     
     <item>
@@ -350,15 +332,6 @@ Datasets have associated metadata, specifying their data type and cohort.</descr
       
       <guid>/en/post/2019-06-05-balderdash/</guid>
       <description>2019-06-05 Learning programming languages after serveral years, it suddenly dawned on me that they are just tools we express our ideas.</description>
-    </item>
-    
-    <item>
-      <title>100系列: 适合每个人的 R 和 Bioconductor 介绍</title>
-      <link>/cn/read/biocworkshop-100-r-and-bioconductor-intro/</link>
-      <pubDate>Tue, 04 Jun 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/cn/read/biocworkshop-100-r-and-bioconductor-intro/</guid>
-      <description>来源：https://bioconductor.github.io/BiocWorkshops/r-and-bioconductor-for</description>
     </item>
     
     <item>

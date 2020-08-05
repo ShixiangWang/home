@@ -54,11 +54,20 @@ publishDir = "docs"
     url = "/en/cv-en/Shixiang"
     weight = 6
 
+[[menu.en]]
+    name = "Categories"
+    url = "/categories/"
+    weight = 7
+
+[[menu.en]]
+    name = "Tags"
+    url = "/tags/"
+    weight = 8
 
 [[menu.en]]
     name = "中文"
     url = "/cn/"
-    weight = 7
+    weight = 9
 
 [[menu.cn]]
     name = "首页"
@@ -119,6 +128,16 @@ publishDir = "docs"
     name = "English"
     url = "/en/"
     weight = 12
+
+[[menu.cn]]
+    name = "分类"
+    url = "/categories/"
+    weight = 13
+
+[[menu.cn]]
+    name = "标签"
+    url = "/tags/"
+    weight = 14
 
 [params]
     description = "Personal website of Shixiang Wang; 王诗翔的个人网站"

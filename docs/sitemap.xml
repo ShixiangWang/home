@@ -8,12 +8,12 @@
   </url>
   
   <url>
-    <loc>/tags/go/</loc>
+    <loc>/tags/golang/</loc>
     <lastmod>2020-08-03T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/categories/go/</loc>
+    <loc>/categories/golang/</loc>
     <lastmod>2020-08-03T00:00:00+00:00</lastmod>
   </url>
   
@@ -105,16 +105,6 @@
   <url>
     <loc>/cn/post/2020-04-21-benefit-from-do-call/</loc>
     <lastmod>2020-04-21T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/golang/</loc>
-    <lastmod>2020-01-24T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/golang/</loc>
-    <lastmod>2020-01-24T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -438,18 +428,8 @@
   </url>
   
   <url>
-    <loc>/cn/research/apobec3b_signature/</loc>
-    <lastmod>2019-06-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/en/post/2019-06-20-how-i-create-ucscxenatools-logo/</loc>
     <lastmod>2019-08-26T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/icb/</loc>
-    <lastmod>2019-06-20T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -458,32 +438,7 @@
   </url>
   
   <url>
-    <loc>/tags/mutational-signature/</loc>
-    <lastmod>2019-06-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/nsclc/</loc>
-    <lastmod>2019-06-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/categories/read/</loc>
-    <lastmod>2019-06-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/research/</loc>
-    <lastmod>2019-06-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/cn/research/tmb_diff_in_sex/</loc>
-    <lastmod>2019-06-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/tmb/</loc>
     <lastmod>2019-06-20T00:00:00+00:00</lastmod>
   </url>
   
@@ -494,7 +449,7 @@
   
   <url>
     <loc>/tags/%E7%AC%94%E8%AE%B0/</loc>
-    <lastmod>2019-08-26T00:00:00+00:00</lastmod>
+    <lastmod>2019-06-20T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -510,16 +465,6 @@
   <url>
     <loc>/tags/%E9%9A%8F%E7%AC%94/</loc>
     <lastmod>2019-06-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/cn/read/biocworkshop-100-r-and-bioconductor-intro/</loc>
-    <lastmod>2019-08-26T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/bioconductor/</loc>
-    <lastmod>2019-08-26T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -1068,6 +1013,11 @@
   </url>
   
   <url>
+    <loc>/tags/bioconductor/</loc>
+    <lastmod>2017-10-27T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/cn/post/2017-10-27-rnaseq-data-analysis/</loc>
     <lastmod>2017-10-27T00:00:00+00:00</lastmod>
   </url>
@@ -1084,6 +1034,11 @@
   
   <url>
     <loc>/cn/post/2017-10-09-microarray-data-analysis/</loc>
+    <lastmod>2017-10-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/go/</loc>
     <lastmod>2017-10-09T00:00:00+00:00</lastmod>
   </url>
   

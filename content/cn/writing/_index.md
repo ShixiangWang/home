@@ -6,7 +6,7 @@ date: '2019-01-01'
 
 # 写作
 
-## 优雅R：极简数据分析之道
+## 极客R：数据分析之道
 
 - 项目地址：<https://github.com/ShixiangWang/geek-r-tutorial>
 - 在线阅读：<https://shixiangwang.github.io/geek-r-tutorial/>
@@ -37,10 +37,3 @@ GitHub 组织：<https://github.com/tidyverse>
 
 GitHub 组织：<https://github.com/r-lib>
 
-## drake R 包用户手册
-
-- 工具包地址：<https://github.com/ropensci/drake>
-- 英文在线阅读：<https://ropenscilabs.github.io/drake-manual/>
-- 英文项目地址：<https://github.com/ropenscilabs/drake-manual>
-- 中文项目地址：<To be done>
-- 中文在线阅读：<To be done>

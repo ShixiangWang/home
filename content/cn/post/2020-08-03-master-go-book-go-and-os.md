@@ -4,9 +4,9 @@ author: "王诗翔"
 date: "2020-08-03"
 lastmod: "2020-08-03"
 slug: ""
-categories: go
+categories: golang
 tags:
-- go
+- golang
 - os
 ---
 
@@ -176,3 +176,87 @@ $ go run ./0006-cla.go 1.2 0.9 3
 Min: 0.9
 Max: 3
 ```
+
+### 关于错误输出
+
+```go
+package main
+
+import (
+	"io"
+	"os"
+)
+
+func main() {
+	myString := ""
+	arguments := os.Args
+	if len(arguments) == 1 {
+		myString = "Please give me one argument!"
+	} else {
+		myString = arguments[1]
+	}
+
+	io.WriteString(os.Stdout, "This is Standard output\n")
+	io.WriteString(os.Stderr, myString)
+	io.WriteString(os.Stderr, "\n")
+}
+```
+
+运行：
+
+```sh
+$ go run ./0007-stderr.go error                
+This is Standard output
+error
+```
+
+### 输出到日志文件
+
+`log` 包提供了与 `fmt` 包一致的输出函数将输出打印到日志设备/文件中。
+
+日志水平有 `debug, info, notice, warning, err, crit, alert, emerg`。
+
+日志设备有 `auth, authpriv, cron` 等，一般定义在 `/etc/syslog.conf` 或 `/etc/rsyslog.conf` 中。
+
+日志服务器，在 MacOS 上的进程是 `syslogd(8)`，Linux 上是 `rsyslogd(8)`。
+
+一个程序：
+
+```go
+package main
+
+import (
+	"fmt"
+	"log"
+	"log/syslog"
+	"os"
+	"path/filepath"
+)
+
+func main() {
+	programName := filepath.Base(os.Args[0])
+	sysLog, err := syslog.New(syslog.LOG_INFO|syslog.LOG_LOCAL7, programName)
+
+	if err != nil {
+		log.Fatal(err)
+	} else {
+		// Set logging output device
+		log.SetOutput(sysLog)
+	}
+
+	log.Println("LOG_INFO + LOG_LOCAL7: Logging in Go!")
+
+	sysLog, err = syslog.New(syslog.LOG_MAIL, "Some program!")
+	if err != nil {
+		log.Fatal(err)
+	} else {
+		log.SetOutput(sysLog)
+	}
+
+	log.Println("LOG_MAIL: Logging in Go!")
+	fmt.Println("Will you see this?")
+}
+```
+
+### 关于 `log.Fatal()`
+

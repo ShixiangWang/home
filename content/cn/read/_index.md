@@ -9,28 +9,6 @@ disable_comments: true
 
 # 生物信息学
 
-## The Bioconductor 2018 Workshop 
-
-### 项目链接
-
-项目主页：<https://github.com/Bioconductor/BiocWorkshops>
-
-Gitbook：<https://bioconductor.github.io/BiocWorkshops/>
-
-学习之前需要安装好依赖包：
-
-```r
-if (!require("BiocManager"))
-    install.packages("BiocManager")
-BiocManager::install("Bioconductor/BiocWorkshops")
-```
-
-> 安装可能不太容易，根据自己学习的内容情况安装对应的包更加容易和恰当。
-
-### 目录
-
-- [100系列: 适合每个人的 R 和 Bioconductor 介绍](../read/biocworkshop-100-r-and-bioconductor-intro)
-
 ## 生物统计学与R手册
 
 ### 项目链接

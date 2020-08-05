@@ -12,11 +12,11 @@
     
     
     <item>
-      <title>GO</title>
-      <link>/tags/go/</link>
+      <title>golang</title>
+      <link>/tags/golang/</link>
       <pubDate>Mon, 03 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/tags/go/</guid>
+      <guid>/tags/golang/</guid>
       <description></description>
     </item>
     
@@ -71,15 +71,6 @@
       <pubDate>Wed, 29 Apr 2020 00:00:00 +0000</pubDate>
       
       <guid>/tags/poem/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>golang</title>
-      <link>/tags/golang/</link>
-      <pubDate>Fri, 24 Jan 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/golang/</guid>
       <description></description>
     </item>
     
@@ -426,47 +417,11 @@
     </item>
     
     <item>
-      <title>ICB</title>
-      <link>/tags/icb/</link>
-      <pubDate>Thu, 20 Jun 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/icb/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>logo</title>
       <link>/tags/logo/</link>
       <pubDate>Thu, 20 Jun 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/logo/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>mutational-signature</title>
-      <link>/tags/mutational-signature/</link>
-      <pubDate>Thu, 20 Jun 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/mutational-signature/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>NSCLC</title>
-      <link>/tags/nsclc/</link>
-      <pubDate>Thu, 20 Jun 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/nsclc/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>TMB</title>
-      <link>/tags/tmb/</link>
-      <pubDate>Thu, 20 Jun 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/tmb/</guid>
       <description></description>
     </item>
     
@@ -494,15 +449,6 @@
       <pubDate>Wed, 05 Jun 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/%E9%9A%8F%E7%AC%94/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>bioconductor</title>
-      <link>/tags/bioconductor/</link>
-      <pubDate>Tue, 04 Jun 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/bioconductor/</guid>
       <description></description>
     </item>
     
@@ -993,6 +939,15 @@
     </item>
     
     <item>
+      <title>bioconductor</title>
+      <link>/tags/bioconductor/</link>
+      <pubDate>Fri, 27 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/bioconductor/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>DEG</title>
       <link>/tags/deg/</link>
       <pubDate>Fri, 27 Oct 2017 00:00:00 +0000</pubDate>
@@ -1007,6 +962,15 @@
       <pubDate>Fri, 27 Oct 2017 00:00:00 +0000</pubDate>
       
       <guid>/tags/rnaseq/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>GO</title>
+      <link>/tags/go/</link>
+      <pubDate>Mon, 09 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/go/</guid>
       <description></description>
     </item>
     

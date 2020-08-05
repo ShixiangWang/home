@@ -12,11 +12,11 @@
     
     
     <item>
-      <title>go</title>
-      <link>/categories/go/</link>
+      <title>golang</title>
+      <link>/categories/golang/</link>
       <pubDate>Mon, 03 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/categories/go/</guid>
+      <guid>/categories/golang/</guid>
       <description></description>
     </item>
     
@@ -48,15 +48,6 @@
     </item>
     
     <item>
-      <title>golang</title>
-      <link>/categories/golang/</link>
-      <pubDate>Fri, 24 Jan 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/golang/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>thinking</title>
       <link>/categories/thinking/</link>
       <pubDate>Wed, 01 Jan 2020 00:00:00 +0000</pubDate>
@@ -80,15 +71,6 @@
       <pubDate>Thu, 20 Jun 2019 00:00:00 +0000</pubDate>
       
       <guid>/categories/read/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>research</title>
-      <link>/categories/research/</link>
-      <pubDate>Thu, 20 Jun 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/research/</guid>
       <description></description>
     </item>
     
