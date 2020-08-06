@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>docker on Shixiang Wang | 王诗翔</title>
+    <link>/categories/docker/</link>
+    <description>Recent content in docker on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 06 Aug 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/categories/docker/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>使用 Docker run 覆盖 ENTRYPOINT</title>
+      <link>/cn/post/2020-08-06-overwrite-entrypoint-with-docker-run/</link>
+      <pubDate>Thu, 06 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2020-08-06-overwrite-entrypoint-with-docker-run/</guid>
+      <description>原文：https://phoenixnap.com/kb/docker-run-override-entrypoint 分享此文的原因在于当在</description>
+    </item>
+    
+  </channel>
+</rss>
