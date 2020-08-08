@@ -7,6 +7,14 @@ show_title: false
 disable_comments: true
 ---
 
+# 编程
+
+## 《精通 go 语言》
+
+目录：
+
+- [【第一章】](../read/mastering-go-book-chapter-01)
+
 # 生物信息学
 
 ## 生物统计学与R手册

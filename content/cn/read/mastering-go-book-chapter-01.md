@@ -260,3 +260,195 @@ func main() {
 
 ### 关于 `log.Fatal()`
 
+Fatal 状态用于代码有问题，你想要退出程序。
+
+```go
+package main
+
+import (
+	"fmt"
+	"log"
+	"log/syslog"
+)
+
+func main() {
+	sysLog, err := syslog.New(syslog.LOG_ALERT|syslog.LOG_MAIL, "Some program!")
+	if err != nil {
+		log.Fatal(err)
+	} else {
+		log.SetOutput(sysLog)
+	}
+
+	log.Fatal(sysLog)
+	fmt.Println("Will you see this?")
+}
+```
+
+运行：
+
+```sh
+$ go run ./0009-logfatal.go 
+exit status 1
+$ grep "Some program" /var/log/mail.log
+Aug  9 00:28:38 ShixiangWangdeMacBook-Pro Some program![6898]: 2020/08/09 00:28:38 &{17 Some program! ShixiangWangdeMacBook-Pro.local   {0 0} 0xc00000e200}
+```
+
+### 关于 `log.Panic()`
+
+有时候程序出于一些目的停止，而你想要获取失败尽可能多的信息，此时使用 Panic 状态函数。
+
+程序：
+
+```go
+package main
+
+import (
+	"fmt"
+	"log"
+	"log/syslog"
+)
+
+func main() {
+	sysLog, err := syslog.New(syslog.LOG_ALERT|syslog.LOG_MAIL, "Some program!")
+	if err != nil {
+		log.Fatal(err)
+	} else {
+		log.SetOutput(sysLog)
+	}
+
+	log.Panic(sysLog)
+	fmt.Println("Will you see this?")
+}
+```
+
+运行：
+
+```sh
+$ go run ./0010-logpanic.go            
+panic: &{17 Some program! ShixiangWangdeMacBook-Pro.local   {0 0} 0xc00000e200}
+
+goroutine 1 [running]:
+log.Panic(0xc000123f68, 0x1, 0x1)
+        /usr/local/Cellar/go/1.14.5/libexec/src/log/log.go:351 +0xac
+main.main()
+        /Users/wsx/go/src/github.com/ShixiangWang/home/go/0010-logpanic.go:17 +0xe3
+exit status 2
+```
+
+### Go 的错误处理
+
+Go 有专门的错误类型 `error`。需要注意，程序中有些错误需要我们立即停止程序，而有些错误则需要我们发出警告，这依赖开发者。
+
+
+#### 错误类型
+
+下面代码演示如何创建一个错误类型。
+
+```go
+package main
+
+import (
+	"errors"
+	"fmt"
+)
+
+func returnError(a, b int) error {
+	if a == b {
+		err := errors.New("Error in returnError() function!")
+		return err
+	} else {
+		return nil
+	}
+}
+
+func main() {
+	err := returnError(1, 2)
+	if err == nil {
+		fmt.Println("returnError() ended normally!")
+	} else {
+		fmt.Println(err)
+	}
+
+	err = returnError(10, 10)
+	if err == nil {
+		fmt.Println("returnError() ended normally!")
+	} else {
+		fmt.Println(err)
+	}
+}
+```
+
+运行：
+
+```sh
+$ go run ./0011-newError.go 
+returnError() ended normally!
+Error in returnError() function!
+```
+
+> 使用 `err.Error()` 方法可以从错误类型中生成 string 类型错误信息。
+
+#### 错误处理
+
+一般测试 `err` 是否与 `nil` 相等，如果不是，则使用 `fmt`、`log`包或通过 `panic() 函数生成错误，使用 `os.Exit()` 退出程序。
+
+下面是一个示例代码：
+
+```go
+package main
+
+import (
+	"errors"
+	"fmt"
+	"os"
+	"strconv"
+)
+
+func main() {
+	if len(os.Args) == 1 {
+		fmt.Println("Please give one or more floats.")
+		os.Exit(1)
+	}
+
+	arguments := os.Args
+	var err error = errors.New("An error")
+	k := 1
+	var n float64
+
+	for err != nil {
+		if k >= len(arguments) {
+			fmt.Println("None of the arguments is a float!")
+			return
+		}
+		n, err = strconv.ParseFloat(arguments[k], 64)
+		k++
+	}
+
+	min, max := n, n
+
+	for i := 2; i < len(arguments); i++ {
+		n, err := strconv.ParseFloat(arguments[i], 64)
+		if err == nil {
+			if n < min {
+				min = n
+			}
+			if n > max {
+				max = n
+			}
+		}
+	}
+
+	fmt.Println("Min:", min)
+	fmt.Println("Max:", max)
+}
+```
+
+测试：
+
+```sh
+$ go run ./0012-error.go a b c
+None of the arguments is a float!
+$ go run ./0012-error.go b c 1 2 3 c -1 100 -200 s
+Min: -200
+Max: 100
+```
