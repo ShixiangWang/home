@@ -141,6 +141,7 @@ publishDir = "docs"
 
 [params]
     description = "Personal website of Shixiang Wang; 王诗翔的个人网站"
+    enableGitalk = true
     #disqusURL = "https://shixiangwang.github.io/home/"
     customJS = ["js/fix-toc.js", "js/center-img.js", "js/right-quote.js", "js/no-highlight.js", "js/fix-footnote.js", "js/math-code.js", "js/external-link.js", "js/alt-title.js", "js/header-link.js"]
     githubContentURL = "https://github.com/ShixiangWang/home/edit/master/content/"
@@ -150,6 +151,19 @@ publishDir = "docs"
     highlightjsCDN = "//cdn.bootcss.com"
     highlightjsTheme = "Xcode"
     dateFormat = "2006-01-02" # "2006-01-02, Mon, "
+
+[params.gitalk]
+    clientID = "eed477936be7b88a8455" # Your client ID
+    clientSecret = "32b5dde22f3c95c4fad400a31632e34221b07e83" # Your client secret
+    repo = "home" # The repo to store comments
+    owner = "ShixiangWang" # Your GitHub ID
+    admin= "ShixiangWang" # Required. Github repository owner and collaborators. (Users who having write access to this repository)
+    id= "location.pathname" # The unique id of the page.
+    labels= "gitalk" # Github issue labels. If you used to use Gitment, you can change it
+    perPage= 15 # Pagination size, with maximum 100.
+    pagerDirection= "last" # Comment sorting direction, available values are 'last' and 'first'.
+    createIssueManually= false # If it is 'false', it is auto to make a Github issue when the administrators login.
+    distractionFreeMode= false # Enable hot key (cmd|ctrl + enter) submit comment.
 
 [params.footer]
     home = "Powered by [Hugo](https://gohugo.io) and [Blogdown](https://bookdown.org/yihui/blogdown/) &copy; [Shixiang Wang](/) 2017 - 2020"

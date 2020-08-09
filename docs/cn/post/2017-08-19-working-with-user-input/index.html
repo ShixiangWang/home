@@ -940,22 +940,26 @@ document.addEventListener('keyup', function(e) {
 
 
 
-
-<br>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
-<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
 <div id="gitalk-container"></div>
-<script type="text/javascript">
-var gitalk = new Gitalk({
-  clientID: 'eed477936be7b88a8455',
-  clientSecret: '32b5dde22f3c95c4fad400a31632e34221b07e83',
-  repo: 'ShixiangWang.github.io',
-  owner: 'ShixiangWang',
-  admin: ['ShixiangWang'],
-  id: 'gitalk',               
-  distractionFreeMode: false  
-})
-gitalk.render('gitalk-container')
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script>
+  const gitalk = new Gitalk({
+    clientID: 'eed477936be7b88a8455',
+    clientSecret: '32b5dde22f3c95c4fad400a31632e34221b07e83',
+    repo: 'home',
+    owner: 'ShixiangWang',
+    admin: ['ShixiangWang'],
+    id: location.pathname, 
+    distractionFreeMode: false 
+  });
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('gitalk-container').innerHTML = 'Gitalk comments not available by default when the website is previewed locally.';
+      return;
+    }
+    gitalk.render('gitalk-container');
+  })();
 </script>
 
 
