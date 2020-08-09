@@ -2,13 +2,10 @@
 title: "R 语言统计检验函数汇总"
 author: "王诗翔"
 date: "2019-12-25"
-lastmod: "2019-12-25"
+lastmod: "2020-08-09"
 slug: ""
-categories: r
-tags:
-- r
-- stats
-- 统计检验
+categories: [r]
+tags: [r, stats]
 ---
 
 
@@ -42,13 +39,13 @@ tags:
 #&gt;  Paired t-test
 #&gt; 
 #&gt; data:  rnorm(10) and rnorm(10, mean = 1)
-#&gt; t = -5, df = 9, p-value = 7e-04
+#&gt; t = -2, df = 9, p-value = 0.09
 #&gt; alternative hypothesis: true difference in means is not equal to 0
 #&gt; 95 percent confidence interval:
-#&gt;  -2.541 -0.962
+#&gt;  -1.419  0.134
 #&gt; sample estimates:
 #&gt; mean of the differences 
-#&gt;                   -1.75</code></pre>
+#&gt;                  -0.643</code></pre>
 <p>使用公式：</p>
 <pre class="r"><code>df &lt;- data.frame(
   value = c(rnorm(10), rnorm(10, mean = 1)),
@@ -60,26 +57,26 @@ t.test(value ~ group, data = df)
 #&gt;  Welch Two Sample t-test
 #&gt; 
 #&gt; data:  value by group
-#&gt; t = -0.4, df = 15, p-value = 0.7
+#&gt; t = -2, df = 16, p-value = 0.03
 #&gt; alternative hypothesis: true difference in means is not equal to 0
 #&gt; 95 percent confidence interval:
-#&gt;  -1.62  1.08
+#&gt;  -1.7767 -0.0945
 #&gt; sample estimates:
 #&gt; mean in group control    mean in group test 
-#&gt;                 0.532                 0.802</code></pre>
+#&gt;                 0.314                 1.250</code></pre>
 <p>假设方差同质：</p>
 <pre class="r"><code>t.test(value ~ group, data = df, var.equal = TRUE)
 #&gt; 
 #&gt;  Two Sample t-test
 #&gt; 
 #&gt; data:  value by group
-#&gt; t = -0.4, df = 18, p-value = 0.7
+#&gt; t = -2, df = 18, p-value = 0.03
 #&gt; alternative hypothesis: true difference in means is not equal to 0
 #&gt; 95 percent confidence interval:
-#&gt;  -1.60  1.06
+#&gt;  -1.768 -0.103
 #&gt; sample estimates:
 #&gt; mean in group control    mean in group test 
-#&gt;                 0.532                 0.802</code></pre>
+#&gt;                 0.314                 1.250</code></pre>
 <p>更多查看 <code>?t.test</code>。</p>
 </div>
 <div id="两总体方差检验" class="section level4">
@@ -92,20 +89,20 @@ var.test(value ~ group, data = df)
 #&gt;  F test to compare two variances
 #&gt; 
 #&gt; data:  value by group
-#&gt; F = 0.4, num df = 9, denom df = 9, p-value = 0.2
+#&gt; F = 2, num df = 9, denom df = 9, p-value = 0.3
 #&gt; alternative hypothesis: true ratio of variances is not equal to 1
 #&gt; 95 percent confidence interval:
-#&gt;  0.103 1.671
+#&gt;  0.546 8.846
 #&gt; sample estimates:
 #&gt; ratio of variances 
-#&gt;              0.415</code></pre>
+#&gt;                2.2</code></pre>
 <p>使用 Bartlett 检验比较每个组（样本）数据的方差是否一致。</p>
 <pre class="r"><code>bartlett.test(value ~ group, data = df)
 #&gt; 
 #&gt;  Bartlett test of homogeneity of variances
 #&gt; 
 #&gt; data:  value by group
-#&gt; Bartlett&#39;s K-squared = 2, df = 1, p-value = 0.2</code></pre>
+#&gt; Bartlett&#39;s K-squared = 1, df = 1, p-value = 0.3</code></pre>
 </div>
 <div id="多个组间均值的比较" class="section level4">
 <h4>多个组间均值的比较</h4>
@@ -172,7 +169,7 @@ anova(md)
 #&gt;  Shapiro-Wilk normality test
 #&gt; 
 #&gt; data:  rnorm(30)
-#&gt; W = 1, p-value = 1</code></pre>
+#&gt; W = 1, p-value = 0.7</code></pre>
 <p>可以通过 QQ 图辅助查看。</p>
 <pre class="r"><code>qqnorm(rnorm(30))</code></pre>
 <p><img src="/cn/post/2019-12-25-r-stats-funs-summary_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
@@ -185,7 +182,7 @@ anova(md)
 #&gt;  One-sample Kolmogorov-Smirnov test
 #&gt; 
 #&gt; data:  rnorm(10)
-#&gt; D = 0.2, p-value = 0.7
+#&gt; D = 0.2, p-value = 0.8
 #&gt; alternative hypothesis: two-sided</code></pre>
 <p>函数第 1 个参数指定待检验的数据，第 2 个参数指定对称分布的类型，可以是数值型向量、指定概率分布函数的字符串或一个分布函数。</p>
 <pre class="r"><code>ks.test(rnorm(10), &quot;pnorm&quot;)
@@ -193,7 +190,7 @@ anova(md)
 #&gt;  One-sample Kolmogorov-Smirnov test
 #&gt; 
 #&gt; data:  rnorm(10)
-#&gt; D = 0.4, p-value = 0.09
+#&gt; D = 0.4, p-value = 0.1
 #&gt; alternative hypothesis: two-sided
 
 ks.test(rpois(10, lambda = 1), &quot;pnorm&quot;)
@@ -203,7 +200,7 @@ ks.test(rpois(10, lambda = 1), &quot;pnorm&quot;)
 #&gt;  One-sample Kolmogorov-Smirnov test
 #&gt; 
 #&gt; data:  rpois(10, lambda = 1)
-#&gt; D = 0.5, p-value = 0.01
+#&gt; D = 0.6, p-value = 5e-04
 #&gt; alternative hypothesis: two-sided</code></pre>
 </div>
 <div id="检验两个向量是否服从同一分布" class="section level4">
@@ -214,7 +211,7 @@ ks.test(rpois(10, lambda = 1), &quot;pnorm&quot;)
 #&gt;  Two-sample Kolmogorov-Smirnov test
 #&gt; 
 #&gt; data:  rnorm(20) and rnorm(30)
-#&gt; D = 0.1, p-value = 1
+#&gt; D = 0.2, p-value = 0.8
 #&gt; alternative hypothesis: two-sided</code></pre>
 </div>
 <div id="相关性检验" class="section level4">
@@ -332,38 +329,38 @@ prop.test(heads, 100)          # continuity correction TRUE by default
 #&gt;  1-sample proportions test with continuity correction
 #&gt; 
 #&gt; data:  heads out of 100, null probability 0.5
-#&gt; X-squared = 0.2, df = 1, p-value = 0.6
+#&gt; X-squared = 0.01, df = 1, p-value = 0.9
 #&gt; alternative hypothesis: true p is not equal to 0.5
 #&gt; 95 percent confidence interval:
-#&gt;  0.370 0.572
+#&gt;  0.409 0.611
 #&gt; sample estimates:
 #&gt;    p 
-#&gt; 0.47
+#&gt; 0.51
 prop.test(heads, 100, correct = FALSE)
 #&gt; 
 #&gt;  1-sample proportions test without continuity correction
 #&gt; 
 #&gt; data:  heads out of 100, null probability 0.5
-#&gt; X-squared = 0.4, df = 1, p-value = 0.5
+#&gt; X-squared = 0.04, df = 1, p-value = 0.8
 #&gt; alternative hypothesis: true p is not equal to 0.5
 #&gt; 95 percent confidence interval:
-#&gt;  0.375 0.567
+#&gt;  0.413 0.606
 #&gt; sample estimates:
 #&gt;    p 
-#&gt; 0.47</code></pre>
+#&gt; 0.51</code></pre>
 <p>可以给定概率值。</p>
 <pre class="r"><code>prop.test(heads, 100, p = 0.3, correct = FALSE)
 #&gt; 
 #&gt;  1-sample proportions test without continuity correction
 #&gt; 
 #&gt; data:  heads out of 100, null probability 0.3
-#&gt; X-squared = 14, df = 1, p-value = 2e-04
+#&gt; X-squared = 21, df = 1, p-value = 5e-06
 #&gt; alternative hypothesis: true p is not equal to 0.3
 #&gt; 95 percent confidence interval:
-#&gt;  0.375 0.567
+#&gt;  0.413 0.606
 #&gt; sample estimates:
 #&gt;    p 
-#&gt; 0.47</code></pre>
+#&gt; 0.51</code></pre>
 </div>
 <div id="二项式检验" class="section level3">
 <h3>二项式检验</h3>

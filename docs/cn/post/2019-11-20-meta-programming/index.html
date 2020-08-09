@@ -123,6 +123,22 @@
 2018-08-03</h3> 
 
 
+<p style="text-align:right;">
+  分类:
+  
+    <a href="../../../categories/r">r</a> &nbsp
+  
+  <br>
+  标签:
+  
+    <a href="../../../tags/r">r</a> &nbsp
+  
+    <a href="../../../tags/meta-programming">meta-programming</a> &nbsp
+  
+</p>
+
+
+
    
   
 
@@ -177,7 +193,7 @@ add1
 #&gt; function(x){
 #&gt;         x + y
 #&gt;     }
-#&gt; &lt;environment: 0x7fe4f0818f10&gt;</code></pre>
+#&gt; &lt;environment: 0x7f8a2a8b51e8&gt;</code></pre>
 <p>比较上面两条语句可以发现，<code>add1</code>与<code>add</code>函数不同，输出结果附带了<code>add1</code>的环境。<strong>这是因为一个函数不在当前环境（例子中为全局环境）下，那么输出该函数就会一并显示其所属的环境</strong>。在<code>add1</code>的环境中，<code>y是在addn(1)</code>确定的，下面可以证实：</p>
 <pre class="r"><code>environment(add1)$y
 #&gt; [1] 1</code></pre>
@@ -232,8 +248,8 @@ fit = stats4::mle(nloglik(data),
                   lower = c(-5, 0.01), upper = c(5, 10))</code></pre>
 <p>结果返回一个<code>S4</code>对象：</p>
 <pre class="r"><code>fit@coef
-#&gt;  mean    sd 
-#&gt; 0.991 2.007</code></pre>
+#&gt; mean   sd 
+#&gt; 1.02 1.99</code></pre>
 <p>可以看到，估计值非常接近真实值。下面使用图形展示这一点。</p>
 <pre class="r"><code>hist(data, freq = FALSE, ylim = c(0, 0.25))
 curve(dnorm(x, 1, 2), add = TRUE, col = rgb(1, 0, 0, 0.5), lwd = 6)
@@ -322,7 +338,7 @@ combine(product, 3, 4, 5)
 当我们在交互式控制台键入表达式并按下<code>Enter</code>后，R便会执行并输出结果。
 例如：</p>
 <pre class="r"><code>rnorm(5)
-#&gt; [1]  0.448  0.291 -0.754  2.450 -1.641</code></pre>
+#&gt; [1]  1.027  0.369  0.917  0.532 -0.321</code></pre>
 <p><code>subset()</code>神奇之处在于它调整了参数被计算的环境，分两步完成，<strong>首先捕获表达式，然后调整表达式的计算</strong>。
 #### 将表达式捕获为语言对象
 <strong>捕获表达式意味着防止表达式被执行，而将表达式本身存储为变量的形式</strong>。具有这个功能的函数为<code>quote()</code>：</p>
@@ -412,14 +428,8 @@ call2
 call3
 #&gt; sqrt(1 + x^2)</code></pre>
 <p>我们使用<code>pryr</code>包查看函数调用的递归结构：</p>
-<pre class="r"><code>p_load(pryr)
-#&gt; Installing package into &#39;/Users/wsx/R_library&#39;
-#&gt; (as &#39;lib&#39; is unspecified)
-#&gt; 
-#&gt; The downloaded binary packages are in
-#&gt;  /var/folders/mx/rfkl27z90c96wbmn3_kjk8c80000gn/T//RtmpRaeJZT/downloaded_packages
-#&gt; 
-#&gt; pryr installed
+<pre class="r"><code>library(pacman)
+p_load(pryr)
 pryr::call_tree(call3)
 #&gt; \- ()
 #&gt;   \- `sqrt
@@ -443,7 +453,7 @@ call1
 <pre class="r"><code>call1[[3]] = -1
 names(call1)[[3]] = &quot;min&quot;
 call1
-#&gt; runif(5, min = -1)</code></pre>
+#&gt; runif(`NULL` = 5, min = -1)</code></pre>
 <div id="捕获函数参数表达式" class="section level4">
 <h4>捕获函数参数表达式</h4>
 <p>前面我们使用<code>quote()</code>捕获一个已知的表达式，而<code>substitute()</code>可以作用于任意的用户输入表达式。</p>
@@ -500,7 +510,7 @@ call2
 #&gt; sin(x)</code></pre>
 <p>计算：</p>
 <pre class="r"><code>eval(call2)
-#&gt; Error in eval(call2): 找不到对象&#39;x&#39;</code></pre>
+#&gt; Error in eval(call2): object &#39;x&#39; not found</code></pre>
 <p><strong>直接在控制台运行和使用<code>eval()</code>的区别在于，<code>eval()</code>允许我们提供一个列表来计算给定表达式。我们并不需要创建一个变量<code>x</code>，只要提供一个包含<code>x</code>的临时列表，表达式会在列表中搜索符号</strong>：</p>
 <pre class="r"><code>eval(call2, list(x = 1))
 #&gt; [1] 0.841</code></pre>
@@ -516,7 +526,7 @@ call3
 <pre class="r"><code>e1 = new.env()
 e1$x = 2
 eval(call3, e1)
-#&gt; Error in eval(call3, e1): 找不到对象&#39;y&#39;</code></pre>
+#&gt; Error in eval(call3, e1): object &#39;y&#39; not found</code></pre>
 <pre class="r"><code>e2 = new.env(parent = e1)
 e2$y = 3
 eval(call3, e2)
@@ -552,7 +562,7 @@ x[3:(length(x)-5)]
 }</code></pre>
 <p>这个函数看起来没问题，但使用时发生了错误：</p>
 <pre class="r"><code>trim_margin(x, 3)
-#&gt; Error in eval(range, list(. = length(x))): 找不到对象&#39;n&#39;</code></pre>
+#&gt; Error in eval(range, list(. = length(x))): object &#39;n&#39; not found</code></pre>
 <p>为什么会找不到<code>n</code>呢？我们有必要分析该函数调用时符号的查找路径。</p>
 </div>
 <div id="动态作用域" class="section level4">
@@ -562,7 +572,7 @@ x[3:(length(x)-5)]
 #&gt; function (expr, envir = parent.frame(), enclos = if (is.list(envir) || 
 #&gt;     is.pairlist(envir)) parent.frame() else baseenv()) 
 #&gt; .Internal(eval(expr, envir, enclos))
-#&gt; &lt;bytecode: 0x7fe4ef06a2e8&gt;
+#&gt; &lt;bytecode: 0x7f8a26109b58&gt;
 #&gt; &lt;environment: namespace:base&gt;</code></pre>
 <p>从定义上看，当提供一个列表时，<code>enclos</code>会取默认值<code>parent.frame()</code>，而<strong>这是<code>eval()</code>的调用环境</strong>（不是<code>qs()</code>的，也就是调用<code>qs()</code>时的执行环境，该环境中没有<code>n</code>。</p>
 <p>这里我们可以发现<code>substitute()</code>的缺点，它只捕获表达式，而不捕获表达式有意义的环境（这正是quosure的由来吧，就是为了解决这问题）。我们需要自己完成这一步。</p>

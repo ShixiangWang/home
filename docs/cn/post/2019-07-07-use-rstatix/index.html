@@ -123,6 +123,22 @@
 2019-07-07</h3> 
 
 
+<p style="text-align:right;">
+  分类:
+  
+    <a href="../../../categories/r">r</a> &nbsp
+  
+  <br>
+  标签:
+  
+    <a href="../../../tags/r">r</a> &nbsp
+  
+    <a href="../../../tags/stats">stats</a> &nbsp
+  
+</p>
+
+
+
    
   
 
@@ -141,9 +157,9 @@
 ‘within-Ss’ 设计 (repeated measures), purely ‘between-Ss’ 设计以及 mixed ‘within-and-between-Ss’ 设计。</p>
 <p>该包也可以用于计算一些效应值度量，包括 “eta squared” for ANOVA, “Cohen’s d” for t-test and “Cramer’s V” for the association between categorical variables。
 该包还包含一些用于识别单变量和多变量离群点、评估变异正态性和异质性的帮助函数。</p>
-<div class="section level2">
+<div id="核心函数" class="section level2">
 <h2>核心函数</h2>
-<div class="section level3">
+<div id="描述统计量" class="section level3">
 <h3>描述统计量</h3>
 <ul>
 <li><code>get_summary_stats()</code>: Compute summary statistics for one or multiple numeric variables. Can handle grouped data.</li>
@@ -154,7 +170,7 @@
 <li><code>shapiro_test()</code> and <code>mshapiro_test()</code>: Univariate and multivariate Shapiro-Wilk normality test.</li>
 </ul>
 </div>
-<div class="section level3">
+<div id="比较均值" class="section level3">
 <h3>比较均值</h3>
 <ul>
 <li><code>t_test()</code>: perform one-sample, two-sample and pairwise t-tests</li>
@@ -169,21 +185,21 @@
 <li><code>get_pvalue_position</code>: autocompute p-value positions for plotting significance using ggplot2.</li>
 </ul>
 </div>
-<div id="ranova" class="section level3">
+<div id="促进r的anova计算" class="section level3">
 <h3>促进R的ANOVA计算</h3>
 <ul>
 <li><code>factorial_design()</code>: build factorial design for easily computing ANOVA using the <code>car::Anova()</code> function. This might be very useful for repeated measures ANOVA, which is hard to set up with the <code>car</code> package.</li>
 <li><code>anova_summary()</code>: Create beautiful summary tables of ANOVA test results obtained from either <code>car::Anova()</code> or <code>stats::aov()</code>. The results include ANOVA table, generalized effect size and some assumption checks, such as Mauchly’s test for sphericity in the case of repeated measures ANOVA.</li>
 </ul>
 </div>
-<div class="section level3">
+<div id="比较方差" class="section level3">
 <h3>比较方差</h3>
 <ul>
 <li><code>levene_test()</code>: Pipe-friendly framework to easily compute Levene’s test for homogeneity of variance across groups. Handles grouped data.</li>
 <li><code>box_m()</code>: Box’s M-test for homogeneity of covariance matrices</li>
 </ul>
 </div>
-<div class="section level3">
+<div id="效应值" class="section level3">
 <h3>效应值</h3>
 <ul>
 <li><code>cohens_d()</code>: Compute cohen’s d measure of effect size for t-tests.</li>
@@ -191,7 +207,7 @@
 <li><code>cramer_v()</code>: Compute Cramer’s V, which measures the strength of the association between categorical variables.</li>
 </ul>
 </div>
-<div class="section level3">
+<div id="相关分析" class="section level3">
 <h3>相关分析</h3>
 <p><strong>计算相关性</strong>:</p>
 <ul>
@@ -220,14 +236,14 @@
 <li><code>cor_mark_significant()</code>: add significance levels to a correlation matrix.</li>
 </ul>
 </div>
-<div id="p" class="section level3">
+<div id="矫正p值和添加显著性标记" class="section level3">
 <h3>矫正p值和添加显著性标记</h3>
 <ul>
 <li><code>adjust_pvalue()</code>: add an adjusted p-values column to a data frame containing statistical test p-values</li>
 <li><code>add_significance()</code>: add a column containing the p-value significance level</li>
 </ul>
 </div>
-<div class="section level3">
+<div id="其他" class="section level3">
 <h3>其他</h3>
 <ul>
 <li><code>doo()</code>: alternative to dplyr::do for doing anything. Technically it uses <code>nest() + mutate() + map()</code> to apply arbitrary computation to a grouped data frame.</li>
@@ -237,7 +253,7 @@
 </ul>
 </div>
 </div>
-<div class="section level2">
+<div id="安装和加载" class="section level2">
 <h2>安装和加载</h2>
 <ul>
 <li>从<a href="https://github.com/kassambara/rstatix">GitHub</a>上安装开发版本：</li>
@@ -253,15 +269,14 @@ devtools::install_github(&quot;kassambara/rstatix&quot;)</code></pre>
 </ul>
 <pre class="r"><code>library(rstatix)  
 #&gt; 
-#&gt; 载入程辑包：&#39;rstatix&#39;
+#&gt; Attaching package: &#39;rstatix&#39;
 #&gt; The following object is masked from &#39;package:stats&#39;:
 #&gt; 
 #&gt;     filter
 library(ggpubr)  # For easy data-visualization
-#&gt; 载入需要的程辑包：ggplot2
-#&gt; 载入需要的程辑包：magrittr</code></pre>
+#&gt; Loading required package: ggplot2</code></pre>
 </div>
-<div id="-1" class="section level2">
+<div id="描述统计量-1" class="section level2">
 <h2>描述统计量</h2>
 <pre class="r"><code># Summary statistics of some selected variables
 #::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -297,10 +312,10 @@ iris %&gt;%
 #&gt; 2 versicolor Sepal.Length    50  5.94 0.516
 #&gt; 3 virginica  Sepal.Length    50  6.59 0.636</code></pre>
 </div>
-<div id="-1" class="section level2">
+<div id="比较均值-1" class="section level2">
 <h2>比较均值</h2>
 <p>你可以使用 <code>t_test()</code> (parametric) or <code>wilcox_test()</code> (non-parametric，实际比较的是中位数) 比较均值差异。下面使用 t 检验进行示范。</p>
-<div class="section level3">
+<div id="数据" class="section level3">
 <h3>数据</h3>
 <p>导入样例数据集：</p>
 <pre class="r"><code>df &lt;- ToothGrowth
@@ -314,7 +329,7 @@ head(df)
 #&gt; 5  6.4   VC  0.5
 #&gt; 6 10.0   VC  0.5</code></pre>
 </div>
-<div id="2" class="section level3">
+<div id="比较2个独立组别" class="section level3">
 <h3>比较2个独立组别</h3>
 <ul>
 <li>创建一个带p值的箱线图</li>
@@ -358,7 +373,7 @@ stat.test
 #&gt; 1 0.5   len   OJ     VC        10    10    3.17    15.0 0.00636 0.0127 
 #&gt; 2 1     len   OJ     VC        10    10    4.03    15.4 0.00104 0.00312
 #&gt; 3 2     len   OJ     VC        10    10   -0.0461  14.0 0.964   0.964  
-#&gt; # … with 1 more variable: p.adj.signif &lt;chr&gt;
+#&gt; # ... with 1 more variable: p.adj.signif &lt;chr&gt;
 
 # Visualization
 ggboxplot(
@@ -369,7 +384,7 @@ ggboxplot(
   stat_pvalue_manual(stat.test, label = &quot;p.adj&quot;, y.position = 35)</code></pre>
 <p><img src="../../../cn/post/2019-07-07-use-rstatix_files/figure-html/grouped-two-sample-t-test-1.png" width="576" /></p>
 </div>
-<div class="section level3">
+<div id="比较配对样本" class="section level3">
 <h3>比较配对样本</h3>
 <pre class="r"><code># T-test
 stat.test &lt;- df %&gt;% 
@@ -388,7 +403,7 @@ p &lt;- ggpaired(
 p + stat_pvalue_manual(stat.test, label = &quot;p&quot;, y.position = 36)</code></pre>
 <p><img src="../../../cn/post/2019-07-07-use-rstatix_files/figure-html/paired-t-test-1.png" width="336" /></p>
 </div>
-<div class="section level3">
+<div id="成对比较" class="section level3">
 <h3>成对比较</h3>
 <ul>
 <li>成对比较：如果分组变量包含多于2个分类，会自动执行成对比较</li>
@@ -397,12 +412,11 @@ p + stat_pvalue_manual(stat.test, label = &quot;p&quot;, y.position = 36)</code>
 pairwise.test &lt;- df %&gt;% t_test(len ~ dose)
 pairwise.test
 #&gt; # A tibble: 3 x 10
-#&gt;   .y.   group1 group2    n1    n2 statistic    df        p    p.adj
-#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
-#&gt; 1 len   0.5    1         20    20     -6.48  38.0 1.27e- 7 2.54e- 7
-#&gt; 2 len   0.5    2         20    20    -11.8   36.9 4.40e-14 1.32e-13
-#&gt; 3 len   1      2         20    20     -4.90  37.1 1.91e- 5 1.91e- 5
-#&gt; # … with 1 more variable: p.adj.signif &lt;chr&gt;
+#&gt;   .y.   group1 group2    n1    n2 statistic    df        p    p.adj p.adj.signif
+#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       
+#&gt; 1 len   0.5    1         20    20     -6.48  38.0 1.27e- 7 2.54e- 7 ****        
+#&gt; 2 len   0.5    2         20    20    -11.8   36.9 4.40e-14 1.32e-13 ****        
+#&gt; 3 len   1      2         20    20     -4.90  37.1 1.91e- 5 1.91e- 5 ****
 # Box plot
 ggboxplot(df, x = &quot;dose&quot;, y = &quot;len&quot;)+
   stat_pvalue_manual(
@@ -419,11 +433,10 @@ ggboxplot(df, x = &quot;dose&quot;, y = &quot;len&quot;)+
 stat.test &lt;- df %&gt;% t_test(len ~ dose, ref.group = &quot;0.5&quot;)
 stat.test
 #&gt; # A tibble: 2 x 10
-#&gt;   .y.   group1 group2    n1    n2 statistic    df        p    p.adj
-#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
-#&gt; 1 len   0.5    1         20    20     -6.48  38.0 1.27e- 7 1.27e- 7
-#&gt; 2 len   0.5    2         20    20    -11.8   36.9 4.40e-14 8.80e-14
-#&gt; # … with 1 more variable: p.adj.signif &lt;chr&gt;
+#&gt;   .y.   group1 group2    n1    n2 statistic    df        p    p.adj p.adj.signif
+#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;       
+#&gt; 1 len   0.5    1         20    20     -6.48  38.0 1.27e- 7 1.27e- 7 ****        
+#&gt; 2 len   0.5    2         20    20    -11.8   36.9 4.40e-14 8.80e-14 ****
 # Box plot
 ggboxplot(df, x = &quot;dose&quot;, y = &quot;len&quot;, ylim = c(0, 40)) +
   stat_pvalue_manual(
@@ -446,12 +459,11 @@ ggboxplot(df, x = &quot;dose&quot;, y = &quot;len&quot;, ylim = c(0, 40)) +
 stat.test &lt;- df %&gt;% t_test(len ~ dose, ref.group = &quot;all&quot;)
 stat.test
 #&gt; # A tibble: 3 x 10
-#&gt;   .y.   group1 group2    n1    n2 statistic    df       p   p.adj
-#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
-#&gt; 1 len   all    0.5       60    20     5.82   56.4 2.90e-7 8.70e-7
-#&gt; 2 len   all    1         60    20    -0.660  57.5 5.12e-1 5.12e-1
-#&gt; 3 len   all    2         60    20    -5.61   66.5 4.25e-7 8.70e-7
-#&gt; # … with 1 more variable: p.adj.signif &lt;chr&gt;
+#&gt;   .y.   group1 group2    n1    n2 statistic    df         p   p.adj p.adj.signif
+#&gt; * &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;int&gt; &lt;int&gt;     &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;       
+#&gt; 1 len   all    0.5       60    20     5.82   56.4   2.90e-7 8.70e-7 ****        
+#&gt; 2 len   all    1         60    20    -0.660  57.5   5.12e-1 5.12e-1 ns          
+#&gt; 3 len   all    2         60    20    -5.61   66.5   4.25e-7 8.70e-7 ****
 # Box plot with horizontal mean line
 ggboxplot(df, x = &quot;dose&quot;, y = &quot;len&quot;) +
   stat_pvalue_manual(
@@ -463,7 +475,7 @@ ggboxplot(df, x = &quot;dose&quot;, y = &quot;len&quot;) +
 <p><img src="../../../cn/post/2019-07-07-use-rstatix_files/figure-html/comparison-against-base-mean-1.png" width="336" /></p>
 </div>
 </div>
-<div id="anova-" class="section level2">
+<div id="anova-检验" class="section level2">
 <h2>ANOVA 检验</h2>
 <pre class="r"><code># One-way ANOVA test
 #:::::::::::::::::::::::::::::::::::::::::
@@ -532,7 +544,7 @@ anova_test(.my.model)
 #&gt; 7    P:K   1  12  0.031 0.863       0.003
 #&gt; 8  N:P:K   0  12     NA    NA  &lt;NA&gt;    NA</code></pre>
 </div>
-<div class="section level2">
+<div id="相关检验" class="section level2">
 <h2>相关检验</h2>
 <pre class="r"><code># Data preparation
 mydata &lt;- mtcars %&gt;% 
@@ -576,9 +588,9 @@ mydata %&gt;% cor_test(method = &quot;pearson&quot;)
 #&gt;  8 disp  disp   1       Inf    0.         1          1     Pearson
 #&gt;  9 disp  hp     0.79      7.08 7.14e- 8   0.611      0.893 Pearson
 #&gt; 10 disp  drat  -0.71     -5.53 5.28e- 6  -0.849     -0.481 Pearson
-#&gt; # … with 26 more rows</code></pre>
+#&gt; # ... with 26 more rows</code></pre>
 </div>
-<div class="section level2">
+<div id="相关矩阵" class="section level2">
 <h2>相关矩阵</h2>
 <pre class="r"><code># Compute correlation matrix
 #::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -641,7 +653,7 @@ cor.mat %&gt;%
   cor_plot()</code></pre>
 <p><img src="../../../cn/post/2019-07-07-use-rstatix_files/figure-html/unnamed-chunk-8-1.png" width="384" /></p>
 </div>
-<div class="section level2">
+<div id="相关文章" class="section level2">
 <h2>相关文章</h2>
 <ul>
 <li><a href="http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/76-add-p-values-and-significance-levels-to-ggplots/">在ggplot上添加p值和显著性水平</a></li>

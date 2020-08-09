@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>meta-programming on Shixiang Wang | 王诗翔</title>
+    <link>/tags/meta-programming/</link>
+    <description>Recent content in meta-programming on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 08 Jul 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/meta-programming/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>dplyr编程</title>
+      <link>/cn/post/2019-07-08-dplyr-programming/</link>
+      <pubDate>Mon, 08 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-07-08-dplyr-programming/</guid>
+      <description>本文首先发布于简书，本人在对相关知识有进一步理解后对本文进行修改，以便于中文更好地理解。 来源：vignettes/programming.R</description>
+    </item>
+    
+    <item>
+      <title>R 的元编程</title>
+      <link>/cn/post/2019-11-20-meta-programming/</link>
+      <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-11-20-meta-programming/</guid>
+      <description>内容： 函数式编程：闭包（closures）与高阶函数（higher-order functions） 基于语言计算以及语言对象 非标准计算（non</description>
+    </item>
+    
+  </channel>
+</rss>

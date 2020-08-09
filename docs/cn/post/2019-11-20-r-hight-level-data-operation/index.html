@@ -123,6 +123,28 @@
 2018-08-25</h3> 
 
 
+<p style="text-align:right;">
+  分类:
+  
+    <a href="../../../categories/r">r</a> &nbsp
+  
+  <br>
+  标签:
+  
+    <a href="../../../tags/r">r</a> &nbsp
+  
+    <a href="../../../tags/dplyr">dplyr</a> &nbsp
+  
+    <a href="../../../tags/sqldf">sqldf</a> &nbsp
+  
+    <a href="../../../tags/data.table">data.table</a> &nbsp
+  
+    <a href="../../../tags/rlist">rlist</a> &nbsp
+  
+</p>
+
+
+
    
   
 
@@ -147,7 +169,7 @@
 <p><strong>数据框的本质是一个由向量构成的列表</strong>，由于列长度相同，所以可以当做矩阵进行访问和操作。比如选择满足特定条件的行，使用<code>[]</code>符号，第一个参数提供一个逻辑向量，第二个参数留空。</p>
 <p>本文大部分的代码都是基于一组产品的虚拟数据。我们先将数据载入，然后学习怎么用不同的方法操作数据。</p>
 <pre class="r"><code>if(!require(readr)) install.packages(&quot;readr&quot;)
-#&gt; 载入需要的程辑包：readr
+#&gt; Loading required package: readr
 product_info = read_csv(&quot;../../../static/datasets/product-info.csv&quot;)
 #&gt; Parsed with column specification:
 #&gt; cols(
@@ -373,7 +395,7 @@ mean_quality2
 <pre class="r"><code>typeof(mean_quality2)
 #&gt; [1] &quot;double&quot;
 class(mean_quality2)
-#&gt; [1] &quot;matrix&quot;
+#&gt; [1] &quot;matrix&quot; &quot;array&quot;
 mean_quality2[&quot;model&quot;, &quot;vehicle&quot;]
 #&gt; [1] 6</code></pre>
 <p>同理我们可以根据多列分组，使用<code>with()</code>可以避免反复输入<code>product_full</code>：</p>
@@ -444,7 +466,7 @@ toy_quality
 <p>下面用一组简单的向量演示：</p>
 <pre class="r"><code>library(zoo)
 #&gt; 
-#&gt; 载入程辑包：&#39;zoo&#39;
+#&gt; Attaching package: &#39;zoo&#39;
 #&gt; The following objects are masked from &#39;package:base&#39;:
 #&gt; 
 #&gt;     as.Date, as.Date.numeric
@@ -527,9 +549,9 @@ ggplot(toy_tests2, aes(x = ym, y = value)) +
 <pre class="r"><code>install.packages(&quot;sqldf&quot;)</code></pre>
 <p>首先加载包：</p>
 <pre class="r"><code>library(sqldf)
-#&gt; 载入需要的程辑包：gsubfn
-#&gt; 载入需要的程辑包：proto
-#&gt; 载入需要的程辑包：RSQLite</code></pre>
+#&gt; Loading required package: gsubfn
+#&gt; Loading required package: proto
+#&gt; Loading required package: RSQLite</code></pre>
 <p>注意加载<code>sqldf</code>包时，几个依赖包会自动加载进来。<strong><code>sql</code>包的实现依赖这些包，它基本上是在R和SQLite之间传输数据和转换数据类型</strong>。</p>
 <p>读入前面使用的产品表格：</p>
 <pre class="r"><code>product_info = read_csv(&quot;../../../static/datasets/product-info.csv&quot;)
@@ -616,7 +638,7 @@ toy_tests = read_csv(&quot;../../../static/datasets/product-toy-tests.csv&quot;)
 <p>载入包：</p>
 <pre class="r"><code>library(data.table)
 #&gt; 
-#&gt; 载入程辑包：&#39;data.table&#39;
+#&gt; Attaching package: &#39;data.table&#39;
 #&gt; The following objects are masked from &#39;package:reshape2&#39;:
 #&gt; 
 #&gt;     dcast, melt</code></pre>
@@ -625,14 +647,14 @@ toy_tests = read_csv(&quot;../../../static/datasets/product-toy-tests.csv&quot;)
 <pre class="r"><code>dt = data.table(x = 1:3, y = rnorm(3), z = letters[1:3])
 dt
 #&gt;    x      y z
-#&gt; 1: 1  1.643 a
-#&gt; 2: 2  0.668 b
-#&gt; 3: 3 -0.810 c</code></pre>
+#&gt; 1: 1  0.265 a
+#&gt; 2: 2 -0.955 b
+#&gt; 3: 3  1.109 c</code></pre>
 <p>检查它的结构：</p>
 <pre class="r"><code>str(dt)
 #&gt; Classes &#39;data.table&#39; and &#39;data.frame&#39;:   3 obs. of  3 variables:
 #&gt;  $ x: int  1 2 3
-#&gt;  $ y: num  1.643 0.668 -0.81
+#&gt;  $ y: num  0.265 -0.955 1.109
 #&gt;  $ z: chr  &quot;a&quot; &quot;b&quot; &quot;c&quot;
 #&gt;  - attr(*, &quot;.internal.selfref&quot;)=&lt;externalptr&gt;</code></pre>
 <p>可以看到，<code>dt</code>的类是<code>data.table</code>和<code>data.frame</code>，也就是说<code>data.table</code>继承了<code>data.frame</code>的一些行为，但增强了其他部分。</p>
@@ -697,7 +719,7 @@ product_info[1:3]
 <p>例如提取列：</p>
 <pre class="r"><code>product_info[released == &quot;yes&quot;, id]
 #&gt; [1] &quot;T01&quot; &quot;M01&quot; &quot;M02&quot; &quot;M03&quot;</code></pre>
-<p>在这里使用<code>&quot;id&quot;</code>结果不同，返回的必然是个data.table。</p>
+<p>在这里使用<code>"id"</code>结果不同，返回的必然是个data.table。</p>
 <pre class="r"><code>product_info[released == &quot;yes&quot;, &quot;id&quot;]
 #&gt;     id
 #&gt; 1: T01
@@ -906,16 +928,16 @@ type_class_test
 test1 = data.frame(id = 1:n, x = rnorm(n), y = rnorm(n))</code></pre>
 <p>现在查找id为876543的行，看要花多少时间：</p>
 <pre class="r"><code>system.time(row &lt;- test1[test1$id == 876543, ])
-#&gt;  用户  系统  流逝 
-#&gt; 0.134 0.019 0.152</code></pre>
+#&gt;    user  system elapsed 
+#&gt;   0.146   0.021   0.180</code></pre>
 <p>作为对比，我们使用<code>data.table</code>来完成这个任务，使用<code>setDT()</code>将数据框转换为<code>data.table</code>，该函数可以原地转换，不需要复制，并可以设定键。</p>
 <pre class="r"><code>setDT(test1, key = &quot;id&quot;)
 class(test1)
 #&gt; [1] &quot;data.table&quot; &quot;data.frame&quot;</code></pre>
 <p>现在我们搜索相同的元素：</p>
 <pre class="r"><code>system.time(row &lt;- test1[.(876543)])
-#&gt;  用户  系统  流逝 
-#&gt; 0.004 0.001 0.001</code></pre>
+#&gt;    user  system elapsed 
+#&gt;   0.001   0.000   0.001</code></pre>
 <p>结果一致，但data.table用的时间要少得多。</p>
 </div>
 <div id="重塑data.table" class="section level3">
@@ -1138,7 +1160,7 @@ head(market_data)
 <p>例如将<code>diamonds</code>按<code>cut</code>分组，每组都按<code>log(price) ~ carat</code>拟合一个线性模型。和<code>data.table</code>不同的是，我们需要为操作指定一个名称，以便将结果存储在列中。而且<code>do()</code>表达式不能直接在分组数据的语义下计算 ，我们需要使用<code>.</code>来表示数据。</p>
 <pre class="r"><code>library(dplyr)
 #&gt; 
-#&gt; 载入程辑包：&#39;dplyr&#39;
+#&gt; Attaching package: &#39;dplyr&#39;
 #&gt; The following objects are masked from &#39;package:data.table&#39;:
 #&gt; 
 #&gt;     between, first, last
@@ -1153,12 +1175,10 @@ models = diamonds %&gt;%
     group_by(cut) %&gt;% 
     do(lmod = lm(log(price) ~ carat, data = .))
 models
-#&gt; Source: local data frame [5 x 2]
-#&gt; Groups: &lt;by row&gt;
-#&gt; 
 #&gt; # A tibble: 5 x 2
+#&gt; # Rowwise: 
 #&gt;   cut       lmod  
-#&gt; * &lt;ord&gt;     &lt;list&gt;
+#&gt;   &lt;ord&gt;     &lt;list&gt;
 #&gt; 1 Fair      &lt;lm&gt;  
 #&gt; 2 Good      &lt;lm&gt;  
 #&gt; 3 Very Good &lt;lm&gt;  
@@ -1183,6 +1203,7 @@ models
         quality = sum(quality * sample) / sum(sample),
         durability = sum(durability * sample) / sum(sample)
     )
+#&gt; `summarise()` ungrouping output (override with `.groups` argument)
 #&gt; # A tibble: 2 x 3
 #&gt;   id    quality durability
 #&gt;   &lt;chr&gt;   &lt;dbl&gt;      &lt;dbl&gt;
@@ -1917,7 +1938,7 @@ list.mapv(liveTRUE, name)
   
 <nav class="post-nav">
   <span class="nav-prev">&larr; <a href="../../../cn/post/2019-11-20-r-operate-database/">R-操作数据库</a></span>
-  <span class="nav-next"><a href="../../../cn/post/hpc-in-r/">高性能计算</a> &rarr;</span>
+  <span class="nav-next"><a href="../../../cn/post/hpc-in-r/">R 的高性能计算</a> &rarr;</span>
 </nav>
 <script type="text/javascript">
 document.addEventListener('keyup', function(e) {

@@ -4,10 +4,8 @@ author: "王诗翔"
 date: "2020-08-03"
 lastmod: "2020-08-03"
 slug: ""
-categories: golang
-tags:
-- golang
-- os
+categories: [golang]
+tags: [golang, os]
 ---
 
 ### godoc 使用

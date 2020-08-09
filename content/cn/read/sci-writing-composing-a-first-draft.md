@@ -4,9 +4,8 @@ author: "王诗翔"
 date: "2019-06-20"
 lastmod: "2019-06-20"
 slug: ""
-categories: read
-tags:
-- 笔记
+categories: [read]
+tags: [sci, writing]
 ---
 
 > 本文是[《Successful scientific wrting》](/cn/read/#successful-scientific-wrting)一书的阅读笔记之一。

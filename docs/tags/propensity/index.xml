@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>propensity on Shixiang Wang | 王诗翔</title>
+    <link>/tags/propensity/</link>
+    <description>Recent content in propensity on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 25 Jun 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/propensity/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>倾向评分匹配算法——R实例学习</title>
+      <link>/cn/post/2019-11-20-propensity-score-match/</link>
+      <pubDate>Mon, 25 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-11-20-propensity-score-match/</guid>
+      <description>倾向评分算法用于校正模型中的混淆因子，这里我们先使用随机生成的数据学习该算法，然后实际分析一下去教会学校和公共学校上学学生的成绩差异。 本文主</description>
+    </item>
+    
+  </channel>
+</rss>

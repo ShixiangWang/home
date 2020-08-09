@@ -2,12 +2,10 @@
 title: "倾向评分匹配算法——R实例学习"
 author: "王诗翔"
 date: "2018-06-25"
-lastmod: "2019-11-20"
+lastmod: "2020-08-09"
 slug: ""
-categories: r
-tags:
-- r
-- 倾向匹配
+categories: [r]
+tags: [r, propensity]
 ---
 
 
@@ -32,6 +30,10 @@ df.patients &lt;- r_data_frame(n = 250,
                             sex(x = c(&quot;Male&quot;, &quot;Female&quot;), 
                                 prob = c(0.70, 0.30), 
                                 name = &quot;Sex&quot;))
+#&gt; Warning: `tbl_df()` is deprecated as of dplyr 1.0.0.
+#&gt; Please use `tibble::as_tibble()` instead.
+#&gt; This warning is displayed once every 8 hours.
+#&gt; Call `lifecycle::last_warnings()` to see where this warning was generated.
 df.patients$Sample &lt;- as.factor(&#39;Patients&#39;)</code></pre>
 <p>查看下描述性统计量：</p>
 <pre class="r"><code>summary(df.patients)
@@ -86,7 +88,7 @@ knitr::kable(table1[,1:3],
 <caption><span id="tab:unnamed-chunk-6">Table 1: </span>Comparison of unmatched samples</caption>
 <thead>
 <tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="center">Patients</th>
 <th align="center">Population</th>
 <th align="center">p</th>
@@ -94,25 +96,25 @@ knitr::kable(table1[,1:3],
 </thead>
 <tbody>
 <tr class="odd">
-<td>n</td>
+<td align="left">n</td>
 <td align="center">250</td>
 <td align="center">1000</td>
 <td align="center"></td>
 </tr>
 <tr class="even">
-<td>Age (mean (SD))</td>
+<td align="left">Age (mean (SD))</td>
 <td align="center">53.51 (13.86)</td>
 <td align="center">49.06 (17.77)</td>
 <td align="center">&lt;0.001</td>
 </tr>
 <tr class="odd">
-<td>Sex = Female (%)</td>
+<td align="left">Sex = Female (%)</td>
 <td align="center">87 (34.8)</td>
 <td align="center">513 (51.3)</td>
 <td align="center">&lt;0.001</td>
 </tr>
 <tr class="even">
-<td>Distress (mean (SD))</td>
+<td align="left">Distress (mean (SD))</td>
 <td align="center">23.53 (11.94)</td>
 <td align="center">25.44 (10.97)</td>
 <td align="center">0.015</td>
@@ -124,7 +126,7 @@ knitr::kable(table1[,1:3],
 <div id="匹配样本" class="section level3">
 <h3>匹配样本</h3>
 <blockquote>
-<p>Now that we have completed preparation and inspection of data, we are going to match the two samples using the matchit-function of the MatchIt package. The method command method=“nearest” specifies that the nearest neighbors method will be used. Other matching methods are exact matching, subclassification, optimal matching, genetic matching, and full matching (method = c(“exact”, “subclass”, “optimal”, &quot;“genetic”, “full”)). The ratio command ratio = 1 indicates a one-to-one matching approach. With regard to our example, for each case in the patient sample exactly one case in the population sample will be matched. Please also note that the Group variable needs to be logic (TRUE vs. FALSE).</p>
+<p>Now that we have completed preparation and inspection of data, we are going to match the two samples using the matchit-function of the MatchIt package. The method command method=“nearest” specifies that the nearest neighbors method will be used. Other matching methods are exact matching, subclassification, optimal matching, genetic matching, and full matching (method = c(“exact”, “subclass”, “optimal”, "“genetic”, “full”)). The ratio command ratio = 1 indicates a one-to-one matching approach. With regard to our example, for each case in the patient sample exactly one case in the population sample will be matched. Please also note that the Group variable needs to be logic (TRUE vs. FALSE).</p>
 </blockquote>
 <pre class="r"><code>library(MatchIt)
 set.seed(1234)
@@ -140,29 +142,29 @@ After matching the samples, the size of the population sample was reduced to the
 <caption><span id="tab:unnamed-chunk-8">Table 2: </span>Sample sizes</caption>
 <thead>
 <tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="center">Control</th>
 <th align="center">Treated</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>All</td>
+<td align="left">All</td>
 <td align="center">1000</td>
 <td align="center">250</td>
 </tr>
 <tr class="even">
-<td>Matched</td>
+<td align="left">Matched</td>
 <td align="center">250</td>
 <td align="center">250</td>
 </tr>
 <tr class="odd">
-<td>Unmatched</td>
+<td align="left">Unmatched</td>
 <td align="center">750</td>
 <td align="center">0</td>
 </tr>
 <tr class="even">
-<td>Discarded</td>
+<td align="left">Discarded</td>
 <td align="center">0</td>
 <td align="center">0</td>
 </tr>
@@ -177,7 +179,7 @@ After matching the samples, the size of the population sample was reduced to the
 <caption><span id="tab:unnamed-chunk-9">Table 3: </span>Summary of balance for matched data</caption>
 <thead>
 <tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="center">Means Treated</th>
 <th align="center">Means Control</th>
 <th align="center">Mean Diff</th>
@@ -185,25 +187,25 @@ After matching the samples, the size of the population sample was reduced to the
 </thead>
 <tbody>
 <tr class="odd">
-<td>distance</td>
+<td align="left">distance</td>
 <td align="center">0.22</td>
 <td align="center">0.22</td>
 <td align="center">0.00</td>
 </tr>
 <tr class="even">
-<td>Age</td>
+<td align="left">Age</td>
 <td align="center">53.51</td>
 <td align="center">53.47</td>
 <td align="center">0.04</td>
 </tr>
 <tr class="odd">
-<td>SexMale</td>
+<td align="left">SexMale</td>
 <td align="center">0.65</td>
 <td align="center">0.65</td>
 <td align="center">0.00</td>
 </tr>
 <tr class="even">
-<td>SexFemale</td>
+<td align="left">SexFemale</td>
 <td align="center">0.35</td>
 <td align="center">0.35</td>
 <td align="center">0.00</td>
@@ -238,7 +240,7 @@ knitr::kable(table4[,1:3],
 <caption><span id="tab:unnamed-chunk-12">Table 4: </span>Table 4: Comparison of matched samples</caption>
 <thead>
 <tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="center">Patients</th>
 <th align="center">Population</th>
 <th align="center">p</th>
@@ -246,25 +248,25 @@ knitr::kable(table4[,1:3],
 </thead>
 <tbody>
 <tr class="odd">
-<td>n</td>
+<td align="left">n</td>
 <td align="center">250</td>
 <td align="center">250</td>
 <td align="center"></td>
 </tr>
 <tr class="even">
-<td>Age (mean (SD))</td>
+<td align="left">Age (mean (SD))</td>
 <td align="center">53.51 (13.86)</td>
 <td align="center">53.47 (13.85)</td>
 <td align="center">0.974</td>
 </tr>
 <tr class="odd">
-<td>Sex = Female (%)</td>
+<td align="left">Sex = Female (%)</td>
 <td align="center">87 (34.8)</td>
 <td align="center">87 (34.8)</td>
 <td align="center">1.000</td>
 </tr>
 <tr class="even">
-<td>Distress (mean (SD))</td>
+<td align="left">Distress (mean (SD))</td>
 <td align="center">23.53 (11.94)</td>
 <td align="center">23.68 (11.85)</td>
 <td align="center">0.884</td>
@@ -281,7 +283,7 @@ knitr::kable(table4[,1:3],
 <p>在学习实例之前，导入分析需要用的包：</p>
 <pre class="r"><code>library(dplyr)
 #&gt; 
-#&gt; 载入程辑包：&#39;dplyr&#39;
+#&gt; Attaching package: &#39;dplyr&#39;
 #&gt; The following object is masked from &#39;package:wakefield&#39;:
 #&gt; 
 #&gt;     id
@@ -302,6 +304,7 @@ library(MatchIt)</code></pre>
   summarise(n_students = n(),
             mean_math = mean(c5r2mtsc_std),
             std_error = sd(c5r2mtsc_std) / sqrt(n_students))
+#&gt; `summarise()` ungrouping output (override with `.groups` argument)
 #&gt; # A tibble: 2 x 4
 #&gt;   catholic n_students mean_math std_error
 #&gt;      &lt;int&gt;      &lt;int&gt;     &lt;dbl&gt;     &lt;dbl&gt;
@@ -311,6 +314,7 @@ library(MatchIt)</code></pre>
   mutate(test = (c5r2mtsc - mean(c5r2mtsc)) / sd(c5r2mtsc)) %&gt;% #this is how the math score is standardized
   group_by(catholic) %&gt;%
   summarise(mean_math = mean(test))
+#&gt; `summarise()` ungrouping output (override with `.groups` argument)
 #&gt; # A tibble: 2 x 2
 #&gt;   catholic mean_math
 #&gt;      &lt;int&gt;     &lt;dbl&gt;
@@ -347,7 +351,7 @@ ecls %&gt;%
   select(one_of(ecls_cov)) %&gt;%
   summarise_all(funs(mean(., na.rm = T)))
 #&gt; Adding missing grouping variables: `catholic`
-#&gt; Warning: funs() is soft deprecated as of dplyr 0.8.0
+#&gt; Warning: `funs()` is deprecated as of dplyr 0.8.0.
 #&gt; Please use a list of either functions or lambdas: 
 #&gt; 
 #&gt;   # Simple named list: 
@@ -358,7 +362,8 @@ ecls %&gt;%
 #&gt; 
 #&gt;   # Using lambdas
 #&gt;   list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
-#&gt; This warning is displayed once per session.
+#&gt; This warning is displayed once every 8 hours.
+#&gt; Call `lifecycle::last_warnings()` to see where this warning was generated.
 #&gt; # A tibble: 2 x 5
 #&gt;   catholic race_white p5hmage p5numpla w3momed_hsb
 #&gt;      &lt;int&gt;      &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;       &lt;dbl&gt;
@@ -504,7 +509,7 @@ dim(dta_m)
 }
 library(gridExtra)
 #&gt; 
-#&gt; 载入程辑包：&#39;gridExtra&#39;
+#&gt; Attaching package: &#39;gridExtra&#39;
 #&gt; The following object is masked from &#39;package:dplyr&#39;:
 #&gt; 
 #&gt;     combine
@@ -515,8 +520,12 @@ grid.arrange(
    fn_bal(dta_m, &quot;race_white&quot;),
    nrow = 2, widths = c(1, 0.8)
 )
+#&gt; `geom_smooth()` using formula &#39;y ~ x&#39;
 #&gt; Warning: Removed 41 rows containing missing values (geom_smooth).
-#&gt; Warning: Removed 1 rows containing missing values (geom_smooth).</code></pre>
+#&gt; `geom_smooth()` using formula &#39;y ~ x&#39;
+#&gt; Warning: Removed 1 rows containing missing values (geom_smooth).
+#&gt; `geom_smooth()` using formula &#39;y ~ x&#39;
+#&gt; `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <p><img src="/cn/post/2019-11-20-propensity-score-match_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
 <p>均值差异</p>
 <pre class="r"><code>dta_m %&gt;%

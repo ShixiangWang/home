@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>modeling on Shixiang Wang | 王诗翔</title>
+    <link>/tags/modeling/</link>
+    <description>Recent content in modeling on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 05 Oct 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/modeling/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>modelr——基础模型实现</title>
+      <link>/cn/post/modelr-base-models/</link>
+      <pubDate>Fri, 05 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/modelr-base-models/</guid>
+      <description>建立模型的目的是提供一个简单的、低纬度的数据集摘要。我们使用模型的目的是将数据划分为模式和残差，借助模型探索数据集，拨开覆盖在数据集结构上的</description>
+    </item>
+    
+  </channel>
+</rss>

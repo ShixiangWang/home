@@ -2,11 +2,10 @@
 title: "使用 sigminer 进行突变模式分析"
 author: "王诗翔"
 date: "2020-06-07"
-lastmod: "2020-06-07"
+lastmod: "2020-08-09"
 slug: ""
-categories: r
-tags:
-- r
+categories: [r]
+tags: ["r", "sigminer", "mutational-signature"]
 ---
 
 
@@ -38,7 +37,7 @@ laml &lt;- read_maf(maf = laml.maf)
 #&gt; -Summarizing
 #&gt; -Processing clinical data
 #&gt; --Missing clinical data
-#&gt; -Finished in 0.290s elapsed (0.269s cpu)
+#&gt; -Finished in 0.269s elapsed (0.245s cpu)
 # 与 maftools::read.maf(maf = laml.maf) 结果是一样的
 # read_maf 是对 read.maf 的封装</code></pre>
 </div>
@@ -103,10 +102,10 @@ str(mats, max.level = 1)
 #&gt; 4 brunet random   1     KL    4            0.685           0.633 1802 0.448
 #&gt; 5 brunet random   1     KL    5            0.698           0.687 1723 0.472
 #&gt;   silhouette.coef silhouette.basis residuals niter   cpu cpu.all nrun
-#&gt; 2           1.000            1.000      2880  1040 0.496    4.86    2
-#&gt; 3           0.769            0.830      2718   800 0.409    4.72    2
-#&gt; 4           0.656            0.767      2543  1790 0.946    1.82    2
-#&gt; 5           0.609            0.712      2415  1750 1.044    5.23    2
+#&gt; 2           1.000            1.000      2880  1040 0.467    4.39    2
+#&gt; 3           0.769            0.830      2718   800 0.438    4.17    2
+#&gt; 4           0.656            0.767      2543  1790 1.031    1.62    2
+#&gt; 5           0.609            0.712      2415  1750 1.139    4.93    2
 #&gt;   cophenetic dispersion silhouette.consensus
 #&gt; 2      0.888      0.576                0.712
 #&gt; 3      0.802      0.577                0.494
@@ -125,13 +124,13 @@ str(mats, max.level = 1)
 <p>生成的是一个带 <code>Signature</code> 类信息的列表：</p>
 <pre class="r"><code>str(sigs, max.level = 1)
 #&gt; List of 6
-#&gt;  $ Signature     : num [1:96, 1:4] 2.67e-16 7.00 6.00 1.00 1.06e-07 ...
+#&gt;  $ Signature     : num [1:96, 1:4] 1.90e-07 6.68e-08 1.07e-07 1.00 5.19e-09 ...
 #&gt;   ..- attr(*, &quot;dimnames&quot;)=List of 2
-#&gt;  $ Signature.norm: num [1:96, 1:4] 4.86e-19 1.27e-02 1.09e-02 1.82e-03 1.93e-10 ...
+#&gt;  $ Signature.norm: num [1:96, 1:4] 3.38e-10 1.19e-10 1.90e-10 1.78e-03 9.23e-12 ...
 #&gt;   ..- attr(*, &quot;dimnames&quot;)=List of 2
-#&gt;  $ Exposure      : num [1:4, 1:193] 3.687 4.047 0.243 2.023 2.402 ...
+#&gt;  $ Exposure      : num [1:4, 1:193] 2.02 3.69 4.05 2.43e-01 1.00e-13 ...
 #&gt;   ..- attr(*, &quot;dimnames&quot;)=List of 2
-#&gt;  $ Exposure.norm : num [1:4, 1:193] 0.3687 0.4047 0.0243 0.2023 0.1716 ...
+#&gt;  $ Exposure.norm : num [1:4, 1:193] 2.02e-01 3.69e-01 4.05e-01 2.43e-02 7.14e-15 ...
 #&gt;   ..- attr(*, &quot;dimnames&quot;)=List of 2
 #&gt;  $ K             : int 4
 #&gt;  $ Raw           :List of 3
@@ -150,27 +149,27 @@ p</code></pre>
 <pre class="r"><code>get_sig_similarity(sigs, sig_db = &quot;legacy&quot;)
 #&gt; -Comparing against COSMIC signatures
 #&gt; ------------------------------------
-#&gt; --Found Sig1 most similar to COSMIC_6
-#&gt;    Aetiology: defective DNA mismatch repair [similarity: 0.797]
-#&gt; --Found Sig2 most similar to COSMIC_1
-#&gt;    Aetiology: spontaneous deamination of 5-methylcytosine [similarity: 0.8]
-#&gt; --Found Sig3 most similar to COSMIC_15
-#&gt;    Aetiology: defective DNA mismatch repair [similarity: 0.535]
-#&gt; --Found Sig4 most similar to COSMIC_1
+#&gt; --Found Sig1 most similar to COSMIC_1
 #&gt;    Aetiology: spontaneous deamination of 5-methylcytosine [similarity: 0.89]
+#&gt; --Found Sig2 most similar to COSMIC_6
+#&gt;    Aetiology: defective DNA mismatch repair [similarity: 0.797]
+#&gt; --Found Sig3 most similar to COSMIC_1
+#&gt;    Aetiology: spontaneous deamination of 5-methylcytosine [similarity: 0.8]
+#&gt; --Found Sig4 most similar to COSMIC_15
+#&gt;    Aetiology: defective DNA mismatch repair [similarity: 0.535]
 #&gt; ------------------------------------
 #&gt; Return result invisiblely.</code></pre>
 <pre class="r"><code>sim &lt;- get_sig_similarity(sigs, sig_db = &quot;SBS&quot;)
 #&gt; -Comparing against COSMIC signatures
 #&gt; ------------------------------------
-#&gt; --Found Sig1 most similar to SBS6
-#&gt;    Aetiology: defective DNA mismatch repair [similarity: 0.803]
-#&gt; --Found Sig2 most similar to SBS1
-#&gt;    Aetiology: spontaneous or enzymatic deamination of 5-methylcytosine [similarity: 0.737]
-#&gt; --Found Sig3 most similar to SBS15
-#&gt;    Aetiology: Defective DNA mismatch repair [similarity: 0.567]
-#&gt; --Found Sig4 most similar to SBS1
+#&gt; --Found Sig1 most similar to SBS1
 #&gt;    Aetiology: spontaneous or enzymatic deamination of 5-methylcytosine [similarity: 0.878]
+#&gt; --Found Sig2 most similar to SBS6
+#&gt;    Aetiology: defective DNA mismatch repair [similarity: 0.803]
+#&gt; --Found Sig3 most similar to SBS1
+#&gt;    Aetiology: spontaneous or enzymatic deamination of 5-methylcytosine [similarity: 0.737]
+#&gt; --Found Sig4 most similar to SBS15
+#&gt;    Aetiology: Defective DNA mismatch repair [similarity: 0.567]
 #&gt; ------------------------------------
 #&gt; Return result invisiblely.</code></pre>
 <pre class="r"><code>add_labels(p, x = 0.72, y = 0.25, y_end = 0.9, labels = sim, n_label = 4)</code></pre>
@@ -191,7 +190,7 @@ p</code></pre>
 #&gt; how to control forked processing or not, and how to silence this warning in
 #&gt; future R sessions, see ?future::supportsMulticore
 #&gt; 
-#&gt; 载入程辑包：&#39;purrr&#39;
+#&gt; Attaching package: &#39;purrr&#39;
 #&gt; The following objects are masked from &#39;package:foreach&#39;:
 #&gt; 
 #&gt;     accumulate, when
@@ -204,7 +203,7 @@ p</code></pre>
 #&gt; The following object is masked from &#39;package:IRanges&#39;:
 #&gt; 
 #&gt;     reduce
-#&gt; Select Run 2, which K = 2 as best solution.</code></pre>
+#&gt; Select Run 1, which K = 2 as best solution.</code></pre>
 <p>画图方式是完全一样的。</p>
 <pre class="r"><code>p &lt;- show_sig_profile(sigs2, mode = &quot;SBS&quot;, style = &quot;cosmic&quot;)
 p</code></pre>
@@ -219,22 +218,22 @@ p</code></pre>
 <p>sigminer 提供绝对和相对两种 Signature 活动度值。</p>
 <pre class="r"><code>get_sig_exposure(sigs2) %&gt;% head()
 #&gt;          sample  Sig1  Sig2
-#&gt; 1: TCGA-AB-2802 0.000  9.50
-#&gt; 2: TCGA-AB-2803 0.000 13.06
-#&gt; 3: TCGA-AB-2804 0.000  6.75
-#&gt; 4: TCGA-AB-2805 0.000 13.06
-#&gt; 5: TCGA-AB-2806 0.911 12.18
-#&gt; 6: TCGA-AB-2807 0.000 23.86
+#&gt; 1: TCGA-AB-2802  9.52 0.000
+#&gt; 2: TCGA-AB-2803 13.09 0.000
+#&gt; 3: TCGA-AB-2804  5.82 0.444
+#&gt; 4: TCGA-AB-2805 13.09 0.000
+#&gt; 5: TCGA-AB-2806 13.96 0.000
+#&gt; 6: TCGA-AB-2807 23.95 0.000
 get_sig_exposure(sigs2, type = &quot;relative&quot;) %&gt;% head()
 #&gt; Filtering the samples with no signature exposure:
-#&gt; TCGA-AB-2823 TCGA-AB-2834 TCGA-AB-2840 TCGA-AB-2848 TCGA-AB-2892 TCGA-AB-2909 TCGA-AB-2942
-#&gt;          sample   Sig1 Sig2
-#&gt; 1: TCGA-AB-2802 0.0000 1.00
-#&gt; 2: TCGA-AB-2803 0.0000 1.00
-#&gt; 3: TCGA-AB-2804 0.0000 1.00
-#&gt; 4: TCGA-AB-2805 0.0000 1.00
-#&gt; 5: TCGA-AB-2806 0.0696 0.93
-#&gt; 6: TCGA-AB-2807 0.0000 1.00</code></pre>
+#&gt; TCGA-AB-2823 TCGA-AB-2834 TCGA-AB-2840 TCGA-AB-2848 TCGA-AB-2909 TCGA-AB-2942
+#&gt;          sample  Sig1   Sig2
+#&gt; 1: TCGA-AB-2802 1.000 0.0000
+#&gt; 2: TCGA-AB-2803 1.000 0.0000
+#&gt; 3: TCGA-AB-2804 0.929 0.0709
+#&gt; 4: TCGA-AB-2805 1.000 0.0000
+#&gt; 5: TCGA-AB-2806 1.000 0.0000
+#&gt; 6: TCGA-AB-2807 1.000 0.0000</code></pre>
 <p>画图直接把对象扔进去就可以了。</p>
 <pre class="r"><code>show_sig_exposure(sigs, rm_space = TRUE, style = &quot;cosmic&quot;)</code></pre>
 <p><img src="/cn/post/2020-06-07-mutational-signature-analysis-with-sigminer_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
@@ -254,27 +253,27 @@ head(examp_fit)
 #&gt; COSMIC_6        1.088         0.00            0          0.0          0.0</code></pre>
 <p>画图也很简单：</p>
 <pre class="r"><code>show_sig_fit(examp_fit, palette = NULL) + ggpubr::rotate_x_text()
-#&gt; ℹ [2020-06-07 16:06:33]: Started.
-#&gt; ℹ [2020-06-07 16:06:33]: Checking input format.
-#&gt; ✓ [2020-06-07 16:06:33]: Checked.
-#&gt; ℹ [2020-06-07 16:06:33]: Checking filters.
-#&gt; ℹ [2020-06-07 16:06:33]: Checked.
-#&gt; ℹ [2020-06-07 16:06:33]: Plotting.
-#&gt; ℹ [2020-06-07 16:06:33]: 0.048 secs elapsed.</code></pre>
+#&gt; ℹ [2020-08-09 13:35:51]: Started.
+#&gt; ℹ [2020-08-09 13:35:51]: Checking input format.
+#&gt; ✓ [2020-08-09 13:35:51]: Checked.
+#&gt; ℹ [2020-08-09 13:35:51]: Checking filters.
+#&gt; ℹ [2020-08-09 13:35:51]: Checked.
+#&gt; ℹ [2020-08-09 13:35:51]: Plotting.
+#&gt; ℹ [2020-08-09 13:35:51]: 0.054 secs elapsed.</code></pre>
 <p><img src="/cn/post/2020-06-07-mutational-signature-analysis-with-sigminer_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
 <p>如果设置散点图，可以把单样本结果画出来。</p>
 <pre class="r"><code>show_sig_fit(examp_fit,
   palette = NULL, plot_fun = &quot;scatter&quot;,
   signatures = paste0(&quot;COSMIC_&quot;, c(1, 2, 4, 6, 19))
 ) + ggpubr::rotate_x_text()
-#&gt; ℹ [2020-06-07 16:06:34]: Started.
-#&gt; ℹ [2020-06-07 16:06:34]: Checking input format.
-#&gt; ✓ [2020-06-07 16:06:34]: Checked.
-#&gt; ℹ [2020-06-07 16:06:34]: Checking filters.
-#&gt; ℹ [2020-06-07 16:06:34]: Checked.
-#&gt; ℹ [2020-06-07 16:06:34]: Plotting.
-#&gt; ! [2020-06-07 16:06:34]: When plot_fun=&#39;scatter&#39;, setting legend=&#39;top&#39; is recommended.
-#&gt; ℹ [2020-06-07 16:06:34]: 0.047 secs elapsed.</code></pre>
+#&gt; ℹ [2020-08-09 13:35:52]: Started.
+#&gt; ℹ [2020-08-09 13:35:52]: Checking input format.
+#&gt; ✓ [2020-08-09 13:35:52]: Checked.
+#&gt; ℹ [2020-08-09 13:35:52]: Checking filters.
+#&gt; ℹ [2020-08-09 13:35:52]: Checked.
+#&gt; ℹ [2020-08-09 13:35:52]: Plotting.
+#&gt; ! [2020-08-09 13:35:52]: When plot_fun=&#39;scatter&#39;, setting legend=&#39;top&#39; is recommended.
+#&gt; ℹ [2020-08-09 13:35:52]: 0.042 secs elapsed.</code></pre>
 <p><img src="/cn/post/2020-06-07-mutational-signature-analysis-with-sigminer_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
 <p>上面展示了最核心的分析和可视化功能，sigminer 还支持很多功能，我就不再详述了。用户可以阅读官方文档 <a href="https://shixiangwang.github.io/sigminer-doc/" class="uri">https://shixiangwang.github.io/sigminer-doc/</a> 进一步学习，后续我会根据研究情况进一步开发。当然，读者完全可以基于上面分析的结果值进行各种个性化分析。</p>
 </div>

@@ -2,15 +2,10 @@
 title: "R-面向对象编程（一）"
 author: "王诗翔"
 date: "2018-08-15"
-lastmod: "2019-11-20"
+lastmod: "2020-08-09"
 slug: ""
-categories: r
-tags:
-- r
-- class
-- instance
-- S3
-- S4
+categories: [r]
+tags: [r, S3, S4, class, instance]
 ---
 
 
@@ -45,23 +40,23 @@ class(data1)
 <pre class="r"><code>head
 #&gt; function (x, ...) 
 #&gt; UseMethod(&quot;head&quot;)
-#&gt; &lt;bytecode: 0x7fab8b6597c0&gt;
+#&gt; &lt;bytecode: 0x7fc967b330c8&gt;
 #&gt; &lt;environment: namespace:utils&gt;</code></pre>
-<p>我们发现函数中并没有实际的操作细节。它调用<code>UseMethod(&quot;head&quot;)</code>来让<strong>泛型函数</strong><code>head()</code>执行方法分派，也就是说，对于不同的类，它可能有不同的执行方式（过程）。</p>
+<p>我们发现函数中并没有实际的操作细节。它调用<code>UseMethod("head")</code>来让<strong>泛型函数</strong><code>head()</code>执行方法分派，也就是说，对于不同的类，它可能有不同的执行方式（过程）。</p>
 <pre class="r"><code>num_vec = c(1, 2, 3, 4, 5)
 data_frame = data.frame(x = 1:5, y = rnorm(5))</code></pre>
 <p>调用函数：</p>
 <pre class="r"><code>head(num_vec, 3)
 #&gt; [1] 1 2 3
 head(data_frame, 3)
-#&gt;   x       y
-#&gt; 1 1  0.9659
-#&gt; 2 2  0.5115
-#&gt; 3 3 -0.0792</code></pre>
+#&gt;   x      y
+#&gt; 1 1  0.589
+#&gt; 2 2  0.663
+#&gt; 3 3 -0.887</code></pre>
 <p>我们可以使用<code>methods()</code>查看<code>head()</code>函数可以实现的所有方法：</p>
 <pre class="r"><code>methods(&quot;head&quot;)
-#&gt; [1] head.data.frame* head.default*    head.ftable*     head.function*  
-#&gt; [5] head.matrix      head.table*     
+#&gt; [1] head.array*      head.data.frame* head.default*    head.ftable*    
+#&gt; [5] head.function*   head.matrix     
 #&gt; see &#39;?methods&#39; for accessing help and source code</code></pre>
 <p>可以看到<code>head</code>不仅仅适用于向量和数据框。</p>
 <p><strong>注意</strong>，方法都是以<code>method.class</code>形式表示，如果我们输入一个<code>data.frame</code>，<code>head()</code>会调用<code>head.data.frame</code>方法。当没有方法可以匹配对象的类时，函数会自动转向<code>method.default</code>方法。这就是<strong>方法分派</strong>的一个实际过程。</p>
@@ -92,7 +87,7 @@ class(lm1)
 #&gt; Coefficients:
 #&gt; (Intercept)          cyl           vs  
 #&gt;      39.625       -3.091       -0.939</code></pre>
-<p>为什么打印出来的不像列表呢？因为<code>print()</code>是一个泛型函数，它为<code>lm</code>选择了一个方法来打印线性模型最重要的信息。我们可以调用<code>getS3method(&quot;print&quot;, &quot;lm&quot;)</code>获取实际使用的方法与想象的进行验证：</p>
+<p>为什么打印出来的不像列表呢？因为<code>print()</code>是一个泛型函数，它为<code>lm</code>选择了一个方法来打印线性模型最重要的信息。我们可以调用<code>getS3method("print", "lm")</code>获取实际使用的方法与想象的进行验证：</p>
 <pre class="r"><code>identical(getS3method(&quot;print&quot;, &quot;lm&quot;), stats:::print.lm)
 #&gt; [1] TRUE</code></pre>
 <p><code>print()</code>展示模型的一个简要版本，<code>summary()</code>展示更详细的信息。<code>summary()</code>也是一个泛型函数，它为模型的所有类提供了许多方法：</p>
@@ -150,7 +145,7 @@ plot(lm1)</code></pre>
 <p>这些泛型函数不仅适用于<code>lm</code>、<code>glm</code>和其他内置模型，也适用于其他扩展包提供的模型。</p>
 <p>例如我们使用<code>rpart</code>包，使用前面的数据和公式拟合一个回归树模型。</p>
 <pre class="r"><code>if(!require(&quot;rpart&quot;)) install.packages(&quot;rpart&quot;)
-#&gt; 载入需要的程辑包：rpart
+#&gt; Loading required package: rpart
 library(rpart)</code></pre>
 <pre class="r"><code>tree_model = rpart(mpg ~ cyl + vs, data = mtcars)</code></pre>
 <p>我们之所以能够使用相同的方法，<strong>是因为这个包的作者希望函数调用的方式与调用R内置函数保持一致</strong>。</p>
@@ -177,9 +172,9 @@ class(tree_model)
 #&gt;   n= 32 
 #&gt; 
 #&gt;       CP nsplit rel error xerror   xstd
-#&gt; 1 0.6431      0     1.000  1.074 0.2578
-#&gt; 2 0.0893      1     0.357  0.412 0.0806
-#&gt; 3 0.0100      2     0.268  0.412 0.0806
+#&gt; 1 0.6431      0     1.000  1.079 0.2519
+#&gt; 2 0.0893      1     0.357  0.401 0.0766
+#&gt; 3 0.0100      2     0.268  0.401 0.0766
 #&gt; 
 #&gt; Variable importance
 #&gt; cyl  vs 
@@ -220,7 +215,7 @@ text(tree_model, use.n = TRUE)</code></pre>
 <div id="为现有类定义泛型函数" class="section level3">
 <h3>为现有类定义泛型函数</h3>
 <p><strong>在定义泛型函数时，我们创建一个函数去调用<code>UseMethod()</code>出发方法分派。然后对泛型函数想要作用的类创建带有<code>method.class</code>形式的方法函数，同时还要创建带有<code>method.default</code>形式的默认方法来应对所有其他情况</strong>。</p>
-<p>下面我们创建一个新的泛型函数<code>generic_head()</code>，它有两个参数：<strong>输入对象<code>x</code>和需要提取的记录条数<code>n</code></strong>。泛型函数仅仅调用<code>UseMethod(&quot;generic_head&quot;)</code>来让R根据输入对象<code>x</code>的类执行方法分派。</p>
+<p>下面我们创建一个新的泛型函数<code>generic_head()</code>，它有两个参数：<strong>输入对象<code>x</code>和需要提取的记录条数<code>n</code></strong>。泛型函数仅仅调用<code>UseMethod("generic_head")</code>来让R根据输入对象<code>x</code>的类执行方法分派。</p>
 <pre class="r"><code>generic_head = function(x, n)
     UseMethod(&quot;generic_head&quot;)</code></pre>
 <p>对原子向量提取前<code>n</code>个元素，因此分别定义<code>generic_head.numeric</code>、<code>generic_head.character</code>等，另外最好定义一个默认方法捕获不能匹配的其他所有情况：</p>
@@ -232,17 +227,17 @@ text(tree_model, use.n = TRUE)</code></pre>
 #&gt; [1] 1 2 3</code></pre>
 <p>现在我们还没有定义针对<code>data.frame</code>类的方法，所以当我们输入数据框时，函数会自动转向<code>generic_head.default</code>，又因为提取的数量超出列数，所以下面的运行会报错：</p>
 <pre class="r"><code>generic_head(data_frame, 3)
-#&gt; Error in `[.data.frame`(x, 1:n): 选择了未定义的列</code></pre>
+#&gt; Error in `[.data.frame`(x, 1:n): undefined columns selected</code></pre>
 <p>下面为<code>data.frame</code>定义方法：</p>
 <pre class="r"><code>generic_head.data.frame = function(x, n) {
     x[1:n, ]
 }</code></pre>
 <p>现在函数就可以正常运行了：</p>
 <pre class="r"><code>generic_head(data_frame, 3)
-#&gt;   x       y
-#&gt; 1 1  0.9659
-#&gt; 2 2  0.5115
-#&gt; 3 3 -0.0792</code></pre>
+#&gt;   x      y
+#&gt; 1 1  0.589
+#&gt; 2 2  0.663
+#&gt; 3 3 -0.887</code></pre>
 <p>因为没有对参数进行检查，所以S3类执行的方法并不稳健。</p>
 </div>
 <div id="定义新类并创建对象" class="section level3">
@@ -405,7 +400,7 @@ max.percent = function(...){
 min.percent = function(...){
     percent(NextMethod(&quot;max&quot;))
 }</code></pre>
-<p><code>NextMethod(&quot;sum&quot;)</code>对<code>numeric</code>类调用<code>sum()</code>函数，然后再调用<code>percent()</code>函数将输出的数值向量包装为百分比形式：</p>
+<p><code>NextMethod("sum")</code>对<code>numeric</code>类调用<code>sum()</code>函数，然后再调用<code>percent()</code>函数将输出的数值向量包装为百分比形式：</p>
 <pre class="r"><code>sum(pct)
 #&gt; [1] 40%
 mean(pct)
@@ -456,7 +451,7 @@ pct[[2]]
     class(obj) = c(class, &quot;vehicle&quot;)
     obj
 }</code></pre>
-<p>这里的<code>class(obj) = c(class, &quot;vehicle&quot;)</code>似乎有点语义不明。但前者是基础函数，后者是输入参数，R能够判断好。</p>
+<p>这里的<code>class(obj) = c(class, "vehicle")</code>似乎有点语义不明。但前者是基础函数，后者是输入参数，R能够判断好。</p>
 <p>下面函数创建继承<code>vehicle</code>的<code>car</code>、<code>bus</code>和<code>airplane</code>的特定函数：</p>
 <pre class="r"><code>Car = function(...){
     Vehicle(class = &quot;car&quot;, ...)
@@ -515,7 +510,7 @@ move.vehicle = function(vehicle, movement) {
     movement = c(movement, 0)
     NextMethod(&quot;move&quot;)
 }</code></pre>
-<p>这里我们将<code>movement</code>的第3个纬度强制转换为0，然后调用<code>NextMethod(&quot;move&quot;)</code>来调用<code>move.vehicle()</code>。</p>
+<p>这里我们将<code>movement</code>的第3个纬度强制转换为0，然后调用<code>NextMethod("move")</code>来调用<code>move.vehicle()</code>。</p>
 <p>飞机既可以在2维也可以在3维：</p>
 <pre class="r"><code>move.airplane = function(vehicle, movement) {
     if (length(movement) == 2){

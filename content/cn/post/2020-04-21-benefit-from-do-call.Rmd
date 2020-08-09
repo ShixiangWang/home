@@ -4,9 +4,8 @@ author: "王诗翔"
 date: "2020-04-21"
 lastmod: "`r Sys.Date()`"
 slug: ""
-categories: r
-tags:
-- r
+categories: [r]
+tags: ["r", "do.call"]
 ---
 
 ```{r setup, include=FALSE}

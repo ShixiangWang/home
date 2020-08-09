@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>png on Shixiang Wang | 王诗翔</title>
+    <link>/tags/png/</link>
+    <description>Recent content in png on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 11 May 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/png/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>事实不等于标签：关于真假 png 的找 bug 记录</title>
+      <link>/cn/post/2020-05-11-true-and-false-png/</link>
+      <pubDate>Mon, 11 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2020-05-11-true-and-false-png/</guid>
+      <description>这是针对今天找 bug 的记录。 我在日常更改 sigminer 手册后使用 knitr 生成网页文档时发现一直报错： Quitting from lines 42-43 (sigminer-doc.Rmd) Error in png::readPNG(path, native = TRUE, info = TRUE) : file is not in PNG format 这个报错源自于我使用</description>
+    </item>
+    
+  </channel>
+</rss>

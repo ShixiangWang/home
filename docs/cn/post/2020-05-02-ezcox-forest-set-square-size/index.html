@@ -123,6 +123,24 @@
 2020-05-02</h3> 
 
 
+<p style="text-align:right;">
+  分类:
+  
+    <a href="../../../categories/r">r</a> &nbsp
+  
+  <br>
+  标签:
+  
+    <a href="../../../tags/r">r</a> &nbsp
+  
+    <a href="../../../tags/ezcox">ezcox</a> &nbsp
+  
+    <a href="../../../tags/forestplot">forestplot</a> &nbsp
+  
+</p>
+
+
+
    
   
 
@@ -138,11 +156,11 @@
 <p>之前开发的 ezcox 包提供了批量建模和展示森林图的功能，我自认为森林图要比 ggpubr 提供的 ggforest 好看。森林图的绘制实际是基于 <a href="https://github.com/NikNakk/forestmodel">forestmodel</a> 的实现。</p>
 <p>forestmodel 一个简单的使用示例如下：</p>
 <pre class="r"><code>library(&quot;forestmodel&quot;)
-#&gt; 载入需要的程辑包：ggplot2
+#&gt; Loading required package: ggplot2
 library(&quot;survival&quot;)
 library(&quot;dplyr&quot;)
 #&gt; 
-#&gt; 载入程辑包：&#39;dplyr&#39;
+#&gt; Attaching package: &#39;dplyr&#39;
 #&gt; The following objects are masked from &#39;package:stats&#39;:
 #&gt; 
 #&gt;     filter, lag
@@ -151,11 +169,12 @@ library(&quot;dplyr&quot;)
 #&gt;     intersect, setdiff, setequal, union
 pretty_lung &lt;- lung %&gt;%
   transmute(time,
-            status,
-            Age = age,
-            Sex = factor(sex, labels = c(&quot;Male&quot;, &quot;Female&quot;)),
-            ECOG = factor(lung$ph.ecog),
-            `Meal Cal` = meal.cal)
+    status,
+    Age = age,
+    Sex = factor(sex, labels = c(&quot;Male&quot;, &quot;Female&quot;)),
+    ECOG = factor(lung$ph.ecog),
+    `Meal Cal` = meal.cal
+  )
 
 print(forest_model(coxph(Surv(time, status) ~ ., pretty_lung)))</code></pre>
 <p><img src="../../../cn/post/2020-05-02-ezcox-forest-set-square-size_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
@@ -165,14 +184,16 @@ print(forest_model(coxph(Surv(time, status) ~ ., pretty_lung)))</code></pre>
 <p>修改方式如下：</p>
 <pre class="r"><code>pretty_lung &lt;- lung %&gt;%
   transmute(time,
-            status,
-            Age = age,
-            Sex = factor(sex, labels = c(&quot;Male&quot;, &quot;Female&quot;)),
-            ECOG = factor(lung$ph.ecog),
-            `Meal Cal` = meal.cal)
+    status,
+    Age = age,
+    Sex = factor(sex, labels = c(&quot;Male&quot;, &quot;Female&quot;)),
+    ECOG = factor(lung$ph.ecog),
+    `Meal Cal` = meal.cal
+  )
 
 print(forest_model(coxph(Surv(time, status) ~ ., pretty_lung),
-                   format_options= forestmodel::forest_model_format_options(point_size = 3)))</code></pre>
+  format_options = forestmodel::forest_model_format_options(point_size = 3)
+))</code></pre>
 <p><img src="../../../cn/post/2020-05-02-ezcox-forest-set-square-size_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <p>这个修改也可以直接应用到 ezcox 的图形绘制中去。</p>
 <blockquote>
@@ -181,7 +202,7 @@ print(forest_model(coxph(Surv(time, status) ~ ., pretty_lung),
 <pre class="r"><code>library(ezcox)
 #&gt; Welcome to &#39;ezcox&#39; package!
 #&gt; =======================================================================
-#&gt; You are using ezcox version 0.4.0
+#&gt; You are using ezcox version 0.7.0
 #&gt; 
 #&gt; Github page  : https://github.com/ShixiangWang/ezcox
 #&gt; Documentation: https://shixiangwang.github.io/ezcox/articles/ezcox.html
@@ -189,8 +210,10 @@ print(forest_model(coxph(Surv(time, status) ~ ., pretty_lung),
 #&gt; Run citation(&quot;ezcox&quot;) to see how to cite &#39;ezcox&#39;.
 #&gt; =======================================================================
 #&gt; 
-show_forest(lung, covariates = c(&quot;sex&quot;, &quot;ph.ecog&quot;), controls = &quot;age&quot;, 
-            format_options= forestmodel::forest_model_format_options(point_size = 3))
+show_forest(lung,
+  covariates = c(&quot;sex&quot;, &quot;ph.ecog&quot;), controls = &quot;age&quot;,
+  format_options = forestmodel::forest_model_format_options(point_size = 3)
+)
 #&gt; =&gt; Processing variable sex
 #&gt; ==&gt; Building Surv object...
 #&gt; ==&gt; Building Cox model...

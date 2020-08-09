@@ -123,6 +123,26 @@
 2019-08-05</h3> 
 
 
+<p style="text-align:right;">
+  分类:
+  
+    <a href="../../../categories/r">r</a> &nbsp
+  
+  <br>
+  标签:
+  
+    <a href="../../../tags/r">r</a> &nbsp
+  
+    <a href="../../../tags/ggplot2">ggplot2</a> &nbsp
+  
+    <a href="../../../tags/ggplotify">ggplotify</a> &nbsp
+  
+    <a href="../../../tags/plot">plot</a> &nbsp
+  
+</p>
+
+
+
    
   
 
@@ -178,7 +198,7 @@ p3 &lt;- as.ggplot(function() plot(sin))
 p4 &lt;- as.ggplot(~mosaic(Titanic))
 p5 &lt;- as.ggplot(densityplot(~mpg|cyl, data=mtcars))</code></pre>
 </div>
-<div class="section level2">
+<div id="图形排列" class="section level2">
 <h2>图形排列</h2>
 <p>现在有了<code>ggplot</code>对象，我们可以利用<code>cowplot</code>或者<code>patchwork</code>包将所有的图形组合起来。</p>
 <pre class="r"><code>library(cowplot)

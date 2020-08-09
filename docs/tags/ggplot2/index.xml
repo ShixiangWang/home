@@ -26,7 +26,16 @@
       <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
       
       <guid>/cn/post/communicate-with-ggplot2/</guid>
-      <description>准备工作 library(tidyverse) #&amp;gt; ─ Attaching packages ──────────────────────────────────────────── tidyverse 1.2.1 ─ #&amp;gt; ✔ ggplot2 3.2.1 ✔ purrr 0.3.2 #&amp;gt; ✔ tibble 2.1.3 ✔ dplyr 0.8.3</description>
+      <description>准备工作 library(tidyverse) #&amp;gt; ── Attaching packages ────────────────────────────────────────────────────────────</description>
+    </item>
+    
+    <item>
+      <title>拼图包patchwork使用</title>
+      <link>/cn/post/2019-11-20-usage-of-patchwork/</link>
+      <pubDate>Fri, 06 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-11-20-usage-of-patchwork/</guid>
+      <description>patchwork是基于ggplot2的拼图包，因为ggplot2本身没有强大的拼图语法，而一般使用的gridExtra与cowplot的拼</description>
     </item>
     
     <item>
@@ -45,6 +54,15 @@
       
       <guid>/cn/post/2019-11-06-eda-with-tidyverse/</guid>
       <description>该部分学习内容来自《R for Data Science》。 这次我们学习可视化与处理数据来系统地探索数据——统计学家称之为探索性数据分析（explorato</description>
+    </item>
+    
+    <item>
+      <title>使用yyplot绘制pubmed研究趋势</title>
+      <link>/cn/post/2019-11-20-access-pubmed-by-yyplot/</link>
+      <pubDate>Fri, 13 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-11-20-access-pubmed-by-yyplot/</guid>
+      <description>在准备转博报告的过程中觉得有必要给一些研究添加Pubmed研究趋势，这个功能Y叔在它的公众号推过，所以我记了一下，之前在写开题报告的时候就用</description>
     </item>
     
   </channel>

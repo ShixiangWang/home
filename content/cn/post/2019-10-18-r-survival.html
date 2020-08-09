@@ -2,14 +2,10 @@
 title: "使用 R 进行生存分析"
 author: "王诗翔"
 date: "2018-04-28"
-lastmod: "2019-10-18"
+lastmod: "2020-08-09"
 slug: "r-survival"
-categories: r
-tags:
-- r
-- 生存分析
-- cox
-- survival
+categories: [r]
+tags: [r, survival, cox]
 ---
 
 
@@ -20,10 +16,10 @@ tags:
 <li><a href="/files/r-survival-cheatsheet.pdf">生存分析备查表</a> - 会使用到的主要函数与包介绍</li>
 <li><a href="/files/r-survival-handout.pdf">背景介绍</a> - 统计知识</li>
 </ul>
-<div class="section level1">
+<div id="背景" class="section level1">
 <h1>背景</h1>
 <p>在纵向研究中，我们需要从一个时间点追踪样本或受试者（例如，进入研究，诊断，开始治疗），直到我们观察到一些结果事件（例如死亡，疾病发作，复发），但不会有意义的假设改变的速率是不变的。例如：手术后心脏手术后的死亡风险最高，术后恢复的患者死亡风险缓慢降低，随着患者年龄的增长，风险再次缓慢上升。或者，不同癌症的复发率随时间变化很大，并且取决于肿瘤遗传学，治疗和其他环境因素。</p>
-<div class="section level2">
+<div id="定义" class="section level2">
 <h2>定义</h2>
 <p>生存分析可让我们分析事件发生的速率，而不会假设速率不变。一般而言，生存分析可以让我们对事件发生之前的时间进行建模<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>或比较不同组之间的事件时间，或者事件时间与定量变量之间的相关性。</p>
 <p><strong>风险</strong>是特定时间点<code>t</code>的瞬时事件发生（死亡）率。生存分析并不认为随着时间的推移危害是不变的。累积风险是直到时间<code>t</code>为止经历的总风险。<strong>生存函数</strong>是个体在时间<code>t</code>之前存在的概率（或者，不发生感兴趣事件的概率）。这是事件（例如，死亡）尚未发生的可能性。看起来像这样，其中<span class="math inline">\(T\)</span>是死亡时间，<span class="math inline">\(Pr(T&gt; t)\)</span>是死亡时间大于某个时间<span class="math inline">\(t\)</span>的概率。<span class="math inline">\(S\)</span>是概率，所以<span class="math inline">\(0\leq S(t)\leq 1\)</span>，因为生存期总是正值（<span class="math inline">\(T \geq 0\)</span>）。</p>
@@ -31,7 +27,7 @@ tags:
 <p><strong>Kaplan-Meier曲线</strong>描述了生存函数。这是一个阶梯函数，说明随着时间的推移累计生存概率。曲线在没有事件发生的时间段内是水平的，然后垂直下降，对应于每次发生事件时生存函数的变化。<strong>截尾</strong>是一种生存分析特有的缺失数据问题。 当我们在研究结束时跟踪样本/主题并且事件从未发生时会发生这种情况。这也可能是由于样本/受试者因死亡以外的原因而退出研究或其他一些失访导致的。样本数据发生截尾是因为你只知道这个人存活到失去跟踪为止，但你不知道任何关于之后他的生存状态<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>。</p>
 <p><strong>比例风险假设</strong>：生存分析的主要目标是比较不同组别（例如白血病患者与正常对照组）的生存功能。如果两组人都死亡，那么两条生存曲线都将结束于0％，但是其中一组的平均存活时间可能比另一组长。生存分析通过比较观察期间不同时间的风险来做到这一点。生存分析并不假设危害是恒定的，但确实假定组间危害的比率随着时间的推移是恒定的。<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>本文不包括处理非比例风险的方法或伴随时间到事件的协变量交互作用。</p>
 <p><strong>比例风险回归</strong>也称为<strong>Cox回归</strong>，是评估不同变量对生存率影响的最常用方法。</p>
-<div id="cox-ph" class="section level3">
+<div id="cox-ph模型" class="section level3">
 <h3>Cox PH模型</h3>
 <p>Kaplan-Meier曲线适用于观察两个分类组<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>之间生存率的差异，但对于评估诸如年龄，基因表达，白细胞计数等定量变量的影响，它们不起作用。Cox PH回归可评估分类变量和连续变量的影响，并且可以一次模拟多个变量的影响。</p>
 <p>Cox PH回归模型将时间<code>t</code>处的风险自然对数表示为<span class="math inline">\(h(t)\)</span>，作为基线危险（<span class="math inline">\(h_0(t)\)</span>）的函数（所有暴露变量为0的个体的风险）和多个暴露变量<span class="math inline">\(x_1\)</span>，<span class="math inline">\(x_1\)</span>，<span class="math inline">\(...\)</span>，<span class="math inline">\(x_p\)</span>。 Cox PH模型的形式是：</p>
@@ -44,7 +40,7 @@ tags:
 </div>
 </div>
 </div>
-<div id="r" class="section level1">
+<div id="用r进行生存分析" class="section level1">
 <h1>用R进行生存分析</h1>
 <p>核心的分析函数都在<code>survival</code>包里，我们这里使用<code>dplyr</code>包，然后用<code>survminer</code>包进行绘图。</p>
 <pre class="r"><code># 确保在导入前安装好
@@ -63,7 +59,7 @@ library(survminer)</code></pre>
 <li><code>survdiff()</code>：用log-rank/Mantel-Haenszel检验检验生存差异<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a></li>
 </ul>
 <p><code>Surv()</code>创建响应变量，典型用法是使用事件时间，<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a>以及事件是否发生（即死亡与截尾）。<code>survfit()</code>创建一条生存曲线，然后可以显示或绘图。<code>coxph()</code>实现回归分析，并且模型以与常规线性模型中相同的方式指定，但使用<code>coxph()</code>函数。</p>
-<div class="section level3">
+<div id="开始" class="section level3">
 <h3>开始</h3>
 <p>我们将使用内置的肺癌数据集<a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a>学习使用<code>survival</code>包。你可以通过运行<code>?lung</code>获取数据集信息：</p>
 <pre class="r"><code>library(survival)
@@ -83,46 +79,44 @@ library(survminer)</code></pre>
 <pre class="r"><code>lung &lt;- as_tibble(lung)
 lung
 ## # A tibble: 228 x 10
-##     inst  time status   age   sex ph.ecog ph.karno pat.karno meal.cal
-##    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
-##  1     3   306      2    74     1       1       90       100     1175
-##  2     3   455      2    68     1       0       90        90     1225
-##  3     3  1010      1    56     1       0       90        90       NA
-##  4     5   210      2    57     1       1       90        60     1150
-##  5     1   883      2    60     1       0      100        90       NA
-##  6    12  1022      1    74     1       1       50        80      513
-##  7     7   310      2    68     2       2       70        60      384
-##  8    11   361      2    71     2       2       60        80      538
-##  9     1   218      2    53     1       1       70        80      825
-## 10     7   166      2    61     1       2       70        70      271
-## # … with 218 more rows, and 1 more variable: wt.loss &lt;dbl&gt;</code></pre>
+##     inst  time status   age   sex ph.ecog ph.karno pat.karno meal.cal wt.loss
+##    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;
+##  1     3   306      2    74     1       1       90       100     1175      NA
+##  2     3   455      2    68     1       0       90        90     1225      15
+##  3     3  1010      1    56     1       0       90        90       NA      15
+##  4     5   210      2    57     1       1       90        60     1150      11
+##  5     1   883      2    60     1       0      100        90       NA       0
+##  6    12  1022      1    74     1       1       50        80      513       0
+##  7     7   310      2    68     2       2       70        60      384      10
+##  8    11   361      2    71     2       2       60        80      538       1
+##  9     1   218      2    53     1       1       70        80      825      16
+## 10     7   166      2    61     1       2       70        70      271      34
+## # … with 218 more rows</code></pre>
 </div>
-<div class="section level3">
+<div id="生存曲线" class="section level3">
 <h3>生存曲线</h3>
 <p>构建生存对象：</p>
 <pre class="r"><code>s &lt;- Surv(time = lung$time, event = lung$status)
 class(s)
 ## [1] &quot;Surv&quot;
 s
-##   [1]  306   455  1010+  210   883  1022+  310   361   218   166   170 
-##  [12]  654   728    71   567   144   613   707    61    88   301    81 
-##  [23]  624   371   394   520   574   118   390    12   473    26   533 
-##  [34]  107    53   122   814   965+   93   731   460   153   433   145 
-##  [45]  583    95   303   519   643   765   735   189    53   246   689 
-##  [56]   65     5   132   687   345   444   223   175    60   163    65 
-##  [67]  208   821+  428   230   840+  305    11   132   226   426   705 
-##  [78]  363    11   176   791    95   196+  167   806+  284   641   147 
-##  [89]  740+  163   655   239    88   245   588+   30   179   310   477 
-## [100]  166   559+  450   364   107   177   156   529+   11   429   351 
-## [111]   15   181   283   201   524    13   212   524   288   363   442 
-## [122]  199   550    54   558   207    92    60   551+  543+  293   202 
-## [133]  353   511+  267   511+  371   387   457   337   201   404+  222 
-## [144]   62   458+  356+  353   163    31   340   229   444+  315+  182 
-## [155]  156   329   364+  291   179   376+  384+  268   292+  142   413+
-## [166]  266+  194   320   181   285   301+  348   197   382+  303+  296+
-## [177]  180   186   145   269+  300+  284+  350   272+  292+  332+  285 
-## [188]  259+  110   286   270    81   131   225+  269   225+  243+  279+
-## [199]  276+  135 
+##   [1]  306   455  1010+  210   883  1022+  310   361   218   166   170   654 
+##  [13]  728    71   567   144   613   707    61    88   301    81   624   371 
+##  [25]  394   520   574   118   390    12   473    26   533   107    53   122 
+##  [37]  814   965+   93   731   460   153   433   145   583    95   303   519 
+##  [49]  643   765   735   189    53   246   689    65     5   132   687   345 
+##  [61]  444   223   175    60   163    65   208   821+  428   230   840+  305 
+##  [73]   11   132   226   426   705   363    11   176   791    95   196+  167 
+##  [85]  806+  284   641   147   740+  163   655   239    88   245   588+   30 
+##  [97]  179   310   477   166   559+  450   364   107   177   156   529+   11 
+## [109]  429   351    15   181   283   201   524    13   212   524   288   363 
+## [121]  442   199   550    54   558   207    92    60   551+  543+  293   202 
+## [133]  353   511+  267   511+  371   387   457   337   201   404+  222    62 
+## [145]  458+  356+  353   163    31   340   229   444+  315+  182   156   329 
+## [157]  364+  291   179   376+  384+  268   292+  142   413+  266+  194   320 
+## [169]  181   285   301+  348   197   382+  303+  296+  180   186   145   269+
+## [181]  300+  284+  350   272+  292+  332+  285   259+  110   286   270    81 
+## [193]  131   225+  269   225+  243+  279+  276+  135 
 ##  [ reached getOption(&quot;max.print&quot;) -- omitted 28 entries ]</code></pre>
 <p>现在，让我们使用<code>survfit()</code>函数<strong>拟合一条生存曲线</strong>。这里让我们先创建一条不考虑任何比较的生存曲线，所以我们只需要指定<code>survfit()</code>在公式里期望的截距（比如<code>~1</code>）。</p>
 <pre class="r"><code>survfit(s~1)
@@ -170,7 +164,7 @@ summary(sfit)
 ##   116    191       1   0.8418 0.02419       0.7957        0.891
 ##   118    190       1   0.8374 0.02446       0.7908        0.887
 ##   122    189       1   0.8330 0.02473       0.7859        0.883
-## [到达getOption(&quot;max.print&quot;) -- 略过111行]]</code></pre>
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 111 rows ]</code></pre>
 <p>这个表格每一行显示了一个（多个）事件或截尾发生了，在风险中的样本数（就是还没死的），以及及时的累积生存率等。</p>
 <p>如果我们不使用截距建模，结果会更加有意思：</p>
 <pre class="r"><code>sfit &lt;- survfit(Surv(time, status)~sex, data=lung)
@@ -213,7 +207,7 @@ summary(sfit)
 ##   135    106       1   0.7609  0.0363       0.6929        0.835
 ##   142    105       1   0.7536  0.0367       0.6851        0.829
 ##   144    104       1   0.7464  0.0370       0.6772        0.823
-## [到达getOption(&quot;max.print&quot;) -- 略过71行]]
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 71 rows ]
 ## 
 ##                 sex=2 
 ##  time n.risk n.event survival std.err lower 95% CI upper 95% CI
@@ -245,7 +239,7 @@ summary(sfit)
 ##   305     43       1   0.6585  0.0534       0.5618        0.772
 ##   310     42       1   0.6428  0.0544       0.5447        0.759
 ##   340     39       1   0.6264  0.0554       0.5267        0.745
-## [到达getOption(&quot;max.print&quot;) -- 略过23行]]</code></pre>
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 23 rows ]</code></pre>
 <p><code>summary()</code>函数中可以设定时间参数用来选定一个时间区间，我们可以以此比对男生是不是比女生有更高的风险：</p>
 <pre class="r"><code>summary(sfit, times=seq(0, 1000, 100))
 ## Call: survfit(formula = Surv(time, status) ~ sex, data = lung)
@@ -277,7 +271,7 @@ summary(sfit)
 ##   800      2       5   0.0832  0.0499       0.0257        0.270
 ##   900      1       0   0.0832  0.0499       0.0257        0.270</code></pre>
 </div>
-<div id="kaplan-meier" class="section level3">
+<div id="kaplan-meier生存曲线" class="section level3">
 <h3>Kaplan-Meier生存曲线</h3>
 <p>现在我们使用<strong>Kaplan-Meier曲线</strong>来可视化这一结果：</p>
 <pre class="r"><code>plot(sfit)</code></pre>
@@ -295,7 +289,7 @@ ggsurvplot(sfit)</code></pre>
            risk.table.height=.15)</code></pre>
 <p><img src="/cn/post/2019-10-18-r-survival_files/figure-html/survminerOptions-1.png" width="672" /></p>
 </div>
-<div id="cox" class="section level3">
+<div id="cox回归模型" class="section level3">
 <h3>Cox回归模型</h3>
 <p>Kaplan-Meier曲线用来对两个分类变量差异的可视化非常合适，但分类要是多，那就糟透了：</p>
 <pre class="r"><code>ggsurvplot(survfit(Surv(time, status)~nodes, data=survival::colon))</code></pre>
@@ -368,7 +362,7 @@ fit
 ## n= 168, number of events= 121 
 ##    (60 observations deleted due to missingness)</code></pre>
 </div>
-<div id="km" class="section level3">
+<div id="分类画km曲线" class="section level3">
 <h3>分类画KM曲线</h3>
 <p>让我们回到肺部数据并查看年龄的Cox模型。看起来年龄在模拟为连续变量时似乎有一点重要。</p>
 <pre class="r"><code>coxph(Surv(time, status)~age, data=lung)
@@ -388,57 +382,51 @@ hist(lung$age)
 ggplot(lung, aes(age)) + geom_histogram(bins=20)</code></pre>
 <p>现在，让我们尝试通过<code>lung$age</code>创建一个分类变量，其中0,62（平均值）和正无穷大。我们可以在这里继续添加<code>labels =</code>选项来标记我们创建的分组，例如，“年轻”和“老”。最后，我们可以将这个结果分配给肺数据集中的一个新对象。</p>
 <pre class="r"><code>cut(lung$age, breaks=c(0, 62, Inf))
-##   [1] (62,Inf] (62,Inf] (0,62]   (0,62]   (0,62]   (62,Inf] (62,Inf]
-##   [8] (62,Inf] (0,62]   (0,62]   (0,62]   (62,Inf] (62,Inf] (0,62]  
-##  [15] (0,62]   (62,Inf] (62,Inf] (62,Inf] (0,62]   (0,62]   (62,Inf]
-##  [22] (0,62]   (0,62]   (0,62]   (62,Inf] (62,Inf] (0,62]   (62,Inf]
-##  [29] (0,62]   (62,Inf] (62,Inf] (62,Inf] (0,62]   (0,62]   (0,62]  
-##  [36] (0,62]   (62,Inf] (62,Inf] (62,Inf] (62,Inf] (62,Inf] (62,Inf]
-##  [43] (0,62]   (0,62]   (62,Inf] (62,Inf] (62,Inf] (62,Inf] (62,Inf]
-##  [50] (0,62]   (62,Inf] (62,Inf] (62,Inf] (0,62]   (0,62]   (0,62]  
-##  [57] (62,Inf] (0,62]   (0,62]   (62,Inf] (62,Inf] (0,62]   (62,Inf]
-##  [64] (62,Inf] (62,Inf] (62,Inf] (62,Inf] (62,Inf] (62,Inf] (62,Inf]
-##  [71] (62,Inf] (0,62]   (62,Inf] (0,62]   (0,62]   (62,Inf] (0,62]  
-##  [78] (0,62]   (62,Inf] (62,Inf] (0,62]   (0,62]   (0,62]   (0,62]  
-##  [85] (0,62]   (62,Inf] (0,62]   (0,62]   (0,62]   (62,Inf] (62,Inf]
-##  [92] (62,Inf] (62,Inf] (0,62]   (62,Inf] (62,Inf] (62,Inf] (62,Inf]
-##  [99] (62,Inf] (62,Inf] (0,62]   (62,Inf] (0,62]   (62,Inf] (0,62]  
-## [106] (62,Inf] (0,62]   (62,Inf] (0,62]   (62,Inf] (62,Inf] (0,62]  
-## [113] (62,Inf] (62,Inf] (0,62]   (62,Inf] (0,62]   (62,Inf] (62,Inf]
-## [120] (62,Inf] (62,Inf] (0,62]   (62,Inf] (62,Inf] (62,Inf] (62,Inf]
-## [127] (0,62]   (62,Inf] (62,Inf] (0,62]   (0,62]   (0,62]   (0,62]  
-## [134] (0,62]   (62,Inf] (62,Inf] (0,62]   (0,62]   (0,62]   (0,62]  
-## [141] (62,Inf] (62,Inf] (62,Inf] (62,Inf] (0,62]   (0,62]   (62,Inf]
-## [148] (0,62]   (62,Inf] (0,62]   (62,Inf] (0,62]   (0,62]   (0,62]  
-## [155] (0,62]   (62,Inf] (62,Inf] (0,62]   (62,Inf] (0,62]   (0,62]  
-## [162] (0,62]   (62,Inf] (62,Inf] (62,Inf] (0,62]   (0,62]   (0,62]  
-## [169] (0,62]   (62,Inf] (0,62]   (0,62]   (0,62]   (0,62]   (0,62]  
-## [176] (0,62]   (0,62]   (0,62]   (0,62]   (62,Inf] (0,62]   (0,62]  
-## [183] (62,Inf] (62,Inf] (0,62]   (0,62]   (62,Inf] (0,62]   (62,Inf]
-## [190] (0,62]   (62,Inf] (0,62]   (0,62]   (62,Inf] (62,Inf] (62,Inf]
-## [197] (62,Inf] (62,Inf] (0,62]   (0,62]  
+##   [1] (62,Inf] (62,Inf] (0,62]   (0,62]   (0,62]   (62,Inf] (62,Inf] (62,Inf]
+##   [9] (0,62]   (0,62]   (0,62]   (62,Inf] (62,Inf] (0,62]   (0,62]   (62,Inf]
+##  [17] (62,Inf] (62,Inf] (0,62]   (0,62]   (62,Inf] (0,62]   (0,62]   (0,62]  
+##  [25] (62,Inf] (62,Inf] (0,62]   (62,Inf] (0,62]   (62,Inf] (62,Inf] (62,Inf]
+##  [33] (0,62]   (0,62]   (0,62]   (0,62]   (62,Inf] (62,Inf] (62,Inf] (62,Inf]
+##  [41] (62,Inf] (62,Inf] (0,62]   (0,62]   (62,Inf] (62,Inf] (62,Inf] (62,Inf]
+##  [49] (62,Inf] (0,62]   (62,Inf] (62,Inf] (62,Inf] (0,62]   (0,62]   (0,62]  
+##  [57] (62,Inf] (0,62]   (0,62]   (62,Inf] (62,Inf] (0,62]   (62,Inf] (62,Inf]
+##  [65] (62,Inf] (62,Inf] (62,Inf] (62,Inf] (62,Inf] (62,Inf] (62,Inf] (0,62]  
+##  [73] (62,Inf] (0,62]   (0,62]   (62,Inf] (0,62]   (0,62]   (62,Inf] (62,Inf]
+##  [81] (0,62]   (0,62]   (0,62]   (0,62]   (0,62]   (62,Inf] (0,62]   (0,62]  
+##  [89] (0,62]   (62,Inf] (62,Inf] (62,Inf] (62,Inf] (0,62]   (62,Inf] (62,Inf]
+##  [97] (62,Inf] (62,Inf] (62,Inf] (62,Inf] (0,62]   (62,Inf] (0,62]   (62,Inf]
+## [105] (0,62]   (62,Inf] (0,62]   (62,Inf] (0,62]   (62,Inf] (62,Inf] (0,62]  
+## [113] (62,Inf] (62,Inf] (0,62]   (62,Inf] (0,62]   (62,Inf] (62,Inf] (62,Inf]
+## [121] (62,Inf] (0,62]   (62,Inf] (62,Inf] (62,Inf] (62,Inf] (0,62]   (62,Inf]
+## [129] (62,Inf] (0,62]   (0,62]   (0,62]   (0,62]   (0,62]   (62,Inf] (62,Inf]
+## [137] (0,62]   (0,62]   (0,62]   (0,62]   (62,Inf] (62,Inf] (62,Inf] (62,Inf]
+## [145] (0,62]   (0,62]   (62,Inf] (0,62]   (62,Inf] (0,62]   (62,Inf] (0,62]  
+## [153] (0,62]   (0,62]   (0,62]   (62,Inf] (62,Inf] (0,62]   (62,Inf] (0,62]  
+## [161] (0,62]   (0,62]   (62,Inf] (62,Inf] (62,Inf] (0,62]   (0,62]   (0,62]  
+## [169] (0,62]   (62,Inf] (0,62]   (0,62]   (0,62]   (0,62]   (0,62]   (0,62]  
+## [177] (0,62]   (0,62]   (0,62]   (62,Inf] (0,62]   (0,62]   (62,Inf] (62,Inf]
+## [185] (0,62]   (0,62]   (62,Inf] (0,62]   (62,Inf] (0,62]   (62,Inf] (0,62]  
+## [193] (0,62]   (62,Inf] (62,Inf] (62,Inf] (62,Inf] (62,Inf] (0,62]   (0,62]  
 ##  [ reached getOption(&quot;max.print&quot;) -- omitted 28 entries ]
 ## Levels: (0,62] (62,Inf]
 cut(lung$age, breaks=c(0, 62, Inf), labels=c(&quot;young&quot;, &quot;old&quot;))
-##   [1] old   old   young young young old   old   old   young young young
-##  [12] old   old   young young old   old   old   young young old   young
-##  [23] young young old   old   young old   young old   old   old   young
-##  [34] young young young old   old   old   old   old   old   young young
-##  [45] old   old   old   old   old   young old   old   old   young young
-##  [56] young old   young young old   old   young old   old   old   old  
-##  [67] old   old   old   old   old   young old   young young old   young
-##  [78] young old   old   young young young young young old   young young
-##  [89] young old   old   old   old   young old   old   old   old   old  
-## [100] old   young old   young old   young old   young old   young old  
-## [111] old   young old   old   young old   young old   old   old   old  
-## [122] young old   old   old   old   young old   old   young young young
-## [133] young young old   old   young young young young old   old   old  
-## [144] old   young young old   young old   young old   young young young
-## [155] young old   old   young old   young young young old   old   old  
-## [166] young young young young old   young young young young young young
-## [177] young young young old   young young old   old   young young old  
-## [188] young old   young old   young young old   old   old   old   old  
-## [199] young young
+##   [1] old   old   young young young old   old   old   young young young old  
+##  [13] old   young young old   old   old   young young old   young young young
+##  [25] old   old   young old   young old   old   old   young young young young
+##  [37] old   old   old   old   old   old   young young old   old   old   old  
+##  [49] old   young old   old   old   young young young old   young young old  
+##  [61] old   young old   old   old   old   old   old   old   old   old   young
+##  [73] old   young young old   young young old   old   young young young young
+##  [85] young old   young young young old   old   old   old   young old   old  
+##  [97] old   old   old   old   young old   young old   young old   young old  
+## [109] young old   old   young old   old   young old   young old   old   old  
+## [121] old   young old   old   old   old   young old   old   young young young
+## [133] young young old   old   young young young young old   old   old   old  
+## [145] young young old   young old   young old   young young young young old  
+## [157] old   young old   young young young old   old   old   young young young
+## [169] young old   young young young young young young young young young old  
+## [181] young young old   old   young young old   young old   young old   young
+## [193] young old   old   old   old   old   young young
 ##  [ reached getOption(&quot;max.print&quot;) -- omitted 28 entries ]
 ## Levels: young old
 # the base r way:
@@ -448,15 +436,15 @@ lung &lt;- lung %&gt;%
   mutate(agecat=cut(age, breaks=c(0, 62, Inf), labels=c(&quot;young&quot;, &quot;old&quot;)))
 head(lung)
 ## # A tibble: 6 x 11
-##    inst  time status   age   sex ph.ecog ph.karno pat.karno meal.cal
-##   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
-## 1     3   306      2    74     1       1       90       100     1175
-## 2     3   455      2    68     1       0       90        90     1225
-## 3     3  1010      1    56     1       0       90        90       NA
-## 4     5   210      2    57     1       1       90        60     1150
-## 5     1   883      2    60     1       0      100        90       NA
-## 6    12  1022      1    74     1       1       50        80      513
-## # … with 2 more variables: wt.loss &lt;dbl&gt;, agecat &lt;fct&gt;</code></pre>
+##    inst  time status   age   sex ph.ecog ph.karno pat.karno meal.cal wt.loss
+##   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;
+## 1     3   306      2    74     1       1       90       100     1175      NA
+## 2     3   455      2    68     1       0       90        90     1225      15
+## 3     3  1010      1    56     1       0       90        90       NA      15
+## 4     5   210      2    57     1       1       90        60     1150      11
+## 5     1   883      2    60     1       0      100        90       NA       0
+## 6    12  1022      1    74     1       1       50        80      513       0
+## # … with 1 more variable: agecat &lt;fct&gt;</code></pre>
 <p>现在，当我们用这个新的分类生成KM图时会发生什么？ 看起来“老”和“年轻”患者之间的曲线存在一些差异，老年患者的生存几率稍差。但是<code>p=0.39</code>时，62岁以下和62岁以上者的生存率差异不显著。</p>
 <pre class="r"><code>ggsurvplot(survfit(Surv(time, status)~agecat, data=lung), pval=TRUE)</code></pre>
 <p><img src="/cn/post/2019-10-18-r-survival_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
@@ -476,12 +464,12 @@ ggsurvplot(survfit(Surv(time, status)~agecat, data=lung), pval=TRUE)</code></pre
 <div class="footnotes">
 <hr />
 <ol>
-<li id="fn1"><p>在医学界，我们通常会从字面上思考生存分析 - 追踪直至死亡的时间。 但是，它比这更普遍-生存分析模拟事件发生之前的时间（任何事件）都可以。这可以是生物有机体的死亡。但也可能是机械系统发生硬件故障，恢复时间，失去工作后有人失业的时间，直到成熟的番茄被放牧的鹿吃掉的时间，直到有人在车间里睡着的时间， 生存分析还包括工程可靠性理论，经济学持续时间分析和社会学事件历史分析。<a href="#fnref1" class="footnote-back">↩</a></p></li>
-<li id="fn2"><p>这描述了最常见的截尾类型 - 右截尾。当“开始”未知时，例如当初始诊断或暴露时间未知时，通常不会发生左侧截尾。<a href="#fnref2" class="footnote-back">↩</a></p></li>
-<li id="fn3"><p>而且，按照上述定义，假定两组之间的累积危险比率随着时间的推移保持不变。<a href="#fnref3" class="footnote-back">↩</a></p></li>
-<li id="fn4"><p>对于这些差异，有一个类似卡方的统计检验，称为对数秩检验，比较生存函数分类组。<a href="#fnref4" class="footnote-back">↩</a></p></li>
-<li id="fn5"><p>Cox回归和来自<code>survdiff</code>的<code>logrank</code>检验将在大多数时间给你类似的结果。对数秩检验是询问两组患者生存曲线是否显著不同。Cox回归是询问许多分类或连续变量中哪一个显著影响生存。<a href="#fnref5" class="footnote-back">↩</a></p></li>
-<li id="fn6"><p><code>Surv()</code>也可以输入开始与截止时间，参见<code>?Surv</code><a href="#fnref6" class="footnote-back">↩</a></p></li>
-<li id="fn7"><p>Loprinzi et al. Prospective evaluation of prognostic variables from patient-completed questionnaires. North Central Cancer Treatment Group. <em>Journal of Clinical Oncology</em>. 12(3):601-7, 1994.<a href="#fnref7" class="footnote-back">↩</a></p></li>
+<li id="fn1"><p>在医学界，我们通常会从字面上思考生存分析 - 追踪直至死亡的时间。 但是，它比这更普遍-生存分析模拟事件发生之前的时间（任何事件）都可以。这可以是生物有机体的死亡。但也可能是机械系统发生硬件故障，恢复时间，失去工作后有人失业的时间，直到成熟的番茄被放牧的鹿吃掉的时间，直到有人在车间里睡着的时间， 生存分析还包括工程可靠性理论，经济学持续时间分析和社会学事件历史分析。<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>这描述了最常见的截尾类型 - 右截尾。当“开始”未知时，例如当初始诊断或暴露时间未知时，通常不会发生左侧截尾。<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn3"><p>而且，按照上述定义，假定两组之间的累积危险比率随着时间的推移保持不变。<a href="#fnref3" class="footnote-back">↩︎</a></p></li>
+<li id="fn4"><p>对于这些差异，有一个类似卡方的统计检验，称为对数秩检验，比较生存函数分类组。<a href="#fnref4" class="footnote-back">↩︎</a></p></li>
+<li id="fn5"><p>Cox回归和来自<code>survdiff</code>的<code>logrank</code>检验将在大多数时间给你类似的结果。对数秩检验是询问两组患者生存曲线是否显著不同。Cox回归是询问许多分类或连续变量中哪一个显著影响生存。<a href="#fnref5" class="footnote-back">↩︎</a></p></li>
+<li id="fn6"><p><code>Surv()</code>也可以输入开始与截止时间，参见<code>?Surv</code><a href="#fnref6" class="footnote-back">↩︎</a></p></li>
+<li id="fn7"><p>Loprinzi et al. Prospective evaluation of prognostic variables from patient-completed questionnaires. North Central Cancer Treatment Group. <em>Journal of Clinical Oncology</em>. 12(3):601-7, 1994.<a href="#fnref7" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>

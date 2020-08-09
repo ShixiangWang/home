@@ -4,11 +4,8 @@ author: "王诗翔"
 date: "2019-08-22"
 lastmod: "2019-08-22"
 slug: ""
-categories: bioinformatics
-tags:
-- meta-analysis
-- 元分析
-- r
+categories: [bioinformatics]
+tags: ["r", "meta-analysis"]
 ---
 
 

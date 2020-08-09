@@ -4,11 +4,8 @@ author: "王诗翔"
 date: "2019-08-22"
 lastmod: "2019-08-22"
 slug: ""
-categories: r
-tags:
-- mysql
-- 数据库
-- r
+categories: [r]
+tags: [r, database, mysql]
 ---
 
 使用 MySQL 数据库创建一个用于存储用户信息的数据表：包含 username, email, password 三个字段，并分别使用 SQL 和 Python/R 客户端插入、删除和更新一行数据，密码使用 SHA256 进行加密

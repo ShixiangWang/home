@@ -110,6 +110,24 @@
 2019-07-13</h3> 
 
 
+<p style="text-align:right;">
+  Categories:
+  
+    <a href="../../../categories/r">r</a> &nbsp
+  
+  <br>
+  Tags:
+  
+    <a href="../../../tags/r">r</a> &nbsp
+  
+    <a href="../../../tags/package">package</a> &nbsp
+  
+    <a href="../../../tags/contribution">contribution</a> &nbsp
+  
+</p>
+
+
+
    
   
 
@@ -150,7 +168,7 @@ This is inspired by Nick Steinmetz (see twitter <a href="https://twitter.com/Ste
 <ul>
 <li>Support table type
 <ul>
-<li>3-level contribution (i.e. ‘None’, ‘Minor’ and ‘Major’)</li>
+<li>3-level contribution (i.e. ‘None’, ‘Minor’ and ‘Major’)</li>
 <li>numeric contribution</li>
 </ul></li>
 <li>Pull commit number and code lines from GitHub</li>
@@ -218,8 +236,8 @@ contr_tb
 #&gt; # A tibble: 2 x 3
 #&gt;   role        `PoisonAlien/maftools` `ShixiangWang/UCSCXenaTools`
 #&gt;   &lt;chr&gt;                        &lt;int&gt;                        &lt;int&gt;
-#&gt; 1 Contributor                      4                            0
-#&gt; 2 Developer                        0                          176</code></pre>
+#&gt; 1 Contributor                      8                            0
+#&gt; 2 Developer                        0                          203</code></pre>
 <p>Now we have data format the <code>generate()</code> function can accept, show the plot!</p>
 <pre class="r"><code>generate(contr_tb, show_legend = TRUE, hjust_x = 0)</code></pre>
 <p><img src="../../../en/tools/contribution-table_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
@@ -414,9 +432,9 @@ contr_tb
 #&gt; # A tibble: 3 x 7
 #&gt;   role  `openbiox/contr… `openbiox/XenaS… `PoisonAlien/ma… `ropensci/UCSCX…
 #&gt;   &lt;chr&gt;            &lt;int&gt;            &lt;int&gt;            &lt;int&gt;            &lt;int&gt;
-#&gt; 1 Cont…                0                0                4                0
-#&gt; 2 Deve…                0                0                0              176
-#&gt; 3 Proj…                0               59                0                0
+#&gt; 1 Cont…                0                0                8                0
+#&gt; 2 Deve…                0                0                0              203
+#&gt; 3 Proj…                0                0                0                0
 #&gt; # … with 2 more variables: `ShixiangWang/DoAbsolute` &lt;int&gt;,
 #&gt; #   `ShixiangWang/metawho` &lt;int&gt;</code></pre>
 <pre class="r"><code>generate(contr_tb, show_legend = TRUE, hjust_x = 0,
@@ -432,9 +450,9 @@ contr_tb1
 #&gt; # A tibble: 3 x 7
 #&gt;   role  `openbiox/contr… `openbiox/XenaS… `PoisonAlien/ma… `ropensci/UCSCX…
 #&gt;   &lt;chr&gt;            &lt;int&gt;            &lt;int&gt;            &lt;int&gt;            &lt;int&gt;
-#&gt; 1 Cont…                0                0               16                0
-#&gt; 2 Deve…             7972                0                0            95680
-#&gt; 3 Proj…                0            54918                0                0
+#&gt; 1 Cont…                0                0              246                0
+#&gt; 2 Deve…                0                0                0           127542
+#&gt; 3 Proj…                0                0                0                0
 #&gt; # … with 2 more variables: `ShixiangWang/DoAbsolute` &lt;int&gt;,
 #&gt; #   `ShixiangWang/metawho` &lt;int&gt;
 
@@ -444,9 +462,9 @@ contr_tb2
 #&gt; # A tibble: 3 x 7
 #&gt;   role  `openbiox/contr… `openbiox/XenaS… `PoisonAlien/ma… `ropensci/UCSCX…
 #&gt;   &lt;chr&gt;            &lt;int&gt;            &lt;int&gt;            &lt;int&gt;            &lt;int&gt;
-#&gt; 1 Cont…                0                0                9                0
-#&gt; 2 Deve…             6396                0                0            50661
-#&gt; 3 Proj…                0            28515                0                0
+#&gt; 1 Cont…                0                0              210                0
+#&gt; 2 Deve…                0                0                0            81687
+#&gt; 3 Proj…                0            37233                0                0
 #&gt; # … with 2 more variables: `ShixiangWang/DoAbsolute` &lt;int&gt;,
 #&gt; #   `ShixiangWang/metawho` &lt;int&gt;
 
@@ -456,9 +474,9 @@ contr_tb3
 #&gt; # A tibble: 3 x 7
 #&gt;   role  `openbiox/contr… `openbiox/XenaS… `PoisonAlien/ma… `ropensci/UCSCX…
 #&gt;   &lt;chr&gt;            &lt;int&gt;            &lt;int&gt;            &lt;int&gt;            &lt;int&gt;
-#&gt; 1 Cont…                0                0                7                0
-#&gt; 2 Deve…             1576                0                0            45019
-#&gt; 3 Proj…                0            26403                0                0
+#&gt; 1 Cont…                0                0               36                0
+#&gt; 2 Deve…                0                0                0            45855
+#&gt; 3 Proj…                0            29053                0                0
 #&gt; # … with 2 more variables: `ShixiangWang/DoAbsolute` &lt;int&gt;,
 #&gt; #   `ShixiangWang/metawho` &lt;int&gt;</code></pre>
 <pre class="r"><code>generate(contr_tb1, show_legend = TRUE, hjust_x = 0,
@@ -480,29 +498,29 @@ contr_tb3
 #&gt;   &quot;resources&quot;: {
 #&gt;     &quot;core&quot;: {
 #&gt;       &quot;limit&quot;: 60,
-#&gt;       &quot;remaining&quot;: 28,
-#&gt;       &quot;reset&quot;: 1571714692
-#&gt;     },
-#&gt;     &quot;search&quot;: {
-#&gt;       &quot;limit&quot;: 10,
-#&gt;       &quot;remaining&quot;: 10,
-#&gt;       &quot;reset&quot;: 1571711427
+#&gt;       &quot;remaining&quot;: 25,
+#&gt;       &quot;reset&quot;: 1596954378
 #&gt;     },
 #&gt;     &quot;graphql&quot;: {
 #&gt;       &quot;limit&quot;: 0,
 #&gt;       &quot;remaining&quot;: 0,
-#&gt;       &quot;reset&quot;: 1571714967
+#&gt;       &quot;reset&quot;: 1596955038
 #&gt;     },
 #&gt;     &quot;integration_manifest&quot;: {
 #&gt;       &quot;limit&quot;: 5000,
 #&gt;       &quot;remaining&quot;: 5000,
-#&gt;       &quot;reset&quot;: 1571714239
+#&gt;       &quot;reset&quot;: 1596955038
+#&gt;     },
+#&gt;     &quot;search&quot;: {
+#&gt;       &quot;limit&quot;: 10,
+#&gt;       &quot;remaining&quot;: 10,
+#&gt;       &quot;reset&quot;: 1596951498
 #&gt;     }
 #&gt;   },
 #&gt;   &quot;rate&quot;: {
 #&gt;     &quot;limit&quot;: 60,
-#&gt;     &quot;remaining&quot;: 28,
-#&gt;     &quot;reset&quot;: 1571714692
+#&gt;     &quot;remaining&quot;: 25,
+#&gt;     &quot;reset&quot;: 1596954378
 #&gt;   }
 #&gt; }</code></pre>
 <p>Typically, you can set token to <code>GITHUB_PAT</code> variable in your <code>.Renviron</code> file using the following format:</p>

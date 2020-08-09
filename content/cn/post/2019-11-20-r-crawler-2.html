@@ -2,12 +2,10 @@
 title: "R-网页爬虫：分析HTML代码"
 author: "王诗翔"
 date: "2018-09-17"
-lastmod: "2019-11-20"
+lastmod: "2020-08-09"
 slug: ""
-categories: r
-tags:
-- r
-- 爬虫
+categories: [r]
+tags: ["r", "爬虫"]
 ---
 
 
@@ -16,45 +14,45 @@ tags:
 <p>我们可以从<a href="https://cran.rstudio.com/web/packages/available_packages_by_name.html" class="uri">https://cran.rstudio.com/web/packages/available_packages_by_name.html</a>这个网页上获取所有可用的R扩展包。网页看起来简单，想知道选择器的表达式，在页面右击，选择菜单中的审查元素选项（大部分浏览器都有），然后就会出现检查面板。我们可以看到网页底层的HTML代码。</p>
 <p>HTML包含唯一的<code>&lt;table&gt;</code>，因此可以直接将CSS选择器设为<code>table</code>，再用<code>html_table()</code>提取表格并返回一个数据框：</p>
 <pre class="r"><code>library(rvest)
-#&gt; 载入需要的程辑包：xml2
+#&gt; Loading required package: xml2
 page = read_html(&quot;https://cran.rstudio.com/web/packages/available_packages_by_name.html&quot;)
 pkg_table = page %&gt;% 
     html_node(&quot;table&quot;) %&gt;% 
     html_table(fill = TRUE)
 head(pkg_table, 5)
-#&gt;       X1
-#&gt; 1       
-#&gt; 2     A3
-#&gt; 3  aaSEA
-#&gt; 4 ABACUS
-#&gt; 5 abbyyR
+#&gt;         X1
+#&gt; 1         
+#&gt; 2       A3
+#&gt; 3    aaSEA
+#&gt; 4 AATtools
+#&gt; 5   ABACUS
 #&gt;                                                                         X2
 #&gt; 1                                                                     &lt;NA&gt;
 #&gt; 2 Accurate, Adaptable, and Accessible Error Metrics for Predictive\nModels
 #&gt; 3                                  Amino Acid Substitution Effect Analyser
-#&gt; 4    Apps Based Activities for Communicating and Understanding\nStatistics
-#&gt; 5                  Access to Abbyy Optical Character Recognition (OCR) API</code></pre>
+#&gt; 4         Reliability and Scoring Routines for the Approach-Avoidance Task
+#&gt; 5    Apps Based Activities for Communicating and Understanding\nStatistics</code></pre>
 <p>这里原始表没有表头。结果数据框使用了默认表头，并且第一行是空的，下面代码解决这个问题：</p>
 <pre class="r"><code>pkg_table = pkg_table[complete.cases(pkg_table), ]
 colnames(pkg_table) = c(&quot;name&quot;, &quot;title&quot;)
 head(pkg_table, 3)
-#&gt;     name
-#&gt; 2     A3
-#&gt; 3  aaSEA
-#&gt; 4 ABACUS
+#&gt;       name
+#&gt; 2       A3
+#&gt; 3    aaSEA
+#&gt; 4 AATtools
 #&gt;                                                                      title
 #&gt; 2 Accurate, Adaptable, and Accessible Error Metrics for Predictive\nModels
 #&gt; 3                                  Amino Acid Substitution Effect Analyser
-#&gt; 4    Apps Based Activities for Communicating and Understanding\nStatistics</code></pre>
+#&gt; 4         Reliability and Scoring Routines for the Approach-Avoidance Task</code></pre>
 <p>我开发的包在里面吗？随便看几个</p>
 <pre class="r"><code>pkg_table[pkg_table$name %in% c(&quot;UCSCXenaTools&quot;, &quot;UCSCXenaShiny&quot;, &quot;ezcox&quot;, &quot;metawho&quot;),]
 #&gt;                name
-#&gt; 3958          ezcox
-#&gt; 7665        metawho
-#&gt; 14580 UCSCXenaShiny
-#&gt; 14581 UCSCXenaTools
+#&gt; 4220          ezcox
+#&gt; 8121        metawho
+#&gt; 15365 UCSCXenaShiny
+#&gt; 15366 UCSCXenaTools
 #&gt;                                                                               title
-#&gt; 3958                                           Easily Process a Batch of Cox Models
-#&gt; 7665  Meta-Analytical Implementation to Identify Who Benefits Most\nfrom Treatments
-#&gt; 14580                                            A Shiny App for UCSC Xena Database
-#&gt; 14581                        Download and Explore Datasets from UCSC Xena Data Hubs</code></pre>
+#&gt; 4220                                           Easily Process a Batch of Cox Models
+#&gt; 8121  Meta-Analytical Implementation to Identify Who Benefits Most\nfrom Treatments
+#&gt; 15365                                            A Shiny App for UCSC Xena Database
+#&gt; 15366                        Download and Explore Datasets from UCSC Xena Data Hubs</code></pre>

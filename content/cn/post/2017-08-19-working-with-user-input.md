@@ -2,11 +2,8 @@
 title:  Shell脚本之处理用户输入
 author: 王诗翔
 date: 2017-08-19
-categories:
-- shell
-tags:
-- linux
-- 笔记
+categories: ["shell"]
+tags: ["linux", "shell", "note"]
 
 summary: "学习如何处理shell的用户输入..."
 ---

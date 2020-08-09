@@ -123,6 +123,24 @@
 2018-07-06</h3> 
 
 
+<p style="text-align:right;">
+  分类:
+  
+    <a href="../../../categories/r">r</a> &nbsp
+  
+  <br>
+  标签:
+  
+    <a href="../../../tags/r">r</a> &nbsp
+  
+    <a href="../../../tags/ggplot2">ggplot2</a> &nbsp
+  
+    <a href="../../../tags/patchwork">patchwork</a> &nbsp
+  
+</p>
+
+
+
    
   
 
@@ -138,11 +156,13 @@
 <p>下面进入正题，掌握好<code>ggplot2</code>与<code>patchwork</code>的基本用法，一般的图形都可以搞定了，并必要搞的很复杂。解决问题是关键，认真工作也是关键，画图看起来是，其实不是。</p>
 <div id="安装" class="section level2">
 <h2>安装</h2>
-<pre class="r"><code># 需要提取安装好devtools包，
+<pre class="r"><code>install.packages(&quot;patchwork&quot;)
+# 需要提取安装好devtools包，
 # 如果你解决安装和载入包很麻烦，可以试试pacman包，我在简书写了介绍和简单使用
-devtools::install_github(&quot;thomasp85/patchwork&quot;)</code></pre>
+# devtools::install_github(&quot;thomasp85/patchwork&quot;)</code></pre>
 <p>导入：</p>
-<pre class="r"><code>p_load(patchwork)
+<pre class="r"><code>library(pacman)
+p_load(patchwork)
 # 或
 # library(patchwork)</code></pre>
 </div>

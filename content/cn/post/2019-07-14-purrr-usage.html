@@ -3,6 +3,8 @@ title: "用purrr实现迭代"
 author: 王诗翔
 date: 2018-10-04
 slug: "purrr-loop"
+categories: [r]
+tags: [r, purrr, loop]
 ---
 
 
@@ -19,20 +21,20 @@ slug: "purrr-loop"
 <li>命令式编程 - for和while</li>
 <li>函数式编程 - purrr</li>
 </ul>
-<div class="section level4">
+<div id="准备工作" class="section level4">
 <h4>准备工作</h4>
 <p>purrr是tidyverse的核心r包之一，提供了一些更加强大的编程工具。</p>
 <pre class="r"><code>library(tidyverse)
-#&gt; ─ Attaching packages ──────────── tidyverse 1.2.1 ─
-#&gt; ✔ ggplot2 3.2.0     ✔ purrr   0.3.2
-#&gt; ✔ tibble  2.1.3     ✔ dplyr   0.8.1
-#&gt; ✔ tidyr   0.8.3     ✔ stringr 1.4.0
-#&gt; ✔ readr   1.3.1     ✔ forcats 0.4.0
-#&gt; ─ Conflicts ───────────── tidyverse_conflicts() ─
-#&gt; ✖ dplyr::filter() masks stats::filter()
-#&gt; ✖ dplyr::lag()    masks stats::lag()</code></pre>
+#&gt; -- Attaching packages ------------------------------------------------------------ tidyverse 1.3.0 --
+#&gt; v ggplot2 3.3.2     v purrr   0.3.4
+#&gt; v tibble  3.0.3     v dplyr   1.0.0
+#&gt; v tidyr   1.1.0     v stringr 1.4.0
+#&gt; v readr   1.3.1     v forcats 0.5.0
+#&gt; -- Conflicts --------------------------------------------------------------- tidyverse_conflicts() --
+#&gt; x dplyr::filter() masks stats::filter()
+#&gt; x dplyr::lag()    masks stats::lag()</code></pre>
 </div>
-<div id="for" class="section level2">
+<div id="for循环与函数式编程" class="section level2">
 <h2>for循环与函数式编程</h2>
 <p>因为R是一门函数式编程语言，我们可以先将for循环包装在函数中，然后再调用函数，而不是使用for循环，因此for循环在R中不像在其他编程语言中那么重要。</p>
 <p>为了说明函数式编程，我们先利用下面简单的数据框进行一些思考：</p>
@@ -48,7 +50,7 @@ for (i in seq_along(df)) {
     output[[i]] = mean(df[[i]])
 }
 output
-#&gt; [1] -0.112  0.511 -0.138  0.350</code></pre>
+#&gt; [1]  0.103 -0.315  0.716 -0.402</code></pre>
 <p>然后我们可能意识到需要频繁地计算每列的均值，因此将代码提取出来，转换为一个函数：</p>
 <pre class="r"><code>col_mean = function(df) {
     output = vector(&quot;double&quot;, length(df))
@@ -86,9 +88,9 @@ col_sd = function(df) {
     out
 }
 col_summary(df, median)
-#&gt; [1] -0.2223  0.6794 -0.0663  0.4556
+#&gt; [1]  0.425 -0.471  0.670 -0.170
 col_summary(df, mean)
-#&gt; [1] -0.112  0.511 -0.138  0.350</code></pre>
+#&gt; [1]  0.103 -0.315  0.716 -0.402</code></pre>
 <p>将函数作为参数传入另一个函数的做法是一种非常强大的功能，我们需要花些时间理解这种思想，但绝对是值得的。接下来<strong>我们将学习和使用purrr包，它提供的函数可以替代很多常见的for循环应用</strong>。R基础包中的apply应用函数族也可以完成类似的任务，但purrr包的函数更一致，也更容易学习。</p>
 <p><strong>使用purrr函数替代for循环的目的是将常见的列表问题分解为独立的几部分</strong>：</p>
 <ul>
@@ -96,7 +98,7 @@ col_summary(df, mean)
 <li>如果我们面临的是一个复杂的问题，那么将其分解为可行的子问题，然后依次解决。使用purrr，我们可以解决子问题，然后用管道将其组合起来。</li>
 </ul>
 </div>
-<div class="section level2">
+<div id="映射函数" class="section level2">
 <h2>映射函数</h2>
 <p><strong>先对向量进行循环，然后对其每一个元素进行一番处理，最后保存结果</strong>。这种模式太普遍了，因而purrr包提供了一个函数族替我们完成这种操作。每种类型的输出都有一个相应的函数：</p>
 <ul>
@@ -111,23 +113,23 @@ col_summary(df, mean)
 <pre class="r"><code>library(purrr)
 map_dbl(df, mean)
 #&gt;      a      b      c      d 
-#&gt; -0.112  0.511 -0.138  0.350
+#&gt;  0.103 -0.315  0.716 -0.402
 map_dbl(df, median)
-#&gt;       a       b       c       d 
-#&gt; -0.2223  0.6794 -0.0663  0.4556
+#&gt;      a      b      c      d 
+#&gt;  0.425 -0.471  0.670 -0.170
 map_dbl(df, sd)
-#&gt;     a     b     c     d 
-#&gt; 0.999 0.812 0.750 0.954</code></pre>
+#&gt;    a    b    c    d 
+#&gt; 1.21 1.11 1.01 1.21</code></pre>
 <p>**与for循环相比，映射函数的重点在于需要执行的操作（即<code>mean()</code>、<code>median()</code>和<code>sd()</code>），而不是在所有元素中循环所需的跟踪记录以及保存结果。使用管道时这一点尤为突出：</p>
 <pre class="r"><code>df %&gt;% map_dbl(mean)
 #&gt;      a      b      c      d 
-#&gt; -0.112  0.511 -0.138  0.350
+#&gt;  0.103 -0.315  0.716 -0.402
 df %&gt;% map_dbl(median)
-#&gt;       a       b       c       d 
-#&gt; -0.2223  0.6794 -0.0663  0.4556
+#&gt;      a      b      c      d 
+#&gt;  0.425 -0.471  0.670 -0.170
 df %&gt;% map_dbl(sd)
-#&gt;     a     b     c     d 
-#&gt; 0.999 0.812 0.750 0.954</code></pre>
+#&gt;    a    b    c    d 
+#&gt; 1.21 1.11 1.01 1.21</code></pre>
 <p><code>map_*()</code>和<code>col_summary()</code>具有以下几点区别：
 * 所有的purrr函数都是用C实现的，这让它们的速度非常快，但牺牲了一些可读性。
 * 第二个参数可以是一个公式、一个字符向量或一个整型向量。
@@ -156,7 +158,7 @@ df %&gt;% map_dbl(sd)
 #&gt;     4     6     8 
 #&gt; 0.509 0.465 0.423</code></pre>
 </div>
-<div class="section level2">
+<div id="对操作失败的处理" class="section level2">
 <h2>对操作失败的处理</h2>
 <p>当使用映射函数重复多次操作时，某次操作失败的概率大大增加。这个时候我们会收到一条错误信息，但得不到任何结果。这让人很恼火！我们怎么保证不会出现一条鱼腥了一锅汤？
 <code>safely()</code>是一个修饰函数（副词），它接收一个函数（动词），对其进行修改并返回修改后的函数。这样，修改后的函数就不会抛出错误，相反，它总是返回由下面两个元素组成的列表：
@@ -172,7 +174,7 @@ str(safe_log(&quot;a&quot;))
 #&gt; List of 2
 #&gt;  $ result: NULL
 #&gt;  $ error :List of 2
-#&gt;   ..$ message: chr &quot;数学函数中用了非数值参数&quot;
+#&gt;   ..$ message: chr &quot;non-numeric argument to mathematical function&quot;
 #&gt;   ..$ call   : language .Primitive(&quot;log&quot;)(x, base)
 #&gt;   ..- attr(*, &quot;class&quot;)= chr [1:3] &quot;simpleError&quot; &quot;error&quot; &quot;condition&quot;</code></pre>
 <p><code>safely()</code>函数也可以与<code>map()</code>共同使用：</p>
@@ -189,7 +191,7 @@ str(y)
 #&gt;  $ :List of 2
 #&gt;   ..$ result: NULL
 #&gt;   ..$ error :List of 2
-#&gt;   .. ..$ message: chr &quot;数学函数中用了非数值参数&quot;
+#&gt;   .. ..$ message: chr &quot;non-numeric argument to mathematical function&quot;
 #&gt;   .. ..$ call   : language .Primitive(&quot;log&quot;)(x, base)
 #&gt;   .. ..- attr(*, &quot;class&quot;)= chr [1:3] &quot;simpleError&quot; &quot;error&quot; &quot;condition&quot;</code></pre>
 <p>如果将以上结果转换为2个列表，一个列表包含所有错误对象，另一个列表包含所有原始结果，那么处理起来就会更容易。我们<strong>可以使用<code>purrr::transpose()</code>函数轻松完成该任务</strong>：</p>
@@ -204,7 +206,7 @@ str(y)
 #&gt;   ..$ : NULL
 #&gt;   ..$ : NULL
 #&gt;   ..$ :List of 2
-#&gt;   .. ..$ message: chr &quot;数学函数中用了非数值参数&quot;
+#&gt;   .. ..$ message: chr &quot;non-numeric argument to mathematical function&quot;
 #&gt;   .. ..$ call   : language .Primitive(&quot;log&quot;)(x, base)
 #&gt;   .. ..- attr(*, &quot;class&quot;)= chr [1:3] &quot;simpleError&quot; &quot;error&quot; &quot;condition&quot;</code></pre>
 <p>我们可以自行决定如何处理错误对象，一般来说，我们应该检查一下y中错误对象所对应的x值，或者使用y中的正常结果进行一些处理：</p>
@@ -233,10 +235,10 @@ x %&gt;% map(quietly(log)) %&gt;% str()
 #&gt;  $ :List of 4
 #&gt;   ..$ result  : num NaN
 #&gt;   ..$ output  : chr &quot;&quot;
-#&gt;   ..$ warnings: chr &quot;产生了NaNs&quot;
+#&gt;   ..$ warnings: chr &quot;NaNs produced&quot;
 #&gt;   ..$ messages: chr(0)
 x %&gt;% map(safely(log)) %&gt;% str()
-#&gt; Warning in .Primitive(&quot;log&quot;)(x, base): 产生了NaNs
+#&gt; Warning in .Primitive(&quot;log&quot;)(x, base): NaNs produced
 #&gt; List of 2
 #&gt;  $ :List of 2
 #&gt;   ..$ result: num 0
@@ -245,7 +247,7 @@ x %&gt;% map(safely(log)) %&gt;% str()
 #&gt;   ..$ result: num NaN
 #&gt;   ..$ error : NULL</code></pre>
 </div>
-<div class="section level2">
+<div id="多参数映射" class="section level2">
 <h2>多参数映射</h2>
 <p>前面我们提到的映射函数都是对单个输入进行映射，但有时候我们需要多个相关输入同步迭代，这就是<strong><code>map2()</code>和<code>pmap()</code>函数的用武之地</strong>。
 例如我们想模拟几个均值不同的随机正态分布，我们可以使用<code>map</code>完成这个任务：</p>
@@ -254,24 +256,24 @@ mu %&gt;%
     map(rnorm, n = 5) %&gt;% 
     str()
 #&gt; List of 3
-#&gt;  $ : num [1:5] 5.28 4.3 6.13 4.89 2.61
-#&gt;  $ : num [1:5] 9.99 9.51 9.71 9.77 9.46
-#&gt;  $ : num [1:5] -2.43 -5.08 -1.02 -2.03 -4.01</code></pre>
+#&gt;  $ : num [1:5] 5.39 5.84 5.18 5.75 4.48
+#&gt;  $ : num [1:5] 10.03 9.89 8.87 11.75 11.21
+#&gt;  $ : num [1:5] -5.28 -4.2 -2.43 -1.16 -2.97</code></pre>
 <p>如果我们想让标准差也不同，一种方法是使用均值向量和标准差向量的索引进行迭代：</p>
 <pre class="r"><code>sigma = list(1, 5, 10)
 seq_along(mu) %&gt;% 
     map(~rnorm(5, mu[[.]], sigma[[.]])) %&gt;% 
     str()
 #&gt; List of 3
-#&gt;  $ : num [1:5] 4.02 4.23 5.75 4.47 4.46
-#&gt;  $ : num [1:5] 16.11 11.88 4.02 4.33 12.61
-#&gt;  $ : num [1:5] -1.972 1.08 -21.458 -6.666 -0.897</code></pre>
+#&gt;  $ : num [1:5] 5.43 3.79 5.62 5.76 7.18
+#&gt;  $ : num [1:5] 9.9 12.68 7.09 12.07 9.07
+#&gt;  $ : num [1:5] -5.02 -2.57 -1.72 14.5 -11.31</code></pre>
 <p>但这种方式比较难理解，我们使用<code>map2()</code>进行同步迭代：</p>
 <pre class="r"><code>map2(mu, sigma, rnorm, n = 5) %&gt;% str()
 #&gt; List of 3
-#&gt;  $ : num [1:5] 3.74 5.31 4.64 4.46 6.38
-#&gt;  $ : num [1:5] 12.76 2.68 11.92 15.18 12.17
-#&gt;  $ : num [1:5] 9.628 -12.074 -18.377 -0.775 15.581</code></pre>
+#&gt;  $ : num [1:5] 4.99 3.69 5.29 4.79 3.78
+#&gt;  $ : num [1:5] 13.3 9.53 13.04 3.88 6.19
+#&gt;  $ : num [1:5] -17.15 -3.18 -3.7 -6.63 -5.78</code></pre>
 <p>注意这里每次调用时值发生变换的参数要放在映射函数前面，值不变的参数要放在映射函数后面。
 和<code>map()</code>函数一样，<code>map2()</code>函数也是对for循环的包装：</p>
 <pre class="r"><code>map2 = function(x, y, f, ...){
@@ -289,18 +291,18 @@ args1 %&gt;%
     pmap(rnorm) %&gt;% 
     str()
 #&gt; List of 3
-#&gt;  $ : num 4.19
-#&gt;  $ : num [1:3] 15.76 8.77 14.09
-#&gt;  $ : num [1:5] -7.853 2.306 -3.547 -7.38 0.548</code></pre>
+#&gt;  $ : num 4.39
+#&gt;  $ : num [1:3] 1.05 22.01 10.26
+#&gt;  $ : num [1:5] -9.26 -7.14 4.41 3.01 7.69</code></pre>
 <p><strong>如果没有为列表元素命名，那么<code>pmap()</code>在调用函数时会按照位置匹配</strong>。这样做容易出错而且可读性差，因此最后使用命名参数：</p>
 <pre class="r"><code>args2 = list(mean = mu, sd = sigma, n = n)
 args2 %&gt;% 
     pmap(rnorm) %&gt;% 
     str()
 #&gt; List of 3
-#&gt;  $ : num 6.06
-#&gt;  $ : num [1:3] 11.91 5.86 12.33
-#&gt;  $ : num [1:5] -2.4 -20.72 4.37 1.8 15.05</code></pre>
+#&gt;  $ : num 5.6
+#&gt;  $ : num [1:3] 12.61 4.43 11.71
+#&gt;  $ : num [1:5] -4.73 -1.41 -6.44 1.37 -15.55</code></pre>
 <p>这样更加安全。</p>
 <p>因为长度都相同，所以将各个参数保存在一个数据框中：</p>
 <pre class="r"><code>params = tibble::tribble(
@@ -312,14 +314,14 @@ args2 %&gt;%
 params %&gt;% 
     pmap(rnorm)
 #&gt; [[1]]
-#&gt; [1] 5.23
+#&gt; [1] 3.44
 #&gt; 
 #&gt; [[2]]
-#&gt; [1]  6.52  9.17 16.69
+#&gt; [1] 13.23  7.33 17.82
 #&gt; 
 #&gt; [[3]]
-#&gt; [1]  -9.967 -21.227 -12.825  -0.438  -5.951</code></pre>
-<div class="section level4">
+#&gt; [1]  -8.034 -11.547 -12.785   6.243  -0.937</code></pre>
+<div id="调用不同的函数" class="section level4">
 <h4>调用不同的函数</h4>
 <p>还有一种更复杂的情况：不但传给函数的参数不同，甚至函数本身也是不同的。</p>
 <pre class="r"><code>f = c(&quot;runif&quot;, &quot;rnorm&quot;, &quot;rpois&quot;)
@@ -331,9 +333,9 @@ param = list(
 <p>为了处理这种情况，我们使用<code>invoke_map()</code>函数：</p>
 <pre class="r"><code>invoke_map(f, param, n = 5) %&gt;% str()
 #&gt; List of 3
-#&gt;  $ : num [1:5] -0.11 -0.862 0.575 0.955 0.592
-#&gt;  $ : num [1:5] -1.513 0.733 -6.36 7.383 1.618
-#&gt;  $ : int [1:5] 16 10 14 9 5</code></pre>
+#&gt;  $ : num [1:5] -0.73 -0.352 0.377 -0.442 0.294
+#&gt;  $ : num [1:5] -2.22 -2.87 3.42 5.6 8.97
+#&gt;  $ : int [1:5] 13 5 12 8 7</code></pre>
 <p><strong>第1个参数是一个函数列表或包含函数名称的字符串向量。第2个参数是列表的一个列表，给出了要传给各个函数的不同参数。随后的参数要传给每个函数</strong>。</p>
 <p>我们使用<code>tribble()</code>让参数配对更容易：</p>
 <pre class="r"><code>sim = tibble::tribble(
@@ -345,14 +347,14 @@ param = list(
 sim %&gt;% 
     dplyr::mutate(sim = invoke_map(f, params, n = 10))
 #&gt; # A tibble: 3 x 3
-#&gt;   f     params     sim       
-#&gt;   &lt;chr&gt; &lt;list&gt;     &lt;list&gt;    
-#&gt; 1 runif &lt;list [2]&gt; &lt;dbl [10]&gt;
-#&gt; 2 rnorm &lt;list [1]&gt; &lt;dbl [10]&gt;
-#&gt; 3 rpois &lt;list [1]&gt; &lt;int [10]&gt;</code></pre>
+#&gt;   f     params           sim       
+#&gt;   &lt;chr&gt; &lt;list&gt;           &lt;list&gt;    
+#&gt; 1 runif &lt;named list [2]&gt; &lt;dbl [10]&gt;
+#&gt; 2 rnorm &lt;named list [1]&gt; &lt;dbl [10]&gt;
+#&gt; 3 rpois &lt;named list [1]&gt; &lt;int [10]&gt;</code></pre>
 </div>
 </div>
-<div class="section level2">
+<div id="游走函数" class="section level2">
 <h2>游走函数</h2>
 <p>当使用函数的目的是向屏幕提供输出或将文件保存到磁盘——重要的是操作过程而不是返回值，我们应该使用游走函数，而不是映射函数。</p>
 <p>下面是一个示例：</p>
@@ -376,10 +378,10 @@ pwalk(list(paths, plots), ggsave, path = tempdir())
 <pre class="r"><code>dir(tempdir())
 #&gt; [1] &quot;4.pdf&quot; &quot;6.pdf&quot; &quot;8.pdf&quot;</code></pre>
 </div>
-<div id="for" class="section level2">
+<div id="for循环的其他模式" class="section level2">
 <h2>for循环的其他模式</h2>
 <p>purrr还提供了其他一些函数，虽然这些函数的使用率低，但了解还是有必要的。本节就是对它们进行简单介绍</p>
-<div class="section level3">
+<div id="预测函数" class="section level3">
 <h3>预测函数</h3>
 <p>一些函数可以与返回<code>TRUE</code>或<code>FALSE</code>的预测函数一同使用。</p>
 <p><code>keep()</code>和<code>discard()</code>函数可以分别保留输入中预测值为<code>TRUE</code>和<code>FALSE</code>的元素（在数据框中就是指列）：</p>
@@ -407,22 +409,22 @@ x %&gt;%
 <p><code>detect()</code>可以找出预测值为真的第一个元素，<code>detect_index()</code>可以返回该元素的索引。</p>
 <pre class="r"><code>x = sample(10)
 x
-#&gt;  [1]  2  9 10  4  6  3  1  5  8  7
+#&gt;  [1]  9  2 10  3  5  4  1  7  8  6
 x %&gt;% 
     detect(~ . &gt;5)
 #&gt; [1] 9
 x %&gt;% 
     detect_index(~ . &gt;5)
-#&gt; [1] 2</code></pre>
+#&gt; [1] 1</code></pre>
 <p><code>head_while()</code>和<code>tail_while()</code>分别从向量的开头和结尾找出预测值为真的元素：</p>
 <pre class="r"><code>x %&gt;% 
     head_while(~ . &gt; 5)
-#&gt; integer(0)
+#&gt; [1] 9
 x %&gt;% 
     tail_while(~ . &gt; 5)
-#&gt; [1] 8 7</code></pre>
+#&gt; [1] 7 8 6</code></pre>
 </div>
-<div class="section level3">
+<div id="归约和累计" class="section level3">
 <h3>归约和累计</h3>
 <p>操作一个复杂的列表，有时候我们想要不断合并两个预算两个元素（基础函数<code>Reduce</code>干的事情）。</p>
 <pre class="r"><code>dfs = list(
@@ -443,8 +445,8 @@ dfs %&gt;% reduce(full_join)
 <p>累计函数与归约函数类似，但会保留中间结果，比如下面求取累计和：</p>
 <pre class="r"><code>x = sample(10)
 x
-#&gt;  [1]  1  9  8  7  4  6  2  5  3 10
+#&gt;  [1]  3  9 10  7  4  2  5  8  6  1
 x %&gt;% accumulate(`+`)
-#&gt;  [1]  1 10 18 25 29 35 37 42 45 55</code></pre>
+#&gt;  [1]  3 12 22 29 33 35 40 48 54 55</code></pre>
 </div>
 </div>

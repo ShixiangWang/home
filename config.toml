@@ -160,6 +160,14 @@ publishDir = "docs"
     en = "Shixiang Wang"
     cn = "王诗翔"
 
+[params.categories]
+    en = "Categories"
+    cn = "分类"
+
+[params.tags]
+    en = "Tags"
+    cn = "标签"
+
 [params.logo.en]
     img = "/logo/ShixiangWang.png"
     url = "/logo/ShixiangWang.png"

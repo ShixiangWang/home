@@ -2,11 +2,10 @@
 title: "metafor——元分析技术实现"
 author: "王诗翔"
 date: "2018-07-09"
-lastmod: "2019-11-20"
+lastmod: "2020-08-09"
 slug: ""
-categories: r
-tags:
-- r
+categories: [r]
+tags: [r, metafor]
 ---
 
 
@@ -19,7 +18,8 @@ tags:
 <div id="实例" class="section level2">
 <h2>实例</h2>
 <p><code>metafor</code>包提供了数据集<code>dat.bcg</code>，它是13个不同研究BCG疫苗因tuberculosis状态效力差异的研究。</p>
-<pre class="r"><code>p_load(metafor)
+<pre class="r"><code>library(pacman)
+p_load(metafor)
 data(&quot;dat.bcg&quot;, package = &quot;metafor&quot;)</code></pre>
 <p>查看数据：</p>
 <pre class="r"><code>print(dat.bcg, row.names=FALSE)
@@ -95,7 +95,7 @@ print(dat[, -c(4:7)], row.names = FALSE)
 #&gt; NULL</code></pre>
 <div id="指定数据" class="section level3">
 <h3>指定数据</h3>
-<p>该函数可以与元分析常见的效应大小或者结果度量（例如，log优势比，标准化的均值差，相关系数）。我们只需要简单指定<code>yi</code>观察到的效应值以及指定<code>vi</code>对应的样本方差（或者通过<code>sei</code>指定标准误，样本方差的平方根）。如果这样输入数据，必须指定<code>measure=&quot;GEN&quot;</code>（函数默认）。</p>
+<p>该函数可以与元分析常见的效应大小或者结果度量（例如，log优势比，标准化的均值差，相关系数）。我们只需要简单指定<code>yi</code>观察到的效应值以及指定<code>vi</code>对应的样本方差（或者通过<code>sei</code>指定标准误，样本方差的平方根）。如果这样输入数据，必须指定<code>measure="GEN"</code>（函数默认）。</p>
 <p>另外，<code>rma</code>函数可以输入<code>escalc</code>函数一样的参数，然后会自动完成结果度量的计算，<code>measure</code>参数可以用来指定想要的输出度量，<code>vtype</code>参数与<code>escalc</code>一致。</p>
 <p><strong>也就是说，可以用<code>rma</code>完成原始输入数据到结果度量的计算，可想而知，<code>rma</code>函数中应该包含了<code>escalc</code>函数的实现。</strong></p>
 </div>
@@ -113,7 +113,7 @@ print(dat[, -c(4:7)], row.names = FALSE)
 </ul>
 <p>一个或多个协变量（moderators）可以通过参数<code>mods</code>指定。单个协变量可以以长度为k的行/列向量给出值。多个则需要创建一个k行p列的设计矩阵（比如，使用<code>mods = cbind(mod1, mod2, mod3)</code>），模型默认包含截距，如果不要，需要用<code>intercept = FALSE</code>指定。</p>
 <p>许多R用户熟悉用公式形式来指定想要构建的模型，比如在使用<code>lm()</code>与<code>glm()</code>时（参见<code>??formula</code>）。<code>mods</code>支持指定单边的公式，比如<code>mods = ~ mod1 + mod2 + mod3</code>。交互项、多项式、因子等都可以用这种形式添加。注意一旦使用公式指定<code>mods</code>参数，<code>intercept</code>参数会被忽略，我们需要通过<code>mods = mod1 + mod2 + mod3 - 1</code>删除交互项。</p>
-<p>固定效应模型可以通过<code>method = &quot;FE&quot;</code>进行构建（<code>rma(yi, vi, data = dat, method = &quot;FE）</code>，注意加权最小二乘法与不加权~的使用，默认<code>weighted=TRUE</code>，协变量也时通过<code>mods</code>参数指定。</p>
+<p>固定效应模型可以通过<code>method = "FE"</code>进行构建（<code>rma(yi, vi, data = dat, method = "FE）</code>，注意加权最小二乘法与不加权~的使用，默认<code>weighted=TRUE</code>，协变量也时通过<code>mods</code>参数指定。</p>
 </div>
 <div id="参数的多类题测试omnibus-test" class="section level3">
 <h3>参数的多类题测试（Omnibus test)</h3>
@@ -302,14 +302,14 @@ dat$a.systematic = ifelse(dat$alloc == &quot;systematic&quot;, 1, 0)</code></pre
 #&gt; 
 #&gt; Model Results:
 #&gt; 
-#&gt;                          estimate      se     zval    pval    ci.lb 
-#&gt; factor(alloc)alternate    -0.5180  0.4412  -1.1740  0.2404  -1.3827 
-#&gt; factor(alloc)random       -0.9658  0.2672  -3.6138  0.0003  -1.4896 
-#&gt; factor(alloc)systematic   -0.4289  0.3449  -1.2434  0.2137  -1.1050 
-#&gt;                            ci.ub 
-#&gt; factor(alloc)alternate    0.3468      
-#&gt; factor(alloc)random      -0.4420  *** 
-#&gt; factor(alloc)systematic   0.2472      
+#&gt;                          estimate      se     zval    pval    ci.lb    ci.ub 
+#&gt; factor(alloc)alternate    -0.5180  0.4412  -1.1740  0.2404  -1.3827   0.3468 
+#&gt; factor(alloc)random       -0.9658  0.2672  -3.6138  0.0003  -1.4896  -0.4420 
+#&gt; factor(alloc)systematic   -0.4289  0.3449  -1.2434  0.2137  -1.1050   0.2472 
+#&gt;  
+#&gt; factor(alloc)alternate 
+#&gt; factor(alloc)random      *** 
+#&gt; factor(alloc)systematic 
 #&gt; 
 #&gt; ---
 #&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
@@ -358,18 +358,14 @@ dat$a.systematic = ifelse(dat$alloc == &quot;systematic&quot;, 1, 0)</code></pre
 #&gt; 
 #&gt; Model Results:
 #&gt; 
-#&gt;                                                   estimate      se 
-#&gt; intrcpt                                            -0.9658  0.2672 
-#&gt; relevel(factor(alloc), ref = &quot;random&quot;)alternate     0.4478  0.5158 
-#&gt; relevel(factor(alloc), ref = &quot;random&quot;)systematic    0.5369  0.4364 
-#&gt;                                                      zval    pval    ci.lb 
-#&gt; intrcpt                                           -3.6138  0.0003  -1.4896 
-#&gt; relevel(factor(alloc), ref = &quot;random&quot;)alternate    0.8682  0.3853  -0.5632 
-#&gt; relevel(factor(alloc), ref = &quot;random&quot;)systematic   1.2303  0.2186  -0.3184 
-#&gt;                                                     ci.ub 
-#&gt; intrcpt                                           -0.4420  *** 
-#&gt; relevel(factor(alloc), ref = &quot;random&quot;)alternate    1.4588      
-#&gt; relevel(factor(alloc), ref = &quot;random&quot;)systematic   1.3921      
+#&gt;                                                   estimate      se     zval 
+#&gt; intrcpt                                            -0.9658  0.2672  -3.6138 
+#&gt; relevel(factor(alloc), ref = &quot;random&quot;)alternate     0.4478  0.5158   0.8682 
+#&gt; relevel(factor(alloc), ref = &quot;random&quot;)systematic    0.5369  0.4364   1.2303 
+#&gt;                                                     pval    ci.lb    ci.ub 
+#&gt; intrcpt                                           0.0003  -1.4896  -0.4420  *** 
+#&gt; relevel(factor(alloc), ref = &quot;random&quot;)alternate   0.3853  -0.5632   1.4588      
+#&gt; relevel(factor(alloc), ref = &quot;random&quot;)systematic  0.2186  -0.3184   1.3921      
 #&gt; 
 #&gt; ---
 #&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
@@ -396,16 +392,11 @@ dat$a.systematic = ifelse(dat$alloc == &quot;systematic&quot;, 1, 0)</code></pre
 #&gt; 
 #&gt; Model Results:
 #&gt; 
-#&gt;                          estimate      se     tval    pval    ci.lb 
-#&gt; intrcpt                    0.2932  0.4188   0.7000  0.5016  -0.6543 
-#&gt; factor(alloc)random       -0.2675  0.3624  -0.7381  0.4793  -1.0873 
-#&gt; factor(alloc)systematic    0.0585  0.3925   0.1490  0.8849  -0.8294 
-#&gt; ablat                     -0.0273  0.0095  -2.8669  0.0186  -0.0488 
-#&gt;                            ci.ub 
-#&gt; intrcpt                   1.2407    
-#&gt; factor(alloc)random       0.5523    
-#&gt; factor(alloc)systematic   0.9463    
-#&gt; ablat                    -0.0058  * 
+#&gt;                          estimate      se     tval    pval    ci.lb    ci.ub 
+#&gt; intrcpt                    0.2932  0.4188   0.7000  0.5016  -0.6543   1.2407    
+#&gt; factor(alloc)random       -0.2675  0.3624  -0.7381  0.4793  -1.0873   0.5523    
+#&gt; factor(alloc)systematic    0.0585  0.3925   0.1490  0.8849  -0.8294   0.9463    
+#&gt; ablat                     -0.0273  0.0095  -2.8669  0.0186  -0.0488  -0.0058  * 
 #&gt; 
 #&gt; ---
 #&gt; Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
@@ -688,7 +679,7 @@ qqnorm(res, main = &quot;Mixed-Effects Model&quot;)</code></pre>
 <p><code>ranktest()</code>与<code>regtest()</code>函数用来执行秩（等级）相关检验与回归检验。</p>
 <p>对于回归检验，函数参数：</p>
 <pre class="r"><code>regtest(x, model = &quot;rma&quot;, predictor = &quot;sei&quot;, ni = NULL, ...)</code></pre>
-<p><code>x</code>是拟合的模型对象。我们通过<code>model</code>参数选定模型，<code>model= &quot;lm&quot;</code>是加权回归，而<code>model=&quot;rma&quot;</code>是标准的元分析模型（默认）。<code>predictor</code>指定检验的度量，比如标准误（默认）、取样方差（<code>vi</code>），样本大小的倒数（<code>ninv</code>）等。</p>
+<p><code>x</code>是拟合的模型对象。我们通过<code>model</code>参数选定模型，<code>model= "lm"</code>是加权回归，而<code>model="rma"</code>是标准的元分析模型（默认）。<code>predictor</code>指定检验的度量，比如标准误（默认）、取样方差（<code>vi</code>），样本大小的倒数（<code>ninv</code>）等。</p>
 <pre class="r"><code>res = rma(yi, vi, data = dat)
 regtest(res, model = &quot;lm&quot;)
 #&gt; 

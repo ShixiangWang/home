@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>base-plot on Shixiang Wang | 王诗翔</title>
+    <link>/tags/base-plot/</link>
+    <description>Recent content in base-plot on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 21 Jun 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/base-plot/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>R传统图形绘制多图</title>
+      <link>/cn/post/2019-06-21-baseplot-multiplots/</link>
+      <pubDate>Fri, 21 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-06-21-baseplot-multiplots/</guid>
+      <description>我这里只说 2 种常用方式，它们互相排斥： 使用 par() 函数设定 mfrow 或者 mfcol 进行控制。 使用 layout() 函数。 par() 函数 mfrow 和 mfcol 都由 2 个数字指定，一个表示行数、一个表示列数。</description>
+    </item>
+    
+    <item>
+      <title>R基本绘图：创建与添加图形</title>
+      <link>/cn/post/2019-06-21-baseplot-addplot/</link>
+      <pubDate>Fri, 21 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-06-21-baseplot-addplot/</guid>
+      <description>R 遵循画家模式。 高级绘图函数 + 低级绘图函数才能让图形丰富多样起来。 基本的低级绘图函数 Table 1: &amp;lt;U+5E38&amp;gt;&amp;lt;U+89C1&amp;gt;&amp;lt;U+57FA&amp;gt;&amp;lt;U+672C&amp;gt;&amp;lt;U+4F4E&amp;gt;&amp;lt;U+7EA7&amp;gt;&amp;lt;U+7ED8&amp;gt;&amp;lt;U+56FE&amp;gt;&amp;lt;U+51FD&amp;gt;&amp;lt;U+6570&amp;gt; &amp;lt;U+51FD&amp;gt;&amp;lt;U+6570&amp;gt; &amp;lt;U+63CF&amp;gt;&amp;lt;U+8FF0&amp;gt; points() &amp;lt;U+6570&amp;gt;&amp;lt;U+636E&amp;gt;&amp;lt;U+7B26&amp;gt;&amp;lt;U+53F7&amp;gt; lines() &amp;lt;U+7EBF&amp;gt;&amp;lt;U+6761&amp;gt; segments() &amp;lt;U+7EBF&amp;gt;&amp;lt;U+6BB5&amp;gt; arrows() &amp;lt;U+7BAD&amp;gt;&amp;lt;U+5934&amp;gt; xspline() &amp;lt;U+5149&amp;gt;&amp;lt;U+6ED1&amp;gt;&amp;lt;U+66F2&amp;gt;&amp;lt;U+7EBF&amp;gt; rect() &amp;lt;U+77E9&amp;gt;&amp;lt;U+5F62&amp;gt; polygon() &amp;lt;U+591A&amp;gt;&amp;lt;U+8FB9&amp;gt;&amp;lt;U+5F62&amp;gt; polypath() &amp;lt;U+591A&amp;gt;&amp;lt;U+8FB9&amp;gt;&amp;lt;U+5F62&amp;gt;&amp;lt;U+8DEF&amp;gt;&amp;lt;U+5F84&amp;gt; rasterImage() &amp;lt;U+4F4D&amp;gt;&amp;lt;U+56FE&amp;gt;&amp;lt;U+FF08&amp;gt;&amp;lt;U+5728&amp;gt;&amp;lt;U+56FE&amp;gt;&amp;lt;U+5F62&amp;gt;&amp;lt;U+4E0A&amp;gt;&amp;lt;U+53EF&amp;gt;&amp;lt;U+4EE5&amp;gt;&amp;lt;U+6DFB&amp;gt;&amp;lt;U+52A0&amp;gt;&amp;lt;U+5916&amp;gt;&amp;lt;U+90E8&amp;gt;&amp;lt;U+56FE&amp;gt;&amp;lt;U+7247&amp;gt;&amp;lt;U+FF09&amp;gt; text() &amp;lt;U+6587&amp;gt;&amp;lt;U+672C&amp;gt; 添加图</description>
+    </item>
+    
+  </channel>
+</rss>

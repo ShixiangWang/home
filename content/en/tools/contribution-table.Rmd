@@ -4,11 +4,8 @@ author: "王诗翔"
 date: "2019-07-13"
 lastmod: "`r Sys.Date()`"
 slug: ""
-categories: r
-tags:
-- r
-- package
-- contribution
+categories: [r]
+tags: [r, package, contribution]
 ---
 
 ```{r setup, include=FALSE}

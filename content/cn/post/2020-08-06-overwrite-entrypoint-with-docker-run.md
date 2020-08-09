@@ -4,10 +4,8 @@ author: "王诗翔"
 date: "2020-08-06"
 lastmod: "2020-08-06"
 slug: ""
-categories: docker
-tags:
-- docker
-- entrypoint
+categories: [docker]
+tags: [docker, entrypoint]
 ---
 
 原文：<https://phoenixnap.com/kb/docker-run-override-entrypoint>

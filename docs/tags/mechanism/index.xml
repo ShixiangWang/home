@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>mechanism on Shixiang Wang | 王诗翔</title>
+    <link>/tags/mechanism/</link>
+    <description>Recent content in mechanism on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 01 Aug 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/mechanism/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>R的内部机制</title>
+      <link>/cn/post/2019-11-20-r-mechanism/</link>
+      <pubDate>Wed, 01 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-11-20-r-mechanism/</guid>
+      <description>内容： 惰性求值 （Lazy evaluation） 复制-修改机制 （Copy-on-modify mechanism） 词法作用域 （Lexical sc</description>
+    </item>
+    
+  </channel>
+</rss>

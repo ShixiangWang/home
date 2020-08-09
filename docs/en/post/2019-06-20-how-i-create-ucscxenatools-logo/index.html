@@ -110,6 +110,24 @@
 2019-06-20</h3> 
 
 
+<p style="text-align:right;">
+  Categories:
+  
+    <a href="../../../categories/r">r</a> &nbsp
+  
+  <br>
+  Tags:
+  
+    <a href="../../../tags/r">r</a> &nbsp
+  
+    <a href="../../../tags/package">package</a> &nbsp
+  
+    <a href="../../../tags/logo">logo</a> &nbsp
+  
+</p>
+
+
+
    
   
 
@@ -137,20 +155,20 @@ R package <strong>ggpubr</strong> based on <strong>ggplot2</strong> is a good to
 <p>First, I loaded all necessary packages.</p>
 <pre class="r"><code>library(hexSticker)
 library(UCSCXenaTools)
-#&gt; =========================================================================
-#&gt; UCSCXenaTools version 1.2.5
+#&gt; =========================================================================================
+#&gt; UCSCXenaTools version 1.3.3
 #&gt; Project URL: https://github.com/ropensci/UCSCXenaTools
-#&gt; Usages: https://shixiangwang.github.io/home/en/tools/#ucscxenatools
+#&gt; Usages: https://cran.r-project.org/web/packages/UCSCXenaTools/vignettes/USCSXenaTools.html
 #&gt; 
 #&gt; If you use it in published research, please cite:
-#&gt; Wang, Shixiang, et al. &quot;The predictive power of tumor mutational burden
-#&gt;     in lung cancer immunotherapy response is influenced by patients&#39; sex.&quot;
-#&gt;     International journal of cancer (2019).
-#&gt; =========================================================================
-#&gt; 
+#&gt; Wang et al., (2019). The UCSCXenaTools R package: a toolkit for accessing genomics data
+#&gt;   from UCSC Xena platform, from cancer multi-omics to single-cell RNA-seq.
+#&gt;   Journal of Open Source Software, 4(40), 1627, https://doi.org/10.21105/joss.01627
+#&gt; =========================================================================================
+#&gt;                               --Enjoy it--
 library(dplyr)
 #&gt; 
-#&gt; 载入程辑包：&#39;dplyr&#39;
+#&gt; Attaching package: &#39;dplyr&#39;
 #&gt; The following objects are masked from &#39;package:stats&#39;:
 #&gt; 
 #&gt;     filter, lag
@@ -158,17 +176,17 @@ library(dplyr)
 #&gt; 
 #&gt;     intersect, setdiff, setequal, union
 library(ggpubr)
-#&gt; 载入需要的程辑包：ggplot2
-#&gt; 载入需要的程辑包：magrittr
+#&gt; Loading required package: ggplot2
 #&gt; 
-#&gt; 载入程辑包：&#39;ggpubr&#39;
+#&gt; Attaching package: &#39;ggpubr&#39;
 #&gt; The following object is masked from &#39;package:hexSticker&#39;:
 #&gt; 
 #&gt;     theme_transparent</code></pre>
 <p>Then I calculated dataset counts in each <strong>UCSC Xena Hubs</strong>.</p>
 <pre class="r"><code>df =  XenaData %&gt;%
     dplyr::group_by(XenaHostNames) %&gt;%
-    dplyr::summarise(count = n())</code></pre>
+    dplyr::summarise(count = n())
+#&gt; `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
 <p>Next I drawed a blank dotchart according to reference of <strong>ggpubr</strong> and README of <strong>hexSticker</strong>.</p>
 <pre class="r"><code># reference https://rpkgs.datanovia.com/ggpubr/
 p &lt;- ggdotchart(df, x = &quot;XenaHostNames&quot;, y = &quot;count&quot;,
@@ -183,7 +201,10 @@ p &lt;- ggdotchart(df, x = &quot;XenaHostNames&quot;, y = &quot;count&quot;,
                              vjust = 0.5),               # Adjust label parameters
            ggtheme = theme_void()) +                       # ggplot2 theme
     theme_transparent() + theme(legend.position = &quot;none&quot;) 
-p</code></pre>
+p
+#&gt; Warning: This manual palette can handle a maximum of 10 values. You have
+#&gt; supplied 11.
+#&gt; Warning: Removed 1 rows containing missing values (geom_point).</code></pre>
 <p><img src="../../../en/post/2019-06-20-how-i-create-ucscxenatools-logo_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <p>At the end, I created the logo with <code>sticker()</code> function.
 I tried modifying options several times to make all parts in the logo work well.</p>

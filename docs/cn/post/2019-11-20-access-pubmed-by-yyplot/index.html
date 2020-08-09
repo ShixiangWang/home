@@ -123,6 +123,24 @@
 2018-04-13</h3> 
 
 
+<p style="text-align:right;">
+  分类:
+  
+    <a href="../../../categories/r">r</a> &nbsp
+  
+  <br>
+  标签:
+  
+    <a href="../../../tags/r">r</a> &nbsp
+  
+    <a href="../../../tags/pubmed">pubmed</a> &nbsp
+  
+    <a href="../../../tags/ggplot2">ggplot2</a> &nbsp
+  
+</p>
+
+
+
    
   
 
@@ -205,7 +223,11 @@ pm   &lt;- pubmed_trend(term, year=2001:2019)
 #&gt; -&gt; querying year 2016
 #&gt; -&gt; querying year 2017
 #&gt; -&gt; querying year 2018
-#&gt; -&gt; querying year 2019</code></pre>
+#&gt; -&gt; querying year 2019
+#&gt; Warning: `rename_()` is deprecated as of dplyr 0.7.0.
+#&gt; Please use `rename()` instead.
+#&gt; This warning is displayed once every 8 hours.
+#&gt; Call `lifecycle::last_warnings()` to see where this warning was generated.</code></pre>
 <pre class="r"><code># 绘图
 plot(pm) + theme_bw()</code></pre>
 <p><img src="../../../cn/post/2019-11-20-access-pubmed-by-yyplot_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>

@@ -123,6 +123,30 @@
 2018-08-18</h3> 
 
 
+<p style="text-align:right;">
+  分类:
+  
+    <a href="../../../categories/r">r</a> &nbsp
+  
+  <br>
+  标签:
+  
+    <a href="../../../tags/r">r</a> &nbsp
+  
+    <a href="../../../tags/s3">S3</a> &nbsp
+  
+    <a href="../../../tags/s4">S4</a> &nbsp
+  
+    <a href="../../../tags/r6">R6</a> &nbsp
+  
+    <a href="../../../tags/class">class</a> &nbsp
+  
+    <a href="../../../tags/instance">instance</a> &nbsp
+  
+</p>
+
+
+
    
   
 
@@ -352,7 +376,7 @@ setClass(&quot;Circle&quot;,
          representation(r = &quot;numeric&quot;),
          prototype(r = 1, sides = Inf),
          contains = &quot;Shape&quot;)</code></pre>
-<p>我们接着构建一个泛型函数计算一个<code>Shape</code>对象的面积。为此，我们需要调用<code>setGeneric()</code>创建一个新的泛型函数：<code>area()</code>，并为<code>area()</code>提供一个调用<code>standardGeneric(&quot;area&quot;)</code>的函数使这个新的泛型函数可以用于S4方法分派。参数<code>valueClass</code>是用来确保每种方法的返回值必须是<code>numeric</code>类：</p>
+<p>我们接着构建一个泛型函数计算一个<code>Shape</code>对象的面积。为此，我们需要调用<code>setGeneric()</code>创建一个新的泛型函数：<code>area()</code>，并为<code>area()</code>提供一个调用<code>standardGeneric("area")</code>的函数使这个新的泛型函数可以用于S4方法分派。参数<code>valueClass</code>是用来确保每种方法的返回值必须是<code>numeric</code>类：</p>
 <pre class="r"><code>setGeneric(&quot;area&quot;, function(object) {
     standardGeneric(&quot;area&quot;)
 }, valueClass = &quot;numeric&quot;)

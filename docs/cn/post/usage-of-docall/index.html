@@ -123,6 +123,22 @@
 2018-06-07</h3> 
 
 
+<p style="text-align:right;">
+  分类:
+  
+    <a href="../../../categories/r">r</a> &nbsp
+  
+  <br>
+  标签:
+  
+    <a href="../../../tags/r">r</a> &nbsp
+  
+    <a href="../../../tags/do.call">do.call</a> &nbsp
+  
+</p>
+
+
+
    
   
 
@@ -153,7 +169,7 @@
 显然，前两个参数很重要，确定了该函数的一般用法，后两个参数涉及一些执行引用与环境的问题，这方面我懂的不多，不过基本也用不到。</p>
 </blockquote>
 <p>下面通过例子学习下使用。</p>
-<div class="section level2">
+<div id="例子" class="section level2">
 <h2>例子</h2>
 <pre class="r"><code># 生成一个复数序列
 do.call(&quot;complex&quot;, list(imag = 1:3))
@@ -176,8 +192,7 @@ tmp
 ## 11    a    3    -
 ## 12    b    3    -
 do.call(&quot;paste&quot;, c(tmp, sep=&quot;&quot;))
-##  [1] &quot;a1+&quot; &quot;b1+&quot; &quot;a2+&quot; &quot;b2+&quot; &quot;a3+&quot; &quot;b3+&quot; &quot;a1-&quot; &quot;b1-&quot; &quot;a2-&quot; &quot;b2-&quot; &quot;a3-&quot;
-## [12] &quot;b3-&quot;
+##  [1] &quot;a1+&quot; &quot;b1+&quot; &quot;a2+&quot; &quot;b2+&quot; &quot;a3+&quot; &quot;b3+&quot; &quot;a1-&quot; &quot;b1-&quot; &quot;a2-&quot; &quot;b2-&quot; &quot;a3-&quot; &quot;b3-&quot;
 #do.call(&quot;paste&quot;, list(tmp, sep=&quot;&quot;))
 do.call(paste, list(as.name(&quot;A&quot;), as.name(&quot;B&quot;)), quote = TRUE)
 ## [1] &quot;A B&quot;

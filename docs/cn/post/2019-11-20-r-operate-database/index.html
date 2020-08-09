@@ -123,6 +123,30 @@
 2018-08-19</h3> 
 
 
+<p style="text-align:right;">
+  分类:
+  
+    <a href="../../../categories/r">r</a> &nbsp
+  
+  <br>
+  标签:
+  
+    <a href="../../../tags/r">r</a> &nbsp
+  
+    <a href="../../../tags/sql">SQL</a> &nbsp
+  
+    <a href="../../../tags/sqlite">SQLite</a> &nbsp
+  
+    <a href="../../../tags/mysql">MySQL</a> &nbsp
+  
+    <a href="../../../tags/mongodb">MongoDB</a> &nbsp
+  
+    <a href="../../../tags/redis">Redis</a> &nbsp
+  
+</p>
+
+
+
    
   
 
@@ -151,7 +175,7 @@
 <p>下面从最简单数据库开始，<strong>SQLite（<a href="http://sqlite.org/" class="uri">http://sqlite.org/</a>）</strong>是一个轻量级的数据库引擎。</p>
 <p>在R中操作SQLite数据库需要用RSQLite扩展包。运行下面代码：</p>
 <pre class="r"><code>if(!require(&quot;RSQLite&quot;)) install.packages(&quot;RSQLite&quot;)
-#&gt; 载入需要的程辑包：RSQLite</code></pre>
+#&gt; Loading required package: RSQLite</code></pre>
 <div id="创建sqlite数据库" class="section level3">
 <h3>创建SQLite数据库</h3>
 <p>现在创建一个 db 目录，用来存储数据库：</p>
@@ -183,9 +207,9 @@ example1
 <h4>向一个数据库写入多张表格</h4>
 <p>现在我们将<code>ggplot2</code>的<code>diamonds</code>数据集和<code>nycflights13</code>中的<code>flights</code>数据集作为两张表格写入数据库中。</p>
 <pre class="r"><code>if(!require(&quot;ggplot2&quot;)) install.packages(&quot;ggplot2&quot;)
-#&gt; 载入需要的程辑包：ggplot2
+#&gt; Loading required package: ggplot2
 if(!require(&quot;nycflights13&quot;)) install.packages(&quot;nycflights13&quot;)
-#&gt; 载入需要的程辑包：nycflights13
+#&gt; Loading required package: nycflights13
 data(&quot;diamonds&quot;, package = &quot;ggplot2&quot;)
 data(&quot;flights&quot;, package = &quot;nycflights13&quot;)</code></pre>
 <p>我们重复之前的操作流程：</p>
@@ -750,7 +774,7 @@ get_balance(con, &quot;诗翔&quot;)
 <p>获取下交易记录：</p>
 <pre class="r"><code>get_transactions(con, &quot;诗翔&quot;, &quot;周丹&quot;)
 #&gt;                  time account_from account_to value
-#&gt; 1 2019-11-20 14:10:53         诗翔       周丹 1e+09</code></pre>
+#&gt; 1 2020-08-09 13:32:54         诗翔       周丹 1e+09</code></pre>
 <p>关闭数据库：</p>
 <pre class="r"><code>dbDisconnect(con)</code></pre>
 </div>

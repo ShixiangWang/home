@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>RNSseq on Shixiang Wang | 王诗翔</title>
+    <link>/tags/rnsseq/</link>
+    <description>Recent content in RNSseq on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 27 Oct 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/rnsseq/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Bioconductor分析RNA-seq数据</title>
+      <link>/cn/post/2017-10-27-rnaseq-data-analysis/</link>
+      <pubDate>Fri, 27 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2017-10-27-rnaseq-data-analysis/</guid>
+      <description>参考学习《R语言与Bioconductor生物信息学应用》第六章 前言 Y叔的公众号biobabble发过一篇【听说你想学R？】,七月份发的但昨</description>
+    </item>
+    
+  </channel>
+</rss>

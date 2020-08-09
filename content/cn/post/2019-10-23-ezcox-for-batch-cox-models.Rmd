@@ -4,12 +4,8 @@ author: "王诗翔"
 date: "2019-10-23"
 lastmod: "`r Sys.Date()`"
 slug: ""
-categories: r
-tags:
-- r
-- cox
-- batch
-- forestplot
+categories: [r]
+tags: [r, cox, batch, forestplot]
 ---
 
 ```{r setup, include=FALSE}

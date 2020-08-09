@@ -4,10 +4,8 @@ author: "王诗翔"
 date: "2019-07-04"
 lastmod: "2019-07-04"
 slug: ""
-categories: ml
-tags:
-- tensorflow
-- 神经网络
+categories: [ml]
+tags: ["machine-learning", "tensorflow"]
 ---
 
 来源：《Tensorflow实战Google深度学习框架》第二版，第三章

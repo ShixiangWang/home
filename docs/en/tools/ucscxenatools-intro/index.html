@@ -159,7 +159,7 @@ by restarting R and <code>library(UCSCXenaTools)</code>.</p>
 <p>You can load <code>XenaData</code> after loading <code>UCSCXenaTools</code> into R.</p>
 <pre class="r"><code>library(UCSCXenaTools)
 #&gt; =========================================================================================
-#&gt; UCSCXenaTools version 1.2.9
+#&gt; UCSCXenaTools version 1.3.3
 #&gt; Project URL: https://github.com/ropensci/UCSCXenaTools
 #&gt; Usages: https://cran.r-project.org/web/packages/UCSCXenaTools/vignettes/USCSXenaTools.html
 #&gt; 
@@ -186,16 +186,18 @@ head(XenaData)
 #&gt; #   Citation &lt;chr&gt;, Version &lt;chr&gt;, Unit &lt;chr&gt;, Platform &lt;chr&gt;</code></pre>
 <p>Names of all hub names/urls can be accessed by object <code>.xena_hosts</code>:</p>
 <pre class="r"><code>UCSCXenaTools:::.xena_hosts
-#&gt;    https://ucscpublic.xenahubs.net          https://tcga.xenahubs.net 
-#&gt;                        &quot;publicHub&quot;                          &quot;tcgaHub&quot; 
-#&gt;           https://gdc.xenahubs.net          https://icgc.xenahubs.net 
-#&gt;                           &quot;gdcHub&quot;                          &quot;icgcHub&quot; 
-#&gt;          https://toil.xenahubs.net   https://pancanatlas.xenahubs.net 
-#&gt;                          &quot;toilHub&quot;                   &quot;pancanAtlasHub&quot; 
-#&gt; https://xena.treehouse.gi.ucsc.edu         https://pcawg.xenahubs.net 
-#&gt;                     &quot;treehouseHub&quot;                         &quot;pcawgHub&quot; 
-#&gt;       https://atacseq.xenahubs.net https://singlecellnew.xenahubs.net 
-#&gt;                       &quot;atacseqHub&quot;                    &quot;singlecellHub&quot;</code></pre>
+#&gt;        https://ucscpublic.xenahubs.net              https://tcga.xenahubs.net 
+#&gt;                            &quot;publicHub&quot;                              &quot;tcgaHub&quot; 
+#&gt;               https://gdc.xenahubs.net              https://icgc.xenahubs.net 
+#&gt;                               &quot;gdcHub&quot;                              &quot;icgcHub&quot; 
+#&gt;              https://toil.xenahubs.net       https://pancanatlas.xenahubs.net 
+#&gt;                              &quot;toilHub&quot;                       &quot;pancanAtlasHub&quot; 
+#&gt; https://xena.treehouse.gi.ucsc.edu:443             https://pcawg.xenahubs.net 
+#&gt;                         &quot;treehouseHub&quot;                             &quot;pcawgHub&quot; 
+#&gt;           https://atacseq.xenahubs.net     https://singlecellnew.xenahubs.net 
+#&gt;                           &quot;atacseqHub&quot;                        &quot;singlecellHub&quot; 
+#&gt;         https://kidsfirst.xenahubs.net 
+#&gt;                         &quot;kidsfirstHub&quot;</code></pre>
 </div>
 <div id="generate-a-xenahub-object" class="section level2">
 <h2>Generate a XenaHub object</h2>
@@ -209,24 +211,25 @@ head(XenaData)
 #&gt;   https://icgc.xenahubs.net
 #&gt;   https://toil.xenahubs.net
 #&gt;   https://pancanatlas.xenahubs.net
-#&gt;   https://xena.treehouse.gi.ucsc.edu
+#&gt;   https://xena.treehouse.gi.ucsc.edu:443
 #&gt;   https://pcawg.xenahubs.net
 #&gt;   https://atacseq.xenahubs.net
 #&gt;   https://singlecellnew.xenahubs.net
-#&gt; cohorts() (148 total):
+#&gt;   https://kidsfirst.xenahubs.net
+#&gt; cohorts() (151 total):
 #&gt;   Breast Cancer Cell Lines (Neve 2006)
 #&gt;   Glioma (Kotliarov 2006)
 #&gt;   Lung Cancer CGH (Weir 2007)
 #&gt;   ...
-#&gt;   UCSC Cell Browser Multiple Sclerosis
-#&gt;   HCA Human Hematopoietic Profiling
-#&gt; datasets() (1738 total):
+#&gt;   Pediatric Brain Tumor Atlas: PNOC
+#&gt;   Pediatric Brain Tumor Atlas: CBTTC
+#&gt; datasets() (1641 total):
 #&gt;   ucsfNeve_public/ucsfNeveExp_genomicMatrix
 #&gt;   ucsfNeve_public/ucsfNeve_public_clinicalMatrix
 #&gt;   kotliarov2006_public/kotliarov2006_genomicMatrix
 #&gt;   ...
-#&gt;   HCA/Human_Hematopoietic_Profiling/cells.tsv
-#&gt;   HCA/Human_Hematopoietic_Profiling/expression.tsv</code></pre>
+#&gt;   CBTTC/Participants.txt
+#&gt;   CBTTC/survival.txt</code></pre>
 <p>You can set <code>subset</code> argument to narrow datasets.</p>
 <pre class="r"><code>XenaGenerate(subset = XenaHostNames == &quot;tcgaHub&quot;)
 #&gt; class: XenaHub 
@@ -239,7 +242,7 @@ head(XenaData)
 #&gt;   ...
 #&gt;   TCGA Colon Cancer (COAD)
 #&gt;   TCGA Formalin Fixed Paraffin-Embedded Pilot Phase II (FPPP)
-#&gt; datasets() (879 total):
+#&gt; datasets() (715 total):
 #&gt;   TCGA.OV.sampleMap/HumanMethylation27
 #&gt;   TCGA.OV.sampleMap/HumanMethylation450
 #&gt;   TCGA.OV.sampleMap/Gistic2_CopyNumber_Gistic2_all_data_by_genes
@@ -267,23 +270,20 @@ head(datasets(xe))
 #&gt; [1] &quot;TCGA.OV.sampleMap/HumanMethylation27&quot;                          
 #&gt; [2] &quot;TCGA.OV.sampleMap/HumanMethylation450&quot;                         
 #&gt; [3] &quot;TCGA.OV.sampleMap/Gistic2_CopyNumber_Gistic2_all_data_by_genes&quot;
-#&gt; [4] &quot;TCGA.OV.sampleMap/mutation_broad&quot;                              
-#&gt; [5] &quot;TCGA.OV.sampleMap/OV_clinicalMatrix&quot;                           
-#&gt; [6] &quot;TCGA.OV.sampleMap/mutation_wustl_hiseq&quot;</code></pre>
+#&gt; [4] &quot;TCGA.OV.sampleMap/OV_clinicalMatrix&quot;                           
+#&gt; [5] &quot;TCGA.OV.sampleMap/RPPA_RBN&quot;                                    
+#&gt; [6] &quot;TCGA.OV.sampleMap/HT_HG-U133A&quot;</code></pre>
 <p>Pipe operator <code>%&gt;%</code> can also be used here.</p>
 <pre class="r"><code>library(dplyr)
 XenaData %&gt;% filter(XenaHostNames == &quot;tcgaHub&quot;, grepl(&quot;BRCA&quot;, XenaCohorts), grepl(&quot;Path&quot;, 
     XenaDatasets)) %&gt;% XenaGenerate()
 #&gt; class: XenaHub 
 #&gt; hosts():
-#&gt;   https://tcga.xenahubs.net
-#&gt; cohorts() (1 total):
-#&gt;   TCGA Breast Cancer (BRCA)
-#&gt; datasets() (4 total):
-#&gt;   TCGA.BRCA.sampleMap/Pathway_Paradigm_mRNA_And_Copy_Number
-#&gt;   TCGA.BRCA.sampleMap/Pathway_Paradigm_RNASeq
-#&gt;   TCGA.BRCA.sampleMap/Pathway_Paradigm_RNASeq_And_Copy_Number
-#&gt;   TCGA.BRCA.sampleMap/Pathway_Paradigm_mRNA</code></pre>
+#&gt;   
+#&gt; cohorts() (0 total):
+#&gt;   
+#&gt; datasets() (0 total):
+#&gt; </code></pre>
 <p>Sometimes we only know some keywords, <code>XenaScan()</code> can be used to scan all rows to detect if
 the keywords exist in <code>XenaData</code>.</p>
 <pre class="r"><code>x1 = XenaScan(pattern = &quot;Blood&quot;)
@@ -301,26 +301,26 @@ x1 %&gt;% XenaGenerate()
 #&gt;   Acute lymphoblastic leukemia (Mullighan 2008)
 #&gt;   TCGA Pan-Cancer (PANCAN)
 #&gt;   TCGA Acute Myeloid Leukemia (LAML)
-#&gt; datasets() (34 total):
+#&gt; datasets() (28 total):
 #&gt;   cmap/rankMatrix_reverse
 #&gt;   TARGET_ALL/TARGETcnv_genomicMatrix
 #&gt;   TARGET_ALL/TARGETexp_genomicMatrix
 #&gt;   ...
 #&gt;   TCGA.LAML.sampleMap/mutation_wustl
-#&gt;   TCGA.LAML.sampleMap/Pathway_Paradigm_RNASeq_And_Copy_Number
+#&gt;   TCGA.LAML.sampleMap/mutation_wustl_gene
 x2 %&gt;% XenaGenerate()
 #&gt; class: XenaHub 
 #&gt; hosts():
 #&gt;   https://tcga.xenahubs.net
 #&gt; cohorts() (1 total):
 #&gt;   TCGA Lung Cancer (LUNG)
-#&gt; datasets() (13 total):
+#&gt; datasets() (15 total):
 #&gt;   TCGA.LUNG.sampleMap/HumanMethylation27
 #&gt;   TCGA.LUNG.sampleMap/HumanMethylation450
 #&gt;   TCGA.LUNG.sampleMap/Gistic2_CopyNumber_Gistic2_all_data_by_genes
 #&gt;   ...
-#&gt;   TCGA.LUNG.sampleMap/HiSeqV2_exon
-#&gt;   TCGA.LUNG.sampleMap/AgilentG4502A_07_3</code></pre>
+#&gt;   mc3/LUNG_mc3.txt
+#&gt;   mc3_gene_level/LUNG_mc3_gene_level.txt</code></pre>
 </div>
 <div id="filter" class="section level2">
 <h2>Filter</h2>
@@ -432,7 +432,7 @@ xe2_query
 <p>If the data exists, command will not run to download them, but you can force it by <code>force</code> option.</p>
 <pre class="r"><code>destdir = file.path(tempdir(), &quot;test&quot;)
 xe2_download = XenaDownload(xe2_query, destdir = destdir, trans_slash = TRUE)
-#&gt; All downloaded files will under directory D:/Tool/Rtmp\RtmpUDbbNI/test.
+#&gt; All downloaded files will under directory /var/folders/bj/nw1w4g1j37ddpgb6zmh3sfh80000gn/T//RtmpG4580z/test.
 #&gt; Downloading TCGA.LUNG.sampleMap__LUNG_clinicalMatrix
 #&gt; Downloading TCGA.LUAD.sampleMap__LUAD_clinicalMatrix
 #&gt; Downloading TCGA.LUSC.sampleMap__LUSC_clinicalMatrix
@@ -588,78 +588,65 @@ downloadTCGA(project = &quot;UVM&quot;, data_type = &quot;Gene Expression RNASeq
 #&gt; $DataType
 #&gt;  [1] &quot;DNA Methylation&quot;                       
 #&gt;  [2] &quot;Gene Level Copy Number&quot;                
-#&gt;  [3] &quot;Somatic Mutation&quot;                      
-#&gt;  [4] &quot;Phenotype&quot;                             
-#&gt;  [5] &quot;Protein Expression RPPA&quot;               
-#&gt;  [6] &quot;Gene Expression Array&quot;                 
-#&gt;  [7] &quot;Gene Expression RNASeq&quot;                
-#&gt;  [8] &quot;Gene Somatic Non-silent Mutation&quot;      
-#&gt;  [9] &quot;Copy Number Segments&quot;                  
-#&gt; [10] &quot;miRNA Mature Strand Expression RNASeq&quot; 
+#&gt;  [3] &quot;Phenotype&quot;                             
+#&gt;  [4] &quot;Protein Expression RPPA&quot;               
+#&gt;  [5] &quot;Gene Expression Array&quot;                 
+#&gt;  [6] &quot;Gene Expression RNASeq&quot;                
+#&gt;  [7] &quot;Copy Number Segments&quot;                  
+#&gt;  [8] &quot;miRNA Mature Strand Expression RNASeq&quot; 
+#&gt;  [9] &quot;Exon Expression RNASeq&quot;                
+#&gt; [10] &quot;Transcription Factor Regulatory Impact&quot;
 #&gt; [11] &quot;PARADIGM Pathway Activity&quot;             
-#&gt; [12] &quot;Exon Expression RNASeq&quot;                
-#&gt; [13] &quot;Transcription Factor Regulatory Impact&quot;
-#&gt; [14] &quot;Signatures&quot;                            
-#&gt; [15] &quot;iCluster&quot;                              
+#&gt; [12] NA                                      
+#&gt; [13] &quot;Gene Somatic Non-silent Mutation&quot;      
+#&gt; [14] &quot;Somatic Mutation&quot;                      
+#&gt; [15] &quot;Signatures&quot;                            
+#&gt; [16] &quot;iCluster&quot;                              
 #&gt; 
 #&gt; $FileType
 #&gt;  [1] &quot;Methylation27K&quot;                            
 #&gt;  [2] &quot;Methylation450K&quot;                           
 #&gt;  [3] &quot;Gistic2&quot;                                   
-#&gt;  [4] &quot;broad automated&quot;                           
-#&gt;  [5] &quot;Clinical Information&quot;                      
-#&gt;  [6] &quot;wustl hiseq automated&quot;                     
-#&gt;  [7] &quot;RPPA normalized by RBN&quot;                    
-#&gt;  [8] &quot;Affymetrix U133A Microarray&quot;               
-#&gt;  [9] &quot;bcm SOLiD&quot;                                 
-#&gt; [10] &quot;IlluminaHiSeq RNASeqV2 in percentile rank&quot; 
-#&gt; [11] &quot;IlluminaHiSeq RNASeqV2 pancan normalized&quot;  
-#&gt; [12] &quot;IlluminaHiSeq RNASeqV2&quot;                    
-#&gt; [13] &quot;IlluminaHiSeq RNASeq&quot;                      
-#&gt; [14] &quot;After remove germline cnv&quot;                 
-#&gt; [15] &quot;Agilent 244K Microarray&quot;                   
-#&gt; [16] &quot;PANCAN AWG analyzed&quot;                       
-#&gt; [17] &quot;bcm SOLiD curated&quot;                         
-#&gt; [18] &quot;wustl automated&quot;                           
-#&gt; [19] &quot;Use Microarray plus Copy Number&quot;           
-#&gt; [20] &quot;Gistic2 thresholded&quot;                       
-#&gt; [21] &quot;RPPA&quot;                                      
-#&gt; [22] &quot;Before remove germline cnv&quot;                
-#&gt; [23] &quot;Gene Expression Subtype&quot;                   
-#&gt; [24] &quot;Use only RNASeq&quot;                           
-#&gt; [25] &quot;Use RNASeq plus Copy Number&quot;               
-#&gt; [26] &quot;Use only Microarray&quot;                       
-#&gt; [27] &quot;RABIT Use Agilent 244K Microarray&quot;         
-#&gt; [28] &quot;RABIT Use Affymetrix U133A Microarray&quot;     
-#&gt; [29] &quot;bcm automated&quot;                             
-#&gt; [30] &quot;IlluminaGA RNASeq&quot;                         
-#&gt; [31] &quot;RABIT Use IlluminaHiSeq RNASeqV2&quot;          
-#&gt; [32] &quot;RABIT Use IlluminaHiSeq RNASeq&quot;            
-#&gt; [33] &quot;MethylMix&quot;                                 
-#&gt; [34] &quot;ucsc automated&quot;                            
-#&gt; [35] &quot;broad curated&quot;                             
-#&gt; [36] &quot;bcm curated&quot;                               
-#&gt; [37] &quot;Platform-corrected PANCAN12 dataset&quot;       
-#&gt; [38] &quot;bsgsc automated&quot;                           
-#&gt; [39] &quot;bcgsc automated&quot;                           
-#&gt; [40] &quot;wustl curated&quot;                             
-#&gt; [41] &quot;IlluminaGA RNASeqV2&quot;                       
-#&gt; [42] &quot;RABIT Use IlluminaGA RNASeqV2&quot;             
-#&gt; [43] &quot;RABIT Use IlluminaGA RNASeq&quot;               
-#&gt; [44] &quot;Batch effects normalized&quot;                  
-#&gt; [45] &quot;MC3 Public Version&quot;                        
-#&gt; [46] &quot;TCGA Sample Type and Primary Disease&quot;      
-#&gt; [47] &quot;RPPA pancan normalized&quot;                    
-#&gt; [48] &quot;Tumor copy number&quot;                         
-#&gt; [49] &quot;Genome-wide DNA Damage Footprint HRD Score&quot;
-#&gt; [50] &quot;TCGA Molecular Subtype&quot;                    
-#&gt; [51] &quot;iCluster cluster assignments&quot;              
-#&gt; [52] &quot;iCluster latent variables&quot;                 
-#&gt; [53] &quot;RNA based StemnessScore&quot;                   
-#&gt; [54] &quot;DNA methylation based StemnessScore&quot;       
-#&gt; [55] &quot;Pancan Gene Programs&quot;                      
-#&gt; [56] &quot;Immune Model Based Subtype&quot;                
-#&gt; [57] &quot;Immune Signature Scores&quot;</code></pre>
+#&gt;  [4] &quot;Clinical Information&quot;                      
+#&gt;  [5] &quot;RPPA normalized by RBN&quot;                    
+#&gt;  [6] &quot;Affymetrix U133A Microarray&quot;               
+#&gt;  [7] &quot;IlluminaHiSeq RNASeqV2 in percentile rank&quot; 
+#&gt;  [8] &quot;IlluminaHiSeq RNASeqV2 pancan normalized&quot;  
+#&gt;  [9] &quot;IlluminaHiSeq RNASeqV2&quot;                    
+#&gt; [10] &quot;IlluminaHiSeq RNASeq&quot;                      
+#&gt; [11] &quot;After remove germline cnv&quot;                 
+#&gt; [12] &quot;Agilent 244K Microarray&quot;                   
+#&gt; [13] &quot;Gistic2 thresholded&quot;                       
+#&gt; [14] &quot;RPPA&quot;                                      
+#&gt; [15] &quot;Before remove germline cnv&quot;                
+#&gt; [16] &quot;Gene Expression Subtype&quot;                   
+#&gt; [17] &quot;RABIT Use Agilent 244K Microarray&quot;         
+#&gt; [18] &quot;RABIT Use Affymetrix U133A Microarray&quot;     
+#&gt; [19] &quot;Platform-corrected PANCAN12 dataset&quot;       
+#&gt; [20] NA                                          
+#&gt; [21] &quot;IlluminaGA RNASeq&quot;                         
+#&gt; [22] &quot;RABIT Use IlluminaHiSeq RNASeqV2&quot;          
+#&gt; [23] &quot;RABIT Use IlluminaHiSeq RNASeq&quot;            
+#&gt; [24] &quot;MethylMix&quot;                                 
+#&gt; [25] &quot;IlluminaGA RNASeqV2&quot;                       
+#&gt; [26] &quot;broad automated&quot;                           
+#&gt; [27] &quot;wustl automated&quot;                           
+#&gt; [28] &quot;RABIT Use IlluminaGA RNASeqV2&quot;             
+#&gt; [29] &quot;RABIT Use IlluminaGA RNASeq&quot;               
+#&gt; [30] &quot;Batch effects normalized&quot;                  
+#&gt; [31] &quot;MC3 Public Version&quot;                        
+#&gt; [32] &quot;TCGA Sample Type and Primary Disease&quot;      
+#&gt; [33] &quot;RPPA pancan normalized&quot;                    
+#&gt; [34] &quot;Tumor copy number&quot;                         
+#&gt; [35] &quot;Genome-wide DNA Damage Footprint HRD Score&quot;
+#&gt; [36] &quot;TCGA Molecular Subtype&quot;                    
+#&gt; [37] &quot;iCluster cluster assignments&quot;              
+#&gt; [38] &quot;iCluster latent variables&quot;                 
+#&gt; [39] &quot;RNA based StemnessScore&quot;                   
+#&gt; [40] &quot;DNA methylation based StemnessScore&quot;       
+#&gt; [41] &quot;Pancan Gene Programs&quot;                      
+#&gt; [42] &quot;Immune Model Based Subtype&quot;                
+#&gt; [43] &quot;Immune Signature Scores&quot;</code></pre>
 <p>Note not all datasets have these property, <code>showTCGA</code> can help you to check it. It will return all data in TCGA, you can use following code in RStudio and search your data.</p>
 <pre class="r"><code>View(showTCGA())</code></pre>
 <p><strong>OR you can use shiny app provided by <code>UCSCXenaTools</code> to search</strong>.</p>
@@ -670,35 +657,34 @@ downloadTCGA(project = &quot;UVM&quot;, data_type = &quot;Gene Expression RNASeq
 <div id="sessioninfo" class="section level1">
 <h1>SessionInfo</h1>
 <pre class="r"><code>sessionInfo()
-#&gt; R version 3.6.1 (2019-07-05)
-#&gt; Platform: x86_64-w64-mingw32/x64 (64-bit)
-#&gt; Running under: Windows 10 x64 (build 18362)
+#&gt; R version 4.0.2 (2020-06-22)
+#&gt; Platform: x86_64-apple-darwin17.0 (64-bit)
+#&gt; Running under: macOS Catalina 10.15.6
 #&gt; 
 #&gt; Matrix products: default
+#&gt; BLAS:   /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRblas.dylib
+#&gt; LAPACK: /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRlapack.dylib
 #&gt; 
 #&gt; locale:
-#&gt; [1] LC_COLLATE=Chinese (Simplified)_China.936 
-#&gt; [2] LC_CTYPE=Chinese (Simplified)_China.936   
-#&gt; [3] LC_MONETARY=Chinese (Simplified)_China.936
-#&gt; [4] LC_NUMERIC=C                              
-#&gt; [5] LC_TIME=Chinese (Simplified)_China.936    
+#&gt; [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
 #&gt; 
 #&gt; attached base packages:
 #&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     
 #&gt; 
 #&gt; other attached packages:
-#&gt; [1] dplyr_0.8.3         UCSCXenaTools_1.2.9 pacman_0.5.1       
+#&gt; [1] dplyr_1.0.1         UCSCXenaTools_1.3.3
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
-#&gt;  [1] Rcpp_1.0.3       knitr_1.26       magrittr_1.5     hms_0.5.2       
-#&gt;  [5] tidyselect_0.2.5 R6_2.4.1         rlang_0.4.1      fansi_0.4.0     
-#&gt;  [9] stringr_1.4.0    httr_1.4.1       tools_3.6.1      xfun_0.11       
-#&gt; [13] utf8_1.1.4       cli_2.0.0        htmltools_0.4.0  yaml_2.2.0      
-#&gt; [17] digest_0.6.22    assertthat_0.2.1 tibble_2.1.3     crayon_1.3.4    
-#&gt; [21] bookdown_0.16    readr_1.3.1      purrr_0.3.3      formatR_1.7     
-#&gt; [25] vctrs_0.2.0      curl_4.2         zeallot_0.1.0    glue_1.3.1      
-#&gt; [29] evaluate_0.14    rmarkdown_1.18   blogdown_0.17    stringi_1.4.3   
-#&gt; [33] compiler_3.6.1   pillar_1.4.2     backports_1.1.5  pkgconfig_2.0.3</code></pre>
+#&gt;  [1] Rcpp_1.0.5       knitr_1.29       magrittr_1.5     hms_0.5.3       
+#&gt;  [5] tidyselect_1.1.0 R6_2.4.1         rlang_0.4.7      fansi_0.4.1     
+#&gt;  [9] httr_1.4.2       stringr_1.4.0    tools_4.0.2      xfun_0.16       
+#&gt; [13] utf8_1.1.4       cli_2.0.2        htmltools_0.5.0  ellipsis_0.3.1  
+#&gt; [17] assertthat_0.2.1 yaml_2.2.1       digest_0.6.25    tibble_3.0.3    
+#&gt; [21] lifecycle_0.2.0  crayon_1.3.4     bookdown_0.20    readr_1.3.1     
+#&gt; [25] purrr_0.3.4      formatR_1.7      vctrs_0.3.2      curl_4.3        
+#&gt; [29] glue_1.4.1       evaluate_0.14    rmarkdown_2.3    blogdown_0.20   
+#&gt; [33] stringi_1.4.6    compiler_4.0.2   pillar_1.4.6     generics_0.0.2  
+#&gt; [37] pkgconfig_2.0.3</code></pre>
 </div>
 <div id="bug-report" class="section level1">
 <h1>Bug Report</h1>

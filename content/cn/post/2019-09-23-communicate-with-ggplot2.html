@@ -2,30 +2,27 @@
 title: "图形沟通：ggplot2"
 author: "王诗翔"
 date: "2018-10-17"
-lastmod: "2019-09-23"
+lastmod: "2020-08-09"
 slug: "communicate-with-ggplot2"
-categories: r
-tags:
-- r
-- dplyr
-- ggplot2
+categories: [r]
+tags: [r, dplyr, ggplot2]
 ---
 
 
 
-<div class="section level2">
+<div id="准备工作" class="section level2">
 <h2>准备工作</h2>
 <pre class="r"><code>library(tidyverse)
-#&gt; ─ Attaching packages ──────────────────────────────────────────── tidyverse 1.2.1 ─
-#&gt; ✔ ggplot2 3.2.1     ✔ purrr   0.3.2
-#&gt; ✔ tibble  2.1.3     ✔ dplyr   0.8.3
-#&gt; ✔ tidyr   1.0.0     ✔ stringr 1.4.0
-#&gt; ✔ readr   1.3.1     ✔ forcats 0.4.0
-#&gt; ─ Conflicts ────────────────────────────────────────────── tidyverse_conflicts() ─
-#&gt; ✖ dplyr::filter() masks stats::filter()
-#&gt; ✖ dplyr::lag()    masks stats::lag()</code></pre>
+#&gt; ── Attaching packages ──────────────────────────────────────────────────────────── tidyverse 1.3.0 ──
+#&gt; ✓ ggplot2 3.3.2     ✓ purrr   0.3.4
+#&gt; ✓ tibble  3.0.3     ✓ dplyr   1.0.0
+#&gt; ✓ tidyr   1.1.0     ✓ stringr 1.4.0
+#&gt; ✓ readr   1.3.1     ✓ forcats 0.5.0
+#&gt; ── Conflicts ─────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+#&gt; x dplyr::filter() masks stats::filter()
+#&gt; x dplyr::lag()    masks stats::lag()</code></pre>
 </div>
-<div class="section level2">
+<div id="标签" class="section level2">
 <h2>标签</h2>
 <p>添加标签就是设置横轴、纵轴的解释文字和标题。我们使用<code>labs()</code>函数实现它。</p>
 <pre class="r"><code>ggplot(mpg, aes(displ, hwy)) + 
@@ -68,7 +65,7 @@ tags:
     )
 #&gt; `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
 <p><img src="/cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
-<p>我们还可以在标题中使用数学公式代替字符串文本，使用<code>quote()</code>函数代替<code>&quot;&quot;</code>，再使用<code>?plotmath</code>命令查看可用选项：</p>
+<p>我们还可以在标题中使用数学公式代替字符串文本，使用<code>quote()</code>函数代替<code>""</code>，再使用<code>?plotmath</code>命令查看可用选项：</p>
 <pre class="r"><code>df = tibble(
     x = runif(10),
     y = runif(10)
@@ -81,7 +78,7 @@ ggplot(df, aes(x, y)) +
     )</code></pre>
 <p><img src="/cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 </div>
-<div class="section level2">
+<div id="注释" class="section level2">
 <h2>注释</h2>
 <p>除了为图形的主要部分添加标签，有时我们还想对单个观测或分组观测添加标签。可用使用<code>geom_text()</code>函数，它的用法基本与<code>geom_point()</code>函数相同，但提供了一个额外的图形属性<code>label</code>，我们可以通过该属性添加文字。</p>
 <p>可以通过2种方法提供标签。</p>
@@ -120,6 +117,7 @@ ggplot(mpg, aes(displ, hwy)) +
         displ = median(displ),
         hwy = median(hwy)
     )
+#&gt; `summarise()` ungrouping output (override with `.groups` argument)
 ggplot(mpg, aes(displ, hwy, color = class)) +
     ggrepel::geom_label_repel(aes(label = class),
                               data = class_avg,
@@ -181,7 +179,7 @@ ggplot(mpg, aes(displ, hwy)) +
 </ul>
 <p><strong>唯一的限制是你的想象力和耐心</strong>。</p>
 </div>
-<div class="section level2">
+<div id="标度" class="section level2">
 <h2>标度</h2>
 <p>标度控制从数据值到图形属性的映射，它可以将数据转换为视觉上可以感知的东西。<strong>默认ggplot2会自动向图表中添加标度</strong>。</p>
 <p>例如，输入下面代码：</p>
@@ -200,7 +198,7 @@ ggplot(mpg, aes(displ, hwy)) +
 <li>对默认标度一些参数进行调整</li>
 <li>整体替换默认标度</li>
 </ul>
-<div class="section level3">
+<div id="坐标轴刻度与图例" class="section level3">
 <h3>坐标轴刻度与图例</h3>
 <p>影响坐标轴和图例外观的主要参数有两个：<code>breaks</code>和<code>labels</code>。<code>breaks</code>控制坐标轴的刻度位置，以及与图例相关的数值显示。<code>labels</code>控制与每个坐标轴或图例相关的文本标签。
 <code>breaks</code>的最常用用途是替换默认刻度。</p>
@@ -230,7 +228,7 @@ ggplot(mpg, aes(displ, hwy)) +
 <p><img src="/cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
 <p>日期型和日期时间型标度的刻度和标签格式对应于<code>date_labels</code>和<code>date_breaks</code>。</p>
 </div>
-<div class="section level3">
+<div id="图例布局" class="section level3">
 <h3>图例布局</h3>
 <p>如果想要控制图例的位置，需要使用<code>theme()</code>函数设置。简而言之，主题的作用就是控制图形中与数据无关的部分。
 主题设置中的<code>legend.position</code>可以控制图例的位置。</p>
@@ -244,7 +242,7 @@ base + theme(legend.position = &quot;left&quot;)</code></pre>
 <p><img src="/cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-18-3.png" width="672" /></p>
 <pre class="r"><code>base + theme(legend.position = &quot;right&quot;)  # 默认设置</code></pre>
 <p><img src="/cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-18-4.png" width="672" /></p>
-<p>使用<code>legend.position = &quot;none&quot;</code>可以去掉图例显示。
+<p>使用<code>legend.position = "none"</code>可以去掉图例显示。
 要想控制单个图例的显示，可以配合<code>guide_legend()</code>或<code>guide_colorbar()</code>函数来使用<code>guides()</code>函数。
 下面，我们给出两个重要设置：使用<code>nrow</code>设定图例项目的行数，并覆盖一个图形属性，以便数据点更大一些。如果想在一张图表上使用较低的alpha值显示多个数据点，那么这些设置非常重要。</p>
 <pre class="r"><code>ggplot(mpg, aes(displ, hwy)) + 
@@ -260,7 +258,7 @@ base + theme(legend.position = &quot;left&quot;)</code></pre>
 #&gt; `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
 <p><img src="/cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
 </div>
-<div class="section level3">
+<div id="标度替换" class="section level3">
 <h3>标度替换</h3>
 <p>我们还可以替换整体标度。最经常进行替换的两种标度是连续型标度和颜色标度。它们的原理适用于其他图形属性。
 绘制出变量转换是非常有用的，比如：</p>
@@ -317,7 +315,7 @@ ggplot(df, aes(x, y)) +
 <p><img src="/cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-25-2.png" width="672" /></p>
 </div>
 </div>
-<div class="section level2">
+<div id="缩放" class="section level2">
 <h2>缩放</h2>
 <p>控制图形范围的方法有3种：</p>
 <ul>
@@ -340,7 +338,7 @@ ggplot(df, aes(x, y)) +
 #&gt; `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
 <p><img src="/cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-26-2.png" width="672" /></p>
 </div>
-<div class="section level2">
+<div id="定制" class="section level2">
 <h2>定制</h2>
 <p>最后，我们可以使用主题来定制图形中的非数据元素。</p>
 <pre class="r"><code>ggplot(mpg, aes(displ, hwy)) + 
@@ -364,7 +362,7 @@ ggplot(df, aes(x, y)) +
 <p>很多人感到诧异，为什么默认主题要使用灰色背景。这是有意为之，因为这样可以在网格线可见的情况下更加突出数据。白色网格线既是可见的（它们有助于位置判定），又对视觉没有什么严重影响，我们完全可以视而不见。图表的灰色背景不像白色背景那么突兀，与文本印刷颜色非常相近，保证了图形与文档其他部分浑然一体。最后，灰色背景可以创建一片连续的颜色区域，使得图形成为形象鲜明的一个视觉实体。</p>
 </blockquote>
 </div>
-<div class="section level2">
+<div id="保存图形" class="section level2">
 <h2>保存图形</h2>
 <p>有两种办法将图形从R导入最终报告：</p>
 <ul>
@@ -378,14 +376,14 @@ ggplot(df, aes(x, y)) +
 <pre class="r"><code>ggsave(&quot;my-plot.pdf&quot;)</code></pre>
 <p><code>ggsave()</code>会使用当前绘图设备的尺寸保存图形。
 然而，我们一般通常用R Markdown生成最终报告，因此我们将重点介绍在生成图形时应该了解的一些重要代码选项。</p>
-<div class="section level3">
+<div id="图形大小" class="section level3">
 <h3>图形大小</h3>
 <p>在R Markdown中，关于图形的最大问题是如何确定其大小和形状。控制图形大小的选项主要有5个：<code>fig.width</code>、<code>fig.height</code>、<code>fig.asp</code>、<code>out.width</code>和<code>out.height</code>。
 之所以说图形大小是一个难题，是因为图形大小有两种（R生成的图形的大小，以及插入和输出文档中的图形的大小），而且指定图形大小的方法也有多种（即高度、宽度和高宽比；三者任选其二）。</p>
 <p>我们只使用以上5种选项中的3种。</p>
 <ul>
 <li>我们发现，<strong>宽度一致的图形是最令人伤心悦目的</strong>。为了使图形宽度保持一致，我们设置图形的默认参数为<code>fig.width = 6</code>（6英寸）和<code>fig.asp = 0.618</code>（黄金分割）。在单个代码段中，我们只调整<code>fig.asp</code>。</li>
-<li>我们使用<code>out.width</code>控制输出图形的大小，并将其设置为行宽的百分比。默认设置为<code>out.width = &quot;70&quot;</code>和<code>fig.align = &quot;center&quot;</code>。这样图形既不会占用太多空间，也不会显得拥挤。</li>
+<li>我们使用<code>out.width</code>控制输出图形的大小，并将其设置为行宽的百分比。默认设置为<code>out.width = "70"</code>和<code>fig.align = "center"</code>。这样图形既不会占用太多空间，也不会显得拥挤。</li>
 <li>如果想在一行中放置多个图形，可以将<code>out.width</code>设置为50%以放置2个图形、设置为33%以放置3个图形。
 如果我们发现必须眯起眼睛才能看清图形的文本，那么久需要调整<code>fig.width</code>参数。<strong>如果<code>fig.width</code>大于最终文档中的图形尺寸，那么文本就会显得过小；如果<code>fig.width</code>小于最终文档中的图形尺寸，那么文本就会显得过大</strong>。一般来说，我们需要试验几次才能找到<code>fig.width</code>和最终文档中的图形的最佳比例。</li>
 </ul>
@@ -394,13 +392,13 @@ ggplot(df, aes(x, y)) +
 <img src="/cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-31-1.png" width="576" />
 <img src="/cn/post/2019-09-23-communicate-with-ggplot2_files/figure-html/unnamed-chunk-32-1.png" width="768" />
 ### 其他重要选项</p>
-<p>当代码和文本混合时，我们建议设置<code>fig.show = &quot;hold&quot;</code>，以使图形显示在代码后面。这样做的好处是可以强制使用解释性图形将大块代码分解成更小的部分。
+<p>当代码和文本混合时，我们建议设置<code>fig.show = "hold"</code>，以使图形显示在代码后面。这样做的好处是可以强制使用解释性图形将大块代码分解成更小的部分。
 如果想为图形添加说明文字，可以使用<code>fig.cap</code>。在R Markdown中，这样做会将“内联”模式修改为“浮动”模式。
 如果想要生成PDF格式输出文件，使用默认的图形格式即可。但如果图形包含几千个数据点，速度回非常慢，这时设置<code>dev = 'png'</code>生成png图片将是不错的选择。
 即使通常不为代码段添加标签，但为生成图形的代码段取名也是一种非常好的做法。</p>
 </div>
 </div>
-<div class="section level2">
+<div id="更多学习资源" class="section level2">
 <h2>更多学习资源</h2>
 <ul>
 <li>ggplot2教程：《ggplot2：数据分析与图形艺术》</li>

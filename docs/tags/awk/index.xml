@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>awk on Shixiang Wang | 王诗翔</title>
+    <link>/tags/awk/</link>
+    <description>Recent content in awk on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 25 Dec 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/awk/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>初识sed与awk</title>
+      <link>/cn/post/2017-12-25-sed-and-gawk/</link>
+      <pubDate>Mon, 25 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2017-12-25-sed-and-gawk/</guid>
+      <description>简单介绍sed与awk命令&amp;hellip;</description>
+    </item>
+    
+  </channel>
+</rss>

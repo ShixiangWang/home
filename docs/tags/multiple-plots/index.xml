@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>multiple-plots on Shixiang Wang | 王诗翔</title>
+    <link>/tags/multiple-plots/</link>
+    <description>Recent content in multiple-plots on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 21 Jun 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/multiple-plots/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>R传统图形绘制多图</title>
+      <link>/cn/post/2019-06-21-baseplot-multiplots/</link>
+      <pubDate>Fri, 21 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-06-21-baseplot-multiplots/</guid>
+      <description>我这里只说 2 种常用方式，它们互相排斥： 使用 par() 函数设定 mfrow 或者 mfcol 进行控制。 使用 layout() 函数。 par() 函数 mfrow 和 mfcol 都由 2 个数字指定，一个表示行数、一个表示列数。</description>
+    </item>
+    
+  </channel>
+</rss>

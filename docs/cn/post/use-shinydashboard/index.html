@@ -123,6 +123,24 @@
 2018-08-31</h3> 
 
 
+<p style="text-align:right;">
+  分类:
+  
+    <a href="../../../categories/r">r</a> &nbsp
+  
+  <br>
+  标签:
+  
+    <a href="../../../tags/r">r</a> &nbsp
+  
+    <a href="../../../tags/shiny">shiny</a> &nbsp
+  
+    <a href="../../../tags/shinydashboard">shinydashboard</a> &nbsp
+  
+</p>
+
+
+
    
   
 
@@ -140,36 +158,36 @@
 <p>快速查看下CRAN下载数据的数据源：</p>
 <pre class="r"><code>library(cranlogs)
 cran_top_downloads()
-#&gt;    rank         package count       from         to
-#&gt; 1     1        magrittr 98995 2019-08-24 2019-08-24
-#&gt; 2     2          aws.s3 93382 2019-08-24 2019-08-24
-#&gt; 3     3 aws.ec2metadata 90010 2019-08-24 2019-08-24
-#&gt; 4     4       rsconnect 88144 2019-08-24 2019-08-24
-#&gt; 5     5            Rcpp 37762 2019-08-24 2019-08-24
-#&gt; 6     6           rlang 19022 2019-08-24 2019-08-24
-#&gt; 7     7           dplyr 16718 2019-08-24 2019-08-24
-#&gt; 8     8         ggplot2 14473 2019-08-24 2019-08-24
-#&gt; 9     9        ellipsis 13257 2019-08-24 2019-08-24
-#&gt; 10   10           vctrs 12963 2019-08-24 2019-08-24</code></pre>
+#&gt;    rank         package  count       from         to
+#&gt; 1     1        magrittr 122229 2020-08-05 2020-08-05
+#&gt; 2     2          aws.s3  99287 2020-08-05 2020-08-05
+#&gt; 3     3 aws.ec2metadata  97312 2020-08-05 2020-08-05
+#&gt; 4     4       rsconnect  95478 2020-08-05 2020-08-05
+#&gt; 5     5        jsonlite  69713 2020-08-05 2020-08-05
+#&gt; 6     6           rlang  62995 2020-08-05 2020-08-05
+#&gt; 7     7              fs  55570 2020-08-05 2020-08-05
+#&gt; 8     8           vctrs  54230 2020-08-05 2020-08-05
+#&gt; 9     9         ggplot2  52680 2020-08-05 2020-08-05
+#&gt; 10   10        devtools  52519 2020-08-05 2020-08-05</code></pre>
 <pre class="r"><code>cran_top_downloads(&quot;last-week&quot;)
 #&gt;    rank         package  count       from         to
-#&gt; 1     1        magrittr 718447 2019-08-18 2019-08-24
-#&gt; 2     2          aws.s3 630908 2019-08-18 2019-08-24
-#&gt; 3     3 aws.ec2metadata 605770 2019-08-18 2019-08-24
-#&gt; 4     4       rsconnect 598576 2019-08-18 2019-08-24
-#&gt; 5     5            Rcpp 224287 2019-08-18 2019-08-24
-#&gt; 6     6           rlang 219523 2019-08-18 2019-08-24
-#&gt; 7     7           dplyr 184220 2019-08-18 2019-08-24
-#&gt; 8     8         ggplot2 166793 2019-08-18 2019-08-24
-#&gt; 9     9        ellipsis 157110 2019-08-18 2019-08-24
-#&gt; 10   10           vctrs 153636 2019-08-18 2019-08-24</code></pre>
+#&gt; 1     1        magrittr 823815 2020-07-30 2020-08-05
+#&gt; 2     2          aws.s3 689662 2020-07-30 2020-08-05
+#&gt; 3     3 aws.ec2metadata 680320 2020-07-30 2020-08-05
+#&gt; 4     4       rsconnect 666062 2020-07-30 2020-08-05
+#&gt; 5     5        jsonlite 432711 2020-07-30 2020-08-05
+#&gt; 6     6              fs 364093 2020-07-30 2020-08-05
+#&gt; 7     7           rlang 359995 2020-07-30 2020-08-05
+#&gt; 8     8        devtools 342753 2020-07-30 2020-08-05
+#&gt; 9     9         usethis 318444 2020-07-30 2020-08-05
+#&gt; 10   10         ggplot2 317848 2020-07-30 2020-08-05</code></pre>
 <p>为了充分利用shinydashboard包，最好提前浏览下<a href="https://rstudio.github.io/shinydashboard/structure.html" class="uri">https://rstudio.github.io/shinydashboard/structure.html</a>。</p>
 <p>与创建shiny应用程序类似，我们从用户界面开始，使用<code>dashboardPage</code>、<code>dashboardSidebar</code>和<code>dashboardBody</code>这3个函数。在仪表板中，我们想要展示扩展包的下载动态，以及每周和每月最受欢迎的扩展包。</p>
 <p>我们把月度和周度的菜单放到侧栏中，这样用户可以选择需要查看的数据。在每个标签页，把绘图和表格放在一起。</p>
 <pre class="r"><code>library(shiny)
 library(shinydashboard)
 #&gt; 
-#&gt; 载入程辑包：&#39;shinydashboard&#39;
+#&gt; Attaching package: &#39;shinydashboard&#39;
 #&gt; The following object is masked from &#39;package:graphics&#39;:
 #&gt; 
 #&gt;     box
@@ -229,7 +247,7 @@ ui = dashboardPage(
   <footer>
   
 <nav class="post-nav">
-  <span class="nav-prev">&larr; <a href="../../../cn/post/hpc-in-r/">高性能计算</a></span>
+  <span class="nav-prev">&larr; <a href="../../../cn/post/hpc-in-r/">R 的高性能计算</a></span>
   <span class="nav-next"><a href="../../../cn/post/use-forestplot/">Forest Plot（森林图）绘制</a> &rarr;</span>
 </nav>
 <script type="text/javascript">

@@ -2,13 +2,10 @@
 title: "R提取向量元素[与[[区分"
 author: "王诗翔"
 date: "2018-05-06"
-lastmod: "2019-11-20"
+lastmod: "2020-08-09"
 slug: ""
-categories: r
-tags:
-- r
-- subset
-- notion
+categories: [r]
+tags: [r, subset, note]
 ---
 
 
@@ -24,7 +21,7 @@ x[&quot;a&quot;]
 #&gt; 1
 x[[&quot;a&quot;]]
 #&gt; [1] 1</code></pre>
-<p>我们利用糖果盒的比喻来进行理解：<code>x[&quot;a&quot;]</code>让我们得到标签为“a”的糖果盒，而<code>x[[&quot;a&quot;]]</code>让我们得到便签为“a”的糖果盒里面的糖果。</p>
+<p>我们利用糖果盒的比喻来进行理解：<code>x["a"]</code>让我们得到标签为“a”的糖果盒，而<code>x[["a"]]</code>让我们得到便签为“a”的糖果盒里面的糖果。</p>
 <p>由于<code>[[]]</code>只能用于提取出一个元素，因此<strong>不适用提取多个元素的情况</strong>。</p>
 <pre class="r"><code>x[[c(1,2)]]
 # Error in x[[c(1, 2)]] : 

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>iteration on Shixiang Wang | 王诗翔</title>
+    <link>/tags/iteration/</link>
+    <description>Recent content in iteration on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 15 Oct 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/iteration/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>使用purrr和broom处理多个模型</title>
+      <link>/cn/post/purrr-and-broom/</link>
+      <pubDate>Mon, 15 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/purrr-and-broom/</guid>
+      <description>整理自《R for data science》 本文介绍3种方法用于处理大量模型。 使用多个简单模型更好地理解复杂数据集。 使用列表列在数据框中保存任意数据结构。</description>
+    </item>
+    
+  </channel>
+</rss>

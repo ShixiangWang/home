@@ -20,5 +20,14 @@
       <description>最近微软为 Windows Terminal 推出了具有连字特性的字体 Cascadia Code，在试用后发现确实很不错，下图是字体效果，这里结合官方的 README 介绍一下。 下载与安装 该字体存储在 GitHub</description>
     </item>
     
+    <item>
+      <title>showtext：在R图里面更简单地使用字体</title>
+      <link>/cn/post/showtext-pkg/</link>
+      <pubDate>Thu, 20 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/showtext-pkg/</guid>
+      <description>在如何修改画图使用的字体这篇文章中，我介绍了一种解决R图里字体的方案——extrafont包。今天意外看到另一个解决字体问题的包，再次推荐和</description>
+    </item>
+    
   </channel>
 </rss>

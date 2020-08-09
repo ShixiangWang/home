@@ -4,12 +4,8 @@ author: "王诗翔"
 date: "2018-04-28"
 lastmod: "`r Sys.Date()`"
 slug: "r-survival"
-categories: r
-tags:
-- r
-- 生存分析
-- cox
-- survival
+categories: [r]
+tags: [r, survival, cox]
 ---
 
 ```{r setup, include=FALSE}

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>essay on Shixiang Wang | 王诗翔</title>
+    <link>/tags/essay/</link>
+    <description>Recent content in essay on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 05 Jun 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/essay/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Balderdash</title>
+      <link>/en/post/2019-06-05-balderdash/</link>
+      <pubDate>Wed, 05 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/en/post/2019-06-05-balderdash/</guid>
+      <description>2019-06-05 Learning programming languages after serveral years, it suddenly dawned on me that they are just tools we express our ideas.</description>
+    </item>
+    
+  </channel>
+</rss>

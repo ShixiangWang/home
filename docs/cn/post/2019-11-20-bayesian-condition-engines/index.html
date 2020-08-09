@@ -123,6 +123,24 @@
 2018-05-16</h3> 
 
 
+<p style="text-align:right;">
+  分类:
+  
+    <a href="../../../categories/r">r</a> &nbsp
+  
+  <br>
+  标签:
+  
+    <a href="../../../tags/r">r</a> &nbsp
+  
+    <a href="../../../tags/math">math</a> &nbsp
+  
+    <a href="../../../tags/bayesian">bayesian</a> &nbsp
+  
+</p>
+
+
+
    
   
 
@@ -213,16 +231,21 @@ plot(p_grid, posterior, xlab=&quot;probability of water&quot;, ylab=&quot;poster
 </ol>
 <p>我们这里使用<code>rethinking</code>包的<code>map</code>函数进行计算，它是<code>Maximum A Posterior</code>的简写。</p>
 <pre class="r"><code>library(rethinking)
-#&gt; 载入需要的程辑包：rstan
-#&gt; 载入需要的程辑包：StanHeaders
-#&gt; 载入需要的程辑包：ggplot2
-#&gt; rstan (Version 2.19.2, GitRev: 2e1f913d3ca3)
+#&gt; Loading required package: rstan
+#&gt; Loading required package: StanHeaders
+#&gt; Loading required package: ggplot2
+#&gt; rstan (Version 2.21.1, GitRev: 2e1f913d3ca3)
 #&gt; For execution on a local, multicore CPU with excess RAM we recommend calling
 #&gt; options(mc.cores = parallel::detectCores()).
 #&gt; To avoid recompilation of unchanged Stan programs, we recommend calling
 #&gt; rstan_options(auto_write = TRUE)
-#&gt; 载入需要的程辑包：parallel
-#&gt; rethinking (Version 1.87)
+#&gt; Loading required package: parallel
+#&gt; rethinking (Version 2.12)
+#&gt; 
+#&gt; Attaching package: &#39;rethinking&#39;
+#&gt; The following object is masked from &#39;package:stats&#39;:
+#&gt; 
+#&gt;     rstudent
 globe.qa &lt;- map(
     alist(
         w ~ dbinom(9, p), # 二项分布似然度

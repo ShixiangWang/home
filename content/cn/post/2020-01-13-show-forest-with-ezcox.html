@@ -2,11 +2,10 @@
 title: "使用 ezcox 展示森林图"
 author: "王诗翔"
 date: "2020-01-13"
-lastmod: "2020-01-13"
+lastmod: "2020-08-09"
 slug: ""
-categories: r
-tags:
-- r
+categories: [r]
+tags: [r, ezcox, cox]
 ---
 
 
@@ -14,14 +13,14 @@ tags:
 <p>我之前写过<a href="https://shixiangwang.github.io/home/cn/post/2019-10-23-ezcox-for-batch-cox-models/">一篇文章</a>介绍最近写的一个包 <strong>ezcox</strong>，它可以用来进行批量处理 Cox 模型（支持并行计算）。那个时候我已经关注到了 <strong>forestmodel</strong> 包并修复了几个 Bug，但作者没有将更新推到 CRAN 上，所以我就没将它加入到 <strong>ezcox</strong> 的早期版本中。最近我通过版本检查巧妙地规避了这个问题，因此写一篇文章来介绍下如何使用 ezcox 绘制森林图。</p>
 <p>请先检查 <strong>ezcox</strong> 是不是已经更新到最新版本（&gt;=0.4.0）。</p>
 <pre class="r"><code>packageVersion(&quot;ezcox&quot;)
-#&gt; [1] &#39;0.4.0&#39;</code></pre>
+#&gt; [1] &#39;0.7.0&#39;</code></pre>
 <p>如果不是，请使用 <code>install_packages()</code> 进行更新。</p>
 <p>导入包：</p>
 <pre class="r"><code>library(survival)
 library(ezcox)
 #&gt; Welcome to &#39;ezcox&#39; package!
 #&gt; =======================================================================
-#&gt; You are using ezcox version 0.4.0
+#&gt; You are using ezcox version 0.7.0
 #&gt; 
 #&gt; Github page  : https://github.com/ShixiangWang/ezcox
 #&gt; Documentation: https://shixiangwang.github.io/ezcox/articles/ezcox.html
@@ -62,8 +61,8 @@ zz
 #&gt; # A tibble: 2 x 5
 #&gt;   Variable control model_file                                      model  status
 #&gt;   &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;                                           &lt;list&gt; &lt;lgl&gt; 
-#&gt; 1 sex      age     /var/folders/mx/rfkl27z90c96wbmn3_kjk8c80000gn… &lt;coxp… TRUE  
-#&gt; 2 ph.ecog  age     /var/folders/mx/rfkl27z90c96wbmn3_kjk8c80000gn… &lt;coxp… TRUE  
+#&gt; 1 sex      age     /var/folders/bj/nw1w4g1j37ddpgb6zmh3sfh80000gn… &lt;coxp… TRUE  
+#&gt; 2 ph.ecog  age     /var/folders/bj/nw1w4g1j37ddpgb6zmh3sfh80000gn… &lt;coxp… TRUE  
 #&gt; 
 #&gt; attr(,&quot;class&quot;)
 #&gt; [1] &quot;ezcox&quot; &quot;list&quot; 

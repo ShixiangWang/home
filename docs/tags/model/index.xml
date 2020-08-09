@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>model on Shixiang Wang | 王诗翔</title>
+    <link>/tags/model/</link>
+    <description>Recent content in model on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 24 Apr 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/model/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>模型结果为什么那么占存储空间？可以缩小吗？</title>
+      <link>/cn/post/2020-04-24-can-delete-data-in-model/</link>
+      <pubDate>Fri, 24 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2020-04-24-can-delete-data-in-model/</guid>
+      <description>在使用 R 处理逻辑回归建模问题时发现保存的模型对象非常之大，不可思议。正常情况下，我们建模之后所需要的就是模型的系数，以此对新的数据进行预测。</description>
+    </item>
+    
+  </channel>
+</rss>

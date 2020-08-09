@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ROC on Shixiang Wang | 王诗翔</title>
+    <link>/tags/roc/</link>
+    <description>Recent content in ROC on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 18 Oct 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/roc/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>简单丰富的ROC绘制与对比</title>
+      <link>/cn/post/2019-10-18-proc-for-roc-comparison/</link>
+      <pubDate>Fri, 18 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-10-18-proc-for-roc-comparison/</guid>
+      <description>我之前在《分析与可视化ROC——plotROC、pROC》中介绍了两个包 plotROC 和 pROC，那是一年前的事情了，现在我在处理 ROC 曲线时使用的是什么呢</description>
+    </item>
+    
+  </channel>
+</rss>

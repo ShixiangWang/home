@@ -123,6 +123,22 @@
 2018-08-01</h3> 
 
 
+<p style="text-align:right;">
+  分类:
+  
+    <a href="../../../categories/r">r</a> &nbsp
+  
+  <br>
+  标签:
+  
+    <a href="../../../tags/r">r</a> &nbsp
+  
+    <a href="../../../tags/mechanism">mechanism</a> &nbsp
+  
+</p>
+
+
+
    
   
 
@@ -154,7 +170,7 @@
 #&gt; [1] 1</code></pre>
 <p>即使没有对<code>y</code>赋值，函数竟然仍能够运行！<strong>看来调用函数时不必对所有的参数进行赋值，只对必需参数赋值即可</strong>。当然，如果这里<code>x</code>是一个负数，必须有<code>y</code>值的存在：</p>
 <pre class="r"><code>test0(-1)
-#&gt; Error in test0(-1): 缺少参数&quot;y&quot;,也没有缺省值</code></pre>
+#&gt; Error in test0(-1): argument &quot;y&quot; is missing, with no default</code></pre>
 <p>我们已知知道函数并不需要指定所有参数，如果指定了额外的参数，R是在调用函数前进行计算，还是根本就不会计算呢？</p>
 <p>我们使用<code>stop()</code>函数来探究一番：</p>
 <pre class="r"><code>test0(1, stop(&quot;Stop Now!&quot;))
@@ -166,12 +182,12 @@ test0(-1, stop(&quot;Stop Now!&quot;))
 <pre><code>test0(1, rnorm(10000000))</code></pre>
 <p>我们来看下：</p>
 <pre class="r"><code>system.time(test0(1, rnorm(10000000)))
-#&gt;  用户  系统  流逝 
-#&gt; 0.000 0.000 0.001</code></pre>
+#&gt;    user  system elapsed 
+#&gt;       0       0       0</code></pre>
 <p>而本身<code>rnorm</code>执行的时间为：</p>
 <pre class="r"><code>system.time(rnorm(10000000))
-#&gt;  用户  系统  流逝 
-#&gt; 0.664 0.023 0.687</code></pre>
+#&gt;    user  system elapsed 
+#&gt;   0.580   0.023   0.605</code></pre>
 <p>用我的计算机需要超过1秒的时间生成1千万个随机数，而运行<code>test0()</code>函数的消耗几乎为0。由此可见，在需要时再计算可以减少不必要的浪费。也许你会说，1秒算什么，但如果你的程序中循环迭代使用几千上万次这样的运算呢？那可是小时乃至天了。</p>
 <p>但惰性求值也是把双刃剑，<strong>在调用函数时，其参数只被解析而不被计算（使用时才计算），所有我们只能确定参数表达式在语法上是正确的，但很难确定它的有效性。</strong></p>
 <p>如果我们把函数</p>
@@ -184,7 +200,7 @@ test0(-1, stop(&quot;Stop Now!&quot;))
 }</code></pre>
 <p>因为创建函数时并不计算，所以创建<code>test3</code>时并不会报错，只有实际调用时才会报错：</p>
 <pre class="r"><code>test3(1:10)
-#&gt; Error in test3(1:10): 找不到对象&#39;m&#39;</code></pre>
+#&gt; Error in test3(1:10): object &#39;m&#39; not found</code></pre>
 <p>有趣的是，利用惰性求值我们可以创建一些有意思的函数用法，比如下面函数控制输入参数只接受<code>y</code>或<code>n</code>，否则报错：</p>
 <pre class="r"><code>check_input = function(x){
     switch (x,
@@ -218,12 +234,12 @@ x2
 <pre class="r"><code>x1 = c(1, 2, 3)
 x2 = x1
 tracemem(x1)
-#&gt; [1] &quot;&lt;0x7fa82a26df28&gt;&quot;
+#&gt; [1] &quot;&lt;0x7fee7b6717f8&gt;&quot;
 tracemem(x2)
-#&gt; [1] &quot;&lt;0x7fa82a26df28&gt;&quot;</code></pre>
+#&gt; [1] &quot;&lt;0x7fee7b6717f8&gt;&quot;</code></pre>
 <p><strong>可以发现两个向量值相同，并共享内存地址</strong>，说明它们指向相同的数据，而赋值操作并没有自动复制数据！那么数据是什么时候被复制了呢？</p>
 <pre class="r"><code>x1[1] = 0
-#&gt; tracemem[0x7fa82a26df28 -&gt; 0x7fa829c3fac8]: eval eval withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; eval eval eval eval eval.parent local</code></pre>
+#&gt; tracemem[0x7fee7b6717f8 -&gt; 0x7fee787d7e78]: eval eval withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; eval eval eval eval eval.parent local</code></pre>
 <p>内存追踪到<code>x1</code>的地址发生了改变。</p>
 <p><strong>如果多个变量指向同一对象，那么修改一个变量会生成该对象的一个副本，这就是复制——修改机制</strong>。</p>
 <p>另外，修改函数的参数和对象属性也会生成一个新的副本以确保外部的对象不受影响。</p>
@@ -305,7 +321,7 @@ fun1 = function(x){
     c(start1, x, end1)
 }
 fun1(c(4,5,6))
-#&gt; Error in fun1(c(4, 5, 6)): 找不到对象&#39;start1&#39;</code></pre>
+#&gt; Error in fun1(c(4, 5, 6)): object &#39;start1&#39; not found</code></pre>
 </div>
 <div id="环境的工作方式" class="section level2">
 <h2>环境的工作方式</h2>
@@ -320,7 +336,7 @@ fun1(c(4,5,6))
 <pre class="r"><code>e1 = new.env()</code></pre>
 <p><strong>环境通常用十六进制数表示，即内存地址</strong>：</p>
 <pre class="r"><code>e1
-#&gt; &lt;environment: 0x7fa82c1c3fe8&gt;</code></pre>
+#&gt; &lt;environment: 0x7fee7a2da0b8&gt;</code></pre>
 <p>我们可以使用提取操作符<code>$</code>和<code>[[</code>在环境中创建变量，代码看起来像是操作一个列表：</p>
 <pre class="r"><code>e1$x = 1
 e1[[&quot;x&quot;]]
@@ -336,9 +352,9 @@ e1[[&quot;x&quot;]]
 <h4>访问环境</h4>
 <p>函数没有索引——所以不能提取和构建子集：</p>
 <pre class="r"><code>e1[1:3] #索引
-#&gt; Error in e1[1:3]: 类别为&#39;environment&#39;的对象不可以取子集
+#&gt; Error in e1[1:3]: object of type &#39;environment&#39; is not subsettable
 e1[[1]] #构建子集
-#&gt; Error in e1[[1]]: 取子集环境时的参数不对</code></pre>
+#&gt; Error in e1[[1]]: wrong arguments for subsetting an environment</code></pre>
 <p><strong>正确方式</strong>是先用<code>exists()</code>检查环境是否存在某个变量，然后使用<code>get()</code>获取它的值：</p>
 <pre class="r"><code>exists(&quot;x&quot;, e1)
 #&gt; [1] TRUE
@@ -366,11 +382,11 @@ e1[[&quot;y&quot;]]
 <p>不同的环境有不同的内存地址，这里我们将<code>e1</code>设定为<code>e2</code>的父环境，那么<code>e2</code>的父环境的内存地址应该和<code>e1</code>一致。</p>
 <p>下面进行验证：</p>
 <pre class="r"><code>e2
-#&gt; &lt;environment: 0x7fa82a833380&gt;
+#&gt; &lt;environment: 0x7fee83829200&gt;
 e1
-#&gt; &lt;environment: 0x7fa82c1c3fe8&gt;
+#&gt; &lt;environment: 0x7fee7a2da0b8&gt;
 parent.env(e2)
-#&gt; &lt;environment: 0x7fa82c1c3fe8&gt;</code></pre>
+#&gt; &lt;environment: 0x7fee7a2da0b8&gt;</code></pre>
 <p>在<code>e2</code>中创建变量<code>y</code></p>
 <pre class="r"><code>e2$y = 2
 ls(e2)
@@ -391,7 +407,7 @@ get(&quot;x&quot;, e2)
 #&gt; [1] FALSE</code></pre>
 <p>使用<code>get</code>会报错：</p>
 <pre class="r"><code>get(&quot;x&quot;, e2, inherits = FALSE)
-#&gt; Error in get(&quot;x&quot;, e2, inherits = FALSE): 找不到对象&#39;x&#39;</code></pre>
+#&gt; Error in get(&quot;x&quot;, e2, inherits = FALSE): object &#39;x&#39; not found</code></pre>
 <p>环境可以有很多层，形成链一样的存在。在R的背后，环境至关重要，它标明了数据、函数、符号的存储空间，它们相互独立又相互联系。</p>
 <div id="在引用语义下使用环境" class="section level4">
 <h4>在引用语义下使用环境</h4>
@@ -460,23 +476,21 @@ global$some_obj = 1</code></pre>
 #&gt; package:grDevices 
 #&gt; package:utils 
 #&gt; package:datasets 
-#&gt; package:pacman 
 #&gt; package:methods 
 #&gt; Autoloads 
 #&gt; base 
 #&gt; R_EmptyEnv
-#&gt; Error in parent.env(env): 空环境没有父母环境</code></pre>
+#&gt; Error in parent.env(env): the empty environment has no parent</code></pre>
 <p>因为环境链终止于空环境，所以最后报错了。我们可以使用<code>emptyenv()</code>查看空环境。</p>
 <pre class="r"><code>parents(baseenv())
 #&gt; base 
 #&gt; R_EmptyEnv
-#&gt; Error in parent.env(env): 空环境没有父母环境</code></pre>
+#&gt; Error in parent.env(env): the empty environment has no parent</code></pre>
 <p><strong>环境链是内置环境和扩展包环境的组合</strong>，使用<code>search()</code>函数可以从全局环境视角获取变量的搜索路径：</p>
 <pre class="r"><code>search()
-#&gt;  [1] &quot;.GlobalEnv&quot;        &quot;package:stats&quot;     &quot;package:graphics&quot; 
-#&gt;  [4] &quot;package:grDevices&quot; &quot;package:utils&quot;     &quot;package:datasets&quot; 
-#&gt;  [7] &quot;package:pacman&quot;    &quot;package:methods&quot;   &quot;Autoloads&quot;        
-#&gt; [10] &quot;package:base&quot;</code></pre>
+#&gt; [1] &quot;.GlobalEnv&quot;        &quot;package:stats&quot;     &quot;package:graphics&quot; 
+#&gt; [4] &quot;package:grDevices&quot; &quot;package:utils&quot;     &quot;package:datasets&quot; 
+#&gt; [7] &quot;package:methods&quot;   &quot;Autoloads&quot;         &quot;package:base&quot;</code></pre>
 <p>我们举例子进行说明：</p>
 <pre class="r"><code>median(c(1, 2, 1+3))
 #&gt; [1] 2</code></pre>
@@ -500,13 +514,13 @@ global$some_obj = 1</code></pre>
 }</code></pre>
 <p>上面这个函数用来输出函该数被调用的执行环境和封闭环境：</p>
 <pre class="r"><code>simple_fun()
-#&gt; Executing environment: &lt;environment: 0x7fa82a864960&gt;
+#&gt; Executing environment: &lt;environment: 0x7fee7d9660e0&gt;
 #&gt; Enclosing environment: &lt;environment: R_GlobalEnv&gt;
 simple_fun()
-#&gt; Executing environment: &lt;environment: 0x7fa82a029540&gt;
+#&gt; Executing environment: &lt;environment: 0x7fee840ca898&gt;
 #&gt; Enclosing environment: &lt;environment: R_GlobalEnv&gt;
 simple_fun()
-#&gt; Executing environment: &lt;environment: 0x7fa82a310e30&gt;
+#&gt; Executing environment: &lt;environment: 0x7fee7d97e930&gt;
 #&gt; Enclosing environment: &lt;environment: R_GlobalEnv&gt;</code></pre>
 <p>每次调用函数时，其执行环境都在变化，但封闭环境是相同的。事实上定义函数时封闭函数已经确认了，我们使用<code>environment()</code>进行查看：</p>
 <pre class="r"><code>environment(simple_fun)
@@ -544,15 +558,15 @@ simple_fun()
 <p>如果你觉得理解了上述3个环境，可以尝试猜一下<code>f1()</code>的输出结果。</p>
 <p>答案如下：</p>
 <pre class="r"><code>f1()
-#&gt; [f1] Executing in &lt;environment: 0x7fa829e995d0&gt;
+#&gt; [f1] Executing in &lt;environment: 0x7fee7d147d98&gt;
 #&gt; [f1] Enclosed by &lt;environment: R_GlobalEnv&gt;
 #&gt; [f1] Calling from &lt;environment: R_GlobalEnv&gt;
-#&gt; [f3] Executing in &lt;environment: 0x7fa82a7a6b20&gt;
-#&gt; [f3] Enclosed by &lt;environment: 0x7fa829e995d0&gt;
-#&gt; [f3] Calling from &lt;environment: 0x7fa829e995d0&gt;
-#&gt; [f2] Executing in &lt;environment: 0x7fa82a7a9bd0&gt;
-#&gt; [f2] Enclosed by &lt;environment: 0x7fa829e995d0&gt;
-#&gt; [f2] Calling from &lt;environment: 0x7fa82a7a6b20&gt;</code></pre>
+#&gt; [f3] Executing in &lt;environment: 0x7fee7b27c188&gt;
+#&gt; [f3] Enclosed by &lt;environment: 0x7fee7d147d98&gt;
+#&gt; [f3] Calling from &lt;environment: 0x7fee7d147d98&gt;
+#&gt; [f2] Executing in &lt;environment: 0x7fee7b275c10&gt;
+#&gt; [f2] Enclosed by &lt;environment: 0x7fee7d147d98&gt;
+#&gt; [f2] Calling from &lt;environment: 0x7fee7b27c188&gt;</code></pre>
 <p>这些输出结果说明了：</p>
 <ul>
 <li><code>f1()</code>的封闭环境和调用环境都是全局环境</li>

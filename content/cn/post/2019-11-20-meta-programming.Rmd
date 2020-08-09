@@ -4,10 +4,8 @@ author: "王诗翔"
 date: "2018-08-03"
 lastmod: "`r Sys.Date()`"
 slug: ""
-categories: r
-tags:
-- r
-- 元编程
+categories: [r]
+tags: ["r", "meta-programming"]
 ---
 
 ```{r setup, include=FALSE}
@@ -391,6 +389,7 @@ call3
 我们使用`pryr`包查看函数调用的递归结构：
 
 ```{r}
+library(pacman)
 p_load(pryr)
 pryr::call_tree(call3)
 ```

@@ -2,13 +2,8 @@
 title:  Linux数据处理命令工具
 author: 王诗翔
 date:  2017-09-03
-categories:
-- shell
-tags:
-- linux
-- 数据处理
-- 文本处理
-- 笔记
+categories: ["shell"]
+tags: ["linux", "shell", "note"]
 
 summary: "系统介绍Linux会使用到的数据处理命令..."
 ---

@@ -6,6 +6,22 @@
 
 <h3>{{ with or (or .Params.author (index .Site.Params.author .Section)) "" }}{{  print . }} &middot {{ end }}
 {{ if .Params.date }}{{ .Date.Format "2006-01-02" }}{{ end }}</h3> <!--- Change from slash to middot by likan 20180701 --->
+
+<!--Add catagories and tags: Shixiang Wang
+https://www.gohugo.org/doc/templates/functions/
+-->
+<p style="text-align:right;">
+  {{or (index .Site.Params.categories .Section) ""}}:
+  {{ range .Params.categories }}
+    <a href="{{ $.Site.BaseURL }}categories/{{ . | urlize }}">{{ . }}</a> &nbsp
+  {{ end }}
+  <br>
+  {{or (index .Site.Params.tags .Section) ""}}:
+  {{ range .Params.tags }}
+    <a href="{{ $.Site.BaseURL }}tags/{{ . | urlize }}">{{ . }}</a> &nbsp
+  {{ end }}
+</p>
+
 <!---
 <h3>{{ with or (or .Params.author (index .Site.Params.author .Section)) "" }}{{  print . " / " }}{{ end }}
 {{ if .Params.date }}{{ .Date.Format "2006-01-02" }}{{ end }}</h3> --->

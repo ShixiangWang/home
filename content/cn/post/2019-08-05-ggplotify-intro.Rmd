@@ -4,12 +4,8 @@ author: "王诗翔"
 date: "2019-08-05"
 lastmod: "`r Sys.Date()`"
 slug: ""
-categories: r
-tags:
-- ggplot2
-- ggplotify
-- 绘图
-- r
+categories: [r]
+tags: [r, ggplot2, ggplotify, plot]
 ---
 
 ```{r setup, include=FALSE}

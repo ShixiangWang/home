@@ -4,9 +4,8 @@ author: "王诗翔"
 date: "2020-01-24"
 lastmod: "2020-01-24"
 slug: "golang-text-heart"
-categories: golang
-tags:
-- golang
+categories: [golang]
+tags: [golang, heart]
 ---
 
 

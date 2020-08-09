@@ -123,6 +123,22 @@
 2019-10-18</h3> 
 
 
+<p style="text-align:right;">
+  分类:
+  
+    <a href="../../../categories/r">r</a> &nbsp
+  
+  <br>
+  标签:
+  
+    <a href="../../../tags/r">r</a> &nbsp
+  
+    <a href="../../../tags/roc">ROC</a> &nbsp
+  
+</p>
+
+
+
    
   
 
@@ -149,7 +165,7 @@
 32    5    Good Female  27    1  0.04 10.42
 33    1    Poor Female  42    3  0.13 17.40
 34    1    Poor   Male  48    2  0.10 12.75</code></pre>
-<div id="-roc" class="section level2">
+<div id="计算-roc" class="section level2">
 <h2>计算 ROC</h2>
 <p>使用变量 <code>s100b</code> 预测 <code>outcome</code>。</p>
 <pre class="r"><code>&gt; rc = roc(aSAH$outcome, aSAH$s100b)
@@ -203,7 +219,7 @@ roc.formula(formula = outcome ~ s100b, data = aSAH)
 Data: s100b in 72 controls (outcome Good) &lt; 41 cases (outcome Poor).
 Area under the curve: 0.7314</code></pre>
 </div>
-<div id="-roc" class="section level2">
+<div id="比较-roc" class="section level2">
 <h2>比较 ROC</h2>
 <p>pROC 包提供了比较 ROC 的统计检验方法，我们试一试比较 <code>rc</code> 和 <code>rc2</code>，因为它们的 AUC 差异巨大，因此可以提前估计是有显著性差异的。</p>
 <pre><code>&gt; roc.test(rc, rc2)
@@ -221,7 +237,7 @@ AUC of roc1 AUC of roc2
 <p>the method to use, either “delong”, “bootstrap” or “venkatraman”. The first letter is sufficient. If omitted, the appropriate method is selected as explained in details.</p>
 </blockquote>
 </div>
-<div class="section level2">
+<div id="可视化" class="section level2">
 <h2>可视化</h2>
 <p>pROC 包不仅支持 base plot，还支持 ggplot2。我倾向于使用后者。</p>
 <p>我们接下来可视化 <code>rc</code> 和 <code>rc2</code>。先拿一个试试：</p>

@@ -4,11 +4,8 @@ author: "王诗翔"
 date: "2019-08-23"
 lastmod: "2019-08-23"
 slug: ""
-categories:
-- bioinformatics
-tags:
-- r
-- dbGap
+categories: [bioinformatics]
+tags: [r, dbGap]
 ---
 
 

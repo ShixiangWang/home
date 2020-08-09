@@ -4,10 +4,8 @@ author: "王诗翔"
 date: "2018-03-21"
 lastmod: "`r Sys.Date()`"
 slug: ""
-categories: r
-tags:
-- r
-- dplyr
+categories: [r]
+tags: [r, dplyr]
 ---
 
 ```{r setup, include=FALSE}

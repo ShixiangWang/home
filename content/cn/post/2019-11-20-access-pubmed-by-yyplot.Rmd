@@ -4,11 +4,8 @@ author: "王诗翔"
 date: "2018-04-13"
 lastmod: "`r Sys.Date()`"
 slug: ""
-categories: r
-tags:
-- r
-- pubmed
-- yyplot
+categories: [r]
+tags: [r, pubmed, ggplot2]
 ---
 
 ```{r setup, include=FALSE}

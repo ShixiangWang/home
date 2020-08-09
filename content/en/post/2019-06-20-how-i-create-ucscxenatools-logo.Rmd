@@ -4,11 +4,8 @@ author: "Shixiang Wang"
 date: "2019-06-20"
 lastmod: "`r Sys.Date()`"
 slug: ""
-categories: r
-tags:
-- r
-- package
-- logo
+categories: [r]
+tags: [r, package, logo]
 ---
 
 ```{r setup, include=FALSE}

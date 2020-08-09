@@ -2,11 +2,8 @@
 title: Linux脚本编程——呈现数据
 author: 王诗翔
 date: 2017-08-21
-categories:
-- shell
-tags:
-- linux
-- 笔记
+categories: ["shell"]
+tags: ["linux", "shell", "note"]
 
 summary: "怎么通过脚本呈现数据...包括重定向与日志文件等。"
 ---

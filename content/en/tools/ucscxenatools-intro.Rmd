@@ -7,11 +7,8 @@ output:
   tint::tintPdf
 type: cv
 pdf: ../ucscxenatools-intro.pdf
-categories: bioinformatics
-tags:
-- r
-- package
-- UCSCXenaTools
+categories: [r, bioinformatics]
+tags: [r, package, UCSCXenaTools]
 ---
 
 ```{r setup, include = FALSE}

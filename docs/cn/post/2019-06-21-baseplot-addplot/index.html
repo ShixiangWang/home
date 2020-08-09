@@ -123,6 +123,24 @@
 2019-06-21</h3> 
 
 
+<p style="text-align:right;">
+  分类:
+  
+    <a href="../../../categories/r">r</a> &nbsp
+  
+  <br>
+  标签:
+  
+    <a href="../../../tags/r">r</a> &nbsp
+  
+    <a href="../../../tags/base-plot">base-plot</a> &nbsp
+  
+    <a href="../../../tags/plot">plot</a> &nbsp
+  
+</p>
+
+
+
    
   
 
@@ -137,61 +155,65 @@
 <p>R 遵循画家模式。</p>
 </blockquote>
 <p>高级绘图函数 + 低级绘图函数才能让图形丰富多样起来。</p>
-<div class="section level2">
+<div id="基本的低级绘图函数" class="section level2">
 <h2>基本的低级绘图函数</h2>
 <table>
-<caption><span id="tab:unnamed-chunk-1">Table 1: </span>常见基本低级绘图函数</caption>
+<caption><span id="tab:unnamed-chunk-1">Table 1: </span>&lt;U+5E38&gt;&lt;U+89C1&gt;&lt;U+57FA&gt;&lt;U+672C&gt;&lt;U+4F4E&gt;&lt;U+7EA7&gt;&lt;U+7ED8&gt;&lt;U+56FE&gt;&lt;U+51FD&gt;&lt;U+6570&gt;</caption>
+<colgroup>
+<col width="11%" />
+<col width="88%" />
+</colgroup>
 <thead>
 <tr class="header">
-<th align="left">函数</th>
-<th align="left">描述</th>
+<th align="left">&lt;U+51FD&gt;&lt;U+6570&gt;</th>
+<th align="left">&lt;U+63CF&gt;&lt;U+8FF0&gt;</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td align="left">points()</td>
-<td align="left">数据符号</td>
+<td align="left">&lt;U+6570&gt;&lt;U+636E&gt;&lt;U+7B26&gt;&lt;U+53F7&gt;</td>
 </tr>
 <tr class="even">
 <td align="left">lines()</td>
-<td align="left">线条</td>
+<td align="left">&lt;U+7EBF&gt;&lt;U+6761&gt;</td>
 </tr>
 <tr class="odd">
 <td align="left">segments()</td>
-<td align="left">线段</td>
+<td align="left">&lt;U+7EBF&gt;&lt;U+6BB5&gt;</td>
 </tr>
 <tr class="even">
 <td align="left">arrows()</td>
-<td align="left">箭头</td>
+<td align="left">&lt;U+7BAD&gt;&lt;U+5934&gt;</td>
 </tr>
 <tr class="odd">
 <td align="left">xspline()</td>
-<td align="left">光滑曲线</td>
+<td align="left">&lt;U+5149&gt;&lt;U+6ED1&gt;&lt;U+66F2&gt;&lt;U+7EBF&gt;</td>
 </tr>
 <tr class="even">
 <td align="left">rect()</td>
-<td align="left">矩形</td>
+<td align="left">&lt;U+77E9&gt;&lt;U+5F62&gt;</td>
 </tr>
 <tr class="odd">
 <td align="left">polygon()</td>
-<td align="left">多边形</td>
+<td align="left">&lt;U+591A&gt;&lt;U+8FB9&gt;&lt;U+5F62&gt;</td>
 </tr>
 <tr class="even">
 <td align="left">polypath()</td>
-<td align="left">多边形路径</td>
+<td align="left">&lt;U+591A&gt;&lt;U+8FB9&gt;&lt;U+5F62&gt;&lt;U+8DEF&gt;&lt;U+5F84&gt;</td>
 </tr>
 <tr class="odd">
 <td align="left">rasterImage()</td>
-<td align="left">位图（在图形上可以添加外部图片）</td>
+<td align="left">&lt;U+4F4D&gt;&lt;U+56FE&gt;&lt;U+FF08&gt;&lt;U+5728&gt;&lt;U+56FE&gt;&lt;U+5F62&gt;&lt;U+4E0A&gt;&lt;U+53EF&gt;&lt;U+4EE5&gt;&lt;U+6DFB&gt;&lt;U+52A0&gt;&lt;U+5916&gt;&lt;U+90E8&gt;&lt;U+56FE&gt;&lt;U+7247&gt;&lt;U+FF09&gt;</td>
 </tr>
 <tr class="even">
 <td align="left">text()</td>
-<td align="left">文本</td>
+<td align="left">&lt;U+6587&gt;&lt;U+672C&gt;</td>
 </tr>
 </tbody>
 </table>
 </div>
-<div class="section level2">
+<div id="添加图形" class="section level2">
 <h2>添加图形</h2>
 <p>还是要一顿操作猛如虎，才能学到本事。</p>
 <pre class="r"><code>x = 1:10
@@ -229,7 +251,7 @@ text(3, 3, ~ x^2)</code></pre>
 <p><img src="../../../cn/post/2019-06-21-baseplot-addplot_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>上述处理的都是向量数据，而<code>matplot()</code>、<code>matpoints()</code> 和 <code>matlines()</code>都是处理矩阵形式数据的。</p>
 </div>
-<div class="section level2">
+<div id="绘图工具" class="section level2">
 <h2>绘图工具</h2>
 <p><code>grid()</code> 可以添加网格线； <code>abline()</code> 添加直线； <code>box()</code> 在图形周围绘制矩形；<code>rug()</code> 可以沿着坐标轴绘制“地毯”图。</p>
 <pre class="r"><code>x = runif(20, 1, 10)
@@ -249,7 +271,7 @@ box(col=&quot;gray&quot;)
 rug(y, ticksize = 0.02)</code></pre>
 <p><img src="../../../cn/post/2019-06-21-baseplot-addplot_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 </div>
-<div class="section level2">
+<div id="在边缘处添加图形" class="section level2">
 <h2>在边缘处添加图形</h2>
 <p><code>mtext()</code> 函数可以在边缘区域的任何位置绘制文本，它的 <code>outer</code> 参数控制是在图像区域还是外部区域的边缘处输出。
 <code>side</code> 控制在哪个边缘区域输出，1 - 底部，2 - 左侧，3 - 顶部，4 - 右侧。</p>
@@ -276,7 +298,7 @@ lines(x=c(20, 20, 40, 40), y=c(7, min(y2), min(y2), 7),
       lwd=3, col=&quot;gray&quot;)</code></pre>
 <p><img src="../../../cn/post/2019-06-21-baseplot-addplot_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 </div>
-<div class="section level2">
+<div id="图例" class="section level2">
 <h2>图例</h2>
 <p><code>legend()</code> 函数用于在图像中添加图例或关键字。</p>
 <p>第一个例子展示在散点图中添加图例的方法，图例将不同的组名和对应的符号关联起来。前 2 个参数给定对于用户坐标系统，
@@ -294,10 +316,10 @@ legend(0.4, 38, c(&quot;55-59&quot;, &quot;50-54&quot;), cex=1.5, angle = c(135,
 <p>注意，<strong>怎么将图例符号对应于图形完全是由用户控制的</strong>。所以在绘制时一定要额外注意，相比于传统图形绘制，
 <strong>ggplot2</strong> 和 <strong>lattice</strong> 包会自动映射，更为方便。</p>
 </div>
-<div class="section level2">
+<div id="坐标轴" class="section level2">
 <h2>坐标轴</h2>
 <p>有时候我们想要修改坐标轴，我们第一步需要禁止生成默认的坐标轴，这一点可以通过设置大多数高级函数的
-<code>axes</code> 参数实现。 通过 <code>par()</code> 指定 <code>xaxt = &quot;n&quot;</code> 和 <code>yaxt = &quot;n&quot;</code> 也可以实现该目的。</p>
+<code>axes</code> 参数实现。 通过 <code>par()</code> 指定 <code>xaxt = "n"</code> 和 <code>yaxt = "n"</code> 也可以实现该目的。</p>
 <p>下面举一个定制坐标轴的例子：</p>
 <blockquote>
 <p>开始绘制一个初始图形，并且绘制 y 轴的尺度是摄氏度。接下来再绘制一个华氏温度的 y 轴。x 轴使用特殊标签，而不是默认刻度线的数值位置。</p>
@@ -325,11 +347,11 @@ segments(x, 0, x, 100, lwd=16, col=&quot;white&quot;)
 segments(x, 0, x, y, lwd = 16, col = &quot;gray&quot;)</code></pre>
 <p><img src="../../../cn/post/2019-06-21-baseplot-addplot_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 </div>
-<div class="section level2">
+<div id="坐标系统" class="section level2">
 <h2>坐标系统</h2>
 <p>在绘图区域内的图形输出是根据坐标轴的尺度自动定位的，而图形边缘处的文本则是根据距离绘图区域边界多少
 文本行定位的。</p>
-<div id="par-" class="section level3">
+<div id="par-函数" class="section level3">
 <h3>par() 函数</h3>
 <p>一般情况下我们使用 <code>par()</code> 函数获取或设定图形的状态。其中 <code>din</code>、<code>fin</code>和<code>pin</code> 3个状态反映了当前绘图设备、图像区域以及回去区域的尺寸（宽度和高度），以英寸为单位。</p>
 <pre class="r"><code>par(&quot;din&quot;)
@@ -368,7 +390,7 @@ text(1:8*xcm, 0.6*ycm, 0:7, adj=c(0.5, 0))
 text(8.2*xcm, 0.6*ycm, &quot;cm&quot;, adj=c(0, 0))</code></pre>
 <p><img src="../../../cn/post/2019-06-21-baseplot-addplot_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 </div>
-<div class="section level3">
+<div id="覆盖输出" class="section level3">
 <h3>覆盖输出</h3>
 <p>有时在同一图中绘制 2 个数据集非常有用，此时数据集共享一个 x 变量，但拥有不同的 y 尺度。</p>
 <p>至少有 2 种方法：</p>
@@ -414,9 +436,9 @@ axis(4)</code></pre>
 <p><img src="../../../cn/post/2019-06-21-baseplot-addplot_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
 </div>
 </div>
-<div class="section level2">
+<div id="特殊情况" class="section level2">
 <h2>特殊情况</h2>
-<div class="section level3">
+<div id="隐藏的坐标轴尺度" class="section level3">
 <h3>隐藏的坐标轴尺度</h3>
 <p>因为这个原因，在条形图和箱线图中添加图形输出会比较麻烦。为何做到这点，我们需要获取函数的返回值。这个值会给出函数绘制的每一个条形的中点 x 位置。</p>
 <p><strong>条形图例子</strong>：添加水平参考线段</p>
@@ -441,7 +463,7 @@ segments(left, heights, right, heights,
      })</code></pre>
 <p><img src="../../../cn/post/2019-06-21-baseplot-addplot_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
 </div>
-<div class="section level3">
+<div id="绘制三维图像" class="section level3">
 <h3>绘制三维图像</h3>
 <p>添加图像步骤：</p>
 <ol style="list-style-type: decimal">
@@ -527,12 +549,12 @@ lapply(clines,
 #&gt; NULL</code></pre>
 </div>
 </div>
-<div class="section level2">
+<div id="创建新图形" class="section level2">
 <h2>创建新图形</h2>
 <p><code>plot.new()</code> 函数开启一个新的绘图（与 <code>frame()</code> 等价），并将 x 与 y 尺度设置为 (0, 1) 区间。</p>
 <p><code>plot.window()</code> 函数重置用户坐标系统的尺度。</p>
 <p><code>plot.xy()</code> 在绘图区域绘制数据符号和线条。</p>
-<div class="section level3">
+<div id="从头创建一个简单图形" class="section level3">
 <h3>从头创建一个简单图形</h3>
 <pre class="r"><code>plot.new()  # 开启一个空白绘图
 plot.window(range(pressure$temperature),
@@ -544,7 +566,7 @@ axis(2) # 添加轴线</code></pre>
 <p><img src="../../../cn/post/2019-06-21-baseplot-addplot_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
 <p>这和 <code>plot()</code> 绘制的散点图完全一致。</p>
 </div>
-<div class="section level3">
+<div id="从头创建一个复杂图形" class="section level3">
 <h3>从头创建一个复杂图形</h3>
 <p>绘制泰坦尼克号成年男性和女性幸存者数目。</p>
 <pre class="r"><code>groups = dimnames(Titanic)[[1]]
@@ -586,7 +608,7 @@ text(0, -1, &quot;females&quot;, pos=4)</code></pre>
 <p><img src="../../../cn/post/2019-06-21-baseplot-addplot_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
 </div>
 </div>
-<div class="section level2">
+<div id="创建绘图函数" class="section level2">
 <h2>创建绘图函数</h2>
 <p><code>xy.coords()</code>允许在新建的函数中灵活指定 x 与 y 参数。该函数接收 x 参数与 y 参数并且创建一个标准的包含 x 值、y 值以及坐标轴合理标签的对象。</p>
 <p>一个新的绘图函数可能需要强制将 <code>xpd</code> 状态设定为 <code>NA</code>，从而在绘图区域外绘制线条和文本。这种情况下可以在函数的末尾恢复初始的绘图状态。</p>

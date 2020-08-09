@@ -2,16 +2,13 @@
 title: "UCSCXenaTools: R API for UCSC Xena Hubs"
 author: "Shixiang Wang"
 show_toc: true
-date: "2019-08-26"
+date: "2020-08-09"
 output: 
   tint::tintPdf
 type: cv
 pdf: ../ucscxenatools-api.pdf
-categories: bioinformatics
-tags:
-- r
-- package
-- UCSCXenaTools
+categories: [bioinformatics, r]
+tags: [r, package, UCSCXenaTools]
 ---
 
 <script src="/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
@@ -74,50 +71,29 @@ their short description.</li>
 <a href="https://github.com/ShixiangWang/UCSCXenaTools/tree/master/inst/queries"><code>.xq</code> files</a>,
 function names all start with <code>.p_</code>. All <code>.xq</code> files are copied from <a href="https://github.com/ucscXena/xenaPython">xenaPython</a> package, which is official Python API for Xena.
 These functions are dynamicly created when <strong>UCSCXenaTools</strong> loaded. Their names are given as following:</p>
-<pre><code>#&gt;  [1] &quot;.p_all_cohorts&quot;                    
-#&gt;  [2] &quot;.p_all_datasets&quot;                   
-#&gt;  [3] &quot;.p_all_datasets_n&quot;                 
-#&gt;  [4] &quot;.p_all_field_metadata&quot;             
-#&gt;  [5] &quot;.p_cohort_samples&quot;                 
-#&gt;  [6] &quot;.p_cohort_summary&quot;                 
-#&gt;  [7] &quot;.p_dataset_fetch&quot;                  
-#&gt;  [8] &quot;.p_dataset_field&quot;                  
-#&gt;  [9] &quot;.p_dataset_field_examples&quot;         
-#&gt; [10] &quot;.p_dataset_field_n&quot;                
-#&gt; [11] &quot;.p_dataset_gene_probe_avg&quot;         
-#&gt; [12] &quot;.p_dataset_gene_probes_values&quot;     
-#&gt; [13] &quot;.p_dataset_list&quot;                   
-#&gt; [14] &quot;.p_dataset_metadata&quot;               
-#&gt; [15] &quot;.p_dataset_probe_signature&quot;        
-#&gt; [16] &quot;.p_dataset_probe_values&quot;           
-#&gt; [17] &quot;.p_dataset_samples&quot;                
-#&gt; [18] &quot;.p_dataset_samples_ndense_matrix&quot;  
-#&gt; [19] &quot;.p_datasets_null_rows&quot;             
-#&gt; [20] &quot;.p_feature_list&quot;                   
-#&gt; [21] &quot;.p_field_codes&quot;                    
-#&gt; [22] &quot;.p_field_metadata&quot;                 
-#&gt; [23] &quot;.p_gene_transcripts&quot;               
-#&gt; [24] &quot;.p_match_fields&quot;                   
-#&gt; [25] &quot;.p_probe_count&quot;                    
-#&gt; [26] &quot;.p_probemap_list&quot;                  
-#&gt; [27] &quot;.p_ref_gene_exons&quot;                 
-#&gt; [28] &quot;.p_ref_gene_position&quot;              
-#&gt; [29] &quot;.p_ref_gene_range&quot;                 
-#&gt; [30] &quot;.p_segment_data_examples&quot;          
-#&gt; [31] &quot;.p_segmented_data_range&quot;           
-#&gt; [32] &quot;.p_sparse_data&quot;                    
-#&gt; [33] &quot;.p_sparse_data_examples&quot;           
-#&gt; [34] &quot;.p_sparse_data_match_field&quot;        
-#&gt; [35] &quot;.p_sparse_data_match_field_slow&quot;   
-#&gt; [36] &quot;.p_sparse_data_match_partial_field&quot;
-#&gt; [37] &quot;.p_sparse_data_range&quot;              
-#&gt; [38] &quot;.p_transcript_expression&quot;</code></pre></li>
+<pre><code>#&gt;  [1] &quot;.p_all_cohorts&quot;                     &quot;.p_all_datasets&quot;                   
+#&gt;  [3] &quot;.p_all_datasets_n&quot;                  &quot;.p_all_field_metadata&quot;             
+#&gt;  [5] &quot;.p_cohort_samples&quot;                  &quot;.p_cohort_summary&quot;                 
+#&gt;  [7] &quot;.p_dataset_fetch&quot;                   &quot;.p_dataset_field&quot;                  
+#&gt;  [9] &quot;.p_dataset_field_examples&quot;          &quot;.p_dataset_field_n&quot;                
+#&gt; [11] &quot;.p_dataset_gene_probe_avg&quot;          &quot;.p_dataset_gene_probes_values&quot;     
+#&gt; [13] &quot;.p_dataset_list&quot;                    &quot;.p_dataset_metadata&quot;               
+#&gt; [15] &quot;.p_dataset_probe_signature&quot;         &quot;.p_dataset_probe_values&quot;           
+#&gt; [17] &quot;.p_dataset_samples&quot;                 &quot;.p_dataset_samples_ndense_matrix&quot;  
+#&gt; [19] &quot;.p_datasets_null_rows&quot;              &quot;.p_feature_list&quot;                   
+#&gt; [21] &quot;.p_field_codes&quot;                     &quot;.p_field_metadata&quot;                 
+#&gt; [23] &quot;.p_gene_transcripts&quot;                &quot;.p_match_fields&quot;                   
+#&gt; [25] &quot;.p_probe_count&quot;                     &quot;.p_probemap_list&quot;                  
+#&gt; [27] &quot;.p_ref_gene_exons&quot;                  &quot;.p_ref_gene_position&quot;              
+#&gt; [29] &quot;.p_ref_gene_range&quot;                  &quot;.p_segment_data_examples&quot;          
+#&gt; [31] &quot;.p_segmented_data_range&quot;            &quot;.p_sparse_data&quot;                    
+#&gt; [33] &quot;.p_sparse_data_examples&quot;            &quot;.p_sparse_data_match_field&quot;        
+#&gt; [35] &quot;.p_sparse_data_match_field_slow&quot;    &quot;.p_sparse_data_match_partial_field&quot;
+#&gt; [37] &quot;.p_sparse_data_range&quot;               &quot;.p_transcript_expression&quot;</code></pre></li>
 <li><p>the other one is created in package. The function names all start with <code>.</code>, are given as following:</p>
-<pre><code>#&gt; [1] &quot;.host_cohorts&quot;          &quot;.cohort_datasets&quot;      
-#&gt; [3] &quot;.cohort_datasets_count&quot; &quot;.cohort_samples_each&quot;  
-#&gt; [5] &quot;.cohort_samples_any&quot;    &quot;.cohort_samples_all&quot;   
-#&gt; [7] &quot;.dataset_samples_each&quot;  &quot;.dataset_samples_any&quot;  
-#&gt; [9] &quot;.dataset_samples_all&quot;</code></pre></li>
+<pre><code>#&gt; [1] &quot;.host_cohorts&quot;          &quot;.cohort_datasets&quot;       &quot;.cohort_datasets_count&quot;
+#&gt; [4] &quot;.cohort_samples_each&quot;   &quot;.cohort_samples_any&quot;    &quot;.cohort_samples_all&quot;   
+#&gt; [7] &quot;.dataset_samples_each&quot;  &quot;.dataset_samples_any&quot;   &quot;.dataset_samples_all&quot;</code></pre></li>
 </ul>
 <p>I don’t know how to write these query sentence for Xena Hubs. So here I want to
 say thanks to authors of <a href="https://github.com/ucscXena/xenaPython"><strong>xenaPython</strong></a>
@@ -132,44 +108,25 @@ and <a href="https://github.com/mtmorgan/XenaR"><strong>xenaR</strong></a> packa
 Sometimes functions return you errors or <code>list()</code> may caused by invaild format or bad network,
 you should try more times. If you make sure there are problems/errors in query procedure,
 you can check corresponding query variables:</p>
-<pre><code>#&gt;  [1] &quot;.xq_all_cohorts&quot;                    
-#&gt;  [2] &quot;.xq_all_datasets&quot;                   
-#&gt;  [3] &quot;.xq_all_datasets_n&quot;                 
-#&gt;  [4] &quot;.xq_all_field_metadata&quot;             
-#&gt;  [5] &quot;.xq_cohort_samples&quot;                 
-#&gt;  [6] &quot;.xq_cohort_summary&quot;                 
-#&gt;  [7] &quot;.xq_dataset_fetch&quot;                  
-#&gt;  [8] &quot;.xq_dataset_field&quot;                  
-#&gt;  [9] &quot;.xq_dataset_field_examples&quot;         
-#&gt; [10] &quot;.xq_dataset_field_n&quot;                
-#&gt; [11] &quot;.xq_dataset_gene_probe_avg&quot;         
-#&gt; [12] &quot;.xq_dataset_gene_probes_values&quot;     
-#&gt; [13] &quot;.xq_dataset_list&quot;                   
-#&gt; [14] &quot;.xq_dataset_metadata&quot;               
-#&gt; [15] &quot;.xq_dataset_probe_signature&quot;        
-#&gt; [16] &quot;.xq_dataset_probe_values&quot;           
-#&gt; [17] &quot;.xq_dataset_samples&quot;                
-#&gt; [18] &quot;.xq_dataset_samples_ndense_matrix&quot;  
-#&gt; [19] &quot;.xq_datasets_null_rows&quot;             
-#&gt; [20] &quot;.xq_feature_list&quot;                   
-#&gt; [21] &quot;.xq_field_codes&quot;                    
-#&gt; [22] &quot;.xq_field_metadata&quot;                 
-#&gt; [23] &quot;.xq_gene_transcripts&quot;               
-#&gt; [24] &quot;.xq_match_fields&quot;                   
-#&gt; [25] &quot;.xq_probe_count&quot;                    
-#&gt; [26] &quot;.xq_probemap_list&quot;                  
-#&gt; [27] &quot;.xq_ref_gene_exons&quot;                 
-#&gt; [28] &quot;.xq_ref_gene_position&quot;              
-#&gt; [29] &quot;.xq_ref_gene_range&quot;                 
-#&gt; [30] &quot;.xq_segment_data_examples&quot;          
-#&gt; [31] &quot;.xq_segmented_data_range&quot;           
-#&gt; [32] &quot;.xq_sparse_data&quot;                    
-#&gt; [33] &quot;.xq_sparse_data_examples&quot;           
-#&gt; [34] &quot;.xq_sparse_data_match_field&quot;        
-#&gt; [35] &quot;.xq_sparse_data_match_field_slow&quot;   
-#&gt; [36] &quot;.xq_sparse_data_match_partial_field&quot;
-#&gt; [37] &quot;.xq_sparse_data_range&quot;              
-#&gt; [38] &quot;.xq_transcript_expression&quot;</code></pre>
+<pre><code>#&gt;  [1] &quot;.xq_all_cohorts&quot;                     &quot;.xq_all_datasets&quot;                   
+#&gt;  [3] &quot;.xq_all_datasets_n&quot;                  &quot;.xq_all_field_metadata&quot;             
+#&gt;  [5] &quot;.xq_cohort_samples&quot;                  &quot;.xq_cohort_summary&quot;                 
+#&gt;  [7] &quot;.xq_dataset_fetch&quot;                   &quot;.xq_dataset_field&quot;                  
+#&gt;  [9] &quot;.xq_dataset_field_examples&quot;          &quot;.xq_dataset_field_n&quot;                
+#&gt; [11] &quot;.xq_dataset_gene_probe_avg&quot;          &quot;.xq_dataset_gene_probes_values&quot;     
+#&gt; [13] &quot;.xq_dataset_list&quot;                    &quot;.xq_dataset_metadata&quot;               
+#&gt; [15] &quot;.xq_dataset_probe_signature&quot;         &quot;.xq_dataset_probe_values&quot;           
+#&gt; [17] &quot;.xq_dataset_samples&quot;                 &quot;.xq_dataset_samples_ndense_matrix&quot;  
+#&gt; [19] &quot;.xq_datasets_null_rows&quot;              &quot;.xq_feature_list&quot;                   
+#&gt; [21] &quot;.xq_field_codes&quot;                     &quot;.xq_field_metadata&quot;                 
+#&gt; [23] &quot;.xq_gene_transcripts&quot;                &quot;.xq_match_fields&quot;                   
+#&gt; [25] &quot;.xq_probe_count&quot;                     &quot;.xq_probemap_list&quot;                  
+#&gt; [27] &quot;.xq_ref_gene_exons&quot;                  &quot;.xq_ref_gene_position&quot;              
+#&gt; [29] &quot;.xq_ref_gene_range&quot;                  &quot;.xq_segment_data_examples&quot;          
+#&gt; [31] &quot;.xq_segmented_data_range&quot;            &quot;.xq_sparse_data&quot;                    
+#&gt; [33] &quot;.xq_sparse_data_examples&quot;            &quot;.xq_sparse_data_match_field&quot;        
+#&gt; [35] &quot;.xq_sparse_data_match_field_slow&quot;    &quot;.xq_sparse_data_match_partial_field&quot;
+#&gt; [37] &quot;.xq_sparse_data_range&quot;               &quot;.xq_transcript_expression&quot;</code></pre>
 <p>For example, you’d like to check <code>.p_all_cohorts</code> function, you can take a look
 at <code>.xq_all_cohorts</code> object.</p>
 <pre class="r"><code>.xq_all_cohorts
@@ -192,14 +149,14 @@ at <code>.xq_all_cohorts</code> object.</p>
 <p>You can find out host id and dataset id from <a href="https://xenabrowser.net/datapages/" class="uri">https://xenabrowser.net/datapages/</a>, a more recommened way is use <code>XenaData</code> in <strong>UCSCXenaTools</strong>.</p>
 <pre class="r"><code>head(XenaData)[, 1:5]
 #&gt; # A tibble: 6 x 5
-#&gt;   XenaHosts    XenaHostNames XenaCohorts      XenaDatasets      SampleCount
-#&gt;   &lt;chr&gt;        &lt;chr&gt;         &lt;chr&gt;            &lt;chr&gt;             &lt;chr&gt;      
-#&gt; 1 https://ucs… publicHub     Acute lymphobla… mullighan2008_pu… 30         
-#&gt; 2 https://ucs… publicHub     Acute lymphobla… mullighan2008_pu… 159        
-#&gt; 3 https://ucs… publicHub     Acute lymphobla… mullighan2008_pu… 129        
-#&gt; 4 https://ucs… publicHub     Breast Cancer (… Caldas2007/chinS… 242        
-#&gt; 5 https://ucs… publicHub     Breast Cancer (… Caldas2007/chinS… 220        
-#&gt; 6 https://ucs… publicHub     Breast Cancer (… Caldas2007/nader… 135</code></pre>
+#&gt;   XenaHosts      XenaHostNames XenaCohorts      XenaDatasets         SampleCount
+#&gt;   &lt;chr&gt;          &lt;chr&gt;         &lt;chr&gt;            &lt;chr&gt;                      &lt;int&gt;
+#&gt; 1 https://ucscp… publicHub     Breast Cancer C… ucsfNeve_public/ucs…          51
+#&gt; 2 https://ucscp… publicHub     Breast Cancer C… ucsfNeve_public/ucs…          57
+#&gt; 3 https://ucscp… publicHub     Glioma (Kotliar… kotliarov2006_publi…         194
+#&gt; 4 https://ucscp… publicHub     Glioma (Kotliar… kotliarov2006_publi…         194
+#&gt; 5 https://ucscp… publicHub     Lung Cancer CGH… weir2007_public/wei…         383
+#&gt; 6 https://ucscp… publicHub     Lung Cancer CGH… weir2007_public/wei…         383</code></pre>
 <p>The host id is stored at <code>XenaHosts</code> column, and dataset id is stored at <code>XenaDatasets</code> column.</p>
 <p><strong>Of note, when you want to query single sample or gene with function starts with <code>.p_</code>, you must transform id of sample or gene into a <code>list</code></strong></p>
 <div id="query-four-samples-and-three-identifers-expression" class="section level2">
@@ -210,10 +167,10 @@ samples = c(&quot;TCGA-02-0047-01&quot;, &quot;TCGA-02-0055-01&quot;, &quot;TCGA
 probes = c(&quot;ENSG00000282740.1&quot;, &quot;ENSG00000000005.5&quot;, &quot;ENSG00000000419.12&quot;)
 .p_dataset_probe_values(hub, dataset, samples, probes)
 #&gt; [[1]]
-#&gt;   strand  chromend chromstart chrom
-#&gt; 1      -  16750589   16739938  chr1
-#&gt; 2      -  50958555   50934867 chr20
-#&gt; 3      + 100599885  100584802  chrX
+#&gt;   chrom chromstart  chromend strand
+#&gt; 1  chr1   16739938  16750589      -
+#&gt; 2 chr20   50934867  50958555      -
+#&gt; 3  chrX  100584802 100599885      +
 #&gt; 
 #&gt; [[2]]
 #&gt;        [,1]   [,2]   [,3]   [,4]
@@ -248,8 +205,8 @@ probes = c(&quot;ENSG00000282740.1&quot;, &quot;ENSG00000000005.5&quot;, &quot;E
 <p><strong>Good query</strong>:</p>
 <pre class="r"><code>.p_dataset_probe_values(hub, dataset, samples, as.list(&quot;ENSG00000282740.1&quot;))
 #&gt; [[1]]
-#&gt;   strand chromend chromstart chrom
-#&gt; 1      - 16750589   16739938  chr1
+#&gt;   chrom chromstart chromend strand
+#&gt; 1  chr1   16739938 16750589      -
 #&gt; 
 #&gt; [[2]]
 #&gt;        [,1]   [,2]   [,3]   [,4]
@@ -263,9 +220,9 @@ probes = c(&quot;ENSG00000282740.1&quot;, &quot;ENSG00000000005.5&quot;, &quot;E
 <pre class="r"><code>genes = c(&quot;TP53&quot;, &quot;RB1&quot;, &quot;PIK3CA&quot;)
 .p_dataset_gene_probe_avg(hub, dataset, samples, genes)
 #&gt;     gene                      position                     scores
-#&gt; 1   TP53    -, 7687550, 7661779, chr17 5.799, 4.428, 6.515, 6.309
-#&gt; 2    RB1  +, 48481986, 48303751, chr13 5.867, 4.700, 4.810, 4.920
-#&gt; 3 PIK3CA +, 179240093, 179148114, chr3 3.547, 3.377, 2.789, 2.951</code></pre>
+#&gt; 1   TP53    chr17, 7661779, 7687550, - 5.799, 4.428, 6.515, 6.309
+#&gt; 2    RB1  chr13, 48303751, 48481986, + 5.867, 4.700, 4.810, 4.920
+#&gt; 3 PIK3CA chr3, 179148114, 179240093, + 3.547, 3.377, 2.789, 2.951</code></pre>
 </div>
 <div id="if-the-dataset-does-not-have-id-to-gene-mapping-but-the-dataset-used-gene-names-as-its-identifier" class="section level2">
 <h2>If the dataset does not have id-to-gene mapping, but the dataset used gene names as its identifier</h2>
@@ -277,10 +234,10 @@ probes = c(&quot;TP53&quot;, &quot;RB1&quot;, &quot;PIK3CA&quot;)
 
 .p_dataset_probe_values(hub, dataset, samples, probes)
 #&gt; [[1]]
-#&gt;   strand  chromend chromstart chrom
-#&gt; 1      +  48481986   48303751 chr13
-#&gt; 2      -   7687550    7661779 chr17
-#&gt; 3      + 179240093  179148114  chr3
+#&gt;   chrom chromstart  chromend strand
+#&gt; 1 chr13   48303751  48481986      +
+#&gt; 2 chr17    7661779   7687550      -
+#&gt; 3  chr3  179148114 179240093      +
 #&gt; 
 #&gt; [[2]]
 #&gt;       [,1]  [,2]  [,3]  [,4]
@@ -293,10 +250,9 @@ probes = c(&quot;TP53&quot;, &quot;RB1&quot;, &quot;PIK3CA&quot;)
 <pre class="r"><code>hub = &quot;https://tcga.xenahubs.net&quot;
 dataset = &quot;TCGA.BLCA.sampleMap/HiSeqV2&quot;
 .p_dataset_samples(hub, dataset, 10)
-#&gt;  [1] &quot;TCGA-BT-A20R-11&quot; &quot;TCGA-DK-AA6S-01&quot; &quot;TCGA-DK-A6B2-01&quot;
-#&gt;  [4] &quot;TCGA-GU-A763-01&quot; &quot;TCGA-XF-A9T4-01&quot; &quot;TCGA-FD-A5C1-01&quot;
-#&gt;  [7] &quot;TCGA-GU-A42Q-01&quot; &quot;TCGA-DK-A3IL-01&quot; &quot;TCGA-XF-AAMH-01&quot;
-#&gt; [10] &quot;TCGA-FT-A61P-01&quot;
+#&gt;  [1] &quot;TCGA-BT-A20R-11&quot; &quot;TCGA-DK-AA6S-01&quot; &quot;TCGA-DK-A6B2-01&quot; &quot;TCGA-GU-A763-01&quot;
+#&gt;  [5] &quot;TCGA-XF-A9T4-01&quot; &quot;TCGA-FD-A5C1-01&quot; &quot;TCGA-GU-A42Q-01&quot; &quot;TCGA-DK-A3IL-01&quot;
+#&gt;  [9] &quot;TCGA-XF-AAMH-01&quot; &quot;TCGA-FT-A61P-01&quot;
 # obtain all samples
 .p_dataset_samples(hub, dataset, NULL) %&gt;% head()
 #&gt; [1] &quot;TCGA-BT-A20R-11&quot; &quot;TCGA-DK-AA6S-01&quot; &quot;TCGA-DK-A6B2-01&quot; &quot;TCGA-GU-A763-01&quot;

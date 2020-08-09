@@ -2,11 +2,10 @@
 title: "模型结果为什么那么占存储空间？可以缩小吗？"
 author: "王诗翔"
 date: "2020-04-24"
-lastmod: "2020-04-24"
+lastmod: "2020-08-09"
 slug: ""
-categories: r
-tags:
-- r
+categories: [r]
+tags: [r, model]
 ---
 
 
@@ -123,7 +122,7 @@ pred
 #&gt;   ..$ dev.resids:function (y, mu, wt)  
 #&gt;   ..$ aic       :function (y, n, mu, wt, dev)  
 #&gt;   ..$ mu.eta    :function (eta)  
-#&gt;   ..$ initialize:  expression({  if (NCOL(y) == 1) {  if (is.factor(y))  y &lt;- y != levels(y)[1L]  n &lt;- rep.int(1, nobs)  y[weights =| __truncated__
+#&gt;   ..$ initialize: language {     if (NCOL(y) == 1) { ...
 #&gt;   ..$ validmu   :function (mu)  
 #&gt;   ..$ valideta  :function (eta)  
 #&gt;   ..$ simulate  :function (object, nsim)  
@@ -274,12 +273,12 @@ predict(logr_vm, type = &quot;response&quot;, newdata = dat)
 #&gt; # A tibble: 47 x 2
 #&gt;    object               size
 #&gt;    &lt;chr&gt;               &lt;dbl&gt;
-#&gt;  1 family.variance   0.0571 
-#&gt;  2 family.dev.resids 0.0571 
-#&gt;  3 family.aic        0.0571 
-#&gt;  4 family.validmu    0.0571 
-#&gt;  5 family.simulate   0.0571 
-#&gt;  6 family.initialize 0.0146 
+#&gt;  1 family.variance   0.0437 
+#&gt;  2 family.dev.resids 0.0437 
+#&gt;  3 family.aic        0.0437 
+#&gt;  4 family.validmu    0.0437 
+#&gt;  5 family.simulate   0.0437 
+#&gt;  6 family.initialize 0.0174 
 #&gt;  7 qr.qr             0.00418
 #&gt;  8 terms             0.00318
 #&gt;  9 residuals         0.00286
@@ -289,7 +288,7 @@ predict(logr_vm, type = &quot;response&quot;, newdata = dat)
 <pre class="r"><code>cleaned_lm &lt;- butcher::axe_env(logr_vm, verbose = TRUE)
 #&gt; x No memory released. Do not butcher.
 cleaned_lm &lt;- butcher::axe_call(cleaned_lm, verbose = TRUE)
-#&gt; ✓ Memory released: &#39;320 B&#39;
+#&gt; ✓ Memory released: &#39;264 B&#39;
 #&gt; x Disabled: `print()`, `summary()`
 cleaned_lm &lt;- butcher::axe_data(cleaned_lm, verbose = TRUE)
 #&gt; x No memory released. Do not butcher.

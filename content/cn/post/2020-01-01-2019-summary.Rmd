@@ -4,13 +4,8 @@ author: "王诗翔"
 date: "2020-01-01"
 lastmod: "`r Sys.Date()`"
 slug: ""
-categories: thinking
-tags:
-- life
-- python
-- r
-- summary
-- coding
+categories: [thinking]
+tags: [r, python, life, summary]
 ---
 
 ```{r setup, include=FALSE}

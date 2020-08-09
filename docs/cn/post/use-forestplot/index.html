@@ -123,6 +123,22 @@
 2018-09-10</h3> 
 
 
+<p style="text-align:right;">
+  分类:
+  
+    <a href="../../../categories/r">r</a> &nbsp
+  
+  <br>
+  标签:
+  
+    <a href="../../../tags/r">r</a> &nbsp
+  
+    <a href="../../../tags/forestplot">forestplot</a> &nbsp
+  
+</p>
+
+
+
    
   
 
@@ -137,16 +153,16 @@
 <p>谷歌了一下，找到了<code>forestplot</code>这个包，下面根据<a href="https://cran.r-project.org/web/packages/forestplot/vignettes/forestplot.html">文档</a>学习一波。</p>
 <p>安装：</p>
 <pre class="r"><code>install.packages(&quot;forestplot&quot;)</code></pre>
-<div class="section level2">
+<div id="文本" class="section level2">
 <h2>文本</h2>
 <p>森林图可以与文本连接起来并自定义。</p>
-<div class="section level3">
+<div id="文本表" class="section level3">
 <h3>文本表</h3>
 <p>下面是一个使用文本表的例子：</p>
 <pre class="r"><code>library(forestplot)
-#&gt; 载入需要的程辑包：grid
-#&gt; 载入需要的程辑包：magrittr
-#&gt; 载入需要的程辑包：checkmate
+#&gt; Loading required package: grid
+#&gt; Loading required package: magrittr
+#&gt; Loading required package: checkmate
 # Cochrane data from the &#39;rmeta&#39;-package
 cochrane_from_rmeta &lt;- 
   structure(list(
@@ -177,7 +193,7 @@ forestplot(tabletext,
            col=fpColors(box=&quot;royalblue&quot;,line=&quot;darkblue&quot;, summary=&quot;royalblue&quot;))</code></pre>
 <p><img src="../../../cn/post/2019-07-14-forestplot-usage_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 </div>
-<div class="section level3">
+<div id="汇总线" class="section level3">
 <h3>汇总线</h3>
 <p>在上面基础进行增改：</p>
 <pre class="r"><code>forestplot(tabletext, 
@@ -210,7 +226,7 @@ forestplot(tabletext,
            vertices = TRUE)</code></pre>
 <p><img src="../../../cn/post/2019-07-14-forestplot-usage_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 </div>
-<div class="section level3">
+<div id="调整图元素的位置" class="section level3">
 <h3>调整图元素的位置</h3>
 <pre class="r"><code>forestplot(tabletext, 
            graph.pos = 4,
@@ -224,7 +240,7 @@ forestplot(tabletext,
            col=fpColors(box=&quot;royalblue&quot;,line=&quot;darkblue&quot;, summary=&quot;royalblue&quot;, hrz_lines = &quot;#444444&quot;))</code></pre>
 <p><img src="../../../cn/post/2019-07-14-forestplot-usage_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 </div>
-<div class="section level3">
+<div id="使用表达式" class="section level3">
 <h3>使用表达式</h3>
 <pre class="r"><code>data(HRQoL)
 clrs &lt;- fpColors(box=&quot;royalblue&quot;,line=&quot;darkblue&quot;, summary=&quot;royalblue&quot;)
@@ -238,7 +254,7 @@ forestplot(tabletext,
            xlab=&quot;EQ-5D index&quot;)</code></pre>
 <p><img src="../../../cn/post/2019-07-14-forestplot-usage_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 </div>
-<div class="section level3">
+<div id="更改字体" class="section level3">
 <h3>更改字体</h3>
 <pre class="r"><code>tabletext &lt;- cbind(rownames(HRQoL$Sweden),
                    sprintf(&quot;%.2f&quot;, HRQoL$Sweden[,&quot;coef&quot;]))
@@ -261,7 +277,7 @@ forestplot(tabletext,
 <p><img src="../../../cn/post/2019-07-14-forestplot-usage_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 </div>
 </div>
-<div class="section level2">
+<div id="置信区间" class="section level2">
 <h2>置信区间</h2>
 <p>简单的，给超出范围的区间加箭头（clip）：</p>
 <pre class="r"><code>forestplot(tabletext, 
@@ -270,7 +286,7 @@ forestplot(tabletext,
            col=clrs,
            xlab=&quot;EQ-5D index&quot;)</code></pre>
 <p><img src="../../../cn/post/2019-07-14-forestplot-usage_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
-<div class="section level3">
+<div id="多个置信区间范围" class="section level3">
 <h3>多个置信区间范围</h3>
 <p>这在对比时非常有用：</p>
 <pre class="r"><code>tabletext &lt;- tabletext[,1]
@@ -283,7 +299,7 @@ forestplot(tabletext,
            xlab=&quot;EQ-5D index&quot;)</code></pre>
 <p><img src="../../../cn/post/2019-07-14-forestplot-usage_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 </div>
-<div class="section level3">
+<div id="评估显示器" class="section level3">
 <h3>评估显示器</h3>
 <p>可以用方块、圆圈等：</p>
 <pre class="r"><code>forestplot(tabletext, 
@@ -298,7 +314,7 @@ forestplot(tabletext,
             xlab=&quot;EQ-5D index&quot;)</code></pre>
 <p><img src="../../../cn/post/2019-07-14-forestplot-usage_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 </div>
-<div class="section level3">
+<div id="选择线型" class="section level3">
 <h3>选择线型</h3>
 <pre class="r"><code>forestplot(tabletext, 
             fn.ci_norm = c(fpDrawNormalCI, fpDrawCircleCI),
@@ -314,7 +330,7 @@ forestplot(tabletext,
 <p><img src="../../../cn/post/2019-07-14-forestplot-usage_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 </div>
 </div>
-<div class="section level2">
+<div id="图例" class="section level2">
 <h2>图例</h2>
 <p>添加一个基本图例：</p>
 <pre class="r"><code>forestplot(tabletext, 
@@ -345,7 +361,7 @@ forestplot(tabletext,
            xlab=&quot;EQ-5D index&quot;)</code></pre>
 <p><img src="../../../cn/post/2019-07-14-forestplot-usage_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 </div>
-<div class="section level2">
+<div id="刻度和网格" class="section level2">
 <h2>刻度和网格</h2>
 <p>我们可以手动设定想要的刻度</p>
 <pre class="r"><code>forestplot(tabletext, 

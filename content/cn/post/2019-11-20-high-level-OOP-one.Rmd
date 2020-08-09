@@ -4,13 +4,8 @@ author: "王诗翔"
 date: "2018-08-15"
 lastmod: "`r Sys.Date()`"
 slug: ""
-categories: r
-tags:
-- r
-- class
-- instance
-- S3
-- S4
+categories: [r]
+tags: [r, S3, S4, class, instance]
 ---
 
 ```{r setup, include=FALSE}

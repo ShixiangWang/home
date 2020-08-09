@@ -4,11 +4,8 @@ author: "王诗翔"
 date: "2019-06-21"
 lastmod: "`r Sys.Date()`"
 slug: ""
-categories: r
-tags:
-- 绘图
-- r
-- baseplot
+categories: [r]
+tags: ["r", "base-plot", "plot"]
 ---
 
 ```{r setup, include=FALSE}
@@ -26,7 +23,7 @@ options(max.print=200)
 
 ```{r, echo=F}
 tibble::tribble(
-  ~函数, ~描述,
+  ~"函数", ~"描述",
   "points()", "数据符号",
   "lines()", "线条",
   "segments()", "线段",

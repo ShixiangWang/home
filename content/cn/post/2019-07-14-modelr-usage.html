@@ -3,11 +3,8 @@ title: "modelr——基础模型实现"
 author: 王诗翔
 date: 2018-10-05
 slug: "modelr-base-models"
-categories: r
-tags:
-- modelr
-- r
-- 建模
+categories: [r]
+tags: [r, modelr, modeling]
 ---
 
 
@@ -18,22 +15,22 @@ tags:
 <li>首先，我们需要定义一个模型族来表示一种精确但一般性的模式，这种模式是我们想要捕获的。模式可以是一条直线或一条二次曲线。</li>
 <li>接下来我们要生成一个拟合模型，方法是从模型族中找出最接近数据的一个模型。该阶段使得一般的模型族具体化为特定模型。</li>
 </ol>
-<div class="section level4">
+<div id="准备工作" class="section level4">
 <h4>准备工作</h4>
 <p>这里我们使用<code>modelr</code>将R基础包中的建模函数进行包装，使其支持管道操作。</p>
 <pre class="r"><code>library(tidyverse)
-#&gt; ─ Attaching packages ──────────────────────────────────────────────────── tidyverse 1.2.1 ─
-#&gt; ✔ ggplot2 3.2.0     ✔ purrr   0.3.2
-#&gt; ✔ tibble  2.1.3     ✔ dplyr   0.8.3
-#&gt; ✔ tidyr   0.8.3     ✔ stringr 1.4.0
-#&gt; ✔ readr   1.3.1     ✔ forcats 0.4.0
-#&gt; ─ Conflicts ───────────────────────────────────────────────────── tidyverse_conflicts() ─
-#&gt; ✖ dplyr::filter() masks stats::filter()
-#&gt; ✖ dplyr::lag()    masks stats::lag()
+#&gt; -- Attaching packages ------------------------------------------------------------ tidyverse 1.3.0 --
+#&gt; v ggplot2 3.3.2     v purrr   0.3.4
+#&gt; v tibble  3.0.3     v dplyr   1.0.0
+#&gt; v tidyr   1.1.0     v stringr 1.4.0
+#&gt; v readr   1.3.1     v forcats 0.5.0
+#&gt; -- Conflicts --------------------------------------------------------------- tidyverse_conflicts() --
+#&gt; x dplyr::filter() masks stats::filter()
+#&gt; x dplyr::lag()    masks stats::lag()
 library(modelr)
 options(na.action = na.warn)</code></pre>
 </div>
-<div id="model" class="section level2">
+<div id="一个简单model" class="section level2">
 <h2>一个简单Model</h2>
 <p>我们研究一个模拟数据集<code>sim1</code>，它包含两个连续型变量x和y。我们先用点图绘制出二者的关系：</p>
 <pre class="r"><code>ggplot(sim1, aes(x, y)) + 
@@ -58,9 +55,8 @@ ggplot(sim1, aes(x, y)) +
     a[1] + data$x * a[2]
 }
 model1(c(7, 1.5), sim1)
-#&gt;  [1]  8.5  8.5  8.5 10.0 10.0 10.0 11.5 11.5 11.5 13.0 13.0 13.0 14.5 14.5
-#&gt; [15] 14.5 16.0 16.0 16.0 17.5 17.5 17.5 19.0 19.0 19.0 20.5 20.5 20.5 22.0
-#&gt; [29] 22.0 22.0</code></pre>
+#&gt;  [1]  8.5  8.5  8.5 10.0 10.0 10.0 11.5 11.5 11.5 13.0 13.0 13.0 14.5 14.5 14.5
+#&gt; [16] 16.0 16.0 16.0 17.5 17.5 17.5 19.0 19.0 19.0 20.5 20.5 20.5 22.0 22.0 22.0</code></pre>
 <p>接下来我们需要某种方法计算预测值与实际值之间的总体距离，也就是将上面30个距离值转换为一个总体的距离。</p>
 <p>统计学上一种常见的方法为“均方根误差”，先计算实际值与预测值之间的差，求平方，然后求取平均数，最后计算平方根。</p>
 <pre class="r"><code>measure_distance = function(mod, data){
@@ -77,19 +73,19 @@ models = models %&gt;%
     mutate(dist = purrr::map2_dbl(a1, a2, sim1_dist))
 models
 #&gt; # A tibble: 250 x 3
-#&gt;         a1     a2  dist
-#&gt;      &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
-#&gt;  1 -18.0    1.87  23.3 
-#&gt;  2   0.385  1.51   7.32
-#&gt;  3  -2.01  -2.38  33.2 
-#&gt;  4  29.7    4.25  38.1 
-#&gt;  5  26.2   -3.42  17.8 
-#&gt;  6   3.19  -4.38  40.9 
-#&gt;  7  15.2   -4.07  28.8 
-#&gt;  8  23.8   -1.08   9.55
-#&gt;  9  -1.80  -0.537 21.7 
-#&gt; 10  19.5    4.18  27.8 
-#&gt; # … with 240 more rows</code></pre>
+#&gt;       a1     a2  dist
+#&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
+#&gt;  1 26.7  3.55   31.1 
+#&gt;  2 -7.60 2.19   11.2 
+#&gt;  3 13.7  1.72    8.00
+#&gt;  4 -1.99 1.25   11.1 
+#&gt;  5 35.2  4.70   46.3 
+#&gt;  6 15.1  0.0486  6.14
+#&gt;  7 -7.92 1.99   12.7 
+#&gt;  8 38.3  1.28   30.0 
+#&gt;  9 24.3  1.90   19.4 
+#&gt; 10 25.3  1.43   17.9 
+#&gt; # ... with 240 more rows</code></pre>
 <p>下一步我们将最好的10个模型覆盖到数据上，使用-dist为模型着色，这样我们可以看出最佳模型具有最明亮的颜色：</p>
 <pre class="r"><code>ggplot(sim1, aes(x, y)) + 
     geom_point(size = 2, color = &quot;grey30&quot;) + 
@@ -145,7 +141,7 @@ coef(sim1_mod)
 #&gt;        4.22        2.05</code></pre>
 <p>这和使用<code>optim()</code>结果完全一致，注意<code>lm()</code>函数使用的不是<code>optim()</code>，而是利用了线性模型的数学结构，实际上利用了一种非常复杂的算法，通过几何学、微积分和线性代数间的一些关系，只需要一个步骤就可以找出最近似的模型。这种方法速度非常快，而且一定能找到全局最小值。</p>
 </div>
-<div class="section level2">
+<div id="模型可视化" class="section level2">
 <h2>模型可视化</h2>
 <p>找出模型未捕获的信息也是非常有用的，即所谓的残差，它是数据去除预测值后剩余的部分，残差是非常强大的，它允许我们使用模型去除数据中显著的模式，以便<strong>对剩余的微妙趋势进行研究</strong>。</p>
 <p>要想对模型的预测进行可视化表示，首先要生成一个分布均匀的数值网格，以便覆盖数据所在区域。最简单的方式是使用<code>modelr::data_grid()</code>函数，第一个参数是一个数据框，它对随后的参数都会找出其中的唯一值，然后生成所有组合：</p>
@@ -192,7 +188,7 @@ grid
         size = 1
     )</code></pre>
 <p><img src="/cn/post/2019-07-14-modelr-usage_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
-<div class="section level3">
+<div id="残差" class="section level3">
 <h3>残差</h3>
 <p>与预测值相对的是<strong>残差</strong>，<strong>预测值可以告诉我们模型捕获的模式，而残差则表示模型漏掉的部分</strong>。残差就是我们前面计算过的观测值与预测值间的距离。</p>
 <p>我们使用<code>add_residuals()</code>将残差添加到数据中，注意我们使用的是原始数据，因为计算残差需要使用实际的y值：</p>
@@ -212,7 +208,7 @@ sim1
 #&gt;  8     3 10.5   0.130  
 #&gt;  9     3 10.5   0.136  
 #&gt; 10     4 12.4   0.00763
-#&gt; # … with 20 more rows</code></pre>
+#&gt; # ... with 20 more rows</code></pre>
 <p>对于残差可以反映出模型的哪些信息，有几种不同的理解方法。其中一种方法是简单地描绘频率多边形图，以帮助我们理解残差的分布：</p>
 <pre class="r"><code>ggplot(sim1, aes(resid)) + 
     geom_freqpoly(binwidth = 0.5)</code></pre>
@@ -226,7 +222,7 @@ sim1
 <p>由上图可知，残差应该是随机噪声，这说明我们的模型非常好地捕获了数据集中的模式。</p>
 </div>
 </div>
-<div class="section level2">
+<div id="公式与模型族" class="section level2">
 <h2>公式与模型族</h2>
 <p>在R中，公式是表示“特殊行为”的一种通用方式，<strong>公式不对变量立刻进行求值，只是将变量表示为函数能够理解的形式</strong>。</p>
 <p>R中绝大多数建模函数都使用一种标准将公式转换为表示模型族的方程。我们已经见过最简单的转换，即<code>y~x</code>转换为<code>y = a1 + a2*x</code>。如果想看R到底进行了什么转换，可以使用<code>model_matrix()</code>函数，它接受一个数据框和一个公式，并返回一个定义了模型方程的<code>tibble</code>，其中每一列都关联到方程的一个系数，方程的形式总是类似<code>y = a1 * out1  + a2 * out2</code>。对于最简单的情况<code>y ~ x1</code>，函数会返回下面有意思的结果：</p>
@@ -257,7 +253,7 @@ model_matrix(df, y ~ x1)
 #&gt; 2             1     1     6</code></pre>
 <p>这种公式表示方法称为“Wilkinson-Rogers”表示法。</p>
 <p>下面我们利用它表示分类变量、交互项以及变量转换。</p>
-<div class="section level3">
+<div id="分类变量" class="section level3">
 <h3>分类变量</h3>
 <p><strong>如果预测变量是连续的，那么从公式转换为方程式很简单；但当预测变量是分类变量时，事情就变得复杂</strong>。例如存在公式<code>y ~ sex</code>，R的做法是将其转换为<code>y = x_0 + x_1 * sex_male</code>，如果sex是男性，那么sex_male值为1，否则其值就是0。</p>
 <pre class="r"><code>df = tribble(
@@ -300,7 +296,7 @@ grid
     )</code></pre>
 <p><img src="/cn/post/2019-07-14-modelr-usage_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
 </div>
-<div id="-" class="section level3">
+<div id="交互项-连续变量与分类变量" class="section level3">
 <h3>交互项 （连续变量与分类变量）</h3>
 <p>sim3数据集包含了一个分类预测变量和一个连续预测变量，我们先简单展示查看该数据：</p>
 <pre class="r"><code>ggplot(sim3, aes(x1, y)) + 
@@ -331,7 +327,7 @@ grid
 #&gt;  8 mod1      2 d      3.84
 #&gt;  9 mod1      3 a      1.28
 #&gt; 10 mod1      3 b      4.17
-#&gt; # … with 70 more rows</code></pre>
+#&gt; # ... with 70 more rows</code></pre>
 <p>下面进行可视化：</p>
 <pre class="r"><code>ggplot(sim3, aes(x1, y, color = x2)) + 
     geom_point() + 
@@ -347,7 +343,7 @@ ggplot(sim3, aes(x1, resid, color = x2)) +
 <p><img src="/cn/post/2019-07-14-modelr-usage_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
 <p>mod2的残差几乎看不到明显的模式，而mod1的残差则表明这个模式在b分类中明显漏掉了，在其他分类虽然不明显，但似乎也存在某种模式。</p>
 </div>
-<div id="-" class="section level3">
+<div id="交互项-两个连续变量" class="section level3">
 <h3>交互项 （两个连续变量）</h3>
 <p>下面模型和上一节基本相同，只不过这里是两个连续变量。前几个步骤和前面一样：</p>
 <pre class="r"><code>mod1 = lm(y ~ x1 + x2, data = sim4)
@@ -371,13 +367,13 @@ seq_range(c(0.0123, 0.923423), n = 5, pretty = TRUE)
 </ul>
 <pre class="r"><code>x1 = rcauchy(100)
 seq_range(x1, n = 5)
-#&gt; [1] -32.31  -4.86  22.59  50.04  77.49
+#&gt; [1]  -22.1  240.6  503.3  766.0 1028.7
 seq_range(x1, n = 5, trim = 0.10)
-#&gt; [1] -6.819 -0.515  5.790 12.094 18.399
+#&gt; [1] -4.357 -0.537  3.284  7.104 10.925
 seq_range(x1, n = 5, trim = 0.25)
-#&gt; [1] -2.4585 -1.2218  0.0149  1.2516  2.4883
+#&gt; [1] -1.6029 -0.0942  1.4145  2.9232  4.4319
 seq_range(x1, n = 5, trim = 0.50)
-#&gt; [1] -1.301 -0.797 -0.294  0.210  0.713</code></pre>
+#&gt; [1] -0.686 -0.158  0.370  0.898  1.426</code></pre>
 <ul>
 <li><code>expand = 0.1</code>从某种程度上说是<code>trim</code>的反操作，它可以将取值范围扩大10%。</li>
 </ul>
@@ -406,7 +402,7 @@ seq_range(x2, n = 5, expand = 0.50)
 <p><img src="/cn/post/2019-07-14-modelr-usage_files/figure-html/unnamed-chunk-37-2.png" width="672" /></p>
 <p>这说明两个连续变量的交互项的作用方式与一个分类变量和一个连续变量的交互项基本相同，交互项说明了两个变量是相互影响的，如果要预测y值，我们必须同时考虑x1值和x2的值。</p>
 </div>
-<div class="section level3">
+<div id="变量转换" class="section level3">
 <h3>变量转换</h3>
 <p>我们还可以在模型公式中进行变量转换。例如<code>log(y) ~ sqrt(x1) + x2</code>可以转换为<code>log(y) = a1 + a2 * sqrt(x1) + a3 * x2</code>。如果想要使用<code>+</code>、<code>*</code>、<code>^</code>或<code>-</code>进行变量转换，那么要使用<code>I()</code>进行包装，以便R处理时不将它看做模型定义的部分。</p>
 <p>如果搞不懂模型在做神马，使用<code>model_matrix()</code>函数查看<code>lm()</code>到底在拟合哪个方程：</p>
@@ -471,7 +467,7 @@ ggplot(sim5, aes(x, y)) +
 <p><img src="/cn/post/2019-07-14-modelr-usage_files/figure-html/unnamed-chunk-43-1.png" width="672" /></p>
 </div>
 </div>
-<div class="section level2">
+<div id="缺失值" class="section level2">
 <h2>缺失值</h2>
 <p>缺失值不能传达任何变量间的关系，因此建模函数会丢弃包含缺失值的所有行。默认R会不声不响将它们扔掉，但使用<code>options(na.action = na.warn)</code>会确保我们收到一条警告信息：</p>
 <pre class="r"><code>df = tribble(
@@ -490,7 +486,7 @@ mod = lm(y ~ x, data = df)
 <pre class="r"><code>nobs(mod)
 #&gt; [1] 3</code></pre>
 </div>
-<div class="section level2">
+<div id="其他模型族" class="section level2">
 <h2>其他模型族</h2>
 <p>上面的学习都是基于线性模型，其实还有很多模型，下面列出名称及其R实现：</p>
 <ul>

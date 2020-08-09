@@ -2,13 +2,8 @@
 title: 创建和使用shell函数
 author: 王诗翔
 date: 2017-11-26
-categories:
-- shell
-tags:
-- linux
-- 笔记
-
-summary: "讲解Shell该如何创建函数..."
+categories: [shell]
+tags: [linux, shell, note]
 ---
 
 *来源： Linux命令行与shell脚本编程大全*

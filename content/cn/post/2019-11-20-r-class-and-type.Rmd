@@ -4,12 +4,8 @@ author: "王诗翔"
 date: "2018-05-09"
 lastmod: "`r Sys.Date()`"
 slug: ""
-categories: r
-tags:
-- r
-- type
-- object
-- class
+categories: [r]
+tags: [r, type, object, class]
 ---
 
 ```{r setup, include=FALSE}

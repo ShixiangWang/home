@@ -2,20 +2,19 @@
 title: "使用有限混合模型"
 author: "王诗翔"
 date: "2019-09-06"
-lastmod: "2019-09-17"
+lastmod: "2020-08-09"
 slug: ""
-categories: r
-tags:
-- r
+categories: [r]
+tags: [r, flexmix]
 ---
 
 
 
-<div class="section level2">
+<div id="模拟数据" class="section level2">
 <h2>模拟数据</h2>
 <pre class="r"><code>library(ggplot2)
 library(flexmix)
-#&gt; 载入需要的程辑包：lattice</code></pre>
+#&gt; Loading required package: lattice</code></pre>
 <pre class="r"><code>m1 &lt;- 0
 m2 &lt;- 50
 sd1 &lt;- sd2 &lt;- 5
@@ -25,7 +24,7 @@ N2 &lt;- 10
 a &lt;- rnorm(n=N1, mean=m1, sd=sd1)
 b &lt;- rnorm(n=N2, mean=m2, sd=sd2)</code></pre>
 </div>
-<div class="section level2">
+<div id="绘制数据图形" class="section level2">
 <h2>绘制数据图形</h2>
 <pre class="r"><code>x &lt;- c(a,b)
 class &lt;- c(rep(&#39;a&#39;, N1), rep(&#39;b&#39;, N2))
@@ -39,7 +38,7 @@ p &lt;- ggplot(data, aes(x = x)) +
 p</code></pre>
 <p><img src="/cn/post/2019-09-06-flexmix-model_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 </div>
-<div class="section level2">
+<div id="拟合模型" class="section level2">
 <h2>拟合模型</h2>
 <p>这里我们可以看到应该是由2个分布混合而成，试着去恢复相应分布的参数：</p>
 <pre class="r"><code>set.seed(0)
@@ -54,42 +53,42 @@ flexfit &lt;- flexmix(x ~ 1, data = data, k = 2, model = list(mo1, mo2))</code><
 #&gt;   2 100   0</code></pre>
 <p>区分效果很好（其实可以用这种方法去分类）。</p>
 </div>
-<div class="section level2">
+<div id="查看结果" class="section level2">
 <h2>查看结果</h2>
 <pre class="r"><code>parameters(flexfit)
 #&gt; [[1]]
 #&gt;                  Comp.1 Comp.2
-#&gt; coef.(Intercept)  51.04     -1
-#&gt; sigma              4.82      5
+#&gt; coef.(Intercept)  48.76   0.37
+#&gt; sigma              5.84   4.78
 #&gt; 
 #&gt; [[2]]
 #&gt;                  Comp.1 Comp.2
-#&gt; coef.(Intercept)  51.04     -1
-#&gt; sigma              4.82      5</code></pre>
+#&gt; coef.(Intercept)  48.76   0.37
+#&gt; sigma              5.84   4.78</code></pre>
 <p>输出参数：</p>
 <pre class="r"><code>c1 &lt;- parameters(flexfit, component=2)[[1]]
 c2 &lt;- parameters(flexfit, component=1)[[1]]
 
 cat(&#39;pred:&#39;, c1[1], &#39;\n&#39;)
-#&gt; pred: -1
+#&gt; pred: 0.37
 cat(&#39;true:&#39;, m1, &#39;\n\n&#39;)
 #&gt; true: 0
 cat(&#39;pred:&#39;, c1[2], &#39;\n&#39;)
-#&gt; pred: 5
+#&gt; pred: 4.78
 cat(&#39;true:&#39;, sd1, &#39;\n\n&#39;)
 #&gt; true: 5
 
 cat(&#39;pred:&#39;, c2[1], &#39;\n&#39;)
-#&gt; pred: 51
+#&gt; pred: 48.8
 cat(&#39;true:&#39;, m2, &#39;\n\n&#39;)
 #&gt; true: 50
 cat(&#39;pred:&#39;, c2[2], &#39;\n&#39;)
-#&gt; pred: 4.82
+#&gt; pred: 5.84
 cat(&#39;true:&#39;, sd2, &#39;\n\n&#39;)
 #&gt; true: 5</code></pre>
 <p>基本能拟合出原始分布。</p>
 </div>
-<div class="section level2">
+<div id="可视化拟合" class="section level2">
 <h2>可视化拟合</h2>
 <pre class="r"><code>plot_mix_comps &lt;- function(x, mu, sigma, lam) {
   lam * dnorm(x, mu, sigma)
@@ -108,7 +107,7 @@ stat_function(geom = &quot;line&quot;, fun = plot_mix_comps,
 ylab(&quot;Density&quot;)</code></pre>
 <p><img src="/cn/post/2019-09-06-flexmix-model_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 </div>
-<div class="section level2">
+<div id="新的问题" class="section level2">
 <h2>新的问题</h2>
 <p>能否自动推断出有2个分布以及它们的参数？？</p>
 <pre class="r"><code>flexfit = stepFlexmix(x ~ 1, data = data, k = 1:5, model = FLXMRglm(family = &quot;gaussian&quot;))
@@ -124,20 +123,20 @@ ylab(&quot;Density&quot;)</code></pre>
 #&gt;     k = 1:5)
 #&gt; 
 #&gt;   iter converged k k0 logLik AIC BIC ICL
-#&gt; 1    2      TRUE 1  1   -459 923 928 928
-#&gt; 2   12      TRUE 2  2   -366 742 755 755
-#&gt; 3   55      TRUE 3  3   -366 747 769 864
-#&gt; 4   38      TRUE 4  4   -366 753 783 906
-#&gt; 5  200     FALSE 4  5   -365 753 783 915</code></pre>
+#&gt; 1    2      TRUE 1  1   -452 908 913 913
+#&gt; 2   13      TRUE 2  2   -363 736 750 750
+#&gt; 3   36      TRUE 3  3   -360 735 757 795
+#&gt; 4   69      TRUE 4  4   -360 741 771 860
+#&gt; 5   66      TRUE 4  5   -360 741 771 874</code></pre>
 <p>根据 BIC 选择一个最佳的模型：</p>
 <pre class="r"><code>fitBest = getModel(flexfit, which = &quot;BIC&quot;)
 str(fitBest, max.level = 2)
 #&gt; Formal class &#39;flexmix&#39; [package &quot;flexmix&quot;] with 18 slots
 #&gt;   ..@ posterior  :List of 2
 #&gt;   ..@ weights    : NULL
-#&gt;   ..@ iter       : int 12
+#&gt;   ..@ iter       : int 13
 #&gt;   ..@ cluster    : int [1:110] 1 1 1 1 1 1 1 1 1 1 ...
-#&gt;   ..@ logLik     : num -366
+#&gt;   ..@ logLik     : num -363
 #&gt;   ..@ df         : num 5
 #&gt;   ..@ control    :Formal class &#39;FLXcontrol&#39; [package &quot;flexmix&quot;] with 6 slots
 #&gt;   ..@ group      : Factor w/ 0 levels: 
@@ -156,15 +155,15 @@ str(fitBest, max.level = 2)
 <p>查看参数：</p>
 <pre class="r"><code>parameters(fitBest)
 #&gt;                  Comp.1 Comp.2
-#&gt; coef.(Intercept)     -1  51.04
-#&gt; sigma                 5   4.82</code></pre>
+#&gt; coef.(Intercept)   0.37  48.76
+#&gt; sigma              4.78   5.84</code></pre>
 <p>这个我们的输入非常接近，但也存在一个不小的误差：</p>
 <pre class="r"><code>print(paste(m1, sd1))  
 #&gt; [1] &quot;0 5&quot;
 print(paste(m2, sd2))
 #&gt; [1] &quot;50 5&quot;</code></pre>
 </div>
-<div class="section level2">
+<div id="使用不同的接口" class="section level2">
 <h2>使用不同的接口</h2>
 <p>Flexmix 这个包的文档看起来让人很蒙蔽，完全搞不懂核心的一些建模函数。我下面测试下不同的接口使用的效果。</p>
 <pre class="r"><code>set.seed(0)
@@ -173,13 +172,13 @@ print(paste(m2, sd2))
 fit1 &lt;- flexmix(x ~ 1, data = data, k = 2, model = FLXMRglm(family = &quot;gaussian&quot;))
 parameters(fit1)
 #&gt;                  Comp.1 Comp.2
-#&gt; coef.(Intercept)  51.04     -1
-#&gt; sigma              4.82      5</code></pre>
+#&gt; coef.(Intercept)  48.76   0.37
+#&gt; sigma              5.84   4.78</code></pre>
 <pre class="r"><code>fit2 &lt;- flexmix(x ~ 1, data = data, k = 2, model = FLXMCnorm1())
 parameters(fit2)
 #&gt;      Comp.1 Comp.2
-#&gt; mean  51.04     -1
-#&gt; sd     5.06      5</code></pre>
+#&gt; mean  48.76   0.37
+#&gt; sd     6.12   4.78</code></pre>
 <p>使用泊松分布来拟合试试，先生成泊松分布数据：</p>
 <pre class="r"><code>N1 &lt;- 100
 N2 &lt;- 10
@@ -198,14 +197,14 @@ parameters(fit3)
 parameters(fit4)
 #&gt; Comp.1.coef.(Intercept) Comp.2.coef.(Intercept) 
 #&gt;                    3.88                  -28.67</code></pre>
-<p><strong><code>FLXMCmvpois()</code> 显示的是 demo driver，但却比 <code>FLXMRglm(family = &quot;poisson&quot;)</code> 结果准确的多！！</strong></p>
+<p><strong><code>FLXMCmvpois()</code> 显示的是 demo driver，但却比 <code>FLXMRglm(family = "poisson")</code> 结果准确的多！！</strong></p>
 <p>不能理解这个包的哲学，尽管它看起来是那么的优秀~</p>
 <blockquote>
 <p>更新：2019-09-17</p>
 <p>发现 flexmix 提供的功能大体分为两类，以 FLXMC 开头的是做聚类的，而以 FLXMR 开头的是做回归的。</p>
 </blockquote>
 </div>
-<div class="section level2">
+<div id="能否重复分析" class="section level2">
 <h2>能否重复分析？</h2>
 <pre class="r"><code>set.seed(1234)
 
@@ -230,8 +229,8 @@ stepfit = stepFlexmix(x ~ 1, data = data, k = 1:5, model = FLXMCmvpois())
 fit = getModel(flexfit, which = &quot;BIC&quot;)
 parameters(fit)
 #&gt;                  Comp.1 Comp.2
-#&gt; coef.(Intercept)     -1  51.04
-#&gt; sigma                 5   4.82</code></pre>
+#&gt; coef.(Intercept)   0.37  48.76
+#&gt; sigma              4.78   5.84</code></pre>
 <pre class="r"><code>set.seed(1234)
 stepfit = stepFlexmix(x ~ 1, data = data, k = 1:5, model = FLXMCmvpois())
 #&gt; 1 : * * *
@@ -242,8 +241,8 @@ stepfit = stepFlexmix(x ~ 1, data = data, k = 1:5, model = FLXMCmvpois())
 fit = getModel(flexfit, which = &quot;BIC&quot;)
 parameters(fit)
 #&gt;                  Comp.1 Comp.2
-#&gt; coef.(Intercept)     -1  51.04
-#&gt; sigma                 5   4.82</code></pre>
+#&gt; coef.(Intercept)   0.37  48.76
+#&gt; sigma              4.78   5.84</code></pre>
 <p>结果显示一致</p>
 <blockquote>
 <p>本文前半部分示例来自《<a href="https://jef.works/blog/2017/08/05/a-practical-introduction-to-finite-mixture-models/">A Practical Introduction To Finite Mixture Models</a>》</p>

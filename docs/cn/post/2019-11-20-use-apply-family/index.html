@@ -123,6 +123,22 @@
 2018-06-12</h3> 
 
 
+<p style="text-align:right;">
+  分类:
+  
+    <a href="../../../categories/r">r</a> &nbsp
+  
+  <br>
+  标签:
+  
+    <a href="../../../tags/r">r</a> &nbsp
+  
+    <a href="../../../tags/apply">apply</a> &nbsp
+  
+</p>
+
+
+
    
   
 
@@ -143,13 +159,13 @@ for (i in 1:3){
 <p>代码挺简单的，但能不能更简单？我们使用<code>lapply()</code>：</p>
 <pre class="r"><code>lapply(len, rnorm)
 #&gt; [[1]]
-#&gt; [1] -0.508 -1.535  1.497
+#&gt; [1]  0.824 -1.987 -0.225
 #&gt; 
 #&gt; [[2]]
-#&gt; [1] -0.0312  0.2983 -0.4125  0.2081
+#&gt; [1] -0.755  0.323  0.149  0.140
 #&gt; 
 #&gt; [[3]]
-#&gt; [1]  0.79099 -1.39149 -0.91839  0.00153  0.70690</code></pre>
+#&gt; [1] -0.961 -0.305  0.450 -1.108  0.179</code></pre>
 <p>apply函数簇中的每个函数都称为高阶函数，<strong>高阶函数是以函数为输入的函数</strong>。</p>
 <div id="lapply" class="section level2">
 <h2>lapply</h2>
@@ -221,8 +237,8 @@ sapply(x1, function(x) x^2)
 #&gt; [1] 1 9 9</code></pre>
 <p>但如果我们使用<code>vapply()</code>，我们可以设定返回值的模板，以验证结果形式上是不是出问题了。</p>
 <pre class="r"><code>vapply(x1, function(x) x^2, numeric(2))
-#&gt; Error in vapply(x1, function(x) x^2, numeric(2)): 值的长度必需为2，
-#&gt;  但FUN(X[[3]])结果的长度却是3</code></pre>
+#&gt; Error in vapply(x1, function(x) x^2, numeric(2)): values must be length 2,
+#&gt;  but FUN(X[[3]]) result is length 3</code></pre>
 <p>而对于正确的输入，<code>vapply()</code>与<code>sapply()</code>结果一致。</p>
 <pre class="r"><code>vapply(x, function(x) x^2, numeric(2))
 #&gt;      [,1] [,2] [,3]

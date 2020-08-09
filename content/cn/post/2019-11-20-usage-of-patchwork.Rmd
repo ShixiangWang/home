@@ -4,11 +4,8 @@ author: "王诗翔"
 date: "2018-07-06"
 lastmod: "`r Sys.Date()`"
 slug: ""
-categories: r
-tags:
-- r
-- ggplot
-- patchwork
+categories: [r]
+tags: [r, ggplot2, patchwork]
 ---
 
 ```{r setup, include=FALSE}
@@ -29,14 +26,16 @@ options(max.print=200)
 ## 安装
 
 ```{r, eval=FALSE}
+install.packages("patchwork")
 # 需要提取安装好devtools包，
 # 如果你解决安装和载入包很麻烦，可以试试pacman包，我在简书写了介绍和简单使用
-devtools::install_github("thomasp85/patchwork")
+# devtools::install_github("thomasp85/patchwork")
 ```
 
 导入：
 
 ```{r}
+library(pacman)
 p_load(patchwork)
 # 或
 # library(patchwork)

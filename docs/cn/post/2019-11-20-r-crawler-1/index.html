@@ -123,6 +123,22 @@
 2018-09-16</h3> 
 
 
+<p style="text-align:right;">
+  分类:
+  
+    <a href="../../../categories/r">r</a> &nbsp
+  
+  <br>
+  标签:
+  
+    <a href="../../../tags/r">r</a> &nbsp
+  
+    <a href="../../../tags/%E7%88%AC%E8%99%AB">爬虫</a> &nbsp
+  
+</p>
+
+
+
    
   
 
@@ -188,15 +204,15 @@
 </tr>
 <tr class="odd">
 <td><code>#table</code></td>
-<td><code>&lt;* id=&quot;table&quot;&gt;</code></td>
+<td><code>&lt;* id="table"&gt;</code></td>
 </tr>
 <tr class="even">
 <td><code>.product-list</code></td>
-<td><code>&lt;* class=&quot;product-list&quot;&gt;</code></td>
+<td><code>&lt;* class="product-list"&gt;</code></td>
 </tr>
 <tr class="odd">
 <td><code>div#container</code></td>
-<td><code>&lt;div id=&quot;container&quot;&gt;</code></td>
+<td><code>&lt;div id="container"&gt;</code></td>
 </tr>
 <tr class="even">
 <td><code>div a</code></td>
@@ -208,7 +224,7 @@
 </tr>
 <tr class="even">
 <td><code>div &gt;a.new</code></td>
-<td><code>&lt;div&gt;&lt;a class=&quot;new&quot;&gt;</code></td>
+<td><code>&lt;div&gt;&lt;a class="new"&gt;</code></td>
 </tr>
 <tr class="odd">
 <td><code>ul &gt; li:first-child</code></td>
@@ -232,7 +248,7 @@
 </tr>
 <tr class="even">
 <td><code>table[border=l]</code></td>
-<td><code>&lt;table border=&quot;l&quot;&gt;</code></td>
+<td><code>&lt;table border="l"&gt;</code></td>
 </tr>
 </tbody>
 </table>
@@ -243,7 +259,7 @@
 <pre class="r"><code>install.packages(&quot;rvest&quot;)</code></pre>
 <p>下面我们读取一个简单表格HTML数据并提取表格：</p>
 <pre class="r"><code>library(rvest)
-#&gt; 载入需要的程辑包：xml2
+#&gt; Loading required package: xml2
 single_table_page = read_html(&quot;../../../static/datasets/single-table.html&quot;)
 single_table_page
 #&gt; {html_document}
@@ -270,7 +286,7 @@ single_table_page
 #&gt;    Name Age
 #&gt; 1 Jenny  18
 #&gt; 2 James  19</code></pre>
-<p>现在我们读取一个产品信息网页，然后用<code>html_nodes()</code>匹配<code>&lt;span class=&quot;name&quot;&gt;</code>节点：</p>
+<p>现在我们读取一个产品信息网页，然后用<code>html_nodes()</code>匹配<code>&lt;span class="name"&gt;</code>节点：</p>
 <pre class="r"><code>products_page = read_html(&quot;../../../static/datasets/products.html&quot;)
 products_page %&gt;% 
     html_nodes(&quot;.product-list li .name&quot;)
@@ -418,19 +434,19 @@ products_page %&gt;%
 <pre class="r"><code>page %&gt;% html_nodes(xpath = &quot;//li[@class]&quot;)
 #&gt; {xml_nodeset (1)}
 #&gt; [1] &lt;li class=&quot;selected&quot;&gt;\n        &lt;span class=&quot;name&quot;&gt;Product-B&lt;/span&gt;\n      ...</code></pre>
-<p>选择<code>&lt;div id = &quot;list&quot;&gt;&lt;ul&gt;</code>节点所有<code>&lt;li&gt;</code>子节点：</p>
+<p>选择<code>&lt;div id = "list"&gt;&lt;ul&gt;</code>节点所有<code>&lt;li&gt;</code>子节点：</p>
 <pre class="r"><code>page %&gt;% html_nodes(xpath = &quot;//div[@id = &#39;list&#39;]/ul/li&quot;)
 #&gt; {xml_nodeset (3)}
 #&gt; [1] &lt;li&gt;\n        &lt;span class=&quot;name&quot;&gt;Product-A&lt;/span&gt;\n        &lt;span class=&quot;p ...
 #&gt; [2] &lt;li class=&quot;selected&quot;&gt;\n        &lt;span class=&quot;name&quot;&gt;Product-B&lt;/span&gt;\n      ...
 #&gt; [3] &lt;li&gt;\n        &lt;span class=&quot;name&quot;&gt;Product-C&lt;/span&gt;\n        &lt;span class=&quot;p ...</code></pre>
-<p>选择所有嵌套于<code>&lt;div id = &quot;list&quot;&gt;</code>中<code>&lt;li&gt;</code>标签下的<code>&lt;span class = &quot;name&quot;&gt;</code>子节点：</p>
+<p>选择所有嵌套于<code>&lt;div id = "list"&gt;</code>中<code>&lt;li&gt;</code>标签下的<code>&lt;span class = "name"&gt;</code>子节点：</p>
 <pre class="r"><code>page %&gt;% html_nodes(xpath = &quot;//div[@id = &#39;list&#39;]//li/span[@class=&#39;name&#39;]&quot;)
 #&gt; {xml_nodeset (3)}
 #&gt; [1] &lt;span class=&quot;name&quot;&gt;Product-A&lt;/span&gt;
 #&gt; [2] &lt;span class=&quot;name&quot;&gt;Product-B&lt;/span&gt;
 #&gt; [3] &lt;span class=&quot;name&quot;&gt;Product-C&lt;/span&gt;</code></pre>
-<p>选择嵌套于<code>&lt;li class = &quot;selected&quot;&gt;中&lt;span class = &quot;name&quot;&gt;</code>子节点。</p>
+<p>选择嵌套于<code>&lt;li class = "selected"&gt;中&lt;span class = "name"&gt;</code>子节点。</p>
 <pre class="r"><code>page %&gt;% 
     html_nodes(xpath = &quot;//li[@class=&#39;selected&#39;]/span[@class = &#39;name&#39;]&quot;)
 #&gt; {xml_nodeset (1)}
@@ -446,7 +462,7 @@ products_page %&gt;%
 #&gt; [2] &lt;div class=&quot;info&quot;&gt;\n          &lt;p&gt;Description for Product-B&lt;/p&gt;\n          ...
 #&gt; [3] &lt;div class=&quot;info&quot;&gt;\n          &lt;p&gt;Description for Product-C&lt;/p&gt;\n          ...</code></pre>
 <ul>
-<li>选择所有的<code>&lt;span class = &quot;info-value&quot;&gt;Good&lt;/span&gt;</code></li>
+<li>选择所有的<code>&lt;span class = "info-value"&gt;Good&lt;/span&gt;</code></li>
 </ul>
 <pre class="r"><code>page %&gt;% 
     html_nodes(xpath = &quot;//span[@class =&#39;info-value&#39; and text() = &#39;Good&#39;]&quot;)

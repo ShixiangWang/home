@@ -2,10 +2,8 @@
 title: 构建基本shell脚本
 author: 王诗翔
 date: 2017-08-11
-categories: shell
-tags:
-- linux
-- 笔记
+categories: ["shell"]
+tags: ["linux", "shell", "note"]
 
 summary: "学习Shell脚本的基本构建方式..."
 ---

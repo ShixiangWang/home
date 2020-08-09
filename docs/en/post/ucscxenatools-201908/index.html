@@ -110,6 +110,32 @@
 2019-08-25</h3> 
 
 
+<p style="text-align:right;">
+  Categories:
+  
+    <a href="../../../categories/bioinformatics">bioinformatics</a> &nbsp
+  
+  <br>
+  Tags:
+  
+    <a href="../../../tags/r">r</a> &nbsp
+  
+    <a href="../../../tags/software">software</a> &nbsp
+  
+    <a href="../../../tags/package">package</a> &nbsp
+  
+    <a href="../../../tags/bioinformatics">bioinformatics</a> &nbsp
+  
+    <a href="../../../tags/data-access">data-access</a> &nbsp
+  
+    <a href="../../../tags/survival-analysis">survival-analysis</a> &nbsp
+  
+    <a href="../../../tags/ucscxenatools">UCSCXenaTools</a> &nbsp
+  
+</p>
+
+
+
    
   
 
@@ -184,7 +210,7 @@ luad_cohort
   XenaQuery() %&gt;% 
   XenaDownload()
 #&gt; This will check url status, please be patient.
-#&gt; All downloaded files will under directory D:/Tool/Rtmp\RtmpWqN24p.
+#&gt; All downloaded files will under directory /var/folders/bj/nw1w4g1j37ddpgb6zmh3sfh80000gn/T//RtmpLpcBQu.
 #&gt; The &#39;trans_slash&#39; option is FALSE, keep same directory structure as Xena.
 #&gt; Creating directories for datasets...
 #&gt; Downloading TCGA.LUAD.sampleMap/LUAD_clinicalMatrix
@@ -286,8 +312,7 @@ head(merged_data)
 <pre class="r"><code>library(survival)
 library(survminer)
 #&gt; Loading required package: ggplot2
-#&gt; Loading required package: ggpubr
-#&gt; Loading required package: magrittr</code></pre>
+#&gt; Loading required package: ggpubr</code></pre>
 <div id="cox-model" class="section level3">
 <h3>Cox model</h3>
 <pre class="r"><code>fit = coxph(Surv(time, status) ~ KRAS_expression, data = merged_data)

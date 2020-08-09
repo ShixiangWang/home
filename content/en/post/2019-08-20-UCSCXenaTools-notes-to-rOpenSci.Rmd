@@ -5,16 +5,8 @@ package_version: 1.2.10
 authors:
   - Shixiang Wang
 date: '2019-08-25'
-categories: bioinformatics
-tags:
-  - r
-  - software
-  - packages
-  - bioinformatics
-  - data-access
-  - survival-analysis
-  - UCSCXenaTools
-  - 生存分析
+categories: [bioinformatics]
+tags: ["r", "software", "package", "bioinformatics", "data-access", "survival-analysis", "UCSCXenaTools"]
 lastmod: "`r Sys.Date()`"
 header-includes:
 - \usepackage{caption}

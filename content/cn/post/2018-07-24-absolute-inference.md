@@ -2,12 +2,9 @@
 title:  ABSOLUTE 推断框架
 author: 王诗翔
 date:  2018-07-24
-categories:
-- bioinformatics
-tags:
-- 笔记
+categories: [bioinformatics]
+tags: [bioinformatics, note, ABSOLUTE]
 ---
-
 
 
 * 样本混合物中Cancer细胞比例：alpha  (假设单染色体组monogenomic，即有同源SCNAs)

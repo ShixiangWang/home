@@ -123,6 +123,26 @@
 2019-10-23</h3> 
 
 
+<p style="text-align:right;">
+  分类:
+  
+    <a href="../../../categories/r">r</a> &nbsp
+  
+  <br>
+  标签:
+  
+    <a href="../../../tags/r">r</a> &nbsp
+  
+    <a href="../../../tags/cox">cox</a> &nbsp
+  
+    <a href="../../../tags/batch">batch</a> &nbsp
+  
+    <a href="../../../tags/forestplot">forestplot</a> &nbsp
+  
+</p>
+
+
+
    
   
 
@@ -135,7 +155,7 @@
 
 <p>Cox 模型是我们做生存分析最常用的模型，在实际的分析工作中，我们常常想逐一查看多个变量对生存时间的影响。注意，这与多变量分析不同，后者是通常将多个变量纳入模型查看它们的影响。</p>
 <p>基于我自己的分析需求，几个月前我编写了一个批处理的函数，最近我将它打包发布 CRAN 上。下面我们看一下如何使用它。</p>
-<div class="section level2">
+<div id="安装" class="section level2">
 <h2>安装</h2>
 <p>使用下面的命令直接从 CRAN 上安装：</p>
 <pre class="r"><code>install.packages(&quot;ezcox&quot;)</code></pre>
@@ -143,7 +163,7 @@
 <pre class="r"><code># install.packages(&quot;devtools&quot;)
 devtools::install_github(&quot;ShixiangWang/ezcox&quot;)</code></pre>
 </div>
-<div class="section level2">
+<div id="示例" class="section level2">
 <h2>示例</h2>
 <p>我们使用 <strong>survival</strong> 包提供的数据集 <code>lung</code> 作为示例数据。</p>
 <pre class="r"><code>data(&quot;lung&quot;, package = &quot;survival&quot;)
@@ -156,8 +176,18 @@ head(lung)
 #&gt; 5    1  883      2  60   1       0      100        90       NA       0
 #&gt; 6   12 1022      1  74   1       1       50        80      513       0</code></pre>
 <p>加载包：</p>
-<pre class="r"><code>library(ezcox)</code></pre>
-<div class="section level3">
+<pre class="r"><code>library(ezcox)
+#&gt; Welcome to &#39;ezcox&#39; package!
+#&gt; =======================================================================
+#&gt; You are using ezcox version 0.7.0
+#&gt; 
+#&gt; Github page  : https://github.com/ShixiangWang/ezcox
+#&gt; Documentation: https://shixiangwang.github.io/ezcox/articles/ezcox.html
+#&gt; 
+#&gt; Run citation(&quot;ezcox&quot;) to see how to cite &#39;ezcox&#39;.
+#&gt; =======================================================================
+#&gt; </code></pre>
+<div id="单变量批量处理" class="section level3">
 <h3>单变量批量处理</h3>
 <p>这里我们选择 3 个变量，包括年龄、性别以及 ECOG 评分。</p>
 <pre class="r"><code>res = ezcox(lung, covariates = c(&quot;age&quot;, &quot;sex&quot;, &quot;ph.ecog&quot;))
@@ -175,9 +205,24 @@ head(lung)
 #&gt; ==&gt; Done.
 knitr::kable(res)</code></pre>
 <table>
+<colgroup>
+<col width="7%" />
+<col width="9%" />
+<col width="13%" />
+<col width="8%" />
+<col width="9%" />
+<col width="5%" />
+<col width="6%" />
+<col width="5%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="10%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th align="left">Variable</th>
+<th align="left">is_control</th>
 <th align="left">contrast_level</th>
 <th align="left">ref_level</th>
 <th align="right">n_contrast</th>
@@ -193,6 +238,7 @@ knitr::kable(res)</code></pre>
 <tbody>
 <tr class="odd">
 <td align="left">age</td>
+<td align="left">FALSE</td>
 <td align="left">age</td>
 <td align="left">age</td>
 <td align="right">228</td>
@@ -206,6 +252,7 @@ knitr::kable(res)</code></pre>
 </tr>
 <tr class="even">
 <td align="left">sex</td>
+<td align="left">FALSE</td>
 <td align="left">sex</td>
 <td align="left">sex</td>
 <td align="right">228</td>
@@ -219,6 +266,7 @@ knitr::kable(res)</code></pre>
 </tr>
 <tr class="odd">
 <td align="left">ph.ecog</td>
+<td align="left">FALSE</td>
 <td align="left">ph.ecog</td>
 <td align="left">ph.ecog</td>
 <td align="right">227</td>
@@ -254,9 +302,24 @@ res = ezcox(lung2, covariates = c(&quot;age&quot;, &quot;sex&quot;, &quot;ph.eco
 #&gt; ==&gt; Done.
 knitr::kable(res)</code></pre>
 <table>
+<colgroup>
+<col width="7%" />
+<col width="9%" />
+<col width="13%" />
+<col width="8%" />
+<col width="9%" />
+<col width="5%" />
+<col width="6%" />
+<col width="5%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="10%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th align="left">Variable</th>
+<th align="left">is_control</th>
 <th align="left">contrast_level</th>
 <th align="left">ref_level</th>
 <th align="right">n_contrast</th>
@@ -272,6 +335,7 @@ knitr::kable(res)</code></pre>
 <tbody>
 <tr class="odd">
 <td align="left">age</td>
+<td align="left">FALSE</td>
 <td align="left">age</td>
 <td align="left">age</td>
 <td align="right">228</td>
@@ -285,6 +349,7 @@ knitr::kable(res)</code></pre>
 </tr>
 <tr class="even">
 <td align="left">sex</td>
+<td align="left">FALSE</td>
 <td align="left">2</td>
 <td align="left">1</td>
 <td align="right">90</td>
@@ -298,6 +363,7 @@ knitr::kable(res)</code></pre>
 </tr>
 <tr class="odd">
 <td align="left">ph.ecog</td>
+<td align="left">FALSE</td>
 <td align="left">ph.ecog</td>
 <td align="left">ph.ecog</td>
 <td align="right">227</td>
@@ -313,7 +379,7 @@ knitr::kable(res)</code></pre>
 </table>
 <p>结果证实如此。</p>
 </div>
-<div class="section level3">
+<div id="多变量批量处理" class="section level3">
 <h3>多变量批量处理</h3>
 <p>我们将年龄作为新的变量加入，也就是运行 2 个二变量的 Cox 模型。</p>
 <pre><code>Surv ~ sex + age
@@ -330,9 +396,24 @@ Surv ~ ph.ecog + age</code></pre>
 #&gt; ==&gt; Done.
 knitr::kable(res)</code></pre>
 <table>
+<colgroup>
+<col width="7%" />
+<col width="9%" />
+<col width="13%" />
+<col width="8%" />
+<col width="9%" />
+<col width="5%" />
+<col width="6%" />
+<col width="5%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="10%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th align="left">Variable</th>
+<th align="left">is_control</th>
 <th align="left">contrast_level</th>
 <th align="left">ref_level</th>
 <th align="right">n_contrast</th>
@@ -348,6 +429,7 @@ knitr::kable(res)</code></pre>
 <tbody>
 <tr class="odd">
 <td align="left">sex</td>
+<td align="left">FALSE</td>
 <td align="left">sex</td>
 <td align="left">sex</td>
 <td align="right">228</td>
@@ -361,6 +443,7 @@ knitr::kable(res)</code></pre>
 </tr>
 <tr class="even">
 <td align="left">sex</td>
+<td align="left">TRUE</td>
 <td align="left">age</td>
 <td align="left">age</td>
 <td align="right">228</td>
@@ -374,6 +457,7 @@ knitr::kable(res)</code></pre>
 </tr>
 <tr class="odd">
 <td align="left">ph.ecog</td>
+<td align="left">FALSE</td>
 <td align="left">ph.ecog</td>
 <td align="left">ph.ecog</td>
 <td align="right">227</td>
@@ -387,6 +471,7 @@ knitr::kable(res)</code></pre>
 </tr>
 <tr class="even">
 <td align="left">ph.ecog</td>
+<td align="left">TRUE</td>
 <td align="left">age</td>
 <td align="left">age</td>
 <td align="right">228</td>
@@ -403,9 +488,24 @@ knitr::kable(res)</code></pre>
 <p>这里 <code>global.pval</code> 给出的是整个模型的P值。变量 <code>age</code> 并不是我们想要关注的结果，我们可以过滤它：</p>
 <pre class="r"><code>knitr::kable(dplyr::filter(res, ref_level != &quot;age&quot;))</code></pre>
 <table>
+<colgroup>
+<col width="7%" />
+<col width="9%" />
+<col width="13%" />
+<col width="8%" />
+<col width="9%" />
+<col width="5%" />
+<col width="6%" />
+<col width="5%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="10%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th align="left">Variable</th>
+<th align="left">is_control</th>
 <th align="left">contrast_level</th>
 <th align="left">ref_level</th>
 <th align="right">n_contrast</th>
@@ -421,6 +521,7 @@ knitr::kable(res)</code></pre>
 <tbody>
 <tr class="odd">
 <td align="left">sex</td>
+<td align="left">FALSE</td>
 <td align="left">sex</td>
 <td align="left">sex</td>
 <td align="right">228</td>
@@ -434,6 +535,7 @@ knitr::kable(res)</code></pre>
 </tr>
 <tr class="even">
 <td align="left">ph.ecog</td>
+<td align="left">FALSE</td>
 <td align="left">ph.ecog</td>
 <td align="left">ph.ecog</td>
 <td align="right">227</td>
@@ -481,11 +583,11 @@ res$models$model
 #&gt; n= 227, number of events= 164 
 #&gt;    (1 observation deleted due to missingness)</code></pre>
 </div>
-<div class="section level3">
+<div id="可视化" class="section level3">
 <h3>可视化</h3>
 <p>我之前想过创建相应的可视化函数，但批量处理的结果使用表格展示更加方便。如果有画图需求的读者可以使用 <strong>forestplot</strong> 包，甚至 <strong>ggplot2</strong> 去构建自定义的森林图或者其他图形。如果是单个 Cox 模型，我们可以直接使用 <strong>forestmodel</strong> 包提供的函数进行可视化。</p>
 <pre class="r"><code>library(forestmodel)
-#&gt; 载入需要的程辑包：ggplot2
+#&gt; Loading required package: ggplot2
 
 forest_model(res$models$model[[1]])</code></pre>
 <p><img src="../../../cn/post/2019-10-23-ezcox-for-batch-cox-models_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>

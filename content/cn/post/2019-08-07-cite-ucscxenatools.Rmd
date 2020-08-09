@@ -4,11 +4,8 @@ author: "王诗翔"
 date: "2019-08-07"
 lastmod: "`r Sys.Date()`"
 slug: ""
-categories: bioinformatics
-tags:
-- package
-- r
-- software
+categories: [bioinformatics]
+tags: [r, package, software]
 ---
 
 ```{r setup, include=FALSE}

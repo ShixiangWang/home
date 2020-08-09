@@ -2,11 +2,8 @@
 title: Linux结构化命令
 author: 王诗翔
 date: 2017-08-11
-categories:
-- shell
-tags:
-- linux
-- 笔记
+categories: ["shell"]
+tags: ["linux", "shell", "note"]
 
 summary: "学习shell结构化命令..."
 ---

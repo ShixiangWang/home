@@ -4,10 +4,8 @@ author: "王诗翔"
 date: "2019-07-07"
 lastmod: "`r Sys.Date()`"
 slug: ""
-categories: r
-tags:
-- 统计分析
-- r
+categories: [r]
+tags: [r, stats]
 ---
 
 ```{r setup, include=FALSE}

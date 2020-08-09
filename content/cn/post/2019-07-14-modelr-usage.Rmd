@@ -3,11 +3,8 @@ title: "modelr——基础模型实现"
 author: 王诗翔
 date: 2018-10-05
 slug: "modelr-base-models"
-categories: r
-tags:
-- modelr
-- r
-- 建模
+categories: [r]
+tags: [r, modelr, modeling]
 ---
 
 

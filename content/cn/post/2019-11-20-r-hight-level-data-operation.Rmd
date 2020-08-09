@@ -4,13 +4,8 @@ author: "王诗翔"
 date: "2018-08-25"
 lastmod: "`r Sys.Date()`"
 slug: ""
-categories: r
-tags:
-  - r
-  - dplyr
-  - sqldf
-  - data.table
-  - rlist
+categories: [r]
+tags: ["r", "dplyr", "sqldf", "data.table", "rlist"]
 ---
 
 ```{r setup, include=FALSE}

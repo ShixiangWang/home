@@ -4,12 +4,8 @@ author: "王诗翔"
 date: "2019-10-18"
 lastmod: "2019-10-18"
 slug: ""
-categories: life
-tags:
-- rstudio
-- vscode
-- r
-- font
+categories: [config]
+tags: [r, font, rstudio, vscode]
 ---
 
 

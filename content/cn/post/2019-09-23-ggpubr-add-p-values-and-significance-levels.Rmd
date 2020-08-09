@@ -4,11 +4,8 @@ author: "王诗翔"
 date: "2018-05-19"
 lastmod: "`r Sys.Date()`"
 slug: "ggpubr-add-pvalue-and-siglevels"
-categories: r
-tags:
-- r
-- ggpubr
-- ggplot2
+categories: [r]
+tags: [r, ggplot2, ggpubr]
 ---
 
 ```{r setup, include=FALSE}

@@ -2,14 +2,10 @@
 title: "R传统图形绘制多图"
 author: "王诗翔"
 date: "2019-06-21"
-lastmod: "2019-08-26"
+lastmod: "2020-08-09"
 slug: ""
-categories: r
-tags:
-- 安装
-- r
-- baseplot
-- 多图
+categories: [r]
+tags: ["r", "installation", "base-plot", "multiple-plots", "plot"]
 ---
 
 
@@ -19,7 +15,7 @@ tags:
 <li>使用 <code>par()</code> 函数设定 <code>mfrow</code> 或者 <code>mfcol</code> 进行控制。</li>
 <li>使用 <code>layout()</code> 函数。</li>
 </ul>
-<div id="par-" class="section level2">
+<div id="par-函数" class="section level2">
 <h2>par() 函数</h2>
 <p><code>mfrow</code> 和 <code>mfcol</code> 都由 2 个数字指定，一个表示行数、一个表示列数。如果使用 <code>mfrow</code>，那么图像区域会被按行依次使用；
 如果使用 <code>mfcol</code>，那么图像区域会按列依次使用。</p>
@@ -38,7 +34,7 @@ plot(1:10, main = &quot;4&quot;)</code></pre>
 <p><img src="/cn/post/2019-06-21-baseplot-multiplots_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <p>这区别应该一目了然吧？</p>
 </div>
-<div id="-layout" class="section level2">
+<div id="布局函数-layout" class="section level2">
 <h2>布局函数 layout()</h2>
 <p>上面的方法创建的子图大小是相同的，而 <code>layout()</code> 就要高级不少。</p>
 <p><code>layout()</code> 将图片内部区域分割为一组行和列，但行高和列宽度可以分别控制，并且每个子图可以占据超过一行或一列的位置。</p>

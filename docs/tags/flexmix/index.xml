@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>flexmix on Shixiang Wang | 王诗翔</title>
+    <link>/tags/flexmix/</link>
+    <description>Recent content in flexmix on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 06 Sep 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/flexmix/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>使用有限混合模型</title>
+      <link>/cn/post/2019-09-06-flexmix-model/</link>
+      <pubDate>Fri, 06 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-09-06-flexmix-model/</guid>
+      <description>模拟数据 library(ggplot2) library(flexmix) #&amp;gt; Loading required package: lattice m1 &amp;lt;- 0 m2 &amp;lt;- 50 sd1 &amp;lt;- sd2 &amp;lt;- 5 N1 &amp;lt;- 100 N2 &amp;lt;- 10 a &amp;lt;- rnorm(n=N1, mean=m1, sd=sd1) b &amp;lt;- rnorm(n=N2, mean=m2, sd=sd2) 绘制数据图形 x &amp;lt;- c(a,b) class &amp;lt;- c(rep(&amp;#39;a&amp;#39;, N1), rep(&amp;#39;b&amp;#39;, N2)) data &amp;lt;- data.frame(cbind(x=as.numeric(x), class=as.factor(class))) library(&amp;quot;ggplot2&amp;quot;) p &amp;lt;- ggplot(data, aes(x = x)) + geom_histogram(aes(x, ..density..), binwidth = 1,</description>
+    </item>
+    
+  </channel>
+</rss>

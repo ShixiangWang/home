@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ezcox on Shixiang Wang | 王诗翔</title>
+    <link>/tags/ezcox/</link>
+    <description>Recent content in ezcox on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 02 May 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/ezcox/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>ezcox 森林图中点估计方块大小设定</title>
+      <link>/cn/post/2020-05-02-ezcox-forest-set-square-size/</link>
+      <pubDate>Sat, 02 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2020-05-02-ezcox-forest-set-square-size/</guid>
+      <description>这篇文章与 https://github.com/ShixiangWang/MessageBoard/issues/69 与 https://github.com/ShixiangWang/ezcox/issues/12 相关。 之前开发的 ezcox 包提供了批量建模和展示森林图的功能，我自认为森林图要比 ggpubr 提供的 ggforest 好看。森林图的绘制实际是基于 forestmodel 的实现。 forestmodel 一</description>
+    </item>
+    
+    <item>
+      <title>使用 ezcox 展示森林图</title>
+      <link>/cn/post/2020-01-13-show-forest-with-ezcox/</link>
+      <pubDate>Mon, 13 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2020-01-13-show-forest-with-ezcox/</guid>
+      <description>我之前写过一篇文章介绍最近写的一个包 ezcox，它可以用来进行批量处理 Cox 模型（支持并行计算）。那个时候我已经关注到了 forestmodel 包并修复了几个 Bug，</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -123,6 +123,24 @@
 2018-09-30</h3> 
 
 
+<p style="text-align:right;">
+  分类:
+  
+    <a href="../../../categories/r">r</a> &nbsp
+  
+  <br>
+  标签:
+  
+    <a href="../../../tags/r">r</a> &nbsp
+  
+    <a href="../../../tags/prediction">prediction</a> &nbsp
+  
+    <a href="../../../tags/linear-regression">linear-regression</a> &nbsp
+  
+</p>
+
+
+
    
   
 
@@ -134,7 +152,7 @@
 
 
 <p>线性回归的主要目的是根据一个或多个预测变量（自变量）预测一个结果值。本文会讨论如何使用R来预测新观测值的结果。你也将学习如何展示置信区间和预测的区间。</p>
-<div class="section level2">
+<div id="构建线性回归" class="section level2">
 <h2>构建线性回归</h2>
 <p>我们首先构建一个基于汽车速度预测刹车距离的线性回归模型。</p>
 <pre class="r"><code># Load the data
@@ -164,9 +182,9 @@ model
 #&gt;    1    2    3 
 #&gt; 29.6 57.1 76.8</code></pre>
 </div>
-<div class="section level2">
+<div id="置信区间" class="section level2">
 <h2>置信区间</h2>
-<p>置信区间反应了均值预测的不确定性。想要展示预测均值的95%置信区间，指定选项<code>interval = &quot;confidence&quot;</code>：</p>
+<p>置信区间反应了均值预测的不确定性。想要展示预测均值的95%置信区间，指定选项<code>interval = "confidence"</code>：</p>
 <pre class="r"><code>predict(model, newdata = new.speeds, interval = &quot;confidence&quot;)
 #&gt;    fit  lwr  upr
 #&gt; 1 29.6 24.4 34.8
@@ -179,7 +197,7 @@ model
 </ul>
 <p>该如何解释呢？例如，速度为19时的95%置信区间是 (51.83, 62.44)。这意味着根据我们的模型，一个以19 mph速度行驶的汽车，它的刹车距离平均水平在 51.83到62.44 ft范围内。</p>
 </div>
-<div class="section level2">
+<div id="预测区间" class="section level2">
 <h2>预测区间</h2>
 <p>预测区间给出了单个值得不确定性。跟计算置信区间方式相同，我们可以用一下代码计算预测区间：</p>
 <pre class="r"><code>predict(model, newdata = new.speeds, interval = &quot;prediction&quot;)
@@ -190,7 +208,7 @@ model
 <p>跟速度为19关联的95%预测区间是(25.76, 88.51)。这意味着，根据我们的模型，95%的以19 mph速度行驶的车的刹车距离在25.76和88.51之间。</p>
 <p>注意预测区间非常依赖残差服从正态分布的假设。因此，如果你确定手里的数据基本满足这个假设才能使用它。</p>
 </div>
-<div class="section level2">
+<div id="预测区间或置信区间" class="section level2">
 <h2>预测区间或置信区间？</h2>
 <p><strong>一个预测区间反映了单个数值的不确定性，而一个置信区间反映了预测均值的不确定性</strong>。因此，一般而言，对同样的值，预测区间的范围都比置信区间大。</p>
 <p>我们应该使用哪一种呢？这个问题的答案依赖分析的语境和目的。通常讲，我们队特定的单个预测感兴趣，这时候预测区间会比较合适。在你该使用预测区间时却使用了置信区间会极大地低估给定预测值的不确定性(P. Bruce and Bruce 2017)。</p>
@@ -214,10 +232,11 @@ p &lt;- ggplot(mydata, aes(speed, dist)) +
   stat_smooth(method = lm)
 # 3. Add prediction intervals
 p + geom_line(aes(y = lwr), color = &quot;red&quot;, linetype = &quot;dashed&quot;)+
-    geom_line(aes(y = upr), color = &quot;red&quot;, linetype = &quot;dashed&quot;)</code></pre>
+    geom_line(aes(y = upr), color = &quot;red&quot;, linetype = &quot;dashed&quot;)
+#&gt; `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <p><img src="../../../cn/post/2019-07-14-linear-model-prediction_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 </div>
-<div class="section level2">
+<div id="参考文献" class="section level2">
 <h2>参考文献</h2>
 <p>Bruce, Peter, and Andrew Bruce. 2017. <em>Practical Statistics for Data Scientists</em>. O’Reilly Media.</p>
 </div>

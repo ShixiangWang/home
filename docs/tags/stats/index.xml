@@ -20,5 +20,14 @@
       <description>资料来源：《R 语言核心技术手册》和 R 文档 数据基本来自胡编乱造 和 R 文档 本文基本囊括了常用的统计检验在 R 中的实现函数和使用方法。 连续型数据 基于正</description>
     </item>
     
+    <item>
+      <title>管道统计分析——rstatix使用指南</title>
+      <link>/cn/post/2019-07-07-use-rstatix/</link>
+      <pubDate>Sun, 07 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-07-07-use-rstatix/</guid>
+      <description>原英文文档地址：https://raw.githubusercontent.com/kassambara/rstatix/master/RE</description>
+    </item>
+    
   </channel>
 </rss>

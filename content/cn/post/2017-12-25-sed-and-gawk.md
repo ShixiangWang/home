@@ -2,11 +2,8 @@
 title: "初识sed与awk"
 author: 王诗翔
 date: 2017-12-25
-categories:
-- shell
-tags:
-- linux
-- 笔记
+categories: [shell]
+tags: [linux, shell, sed, awk, note]
 
 summary: "简单介绍sed与awk命令..."
 ---

@@ -6,27 +6,18 @@
     <description>Recent content in mutational-signature on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 20 Jun 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 07 Jun 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/mutational-signature/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>APOBEC3B and APOBEC mutational signature as potential predictive markers for immunotherapy response in non-small cell lung cancer</title>
-      <link>/cn/research/apobec3b_signature/</link>
-      <pubDate>Thu, 20 Jun 2019 00:00:00 +0000</pubDate>
+      <title>使用 sigminer 进行突变模式分析</title>
+      <link>/cn/post/2020-06-07-mutational-signature-analysis-with-sigminer/</link>
+      <pubDate>Sun, 07 Jun 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/research/apobec3b_signature/</guid>
-      <description>主要发现：APOBEC mutational signature 在 NSCLC 免疫治疗反应组内特异性富集。 摘要 Non-small cell lung cancer (NSCLC) is known to carry heavy mutation load. Besides smoking, cytidine deaminase APOBEC3B plays a key role in the mutation process of NSCLC. APOBEC3B is also reported to be upregulated and predicts bad prognosis in</description>
-    </item>
-    
-    <item>
-      <title>The predictive power of tumor mutational burden in lung cancer immunotherapy response is influenced by patients’ sex</title>
-      <link>/cn/research/tmb_diff_in_sex/</link>
-      <pubDate>Thu, 20 Jun 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/cn/research/tmb_diff_in_sex/</guid>
-      <description>主要发现：NSCLC 中，TMB 对于免疫治疗反应的预测效果在不同的性别中有差异。 摘要 Immunotherapy, represented by immune checkpoint inhibitors (ICI), is transforming the treatment of cancer. However, only a fraction of patients show response to ICI, and there is an unmet need</description>
+      <guid>/cn/post/2020-06-07-mutational-signature-analysis-with-sigminer/</guid>
+      <description>突变模式分析（Mutational Signature Analysis）已经逐步成为变异检测后一个通用分析，这篇文章简单介绍如何使用 sigminer 进行突变模式分析，以解决</description>
     </item>
     
   </channel>

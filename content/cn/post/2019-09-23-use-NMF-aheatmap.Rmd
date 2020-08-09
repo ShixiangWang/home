@@ -4,11 +4,8 @@ author: "王诗翔"
 date: "2018-12-20"
 lastmod: "`r Sys.Date()`"
 slug: "use-NMF-aheatmap"
-categories: r
-tags:
-- r
-- NMF
-- heatmap
+categories: [r]
+tags: [r, NMF, heatmap]
 ---
 
 ```{r setup, include=FALSE}

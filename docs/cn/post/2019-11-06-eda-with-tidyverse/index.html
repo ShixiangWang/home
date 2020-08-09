@@ -123,6 +123,24 @@
 2018-04-24</h3> 
 
 
+<p style="text-align:right;">
+  分类:
+  
+    <a href="../../../categories/r">r</a> &nbsp
+  
+  <br>
+  标签:
+  
+    <a href="../../../tags/r">r</a> &nbsp
+  
+    <a href="../../../tags/tidyverse">tidyverse</a> &nbsp
+  
+    <a href="../../../tags/ggplot2">ggplot2</a> &nbsp
+  
+</p>
+
+
+
    
   
 
@@ -147,14 +165,14 @@
 <h2>准备</h2>
 <p>这部分我们将使用<strong>dplyr</strong>与<strong>ggplot2</strong>交互地对数据提问并回答，请确保在学习前安装好<code>tidyverse</code>包，可以顺利进行以下操作：</p>
 <pre class="r"><code>library(tidyverse)
-#&gt; ─ Attaching packages ───────────────────────────────────────────── tidyverse 1.2.1 ─
-#&gt; ✔ ggplot2 3.2.1     ✔ purrr   0.3.3
-#&gt; ✔ tibble  2.1.3     ✔ dplyr   0.8.3
-#&gt; ✔ tidyr   1.0.0     ✔ stringr 1.4.0
-#&gt; ✔ readr   1.3.1     ✔ forcats 0.4.0
-#&gt; ─ Conflicts ─────────────────────────────────────────────── tidyverse_conflicts() ─
-#&gt; ✖ dplyr::filter() masks stats::filter()
-#&gt; ✖ dplyr::lag()    masks stats::lag()</code></pre>
+#&gt; ── Attaching packages ──────────────────────────────────────────────────────────── tidyverse 1.3.0 ──
+#&gt; ✓ ggplot2 3.3.2     ✓ purrr   0.3.4
+#&gt; ✓ tibble  3.0.3     ✓ dplyr   1.0.0
+#&gt; ✓ tidyr   1.1.0     ✓ stringr 1.4.0
+#&gt; ✓ readr   1.3.1     ✓ forcats 0.5.0
+#&gt; ── Conflicts ─────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+#&gt; x dplyr::filter() masks stats::filter()
+#&gt; x dplyr::lag()    masks stats::lag()</code></pre>
 <p>EDA的目标是理解数据，最容易实现的方式是用问题作为用具引导我们进行探索。想要提出<strong>有质量</strong>的问题首先必须提出<strong>大量</strong>问题。</p>
 <p>提问的方式没有准则可言，但两类基本问题的提出会对我们理解数据大有裨益：</p>
 <ol style="list-style-type: decimal">
@@ -190,6 +208,7 @@
 <pre class="r"><code>diamonds %&gt;% 
     group_by(cut) %&gt;% 
     summarise(n = n())
+#&gt; `summarise()` ungrouping output (override with `.groups` argument)
 #&gt; # A tibble: 5 x 2
 #&gt;   cut           n
 #&gt;   &lt;ord&gt;     &lt;int&gt;

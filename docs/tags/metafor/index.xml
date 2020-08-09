@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>metafor on Shixiang Wang | 王诗翔</title>
+    <link>/tags/metafor/</link>
+    <description>Recent content in metafor on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 09 Jul 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/metafor/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>metafor——元分析技术实现</title>
+      <link>/cn/post/2019-11-20-use-metafor/</link>
+      <pubDate>Mon, 09 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2019-11-20-use-metafor/</guid>
+      <description>最近在科研中使用到元分析，零零散散开始接触一些理论与实现。元分析的主要作用就是汇总某一个方面所有符合条件研究的统计结果，评估这个方向研究一个</description>
+    </item>
+    
+  </channel>
+</rss>

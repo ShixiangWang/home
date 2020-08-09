@@ -2,11 +2,8 @@
 title: 控制脚本
 author: 王诗翔
 date: 2017-09-04
-categories:
-- shell
-tags:
-- linux
-- 笔记
+categories: ["shell"]
+tags: ["linux", "shell", "note"]
 
 summary: "如何控制脚本并实现自动化？..."
 ---

@@ -4,9 +4,8 @@ author: "王诗翔"
 date: "2018-07-09"
 lastmod: "`r Sys.Date()`"
 slug: ""
-categories: r
-tags:
-- r
+categories: [r]
+tags: [r, metafor]
 ---
 
 ```{r setup, include=FALSE}
@@ -28,6 +27,7 @@ options(max.print=200)
 `metafor`包提供了数据集`dat.bcg`，它是13个不同研究BCG疫苗因tuberculosis状态效力差异的研究。
 
 ```{r}
+library(pacman)
 p_load(metafor)
 data("dat.bcg", package = "metafor")
 ```

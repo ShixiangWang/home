@@ -4,10 +4,8 @@ author: "王诗翔"
 date: "2018-09-17"
 lastmod: "`r Sys.Date()`"
 slug: ""
-categories: r
-tags:
-- r
-- 爬虫
+categories: [r]
+tags: ["r", "爬虫"]
 ---
 
 ```{r setup, include=FALSE}

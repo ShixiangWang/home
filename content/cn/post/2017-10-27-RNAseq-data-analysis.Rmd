@@ -1,14 +1,8 @@
 ---
 title: "Bioconductor分析RNA-seq数据"
 date: 2017-10-27
-categories: 
-- bioinformatics
-tags:
-- bioinformatics
-- bioconductor
-- r
-- DEG
-- RNAseq
+categories: [bioinformatics]
+tags: [bioinformatics, r, DEG, RNSseq]
 ---
 
 

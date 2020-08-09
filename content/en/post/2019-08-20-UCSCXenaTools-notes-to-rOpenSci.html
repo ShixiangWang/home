@@ -5,17 +5,9 @@ package_version: 1.2.10
 authors:
   - Shixiang Wang
 date: '2019-08-25'
-categories: bioinformatics
-tags:
-  - r
-  - software
-  - packages
-  - bioinformatics
-  - data-access
-  - survival-analysis
-  - UCSCXenaTools
-  - 生存分析
-lastmod: "2019-12-21"
+categories: [bioinformatics]
+tags: ["r", "software", "package", "bioinformatics", "data-access", "survival-analysis", "UCSCXenaTools"]
+lastmod: "2020-08-09"
 header-includes:
 - \usepackage{caption}
 - \captionsetup[figure]{labelformat=empty}
@@ -87,7 +79,7 @@ luad_cohort
   XenaQuery() %&gt;% 
   XenaDownload()
 #&gt; This will check url status, please be patient.
-#&gt; All downloaded files will under directory D:/Tool/Rtmp\RtmpWqN24p.
+#&gt; All downloaded files will under directory /var/folders/bj/nw1w4g1j37ddpgb6zmh3sfh80000gn/T//RtmpLpcBQu.
 #&gt; The &#39;trans_slash&#39; option is FALSE, keep same directory structure as Xena.
 #&gt; Creating directories for datasets...
 #&gt; Downloading TCGA.LUAD.sampleMap/LUAD_clinicalMatrix
@@ -189,8 +181,7 @@ head(merged_data)
 <pre class="r"><code>library(survival)
 library(survminer)
 #&gt; Loading required package: ggplot2
-#&gt; Loading required package: ggpubr
-#&gt; Loading required package: magrittr</code></pre>
+#&gt; Loading required package: ggpubr</code></pre>
 <div id="cox-model" class="section level3">
 <h3>Cox model</h3>
 <pre class="r"><code>fit = coxph(Surv(time, status) ~ KRAS_expression, data = merged_data)
