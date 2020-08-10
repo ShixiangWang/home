@@ -153,9 +153,29 @@
 <p>xml 文件中的数据很难查看和导入，我也不懂 xml，放弃治疗。</p>
 <p>tar.gz 文件存储的 xml 文件包含了 txt.gz 文件列名的描述，如果有这方面的疑问，推荐直接用文本模式看看它们，文件不大，还是比较好查看的。</p>
 <p>带 MULTI 字符的 txt 文件虽然汇总了该研究所有的病人或样本信息，但很多信息没有存储！可惜了（如果读者发现自己下载的数据有存储最全面的信息，那还是推荐使用这个，减少麻烦）。</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/3884693-d311c4cce527a31d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><style>
+  .img-container {
+    text-align: center;
+    display: block;
+  }
+</style>
+
+  <span class="img-container"> 
+  <img src="https://upload-images.jianshu.io/upload_images/3884693-d311c4cce527a31d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="">
+  </span>
+</p>
 <p>实际包含详细信息的病人文件会带 Subject_Phenotypes 字符，而样本带 Sample_Attributes 字符。而它们还能相互补充，所以我要想办法导入 2 种数据，后面再进行合并处理。</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/3884693-52d68d36bb542828.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><style>
+  .img-container {
+    text-align: center;
+    display: block;
+  }
+</style>
+
+  <span class="img-container"> 
+  <img src="https://upload-images.jianshu.io/upload_images/3884693-52d68d36bb542828.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="">
+  </span>
+</p>
 <p>了解规律之后写函数处理：</p>
 <pre><code>read_dbGap = function(accession, destdir=getwd(), 
                       type = c(&quot;subject&quot;, &quot;sample&quot;), 

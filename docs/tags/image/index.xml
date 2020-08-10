@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>image on Shixiang Wang | 王诗翔</title>
+    <link>/tags/image/</link>
+    <description>Recent content in image on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 10 Aug 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/image/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Hugo 设置 markdown 图片的标题</title>
+      <link>/cn/post/2020-08-10-hugo-set-fig-caption/</link>
+      <pubDate>Mon, 10 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2020-08-10-hugo-set-fig-caption/</guid>
+      <description>添加文件 layouts/_default/_markup/render-image.html，hugo 会在这里寻找模板。 写入下面模板代码： {{</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -155,17 +155,47 @@
 </span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENTRYPOINT</span> [<span style="color:#960050;background-color:#1e0010">“echo”</span>, <span style="color:#960050;background-color:#1e0010">“Hello”</span>]<span style="color:#960050;background-color:#1e0010">
 </span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">CMD</span> [<span style="color:#960050;background-color:#1e0010">“World”</span>]<span style="color:#960050;background-color:#1e0010">
 </span></code></pre></div><p>如果构建一个镜像并生成一个容器运行，得到：</p>
-<p><img src="https://phoenixnap.com/kb/wp-content/uploads/2020/02/run-docker-container-with-entrypoint-and-cmd-instructions.png" alt="Docker ENTRYPOINT vs CMD instructions combined."></p>
+<p><style>
+  .img-container {
+    text-align: center;
+    display: block;
+  }
+</style>
+
+  <span class="img-container"> 
+  <img src="https://phoenixnap.com/kb/wp-content/uploads/2020/02/run-docker-container-with-entrypoint-and-cmd-instructions.png" alt="Docker ENTRYPOINT vs CMD instructions combined.">
+  </span>
+</p>
 <p>你可以非常简单地通过设置参数来覆盖掉默认 CMD 指定的参数，格式如下：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo docker run <span style="color:#f92672">[</span>container_name<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>new_parameter<span style="color:#f92672">]</span>
 </code></pre></div><p>一个示例：</p>
-<p><img src="https://phoenixnap.com/kb/wp-content/uploads/2020/02/running-a-docker-container-with-additional-parameters.png" alt="Adding parameters to a docker run command to run a container with ENTRYPOINT and CMD instructions."></p>
+<p><style>
+  .img-container {
+    text-align: center;
+    display: block;
+  }
+</style>
+
+  <span class="img-container"> 
+  <img src="https://phoenixnap.com/kb/wp-content/uploads/2020/02/running-a-docker-container-with-additional-parameters.png" alt="Adding parameters to a docker run command to run a container with ENTRYPOINT and CMD instructions.">
+  </span>
+</p>
 <p><strong>然而</strong>，你可能想要覆盖掉默认的可执行文件，例如在一个容器中运行 Shell。这个时候，我们需要显式地指定 <code>--entrypoint</code> 标志，语法如下：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo docker run --entrypoint <span style="color:#f92672">[</span>new_command<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>docker_image<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>optional:value<span style="color:#f92672">]</span>
 </code></pre></div><p>例如，我们要覆盖掉上面的 <code>echo</code> 命令，执行 shell：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo docker run -it --entrypoint /bin/bash <span style="color:#f92672">[</span>docker_image<span style="color:#f92672">]</span>
 </code></pre></div><p>输出告诉了我们已经身处容器之中：</p>
-<p><img src="https://phoenixnap.com/kb/wp-content/uploads/2020/03/override-entrypoint-with-docker-run-command.png" alt="Run Docker container by overriding entrypoint command and opening container shell."></p>
+<p><style>
+  .img-container {
+    text-align: center;
+    display: block;
+  }
+</style>
+
+  <span class="img-container"> 
+  <img src="https://phoenixnap.com/kb/wp-content/uploads/2020/03/override-entrypoint-with-docker-run-command.png" alt="Run Docker container by overriding entrypoint command and opening container shell.">
+  </span>
+</p>
 <blockquote>
 <p>小结一下，不难理解，当不指定 <code>--entrypoint</code> 时，默认的 entrypoint 就是 shell，所以如果我们在 dockerfile 中指定了 entry point，那么我们想要运行其他可执行文件时，就必须显式地指定可执行文件了。</p>
 </blockquote>

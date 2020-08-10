@@ -12,10 +12,10 @@
     
     
     
-    <title>使用 Cascadia Code 字体 - 王诗翔</title>
+    <title>Hugo 设置 markdown 图片的标题 - 王诗翔</title>
     
      
-    <meta property="og:title" content="使用 Cascadia Code 字体 - Shixiang Wang | 王诗翔">
+    <meta property="og:title" content="Hugo 设置 markdown 图片的标题 - Shixiang Wang | 王诗翔">
     
 
     
@@ -26,6 +26,11 @@
 
     
     
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/Xcode.min.css' rel='stylesheet' type='text/css' />
+
+
 
     <link rel="stylesheet" href="../../../css/style.css" />
     <link rel="stylesheet" href="../../../css/mystyle.css" /> 
@@ -91,7 +96,7 @@
 
 
 
-<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2019-10-18-use-cascadia-code-font.md" target="_blank">编辑</a></li>
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2020-08-10-hugo-set-fig-caption.md" target="_blank">编辑</a></li>
 
 
 <li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
@@ -107,12 +112,12 @@
       <header class="title">
         
 
-<h1>使用 Cascadia Code 字体</h1>
+<h1>Hugo 设置 markdown 图片的标题</h1>
 
 
 
 <h3>王诗翔 &middot 
-2019-10-18</h3> 
+2020-08-10</h3> 
 
 
 <p style="text-align:right;">
@@ -123,13 +128,9 @@
   <br>
   标签:
   
-    <a href="../../../tags/r">r</a> &nbsp
+    <a href="../../../tags/hugo">hugo</a> &nbsp
   
-    <a href="../../../tags/font">font</a> &nbsp
-  
-    <a href="../../../tags/rstudio">rstudio</a> &nbsp
-  
-    <a href="../../../tags/vscode">vscode</a> &nbsp
+    <a href="../../../tags/image">image</a> &nbsp
   
 </p>
 
@@ -142,128 +143,27 @@
       </header>
 
 
-<p>最近微软为 Windows Terminal 推出了具有连字特性的字体 Cascadia Code，在试用后发现确实很不错，下图是字体效果，这里结合官方的 README 介绍一下。</p>
-<p><style>
-  .img-container {
-    text-align: center;
-    display: block;
-  }
-</style>
-
-  <span class="img-container"> 
-  <img src="https://upload-images.jianshu.io/upload_images/3884693-278bbebb4bc1f2c4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="">
-  </span>
-</p>
-<p><style>
-  .img-container {
-    text-align: center;
-    display: block;
-  }
-</style>
-
-  <span class="img-container"> 
-  <img src="https://upload-images.jianshu.io/upload_images/3884693-7cae05ff0d314504.jpg?imageMogr2/auto-orient/strip" alt="">
-  </span>
-</p>
-<h2 id="下载与安装">下载与安装</h2>
-<p>该字体存储在 GitHub 上，已经有接近1万的Star</p>
-<p><style>
-  .img-container {
-    text-align: center;
-    display: block;
-  }
-</style>
-
-  <span class="img-container"> 
-  <img src="https://upload-images.jianshu.io/upload_images/3884693-6b1a46f62d615082.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="">
-  </span>
-</p>
-<p>读者可以通过 Release 页面下载最新版本：</p>
-<p><a href="https://github.com/microsoft/cascadia-code/releases">https://github.com/microsoft/cascadia-code/releases</a></p>
-<p><style>
-  .img-container {
-    text-align: center;
-    display: block;
-  }
-</style>
-
-  <span class="img-container"> 
-  <img src="https://upload-images.jianshu.io/upload_images/3884693-e37f5c315d325de6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="">
-  </span>
-</p>
-<p>在 Windows 上将该文件拖入字体文件夹，而 MacOS 则直接右键使用字体册安装，Linux 安装字体的方式请读者自行搜索。</p>
-<h2 id="配置">配置</h2>
-<h3 id="vs-code">VS Code</h3>
-<p>进入首选项进行配置（可以使用快捷键 <code>Ctrl + ,</code>）：</p>
-<p><style>
-  .img-container {
-    text-align: center;
-    display: block;
-  }
-</style>
-
-  <span class="img-container"> 
-  <img src="https://upload-images.jianshu.io/upload_images/3884693-748bbfd6477e3e1f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="">
-  </span>
-</p>
-<p>填入字体名字<code> Cascadia Code</code>，并勾选连字功能：</p>
-<p><style>
-  .img-container {
-    text-align: center;
-    display: block;
-  }
-</style>
-
-  <span class="img-container"> 
-  <img src="https://upload-images.jianshu.io/upload_images/3884693-526fdbe666a59fc8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="">
-  </span>
-</p>
-<h2 id="rstudio">RStudio</h2>
-<p>进入首选项进行配置（可以使用快捷键 <code>Ctrl + ,</code>）：</p>
-<p><style>
-  .img-container {
-    text-align: center;
-    display: block;
-  }
-</style>
-
-  <span class="img-container"> 
-  <img src="https://upload-images.jianshu.io/upload_images/3884693-7c01fe223d1ca0f1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="">
-  </span>
-</p>
-<p>点击 Appearance</p>
-<p><style>
-  .img-container {
-    text-align: center;
-    display: block;
-  }
-</style>
-
-  <span class="img-container"> 
-  <img src="https://upload-images.jianshu.io/upload_images/3884693-0572c6baaeefa460.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="">
-  </span>
-</p>
-<p>修改字体即可。</p>
-<p><style>
-  .img-container {
-    text-align: center;
-    display: block;
-  }
-</style>
-
-  <span class="img-container"> 
-  <img src="https://upload-images.jianshu.io/upload_images/3884693-6d9f40fab67a233a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="">
-  </span>
-</p>
-<p>官网还介绍了如何为 Visual Studio、Windows Terminal、IntelliJ IDE等设置该字体，如有需求，请前往 <a href="https://github.com/microsoft/cascadia-code">https://github.com/microsoft/cascadia-code</a> 阅读。</p>
-<p>希望这款优美的开源字体带给读者好心情~</p>
+<p>添加文件 <code>layouts/_default/_markup/render-image.html</code>，hugo 会在这里寻找模板。</p>
+<p>写入下面模板代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">{{ if .Title }}
+  &lt;<span style="color:#f92672">figure</span>&gt;
+    &lt;<span style="color:#f92672">img</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{{ .Destination | safeURL }}&#34;</span> <span style="color:#a6e22e">alt</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{{ .Text }}&#34;</span>&gt;
+    &lt;<span style="color:#f92672">figcaption</span>&gt;{{ .Title }}&lt;/<span style="color:#f92672">figcaption</span>&gt;
+  &lt;/<span style="color:#f92672">figure</span>&gt;
+{{ else }}
+  &lt;<span style="color:#f92672">img</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{{ .Destination | safeURL }}&#34;</span> <span style="color:#a6e22e">alt</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{{ .Text }}&#34;</span>&gt;
+{{ end }}
+</code></pre></div><p>Markdown 中的图片引用格式如下：</p>
+<pre><code>![Alt text here](/images/image.jpg &quot;Title here&quot;)
+</code></pre><p>上面的代码会将 <code>Title here</code> 转化为相应图片的标题。</p>
+<p>参考：<a href="https://sebastiandedeyne.com/captioned-images-with-markdown-render-hooks-in-hugo/">https://sebastiandedeyne.com/captioned-images-with-markdown-render-hooks-in-hugo/</a></p>
 
 
   <footer>
   
 <nav class="post-nav">
-  <span class="nav-prev">&larr; <a href="../../../cn/post/2019-10-18-proc-for-roc-comparison/">简单丰富的ROC绘制与对比</a></span>
-  <span class="nav-next"><a href="../../../cn/post/2019-10-23-ezcox-for-batch-cox-models/">使用 ezcox 进行批量 Cox 模型处理</a> &rarr;</span>
+  <span class="nav-prev">&larr; <a href="../../../cn/post/2020-08-10-build-cloud-pic-database-with-picgo-and-gitee/">PicGo &#43; Gitee 构建免费云图床</a></span>
+  <span class="nav-next"></span>
 </nav>
 <script type="text/javascript">
 document.addEventListener('keyup', function(e) {
@@ -271,11 +171,9 @@ document.addEventListener('keyup', function(e) {
   var url = false;
   if (e.which == 37) {  
     
-    url = '\/cn\/post\/2019-10-18-proc-for-roc-comparison\/';
+    url = '\/cn\/post\/2020-08-10-build-cloud-pic-database-with-picgo-and-gitee\/';
     
   } else if (e.which == 39) {  
-    
-    url = '\/cn\/post\/2019-10-23-ezcox-for-batch-cox-models\/';
     
   }
   if (url) window.location = url;
@@ -335,6 +233,19 @@ document.addEventListener('keyup', function(e) {
 <script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
   
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
 
 
   

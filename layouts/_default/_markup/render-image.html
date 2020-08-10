@@ -1,0 +1,18 @@
+<style>
+  .img-container {
+    text-align: center;
+    display: block;
+  }
+</style>
+{{ if .Title }}
+  <figure>
+    <span class="img-container"> 
+    <img src="{{ .Destination | safeURL }}" alt="{{ .Text }}">
+    </span>
+    <figcaption style="text-align: center">{{ .Title }}</figcaption>
+  </figure>
+{{ else }}
+  <span class="img-container"> 
+  <img src="{{ .Destination | safeURL }}" alt="{{ .Text }}">
+  </span>
+{{ end }}

@@ -145,9 +145,29 @@
 
 <p>在文章<a href="https://www.jianshu.com/p/54eb91473087">《谁更能从治疗中获益？》</a>中我讲过 metawho 包的开发由来，但当时遗留了一个问题，就是如何可视化 deft 元分析方法的结果。</p>
 <p>之前我提供了使用 metafor 包绘制结果的方法，但这种方法自定义度极高，绘图需要不断摸索调整。</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/3884693-a8db64cad3567fbe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><style>
+  .img-container {
+    text-align: center;
+    display: block;
+  }
+</style>
+
+  <span class="img-container"> 
+  <img src="https://upload-images.jianshu.io/upload_images/3884693-a8db64cad3567fbe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="">
+  </span>
+</p>
 <p>刚花费了一天的时间解决这个问题，通过 forestmodel 包用ggplot2实现森林图支持构建了内置于 metawho 包的函数 <code>deft_show()</code>。</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/3884693-dfc89a042090d9e1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><style>
+  .img-container {
+    text-align: center;
+    display: block;
+  }
+</style>
+
+  <span class="img-container"> 
+  <img src="https://upload-images.jianshu.io/upload_images/3884693-dfc89a042090d9e1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="">
+  </span>
+</p>
 <p>完整的例子见<a href="https://shixiangwang.github.io/metawho/articles/metawho.html">https://shixiangwang.github.io/metawho/articles/metawho.html</a>，我就不翻译了，写博文很费时间。</p>
 <p>这个功能需要安装 GitHub 的最新版本，因为我修改了一些 <code>forestmodel</code> 包的代码，该包作者没有合并请求和更新到 CRAN，所以暂时我也不能 push 到CRAN上（如果更新，我会修改本文）。</p>
 <pre><code>remotes::install_github(&quot;ShixiangWang/metawho&quot;)

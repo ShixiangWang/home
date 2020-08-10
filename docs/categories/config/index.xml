@@ -12,12 +12,21 @@
     
     
     <item>
+      <title>Hugo 设置 markdown 图片的标题</title>
+      <link>/cn/post/2020-08-10-hugo-set-fig-caption/</link>
+      <pubDate>Mon, 10 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2020-08-10-hugo-set-fig-caption/</guid>
+      <description>添加文件 layouts/_default/_markup/render-image.html，hugo 会在这里寻找模板。 写入下面模板代码： {{</description>
+    </item>
+    
+    <item>
       <title>PicGo &#43; Gitee 构建免费云图床</title>
       <link>/cn/post/2020-08-10-build-cloud-pic-database-with-picgo-and-gitee/</link>
       <pubDate>Mon, 10 Aug 2020 00:00:00 +0000</pubDate>
       
       <guid>/cn/post/2020-08-10-build-cloud-pic-database-with-picgo-and-gitee/</guid>
-      <description>PicGo 下载链接：https://github.com/Molunerfinn/PicGo/releases/ 开源开发不易，不妨对仓库点个 Star</description>
+      <description>.img-container { text-align: center; display: block; } PicGo PicGo 下载链接：https://github.com/Molunerfinn/PicGo/releases/ 开源开发不易，不妨对</description>
     </item>
     
     <item>
@@ -26,7 +35,7 @@
       <pubDate>Fri, 18 Oct 2019 00:00:00 +0000</pubDate>
       
       <guid>/cn/post/2019-10-18-use-cascadia-code-font/</guid>
-      <description>最近微软为 Windows Terminal 推出了具有连字特性的字体 Cascadia Code，在试用后发现确实很不错，下图是字体效果，这里结合官方的 README 介绍一下。 下载与安装 该字体存储在 GitHub</description>
+      <description>最近微软为 Windows Terminal 推出了具有连字特性的字体 Cascadia Code，在试用后发现确实很不错，下图是字体效果，这里结合官方的 README 介绍一下。 .img-container { text-align: center; display: block; } .img-container { text-align: center; display:</description>
     </item>
     
   </channel>
