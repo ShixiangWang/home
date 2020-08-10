@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ssh on Shixiang Wang | 王诗翔</title>
+    <link>/tags/ssh/</link>
+    <description>Recent content in ssh on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 10 Aug 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/ssh/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>通过公钥无法免密登录远程服务器</title>
+      <link>/cn/post/2020-08-10-linux-cannot-login-with-publickey/</link>
+      <pubDate>Mon, 10 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2020-08-10-linux-cannot-login-with-publickey/</guid>
+      <description>如果我们已经在服务器上配置好了公钥，那么这种问题基本上是服务器目录权限导致的。 ssh 为了保证通讯安全，设置了非常严格的目录权限。 chmod 755 ~ chmod 700 ~/.ssh chmod 600</description>
+    </item>
+    
+  </channel>
+</rss>
