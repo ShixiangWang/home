@@ -89,6 +89,7 @@
 <div id="gitalk-container"></div>
 <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
 <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
 <script>
   const gitalk = new Gitalk({
     clientID: 'eed477936be7b88a8455',
@@ -96,7 +97,7 @@
     repo: 'home',
     owner: 'ShixiangWang',
     admin: ['ShixiangWang'],
-    id: location.pathname, 
+    id: md5(window.location.pathname), 
     distractionFreeMode: false 
   });
   (function() {

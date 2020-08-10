@@ -141,41 +141,45 @@
 
 
 <ul>
-<li>
-<p>样本混合物中Cancer细胞比例：alpha  (假设单染色体组monogenomic，即有同源SCNAs)</p>
-</li>
-<li>
-<p>样本混合物中Normal细胞比例：1-alpha （染色体倍性为2）</p>
-</li>
-<li>
-<p>基因组某位点：x</p>
-</li>
-<li>
-<p>Cancer细胞中该位点（整型）拷贝数表示为：q(x)</p>
-</li>
-<li>
-<p>Cancer细胞平均倍性为：tau，定义为整个基因组上q(x)的平均值</p>
-</li>
+<li><p>样本混合物中Cancer细胞比例：alpha  (假设单染色体组monogenomic，即有同源SCNAs)</p></li>
+
+<li><p>样本混合物中Normal细胞比例：1-alpha （染色体倍性为2）</p></li>
+
+<li><p>基因组某位点：x</p></li>
+
+<li><p>Cancer细胞中该位点（整型）拷贝数表示为：q(x)</p></li>
+
+<li><p>Cancer细胞平均倍性为：tau，定义为整个基因组上q(x)的平均值</p></li>
 </ul>
+
 <p>样本混合物中位点x的平均绝对拷贝数为：</p>
+
 <p>$$
-\alpha q(x) + 2(1-\alpha)    \rightarrow Cancer细胞比例<em>位点拷贝数+正常细胞比例</em>位点拷贝数2
+\alpha q(x) + 2(1-\alpha)    \rightarrow Cancer细胞比例*位点拷贝数+正常细胞比例*位点拷贝数2
 $$</p>
+
 <p>样本混合物中平均倍性D为：</p>
+
 <p>$$
 \alpha \tau + 2(1-\alpha) \rightarrow Cancer细胞比例 * Cancer倍性 + 正常细胞比例 * 正常细胞倍性2
 $$</p>
+
 <blockquote>
 <p>上述两个值以单倍体基因组为单位</p>
 </blockquote>
+
 <p>因此，位点x的相对拷贝数R为：</p>
+
 <p>$$
 R(x) = (\alpha q(x) + 2(1-\alpha)) / D = (\alpha / D) q(x) + (2(1-\alpha) / D)
 $$</p>
+
 <p>$$
 \rightarrow 平均绝对拷贝数 / 平均倍性
 $$</p>
+
 <p>因为q(x)取整数值，因此R(x)必然是离散值。最小值为(2(1-\alpha)/D)，发生在<strong>纯合性缺失</strong>位点，对应正常细胞的DNA比例。</p>
+
 <p><strong>Notably, if a cancer sample is not strictly clonal, copy-number alteration occurring in substantial subclonal fraction will appear as outliers from this pattern.</strong></p>
 
 
@@ -209,6 +213,7 @@ document.addEventListener('keyup', function(e) {
 <div id="gitalk-container"></div>
 <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
 <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
 <script>
   const gitalk = new Gitalk({
     clientID: 'eed477936be7b88a8455',
@@ -216,7 +221,7 @@ document.addEventListener('keyup', function(e) {
     repo: 'home',
     owner: 'ShixiangWang',
     admin: ['ShixiangWang'],
-    id: location.pathname, 
+    id: md5(window.location.pathname), 
     distractionFreeMode: false 
   });
   (function() {
@@ -260,7 +265,7 @@ document.addEventListener('keyup', function(e) {
   
   
 
-  <div class="copyright"><a href="mailto:w_shixiang@163.com"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://github.com/ShixiangWang"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://orcid.org/0000-0001-9855-7357"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> <!-- raw HTML omitted --> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 © <a href="../../../">王诗翔</a> 2017 - 2020 </div>
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> &middot; <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> &middot; <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> &middot; <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> &middot; <a href="https://orcid.org/0000-0001-9855-7357"><i class='ai ai-orcid ai-1x'></i></a> &middot; <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 &copy; <a href="../../../">王诗翔</a> 2017 - 2020 </div>
   
   
 

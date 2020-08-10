@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Shixiang Wang | 王诗翔</title>
@@ -10,6 +10,15 @@
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>UCSCXenaTools</title>
+      <link>/tags/ucscxenatools/</link>
+      <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/ucscxenatools/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>package</title>
@@ -26,15 +35,6 @@
       <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
       
       <guid>/tags/r/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>UCSCXenaTools</title>
-      <link>/tags/ucscxenatools/</link>
-      <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/ucscxenatools/</guid>
       <description></description>
     </item>
     
@@ -219,20 +219,20 @@
     </item>
     
     <item>
-      <title>font</title>
-      <link>/tags/font/</link>
-      <pubDate>Fri, 18 Oct 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/font/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>ROC</title>
       <link>/tags/roc/</link>
       <pubDate>Fri, 18 Oct 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/roc/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>font</title>
+      <link>/tags/font/</link>
+      <pubDate>Fri, 18 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/font/</guid>
       <description></description>
     </item>
     
@@ -507,20 +507,20 @@
     </item>
     
     <item>
-      <title>heatmap</title>
-      <link>/tags/heatmap/</link>
-      <pubDate>Thu, 20 Dec 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/heatmap/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>NMF</title>
       <link>/tags/nmf/</link>
       <pubDate>Thu, 20 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/nmf/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>heatmap</title>
+      <link>/tags/heatmap/</link>
+      <pubDate>Thu, 20 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/heatmap/</guid>
       <description></description>
     </item>
     
@@ -723,24 +723,6 @@
     </item>
     
     <item>
-      <title>class</title>
-      <link>/tags/class/</link>
-      <pubDate>Sat, 18 Aug 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/class/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>instance</title>
-      <link>/tags/instance/</link>
-      <pubDate>Sat, 18 Aug 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/instance/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>R6</title>
       <link>/tags/r6/</link>
       <pubDate>Sat, 18 Aug 2018 00:00:00 +0000</pubDate>
@@ -764,6 +746,24 @@
       <pubDate>Sat, 18 Aug 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/s4/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>class</title>
+      <link>/tags/class/</link>
+      <pubDate>Sat, 18 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/class/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>instance</title>
+      <link>/tags/instance/</link>
+      <pubDate>Sat, 18 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/instance/</guid>
       <description></description>
     </item>
     

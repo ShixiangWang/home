@@ -8,6 +8,7 @@ https://lockshell.com/2019/08/10/add-gitalk-for-hugo-blog/
 <div id="gitalk-container"></div>
 <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
 <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
 <script>
   const gitalk = new Gitalk({
     clientID: '{{ .Site.Params.Gitalk.clientID }}',
@@ -15,7 +16,7 @@ https://lockshell.com/2019/08/10/add-gitalk-for-hugo-blog/
     repo: '{{ .Site.Params.Gitalk.repo }}',
     owner: '{{ .Site.Params.Gitalk.owner }}',
     admin: ['{{ .Site.Params.Gitalk.owner }}'],
-    id: location.pathname, // Ensure uniqueness and length less than 50
+    id: md5(window.location.pathname), // Ensure uniqueness and length less than 50 | https://github.com/bolnh/hexo-theme-material/issues/622
     distractionFreeMode: false // Facebook-like distraction free mode
   });
   (function() {

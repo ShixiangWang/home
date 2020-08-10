@@ -150,88 +150,107 @@
 <blockquote>
 <p>本文整理自 <a href="https://www.tidyverse.org/articles/2019/06/rlang-0-4-0/">https://www.tidyverse.org/articles/2019/06/rlang-0-4-0/</a>，有删改</p>
 </blockquote>
-<p><code>rlang v0.4.0</code>引入了新的非标准计算操作符 <code>{{</code>。这大大方便了<code>dplyr</code>重编程。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(dplyr)
 
-starwars <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">group_by</span>(gender) <span style="color:#f92672">%&gt;%</span>
-  <span style="color:#a6e22e">summarise</span>(mass_maximum <span style="color:#f92672">=</span> <span style="color:#a6e22e">max</span>(mass, na.rm <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>))
-<span style="color:#75715e">#&gt; # A tibble: 5 x 2</span>
-<span style="color:#75715e">#&gt;   gender        mass_maximum</span>
-<span style="color:#75715e">#&gt;   &lt;chr&gt;                &lt;dbl&gt;</span>
-<span style="color:#75715e">#&gt; 1 &lt;NA&gt;                    75</span>
-<span style="color:#75715e">#&gt; 2 female                  75</span>
-<span style="color:#75715e">#&gt; 3 hermaphrodite         1358</span>
-<span style="color:#75715e">#&gt; 4 male                   159</span>
-<span style="color:#75715e">#&gt; 5 none                   140</span>
-</code></pre></div><p>将需要执行非标准计算的变量名使用<code>{{}}</code>括起来即可，不再需要<code>enquo()</code>和<code>!!</code>操作符。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">max_by <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">function</span>(data, var, by) {
-  data <span style="color:#f92672">%&gt;%</span>
-    <span style="color:#a6e22e">group_by</span>({{ by }}) <span style="color:#f92672">%&gt;%</span>
-    <span style="color:#a6e22e">summarise</span>(maximum <span style="color:#f92672">=</span> <span style="color:#a6e22e">max</span>({{ var }}, na.rm <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>))
+<p><code>rlang v0.4.0</code>引入了新的非标准计算操作符 <code>{{</code>。这大大方便了<code>dplyr</code>重编程。</p>
+
+<pre><code class="language-r">library(dplyr)
+
+starwars %&gt;%
+  group_by(gender) %&gt;%
+  summarise(mass_maximum = max(mass, na.rm = TRUE))
+#&gt; # A tibble: 5 x 2
+#&gt;   gender        mass_maximum
+#&gt;   &lt;chr&gt;                &lt;dbl&gt;
+#&gt; 1 &lt;NA&gt;                    75
+#&gt; 2 female                  75
+#&gt; 3 hermaphrodite         1358
+#&gt; 4 male                   159
+#&gt; 5 none                   140
+</code></pre>
+
+<p>将需要执行非标准计算的变量名使用<code>{{}}</code>括起来即可，不再需要<code>enquo()</code>和<code>!!</code>操作符。</p>
+
+<pre><code class="language-r">max_by &lt;- function(data, var, by) {
+  data %&gt;%
+    group_by({{ by }}) %&gt;%
+    summarise(maximum = max({{ var }}, na.rm = TRUE))
 }
 
-starwars <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">max_by</span>(height)
-<span style="color:#75715e">#&gt; # A tibble: 1 x 1</span>
-<span style="color:#75715e">#&gt;   maximum</span>
-<span style="color:#75715e">#&gt;     &lt;int&gt;</span>
-<span style="color:#75715e">#&gt; 1     264</span>
+starwars %&gt;% max_by(height)
+#&gt; # A tibble: 1 x 1
+#&gt;   maximum
+#&gt;     &lt;int&gt;
+#&gt; 1     264
 
-starwars <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">max_by</span>(height, by <span style="color:#f92672">=</span> gender)
-<span style="color:#75715e">#&gt; # A tibble: 5 x 2</span>
-<span style="color:#75715e">#&gt;   gender        maximum</span>
-<span style="color:#75715e">#&gt;   &lt;chr&gt;           &lt;int&gt;</span>
-<span style="color:#75715e">#&gt; 1 &lt;NA&gt;              167</span>
-<span style="color:#75715e">#&gt; 2 female            213</span>
-<span style="color:#75715e">#&gt; 3 hermaphrodite     175</span>
-<span style="color:#75715e">#&gt; 4 male              264</span>
-<span style="color:#75715e">#&gt; 5 none              200</span>
-</code></pre></div><p>注意这个语法和 glue 包是有区别的：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">var <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">sample</span>(<span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;woof&#34;</span>, <span style="color:#e6db74">&#34;meow&#34;</span>, <span style="color:#e6db74">&#34;mooh&#34;</span>), size <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>)
-glue<span style="color:#f92672">::</span><span style="color:#a6e22e">glue</span>(<span style="color:#e6db74">&#34;Did you just say {var}?&#34;</span>)
-<span style="color:#75715e">#&gt; Did you just say mooh?</span>
-</code></pre></div><p>如果需要传递多个变量，还是使用<code>...</code>：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">  summarise_by <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">function</span>(data, <span style="color:#66d9ef">...</span>, by) {
-    data <span style="color:#f92672">%&gt;%</span>
-      <span style="color:#a6e22e">group_by</span>({{ by }}) <span style="color:#f92672">%&gt;%</span>
-      <span style="color:#a6e22e">summarise</span>(<span style="color:#66d9ef">...</span>)
+starwars %&gt;% max_by(height, by = gender)
+#&gt; # A tibble: 5 x 2
+#&gt;   gender        maximum
+#&gt;   &lt;chr&gt;           &lt;int&gt;
+#&gt; 1 &lt;NA&gt;              167
+#&gt; 2 female            213
+#&gt; 3 hermaphrodite     175
+#&gt; 4 male              264
+#&gt; 5 none              200
+</code></pre>
+
+<p>注意这个语法和 glue 包是有区别的：</p>
+
+<pre><code class="language-r">var &lt;- sample(c(&quot;woof&quot;, &quot;meow&quot;, &quot;mooh&quot;), size = 1)
+glue::glue(&quot;Did you just say {var}?&quot;)
+#&gt; Did you just say mooh?
+</code></pre>
+
+<p>如果需要传递多个变量，还是使用<code>...</code>：</p>
+
+<pre><code class="language-r">  summarise_by &lt;- function(data, ..., by) {
+    data %&gt;%
+      group_by({{ by }}) %&gt;%
+      summarise(...)
   }
   
-  starwars <span style="color:#f92672">%&gt;%</span>
-    <span style="color:#a6e22e">summarise_by</span>(
-      average <span style="color:#f92672">=</span> <span style="color:#a6e22e">mean</span>(height, na.rm <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>),
-      maximum <span style="color:#f92672">=</span> <span style="color:#a6e22e">max</span>(height, na.rm <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>),
-      by <span style="color:#f92672">=</span> gender
+  starwars %&gt;%
+    summarise_by(
+      average = mean(height, na.rm = TRUE),
+      maximum = max(height, na.rm = TRUE),
+      by = gender
     )
-  <span style="color:#75715e">#&gt; # A tibble: 5 x 3</span>
-  <span style="color:#75715e">#&gt;   gender        average maximum</span>
-  <span style="color:#75715e">#&gt;   &lt;chr&gt;           &lt;dbl&gt;   &lt;int&gt;</span>
-  <span style="color:#75715e">#&gt; 1 &lt;NA&gt;             120      167</span>
-  <span style="color:#75715e">#&gt; 2 female           165.     213</span>
-  <span style="color:#75715e">#&gt; 3 hermaphrodite    175      175</span>
-  <span style="color:#75715e">#&gt; 4 male             179.     264</span>
-  <span style="color:#75715e">#&gt; 5 none             200      200</span>
-</code></pre></div><p>现在<code>enquos()</code>和<code>!!!</code>只有在需要修改输入或者名字时才需要用到。</p>
+  #&gt; # A tibble: 5 x 3
+  #&gt;   gender        average maximum
+  #&gt;   &lt;chr&gt;           &lt;dbl&gt;   &lt;int&gt;
+  #&gt; 1 &lt;NA&gt;             120      167
+  #&gt; 2 female           165.     213
+  #&gt; 3 hermaphrodite    175      175
+  #&gt; 4 male             179.     264
+  #&gt; 5 none             200      200
+</code></pre>
+
+<p>现在<code>enquos()</code>和<code>!!!</code>只有在需要修改输入或者名字时才需要用到。</p>
+
 <ul>
 <li>如果有字符串输入，使用 <code>.data</code> 代词：</li>
 </ul>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">  max_by <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">function</span>(data, var, by) {
-    data <span style="color:#f92672">%&gt;%</span>
-      <span style="color:#a6e22e">group_by</span>(.data[[by]]) <span style="color:#f92672">%&gt;%</span>
-      <span style="color:#a6e22e">summarise</span>(maximum <span style="color:#f92672">=</span> <span style="color:#a6e22e">max</span>(.data[[var]], na.rm <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>))
+
+<pre><code class="language-r">  max_by &lt;- function(data, var, by) {
+    data %&gt;%
+      group_by(.data[[by]]) %&gt;%
+      summarise(maximum = max(.data[[var]], na.rm = TRUE))
   }
   
-  starwars <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">max_by</span>(<span style="color:#e6db74">&#34;height&#34;</span>, by <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;gender&#34;</span>)
-  <span style="color:#75715e">#&gt; # A tibble: 5 x 2</span>
-  <span style="color:#75715e">#&gt;   gender        maximum</span>
-  <span style="color:#75715e">#&gt;   &lt;chr&gt;           &lt;int&gt;</span>
-  <span style="color:#75715e">#&gt; 1 &lt;NA&gt;              167</span>
-  <span style="color:#75715e">#&gt; 2 female            213</span>
-  <span style="color:#75715e">#&gt; 3 hermaphrodite     175</span>
-  <span style="color:#75715e">#&gt; 4 male              264</span>
-  <span style="color:#75715e">#&gt; 5 none              200</span>
-</code></pre></div><p>这里magrittr 提供的 <code>.</code> 代词并不适用，因为它代表整个数据框，但是<code>.data</code>这里代表的是当前的子数据集。</p>
+  starwars %&gt;% max_by(&quot;height&quot;, by = &quot;gender&quot;)
+  #&gt; # A tibble: 5 x 2
+  #&gt;   gender        maximum
+  #&gt;   &lt;chr&gt;           &lt;int&gt;
+  #&gt; 1 &lt;NA&gt;              167
+  #&gt; 2 female            213
+  #&gt; 3 hermaphrodite     175
+  #&gt; 4 male              264
+  #&gt; 5 none              200
+</code></pre>
+
+<p>这里magrittr 提供的 <code>.</code> 代词并不适用，因为它代表整个数据框，但是<code>.data</code>这里代表的是当前的子数据集。</p>
+
 <p>更多阅读：</p>
+
 <ul>
 <li><a href="https://ggplot2.tidyverse.org/dev/articles/ggplot2-in-packages.html#using-aes-and-vars-in-a-package-function">new programming vignette in ggplot2</a></li>
 </ul>
@@ -267,6 +286,7 @@ document.addEventListener('keyup', function(e) {
 <div id="gitalk-container"></div>
 <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
 <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
 <script>
   const gitalk = new Gitalk({
     clientID: 'eed477936be7b88a8455',
@@ -274,7 +294,7 @@ document.addEventListener('keyup', function(e) {
     repo: 'home',
     owner: 'ShixiangWang',
     admin: ['ShixiangWang'],
-    id: location.pathname, 
+    id: md5(window.location.pathname), 
     distractionFreeMode: false 
   });
   (function() {
@@ -331,7 +351,7 @@ document.addEventListener('keyup', function(e) {
   
   
 
-  <div class="copyright"><a href="mailto:w_shixiang@163.com"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://github.com/ShixiangWang"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://orcid.org/0000-0001-9855-7357"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> <!-- raw HTML omitted --> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 © <a href="../../../">王诗翔</a> 2017 - 2020 </div>
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> &middot; <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> &middot; <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> &middot; <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> &middot; <a href="https://orcid.org/0000-0001-9855-7357"><i class='ai ai-orcid ai-1x'></i></a> &middot; <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 &copy; <a href="../../../">王诗翔</a> 2017 - 2020 </div>
   
   
 
