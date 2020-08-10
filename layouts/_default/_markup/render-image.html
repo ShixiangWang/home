@@ -12,7 +12,6 @@
     <figcaption style="text-align: center">{{ .Title }}</figcaption>
   </figure>
 {{ else }}
-  <span class="img-container"> 
   <img src="{{ .Destination | safeURL }}" alt="{{ .Text }}">
   </span>
 {{ end }}
