@@ -248,7 +248,36 @@ gc <span style="color:#ae81ff">11</span> @0.055s 0%: 0.020+0.10+0.004 ms clock, 
 gc <span style="color:#ae81ff">12</span> @5.103s 0%: 0.064+0.13+0.003 ms clock, 0.51+0/0.066/0.092+0.030 ms cpu, 95-&gt;95-&gt;0 MB, <span style="color:#ae81ff">96</span> MB goal, <span style="color:#ae81ff">8</span> P
 ...
 </code></pre></div><p>以 <code>4-&gt;4-&gt;0 MB</code> 为例，第一个值是 gc 要运行时的堆大小，第二个值是 gc 结束操作时的堆大小，最后的值是活动的堆大小。</p>
+<h3 id="go-调用-c-代码">Go 调用 C 代码</h3>
+<p>通过注释写入 C 代码，再加入导入 C 库，就可以调用 C 程序了。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
+<span style="color:#75715e">//#include &lt;stdio.h&gt;
+</span><span style="color:#75715e">//void callC() {
+</span><span style="color:#75715e">// printf(&#34;Calling C code!\n&#34;);
+</span><span style="color:#75715e">//}
+</span><span style="color:#75715e"></span><span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;C&#34;</span>
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;A Go Statement!&#34;</span>)
+	<span style="color:#a6e22e">C</span>.<span style="color:#a6e22e">callC</span>()
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Another Go statement!&#34;</span>)
+}
+</code></pre></div><blockquote>
+<p><code>import &quot;C&quot;</code> 前面不能存在空行。</p>
+</blockquote>
+<p>示例：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">go run ./0014-cGo.go
+A Go Statement!
+Calling C code!
+Another Go statement!
+</code></pre></div><h3 id="go-调用独立-c-代码文件">Go 调用独立 C 代码文件</h3>
+<p>代码见 <a href="./go">这里</a>。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ gcc -c callClib/*.c
+$ ar rs callC.a *.o  <span style="color:#75715e"># 生成静态链接文件</span>
+$ go build ./0015-callC.go
+</code></pre></div>
 
   <footer>
   

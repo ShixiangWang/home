@@ -168,7 +168,7 @@ Another Go statement!
 
 ### Go 调用独立 C 代码文件
 
-代码见 [这里](./go)。
+代码见[这里](https://github.com/ShixiangWang/home/tree/master/go)。
 
 ```sh
 $ gcc -c callClib/*.c
