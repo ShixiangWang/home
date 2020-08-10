@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>PicGo &#43; Gitee 构建免费云图床</title>
+      <link>/cn/post/2020-08-10-build-cloud-pic-database-with-picgo-and-gitee/</link>
+      <pubDate>Mon, 10 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2020-08-10-build-cloud-pic-database-with-picgo-and-gitee/</guid>
+      <description>PicGo 下载链接：https://github.com/Molunerfinn/PicGo/releases/ 开源开发不易，不妨对仓库点个 Star</description>
+    </item>
+    
+    <item>
       <title>UCSCXenaTools: Download Public Cancer Genomic Data from UCSC Xena Hubs</title>
       <link>/en/tools/ucscxenatools-intro/</link>
       <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
