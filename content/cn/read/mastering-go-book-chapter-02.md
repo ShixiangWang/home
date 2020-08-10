@@ -134,3 +134,44 @@ gc 12 @5.103s 0%: 0.064+0.13+0.003 ms clock, 0.51+0/0.066/0.092+0.030 ms cpu, 95
 
 以 `4->4->0 MB` 为例，第一个值是 gc 要运行时的堆大小，第二个值是 gc 结束操作时的堆大小，最后的值是活动的堆大小。
 
+### Go 调用 C 代码
+
+通过注释写入 C 代码，再加入导入 C 库，就可以调用 C 程序了。
+
+```go
+package main
+
+//#include <stdio.h>
+//void callC() {
+// printf("Calling C code!\n");
+//}
+import "C"
+import "fmt"
+
+func main() {
+	fmt.Println("A Go Statement!")
+	C.callC()
+	fmt.Println("Another Go statement!")
+}
+```
+
+> `import "C"` 前面不能存在空行。
+
+示例：
+
+```sh
+go run ./0014-cGo.go
+A Go Statement!
+Calling C code!
+Another Go statement!
+```
+
+### Go 调用独立 C 代码文件
+
+代码见 [这里](./go)。
+
+```sh
+$ gcc -c callClib/*.c
+$ ar rs callC.a *.o  # 生成静态链接文件
+$ go build ./0015-callC.go
+```

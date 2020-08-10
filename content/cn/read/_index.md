@@ -14,6 +14,7 @@ disable_comments: true
 目录：
 
 - [【第一章】](../read/mastering-go-book-chapter-01)
+- [【第二章】](../read/mastering-go-book-chapter-02)
 
 # 生物信息学
 
