@@ -144,49 +144,28 @@
 
 
 <p>原文：<a href="https://phoenixnap.com/kb/docker-run-override-entrypoint">https://phoenixnap.com/kb/docker-run-override-entrypoint</a></p>
-
 <blockquote>
 <p>分享此文的原因在于当在 Docker 文件中使用 Entrypoint 后，无法直接运行 <code>docker run -it container</code> 进入交互式终端。</p>
 </blockquote>
-
 <p>为了演示如何覆盖 entrypoint 命令，我们将运行一个结合了 CMD 和 entrypoint 的 hello world 容器。</p>
-
 <p>下面是 Dockerfile 的内容，<code>ENTRYPOINT</code> 命令定义了可执行文件，而 <code>CMD</code> 设置了默认参数。</p>
-
-<pre><code class="language-docker">FROM ubuntu
-MAINTAINER sofija
-RUN apt-get update
-ENTRYPOINT [“echo”, “Hello”]
-CMD [“World”]
-</code></pre>
-
-<p>如果构建一个镜像并生成一个容器运行，得到：</p>
-
-<p><img src="https://phoenixnap.com/kb/wp-content/uploads/2020/02/run-docker-container-with-entrypoint-and-cmd-instructions.png" alt="Docker ENTRYPOINT vs CMD instructions combined." /></p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-docker" data-lang="docker"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> ubuntu</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">MAINTAINER</span><span style="color:#e6db74"> sofija</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> apt-get update<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENTRYPOINT</span> [<span style="color:#960050;background-color:#1e0010">“echo”</span>, <span style="color:#960050;background-color:#1e0010">“Hello”</span>]<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">CMD</span> [<span style="color:#960050;background-color:#1e0010">“World”</span>]<span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><p>如果构建一个镜像并生成一个容器运行，得到：</p>
+<p><img src="https://phoenixnap.com/kb/wp-content/uploads/2020/02/run-docker-container-with-entrypoint-and-cmd-instructions.png" alt="Docker ENTRYPOINT vs CMD instructions combined."></p>
 <p>你可以非常简单地通过设置参数来覆盖掉默认 CMD 指定的参数，格式如下：</p>
-
-<pre><code class="language-sh">sudo docker run [container_name] [new_parameter]
-</code></pre>
-
-<p>一个示例：</p>
-
-<p><img src="https://phoenixnap.com/kb/wp-content/uploads/2020/02/running-a-docker-container-with-additional-parameters.png" alt="Adding parameters to a docker run command to run a container with ENTRYPOINT and CMD instructions." /></p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo docker run <span style="color:#f92672">[</span>container_name<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>new_parameter<span style="color:#f92672">]</span>
+</code></pre></div><p>一个示例：</p>
+<p><img src="https://phoenixnap.com/kb/wp-content/uploads/2020/02/running-a-docker-container-with-additional-parameters.png" alt="Adding parameters to a docker run command to run a container with ENTRYPOINT and CMD instructions."></p>
 <p><strong>然而</strong>，你可能想要覆盖掉默认的可执行文件，例如在一个容器中运行 Shell。这个时候，我们需要显式地指定 <code>--entrypoint</code> 标志，语法如下：</p>
-
-<pre><code class="language-sh">sudo docker run --entrypoint [new_command] [docker_image] [optional:value]
-</code></pre>
-
-<p>例如，我们要覆盖掉上面的 <code>echo</code> 命令，执行 shell：</p>
-
-<pre><code class="language-sh">sudo docker run -it --entrypoint /bin/bash [docker_image]
-</code></pre>
-
-<p>输出告诉了我们已经身处容器之中：</p>
-
-<p><img src="https://phoenixnap.com/kb/wp-content/uploads/2020/03/override-entrypoint-with-docker-run-command.png" alt="Run Docker container by overriding entrypoint command and opening container shell." /></p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo docker run --entrypoint <span style="color:#f92672">[</span>new_command<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>docker_image<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>optional:value<span style="color:#f92672">]</span>
+</code></pre></div><p>例如，我们要覆盖掉上面的 <code>echo</code> 命令，执行 shell：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo docker run -it --entrypoint /bin/bash <span style="color:#f92672">[</span>docker_image<span style="color:#f92672">]</span>
+</code></pre></div><p>输出告诉了我们已经身处容器之中：</p>
+<p><img src="https://phoenixnap.com/kb/wp-content/uploads/2020/03/override-entrypoint-with-docker-run-command.png" alt="Run Docker container by overriding entrypoint command and opening container shell."></p>
 <blockquote>
 <p>小结一下，不难理解，当不指定 <code>--entrypoint</code> 时，默认的 entrypoint 就是 shell，所以如果我们在 dockerfile 中指定了 entry point，那么我们想要运行其他可执行文件时，就必须显式地指定可执行文件了。</p>
 </blockquote>
@@ -287,7 +266,7 @@ document.addEventListener('keyup', function(e) {
   
   
 
-  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> &middot; <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> &middot; <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> &middot; <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> &middot; <a href="https://orcid.org/0000-0001-9855-7357"><i class='ai ai-orcid ai-1x'></i></a> &middot; <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 &copy; <a href="../../../">王诗翔</a> 2017 - 2020 </div>
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://github.com/ShixiangWang"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://orcid.org/0000-0001-9855-7357"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> · <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><!-- raw HTML omitted --><!-- raw HTML omitted --></a> <!-- raw HTML omitted --> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 © <a href="../../../">王诗翔</a> 2017 - 2020 </div>
   
   
 

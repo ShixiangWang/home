@@ -11,7 +11,7 @@ tags: ["PicGo", "Gitee", "云图床", "figure"]
 
 ![image-20200810112027062](https://gitee.com/ShixiangWang/ImageCollection/raw/master/png/image-20200810112027062.png "图1")
 
-PicGo 下载链接：https://github.com/Molunerfinn/PicGo/releases/
+PicGo 下载链接：<https://github.com/Molunerfinn/PicGo/releases/>
 
 > 开源开发不易，不妨对仓库点个 Star，致谢下作者们。
 

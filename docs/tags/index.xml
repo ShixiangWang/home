@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Shixiang Wang | 王诗翔</title>
@@ -10,6 +10,15 @@
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>figure</title>
+      <link>/tags/figure/</link>
+      <pubDate>Mon, 10 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/figure/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Gitee</title>
@@ -30,15 +39,6 @@
     </item>
     
     <item>
-      <title>figure</title>
-      <link>/tags/figure/</link>
-      <pubDate>Mon, 10 Aug 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/figure/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>云图床</title>
       <link>/tags/%E4%BA%91%E5%9B%BE%E5%BA%8A/</link>
       <pubDate>Mon, 10 Aug 2020 00:00:00 +0000</pubDate>
@@ -48,11 +48,20 @@
     </item>
     
     <item>
-      <title>UCSCXenaTools</title>
-      <link>/tags/ucscxenatools/</link>
+      <title>golang</title>
+      <link>/tags/golang/</link>
       <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/tags/ucscxenatools/</guid>
+      <guid>/tags/golang/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>internal</title>
+      <link>/tags/internal/</link>
+      <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/internal/</guid>
       <description></description>
     </item>
     
@@ -75,6 +84,15 @@
     </item>
     
     <item>
+      <title>UCSCXenaTools</title>
+      <link>/tags/ucscxenatools/</link>
+      <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/ucscxenatools/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>docker</title>
       <link>/tags/docker/</link>
       <pubDate>Thu, 06 Aug 2020 00:00:00 +0000</pubDate>
@@ -89,15 +107,6 @@
       <pubDate>Thu, 06 Aug 2020 00:00:00 +0000</pubDate>
       
       <guid>/tags/entrypoint/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>golang</title>
-      <link>/tags/golang/</link>
-      <pubDate>Mon, 03 Aug 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/golang/</guid>
       <description></description>
     </item>
     
@@ -255,20 +264,20 @@
     </item>
     
     <item>
-      <title>ROC</title>
-      <link>/tags/roc/</link>
-      <pubDate>Fri, 18 Oct 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/roc/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>font</title>
       <link>/tags/font/</link>
       <pubDate>Fri, 18 Oct 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/font/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ROC</title>
+      <link>/tags/roc/</link>
+      <pubDate>Fri, 18 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/roc/</guid>
       <description></description>
     </item>
     
@@ -543,20 +552,20 @@
     </item>
     
     <item>
-      <title>NMF</title>
-      <link>/tags/nmf/</link>
-      <pubDate>Thu, 20 Dec 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/nmf/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>heatmap</title>
       <link>/tags/heatmap/</link>
       <pubDate>Thu, 20 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/heatmap/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>NMF</title>
+      <link>/tags/nmf/</link>
+      <pubDate>Thu, 20 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/nmf/</guid>
       <description></description>
     </item>
     
@@ -759,6 +768,24 @@
     </item>
     
     <item>
+      <title>class</title>
+      <link>/tags/class/</link>
+      <pubDate>Sat, 18 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/class/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>instance</title>
+      <link>/tags/instance/</link>
+      <pubDate>Sat, 18 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/instance/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>R6</title>
       <link>/tags/r6/</link>
       <pubDate>Sat, 18 Aug 2018 00:00:00 +0000</pubDate>
@@ -782,24 +809,6 @@
       <pubDate>Sat, 18 Aug 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/s4/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>class</title>
-      <link>/tags/class/</link>
-      <pubDate>Sat, 18 Aug 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/class/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>instance</title>
-      <link>/tags/instance/</link>
-      <pubDate>Sat, 18 Aug 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/instance/</guid>
       <description></description>
     </item>
     
