@@ -388,7 +388,7 @@ Error in returnError() function!
 
 #### 错误处理
 
-一般测试 `err` 是否与 `nil` 相等，如果不是，则使用 `fmt`、`log`包或通过 `panic() 函数生成错误，使用 `os.Exit()` 退出程序。
+一般测试 `err` 是否与 `nil` 相等，如果不是，则使用 `fmt`、`log`包或通过 `panic()` 函数生成错误，使用 `os.Exit()` 退出程序。
 
 下面是一个示例代码：
 

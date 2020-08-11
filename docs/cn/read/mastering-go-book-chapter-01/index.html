@@ -428,7 +428,7 @@ Error in returnError<span style="color:#f92672">()</span> <span style="color:#66
 <p>使用 <code>err.Error()</code> 方法可以从错误类型中生成 string 类型错误信息。</p>
 </blockquote>
 <h4 id="错误处理">错误处理</h4>
-<p>一般测试 <code>err</code> 是否与 <code>nil</code> 相等，如果不是，则使用 <code>fmt</code>、<code>log</code>包或通过 <code>panic() 函数生成错误，使用 </code>os.Exit()` 退出程序。</p>
+<p>一般测试 <code>err</code> 是否与 <code>nil</code> 相等，如果不是，则使用 <code>fmt</code>、<code>log</code>包或通过 <code>panic()</code> 函数生成错误，使用 <code>os.Exit()</code> 退出程序。</p>
 <p>下面是一个示例代码：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
