@@ -273,17 +273,200 @@ A Go Statement!
 Calling C code!
 Another Go statement!
 </code></pre></div><h3 id="go-调用独立-c-代码文件">Go 调用独立 C 代码文件</h3>
-<p>代码见 <a href="./go">这里</a>。</p>
+<p>代码见<a href="https://github.com/ShixiangWang/home/tree/master/go">这里</a>。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ gcc -c callClib/*.c
-$ ar rs callC.a *.o  <span style="color:#75715e"># 生成静态链接文件</span>
+$ <span style="color:#75715e">#ar rs callC.a *.o  # 生成静态链接文件</span>
+$ <span style="color:#75715e">#使用 ar 命令会出问题 https://gowa.club/macOS/%E5%9C%A8macOS-Mojave%E4%B8%8A%E7%BC%96%E8%AF%91Lua%E5%A4%B1%E8%B4%A5%E7%9A%84%E7%BB%8F%E5%8E%86.html</span>
+$ libtool -static -o callC.a callC.o
 $ go build ./0015-callC.go
+$ ./0015-callC 
+Going to call a C <span style="color:#66d9ef">function</span>!
+Hello from C!
+Going to call another C <span style="color:#66d9ef">function</span>!
+Go send me This is Mihalis!
+All perfectly <span style="color:#66d9ef">done</span>!
+<span style="color:#f92672">(</span>base<span style="color:#f92672">)</span> 
+</code></pre></div><h3 id="c-代码调用-go-函数">C 代码调用 Go 函数</h3>
+<p>Go 代码文件内容：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;C&#34;</span>
+
+<span style="color:#75715e">//export PrintMessage
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">PrintMessage</span>() {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;A Go function!&#34;</span>)
+}
+
+<span style="color:#75715e">//export Multiply
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Multiply</span>(<span style="color:#a6e22e">a</span>, <span style="color:#a6e22e">b</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">a</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">b</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	
+}
+</code></pre></div><p>生成 C 共享库：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ go build -o usedByC.o -buildmode<span style="color:#f92672">=</span>c-shared ./0016-usedByC.go
+$ file usedByC.o
+usedByC.o: Mach-O 64-bit dynamically linked shared library x86_64
+</code></pre></div><p>不要修改生成的 <code>.h</code> 和 <code>.o</code> 文件。</p>
+<p>C 代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;usedByC.h&#34;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">char</span> <span style="color:#f92672">**</span>argv) {
+  GoInt x <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span>;
+  GoInt y <span style="color:#f92672">=</span> <span style="color:#ae81ff">23</span>;
+
+  printf(<span style="color:#e6db74">&#34;About to call a Go function!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+  PrintMessage();
+
+  GoInt p <span style="color:#f92672">=</span> Multiply(x, y);
+  printf(<span style="color:#e6db74">&#34;Product: %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, (<span style="color:#66d9ef">int</span>)p);
+  printf(<span style="color:#e6db74">&#34;It worked!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div><p>编译和运行 C 代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ gcc -o willUseGo willUseGo.c ./usedByC.o 
+$ ./willUseGo 
+About to call a Go <span style="color:#66d9ef">function</span>!
+A Go <span style="color:#66d9ef">function</span>!
+Product: <span style="color:#ae81ff">276</span>
+It worked!
+</code></pre></div><h3 id="defer-关键字">defer 关键字</h3>
+<p><code>defer</code> 可以指定函数退出时执行的语句，遵循先进后出原则。</p>
+<p>示例代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">d1</span>() {
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">3</span>; <span style="color:#a6e22e">i</span> &gt; <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">--</span> {
+		<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Print</span>(<span style="color:#a6e22e">i</span>, <span style="color:#e6db74">&#34; &#34;</span>)
+	}
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">d2</span>() {
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">3</span>; <span style="color:#a6e22e">i</span> &gt; <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">--</span> {
+    <span style="color:#75715e">// 函数退出时才调用，所以是 0、0、0
+</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">defer</span> <span style="color:#66d9ef">func</span>() {
+			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Print</span>(<span style="color:#a6e22e">i</span>, <span style="color:#e6db74">&#34; &#34;</span>)
+		}()
+	}
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>()
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">d3</span>() {
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">3</span>; <span style="color:#a6e22e">i</span> &gt; <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">--</span> {
+		<span style="color:#66d9ef">defer</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">n</span> <span style="color:#66d9ef">int</span>) {
+			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Print</span>(<span style="color:#a6e22e">n</span>, <span style="color:#e6db74">&#34; &#34;</span>)
+		}(<span style="color:#a6e22e">i</span>)
+	}
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">d1</span>()
+	<span style="color:#a6e22e">d2</span>()
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>()
+	<span style="color:#a6e22e">d3</span>()
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>()
+}
+</code></pre></div><p>运行：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ go run ./0017-defer.go 
+<span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> 
+<span style="color:#ae81ff">0</span> <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">0</span> 
+<span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> 
+</code></pre></div><h3 id="panic-和-recover">Panic 和 Recover</h3>
+<p>示例代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">a</span>() {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Inside a()&#34;</span>)
+	<span style="color:#66d9ef">defer</span> <span style="color:#66d9ef">func</span>() {
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">c</span> <span style="color:#f92672">:=</span> recover(); <span style="color:#a6e22e">c</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Recover inside a()!&#34;</span>)
+		}
+	}()
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;About to call b()&#34;</span>)
+	<span style="color:#a6e22e">b</span>()
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;b() exited!&#34;</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Exiting a()&#34;</span>)
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">b</span>() {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Inside b()&#34;</span>)
+	panic(<span style="color:#e6db74">&#34;Panic in b()!&#34;</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Exiting b()&#34;</span>)
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">a</span>()
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;main() ended!&#34;</span>)
+}
+</code></pre></div><p>运行：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ go run ./0018-panicRecover.go 
+Inside a<span style="color:#f92672">()</span>
+About to call b<span style="color:#f92672">()</span>
+Inside b<span style="color:#f92672">()</span>
+Recover inside a<span style="color:#f92672">()</span>!
+main<span style="color:#f92672">()</span> ended!
+</code></pre></div><h3 id="单独使用-panic-函数">单独使用 panic 函数</h3>
+<p>前面提到过，这个可以用来显示比较详细的报错信息。</p>
+<p>测试代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
+	<span style="color:#e6db74">&#34;os&#34;</span>
+)
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Args</span>) <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span> {
+		panic(<span style="color:#e6db74">&#34;Not enough arguments!&#34;</span>)
+	}
+
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Thanks for the argument(s)!&#34;</span>)
+}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ go run ./0019-justPanic.go 
+panic: Not enough arguments!
+
+goroutine <span style="color:#ae81ff">1</span> <span style="color:#f92672">[</span>running<span style="color:#f92672">]</span>:
+main.main<span style="color:#f92672">()</span>
+        /Users/wsx/go/src/github.com/ShixiangWang/home/go/0019-justPanic.go:10 +0xa9
+exit status <span style="color:#ae81ff">2</span>
+</code></pre></div><h3 id="查看系统信号">查看系统信号</h3>
+<p>strace(1) 和 dtrace(1) 工具。</p>
+<h3 id="go-环境">Go 环境</h3>
+<p>代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
+	<span style="color:#e6db74">&#34;runtime&#34;</span>
+)
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Print</span>(<span style="color:#e6db74">&#34;You are using &#34;</span>, <span style="color:#a6e22e">runtime</span>.<span style="color:#a6e22e">Compiler</span>, <span style="color:#e6db74">&#34; &#34;</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;on a&#34;</span>, <span style="color:#a6e22e">runtime</span>.<span style="color:#a6e22e">GOARCH</span>, <span style="color:#e6db74">&#34;machine&#34;</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Using Go version&#34;</span>, <span style="color:#a6e22e">runtime</span>.<span style="color:#a6e22e">Version</span>())
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Number of CPUs:&#34;</span>, <span style="color:#a6e22e">runtime</span>.<span style="color:#a6e22e">NumCPU</span>())
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Number of Goroutines:&#34;</span>, <span style="color:#a6e22e">runtime</span>.<span style="color:#a6e22e">NumGoroutine</span>())
+}
+</code></pre></div><p>运行：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">go run ./0020-goEnv.go 
+You are using gc on a amd64 machine
+Using Go version go1.14.5
+Number of CPUs: <span style="color:#ae81ff">8</span>
+Number of Goroutines: <span style="color:#ae81ff">1</span>
 </code></pre></div>
 
   <footer>
   
 <nav class="post-nav">
   <span class="nav-prev">&larr; <a href="../../../cn/read/mastering-go-book-chapter-01/">《Mastering Go》第一章笔记</a></span>
-  <span class="nav-next"></span>
+  <span class="nav-next"><a href="../../../cn/read/mastering-go-book-chapter-03/">Put your title here</a> &rarr;</span>
 </nav>
 <script type="text/javascript">
 document.addEventListener('keyup', function(e) {
@@ -294,6 +477,8 @@ document.addEventListener('keyup', function(e) {
     url = '\/cn\/read\/mastering-go-book-chapter-01\/';
     
   } else if (e.which == 39) {  
+    
+    url = '\/cn\/read\/mastering-go-book-chapter-03\/';
     
   }
   if (url) window.location = url;

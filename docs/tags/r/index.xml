@@ -6,10 +6,19 @@
     <description>Recent content in r on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 09 Aug 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 12 Aug 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/r/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Put your title here</title>
+      <link>/cn/read/mastering-go-book-chapter-03/</link>
+      <pubDate>Wed, 12 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/read/mastering-go-book-chapter-03/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>UCSCXenaTools: Download Public Cancer Genomic Data from UCSC Xena Hubs</title>
