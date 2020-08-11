@@ -12,11 +12,20 @@
     
     
     <item>
-      <title>r</title>
-      <link>/tags/r/</link>
+      <title>datatype</title>
+      <link>/tags/datatype/</link>
       <pubDate>Wed, 12 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/tags/r/</guid>
+      <guid>/tags/datatype/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>golang</title>
+      <link>/tags/golang/</link>
+      <pubDate>Wed, 12 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/golang/</guid>
       <description></description>
     </item>
     
@@ -93,15 +102,6 @@
     </item>
     
     <item>
-      <title>golang</title>
-      <link>/tags/golang/</link>
-      <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/golang/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>internal</title>
       <link>/tags/internal/</link>
       <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
@@ -116,6 +116,15 @@
       <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
       
       <guid>/tags/package/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>r</title>
+      <link>/tags/r/</link>
+      <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/r/</guid>
       <description></description>
     </item>
     
