@@ -1,0 +1,173 @@
+---
+title: "Rprofile：R 全局设置"
+author: "王诗翔"
+date: "2020-08-13"
+lastmod: "`r Sys.Date()`"
+slug: ""
+categories: ["r", "config"]
+tags: ["r", "config", ".Rprofile"]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, dev = "png", comment = "#>", tidy = "styler")
+#Sys.setenv("LANGUAGE"="EN") # Embed this for outputing English message
+#Sys.setlocale('LC_ALL','C') # Embed this directly in the Rmarkdown script that contains the Chinese character comment
+options(digits=3)
+options(max.print=200)
+```
+
+存储在 `~/.Rprofile` 中的内容是一个 R 脚本，它会在 R 启动时自动运行，所以可以作为全局的配置使用。
+
+根据我的 R 使用经验，结合 Y 叔和 Yihui 提供的一些便利函数，我构建了一个比较合适的 R 配置。推荐大家结合自己需求使用和自定义。
+
+目前设定涉及的功能：
+
+1. 设置 `UTF-8` 编码。
+2. 设置 R 提示用英文显示，方便查看和搜索 R 代码错误信息。
+3. 设置 CRAN 下载源为同济大学；Bioconductor 下载源为清华大学。
+4. 设定自定义 R 包存储路径，这个非常有用，便于以后 R 版本涉及不影响 R 包。
+5. 设置 R 临时文件目录，这个在一些场景下也有用（比如快速查看临时文件）。
+6. 设置载入 pacman 用来管理 R 包。
+7. 设置 VSCode r 插件需要进行的设置。
+8. 提供一些工具函数，目前主要来自 Y 叔的 rvcheck 包和 Yihui 的 xfun 包。
+
+**该脚本配置我会长期维护**。如果大家有问题或建议、增加新的工具函数，欢迎通过邮件或 <https://github.com/ShixiangWang/MessageBoard/issues> 进行反馈和交流。
+
+```{r, eval=FALSE}
+#------------------------------------------------------------
+#                  |R Global Setting|
+#
+# You can (un)comment any code you dislike.
+#   Any Question, please email to
+#       Shixiang Wang <w_shixiang@163.com>
+#   or file an issue to
+#       <https://github.com/ShixiangWang/MessageBoard/issues>
+#------------------------------------------------------------
+
+
+# Global options ----------------------------------------------------------
+options(encoding = "UTF-8") # Set file encoding
+Sys.setenv("LANGUAGE" = "EN") # Set language of R message
+
+# Package download mirrors ------------------------------------------------
+## For Bioconductor packages
+options(BioC_mirror = "https://mirrors.tuna.tsinghua.edu.cn/bioconductor")
+## For CRAN packages
+## Full list see mirrors on <https://cran.r-project.org/>
+options("repos" = c(CRAN = "https://mirrors.tongji.edu.cn/CRAN/"))
+
+# Set local custom R library path -----------------------------------------
+.CUSTOM_LIB <- "~/Library/R" # Set your custom library location
+# Please do not add '/' at the end !!!
+
+if (!dir.exists(.CUSTOM_LIB)) {
+  dir.create(.CUSTOM_LIB, recursive = TRUE)
+}
+
+.libPaths(c(.CUSTOM_LIB, .libPaths()))
+message("Using library: ", .libPaths()[1])
+
+# Set R temp directory ----------------------------------------------------
+## Uncomment the following code if you want to set R temp directory
+# .TMP = "~/Rtmp"
+# if(dirname(tempdir()) != .TMP){
+#   if(!dir.exists(.TMP)) dir.create(.TMP)
+#   cat(paste0("TMPDIR = ", .TMP), file="~/.Renviron", sep = "\n")
+# }
+# message("Using temp directory: ", .TMP)
+
+
+# Use pacman to manage R packages -----------------------------------------
+# Reference: <https://www.jianshu.com/p/cb16ded75672>
+if (!requireNamespace("pacman", quietly = TRUE)) {
+  install.packages("pacman", dependencies = TRUE)
+}
+
+library(pacman)
+
+# VSCode plugin setting ---------------------------------------------------
+# Only use when you code R with VSCode
+# Reference: <https://github.com/REditorSupport/vscode-r-lsp>
+if (!requireNamespace("languageserver", quietly = TRUE)) {
+  pacman::p_install(languageserver)
+}
+
+source(file.path(
+  if (.Platform$OS.type == "windows") {
+    file.path(Sys.getenv("HOMEDRIVE"), Sys.getenv("HOMEPATH"))
+  } else {
+    Sys.getenv("HOME")
+  }, ".vscode-R", "init.R"
+))
+
+# Global utilities --------------------------------------------------------
+
+## Try installing R packages again and again
+## It may be useful when install GitHub R packages
+.loop_install <- function(pkgs, force = FALSE) {
+  ## If force=TRUE,
+  ## force installation when packages already exist on local system.
+  Sys.sleep(1)
+  tryCatch(
+    {
+      message("=> Try installing ", paste(pkgs, collapse = ", "))
+      gh_pkg <- pkgs[grepl("/", pkgs)]
+      ot_pkg <- setdiff(pkgs, gh_pkg)
+      if (length(ot_pkg) > 0) {
+        pacman::p_install(ot_pkg, character.only = TRUE, force = force)
+      } else {
+        if (!requireNamespace("remotes", quietly = TRUE)) {
+          pacman::p_install(remotes)
+        }
+        remotes::install_github(gh_pkg, force = force)
+      }
+    },
+    error = function(e) {
+      .loop_install(pkgs, force)
+    }
+  )
+}
+
+## Utilities from rvcheck, xfun and other R package
+## Thanks to the authors
+if (!requireNamespace("rvcheck", quietly = TRUE)) {
+  pacman::p_install(rvcheck)
+}
+if (!requireNamespace("xfun", quietly = TRUE)) {
+  pacman::p_install(xfun)
+}
+
+## Load function from package
+.get_fun <- rvcheck::get_fun_from_pkg
+## Open any directory in any operating system
+.open <- rvcheck::o
+## Check whether packages were installed
+.is_installed <- rvcheck::is.installed
+## Check if on a R server
+.is_rserver <- suppressMessages(.get_fun("rvcheck", "is.rserver"))
+## Simpler function to download file
+.download_file <- xfun::download_file
+.upload_ftp <- xfun::upload_ftp
+## Functions to obtain, remove, and change extensions in filenames
+.fl_ext <- xfun::file_ext
+.rm_ext <- xfun::sans_ext
+.ch_ext <- xfun::with_ext
+## Provide the "file" version of gsub(),
+## i.e., they perform searching and replacement in files via gsub().
+.gsub_file <- xfun::gsub_file
+.gsub_files <- xfun::gsub_files
+.gsub_dir <- xfun::gsub_dir
+.gsub_ext <- xfun::gsub_ext
+## Change the working directory, evaluate the expression,
+## and restore the working directory
+.move_run <- xfun::in_dir
+## Install a source package from a directory
+.install_dir <- xfun::install_dir
+## Check OS
+.is_linux <- xfun::is_linux
+.is_windows <- xfun::is_windows
+.is_macos <- xfun::is_macos
+.is_unix <- xfun::is_unix
+## Number to words, e.g. 1 to one, 10 to ten
+.numbers_to_words <- xfun::numbers_to_words
+```

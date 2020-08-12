@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>Rprofile：R 全局设置</title>
+      <link>/cn/post/2020-08-13-set-your-rprofile/</link>
+      <pubDate>Thu, 13 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2020-08-13-set-your-rprofile/</guid>
+      <description>存储在 ~/.Rprofile 中的内容是一个 R 脚本，它会在 R 启动时自动运行，所以可以作为全局的配置使用。 根据我的 R 使用经验，结合 Y 叔和 Yihui 提供的一些便利函数，我构建</description>
+    </item>
+    
+    <item>
       <title>《Mastering Go》第三章笔记</title>
       <link>/cn/read/mastering-go-book-chapter-03/</link>
       <pubDate>Wed, 12 Aug 2020 00:00:00 +0000</pubDate>

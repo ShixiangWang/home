@@ -1,0 +1,162 @@
+---
+title: "Rprofile：R 全局设置"
+author: "王诗翔"
+date: "2020-08-13"
+lastmod: "2020-08-13"
+slug: ""
+categories: ["r", "config"]
+tags: ["r", "config", ".Rprofile"]
+---
+
+
+
+<p>存储在 <code>~/.Rprofile</code> 中的内容是一个 R 脚本，它会在 R 启动时自动运行，所以可以作为全局的配置使用。</p>
+<p>根据我的 R 使用经验，结合 Y 叔和 Yihui 提供的一些便利函数，我构建了一个比较合适的 R 配置。推荐大家结合自己需求使用和自定义。</p>
+<p>目前设定涉及的功能：</p>
+<ol style="list-style-type: decimal">
+<li>设置 <code>UTF-8</code> 编码。</li>
+<li>设置 R 提示用英文显示，方便查看和搜索 R 代码错误信息。</li>
+<li>设置 CRAN 下载源为同济大学；Bioconductor 下载源为清华大学。</li>
+<li>设定自定义 R 包存储路径，这个非常有用，便于以后 R 版本涉及不影响 R 包。</li>
+<li>设置 R 临时文件目录，这个在一些场景下也有用（比如快速查看临时文件）。</li>
+<li>设置载入 pacman 用来管理 R 包。</li>
+<li>设置 VSCode r 插件需要进行的设置。</li>
+<li>提供一些工具函数，目前主要来自 Y 叔的 rvcheck 包和 Yihui 的 xfun 包。</li>
+</ol>
+<p><strong>该脚本配置我会长期维护</strong>。如果大家有问题或建议、增加新的工具函数，欢迎通过邮件或 <a href="https://github.com/ShixiangWang/MessageBoard/issues" class="uri">https://github.com/ShixiangWang/MessageBoard/issues</a> 进行反馈和交流。</p>
+<pre class="r"><code>#------------------------------------------------------------
+#                  |R Global Setting|
+#
+# You can (un)comment any code you dislike.
+#   Any Question, please email to
+#       Shixiang Wang &lt;w_shixiang@163.com&gt;
+#   or file an issue to
+#       &lt;https://github.com/ShixiangWang/MessageBoard/issues&gt;
+#------------------------------------------------------------
+
+
+# Global options ----------------------------------------------------------
+options(encoding = &quot;UTF-8&quot;) # Set file encoding
+Sys.setenv(&quot;LANGUAGE&quot; = &quot;EN&quot;) # Set language of R message
+
+# Package download mirrors ------------------------------------------------
+## For Bioconductor packages
+options(BioC_mirror = &quot;https://mirrors.tuna.tsinghua.edu.cn/bioconductor&quot;)
+## For CRAN packages
+## Full list see mirrors on &lt;https://cran.r-project.org/&gt;
+options(&quot;repos&quot; = c(CRAN = &quot;https://mirrors.tongji.edu.cn/CRAN/&quot;))
+
+# Set local custom R library path -----------------------------------------
+.CUSTOM_LIB &lt;- &quot;~/Library/R&quot; # Set your custom library location
+# Please do not add &#39;/&#39; at the end !!!
+
+if (!dir.exists(.CUSTOM_LIB)) {
+  dir.create(.CUSTOM_LIB, recursive = TRUE)
+}
+
+.libPaths(c(.CUSTOM_LIB, .libPaths()))
+message(&quot;Using library: &quot;, .libPaths()[1])
+
+# Set R temp directory ----------------------------------------------------
+## Uncomment the following code if you want to set R temp directory
+# .TMP = &quot;~/Rtmp&quot;
+# if(dirname(tempdir()) != .TMP){
+#   if(!dir.exists(.TMP)) dir.create(.TMP)
+#   cat(paste0(&quot;TMPDIR = &quot;, .TMP), file=&quot;~/.Renviron&quot;, sep = &quot;\n&quot;)
+# }
+# message(&quot;Using temp directory: &quot;, .TMP)
+
+
+# Use pacman to manage R packages -----------------------------------------
+# Reference: &lt;https://www.jianshu.com/p/cb16ded75672&gt;
+if (!requireNamespace(&quot;pacman&quot;, quietly = TRUE)) {
+  install.packages(&quot;pacman&quot;, dependencies = TRUE)
+}
+
+library(pacman)
+
+# VSCode plugin setting ---------------------------------------------------
+# Only use when you code R with VSCode
+# Reference: &lt;https://github.com/REditorSupport/vscode-r-lsp&gt;
+if (!requireNamespace(&quot;languageserver&quot;, quietly = TRUE)) {
+  pacman::p_install(languageserver)
+}
+
+source(file.path(
+  if (.Platform$OS.type == &quot;windows&quot;) {
+    file.path(Sys.getenv(&quot;HOMEDRIVE&quot;), Sys.getenv(&quot;HOMEPATH&quot;))
+  } else {
+    Sys.getenv(&quot;HOME&quot;)
+  }, &quot;.vscode-R&quot;, &quot;init.R&quot;
+))
+
+# Global utilities --------------------------------------------------------
+
+## Try installing R packages again and again
+## It may be useful when install GitHub R packages
+.loop_install &lt;- function(pkgs, force = FALSE) {
+  ## If force=TRUE,
+  ## force installation when packages already exist on local system.
+  Sys.sleep(1)
+  tryCatch(
+    {
+      message(&quot;=&gt; Try installing &quot;, paste(pkgs, collapse = &quot;, &quot;))
+      gh_pkg &lt;- pkgs[grepl(&quot;/&quot;, pkgs)]
+      ot_pkg &lt;- setdiff(pkgs, gh_pkg)
+      if (length(ot_pkg) &gt; 0) {
+        pacman::p_install(ot_pkg, character.only = TRUE, force = force)
+      } else {
+        if (!requireNamespace(&quot;remotes&quot;, quietly = TRUE)) {
+          pacman::p_install(remotes)
+        }
+        remotes::install_github(gh_pkg, force = force)
+      }
+    },
+    error = function(e) {
+      .loop_install(pkgs, force)
+    }
+  )
+}
+
+## Utilities from rvcheck, xfun and other R package
+## Thanks to the authors
+if (!requireNamespace(&quot;rvcheck&quot;, quietly = TRUE)) {
+  pacman::p_install(rvcheck)
+}
+if (!requireNamespace(&quot;xfun&quot;, quietly = TRUE)) {
+  pacman::p_install(xfun)
+}
+
+## Load function from package
+.get_fun &lt;- rvcheck::get_fun_from_pkg
+## Open any directory in any operating system
+.open &lt;- rvcheck::o
+## Check whether packages were installed
+.is_installed &lt;- rvcheck::is.installed
+## Check if on a R server
+.is_rserver &lt;- suppressMessages(.get_fun(&quot;rvcheck&quot;, &quot;is.rserver&quot;))
+## Simpler function to download file
+.download_file &lt;- xfun::download_file
+.upload_ftp &lt;- xfun::upload_ftp
+## Functions to obtain, remove, and change extensions in filenames
+.fl_ext &lt;- xfun::file_ext
+.rm_ext &lt;- xfun::sans_ext
+.ch_ext &lt;- xfun::with_ext
+## Provide the &quot;file&quot; version of gsub(),
+## i.e., they perform searching and replacement in files via gsub().
+.gsub_file &lt;- xfun::gsub_file
+.gsub_files &lt;- xfun::gsub_files
+.gsub_dir &lt;- xfun::gsub_dir
+.gsub_ext &lt;- xfun::gsub_ext
+## Change the working directory, evaluate the expression,
+## and restore the working directory
+.move_run &lt;- xfun::in_dir
+## Install a source package from a directory
+.install_dir &lt;- xfun::install_dir
+## Check OS
+.is_linux &lt;- xfun::is_linux
+.is_windows &lt;- xfun::is_windows
+.is_macos &lt;- xfun::is_macos
+.is_unix &lt;- xfun::is_unix
+## Number to words, e.g. 1 to one, 10 to ten
+.numbers_to_words &lt;- xfun::numbers_to_words</code></pre>

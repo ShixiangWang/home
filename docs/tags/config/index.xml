@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>config on Shixiang Wang | 王诗翔</title>
+    <link>/tags/config/</link>
+    <description>Recent content in config on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 13 Aug 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/config/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Rprofile：R 全局设置</title>
+      <link>/cn/post/2020-08-13-set-your-rprofile/</link>
+      <pubDate>Thu, 13 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2020-08-13-set-your-rprofile/</guid>
+      <description>存储在 ~/.Rprofile 中的内容是一个 R 脚本，它会在 R 启动时自动运行，所以可以作为全局的配置使用。 根据我的 R 使用经验，结合 Y 叔和 Yihui 提供的一些便利函数，我构建</description>
+    </item>
+    
+  </channel>
+</rss>
