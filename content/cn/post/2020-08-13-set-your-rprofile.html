@@ -75,6 +75,9 @@ if (!requireNamespace(&quot;pacman&quot;, quietly = TRUE)) {
 
 library(pacman)
 
+## Packages to load when R starts
+pacman::p_load(roxytest) # For writing tests in .R comments
+
 # VSCode plugin setting ---------------------------------------------------
 # Only use when you code R with VSCode
 # Reference: &lt;https://github.com/REditorSupport/vscode-r-lsp&gt;
@@ -89,6 +92,13 @@ source(file.path(
     Sys.getenv(&quot;HOME&quot;)
   }, &quot;.vscode-R&quot;, &quot;init.R&quot;
 ))
+
+## Set format style
+options(languageserver.formatting_style = function(options) {
+  style &lt;- styler::tidyverse_style(indent_by = options$tabSize)
+  style$token$force_assignment_op &lt;- NULL # Not force modifying &#39;=&#39; to &#39;&lt;-&#39;
+  style
+})
 
 # Global utilities --------------------------------------------------------
 
@@ -128,7 +138,12 @@ if (!requireNamespace(&quot;xfun&quot;, quietly = TRUE)) {
 }
 
 ## Load function from package
-.get_fun &lt;- rvcheck::get_fun_from_pkg
+.get_fun &lt;- function(pkg, fun) {
+  get(fun,
+    envir = asNamespace(pkg),
+    inherits = FALSE
+  )
+}
 ## Open any directory in any operating system
 .open &lt;- rvcheck::o
 ## Check whether packages were installed
@@ -159,4 +174,7 @@ if (!requireNamespace(&quot;xfun&quot;, quietly = TRUE)) {
 .is_macos &lt;- xfun::is_macos
 .is_unix &lt;- xfun::is_unix
 ## Number to words, e.g. 1 to one, 10 to ten
-.numbers_to_words &lt;- xfun::numbers_to_words</code></pre>
+.numbers_to_words &lt;- xfun::numbers_to_words
+## Read or write files, assuming they are encoded in UTF-8.
+.read_file &lt;- xfun::read_utf8
+.write_file &lt;- xfun::write_utf8</code></pre>
