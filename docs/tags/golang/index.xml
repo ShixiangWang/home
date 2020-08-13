@@ -17,7 +17,7 @@
       <pubDate>Wed, 12 Aug 2020 00:00:00 +0000</pubDate>
       
       <guid>/cn/read/mastering-go-book-chapter-03/</guid>
-      <description></description>
+      <description>Go 循环 for 循环 for i := 0; i &amp;lt; 100; i++ { } 可以使用 break 和 continue 关键字控制循环。 while 循环 for condition { } do...while 循环实现： for ok := true; ok; ok = anExpr { } range range 关键字可以更简单地处理元素迭</description>
     </item>
     
     <item>
