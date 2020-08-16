@@ -3,12 +3,42 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>/tags/.rprofile/</loc>
-    <lastmod>2020-08-13T00:00:00+00:00</lastmod>
+    <loc>/categories/</loc>
+    <lastmod>2020-08-16T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/categories/</loc>
+    <loc>/tags/google/</loc>
+    <lastmod>2020-08-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/r/</loc>
+    <lastmod>2020-08-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/r/</loc>
+    <lastmod>2020-08-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2020-08-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/cn/post/2020-08-16-show-scholar-profile-with-r-tinyscholar/</loc>
+    <lastmod>2020-08-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/%E5%AD%A6%E6%9C%AF/</loc>
+    <lastmod>2020-08-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/.rprofile/</loc>
     <lastmod>2020-08-13T00:00:00+00:00</lastmod>
   </url>
   
@@ -23,22 +53,7 @@
   </url>
   
   <url>
-    <loc>/tags/r/</loc>
-    <lastmod>2020-08-13T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/r/</loc>
-    <lastmod>2020-08-13T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/cn/post/2020-08-13-set-your-rprofile/</loc>
-    <lastmod>2020-08-13T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/</loc>
     <lastmod>2020-08-13T00:00:00+00:00</lastmod>
   </url>
   

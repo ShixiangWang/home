@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>学术 on Shixiang Wang | 王诗翔</title>
+    <link>/tags/%E5%AD%A6%E6%9C%AF/</link>
+    <description>Recent content in 学术 on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 16 Aug 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/%E5%AD%A6%E6%9C%AF/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>使用 tinyscholar 展示个人谷歌学术档案</title>
+      <link>/cn/post/2020-08-16-show-scholar-profile-with-r-tinyscholar/</link>
+      <pubDate>Sun, 16 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2020-08-16-show-scholar-profile-with-r-tinyscholar/</guid>
+      <description>谷歌学术是目前感觉最好的学术搜索引擎，谷歌学术档案提供了学者的个人学术信息，不过通常情况我们无法查看和使用这个信息。Y 叔写的 scholar 包虽然提供了齐</description>
+    </item>
+    
+  </channel>
+</rss>

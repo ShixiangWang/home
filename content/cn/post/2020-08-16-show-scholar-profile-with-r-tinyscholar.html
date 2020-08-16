@@ -1,0 +1,549 @@
+---
+title: "使用 tinyscholar 展示个人谷歌学术档案"
+author: "王诗翔"
+date: "2020-08-16"
+lastmod: "2020-08-16"
+slug: ""
+categories: ["r"]
+tags: ["r", "学术", "google"]
+---
+
+
+
+<p>谷歌学术是目前感觉最好的学术搜索引擎，谷歌学术档案提供了学者的个人学术信息，不过通常情况我们无法查看和使用这个信息。Y 叔写的 <a href="https://cran.r-project.org/web/packages/scholar/vignettes/scholar.html">scholar</a> 包虽然提供了齐全的功能，但由于网络限制在国内基本无法使用。</p>
+<p>如果我想要简单地获取和展示我的个人学术信息，这时候该怎么办？</p>
+<p>通过搜索，我发现有人提供了一个用 php 写的访问接口，该接口可以根据谷歌学术 id 返回一段 json 格式的谷歌学术数据，包括引用数和出版物。数据虽然简单，但已经足够我的使用了。我进一步找到了对应的 <a href="https://github.com/fredrike/googlescholar-api/">GitHub 项目</a> 地址，与 Openbiox 的剑锋交流后在 <a href="https://hiplot.com.cn/">Hiplot 项目</a>上也部署了一个相同的接口，方便调用。</p>
+<p>受 scholar 包启发，我创建了一个名为 tinyscholar 的 R 包，用于解析数据和提供表格/图形可视化。</p>
+<ul>
+<li>项目地址：<a href="https://github.com/ShixiangWang/tinyscholar" class="uri">https://github.com/ShixiangWang/tinyscholar</a></li>
+</ul>
+<div id="安装" class="section level3">
+<h3>安装</h3>
+<pre class="r"><code># install.packages(&quot;devtools&quot;)
+devtools::install_github(&quot;ShixiangWang/tinyscholar&quot;)
+# devtools::install_git(&quot;https://gitee.com/ShixiangWang/tinyscholar&quot;)</code></pre>
+</div>
+<div id="使用" class="section level3">
+<h3>使用</h3>
+<p>类似 scholar 包，这里对 Richard Feynman 进行简单展示。</p>
+<pre class="r"><code>library(tinyscholar)
+id &lt;- &quot;B7vSqZsAAAAJ&quot;
+profile &lt;- tinyscholar(id)
+#&gt; Using cache directory: /var/folders/bj/nw1w4g1j37ddpgb6zmh3sfh80000gn/T//RtmprXOaXD/tinyscholar
+#&gt; Cannot find cache file /var/folders/bj/nw1w4g1j37ddpgb6zmh3sfh80000gn/T//RtmprXOaXD/tinyscholar/unsorted_2020-08-16_B7vSqZsAAAAJ.rds
+#&gt; Try quering data from server: hiplot
+#&gt; Save data to cache file /var/folders/bj/nw1w4g1j37ddpgb6zmh3sfh80000gn/T//RtmprXOaXD/tinyscholar/unsorted_2020-08-16_B7vSqZsAAAAJ.rds
+#&gt; Done
+
+tb &lt;- scholar_table(profile)
+tb$publications</code></pre>
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#uuximiqyfg .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#uuximiqyfg .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#uuximiqyfg .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#uuximiqyfg .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 4px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#uuximiqyfg .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#uuximiqyfg .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#uuximiqyfg .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#uuximiqyfg .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#uuximiqyfg .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#uuximiqyfg .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#uuximiqyfg .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#uuximiqyfg .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#uuximiqyfg .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#uuximiqyfg .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#uuximiqyfg .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#uuximiqyfg .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#uuximiqyfg .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#uuximiqyfg .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#uuximiqyfg .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#uuximiqyfg .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#uuximiqyfg .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#uuximiqyfg .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#uuximiqyfg .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#uuximiqyfg .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#uuximiqyfg .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#uuximiqyfg .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#uuximiqyfg .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#uuximiqyfg .gt_left {
+  text-align: left;
+}
+
+#uuximiqyfg .gt_center {
+  text-align: center;
+}
+
+#uuximiqyfg .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#uuximiqyfg .gt_font_normal {
+  font-weight: normal;
+}
+
+#uuximiqyfg .gt_font_bold {
+  font-weight: bold;
+}
+
+#uuximiqyfg .gt_font_italic {
+  font-style: italic;
+}
+
+#uuximiqyfg .gt_super {
+  font-size: 65%;
+}
+
+#uuximiqyfg .gt_footnote_marks {
+  font-style: italic;
+  font-size: 65%;
+}
+</style>
+<div id="uuximiqyfg" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+  <thead class="gt_header">
+    <tr>
+      <th colspan="5" class="gt_heading gt_title gt_font_normal" style>Publications</th>
+    </tr>
+    <tr>
+      <th colspan="5" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style></th>
+    </tr>
+  </thead>
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">title</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">authors</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">venue</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">citations</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">year</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr>
+      <td class="gt_row gt_left">Quantum mechanics and path integration</td>
+      <td class="gt_row gt_left">RP Feynman, AR Hibbs</td>
+      <td class="gt_row gt_left">McGraw&amp;#8211;Hill, 1965</td>
+      <td class="gt_row gt_left">27792</td>
+      <td class="gt_row gt_left">1965</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">The Feynman lectures on physics</td>
+      <td class="gt_row gt_left">RP Feynman, RB Leighton, M Sands, SB Treiman</td>
+      <td class="gt_row gt_left">Physics Today 17, 45, 1964</td>
+      <td class="gt_row gt_left">15411</td>
+      <td class="gt_row gt_left">1964</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">TheFeynman lectures on physics</td>
+      <td class="gt_row gt_left">RP Feynman, RB Leighton, M Sands, CA Heras, R Gómez, E Oelker, ...</td>
+      <td class="gt_row gt_left">Fondo Educativo Interamericano, cop., 1971</td>
+      <td class="gt_row gt_left">15222</td>
+      <td class="gt_row gt_left">1971</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">Mainly mechanics, radiation, and heat</td>
+      <td class="gt_row gt_left">RP Feynman, RB Leighton, ML Sands</td>
+      <td class="gt_row gt_left">Addison Wesley Publishing Company, 1963</td>
+      <td class="gt_row gt_left">15070</td>
+      <td class="gt_row gt_left">1963</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">Simulating physics with computers</td>
+      <td class="gt_row gt_left">RP Feynman</td>
+      <td class="gt_row gt_left">International journal of theoretical physics 21 (6), 467-488, 1982</td>
+      <td class="gt_row gt_left">8198</td>
+      <td class="gt_row gt_left">1982</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">Space-time approach to non-relativistic quantum mechanics</td>
+      <td class="gt_row gt_left">RP Feynman</td>
+      <td class="gt_row gt_left">Reviews of Modern Physics 20 (2), 367, 1948</td>
+      <td class="gt_row gt_left">5010</td>
+      <td class="gt_row gt_left">1948</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">There's plenty of room at the bottom</td>
+      <td class="gt_row gt_left">RP Feynman</td>
+      <td class="gt_row gt_left">Engineering and Science 23 (5), 22-36, 1960</td>
+      <td class="gt_row gt_left">4809</td>
+      <td class="gt_row gt_left">1960</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">Forces in molecules</td>
+      <td class="gt_row gt_left">RP Feynman</td>
+      <td class="gt_row gt_left">Physical Review 56 (4), 340, 1939</td>
+      <td class="gt_row gt_left">4465</td>
+      <td class="gt_row gt_left">1939</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">The character of physical law</td>
+      <td class="gt_row gt_left">R Feynman</td>
+      <td class="gt_row gt_left">MIT press, 1967</td>
+      <td class="gt_row gt_left">3319</td>
+      <td class="gt_row gt_left">1967</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">Very high-energy collisions of hadrons</td>
+      <td class="gt_row gt_left">RP Feynman</td>
+      <td class="gt_row gt_left">Physical Review Letters 23 (24), 1415-1417, 1969</td>
+      <td class="gt_row gt_left">3240</td>
+      <td class="gt_row gt_left">1969</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">Theory of the Fermi interaction</td>
+      <td class="gt_row gt_left">RP Feynman, M Gell-Mann</td>
+      <td class="gt_row gt_left">Physical Review 109 (1), 193, 1958</td>
+      <td class="gt_row gt_left">3115</td>
+      <td class="gt_row gt_left">1958</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">The theory of a general quantum system interacting with a linear dissipative system</td>
+      <td class="gt_row gt_left">RP Feynman, FL Vernon</td>
+      <td class="gt_row gt_left">Annals of physics 24, 118-173, 1963</td>
+      <td class="gt_row gt_left">2835</td>
+      <td class="gt_row gt_left">1963</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">QED: The strange theory of light and matter</td>
+      <td class="gt_row gt_left">RP Feyman</td>
+      <td class="gt_row gt_left">Universities Press, 1985</td>
+      <td class="gt_row gt_left">2683</td>
+      <td class="gt_row gt_left">1985</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">Photon--hadron interactions</td>
+      <td class="gt_row gt_left">RP Feynman</td>
+      <td class="gt_row gt_left">WA Benjamin, Inc., Reading, MA, 1972</td>
+      <td class="gt_row gt_left">2471</td>
+      <td class="gt_row gt_left">1972</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">Space-time approach to quantum electrodynamics</td>
+      <td class="gt_row gt_left">RP Feynman</td>
+      <td class="gt_row gt_left">Physical Review 76 (6), 769, 1949</td>
+      <td class="gt_row gt_left">2118</td>
+      <td class="gt_row gt_left">1949</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">The theory of positrons</td>
+      <td class="gt_row gt_left">RP Feynman</td>
+      <td class="gt_row gt_left">Physical Review 76 (6), 749, 1949</td>
+      <td class="gt_row gt_left">1796</td>
+      <td class="gt_row gt_left">1949</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">Interaction with the absorber as the mechanism of radiation</td>
+      <td class="gt_row gt_left">JA Wheeler, RP Feynman</td>
+      <td class="gt_row gt_left">Reviews of Modern Physics 17 (2-3), 157-181, 1945</td>
+      <td class="gt_row gt_left">1673</td>
+      <td class="gt_row gt_left">1945</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">Surely You are Joking Mr Feynmanl: Adventures of a Curious Character</td>
+      <td class="gt_row gt_left">RP Feynman</td>
+      <td class="gt_row gt_left">Bantam Books, 1986</td>
+      <td class="gt_row gt_left">1584</td>
+      <td class="gt_row gt_left">1986</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">Quantum-mechanical computers, Suc</td>
+      <td class="gt_row gt_left">R Feynman</td>
+      <td class="gt_row gt_left">Phys. Sci 149 (4), 671-688, 1986</td>
+      <td class="gt_row gt_left">1559</td>
+      <td class="gt_row gt_left">1986</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_left">An operator calculus having applications in quantum electrodynamics</td>
+      <td class="gt_row gt_left">RP Feynman</td>
+      <td class="gt_row gt_left">Physical Review 84 (1), 108, 1951</td>
+      <td class="gt_row gt_left">1410</td>
+      <td class="gt_row gt_left">1951</td>
+    </tr>
+  </tbody>
+  <tfoot class="gt_sourcenotes">
+    <tr>
+      <td class="gt_sourcenote" colspan="5"><strong>Update</strong>: 2020-08-16</td>
+    </tr>
+  </tfoot>
+  
+</table></div>
+<pre class="r"><code>pl &lt;- scholar_plot(profile, add_text = FALSE)
+pl$citations + ggpubr::rotate_x_text()</code></pre>
+<p><img src="/cn/post/2020-08-16-show-scholar-profile-with-r-tinyscholar_files/figure-html/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>pl$publications + ggpubr::rotate_x_text()</code></pre>
+<p><img src="/cn/post/2020-08-16-show-scholar-profile-with-r-tinyscholar_files/figure-html/unnamed-chunk-1-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>更为详细的介绍请查看<a href="https://shixiangwang.github.io/tinyscholar/articles/tinyscholar.html">在线文档</a>。这里除了 <code>tinyscholar()</code> 这个核心函数用于获取和清理数据，生成一个列表，展示方面读者可以各显神通。</p>
+</div>

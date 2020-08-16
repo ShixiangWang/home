@@ -1,0 +1,55 @@
+---
+title: "使用 tinyscholar 展示个人谷歌学术档案"
+author: "王诗翔"
+date: "2020-08-16"
+lastmod: "`r Sys.Date()`"
+slug: ""
+categories: ["r"]
+tags: ["r", "学术", "google"]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, dev = "png", comment = "#>", tidy = "styler")
+#Sys.setenv("LANGUAGE"="EN") # Embed this for outputing English message
+#Sys.setlocale('LC_ALL','C') # Embed this directly in the Rmarkdown script that contains the Chinese character comment
+options(digits=3)
+options(max.print=200)
+```
+
+谷歌学术是目前感觉最好的学术搜索引擎，谷歌学术档案提供了学者的个人学术信息，不过通常情况我们无法查看和使用这个信息。Y 叔写的 [scholar](https://cran.r-project.org/web/packages/scholar/vignettes/scholar.html) 包虽然提供了齐全的功能，但由于网络限制在国内基本无法使用。
+
+如果我想要简单地获取和展示我的个人学术信息，这时候该怎么办？
+
+通过搜索，我发现有人提供了一个用 php 写的访问接口，该接口可以根据谷歌学术 id 返回一段 json 格式的谷歌学术数据，包括引用数和出版物。数据虽然简单，但已经足够我的使用了。我进一步找到了对应的 [GitHub 项目](https://github.com/fredrike/googlescholar-api/) 地址，与 Openbiox 的剑锋交流后在 [Hiplot 项目](https://hiplot.com.cn/)上也部署了一个相同的接口，方便调用。
+
+受 scholar 包启发，我创建了一个名为 tinyscholar 的 R 包，用于解析数据和提供表格/图形可视化。
+
+- 项目地址：<https://github.com/ShixiangWang/tinyscholar>
+
+### 安装
+
+```r
+# install.packages("devtools")
+devtools::install_github("ShixiangWang/tinyscholar")
+# devtools::install_git("https://gitee.com/ShixiangWang/tinyscholar")
+```
+
+### 使用
+
+类似 scholar 包，这里对 Richard Feynman 进行简单展示。
+
+
+```{r, fig.align='center'}
+library(tinyscholar)
+id <- 'B7vSqZsAAAAJ'
+profile <- tinyscholar(id)
+
+tb <- scholar_table(profile)
+tb$publications
+pl <- scholar_plot(profile, add_text = FALSE)
+pl$citations + ggpubr::rotate_x_text()
+pl$publications + ggpubr::rotate_x_text()
+```
+
+更为详细的介绍请查看[在线文档](https://shixiangwang.github.io/tinyscholar/articles/tinyscholar.html)。这里除了 `tinyscholar()` 这个核心函数用于获取和清理数据，生成一个列表，展示方面读者可以各显神通。
+
