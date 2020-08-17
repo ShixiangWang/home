@@ -239,7 +239,137 @@
 </ul>
 <p>go 数组虽然是一种基本的数据类型，但我们一般不使用它，它的用处也主要是为 go 其他常用数据类型提供底层实现基础，如切片。</p>
 <h3 id="go-切片">Go 切片</h3>
+<p>一般情况下我们使用 Go 切片，少量情况，如我们存储一个固定长度的数据时，才使用数组。</p>
+<p>切片传递地址，所以非常高效。</p>
+<p>基本使用：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">s1</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">int</span>, <span style="color:#ae81ff">5</span>)
+	<span style="color:#a6e22e">reSlice</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">s1</span>[<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">3</span>]
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">s1</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">reSlice</span>)
+
+	<span style="color:#a6e22e">reSlice</span>[<span style="color:#ae81ff">0</span>] = <span style="color:#f92672">-</span><span style="color:#ae81ff">100</span>
+	<span style="color:#a6e22e">reSlice</span>[<span style="color:#ae81ff">1</span>] = <span style="color:#ae81ff">123456</span>
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">s1</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">reSlice</span>)
+}
+</code></pre></div><p>运行：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ go run ./0023-reslice.go 
+<span style="color:#f92672">[</span><span style="color:#ae81ff">0</span> <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">0</span> 0<span style="color:#f92672">]</span>
+<span style="color:#f92672">[</span><span style="color:#ae81ff">0</span> 0<span style="color:#f92672">]</span>
+<span style="color:#f92672">[</span><span style="color:#ae81ff">0</span> -100 <span style="color:#ae81ff">123456</span> <span style="color:#ae81ff">0</span> 0<span style="color:#f92672">]</span>
+<span style="color:#f92672">[</span>-100 123456<span style="color:#f92672">]</span>
+</code></pre></div><p><code>len()</code> 函数获取切片长度，<code>cap()</code> 函数获取容量。</p>
+<p>示例：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">printSlice</span>(<span style="color:#a6e22e">x</span> []<span style="color:#66d9ef">int</span>) {
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">number</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">x</span> {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Print</span>(<span style="color:#a6e22e">number</span>, <span style="color:#e6db74">&#34; &#34;</span>)
+	}
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>()
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">aSlice</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">int</span>{<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">4</span>}
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;aSlice: &#34;</span>)
+	<span style="color:#a6e22e">printSlice</span>(<span style="color:#a6e22e">aSlice</span>)
+
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Cap: %d, Length: %d\n&#34;</span>, cap(<span style="color:#a6e22e">aSlice</span>), len(<span style="color:#a6e22e">aSlice</span>))
+	<span style="color:#a6e22e">aSlice</span> = append(<span style="color:#a6e22e">aSlice</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">100</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;aSlice: &#34;</span>)
+	<span style="color:#a6e22e">printSlice</span>(<span style="color:#a6e22e">aSlice</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Cap: %d, Length: %d\n&#34;</span>, cap(<span style="color:#a6e22e">aSlice</span>), len(<span style="color:#a6e22e">aSlice</span>))
+
+	<span style="color:#a6e22e">aSlice</span> = append(<span style="color:#a6e22e">aSlice</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>)
+	<span style="color:#a6e22e">aSlice</span> = append(<span style="color:#a6e22e">aSlice</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">3</span>)
+	<span style="color:#a6e22e">aSlice</span> = append(<span style="color:#a6e22e">aSlice</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">4</span>)
+	<span style="color:#a6e22e">printSlice</span>(<span style="color:#a6e22e">aSlice</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Cap: %d, Length: %d\n&#34;</span>, cap(<span style="color:#a6e22e">aSlice</span>), len(<span style="color:#a6e22e">aSlice</span>))
+}
+
+</code></pre></div><p>运行：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ go run ./0024-lenCap.go 
+aSlice: -1 <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">4</span> 
+Cap: 3, Length: <span style="color:#ae81ff">3</span>
+aSlice: -1 <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">4</span> -100 
+Cap: 6, Length: <span style="color:#ae81ff">4</span>
+-1 <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">4</span> -100 -2 -3 -4 
+Cap: 12, Length: <span style="color:#ae81ff">7</span>
+</code></pre></div><p>字节切片常用于文件输入输出操作。</p>
+<p><code>copy()</code> 函数用于创建一个切片副本。</p>
+<blockquote>
+<p>You should be very careful when using the copy() function on slices because the built-in copy(dst, src) copies the minimum of the len(dst) and len(src) elements.</p>
+</blockquote>
+<p>几种情况：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+
+	<span style="color:#75715e">// Part1: a6 比 a4 大
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// a4 拷贝到 a6 还有元素保留
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">a6</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">int</span>{<span style="color:#f92672">-</span><span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>}
+	<span style="color:#a6e22e">a4</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">int</span>{<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">3</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">4</span>}
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;a6:&#34;</span>, <span style="color:#a6e22e">a6</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;a4:&#34;</span>, <span style="color:#a6e22e">a4</span>)
+	copy(<span style="color:#a6e22e">a6</span>, <span style="color:#a6e22e">a4</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;a6:&#34;</span>, <span style="color:#a6e22e">a6</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;a4:&#34;</span>, <span style="color:#a6e22e">a4</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>()
+
+	<span style="color:#75715e">// Part2: a4 比 a6 小
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// a6 拷贝到 a4 有元素拷贝不过去
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">a6</span> = []<span style="color:#66d9ef">int</span>{<span style="color:#f92672">-</span><span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>}
+	<span style="color:#a6e22e">a4</span> = []<span style="color:#66d9ef">int</span>{<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">3</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">4</span>}
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;a6:&#34;</span>, <span style="color:#a6e22e">a6</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;a4:&#34;</span>, <span style="color:#a6e22e">a4</span>)
+	copy(<span style="color:#a6e22e">a4</span>, <span style="color:#a6e22e">a6</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;a6:&#34;</span>, <span style="color:#a6e22e">a6</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;a4:&#34;</span>, <span style="color:#a6e22e">a4</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>()
+
+	<span style="color:#75715e">// Part3：拷贝有 4 个元素的数组到有 6 个元素的切片
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// [0:] 将数组转化为切片，不然无法使用 copy
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">array4</span> <span style="color:#f92672">:=</span> [<span style="color:#ae81ff">4</span>]<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">4</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">4</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">4</span>}
+	<span style="color:#a6e22e">s6</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">5</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">5</span>}
+	copy(<span style="color:#a6e22e">s6</span>, <span style="color:#a6e22e">array4</span>[<span style="color:#ae81ff">0</span>:])
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;array4:&#34;</span>, <span style="color:#a6e22e">array4</span>[<span style="color:#ae81ff">0</span>:])
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;s6:&#34;</span>, <span style="color:#a6e22e">s6</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>()
+
+	<span style="color:#75715e">// Part4: 拷贝切片到数组
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">array5</span> <span style="color:#f92672">:=</span> [<span style="color:#ae81ff">5</span>]<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">5</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">5</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">5</span>}
+	<span style="color:#a6e22e">s7</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">7</span>, <span style="color:#ae81ff">7</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">7</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">7</span>, <span style="color:#ae81ff">7</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">7</span>, <span style="color:#ae81ff">7</span>}
+	copy(<span style="color:#a6e22e">array5</span>[<span style="color:#ae81ff">0</span>:], <span style="color:#a6e22e">s7</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;array5:&#34;</span>, <span style="color:#a6e22e">array5</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;s7:&#34;</span>, <span style="color:#a6e22e">s7</span>)
+}
+</code></pre></div><p>运行：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ go run ./0025-copySlice.go 
+a6: <span style="color:#f92672">[</span>-10 <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> 5<span style="color:#f92672">]</span>
+a4: <span style="color:#f92672">[</span>-1 -2 -3 -4<span style="color:#f92672">]</span>
+a6: <span style="color:#f92672">[</span>-1 -2 -3 -4 <span style="color:#ae81ff">4</span> 5<span style="color:#f92672">]</span>
+a4: <span style="color:#f92672">[</span>-1 -2 -3 -4<span style="color:#f92672">]</span>
+
+a6: <span style="color:#f92672">[</span>-10 <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> 5<span style="color:#f92672">]</span>
+a4: <span style="color:#f92672">[</span>-1 -2 -3 -4<span style="color:#f92672">]</span>
+a6: <span style="color:#f92672">[</span>-10 <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> 5<span style="color:#f92672">]</span>
+a4: <span style="color:#f92672">[</span>-10 <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> 3<span style="color:#f92672">]</span>
+
+array4: <span style="color:#f92672">[</span><span style="color:#ae81ff">4</span> -4 <span style="color:#ae81ff">4</span> -4<span style="color:#f92672">]</span>
+s6: <span style="color:#f92672">[</span><span style="color:#ae81ff">4</span> -4 <span style="color:#ae81ff">4</span> -4 <span style="color:#ae81ff">5</span> -5<span style="color:#f92672">]</span>
+
+array5: <span style="color:#f92672">[</span><span style="color:#ae81ff">7</span> <span style="color:#ae81ff">7</span> -7 -7 7<span style="color:#f92672">]</span>
+s7: <span style="color:#f92672">[</span><span style="color:#ae81ff">7</span> <span style="color:#ae81ff">7</span> -7 -7 <span style="color:#ae81ff">7</span> -7 7<span style="color:#f92672">]</span>
+</code></pre></div>
 
   <footer>
   

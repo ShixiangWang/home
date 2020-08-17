@@ -6,10 +6,19 @@
     <description>Recent content in thinking on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 01 Jan 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 18 Aug 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/thinking/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>快速理解基于 0 的索引</title>
+      <link>/cn/post/2020-08-18-understand-0-based-index/</link>
+      <pubDate>Tue, 18 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2020-08-18-understand-0-based-index/</guid>
+      <description>编程语法中有基于 0 或 1 两种索引机制，前面一种与计算机本质更接近，使用也更多，但对之前的我带来不少理解的困难。 例如，在 Python 中的列表和元组结构中，</description>
+    </item>
     
     <item>
       <title>2019 年度总结</title>
