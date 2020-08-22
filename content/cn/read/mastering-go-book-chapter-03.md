@@ -293,3 +293,203 @@ s6: [4 -4 4 -4 5 -5]
 array5: [7 7 -7 -7 7]
 s7: [7 7 -7 -7 7 -7 7]
 ```
+
+另一个例子：
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	aSlice := []int{1, 2, 3, 4, 5}
+	fmt.Println(aSlice)
+	integer := make([]int, 2)
+	fmt.Println(integer)
+	integer = nil
+	fmt.Println(integer)
+
+	// Create a reference to an existing array
+	anArray := [5]int{-1, -2, -3, -4, -5}
+	refAnArray := anArray[:]
+
+	fmt.Println(anArray)
+	fmt.Println(refAnArray)
+	anArray[4] = -100
+	fmt.Println(refAnArray)
+
+	// Define 1D and 2D slice
+	s := make([]byte, 5)
+	fmt.Println(s)
+	twoD := make([][]int, 3)
+	fmt.Println(twoD)
+	fmt.Println()
+
+	// Init 2D slice
+	for i := 0; i < len(twoD); i++ {
+		for j := 0; j < 2; j++ {
+			twoD[i] = append(twoD[i], i*j)
+		}
+	}
+
+	// Use range to visit and print
+	// all elements
+	for _, x := range twoD {
+		for i, y := range x {
+			fmt.Println("i:", i, "value:", y)
+		}
+		fmt.Println()
+	}
+
+}
+
+```
+
+运行：
+
+```sh
+$ o run ./0026-slices.go 
+[1 2 3 4 5]
+[0 0]
+[]
+[-1 -2 -3 -4 -5]
+[-1 -2 -3 -4 -5]
+[-1 -2 -3 -4 -100]
+[0 0 0 0 0]
+[[] [] []]
+
+i: 0 value: 0
+i: 1 value: 0
+
+i: 0 value: 0
+i: 1 value: 1
+
+i: 0 value: 0
+i: 1 value: 2
+```
+
+对切片排序：
+
+```go
+package main
+
+import (
+	"fmt"
+	"sort"
+)
+
+type aStructure struct {
+	person string
+	height int
+	weight int
+}
+
+func main() {
+	mySlice := make([]aStructure, 0)
+	mySlice = append(mySlice, aStructure{"Mihalis", 180, 90})
+	mySlice = append(mySlice, aStructure{"Bill", 134, 45})
+	mySlice = append(mySlice, aStructure{"Marietta", 155, 45})
+	mySlice = append(mySlice, aStructure{"Epifanios", 144, 50})
+	mySlice = append(mySlice, aStructure{"Athina", 134, 40})
+
+	fmt.Println("0:", mySlice)
+
+	sort.Slice(mySlice, func(i, j int) bool {
+		return mySlice[i].height < mySlice[j].height
+	})
+	fmt.Println("<:", mySlice)
+
+	sort.Slice(mySlice, func(i, j int) bool {
+		return mySlice[i].height > mySlice[j].height
+	})
+	fmt.Println(">:", mySlice)
+}
+```
+
+运行：
+
+```sh
+$ go run ./0027-sortSlice.go 
+0: [{Mihalis 180 90} {Bill 134 45} {Marietta 155 45} {Epifanios 144 50} {Athina 134 40}]
+<: [{Bill 134 45} {Athina 134 40} {Epifanios 144 50} {Marietta 155 45} {Mihalis 180 90}]
+>: [{Mihalis 180 90} {Marietta 155 45} {Epifanios 144 50} {Bill 134 45} {Athina 134 40}]
+```
+
+### Go Map（映射/字典）
+
+在很多编程语言中也常被成为哈希表，它使用任意固定的数据类型作为值的索引。在 Go 中，Map 的 Key 必须可以比较，即支持 `==` 操作符。
+
+创建：
+
+```go
+iMap = make(map[string]int)
+```
+
+创建并初始化数据：
+
+```go
+aMap := map[string]int {
+	"k1": 12
+	"k2": 13
+}
+```
+
+使用 `delete(aMap, "k1")` 可以删除索引内容。
+
+迭代方式：
+
+```go
+for key, value := range aMap {
+	fmt.Println(key, value)
+}
+```
+
+下面是一个详细的示例：
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	iMap := make(map[string]int)
+	iMap["k1"] = 12
+	iMap["k2"] = 13
+	fmt.Println("iMap:", iMap)
+
+	anotherMap := map[string]int{
+		"k1": 12,
+		"k2": 13,
+	}
+
+	fmt.Println("anotherMap:", anotherMap)
+	delete(anotherMap, "k1")
+	fmt.Println("anotherMap:", anotherMap)
+
+	_, ok := iMap["doesItExist"]
+	if ok {
+		fmt.Println("Exists!")
+	} else {
+		fmt.Println("Does NOT exist")
+	}
+
+	for key, value := range iMap {
+		fmt.Println(key, value)
+	}
+}
+
+```
+
+运行：
+
+```sh
+$ go run ./0028-usingMaps.go
+iMap: map[k1:12 k2:13]
+anotherMap: map[k1:12 k2:13]
+anotherMap: map[k2:13]
+Does NOT exist
+k1 12
+k2 13
+```
