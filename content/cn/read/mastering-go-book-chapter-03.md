@@ -2,7 +2,6 @@
 title: "《Mastering Go》第三章笔记"
 author: "王诗翔"
 date: "2020-08-12"
-lastmod: "2020-08-12"
 slug: ""
 categories: [golang]
 tags: [golang, datatype]
@@ -612,7 +611,7 @@ func main() {
 
 运行：
 
-```go
+```sh
 $ go run ./0031-constants.go 
 1476
 3.1415926
@@ -672,7 +671,7 @@ func main() {
 
 运行：
 
-```go
+```sh
 $ go run ./0032-pointer.go 
 pI memory: 0xc0000140d0
 pJ memory: 0xc0000140d8
@@ -684,3 +683,115 @@ j: 625
 0xc000014110
 ```
 
+### 处理时间和日期
+
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	fmt.Println("Epoch time:", time.Now().Unix())
+	t := time.Now()
+	fmt.Println(t, t.Format(time.RFC3339))
+	fmt.Println(t.Weekday(), t.Day(), t.Month(), t.Year())
+
+	time.Sleep(time.Second)
+	t1 := time.Now()
+	fmt.Println("Time difference:", t1.Sub(t))
+
+	formatT := t.Format("01 January 2006")
+	fmt.Println(formatT)
+
+	loc, _ := time.LoadLocation("Europe/Paris")
+	londonTime := t.In(loc)
+	fmt.Println("Paris:", londonTime)
+}
+```
+
+运行：
+
+```sh
+$ go run ./0033-usingTime.go 
+Epoch time: 1598284256
+2020-08-24 23:50:56.714301 +0800 CST m=+0.000107613 2020-08-24T23:50:56+08:00
+Monday 24 August 2020
+Time difference: 1.004741226s
+08 August 2020
+Paris: 2020-08-24 17:50:56.714301 +0200 CEST
+```
+
+### 解析时间
+
+```go
+package main
+
+import (
+	"fmt"
+	"os"
+	"path/filepath"
+	"time"
+)
+
+func main() {
+	var myTime string
+	if len(os.Args) != 2 {
+		fmt.Printf("usage: %s string\n", filepath.Base(os.Args[0]))
+		os.Exit(1)
+	}
+
+	myTime = os.Args[1]
+
+	d, err := time.Parse("15:04", myTime)
+	if err == nil {
+		fmt.Println("Full:", d)
+		fmt.Println("Time:", d.Hour(), d.Minute())
+	} else {
+		fmt.Println(err)
+	}
+}
+
+```
+
+运行：
+
+```sh
+$ go run ./0034-parseTime.go 11:55
+Full: 0000-01-01 11:55:00 +0000 UTC
+Time: 11 55
+```
+
+### 解析日期
+
+```go
+package main
+
+import (
+	"fmt"
+	"os"
+	"path/filepath"
+	"time"
+)
+
+func main() {
+	var myDate string
+	if len(os.Args) != 2 {
+		fmt.Printf("usage: %s string\n", filepath.Base(os.Args[0]))
+		os.Exit(1)
+	}
+
+	myDate = os.Args[1]
+
+	d, err := time.Parse("02 January 2006", myDate)
+	if err == nil {
+		fmt.Println("Full:", d)
+		fmt.Println("Time:", d.Day(), d.Month(), d.Year())
+	} else {
+		fmt.Println(err)
+	}
+}
+
+```

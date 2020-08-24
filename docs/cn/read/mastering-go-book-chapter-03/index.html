@@ -530,6 +530,246 @@ anotherMap: map<span style="color:#f92672">[</span>k2:13<span style="color:#f926
 Does NOT exist
 k1 <span style="color:#ae81ff">12</span>
 k2 <span style="color:#ae81ff">13</span>
+</code></pre></div><h3 id="go-常量">Go 常量</h3>
+<p>使用 <code>const</code> 关键字。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">HEIGHT</span> = <span style="color:#ae81ff">180</span>
+</code></pre></div><p>多个常量：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">const</span> (
+	<span style="color:#a6e22e">C1</span> = <span style="color:#e6db74">&#34;C1C1&#34;</span>
+	<span style="color:#a6e22e">C2</span> = <span style="color:#e6db74">&#34;C2C2&#34;</span>
+	<span style="color:#a6e22e">C3</span> = <span style="color:#e6db74">&#34;C3C3&#34;</span>
+)
+</code></pre></div><p>下面变量声明是等价的：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">s1</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;My string&#34;</span>
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">s2</span> = <span style="color:#e6db74">&#34;My string&#34;</span>
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">s3</span> <span style="color:#66d9ef">string</span> = <span style="color:#e6db74">&#34;My string&#34;</span>
+</code></pre></div><p>针对常量：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">s1</span> = <span style="color:#e6db74">&#34;My String&#34;</span>
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">s2</span> <span style="color:#66d9ef">string</span> = <span style="color:#e6db74">&#34;My String&#34;</span>
+</code></pre></div><p>两种方式有所不同，第一种 Go 可能会自适应类型。</p>
+<p>下面是一个例子：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">s1</span> = <span style="color:#ae81ff">123</span>
+	<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">s2</span> <span style="color:#66d9ef">float64</span> = <span style="color:#ae81ff">123</span>
+
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">v1</span> <span style="color:#66d9ef">float32</span> = <span style="color:#a6e22e">s1</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">12</span>
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">v2</span> <span style="color:#66d9ef">float32</span> = <span style="color:#a6e22e">s2</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">12</span>
+
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">v1</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">v2</span>)
+}
+</code></pre></div><p>运行：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ go run ./0030-a.go 
+<span style="color:#75715e"># command-line-arguments</span>
+./0030-a.go:10:6: cannot use s2 * <span style="color:#ae81ff">12</span> <span style="color:#f92672">(</span>type float64<span style="color:#f92672">)</span> as type float32 in assignment
+</code></pre></div><p>上面例子中由于第二种声明方式限定了常量的类型，所以后面的运算会报错。</p>
+<h3 id="常量生成器-iota">常量生成器 iota</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Digit</span> <span style="color:#66d9ef">int</span>
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Power2</span> <span style="color:#66d9ef">int</span>
+
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">PI</span> = <span style="color:#ae81ff">3.1415926</span>
+
+<span style="color:#66d9ef">const</span> (
+	<span style="color:#a6e22e">C1</span> = <span style="color:#e6db74">&#34;C1C1&#34;</span>
+	<span style="color:#a6e22e">C2</span> = <span style="color:#e6db74">&#34;C2C2&#34;</span>
+	<span style="color:#a6e22e">C3</span> = <span style="color:#e6db74">&#34;C3C3&#34;</span>
+)
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">s1</span> = <span style="color:#ae81ff">123</span>
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">v1</span> <span style="color:#66d9ef">float32</span> = <span style="color:#a6e22e">s1</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">12</span>
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">v1</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">PI</span>)
+
+	<span style="color:#66d9ef">const</span> (
+		<span style="color:#a6e22e">Zero</span> <span style="color:#a6e22e">Digit</span> = <span style="color:#66d9ef">iota</span>
+		<span style="color:#a6e22e">One</span>
+		<span style="color:#a6e22e">Two</span>
+		<span style="color:#a6e22e">Three</span>
+		<span style="color:#a6e22e">Four</span>
+	)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">One</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">Two</span>)
+
+	<span style="color:#66d9ef">const</span> (
+		<span style="color:#a6e22e">p2_0</span> <span style="color:#a6e22e">Power2</span> = <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#66d9ef">iota</span>
+		<span style="color:#a6e22e">_</span>
+		<span style="color:#a6e22e">p2_2</span>
+		<span style="color:#a6e22e">_</span>
+		<span style="color:#a6e22e">p2_4</span>
+		<span style="color:#a6e22e">_</span>
+		<span style="color:#a6e22e">p2_6</span>
+	)
+
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;2^0:&#34;</span>, <span style="color:#a6e22e">p2_0</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;2^2:&#34;</span>, <span style="color:#a6e22e">p2_2</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;2^4:&#34;</span>, <span style="color:#a6e22e">p2_4</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;2^6:&#34;</span>, <span style="color:#a6e22e">p2_6</span>)
+}
+
+</code></pre></div><p>运行：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ go run ./0031-constants.go 
+<span style="color:#ae81ff">1476</span>
+3.1415926
+<span style="color:#ae81ff">1</span>
+<span style="color:#ae81ff">2</span>
+2^0: <span style="color:#ae81ff">1</span>
+2^2: <span style="color:#ae81ff">4</span>
+2^4: <span style="color:#ae81ff">16</span>
+2^6: <span style="color:#ae81ff">64</span>
+</code></pre></div><h3 id="go-指针">Go 指针</h3>
+<ul>
+<li><code>*</code> 获取指针指向的值。</li>
+<li><code>&amp;</code> 获取指针指向值的内存地址。</li>
+</ul>
+<p>指针可以作为参数和返回值。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">getPointer</span>(<span style="color:#a6e22e">n</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">int</span>) {
+	<span style="color:#f92672">*</span><span style="color:#a6e22e">n</span> = <span style="color:#f92672">*</span><span style="color:#a6e22e">n</span> <span style="color:#f92672">*</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">n</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">returnPointer</span>(<span style="color:#a6e22e">n</span> <span style="color:#66d9ef">int</span>) <span style="color:#f92672">*</span><span style="color:#66d9ef">int</span> {
+	<span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">n</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">n</span>
+	<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">v</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">10</span>
+	<span style="color:#a6e22e">j</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">25</span>
+
+	<span style="color:#a6e22e">pI</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">i</span>
+	<span style="color:#a6e22e">pJ</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">j</span>
+
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;pI memory:&#34;</span>, <span style="color:#a6e22e">pI</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;pJ memory:&#34;</span>, <span style="color:#a6e22e">pJ</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;pI value:&#34;</span>, <span style="color:#f92672">*</span><span style="color:#a6e22e">pI</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;pJ value:&#34;</span>, <span style="color:#f92672">*</span><span style="color:#a6e22e">pJ</span>)
+
+	<span style="color:#f92672">*</span><span style="color:#a6e22e">pI</span> = <span style="color:#ae81ff">123456</span>
+	<span style="color:#f92672">*</span><span style="color:#a6e22e">pI</span><span style="color:#f92672">--</span>
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;i:&#34;</span>, <span style="color:#a6e22e">i</span>)
+
+	<span style="color:#a6e22e">getPointer</span>(<span style="color:#a6e22e">pJ</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;j:&#34;</span>, <span style="color:#a6e22e">j</span>)
+	<span style="color:#a6e22e">k</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">returnPointer</span>(<span style="color:#ae81ff">12</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#f92672">*</span><span style="color:#a6e22e">k</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">k</span>)
+}
+
+</code></pre></div><p>运行：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ go run ./0032-pointer.go 
+pI memory: 0xc0000140d0
+pJ memory: 0xc0000140d8
+pI value: -10
+pJ value: <span style="color:#ae81ff">25</span>
+i: <span style="color:#ae81ff">123455</span>
+j: <span style="color:#ae81ff">625</span>
+<span style="color:#ae81ff">144</span>
+0xc000014110
+</code></pre></div><h3 id="处理时间和日期">处理时间和日期</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
+	<span style="color:#e6db74">&#34;time&#34;</span>
+)
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Epoch time:&#34;</span>, <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Now</span>().<span style="color:#a6e22e">Unix</span>())
+	<span style="color:#a6e22e">t</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Now</span>()
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">t</span>, <span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">Format</span>(<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">RFC3339</span>))
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">Weekday</span>(), <span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">Day</span>(), <span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">Month</span>(), <span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">Year</span>())
+
+	<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>)
+	<span style="color:#a6e22e">t1</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Now</span>()
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Time difference:&#34;</span>, <span style="color:#a6e22e">t1</span>.<span style="color:#a6e22e">Sub</span>(<span style="color:#a6e22e">t</span>))
+
+	<span style="color:#a6e22e">formatT</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">Format</span>(<span style="color:#e6db74">&#34;01 January 2006&#34;</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">formatT</span>)
+
+	<span style="color:#a6e22e">loc</span>, <span style="color:#a6e22e">_</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">LoadLocation</span>(<span style="color:#e6db74">&#34;Europe/Paris&#34;</span>)
+	<span style="color:#a6e22e">londonTime</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">In</span>(<span style="color:#a6e22e">loc</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Paris:&#34;</span>, <span style="color:#a6e22e">londonTime</span>)
+}
+</code></pre></div><p>运行：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ go run ./0033-usingTime.go 
+Epoch time: <span style="color:#ae81ff">1598284256</span>
+2020-08-24 23:50:56.714301 +0800 CST m<span style="color:#f92672">=</span>+0.000107613 2020-08-24T23:50:56+08:00
+Monday <span style="color:#ae81ff">24</span> August <span style="color:#ae81ff">2020</span>
+Time difference: 1.004741226s
+<span style="color:#ae81ff">08</span> August <span style="color:#ae81ff">2020</span>
+Paris: 2020-08-24 17:50:56.714301 +0200 CEST
+</code></pre></div><h3 id="解析时间">解析时间</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
+	<span style="color:#e6db74">&#34;os&#34;</span>
+	<span style="color:#e6db74">&#34;path/filepath&#34;</span>
+	<span style="color:#e6db74">&#34;time&#34;</span>
+)
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">myTime</span> <span style="color:#66d9ef">string</span>
+	<span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Args</span>) <span style="color:#f92672">!=</span> <span style="color:#ae81ff">2</span> {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;usage: %s string\n&#34;</span>, <span style="color:#a6e22e">filepath</span>.<span style="color:#a6e22e">Base</span>(<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Args</span>[<span style="color:#ae81ff">0</span>]))
+		<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Exit</span>(<span style="color:#ae81ff">1</span>)
+	}
+
+	<span style="color:#a6e22e">myTime</span> = <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Args</span>[<span style="color:#ae81ff">1</span>]
+
+	<span style="color:#a6e22e">d</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Parse</span>(<span style="color:#e6db74">&#34;15:04&#34;</span>, <span style="color:#a6e22e">myTime</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Full:&#34;</span>, <span style="color:#a6e22e">d</span>)
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Time:&#34;</span>, <span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">Hour</span>(), <span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">Minute</span>())
+	} <span style="color:#66d9ef">else</span> {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">err</span>)
+	}
+}
+
+</code></pre></div><p>运行：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ go run ./0034-parseTime.go 11:55
+Full: 0000-01-01 11:55:00 +0000 UTC
+Time: <span style="color:#ae81ff">11</span> <span style="color:#ae81ff">55</span>
+</code></pre></div><h3 id="解析日期">解析日期</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
+	<span style="color:#e6db74">&#34;os&#34;</span>
+	<span style="color:#e6db74">&#34;path/filepath&#34;</span>
+	<span style="color:#e6db74">&#34;time&#34;</span>
+)
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">myDate</span> <span style="color:#66d9ef">string</span>
+	<span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Args</span>) <span style="color:#f92672">!=</span> <span style="color:#ae81ff">2</span> {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;usage: %s string\n&#34;</span>, <span style="color:#a6e22e">filepath</span>.<span style="color:#a6e22e">Base</span>(<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Args</span>[<span style="color:#ae81ff">0</span>]))
+		<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Exit</span>(<span style="color:#ae81ff">1</span>)
+	}
+
+	<span style="color:#a6e22e">myDate</span> = <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Args</span>[<span style="color:#ae81ff">1</span>]
+
+	<span style="color:#a6e22e">d</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Parse</span>(<span style="color:#e6db74">&#34;02 January 2006&#34;</span>, <span style="color:#a6e22e">myDate</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Full:&#34;</span>, <span style="color:#a6e22e">d</span>)
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Time:&#34;</span>, <span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">Day</span>(), <span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">Month</span>(), <span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">Year</span>())
+	} <span style="color:#66d9ef">else</span> {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">err</span>)
+	}
+}
+
 </code></pre></div>
 
   <footer>
