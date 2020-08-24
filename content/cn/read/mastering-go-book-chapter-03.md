@@ -493,3 +493,194 @@ Does NOT exist
 k1 12
 k2 13
 ```
+
+### Go 常量
+
+使用 `const` 关键字。
+
+```go
+const HEIGHT = 180
+```
+
+多个常量：
+
+```go
+const (
+	C1 = "C1C1"
+	C2 = "C2C2"
+	C3 = "C3C3"
+)
+```
+
+下面变量声明是等价的：
+
+```go
+s1 := "My string"
+var s2 = "My string"
+var s3 string = "My string"
+```
+
+针对常量：
+
+```go
+const s1 = "My String"
+const s2 string = "My String"
+```
+
+两种方式有所不同，第一种 Go 可能会自适应类型。
+
+下面是一个例子：
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	const s1 = 123
+	const s2 float64 = 123
+
+	var v1 float32 = s1 * 12
+	var v2 float32 = s2 * 12
+
+	fmt.Println(v1)
+	fmt.Println(v2)
+}
+```
+
+运行：
+
+```sh
+$ go run ./0030-a.go 
+# command-line-arguments
+./0030-a.go:10:6: cannot use s2 * 12 (type float64) as type float32 in assignment
+```
+
+上面例子中由于第二种声明方式限定了常量的类型，所以后面的运算会报错。
+
+### 常量生成器 iota
+
+```go
+package main
+
+import "fmt"
+
+type Digit int
+type Power2 int
+
+const PI = 3.1415926
+
+const (
+	C1 = "C1C1"
+	C2 = "C2C2"
+	C3 = "C3C3"
+)
+
+func main() {
+	const s1 = 123
+	var v1 float32 = s1 * 12
+	fmt.Println(v1)
+	fmt.Println(PI)
+
+	const (
+		Zero Digit = iota
+		One
+		Two
+		Three
+		Four
+	)
+	fmt.Println(One)
+	fmt.Println(Two)
+
+	const (
+		p2_0 Power2 = 1 << iota
+		_
+		p2_2
+		_
+		p2_4
+		_
+		p2_6
+	)
+
+	fmt.Println("2^0:", p2_0)
+	fmt.Println("2^2:", p2_2)
+	fmt.Println("2^4:", p2_4)
+	fmt.Println("2^6:", p2_6)
+}
+
+```
+
+运行：
+
+```go
+$ go run ./0031-constants.go 
+1476
+3.1415926
+1
+2
+2^0: 1
+2^2: 4
+2^4: 16
+2^6: 64
+```
+
+### Go 指针
+
+- `*` 获取指针指向的值。
+- `&` 获取指针指向值的内存地址。
+
+指针可以作为参数和返回值。
+
+```go
+package main
+
+import "fmt"
+
+func getPointer(n *int) {
+	*n = *n * *n
+}
+
+func returnPointer(n int) *int {
+	v := n * n
+	return &v
+}
+
+func main() {
+	i := -10
+	j := 25
+
+	pI := &i
+	pJ := &j
+
+	fmt.Println("pI memory:", pI)
+	fmt.Println("pJ memory:", pJ)
+	fmt.Println("pI value:", *pI)
+	fmt.Println("pJ value:", *pJ)
+
+	*pI = 123456
+	*pI--
+	fmt.Println("i:", i)
+
+	getPointer(pJ)
+	fmt.Println("j:", j)
+	k := returnPointer(12)
+	fmt.Println(*k)
+	fmt.Println(k)
+}
+
+```
+
+运行：
+
+```go
+$ go run ./0032-pointer.go 
+pI memory: 0xc0000140d0
+pJ memory: 0xc0000140d8
+pI value: -10
+pJ value: 25
+i: 123455
+j: 625
+144
+0xc000014110
+```
+
