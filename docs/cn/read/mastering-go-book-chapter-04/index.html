@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    
+    <link rel="stylesheet" href="../../../fonts/academicons-1.8.6/css/academicons.min.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../logo/bodhi.png"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    
+    <title>《Mastering Go》第四章笔记 - 王诗翔</title>
+    
+     
+    <meta property="og:title" content="《Mastering Go》第四章笔记 - Shixiang Wang | 王诗翔">
+    
+
+    
+      
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/Xcode.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="../../../css/style.css" />
+    <link rel="stylesheet" href="../../../css/mystyle.css" /> 
+    <link rel="stylesheet" href="../../../css/fonts.css" />
+    
+<script async src="../../../js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="../../../css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="../../../logo/ShixiangWang.png"><img src="../../../logo/ShixiangWang.png" alt="Shixiang Wang" /></a></h1>
+
+
+
+      <nav class="menu">
+        <input id="menu-check" type="checkbox" />
+        <label id="menu-label" for="menu-check" class="unselectable">
+          <span class="icon close-icon">✕</span>
+          <span class="icon open-icon">☰</span>
+          <span class="text">Menu</span>
+        </label>
+        <ul>
+        
+        
+        <li><a href="../../../">首页</a></li>
+        
+        <li><a href="../../../cn/about/">关于</a></li>
+        
+        <li><a href="../../../cn/post/">博客</a></li>
+        
+        <li><a href="../../../cn/read/">读书</a></li>
+        
+        <li><a href="../../../cn/writing">写作</a></li>
+        
+        <li><a href="../../../cn/research/">研究</a></li>
+        
+        <li><a href="../../../cn/tools/">工具</a></li>
+        
+        <li><a href="../../../cn/cv-cn/shixiang">简历</a></li>
+        
+        <li><a href="../../../logo/qrcode.jpg">公众号</a></li>
+        
+        <li><a href="https://www.jianshu.com/u/b6608e27dc74">简书</a></li>
+        
+        <li><a href="../../../cn/todo">ToDo</a></li>
+        
+        <li><a href="../../../en/">English</a></li>
+        
+        <li><a href="../../../categories/">分类</a></li>
+        
+        <li><a href="../../../tags/">标签</a></li>
+        
+        
+
+<li class="menu-extra"></li>
+
+
+
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/read/mastering-go-book-chapter-04.md" target="_blank">编辑</a></li>
+
+
+<li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+        </ul>
+      </nav>
+    </header>
+
+    <article class="main">
+      <header class="title">
+        
+
+<h1>《Mastering Go》第四章笔记</h1>
+
+
+
+<h3>王诗翔 &middot 
+2020-08-26</h3> 
+
+
+<p style="text-align:right;">
+  分类:
+  
+    <a href="../../../categories/golang">golang</a> &nbsp
+  
+  <br>
+  标签:
+  
+    <a href="../../../tags/golang">golang</a> &nbsp
+  
+    <a href="../../../tags/datatype">datatype</a> &nbsp
+  
+</p>
+
+
+
+   
+  
+
+
+      </header>
+
+
+<h3 id="go-结构体">Go 结构体</h3>
+<p>构建结构体：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">XYZ</span> <span style="color:#66d9ef">struct</span> {
+		<span style="color:#a6e22e">X</span> <span style="color:#66d9ef">int</span>
+		<span style="color:#a6e22e">Y</span> <span style="color:#66d9ef">int</span>
+		<span style="color:#a6e22e">Z</span> <span style="color:#66d9ef">int</span>
+	}
+
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">s1</span> <span style="color:#a6e22e">XYZ</span>
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">s1</span>.<span style="color:#a6e22e">Y</span>, <span style="color:#a6e22e">s1</span>.<span style="color:#a6e22e">Z</span>)
+
+	<span style="color:#a6e22e">p1</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">XYZ</span>{<span style="color:#ae81ff">23</span>, <span style="color:#ae81ff">12</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>}
+	<span style="color:#a6e22e">p2</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">XYZ</span>{<span style="color:#a6e22e">Z</span>: <span style="color:#ae81ff">12</span>, <span style="color:#a6e22e">Y</span>: <span style="color:#ae81ff">13</span>}
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">p1</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">p2</span>)
+
+	<span style="color:#a6e22e">pSlice</span> <span style="color:#f92672">:=</span> [<span style="color:#ae81ff">4</span>]<span style="color:#a6e22e">XYZ</span>{}
+	<span style="color:#a6e22e">pSlice</span>[<span style="color:#ae81ff">2</span>] = <span style="color:#a6e22e">p1</span>
+	<span style="color:#a6e22e">pSlice</span>[<span style="color:#ae81ff">0</span>] = <span style="color:#a6e22e">p2</span>
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">pSlice</span>)
+	<span style="color:#a6e22e">p2</span> = <span style="color:#a6e22e">XYZ</span>{<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>}
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">pSlice</span>)
+
+}
+</code></pre></div><p>运行：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ go run ./0036-structures.go 
+<span style="color:#ae81ff">0</span> <span style="color:#ae81ff">0</span>
+<span style="color:#f92672">{</span><span style="color:#ae81ff">23</span> <span style="color:#ae81ff">12</span> -2<span style="color:#f92672">}</span>
+<span style="color:#f92672">{</span><span style="color:#ae81ff">0</span> <span style="color:#ae81ff">13</span> 12<span style="color:#f92672">}</span>
+<span style="color:#f92672">[{</span><span style="color:#ae81ff">0</span> <span style="color:#ae81ff">13</span> 12<span style="color:#f92672">}</span> <span style="color:#f92672">{</span><span style="color:#ae81ff">0</span> <span style="color:#ae81ff">0</span> 0<span style="color:#f92672">}</span> <span style="color:#f92672">{</span><span style="color:#ae81ff">23</span> <span style="color:#ae81ff">12</span> -2<span style="color:#f92672">}</span> <span style="color:#f92672">{</span><span style="color:#ae81ff">0</span> <span style="color:#ae81ff">0</span> 0<span style="color:#f92672">}]</span>
+<span style="color:#f92672">[{</span><span style="color:#ae81ff">0</span> <span style="color:#ae81ff">13</span> 12<span style="color:#f92672">}</span> <span style="color:#f92672">{</span><span style="color:#ae81ff">0</span> <span style="color:#ae81ff">0</span> 0<span style="color:#f92672">}</span> <span style="color:#f92672">{</span><span style="color:#ae81ff">23</span> <span style="color:#ae81ff">12</span> -2<span style="color:#f92672">}</span> <span style="color:#f92672">{</span><span style="color:#ae81ff">0</span> <span style="color:#ae81ff">0</span> 0<span style="color:#f92672">}]</span>
+</code></pre></div><h3 id="结构体指针">结构体指针</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">myStructure</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">Name</span>    <span style="color:#66d9ef">string</span>
+	<span style="color:#a6e22e">Surname</span> <span style="color:#66d9ef">string</span>
+	<span style="color:#a6e22e">Height</span>  <span style="color:#66d9ef">int32</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">createStruct</span>(<span style="color:#a6e22e">n</span>, <span style="color:#a6e22e">s</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">h</span> <span style="color:#66d9ef">int32</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">myStructure</span> {
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">h</span> &gt; <span style="color:#ae81ff">300</span> {
+		<span style="color:#a6e22e">h</span> = <span style="color:#ae81ff">0</span>
+	}
+
+	<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">myStructure</span>{<span style="color:#a6e22e">n</span>, <span style="color:#a6e22e">s</span>, <span style="color:#a6e22e">h</span>}
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">retStructure</span>(<span style="color:#a6e22e">n</span>, <span style="color:#a6e22e">s</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">h</span> <span style="color:#66d9ef">int32</span>) <span style="color:#a6e22e">myStructure</span> {
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">h</span> &gt; <span style="color:#ae81ff">300</span> {
+		<span style="color:#a6e22e">h</span> = <span style="color:#ae81ff">0</span>
+	}
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">myStructure</span>{<span style="color:#a6e22e">n</span>, <span style="color:#a6e22e">s</span>, <span style="color:#a6e22e">h</span>}
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">s1</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">createStruct</span>(<span style="color:#e6db74">&#34;Mihalis&#34;</span>, <span style="color:#e6db74">&#34;Tsoukalos&#34;</span>, <span style="color:#ae81ff">123</span>)
+	<span style="color:#a6e22e">s2</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">retStructure</span>(<span style="color:#e6db74">&#34;Mihalis&#34;</span>, <span style="color:#e6db74">&#34;Tsoukalos&#34;</span>, <span style="color:#ae81ff">123</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>((<span style="color:#f92672">*</span><span style="color:#a6e22e">s1</span>).<span style="color:#a6e22e">Name</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">s2</span>.<span style="color:#a6e22e">Name</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">s1</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">s2</span>)
+}
+</code></pre></div><p>运行：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ go run ./0037-pointerStructure.go
+Mihalis
+Mihalis
+&amp;<span style="color:#f92672">{</span>Mihalis Tsoukalos 123<span style="color:#f92672">}</span>
+<span style="color:#f92672">{</span>Mihalis Tsoukalos 123<span style="color:#f92672">}</span>
+</code></pre></div><h3 id="new-关键字">new 关键字</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">sP</span> <span style="color:#f92672">:=</span> new([]<span style="color:#a6e22e">aStructure</span>)
+</code></pre></div><blockquote>
+<p><code>new</code> 和 <code>make</code> 的区别在于 <code>make</code> 创建的变量已经进行了适当的初始化，仅能应用于 maps、channels 和 slices，它不会返回地址（即指针）。</p>
+</blockquote>
+<h3 id="元组">元组</h3>
+<p>Go 没有支持元组类型，但有隐形的元组实现。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">min</span>, <span style="color:#a6e22e">_</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">strconv</span>.<span style="color:#a6e22e">ParseFloat</span>(<span style="color:#a6e22e">arguments</span>[<span style="color:#ae81ff">1</span>], <span style="color:#ae81ff">64</span>)
+</code></pre></div><p>下面是一个例子：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">retThree</span>(<span style="color:#a6e22e">x</span> <span style="color:#66d9ef">int</span>) (<span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span>) {
+	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">x</span>, <span style="color:#a6e22e">x</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">x</span>, <span style="color:#f92672">-</span><span style="color:#a6e22e">x</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">retThree</span>(<span style="color:#ae81ff">10</span>))
+	<span style="color:#a6e22e">n1</span>, <span style="color:#a6e22e">n2</span>, <span style="color:#a6e22e">n3</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">retThree</span>(<span style="color:#ae81ff">20</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">n1</span>, <span style="color:#a6e22e">n2</span>, <span style="color:#a6e22e">n3</span>)
+
+	<span style="color:#a6e22e">n1</span>, <span style="color:#a6e22e">n2</span> = <span style="color:#a6e22e">n2</span>, <span style="color:#a6e22e">n1</span>
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">n1</span>, <span style="color:#a6e22e">n2</span>, <span style="color:#a6e22e">n3</span>)
+
+	<span style="color:#a6e22e">x1</span>, <span style="color:#a6e22e">x2</span>, <span style="color:#a6e22e">x3</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">n1</span><span style="color:#f92672">*</span><span style="color:#ae81ff">2</span>, <span style="color:#a6e22e">n1</span><span style="color:#f92672">*</span><span style="color:#a6e22e">n1</span>, <span style="color:#f92672">-</span><span style="color:#a6e22e">n1</span>
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">x1</span>, <span style="color:#a6e22e">x2</span>, <span style="color:#a6e22e">x3</span>)
+}
+
+</code></pre></div><p>运行：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ go run ./0038-tuples.go 
+<span style="color:#ae81ff">20</span> <span style="color:#ae81ff">100</span> -10
+<span style="color:#ae81ff">40</span> <span style="color:#ae81ff">400</span> -20
+<span style="color:#ae81ff">400</span> <span style="color:#ae81ff">40</span> -20
+<span style="color:#ae81ff">800</span> <span style="color:#ae81ff">160000</span> -400
+</code></pre></div><h3 id="正则表达式和模式匹配">正则表达式和模式匹配</h3>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="../../../cn/read/mastering-go-book-chapter-03/">《Mastering Go》第三章笔记</a></span>
+  <span class="nav-next"></span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/read\/mastering-go-book-chapter-03\/';
+    
+  } else if (e.which == 39) {  
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+
+
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+<script>
+  const gitalk = new Gitalk({
+    clientID: 'eed477936be7b88a8455',
+    clientSecret: '32b5dde22f3c95c4fad400a31632e34221b07e83',
+    repo: 'home',
+    owner: 'ShixiangWang',
+    admin: ['ShixiangWang'],
+    id: md5(window.location.pathname), 
+    distractionFreeMode: false 
+  });
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('gitalk-container').innerHTML = 'Gitalk comments not available by default when the website is previewed locally.';
+      return;
+    }
+    gitalk.render('gitalk-container');
+  })();
+</script>
+
+
+
+
+
+<script async src="../../../js/fix-toc.js"></script>
+
+<script async src="../../../js/center-img.js"></script>
+
+<script async src="../../../js/right-quote.js"></script>
+
+<script async src="../../../js/no-highlight.js"></script>
+
+<script async src="../../../js/fix-footnote.js"></script>
+
+<script async src="../../../js/math-code.js"></script>
+
+<script async src="../../../js/external-link.js"></script>
+
+<script async src="../../../js/alt-title.js"></script>
+
+<script async src="../../../js/header-link.js"></script>
+
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+  
+  
+
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> · <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> · <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> · <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> · <a href="https://orcid.org/0000-0001-9855-7357"><i class='ai ai-orcid ai-1x'></i></a> · <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 © <a href="../../../">王诗翔</a> 2017 - 2020 </div>
+  
+  
+
+  <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56h9es09xn7&amp;m=6&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=1" async="async"></script>
+  </footer>
+  </article>
+  
+  </body>
+</html>
+

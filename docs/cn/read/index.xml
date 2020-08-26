@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>《Mastering Go》第四章笔记</title>
+      <link>/cn/read/mastering-go-book-chapter-04/</link>
+      <pubDate>Wed, 26 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/read/mastering-go-book-chapter-04/</guid>
+      <description>Go 结构体 构建结构体： package main import &amp;#34;fmt&amp;#34; func main() { type XYZ struct { X int Y int Z int } var s1 XYZ fmt.Println(s1.Y, s1.Z) p1 := XYZ{23, 12, -2} p2 := XYZ{Z: 12, Y: 13} fmt.Println(p1) fmt.Println(p2) pSlice := [4]XYZ{} pSlice[2] = p1 pSlice[0] = p2 fmt.Println(pSlice) p2 = XYZ{1, 2, 3} fmt.Println(pSlice) } 运行： $ go run ./0036-structures.go</description>
+    </item>
+    
+    <item>
       <title>《Mastering Go》第三章笔记</title>
       <link>/cn/read/mastering-go-book-chapter-03/</link>
       <pubDate>Wed, 12 Aug 2020 00:00:00 +0000</pubDate>
