@@ -17,7 +17,7 @@
       <pubDate>Mon, 31 Aug 2020 00:00:00 +0000</pubDate>
       
       <guid>/cn/post/2020-08-31-commit-standards/</guid>
-      <description>参考 https://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.ht</description>
+      <description>参考： https://www.conventionalcommits.org/zh-hans/v1.0.0-beta.4/ https://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html 配置：https://github.com/commitizen/cz-cli</description>
     </item>
     
   </channel>

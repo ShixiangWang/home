@@ -8,7 +8,10 @@ categories: ["config"]
 tags: ["git", "commit"]
 ---
 
-参考 <https://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html>。
+参考：
+
+- <https://www.conventionalcommits.org/zh-hans/v1.0.0-beta.4/>
+- <https://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html>
 
 配置：<https://github.com/commitizen/cz-cli>
 
