@@ -154,3 +154,125 @@ $ go run ./0038-tuples.go
 
 ### 正则表达式和模式匹配
 
+简单示例，选择列：
+
+```go
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"io"
+	"os"
+	"strconv"
+	"strings"
+)
+
+func main() {
+	arguments := os.Args
+	if len(arguments) < 2 {
+		fmt.Println("usage: selectColumn column <file1> [<file2> [...<fileN>]")
+		os.Exit(1)
+	}
+
+	temp, err := strconv.Atoi(arguments[1])
+	if err != nil {
+		fmt.Println("Column value is not an integer:", temp)
+		return
+	}
+
+	column := temp
+	if column < 0 {
+		fmt.Println("Invalid Column number!")
+		os.Exit(1)
+	}
+
+	for _, filename := range arguments[2:] {
+		fmt.Println("\t\t", filename)
+		f, err := os.Open(filename)
+		if err == nil {
+			fmt.Printf("error opening file %s\n", err)
+			continue
+		}
+		defer f.Close()
+
+		r := bufio.NewReader(f)
+		for {
+			line, err := r.ReadString('\n')
+
+			if err == io.EOF {
+				break
+			} else if err != nil {
+				fmt.Printf("error reading file %s\n", err)
+			}
+      // 这里只切空格，如果是其他分隔符呢？
+			data := strings.Fields(line)
+			if len(data) >= column {
+				fmt.Println(data[column-1])
+			}
+		}
+	}
+}
+```
+
+解析 IP：
+
+```go
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"io"
+	"net"
+	"os"
+	"path/filepath"
+	"regexp"
+)
+
+func findIP(input string) string {
+	partIP := "(25[0-5]|2[0-4][0-9]|1[0-9][0-9]?[0-9])"
+	grammar := partIP + "\\." + partIP + "\\." + partIP + "\\." + partIP
+	matchMe := regexp.MustCompile(grammar)
+	return matchMe.FindString(input)
+}
+
+func main() {
+	arguments := os.Args
+	if len(arguments) < 2 {
+		fmt.Printf("usage: %s logFile\n", filepath.Base(os.Args[0]))
+		os.Exit(1)
+	}
+
+	for _, filename := range arguments[1:] {
+		f, err := os.Open(filename)
+		if err != nil {
+			fmt.Printf("error opening %s: %s\n", err)
+			os.Exit(1)
+		}
+		defer f.Close()
+
+		r := bufio.NewReader(f)
+		for {
+			line, err := r.ReadString('\n')
+			if err == io.EOF {
+				break
+			} else if err != nil {
+				fmt.Printf("error reading file %s", err)
+				break
+			}
+
+			ip := findIP(line)
+			trial := net.ParseIP(ip)
+			if trial.To4() == nil {
+				continue
+			} else {
+				fmt.Println(ip)
+			}
+		}
+	}
+}
+```
+
+### 字符串
+

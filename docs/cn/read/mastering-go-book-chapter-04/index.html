@@ -255,6 +255,119 @@ Mihalis
 <span style="color:#ae81ff">400</span> <span style="color:#ae81ff">40</span> -20
 <span style="color:#ae81ff">800</span> <span style="color:#ae81ff">160000</span> -400
 </code></pre></div><h3 id="正则表达式和模式匹配">正则表达式和模式匹配</h3>
+<p>简单示例，选择列：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;bufio&#34;</span>
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
+	<span style="color:#e6db74">&#34;io&#34;</span>
+	<span style="color:#e6db74">&#34;os&#34;</span>
+	<span style="color:#e6db74">&#34;strconv&#34;</span>
+	<span style="color:#e6db74">&#34;strings&#34;</span>
+)
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">arguments</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Args</span>
+	<span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">arguments</span>) &lt; <span style="color:#ae81ff">2</span> {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;usage: selectColumn column &lt;file1&gt; [&lt;file2&gt; [...&lt;fileN&gt;]&#34;</span>)
+		<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Exit</span>(<span style="color:#ae81ff">1</span>)
+	}
+
+	<span style="color:#a6e22e">temp</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">strconv</span>.<span style="color:#a6e22e">Atoi</span>(<span style="color:#a6e22e">arguments</span>[<span style="color:#ae81ff">1</span>])
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Column value is not an integer:&#34;</span>, <span style="color:#a6e22e">temp</span>)
+		<span style="color:#66d9ef">return</span>
+	}
+
+	<span style="color:#a6e22e">column</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">temp</span>
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">column</span> &lt; <span style="color:#ae81ff">0</span> {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Invalid Column number!&#34;</span>)
+		<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Exit</span>(<span style="color:#ae81ff">1</span>)
+	}
+
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">filename</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">arguments</span>[<span style="color:#ae81ff">2</span>:] {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;\t\t&#34;</span>, <span style="color:#a6e22e">filename</span>)
+		<span style="color:#a6e22e">f</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Open</span>(<span style="color:#a6e22e">filename</span>)
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;error opening file %s\n&#34;</span>, <span style="color:#a6e22e">err</span>)
+			<span style="color:#66d9ef">continue</span>
+		}
+		<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">f</span>.<span style="color:#a6e22e">Close</span>()
+
+		<span style="color:#a6e22e">r</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">bufio</span>.<span style="color:#a6e22e">NewReader</span>(<span style="color:#a6e22e">f</span>)
+		<span style="color:#66d9ef">for</span> {
+			<span style="color:#a6e22e">line</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">ReadString</span>(<span style="color:#e6db74">&#39;\n&#39;</span>)
+
+			<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">io</span>.<span style="color:#a6e22e">EOF</span> {
+				<span style="color:#66d9ef">break</span>
+			} <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+				<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;error reading file %s\n&#34;</span>, <span style="color:#a6e22e">err</span>)
+			}
+      <span style="color:#75715e">// 这里只切空格，如果是其他分隔符呢？
+</span><span style="color:#75715e"></span>			<span style="color:#a6e22e">data</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">strings</span>.<span style="color:#a6e22e">Fields</span>(<span style="color:#a6e22e">line</span>)
+			<span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">data</span>) <span style="color:#f92672">&gt;=</span> <span style="color:#a6e22e">column</span> {
+				<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">data</span>[<span style="color:#a6e22e">column</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>])
+			}
+		}
+	}
+}
+</code></pre></div><p>解析 IP：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;bufio&#34;</span>
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
+	<span style="color:#e6db74">&#34;io&#34;</span>
+	<span style="color:#e6db74">&#34;net&#34;</span>
+	<span style="color:#e6db74">&#34;os&#34;</span>
+	<span style="color:#e6db74">&#34;path/filepath&#34;</span>
+	<span style="color:#e6db74">&#34;regexp&#34;</span>
+)
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">findIP</span>(<span style="color:#a6e22e">input</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">string</span> {
+	<span style="color:#a6e22e">partIP</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;(25[0-5]|2[0-4][0-9]|1[0-9][0-9]?[0-9])&#34;</span>
+	<span style="color:#a6e22e">grammar</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">partIP</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;\\.&#34;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">partIP</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;\\.&#34;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">partIP</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;\\.&#34;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">partIP</span>
+	<span style="color:#a6e22e">matchMe</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">regexp</span>.<span style="color:#a6e22e">MustCompile</span>(<span style="color:#a6e22e">grammar</span>)
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">matchMe</span>.<span style="color:#a6e22e">FindString</span>(<span style="color:#a6e22e">input</span>)
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">arguments</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Args</span>
+	<span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">arguments</span>) &lt; <span style="color:#ae81ff">2</span> {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;usage: %s logFile\n&#34;</span>, <span style="color:#a6e22e">filepath</span>.<span style="color:#a6e22e">Base</span>(<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Args</span>[<span style="color:#ae81ff">0</span>]))
+		<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Exit</span>(<span style="color:#ae81ff">1</span>)
+	}
+
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">filename</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">arguments</span>[<span style="color:#ae81ff">1</span>:] {
+		<span style="color:#a6e22e">f</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Open</span>(<span style="color:#a6e22e">filename</span>)
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;error opening %s: %s\n&#34;</span>, <span style="color:#a6e22e">err</span>)
+			<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Exit</span>(<span style="color:#ae81ff">1</span>)
+		}
+		<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">f</span>.<span style="color:#a6e22e">Close</span>()
+
+		<span style="color:#a6e22e">r</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">bufio</span>.<span style="color:#a6e22e">NewReader</span>(<span style="color:#a6e22e">f</span>)
+		<span style="color:#66d9ef">for</span> {
+			<span style="color:#a6e22e">line</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">ReadString</span>(<span style="color:#e6db74">&#39;\n&#39;</span>)
+			<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">io</span>.<span style="color:#a6e22e">EOF</span> {
+				<span style="color:#66d9ef">break</span>
+			} <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+				<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;error reading file %s&#34;</span>, <span style="color:#a6e22e">err</span>)
+				<span style="color:#66d9ef">break</span>
+			}
+
+			<span style="color:#a6e22e">ip</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">findIP</span>(<span style="color:#a6e22e">line</span>)
+			<span style="color:#a6e22e">trial</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">net</span>.<span style="color:#a6e22e">ParseIP</span>(<span style="color:#a6e22e">ip</span>)
+			<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">trial</span>.<span style="color:#a6e22e">To4</span>() <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+				<span style="color:#66d9ef">continue</span>
+			} <span style="color:#66d9ef">else</span> {
+				<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">ip</span>)
+			}
+		}
+	}
+}
+</code></pre></div><h3 id="字符串">字符串</h3>
 
 
   <footer>
