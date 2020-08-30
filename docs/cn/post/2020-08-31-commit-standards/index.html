@@ -12,10 +12,10 @@
     
     
     
-    <title>快速理解基于 0 的索引 - 王诗翔</title>
+    <title>Commit 规范学习 - 王诗翔</title>
     
      
-    <meta property="og:title" content="快速理解基于 0 的索引 - Shixiang Wang | 王诗翔">
+    <meta property="og:title" content="Commit 规范学习 - Shixiang Wang | 王诗翔">
     
 
     
@@ -26,11 +26,6 @@
 
     
     
-
-
-<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/Xcode.min.css' rel='stylesheet' type='text/css' />
-
-
 
     <link rel="stylesheet" href="../../../css/style.css" />
     <link rel="stylesheet" href="../../../css/mystyle.css" /> 
@@ -96,7 +91,7 @@
 
 
 
-<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2020-08-18-understand-0-based-index.md" target="_blank">编辑</a></li>
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2020-08-31-commit-standards.md" target="_blank">编辑</a></li>
 
 
 <li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
@@ -112,25 +107,25 @@
       <header class="title">
         
 
-<h1>快速理解基于 0 的索引</h1>
+<h1>Commit 规范学习</h1>
 
 
 
 <h3>王诗翔 &middot 
-2020-08-18</h3> 
+2020-08-31</h3> 
 
 
 <p style="text-align:right;">
   分类:
   
-    <a href="../../../categories/thinking">thinking</a> &nbsp
+    <a href="../../../categories/config">config</a> &nbsp
   
   <br>
   标签:
   
-    <a href="../../../tags/%E7%BC%96%E7%A8%8B">编程</a> &nbsp
+    <a href="../../../tags/git">git</a> &nbsp
   
-    <a href="../../../tags/%E7%B4%A2%E5%BC%95">索引</a> &nbsp
+    <a href="../../../tags/commit">commit</a> &nbsp
   
 </p>
 
@@ -143,19 +138,15 @@
       </header>
 
 
-<p>编程语法中有基于 0 或 1 两种索引机制，前面一种与计算机本质更接近，使用也更多，但对之前的我带来不少理解的困难。</p>
-<p>例如，在 Python 中的列表和元组结构中，我们需要进行切片。</p>
-<pre><code>a[3:5]
-</code></pre><p>上面这种切片操作中，我通常的理解是先将其转换为实际的索引区间，考虑到左闭右开原则，上述切片指向数据的索引 <code>3-0=3</code> 到索引 <code>5-1=4</code>；而索引 3 对应第 4 个元素，索引 4 对应第 5 个元素。因此，切片的操作区间为第 4 到第 5 个元素。</p>
-<p>今天在学习 Go 切片时，我突然发现我的索引理解绕了几个步骤，实际操作时，我们仅仅需要将这里的 <code>3</code> 加 1 即可得到基于 1 开始的索引理解。因而，如果我们需要反过来设计我们想要提取的索引区间，例如要第 5 个到第 8 个，我们相应地对 5 减去 1 即可。</p>
-<p>可能之前 R 和 Python 两种索引机制萦绕心头，转换一直感觉心头存在阻碍，这也算是一朝悟道了。</p>
+<p>参考 <a href="https://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html">https://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html</a>。</p>
+<p>配置：<a href="https://github.com/commitizen/cz-cli">https://github.com/commitizen/cz-cli</a></p>
 
 
   <footer>
   
 <nav class="post-nav">
-  <span class="nav-prev">&larr; <a href="../../../cn/post/2020-08-16-show-scholar-profile-with-r-tinyscholar/">使用 tinyscholar 展示个人谷歌学术档案</a></span>
-  <span class="nav-next"><a href="../../../cn/post/2020-08-31-commit-standards/">Commit 规范学习</a> &rarr;</span>
+  <span class="nav-prev">&larr; <a href="../../../cn/post/2020-08-18-understand-0-based-index/">快速理解基于 0 的索引</a></span>
+  <span class="nav-next"></span>
 </nav>
 <script type="text/javascript">
 document.addEventListener('keyup', function(e) {
@@ -163,11 +154,9 @@ document.addEventListener('keyup', function(e) {
   var url = false;
   if (e.which == 37) {  
     
-    url = '\/cn\/post\/2020-08-16-show-scholar-profile-with-r-tinyscholar\/';
+    url = '\/cn\/post\/2020-08-18-understand-0-based-index\/';
     
   } else if (e.which == 39) {  
-    
-    url = '\/cn\/post\/2020-08-31-commit-standards\/';
     
   }
   if (url) window.location = url;
@@ -227,19 +216,6 @@ document.addEventListener('keyup', function(e) {
 <script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
   
-
-
-
-<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-
-
-
-<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
-<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
-<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
-<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
-
-
 
 
   

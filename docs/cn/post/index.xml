@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>Commit 规范学习</title>
+      <link>/cn/post/2020-08-31-commit-standards/</link>
+      <pubDate>Mon, 31 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2020-08-31-commit-standards/</guid>
+      <description>参考 https://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.ht</description>
+    </item>
+    
+    <item>
       <title>快速理解基于 0 的索引</title>
       <link>/cn/post/2020-08-18-understand-0-based-index/</link>
       <pubDate>Tue, 18 Aug 2020 00:00:00 +0000</pubDate>

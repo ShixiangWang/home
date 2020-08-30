@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>git on Shixiang Wang | 王诗翔</title>
+    <link>/tags/git/</link>
+    <description>Recent content in git on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 31 Aug 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/git/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Commit 规范学习</title>
+      <link>/cn/post/2020-08-31-commit-standards/</link>
+      <pubDate>Mon, 31 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2020-08-31-commit-standards/</guid>
+      <description>参考 https://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.ht</description>
+    </item>
+    
+  </channel>
+</rss>
