@@ -1,0 +1,72 @@
+---
+title: "Rcpp 简介：从 R 到 Rcpp"
+author: "王诗翔"
+date: "2020-09-08"
+lastmod: "2020-09-08"
+slug: ""
+# All available categories:
+# bioinformatics, config, docker, golang, life, linux, ml, r, read, shell, thinking
+categories: ["r"]
+tags: ["r", "rcpp", "c++"]
+---
+
+
+
+<p>参考图书：《Rcpp：R 与 C++ 的无缝整合》</p>
+<p>Rcpp 的主要目的在于使得开发 R 语言的 C++ 相关拓展变得更加容易、更少出错。</p>
+<p>我们首先从斐波那契数列问题开始探索 Rcpp。</p>
+<p>该问题是一个递归问题，首两项为 0 和 1，而后面每一项为前两项之和。</p>
+<p>C++ 实现，直接根据定义进行实现：</p>
+<pre class="cpp"><code>int fibonacci(const int x) {
+  if (x == 0) return(0);
+  if (x == 1) return(1);
+  return fibonacci(x - 1) + fibonacci(x - 2); 
+}</code></pre>
+<p>R 通过 <code>.Call()</code> 可以在 R 和 C++ 之间传递对象。该函数使用的变量必须是指向 S 表达式的指针（简称 SEXP），这需要新建一个封装器：</p>
+<pre class="cpp"><code>#include &lt;Rcpp.h&gt;
+extern &quot;C&quot; SEXP fibWrapper(SEXP xs) {
+ int x = Rcpp::as&lt;int&gt;(xs);
+ int fib = fibonacci(x);
+ return (Rcpp:wrap(fib));
+}</code></pre>
+<p><code>as</code> 和 <code>wrap</code> 是 Rcpp 很重要的两个转换函数，这里 <code>as</code> 将输入参数 <code>xs</code> 由 R 输入的 SEXP 类型转换为整型，而 <code>wrap</code> 将 c++ 得到的整型结果封装为 SEXP 类型，从而可以使得这个创建的函数可以被 <code>.Call()</code> 调用，完成 c++ 的计算与输入输出的相互传递。</p>
+<p>在写好上述两个函数后，后面的工作就是编译函数，生成所谓的“共享库”，这样 R 就可以加载和调用它。编译、链接和加载是一个纯粹的体力活，幸好，工具包 inline 可以帮助我们完成这 3 个步骤。</p>
+<blockquote>
+<p>inline 包通过提供一个涵盖编译、链接、加载三个步骤的完整封装器，因而程序员可以集中经精力在真正工作的代码上（C、C++ 和 Fortran 三者之一），而忽略针对不同操作系统特定的编译、链接、加载细节。</p>
+</blockquote>
+<p><code>cxxfunction()</code> 是一个单一入口，可以将文本变量传入的代码转换为可运行的函数！</p>
+<pre class="r"><code>cxxcode &lt;- &quot;
+int fibonacci(const int x) {
+  if (x == 0) return(0);
+  if (x == 1) return(1);
+  return fibonacci(x - 1) + fibonacci(x - 2); 
+}
+&quot;
+
+library(inline)
+fibRcpp &lt;- cxxfunction(signature(xs = &quot;int&quot;),
+  plugin = &quot;Rcpp&quot;,
+  includes = cxxcode,
+  body = &quot;
+    int x = Rcpp::as&lt;int&gt;(xs);
+    return Rcpp::wrap(fibonacci(x));
+                       &quot;
+)</code></pre>
+<p>这样 <code>fibRcpp()</code> 就可以在 R 中调用了。</p>
+<pre class="r"><code>sapply(1:10, fibRcpp)
+#&gt;  [1]  1  1  2  3  5  8 13 21 34 55</code></pre>
+<p>在后续版本的 inline 包中，它通过引入 C++ 的 “attributes” 特性进一步对上述过程进行简化，自动完成变量的类型转换等工作。</p>
+<p>在 <code>fibonacci.cpp</code> 中写入如下内容：</p>
+<pre class="cpp"><code>#include &lt;Rcpp.h&gt;
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+int fibonacci(const int x) {
+  if (x &lt; 2) return(x);
+  return fibonacci(x - 1) + fibonacci(x - 2); 
+}</code></pre>
+<p>这里在函数的定义前通过注释行添加了 <code>[[Rcpp::export]]</code> 这个属性，然后该代码即可通过 <code>sourceCpp()</code> 进行调用。</p>
+<pre class="r"><code>sourceCpp(&quot;fibonacci.cpp)
+fibonacci(20)</code></pre>
+<p>该函数进行如下的处理：从给定的源代码文件中读取代码，解析相应的属性，并调用 R 在编译前生成所需要的封装器，之后像之前一样进行编译、链接和加载。</p>
+<p>可以看到，通过 R 调用 c++ 简化到了仅仅添加一些必要的头文件和属性信息即可，不需要改动工作代码本身。当然，强大的 Rcpp 不仅仅如此，它还提供了诸多的与 R 交互的数据类型，后续再学习分享。</p>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    
+    <link rel="stylesheet" href="../../../fonts/academicons-1.8.6/css/academicons.min.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../logo/bodhi.png"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    
+    <title>Rcpp 简介：从 R 到 Rcpp - 王诗翔</title>
+    
+     
+    <meta property="og:title" content="Rcpp 简介：从 R 到 Rcpp - Shixiang Wang | 王诗翔">
+    
+
+    
+      
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/Xcode.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="../../../css/style.css" />
+    <link rel="stylesheet" href="../../../css/mystyle.css" /> 
+    <link rel="stylesheet" href="../../../css/fonts.css" />
+    
+<script async src="../../../js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="../../../css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="../../../logo/ShixiangWang.png"><img src="../../../logo/ShixiangWang.png" alt="Shixiang Wang" /></a></h1>
+
+
+
+      <nav class="menu">
+        <input id="menu-check" type="checkbox" />
+        <label id="menu-label" for="menu-check" class="unselectable">
+          <span class="icon close-icon">✕</span>
+          <span class="icon open-icon">☰</span>
+          <span class="text">Menu</span>
+        </label>
+        <ul>
+        
+        
+        <li><a href="../../../">首页</a></li>
+        
+        <li><a href="../../../cn/about/">关于</a></li>
+        
+        <li><a href="../../../cn/post/">博客</a></li>
+        
+        <li><a href="../../../cn/read/">读书</a></li>
+        
+        <li><a href="../../../cn/writing">写作</a></li>
+        
+        <li><a href="../../../cn/research/">研究</a></li>
+        
+        <li><a href="../../../cn/tools/">工具</a></li>
+        
+        <li><a href="../../../cn/cv-cn/shixiang">简历</a></li>
+        
+        <li><a href="../../../logo/qrcode.jpg">公众号</a></li>
+        
+        <li><a href="https://www.jianshu.com/u/b6608e27dc74">简书</a></li>
+        
+        <li><a href="../../../cn/todo">ToDo</a></li>
+        
+        <li><a href="../../../en/">English</a></li>
+        
+        <li><a href="../../../categories/">分类</a></li>
+        
+        <li><a href="../../../tags/">标签</a></li>
+        
+        
+
+<li class="menu-extra"></li>
+
+
+
+
+
+
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2020-09-08-rcpp-intro.Rmd" target="_blank">编辑</a></li>
+
+
+<li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+        </ul>
+      </nav>
+    </header>
+
+    <article class="main">
+      <header class="title">
+        
+
+<h1>Rcpp 简介：从 R 到 Rcpp</h1>
+
+
+
+<h3>王诗翔 &middot 
+2020-09-08</h3> 
+
+
+<p style="text-align:right;">
+  分类:
+  
+    <a href="../../../categories/r">r</a> &nbsp
+  
+  <br>
+  标签:
+  
+    <a href="../../../tags/r">r</a> &nbsp
+  
+    <a href="../../../tags/rcpp">rcpp</a> &nbsp
+  
+    <a href="../../../tags/c&#43;&#43;">c&#43;&#43;</a> &nbsp
+  
+</p>
+
+
+
+   
+  
+
+
+      </header>
+
+
+
+
+
+<p>参考图书：《Rcpp：R 与 C++ 的无缝整合》</p>
+<p>Rcpp 的主要目的在于使得开发 R 语言的 C++ 相关拓展变得更加容易、更少出错。</p>
+<p>我们首先从斐波那契数列问题开始探索 Rcpp。</p>
+<p>该问题是一个递归问题，首两项为 0 和 1，而后面每一项为前两项之和。</p>
+<p>C++ 实现，直接根据定义进行实现：</p>
+<pre class="cpp"><code>int fibonacci(const int x) {
+  if (x == 0) return(0);
+  if (x == 1) return(1);
+  return fibonacci(x - 1) + fibonacci(x - 2); 
+}</code></pre>
+<p>R 通过 <code>.Call()</code> 可以在 R 和 C++ 之间传递对象。该函数使用的变量必须是指向 S 表达式的指针（简称 SEXP），这需要新建一个封装器：</p>
+<pre class="cpp"><code>#include &lt;Rcpp.h&gt;
+extern &quot;C&quot; SEXP fibWrapper(SEXP xs) {
+ int x = Rcpp::as&lt;int&gt;(xs);
+ int fib = fibonacci(x);
+ return (Rcpp:wrap(fib));
+}</code></pre>
+<p><code>as</code> 和 <code>wrap</code> 是 Rcpp 很重要的两个转换函数，这里 <code>as</code> 将输入参数 <code>xs</code> 由 R 输入的 SEXP 类型转换为整型，而 <code>wrap</code> 将 c++ 得到的整型结果封装为 SEXP 类型，从而可以使得这个创建的函数可以被 <code>.Call()</code> 调用，完成 c++ 的计算与输入输出的相互传递。</p>
+<p>在写好上述两个函数后，后面的工作就是编译函数，生成所谓的“共享库”，这样 R 就可以加载和调用它。编译、链接和加载是一个纯粹的体力活，幸好，工具包 inline 可以帮助我们完成这 3 个步骤。</p>
+<blockquote>
+<p>inline 包通过提供一个涵盖编译、链接、加载三个步骤的完整封装器，因而程序员可以集中经精力在真正工作的代码上（C、C++ 和 Fortran 三者之一），而忽略针对不同操作系统特定的编译、链接、加载细节。</p>
+</blockquote>
+<p><code>cxxfunction()</code> 是一个单一入口，可以将文本变量传入的代码转换为可运行的函数！</p>
+<pre class="r"><code>cxxcode &lt;- &quot;
+int fibonacci(const int x) {
+  if (x == 0) return(0);
+  if (x == 1) return(1);
+  return fibonacci(x - 1) + fibonacci(x - 2); 
+}
+&quot;
+
+library(inline)
+fibRcpp &lt;- cxxfunction(signature(xs = &quot;int&quot;),
+  plugin = &quot;Rcpp&quot;,
+  includes = cxxcode,
+  body = &quot;
+    int x = Rcpp::as&lt;int&gt;(xs);
+    return Rcpp::wrap(fibonacci(x));
+                       &quot;
+)</code></pre>
+<p>这样 <code>fibRcpp()</code> 就可以在 R 中调用了。</p>
+<pre class="r"><code>sapply(1:10, fibRcpp)
+#&gt;  [1]  1  1  2  3  5  8 13 21 34 55</code></pre>
+<p>在后续版本的 inline 包中，它通过引入 C++ 的 “attributes” 特性进一步对上述过程进行简化，自动完成变量的类型转换等工作。</p>
+<p>在 <code>fibonacci.cpp</code> 中写入如下内容：</p>
+<pre class="cpp"><code>#include &lt;Rcpp.h&gt;
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+int fibonacci(const int x) {
+  if (x &lt; 2) return(x);
+  return fibonacci(x - 1) + fibonacci(x - 2); 
+}</code></pre>
+<p>这里在函数的定义前通过注释行添加了 <code>[[Rcpp::export]]</code> 这个属性，然后该代码即可通过 <code>sourceCpp()</code> 进行调用。</p>
+<pre class="r"><code>sourceCpp(&quot;fibonacci.cpp)
+fibonacci(20)</code></pre>
+<p>该函数进行如下的处理：从给定的源代码文件中读取代码，解析相应的属性，并调用 R 在编译前生成所需要的封装器，之后像之前一样进行编译、链接和加载。</p>
+<p>可以看到，通过 R 调用 c++ 简化到了仅仅添加一些必要的头文件和属性信息即可，不需要改动工作代码本身。当然，强大的 Rcpp 不仅仅如此，它还提供了诸多的与 R 交互的数据类型，后续再学习分享。</p>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="../../../cn/post/2020-09-04-use-grdotplot/">绘制分组排序点图</a></span>
+  <span class="nav-next"></span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/post\/2020-09-04-use-grdotplot\/';
+    
+  } else if (e.which == 39) {  
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+
+
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+<script>
+  const gitalk = new Gitalk({
+    clientID: 'eed477936be7b88a8455',
+    clientSecret: '32b5dde22f3c95c4fad400a31632e34221b07e83',
+    repo: 'home',
+    owner: 'ShixiangWang',
+    admin: ['ShixiangWang'],
+    id: md5(window.location.pathname), 
+    distractionFreeMode: false 
+  });
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('gitalk-container').innerHTML = 'Gitalk comments not available by default when the website is previewed locally.';
+      return;
+    }
+    gitalk.render('gitalk-container');
+  })();
+</script>
+
+
+
+
+
+<script async src="../../../js/fix-toc.js"></script>
+
+<script async src="../../../js/center-img.js"></script>
+
+<script async src="../../../js/right-quote.js"></script>
+
+<script async src="../../../js/no-highlight.js"></script>
+
+<script async src="../../../js/fix-footnote.js"></script>
+
+<script async src="../../../js/math-code.js"></script>
+
+<script async src="../../../js/external-link.js"></script>
+
+<script async src="../../../js/alt-title.js"></script>
+
+<script async src="../../../js/header-link.js"></script>
+
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+  
+  
+
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> · <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> · <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> · <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> · <a href="https://orcid.org/0000-0001-9855-7357"><i class='ai ai-orcid ai-1x'></i></a> · <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 © <a href="../../../">王诗翔</a> 2017 - 2020 </div>
+  
+  
+
+  <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56h9es09xn7&amp;m=6&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=1" async="async"></script>
+  </footer>
+  </article>
+  
+  </body>
+</html>
+

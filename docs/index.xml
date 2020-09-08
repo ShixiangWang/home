@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>Rcpp 简介：从 R 到 Rcpp</title>
+      <link>/cn/post/2020-09-08-rcpp-intro/</link>
+      <pubDate>Tue, 08 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2020-09-08-rcpp-intro/</guid>
+      <description>参考图书：《Rcpp：R 与 C++ 的无缝整合》 Rcpp 的主要目的在于使得开发 R 语言的 C++ 相关拓展变得更加容易、更少出错。 我们首先从斐波那契数列问题开始探索</description>
+    </item>
+    
+    <item>
       <title>绘制分组排序点图</title>
       <link>/cn/post/2020-09-04-use-grdotplot/</link>
       <pubDate>Fri, 04 Sep 2020 00:00:00 +0000</pubDate>
