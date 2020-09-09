@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>stackoverflow on Shixiang Wang | 王诗翔</title>
+    <link>/tags/stackoverflow/</link>
+    <description>Recent content in stackoverflow on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 09 Sep 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/stackoverflow/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>浏览器 R 搜索插件</title>
+      <link>/cn/post/2020-09-09-r-search-extension/</link>
+      <pubDate>Wed, 09 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2020-09-09-r-search-extension/</guid>
+      <description>r-search-extension 是一款浏览器插件，它支持搜索 R 文档/问题以及微信平台搜索。它的使用及其简单，在浏览器搜索栏输入 r 然后跟一个空格，接着输入你想要搜索的关键词</description>
+    </item>
+    
+  </channel>
+</rss>

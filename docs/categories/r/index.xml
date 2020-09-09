@@ -6,10 +6,19 @@
     <description>Recent content in r on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 08 Sep 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 09 Sep 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/r/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>浏览器 R 搜索插件</title>
+      <link>/cn/post/2020-09-09-r-search-extension/</link>
+      <pubDate>Wed, 09 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2020-09-09-r-search-extension/</guid>
+      <description>r-search-extension 是一款浏览器插件，它支持搜索 R 文档/问题以及微信平台搜索。它的使用及其简单，在浏览器搜索栏输入 r 然后跟一个空格，接着输入你想要搜索的关键词</description>
+    </item>
     
     <item>
       <title>Rcpp 简介：从 R 到 Rcpp</title>
