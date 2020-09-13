@@ -310,3 +310,62 @@ func main() {
 }
 ```
 
+### rune 和 unicode
+
+```go
+package main
+
+import (
+	"fmt"
+	"unicode"
+)
+
+func main() {
+	const SL = "\x99\x00ab\x50\x00\x23\x50\x29\x9c"
+	for i := 0; i < len(SL); i++ {
+		if unicode.IsPrint(rune(SL[i])) {
+			fmt.Printf("%c\n", SL)
+		} else {
+			fmt.Println("Not printable!")
+		}
+	}
+
+}
+
+```
+
+强大的 strings 包：
+
+```go
+package main
+
+import (
+	"fmt"
+	s "strings"
+)
+
+var f = fmt.Printf
+
+func main() {
+	upper := s.ToUpper("Hello World!")
+	f("To Upper: %s\n", upper)
+	f("To Lower: %s\n", s.ToLower("Hello THERE"))
+	f("EqualFold: %v\n", s.EqualFold("Mihalis", "MIHAlis"))
+	f("EqualFold: %v\n", s.EqualFold("Mihalis", "MIHAli"))
+	// s.HasPrefix()
+	// s.HasSuffix()
+	// s.Index()
+	// s.Count()
+	// s.Repeat()
+	// s.TrimSpace()
+	// s.TrimLeft()
+	// s.TrimRight()
+	// s.Compare()
+	// s.Fields()
+	// s.Split()
+	// s.Replace()
+	// s.Join()
+}
+
+```
+

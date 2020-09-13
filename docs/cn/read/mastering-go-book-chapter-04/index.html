@@ -399,6 +399,57 @@ Mihalis
 	}
 	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>()
 }
+</code></pre></div><h3 id="rune-和-unicode">rune 和 unicode</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
+	<span style="color:#e6db74">&#34;unicode&#34;</span>
+)
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">SL</span> = <span style="color:#e6db74">&#34;\x99\x00ab\x50\x00\x23\x50\x29\x9c&#34;</span>
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; len(<span style="color:#a6e22e">SL</span>); <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">unicode</span>.<span style="color:#a6e22e">IsPrint</span>(rune(<span style="color:#a6e22e">SL</span>[<span style="color:#a6e22e">i</span>])) {
+			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%c\n&#34;</span>, <span style="color:#a6e22e">SL</span>)
+		} <span style="color:#66d9ef">else</span> {
+			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Not printable!&#34;</span>)
+		}
+	}
+
+}
+
+</code></pre></div><p>强大的 strings 包：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
+	<span style="color:#a6e22e">s</span> <span style="color:#e6db74">&#34;strings&#34;</span>
+)
+
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">f</span> = <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">upper</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">ToUpper</span>(<span style="color:#e6db74">&#34;Hello World!&#34;</span>)
+	<span style="color:#a6e22e">f</span>(<span style="color:#e6db74">&#34;To Upper: %s\n&#34;</span>, <span style="color:#a6e22e">upper</span>)
+	<span style="color:#a6e22e">f</span>(<span style="color:#e6db74">&#34;To Lower: %s\n&#34;</span>, <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">ToLower</span>(<span style="color:#e6db74">&#34;Hello THERE&#34;</span>))
+	<span style="color:#a6e22e">f</span>(<span style="color:#e6db74">&#34;EqualFold: %v\n&#34;</span>, <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">EqualFold</span>(<span style="color:#e6db74">&#34;Mihalis&#34;</span>, <span style="color:#e6db74">&#34;MIHAlis&#34;</span>))
+	<span style="color:#a6e22e">f</span>(<span style="color:#e6db74">&#34;EqualFold: %v\n&#34;</span>, <span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">EqualFold</span>(<span style="color:#e6db74">&#34;Mihalis&#34;</span>, <span style="color:#e6db74">&#34;MIHAli&#34;</span>))
+	<span style="color:#75715e">// s.HasPrefix()
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// s.HasSuffix()
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// s.Index()
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// s.Count()
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// s.Repeat()
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// s.TrimSpace()
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// s.TrimLeft()
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// s.TrimRight()
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// s.Compare()
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// s.Fields()
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// s.Split()
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// s.Replace()
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// s.Join()
+</span><span style="color:#75715e"></span>}
+
 </code></pre></div>
 
   <footer>

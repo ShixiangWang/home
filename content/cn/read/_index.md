@@ -16,6 +16,7 @@ disable_comments: true
 - [【第一章：Go 与操作系统】](../read/mastering-go-book-chapter-01)
 - [【第二章：理解 Go 内部】](../read/mastering-go-book-chapter-02)
 - [【第三章：使用基本数据类型】](../read/mastering-go-book-chapter-03)
+- [【第四章：组合数据类型】](../read/mastering-go-book-chapter-04)
 
 # 生物信息学
 
