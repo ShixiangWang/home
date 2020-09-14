@@ -6,10 +6,28 @@
     <description>Recent content in r on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 09 Sep 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 14 Sep 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/r/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>「分享」R 弹性网络回归三连击</title>
+      <link>/cn/post/2020-09-14-share-r-elastic-net-regression/</link>
+      <pubDate>Mon, 14 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2020-09-14-share-r-elastic-net-regression/</guid>
+      <description>这里感谢珠江肿瘤公众号的制作和分享： 正则化(1)：通俗易懂的岭回归 正则化(2)：与岭回归相似的 Lasso 回归 正则化(3)：弹性网络回归</description>
+    </item>
+    
+    <item>
+      <title>「分享」R 矩阵计算</title>
+      <link>/cn/post/2020-09-14-share-r-matrix-operation/</link>
+      <pubDate>Mon, 14 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2020-09-14-share-r-matrix-operation/</guid>
+      <description>内容链接。</description>
+    </item>
     
     <item>
       <title>浏览器 R 搜索插件</title>

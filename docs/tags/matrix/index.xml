@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>matrix on Shixiang Wang | 王诗翔</title>
+    <link>/tags/matrix/</link>
+    <description>Recent content in matrix on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 14 Sep 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/matrix/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>「分享」R 矩阵计算</title>
+      <link>/cn/post/2020-09-14-share-r-matrix-operation/</link>
+      <pubDate>Mon, 14 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2020-09-14-share-r-matrix-operation/</guid>
+      <description>内容链接。</description>
+    </item>
+    
+  </channel>
+</rss>
