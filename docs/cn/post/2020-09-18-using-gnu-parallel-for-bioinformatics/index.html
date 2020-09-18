@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    
+    <link rel="stylesheet" href="../../../fonts/academicons-1.8.6/css/academicons.min.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../logo/bodhi.png"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    
+    <title>「翻译」在生物信息学中使用 GNP-Parallel - 王诗翔</title>
+    
+     
+    <meta property="og:title" content="「翻译」在生物信息学中使用 GNP-Parallel - Shixiang Wang | 王诗翔">
+    
+
+    
+      
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/Xcode.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="../../../css/style.css" />
+    <link rel="stylesheet" href="../../../css/mystyle.css" /> 
+    <link rel="stylesheet" href="../../../css/fonts.css" />
+    
+<script async src="../../../js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="../../../css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="../../../logo/ShixiangWang.png"><img src="../../../logo/ShixiangWang.png" alt="Shixiang Wang" /></a></h1>
+
+
+
+      <nav class="menu">
+        <input id="menu-check" type="checkbox" />
+        <label id="menu-label" for="menu-check" class="unselectable">
+          <span class="icon close-icon">✕</span>
+          <span class="icon open-icon">☰</span>
+          <span class="text">Menu</span>
+        </label>
+        <ul>
+        
+        
+        <li><a href="../../../">首页</a></li>
+        
+        <li><a href="../../../cn/about/">关于</a></li>
+        
+        <li><a href="../../../cn/post/">博客</a></li>
+        
+        <li><a href="../../../cn/read/">读书</a></li>
+        
+        <li><a href="../../../cn/writing">写作</a></li>
+        
+        <li><a href="../../../cn/research/">研究</a></li>
+        
+        <li><a href="../../../cn/tools/">工具</a></li>
+        
+        <li><a href="../../../cn/cv-cn/shixiang">简历</a></li>
+        
+        <li><a href="../../../logo/qrcode.jpg">公众号</a></li>
+        
+        <li><a href="https://www.jianshu.com/u/b6608e27dc74">简书</a></li>
+        
+        <li><a href="../../../cn/todo">ToDo</a></li>
+        
+        <li><a href="../../../en/">English</a></li>
+        
+        <li><a href="../../../categories/">分类</a></li>
+        
+        <li><a href="../../../tags/">标签</a></li>
+        
+        
+
+<li class="menu-extra"></li>
+
+
+
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2020-09-18-using-gnu-parallel-for-bioinformatics.md" target="_blank">编辑</a></li>
+
+
+<li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+        </ul>
+      </nav>
+    </header>
+
+    <article class="main">
+      <header class="title">
+        
+
+<h1>「翻译」在生物信息学中使用 GNP-Parallel</h1>
+
+
+
+<h3>王诗翔 &middot 
+2020-09-18</h3> 
+
+
+<p style="text-align:right;">
+  分类:
+  
+    <a href="../../../categories/linux">linux</a> &nbsp
+  
+  <br>
+  标签:
+  
+    <a href="../../../tags/linux">linux</a> &nbsp
+  
+    <a href="../../../tags/parallel">parallel</a> &nbsp
+  
+    <a href="../../../tags/bioinformatics">bioinformatics</a> &nbsp
+  
+</p>
+
+
+
+   
+  
+
+
+      </header>
+
+
+<p>原文出处：<a href="https://www.danielecook.com/using-gnu-parallel-for-bioinformatics/">https://www.danielecook.com/using-gnu-parallel-for-bioinformatics/</a></p>
+<p><a href="https://www.gnu.org/software/parallel/">GNU Parallel</a> 是一个用于加速生信分析不可或缺的一个工具。它允许你非常简单地对命令并行化处理。下面我将介绍一些如何使用它以及如何将它应用于生信。</p>
+<p>很多高性能计算平台节点已经预先安装了它。你可以从 <a href="https://www.danielecook.com/using-gnu-parallel-for-bioinformatics/brew.sh">homebrew</a> 或其他包管理器找到和安装它。</p>
+<h1 id="基本用法">基本用法</h1>
+<p>让我们从一个简单的例子开始：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">seq <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">5</span> | parallel -j <span style="color:#ae81ff">4</span> echo
+</code></pre></div><p>这里我们 (1) 打印了数字 1 到 5，且 (2) 将该序列数据通过管道传进了 <code>parallel</code> 命令。我们提供了一个命令 <code>echo</code> ，它将通过 <code>-j=4</code> 的选项指定进行并行化。我们可以通过添加 <code>--dry-run</code> 打印将要运行的命令。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">seq <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">5</span> | parallel --dry-run -j <span style="color:#ae81ff">4</span> echo
+echo <span style="color:#ae81ff">3</span>
+echo <span style="color:#ae81ff">4</span>
+echo <span style="color:#ae81ff">5</span>
+echo <span style="color:#ae81ff">2</span>
+echo <span style="color:#ae81ff">1</span>
+</code></pre></div><p>结果是乱序的！这是并行化的本质：不是所有的任务都会花费相同的时间，所以有的结束的早，有的结束的晚，因此输出顺序并不一致。我们可以使用 <code>-k</code> 选项强制程序执行“先入先出”准则。让我们看一下下面的结果：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">seq <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">5</span> | parallel -j <span style="color:#ae81ff">4</span> -k echo
+<span style="color:#ae81ff">1</span>
+<span style="color:#ae81ff">2</span>
+<span style="color:#ae81ff">3</span>
+<span style="color:#ae81ff">4</span>
+<span style="color:#ae81ff">5</span>
+</code></pre></div><p>像其他任何命令一样，我们可以将输出保存到文件中：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">seq <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">5</span> | parallel -j <span style="color:#ae81ff">4</span> -k echo &gt; out.txt
+</code></pre></div><h2 id="-j"><code>-j</code></h2>
+<p>为了让 GNU Parllel 工作，你需要一个多核 CPU。指定超过所拥有的核心数会让性能变得糟糕。因此，调节 <code>-j</code> 选项以便于命令更好地工作是非常重要的。</p>
+<p>幸运地是，<code>parallel</code> 运行你通过 <code>-j</code> 指定计算占有的 CPU 比例或相对数量。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">parallel -j 100% <span style="color:#75715e"># 使用 100% 的核心数</span>
+parallel -j -1 <span style="color:#75715e"># 使用比所有核心数少 1 个的核心数</span>
+parallel -j +1 <span style="color:#75715e"># 使用比所有核心数多 1 个的核心数</span>
+</code></pre></div><h2 id="使用--传递参数">使用 <code>:::</code> 传递参数</h2>
+<p>使用 <code>:::</code> 指定并行指定的命令参数（列表来源）。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">parallel -j <span style="color:#ae81ff">4</span> -k echo ::: <span style="color:#e6db74">`</span>seq <span style="color:#ae81ff">1</span> 5<span style="color:#e6db74">`</span>
+</code></pre></div><p><strong>注意</strong>，上面这种情况能够传递的参数数量是有限的，通过管道传递参数或像下面一样通过文件传递参数可能更好：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">seq <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">5</span> | parallel -j <span style="color:#ae81ff">4</span> -k echo
+</code></pre></div><h2 id="使用--传递文件内的参数">使用 <code>::::</code> 传递文件内的参数</h2>
+<p>For large argument lists you can specify a file with a list of arguments. Specify a file of arguments (one per line) using <code>::::</code>.</p>
+<p>如果参数列表很大，你可以通过文件指定，文件每一行对应要并行的一个参数：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">parallel -j <span style="color:#ae81ff">4</span> -k echo :::: my_args.txt
+</code></pre></div><h2 id="使用-">使用 `</h2>
+<p>默认 <code>parallel</code> 假定参数放在输入命令的结尾，但是你可以通过 <code>{}</code> 显式地指定：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">parallel --dry-run -j <span style="color:#ae81ff">4</span> -k echo <span style="color:#ae81ff">\&#34;</span><span style="color:#f92672">{}</span> <span style="color:#e6db74">&#34;&lt;-- a number&#34;</span><span style="color:#ae81ff">\&#34;</span> ::: <span style="color:#e6db74">`</span>seq <span style="color:#ae81ff">1</span> 5<span style="color:#e6db74">`</span>
+echo <span style="color:#e6db74">&#34;1 &lt;-- a number&#34;</span>
+echo <span style="color:#e6db74">&#34;2 &lt;-- a number&#34;</span>
+echo <span style="color:#e6db74">&#34;3 &lt;-- a number&#34;</span>
+echo <span style="color:#e6db74">&#34;4 &lt;-- a number&#34;</span>
+echo <span style="color:#e6db74">&#34;5 &lt;-- a number&#34;</span>
+</code></pre></div><p>注意上面我们使用转移符号输出了双引号。</p>
+<h2 id="组合">组合</h2>
+<p>你可以组合 <code>:::</code> 和 <code>:::</code> 来添加额外的参数，然后它们会生成所有可能的组合。这对测试有不同参数组合的命令非常有用：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">parallel --dry-run -k -j <span style="color:#ae81ff">4</span> Rscript run_analysis.R <span style="color:#f92672">{</span>1<span style="color:#f92672">}</span> <span style="color:#f92672">{</span>2<span style="color:#f92672">}</span> ::: <span style="color:#e6db74">`</span>seq <span style="color:#ae81ff">1</span> 2<span style="color:#e6db74">`</span> ::: A B C
+Rscript run_analysis.R <span style="color:#ae81ff">1</span> A
+Rscript run_analysis.R <span style="color:#ae81ff">1</span> B
+Rscript run_analysis.R <span style="color:#ae81ff">1</span> C
+Rscript run_analysis.R <span style="color:#ae81ff">2</span> A
+Rscript run_analysis.R <span style="color:#ae81ff">2</span> B
+Rscript run_analysis.R <span style="color:#ae81ff">2</span> C
+</code></pre></div><h2 id="并行化函数">并行化函数</h2>
+<p>在一些情况下，你想要执行一系列的命令。例如，下面的代码计算了输入DNA序列互补配对的碱基计数：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">echo <span style="color:#e6db74">&#34;ATTA&#34;</span> |  tr ATCG TAGC | <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    python -c <span style="color:#e6db74">&#34;import sys; o=sys.stdin.read().strip(); print(o, o.count(&#39;T&#39;), o.count(&#39;G&#39;), o.count(&#39;C&#39;), o.count(&#39;A&#39;))&#34;</span>
+</code></pre></div><p>这个命令有 2 个操作。但我们可以将它整合为 &lsquo;one-liner&rsquo;：创建一个 bash 函数，导出它，然后使用它作为输入：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#66d9ef">function</span> count_nts <span style="color:#f92672">{</span>
+    <span style="color:#75715e"># $1 is the first argument passed to the function</span>
+    echo $1 | tr ATCG TAGC | <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    python -c <span style="color:#e6db74">&#34;import sys; o=sys.stdin.read().strip(); print(o, o.count(&#39;T&#39;), o.count(&#39;G&#39;), o.count(&#39;C&#39;), o.count(&#39;A&#39;))&#34;</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#75715e"># Use the `-f` flag to export functions</span>
+export -f count_nts
+
+parallel -j <span style="color:#ae81ff">4</span> count_nts ::: TAAT TTT AAAAT GCGCAT | tr <span style="color:#e6db74">&#39; &#39;</span> <span style="color:#e6db74">&#39;\t&#39;</span>
+</code></pre></div><p>有了上面的基础，让我们看看如何使用它加速生信分析。</p>
+<h1 id="使用-gnu-parallel-进行-variant-calling">使用 GNU Parallel 进行 Variant Calling</h1>
+<p>当处理 BAMs 或 VCFs 时，你可以并行处理所有的染色体。大多数变异检测软件或注释工具允许你通过指定区间一次处理一个染色体。这允许我们使用<strong>拆分-应用-组合</strong>策略到该分析中。</p>
+<h2 id="从-bam-中分割染色体">从 BAM 中分割染色体</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chrom_list<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>samtools idxstats in.bam | cut -f <span style="color:#ae81ff">1</span> | grep -v <span style="color:#e6db74">&#39;*&#39;</span><span style="color:#e6db74">`</span>
+
+<span style="color:#75715e"># For c. elegans you can would see the following 7</span>
+<span style="color:#75715e"># I</span>
+<span style="color:#75715e"># II</span>
+<span style="color:#75715e"># III</span>
+<span style="color:#75715e"># IV</span>
+<span style="color:#75715e"># V</span>
+<span style="color:#75715e"># X</span>
+<span style="color:#75715e"># MtDNA</span>
+</code></pre></div><p>我们可以创建一个 bash 函数：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#66d9ef">function</span> bam_chromosomes <span style="color:#f92672">{</span>
+    samtools idxstats $1 | cut -f <span style="color:#ae81ff">1</span> | grep -v <span style="color:#e6db74">&#39;*&#39;</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h2 id="应用操作到每一条染色体">应用操作到每一条染色体</h2>
+<p>下面是处理代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#!/bin/bash
+</span><span style="color:#75715e"></span>
+genome<span style="color:#f92672">=</span>path/to/genome.fa
+export genome <span style="color:#75715e"># This is critical!</span>
+
+<span style="color:#66d9ef">function</span> parallel_call <span style="color:#f92672">{</span>
+    bcftools mpileup <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>        --fasta-ref <span style="color:#e6db74">${</span>genome<span style="color:#e6db74">}</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>        --regions $2 <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>        --output-type u <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>        $1 | <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    bcftools call --multiallelic-caller <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>                  --variants-only <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>                  --output-type u - &gt; <span style="color:#e6db74">${</span>1/.bam/<span style="color:#e6db74">}</span>.$2.bcf
+<span style="color:#f92672">}</span>
+
+export -f parallel_call
+
+chrom_set<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>bam_chromosomes test.bam<span style="color:#e6db74">`</span>
+parallel --verbose -j <span style="color:#ae81ff">4</span> parallel_call sample_A.bam ::: <span style="color:#e6db74">${</span>chrom_set<span style="color:#e6db74">}</span>
+</code></pre></div><p>一些重要的注意事项：</p>
+<ul>
+<li>
+<p>你必须导出 <code>export</code> 所有并行化函数中使用到的变量，例如上面的 <code>genome</code>。</p>
+</li>
+<li>
+<p><code>--output-type=u</code> 是出于效率考虑。</p>
+</li>
+<li>
+<p>Finally, I use a variable substitution to remove the extension from the bam and to generate a <code>&lt;sample&gt;.&lt;chromsome&gt;.bcf</code> filename: <code>${1/.bam/}.$2.bcf</code> → <code>sample_A.I.bam</code>, <code>sample_A.II.bam</code>, etc. This prevents filename collisions if we are calling many samples simultaneously.</p>
+</li>
+</ul>
+<h2 id="组合变异检测结果">组合变异检测结果</h2>
+<p>一旦我们完成工作，接着我们使用 bash 数组和组合所有结合并将其廉洁为单个文件。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># Generate an array of the resulting files</span>
+<span style="color:#75715e"># to be concatenated.</span>
+sample_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;sample_A&#34;</span>
+set -- <span style="color:#e6db74">`</span>echo $chrom_set | tr <span style="color:#e6db74">&#34;\n&#34;</span> <span style="color:#e6db74">&#34; &#34;</span><span style="color:#e6db74">`</span>
+set -- <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>@/#/<span style="color:#e6db74">${</span>sample_name<span style="color:#e6db74">}</span>.<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">&amp;&amp;</span> set -- <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>@/%/.bcf<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+<span style="color:#75715e"># This will generate a list of the output files:</span>
+<span style="color:#75715e"># sample_A.I.bcf sample_B.II.bcf etc.</span>
+
+set -- <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>@/#/test.<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">&amp;&amp;</span> set -- <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>@/%/.bcf<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+
+<span style="color:#75715e"># Output compressed result</span>
+bcftools concat $@ --output-type b &gt; $sample_name.bcf
+
+<span style="color:#75715e"># Remove intermediate files</span>
+rm $@
+</code></pre></div><p>为了确保所有中间文件被删除，这里使用了<a href="http://redsymbol.net/articles/bash-exit-traps/">bash trap</a>。</p>
+<h1 id="总结">总结</h1>
+<p>GNU Parallel 可以极大提高简单并行场景任务处理效率。虽然需要编写额外的代码用于处理拆分和组合两步，但这可以得到极大的效率提升。</p>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="../../../cn/post/2020-09-14-share-r-elastic-net-regression/">「分享」R 弹性网络回归四连击</a></span>
+  <span class="nav-next"></span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/post\/2020-09-14-share-r-elastic-net-regression\/';
+    
+  } else if (e.which == 39) {  
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+
+
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+<script>
+  const gitalk = new Gitalk({
+    clientID: 'eed477936be7b88a8455',
+    clientSecret: '32b5dde22f3c95c4fad400a31632e34221b07e83',
+    repo: 'home',
+    owner: 'ShixiangWang',
+    admin: ['ShixiangWang'],
+    id: md5(window.location.pathname), 
+    distractionFreeMode: false 
+  });
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('gitalk-container').innerHTML = 'Gitalk comments not available by default when the website is previewed locally.';
+      return;
+    }
+    gitalk.render('gitalk-container');
+  })();
+</script>
+
+
+
+
+
+<script async src="../../../js/fix-toc.js"></script>
+
+<script async src="../../../js/center-img.js"></script>
+
+<script async src="../../../js/right-quote.js"></script>
+
+<script async src="../../../js/no-highlight.js"></script>
+
+<script async src="../../../js/fix-footnote.js"></script>
+
+<script async src="../../../js/math-code.js"></script>
+
+<script async src="../../../js/external-link.js"></script>
+
+<script async src="../../../js/alt-title.js"></script>
+
+<script async src="../../../js/header-link.js"></script>
+
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+  
+  
+
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> · <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> · <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> · <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> · <a href="https://orcid.org/0000-0001-9855-7357"><i class='ai ai-orcid ai-1x'></i></a> · <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 © <a href="../../../">王诗翔</a> 2017 - 2020 </div>
+  
+  
+
+  <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56h9es09xn7&amp;m=6&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=1" async="async"></script>
+  </footer>
+  </article>
+  
+  </body>
+</html>
+

@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>「翻译」在生物信息学中使用 GNP-Parallel</title>
+      <link>/cn/post/2020-09-18-using-gnu-parallel-for-bioinformatics/</link>
+      <pubDate>Fri, 18 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2020-09-18-using-gnu-parallel-for-bioinformatics/</guid>
+      <description>原文出处：https://www.danielecook.com/using-gnu-parallel-for-bioinformatics</description>
+    </item>
+    
+    <item>
       <title>「分享」R 弹性网络回归四连击</title>
       <link>/cn/post/2020-09-14-share-r-elastic-net-regression/</link>
       <pubDate>Mon, 14 Sep 2020 00:00:00 +0000</pubDate>

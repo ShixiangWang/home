@@ -3,8 +3,38 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/tags/bioinformatics/</loc>
+    <lastmod>2020-09-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/categories/</loc>
-    <lastmod>2020-09-14T00:00:00+00:00</lastmod>
+    <lastmod>2020-09-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/linux/</loc>
+    <lastmod>2020-09-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/linux/</loc>
+    <lastmod>2020-09-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/parallel/</loc>
+    <lastmod>2020-09-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2020-09-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/cn/post/2020-09-18-using-gnu-parallel-for-bioinformatics/</loc>
+    <lastmod>2020-09-18T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -34,11 +64,6 @@
   
   <url>
     <loc>/tags/ridge/</loc>
-    <lastmod>2020-09-14T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/</loc>
     <lastmod>2020-09-14T00:00:00+00:00</lastmod>
   </url>
   
@@ -244,11 +269,6 @@
   
   <url>
     <loc>/tags/image/</loc>
-    <lastmod>2020-08-10T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/linux/</loc>
     <lastmod>2020-08-10T00:00:00+00:00</lastmod>
   </url>
   
@@ -529,11 +549,6 @@
   
   <url>
     <loc>/cn/post/2019-09-06-flexmix-model/</loc>
-    <lastmod>2020-08-09T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/bioinformatics/</loc>
     <lastmod>2020-08-09T00:00:00+00:00</lastmod>
   </url>
   
@@ -1244,11 +1259,6 @@
   
   <url>
     <loc>/tags/awk/</loc>
-    <lastmod>2017-12-25T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/linux/</loc>
     <lastmod>2017-12-25T00:00:00+00:00</lastmod>
   </url>
   
