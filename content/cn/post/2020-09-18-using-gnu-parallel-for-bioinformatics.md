@@ -80,8 +80,6 @@ seq 1 5 | parallel -j 4 -k echo
 
 ## 使用 `::::` 传递文件内的参数
 
-For large argument lists you can specify a file with a list of arguments. Specify a file of arguments (one per line) using `::::`.
-
 如果参数列表很大，你可以通过文件指定，文件每一行对应要并行的一个参数：
 
 ```bash

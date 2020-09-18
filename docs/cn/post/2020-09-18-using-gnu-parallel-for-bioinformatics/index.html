@@ -179,7 +179,6 @@ parallel -j +1 <span style="color:#75715e"># 使用比所有核心数多 1 个�
 </code></pre></div><p><strong>注意</strong>，上面这种情况能够传递的参数数量是有限的，通过管道传递参数或像下面一样通过文件传递参数可能更好：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">seq <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">5</span> | parallel -j <span style="color:#ae81ff">4</span> -k echo
 </code></pre></div><h2 id="使用--传递文件内的参数">使用 <code>::::</code> 传递文件内的参数</h2>
-<p>For large argument lists you can specify a file with a list of arguments. Specify a file of arguments (one per line) using <code>::::</code>.</p>
 <p>如果参数列表很大，你可以通过文件指定，文件每一行对应要并行的一个参数：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">parallel -j <span style="color:#ae81ff">4</span> -k echo :::: my_args.txt
 </code></pre></div><h2 id="使用-">使用 `</h2>
