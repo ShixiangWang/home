@@ -1,5 +1,5 @@
 ---
-title: "「翻译」在生物信息学中使用 GNP-Parallel"
+title: "「翻译」在生物信息学中使用 GNU-Parallel"
 author: "王诗翔"
 date: "2020-09-18"
 lastmod: "2020-09-18"
