@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>使用 rush 进行命令并行处理</title>
+      <link>/cn/post/2020-09-19-parallel-computation-with-rush/</link>
+      <pubDate>Sat, 19 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2020-09-19-parallel-computation-with-rush/</guid>
+      <description>https://github.com/shenwei356/rush#performance https://bioinf.shenwei.me/ 待写</description>
+    </item>
+    
+    <item>
       <title>「翻译」在生物信息学中使用 GNU-Parallel</title>
       <link>/cn/post/2020-09-18-using-gnu-parallel-for-bioinformatics/</link>
       <pubDate>Fri, 18 Sep 2020 00:00:00 +0000</pubDate>

@@ -4,32 +4,52 @@
   
   <url>
     <loc>/tags/bioinformatics/</loc>
-    <lastmod>2020-09-18T00:00:00+00:00</lastmod>
+    <lastmod>2020-09-19T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/categories/</loc>
-    <lastmod>2020-09-18T00:00:00+00:00</lastmod>
+    <lastmod>2020-09-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/golang/</loc>
+    <lastmod>2020-09-19T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/tags/linux/</loc>
-    <lastmod>2020-09-18T00:00:00+00:00</lastmod>
+    <lastmod>2020-09-19T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/categories/linux/</loc>
-    <lastmod>2020-09-18T00:00:00+00:00</lastmod>
+    <lastmod>2020-09-19T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/tags/parallel/</loc>
-    <lastmod>2020-09-18T00:00:00+00:00</lastmod>
+    <lastmod>2020-09-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/rush/</loc>
+    <lastmod>2020-09-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/shell/</loc>
+    <lastmod>2020-09-19T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/tags/</loc>
-    <lastmod>2020-09-18T00:00:00+00:00</lastmod>
+    <lastmod>2020-09-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/cn/post/2020-09-19-parallel-computation-with-rush/</loc>
+    <lastmod>2020-09-19T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -179,11 +199,6 @@
   
   <url>
     <loc>/tags/datatype/</loc>
-    <lastmod>2020-08-26T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/golang/</loc>
     <lastmod>2020-08-26T00:00:00+00:00</lastmod>
   </url>
   
@@ -1264,11 +1279,6 @@
   
   <url>
     <loc>/tags/sed/</loc>
-    <lastmod>2017-12-25T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/shell/</loc>
     <lastmod>2017-12-25T00:00:00+00:00</lastmod>
   </url>
   

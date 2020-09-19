@@ -6,7 +6,7 @@
     <description>Recent content in Tags on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 18 Sep 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 19 Sep 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,16 +14,25 @@
     <item>
       <title>bioinformatics</title>
       <link>/tags/bioinformatics/</link>
-      <pubDate>Fri, 18 Sep 2020 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 19 Sep 2020 00:00:00 +0000</pubDate>
       
       <guid>/tags/bioinformatics/</guid>
       <description></description>
     </item>
     
     <item>
+      <title>golang</title>
+      <link>/tags/golang/</link>
+      <pubDate>Sat, 19 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/golang/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>linux</title>
       <link>/tags/linux/</link>
-      <pubDate>Fri, 18 Sep 2020 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 19 Sep 2020 00:00:00 +0000</pubDate>
       
       <guid>/tags/linux/</guid>
       <description></description>
@@ -32,9 +41,27 @@
     <item>
       <title>parallel</title>
       <link>/tags/parallel/</link>
-      <pubDate>Fri, 18 Sep 2020 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 19 Sep 2020 00:00:00 +0000</pubDate>
       
       <guid>/tags/parallel/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>rush</title>
+      <link>/tags/rush/</link>
+      <pubDate>Sat, 19 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/rush/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>shell</title>
+      <link>/tags/shell/</link>
+      <pubDate>Sat, 19 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/shell/</guid>
       <description></description>
     </item>
     
@@ -206,15 +233,6 @@
       <pubDate>Wed, 26 Aug 2020 00:00:00 +0000</pubDate>
       
       <guid>/tags/datatype/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>golang</title>
-      <link>/tags/golang/</link>
-      <pubDate>Wed, 26 Aug 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/golang/</guid>
       <description></description>
     </item>
     
@@ -1250,15 +1268,6 @@
       <pubDate>Mon, 25 Dec 2017 00:00:00 +0000</pubDate>
       
       <guid>/tags/sed/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>shell</title>
-      <link>/tags/shell/</link>
-      <pubDate>Mon, 25 Dec 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/shell/</guid>
       <description></description>
     </item>
     

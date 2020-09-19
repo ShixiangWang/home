@@ -4,6 +4,9 @@ date: "2016-05-05"
 disable_comments: true
 ---
 
+![Anurag’s github
+stats](https://github-readme-stats.vercel.app/api?username=ShixiangWang&show_icons=true)
+
 网站的中文版本包含了一份作者个人简介、中文博客、读书笔记、翻译写作以及开发的工具列表与教程。
 
 ### 免责声明

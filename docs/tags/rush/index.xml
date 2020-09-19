@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>parallel on Shixiang Wang | 王诗翔</title>
-    <link>/tags/parallel/</link>
-    <description>Recent content in parallel on Shixiang Wang | 王诗翔</description>
+    <title>rush on Shixiang Wang | 王诗翔</title>
+    <link>/tags/rush/</link>
+    <description>Recent content in rush on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 19 Sep 2020 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/parallel/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/rush/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -18,15 +18,6 @@
       
       <guid>/cn/post/2020-09-19-parallel-computation-with-rush/</guid>
       <description>https://github.com/shenwei356/rush#performance https://bioinf.shenwei.me/ 待写</description>
-    </item>
-    
-    <item>
-      <title>「翻译」在生物信息学中使用 GNU-Parallel</title>
-      <link>/cn/post/2020-09-18-using-gnu-parallel-for-bioinformatics/</link>
-      <pubDate>Fri, 18 Sep 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/cn/post/2020-09-18-using-gnu-parallel-for-bioinformatics/</guid>
-      <description>原文出处：https://www.danielecook.com/using-gnu-parallel-for-bioinformatics</description>
     </item>
     
   </channel>
