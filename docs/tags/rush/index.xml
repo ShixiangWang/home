@@ -17,7 +17,7 @@
       <pubDate>Sat, 19 Sep 2020 00:00:00 +0000</pubDate>
       
       <guid>/cn/post/2020-09-19-parallel-computation-with-rush/</guid>
-      <description>https://github.com/shenwei356/rush#performance https://bioinf.shenwei.me/ 待写</description>
+      <description>rush 是一个类似于 GNU-parallel 的工具，提供了并行化命令的处理方案。 官方地址是：https://github.com/shenwei356/rush，该工具</description>
     </item>
     
   </channel>

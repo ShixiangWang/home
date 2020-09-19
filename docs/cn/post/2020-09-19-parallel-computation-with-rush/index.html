@@ -27,6 +27,11 @@
     
     
 
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/Xcode.min.css' rel='stylesheet' type='text/css' />
+
+
+
     <link rel="stylesheet" href="../../../css/style.css" />
     <link rel="stylesheet" href="../../../css/mystyle.css" /> 
     <link rel="stylesheet" href="../../../css/fonts.css" />
@@ -146,10 +151,124 @@
       </header>
 
 
-<p><a href="https://github.com/shenwei356/rush#performance">https://github.com/shenwei356/rush#performance</a></p>
-<p><a href="https://bioinf.shenwei.me/">https://bioinf.shenwei.me/</a></p>
-<p>待写</p>
+<p>rush 是一个类似于 GNU-parallel 的工具，提供了并行化命令的处理方案。
+官方地址是：<a href="https://github.com/shenwei356/rush">https://github.com/shenwei356/rush</a>，该工具由人称爪哥的生信同行用 Golang 编写而成（强！）。
+他开发的其他几个工具也比较有名，如 <a href="https://github.com/shenwei356/seqkit">seqkit</a>、<a href="https://github.com/shenwei356/csvtk">csvtk</a>。感兴趣的朋友可以访问他的<a href="https://bioinf.shenwei.me/">博客</a>。</p>
+<p>rush 提供的功能特性非常多，作为技术介绍文，这里我只会简单介绍它的基础核心功能。其他功能读者可以通过 GitHub 官网阅读和学习。</p>
+<h2 id="下载和安装">下载和安装</h2>
+<ul>
+<li>Linux - <a href="http://app.shenwei.me/data/rush/rush_linux_amd64.tar.gz">http://app.shenwei.me/data/rush/rush_linux_amd64.tar.gz</a></li>
+<li>MacOS - <a href="http://app.shenwei.me/data/rush/rush_darwin_amd64.tar.gz">http://app.shenwei.me/data/rush/rush_darwin_amd64.tar.gz</a></li>
+<li>Windows - <a href="http://app.shenwei.me/data/rush/rush_windows_amd64.exe.tar.gz">http://app.shenwei.me/data/rush/rush_windows_amd64.exe.tar.gz</a> 然后拷贝 rush.exe 到 <code>C:\WINDOWS\system32</code></li>
+<li>Golang - <code>go get -u github.com/shenwei356/rush/</code></li>
+</ul>
+<p>对于 Linux 和 MacOS，下载后记得将文件放到 <code>PATH</code> 变量支持的目录下或者添加新的 PATH 路径。</p>
+<h2 id="简单使用">简单使用</h2>
+<h3 id="简单运行">简单运行</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ seq <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">3</span> | rush echo <span style="color:#f92672">{}</span>
+<span style="color:#ae81ff">1</span>
+<span style="color:#ae81ff">2</span>
+<span style="color:#ae81ff">3</span>
+</code></pre></div><p>使用 <code>-k</code> 保证输出顺序不变，对比下下面两个结果：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">seq <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">10</span> | rush echo <span style="color:#f92672">{}</span>
+<span style="color:#ae81ff">8</span>
+<span style="color:#ae81ff">1</span>
+<span style="color:#ae81ff">2</span>
+<span style="color:#ae81ff">4</span>
+<span style="color:#ae81ff">7</span>
+<span style="color:#ae81ff">3</span>
+<span style="color:#ae81ff">6</span>
+<span style="color:#ae81ff">5</span>
+<span style="color:#ae81ff">10</span>
+<span style="color:#ae81ff">9</span>
+                                                                                                         
+$ seq <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">10</span> | rush -k echo <span style="color:#f92672">{}</span>
+<span style="color:#ae81ff">1</span>
+<span style="color:#ae81ff">2</span>
+<span style="color:#ae81ff">3</span>
+<span style="color:#ae81ff">4</span>
+<span style="color:#ae81ff">5</span>
+<span style="color:#ae81ff">6</span>
+<span style="color:#ae81ff">7</span>
+<span style="color:#ae81ff">8</span>
+<span style="color:#ae81ff">9</span>
+<span style="color:#ae81ff">10</span>
+</code></pre></div><p>要并行的命令是可以包裹在引号中的，即 <code>seq 1 10 | rush -k &quot;echo {}&quot;</code>。</p>
+<h3 id="通过--i-从文件中读取数据">通过 <code>-i</code> 从文件中读取数据</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ seq <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">3</span> &gt; data1.txt
+$ seq <span style="color:#ae81ff">4</span> <span style="color:#ae81ff">6</span> &gt; data2.txt
+$ rush echo <span style="color:#f92672">{}</span> -i data1.txt -i data2.txt
+<span style="color:#ae81ff">4</span>
+<span style="color:#ae81ff">6</span>
+<span style="color:#ae81ff">3</span>
+<span style="color:#ae81ff">1</span>
+<span style="color:#ae81ff">2</span>
+<span style="color:#ae81ff">5</span>
+</code></pre></div><p>这里比较强大在于 <code>-i</code> 可以多次使用。</p>
+<h3 id="-r-设定重试次数"><code>-r</code> 设定重试次数</h3>
+<p>这个在处理一些涉及联网的操作时应该相当有用。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">seq <span style="color:#ae81ff">1</span> | rush <span style="color:#e6db74">&#39;python unexisted_script.py&#39;</span> -r <span style="color:#ae81ff">1</span>
+python: can<span style="color:#e6db74">&#39;t open file &#39;</span>unexisted_script.py<span style="color:#e6db74">&#39;: [Errno 2] No such file or directory
+</span><span style="color:#e6db74">[WARN] wait cmd #1: python unexisted_script.py: exit status 2
+</span><span style="color:#e6db74">python: can&#39;</span>t open file <span style="color:#e6db74">&#39;unexisted_script.py&#39;</span>: <span style="color:#f92672">[</span>Errno 2<span style="color:#f92672">]</span> No such file or directory
+<span style="color:#f92672">[</span>ERRO<span style="color:#f92672">]</span> wait cmd <span style="color:#75715e">#1: python unexisted_script.py: exit status 2</span>
+</code></pre></div><h3 id="一些有用的占位符">一些有用的占位符</h3>
+<ul>
+<li>目录名 <code>{/}</code></li>
+<li>文件名 <code>{%}</code></li>
+<li>移除后缀 <code>{^suffix}</code></li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ echo dir/file_1.txt.gz | rush <span style="color:#e6db74">&#39;echo {/} {%} {^_1.txt.gz}&#39;</span>
+dir file_1.txt.gz dir/file
+</code></pre></div><ul>
+<li>移除文件名最后的拓展名 <code>{%.}</code></li>
+<li>移除文件名所有拓展名 <code>{%:}</code></li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ echo dir.d/file.txt.gz | rush <span style="color:#e6db74">&#39;echo {%.} {%:}&#39;</span>        
+file.txt file
+</code></pre></div><p>分别使用 <code>{.}</code> 和 <code>{:}</code> 会保留目录：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ echo dir.d/file.txt.gz | rush <span style="color:#e6db74">&#39;echo {.} {:}&#39;</span>  
+dir.d/file.txt dir.d/file
+</code></pre></div><ul>
+<li>job id <code>{#}</code></li>
+<li>域索引 <code>{N}</code></li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">echo <span style="color:#ae81ff">12</span> file.txt dir/s_1.fq.gz | rush <span style="color:#e6db74">&#39;echo job {#}: {2} {2.} {3%:^_1}&#39;</span>
+job 1: file.txt file s
+</code></pre></div><ul>
+<li>使用正则表达式提取子串 <code>{@regexp}</code></li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ echo read_1.fq.gz | rush <span style="color:#e6db74">&#39;echo {@(.+)_\d}&#39;</span>
+read
+</code></pre></div><h3 id="-d-自定义域分隔符"><code>-d</code> 自定义域分隔符</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ echo a<span style="color:#f92672">=</span>b<span style="color:#f92672">=</span>c | rush <span style="color:#e6db74">&#39;echo {1} {2} {3}&#39;</span> -d <span style="color:#f92672">=</span>
+a b c
+</code></pre></div><h3 id="-d-自定义记录分隔符"><code>-D</code> 自定义记录分隔符</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ echo a b c d | rush -D <span style="color:#e6db74">&#34; &#34;</span> -k <span style="color:#e6db74">&#39;echo {}&#39;</span>
+a
+b
+c
+d
+</code></pre></div><blockquote>
+<p><strong>记录</strong>理解为数据的行，<strong>域</strong>理解为数据的列。</p>
+</blockquote>
+<h3 id="-n-传递多行数据到命令"><code>-n</code> 传递多行数据到命令</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">seq <span style="color:#ae81ff">5</span> | rush -n <span style="color:#ae81ff">2</span> -k <span style="color:#e6db74">&#39;echo &#34;{}&#34;; echo&#39;</span>
+<span style="color:#ae81ff">1</span>
+<span style="color:#ae81ff">2</span>
 
+<span style="color:#ae81ff">3</span>
+<span style="color:#ae81ff">4</span>
+
+<span style="color:#ae81ff">5</span>
+
+</code></pre></div><h3 id="-t-设定超时"><code>-t</code> 设定超时</h3>
+<p>这个功能我自己认为用处不是很大，但对于处理那种长时间生信数据处理来说有时候可能会有发挥的地方。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ time seq <span style="color:#ae81ff">1</span> | rush <span style="color:#e6db74">&#39;sleep 2; echo {}&#39;</span> -t <span style="color:#ae81ff">1</span>
+<span style="color:#f92672">[</span>ERRO<span style="color:#f92672">]</span> run cmd <span style="color:#75715e">#1: sleep 2; echo 1: time out</span>
+seq <span style="color:#ae81ff">1</span>  0.00s user 0.00s system 66% cpu 0.005 total
+rush <span style="color:#e6db74">&#39;sleep 2; echo {}&#39;</span> -t <span style="color:#ae81ff">1</span>  0.01s user 0.01s system 2% cpu 1.022 total
+</code></pre></div>
 
   <footer>
   
@@ -225,6 +344,19 @@ document.addEventListener('keyup', function(e) {
 <script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
   
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
 
 
   
