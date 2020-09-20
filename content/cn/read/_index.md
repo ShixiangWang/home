@@ -18,6 +18,14 @@ disable_comments: true
 - [【第三章：使用基本数据类型】](../read/mastering-go-book-chapter-03)
 - [【第四章：组合数据类型】](../read/mastering-go-book-chapter-04)
 
+# 数理基础
+
+## 《程序员的数学》
+
+- [第一本](../read/math-for-programmer-s1)
+- [第二本：概率统计](../read/math-for-programmer-s2)
+- [第三本：线性代数](../read/math-for-programmer-s3)
+
 # 生物信息学
 
 ## 生物统计学与R手册
