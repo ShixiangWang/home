@@ -176,8 +176,8 @@ publishDir = "docs"
     weight = 9
 
 [[menu.cn]]
-    name = "简书"
-    url = "https://www.jianshu.com/u/b6608e27dc74"
+    name = "知乎"
+    url = "https://www.zhihu.com/people/shixiangwang"
     weight = 10
 
 [[menu.cn]]
