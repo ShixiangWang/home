@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    
+    <link rel="stylesheet" href="../../../fonts/academicons-1.8.6/css/academicons.min.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../logo/bodhi.png"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    
+    <title>《机器学习》学习笔记 - 王诗翔</title>
+    
+     
+    <meta property="og:title" content="《机器学习》学习笔记 - Shixiang Wang | 王诗翔">
+    
+
+    
+      
+    
+
+    
+
+    
+    
+
+    <link rel="stylesheet" href="../../../css/style.css" />
+    <link rel="stylesheet" href="../../../css/mystyle.css" /> 
+    <link rel="stylesheet" href="../../../css/fonts.css" />
+    
+<script async src="../../../js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="../../../css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="../../../logo/ShixiangWang.png"><img src="../../../logo/ShixiangWang.png" alt="Shixiang Wang" /></a></h1>
+
+
+
+      <nav class="menu">
+        <input id="menu-check" type="checkbox" />
+        <label id="menu-label" for="menu-check" class="unselectable">
+          <span class="icon close-icon">✕</span>
+          <span class="icon open-icon">☰</span>
+          <span class="text">Menu</span>
+        </label>
+        <ul>
+        
+        
+        <li><a href="../../../">首页</a></li>
+        
+        <li><a href="../../../cn/about/">关于</a></li>
+        
+        <li><a href="../../../cn/post/">博客</a></li>
+        
+        <li><a href="../../../cn/read/">读书</a></li>
+        
+        <li><a href="../../../cn/writing">写作</a></li>
+        
+        <li><a href="../../../cn/research/">研究</a></li>
+        
+        <li><a href="../../../cn/tools/">工具</a></li>
+        
+        <li><a href="../../../cn/cv-cn/shixiang">简历</a></li>
+        
+        <li><a href="../../../logo/qrcode.jpg">公众号</a></li>
+        
+        <li><a href="https://www.zhihu.com/people/shixiangwang">知乎</a></li>
+        
+        <li><a href="../../../cn/todo">ToDo</a></li>
+        
+        <li><a href="../../../en/">English</a></li>
+        
+        <li><a href="../../../categories/">分类</a></li>
+        
+        <li><a href="../../../tags/">标签</a></li>
+        
+        
+
+<li class="menu-extra"></li>
+
+
+
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/read/machine-learning-by-zhou.md" target="_blank">编辑</a></li>
+
+
+<li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+        </ul>
+      </nav>
+    </header>
+
+    <article class="main">
+      <header class="title">
+        
+
+<h1>《机器学习》学习笔记</h1>
+
+
+
+<h3>王诗翔 &middot 
+2020-09-21</h3> 
+
+
+<p style="text-align:right;">
+  分类:
+  
+    <a href="../../../categories/ml">ml</a> &nbsp
+  
+  <br>
+  标签:
+  
+    <a href="../../../tags/machine-learning">machine-learning</a> &nbsp
+  
+    <a href="../../../tags/math">math</a> &nbsp
+  
+    <a href="../../../tags/%E7%BB%9F%E8%AE%A1">统计</a> &nbsp
+  
+</p>
+
+
+
+   
+  
+
+
+      </header>
+
+
+<h2 id="模型评估与选择">模型评估与选择</h2>
+<h3 id="评估方法">评估方法</h3>
+<h4 id="留出法hold-out">留出法（hold-out）</h4>
+<p>将数据集划分为两个互斥的集合，其中一个作为训练集，另一个作为测试集。
+在训练集上训练出模型后，使用测试集评估测试误差，作为对泛化误差的估计。</p>
+<p>需要注意，训练/测试集划分要尽量保持数据分布的一致性。
+分类任务中只要要保证样本的类别比例相似，可以使用“分层采样”的办法进行划分。</p>
+<p>常见的做法是大约 2/3～4/5 的样本用作训练。</p>
+<h4 id="交叉验证法cross-validation">交叉验证法（cross validation）</h4>
+<p>将数据集划分为 k 个大小相似的互斥子集。每个子集尽可能保持数据分布的一致性。
+然后每次用 k-1 个子集的并集作为训练集，余下的一个子集作为测试集。
+最终返回的是 k 个测试结果的平均值。
+显然，结果的稳定性和保真很大程度取决于 k 的取值，一般取 10。</p>
+<p>若令 k 等于样本数，则得到一个特例：留一法（Leave-One-Out，LOO）。</p>
+<p>留一法的评估结果往往比较准确，但不适用于大的数据集（计算开销大）。</p>
+<h4 id="自助法bootstrapping">自助法（bootstrapping）</h4>
+<p>留出法和交叉验证由于没有使用到一些样本可能会引入估计偏差，而留一法计算复杂度又高。
+比较好的解决方案是“自助法”（bootstrapping），它以自助采样（bootstrap sampling）为基础。
+即如果一个数据集有 m 个样本，我们对它随机重采样 m 个样本（一个样本可能多次被提取）。
+由于数据集样本在采样数据集样本中可能多次出现，因此没有被采样的样本可以作为测试集。</p>
+<p>我们可以估计样本在 m 次采样中不被采到的概率为 $$(1 - \frac{1}{m})^m$$，极限约为 0.368。</p>
+<p>这样我们训练集和测试集都有 m 个样本。这样的结果也称为“包外估计”（out-of-bag estimate）。</p>
+<p>自助法在数据集较少、难以有效划分训练/测试集时很有用。</p>
+<p>不过，自助法产生的数据集改变了初始数据集的分布，可能会引入估计偏差。</p>
+<h4 id="调参">调参</h4>
+<p>除了要对适用学习算法进行选择，还需要对算法参数进行设定，就是所谓的调参（parameter tuning）。</p>
+<h4 id="最终模型">最终模型</h4>
+<p>在确定学习算法和参数以后，此时应该用全部样本对模型训练得到最终的生产模型。</p>
+<h3 id="性能度量">性能度量</h3>
+<h4 id="回归任务">回归任务</h4>
+<p>最常用的是均方误差。</p>
+<h4 id="分类任务">分类任务</h4>
+<ul>
+<li>错误率 error rate</li>
+<li>精度 accuracy</li>
+<li>准确度 precision</li>
+<li>查全率、召回率 recall</li>
+<li>常用的是 F1，泛化后是 F beta</li>
+<li>真阳性率</li>
+<li>假阳性率</li>
+<li>ROC/AUC</li>
+<li>ROC 隐性假设了均等代价，不均等时使用代价曲线作为评估手段</li>
+</ul>
+<p>曲线：</p>
+<ul>
+<li>P-R 曲线：平衡点是准确率与召回率相等时取值</li>
+</ul>
+<h4 id="假设检验">假设检验</h4>
+<ul>
+<li>二项检验</li>
+<li>t 检验：检验多次留出法或交叉验证的平均错误率</li>
+<li>McNemar 检验：生成两个算法针对分类结果的混淆矩阵，然后进行检验</li>
+<li>Friedman 和 Nemenyi 后续检验：针对多个算法效果进行比较</li>
+</ul>
+<h3 id="偏差与方差">偏差与方差</h3>
+<p>“偏差-方差分解”（bias-variance decomposition）是解释学习算法泛化性能的一种重要工具。</p>
+<p>泛化误差可以分解为偏差、方差和噪声之和。</p>
+<ul>
+<li>偏差：度量学习算法的期望预测与真实结果的偏离程度，即学习算法的拟合能力。</li>
+<li>方差：度量同样大小的训练集的变动所导致的学习性能变化，即刻画数据扰动所造成的影星。</li>
+<li>噪声：表达了当前任务上任何学习算法所能达到的期望泛化误差的下界，即刻画了学习问题本身的难度。</li>
+</ul>
+<p>也就是说，<strong>泛化性能是由学习算法的能力，数据的充分性以及学习任务本身的难度所共同决定的</strong>。</p>
+<p>一般，偏差和方差存在冲突。</p>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="../../../cn/read/math-for-programmer-s1/">《程序员的数学》（一）</a></span>
+  <span class="nav-next"></span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/read\/math-for-programmer-s1\/';
+    
+  } else if (e.which == 39) {  
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+
+
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+<script>
+  const gitalk = new Gitalk({
+    clientID: 'eed477936be7b88a8455',
+    clientSecret: '32b5dde22f3c95c4fad400a31632e34221b07e83',
+    repo: 'home',
+    owner: 'ShixiangWang',
+    admin: ['ShixiangWang'],
+    id: md5(window.location.pathname), 
+    distractionFreeMode: false 
+  });
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('gitalk-container').innerHTML = 'Gitalk comments not available by default when the website is previewed locally.';
+      return;
+    }
+    gitalk.render('gitalk-container');
+  })();
+</script>
+
+
+
+
+
+<script async src="../../../js/fix-toc.js"></script>
+
+<script async src="../../../js/center-img.js"></script>
+
+<script async src="../../../js/right-quote.js"></script>
+
+<script async src="../../../js/no-highlight.js"></script>
+
+<script async src="../../../js/fix-footnote.js"></script>
+
+<script async src="../../../js/math-code.js"></script>
+
+<script async src="../../../js/external-link.js"></script>
+
+<script async src="../../../js/alt-title.js"></script>
+
+<script async src="../../../js/header-link.js"></script>
+
+
+<script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+  
+
+
+  
+  
+  
+
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> · <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> · <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> · <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> · <a href="https://orcid.org/0000-0001-9855-7357"><i class='ai ai-orcid ai-1x'></i></a> · <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 © <a href="../../../">王诗翔</a> 2017 - 2020 </div>
+  
+  
+
+  <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56h9es09xn7&amp;m=6&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=1" async="async"></script>
+  </footer>
+  </article>
+  
+  </body>
+</html>
+

@@ -26,6 +26,10 @@ disable_comments: true
 - [第二本：概率统计](../read/math-for-programmer-s2)
 - [第三本：线性代数](../read/math-for-programmer-s3)
 
+## 《机器学习》——周志华
+
+- [读书笔记](../read/machine-learning-by-zhou)
+
 # 生物信息学
 
 ## 生物统计学与R手册
