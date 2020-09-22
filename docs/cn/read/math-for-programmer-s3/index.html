@@ -198,7 +198,23 @@ $$</p>
   <img src="https://pic3.zhimg.com/80/v2-c9d9fad0e94ca4c89252b1755e152b5e_1440w.jpg" alt="">
   </span>
 </p>
-<h3 id="矩阵">矩阵</h3>
+<h3 id="矩阵和映射">矩阵和映射</h3>
+<p><strong>矩阵就是映射</strong>。</p>
+<p>将 n 维向量 <code>$\boldsymbol{x}$</code> 乘以 m x n 矩阵 <code>$\boldsymbol{A}$</code>，就能得到 m 维向量 <code>$\boldsymbol{y} = \boldsymbol{A}\boldsymbol{x}$</code>。也就是说，矩阵 A 确定了一个向量到另一个向量的映射。</p>
+<p>在矩阵世界里，我们需要将列向量看作一个基本单位。映射的过程可以看作原来单位向量到当前坐标的转变。</p>
+<p>例如，矩阵 A 是：</p>
+<p><code>$$ \begin{pmatrix} 2 &amp; 0.3 \\ 1.3 &amp; 0.8 \end{pmatrix} $$</code></p>
+<p>可以理解为第一维度 <code>(1, 0)</code> 点到了 <code>(2, 1.3)</code>，第二维度 <code>(0, 1)</code> 点到了 <code>(0.3, 0.8)</code>。</p>
+<p><strong>矩阵的乘积等于映射的合成</strong>。</p>
+<p><code>$$ (BA)x = B(Ax) $$</code></p>
+<p>先通过 A 转换，再通过 B 转换。</p>
+<p><strong>逆矩阵等于逆映射</strong>。</p>
+<p>定义：对于方阵 <code>$A$</code>，它的逆映射对应的矩阵称为 <code>$A$</code> 的逆矩阵。即，对于任意的向量 <code>$\boldsymbol{x}$</code>，若有 <code>$A\boldsymbol{x}=\boldsymbol{y}$</code>，则有 <code>$A^{-1}\boldsymbol{y}=\boldsymbol{x}$</code> 成立。</p>
+<p>逆矩阵并不一定存在。但对于任意矩阵 <code>$A$</code>，都有逆矩阵的推广概念——广义逆矩阵。</p>
+<p>分块矩阵在计算时要⚠️注意它的乘法，我们可以将分块矩阵当作大矩阵的元素，运用矩阵的乘法进行操作。</p>
+<p>矩阵既可以使用列向量表示，也可以使用行向量表示。</p>
+<p>如果分块矩阵主对角线上的区块都是方阵，并且其他地方的矩阵都是零矩阵，则称为分块对角矩阵。
+它的好处在于我们可以将整个矩阵的映射看作多个独立的变换组成，每个变换对应一个区块。</p>
 
 
   <footer>
