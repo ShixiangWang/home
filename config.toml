@@ -106,11 +106,6 @@ publishDir = "docs"
     weight = 4
 
 [[menu.en]]
-    name = "List"
-    url = "/en/list/"
-    weight = 5
-
-[[menu.en]]
     name = "CV"
     url = "/en/cv-en/Shixiang"
     weight = 6
@@ -181,8 +176,8 @@ publishDir = "docs"
     weight = 10
 
 [[menu.cn]]
-    name = "ToDo"
-    url = "/cn/todo"
+    name = "推荐阅读"
+    url = "/cn/mark"
     weight = 11
 
 [[menu.cn]]
