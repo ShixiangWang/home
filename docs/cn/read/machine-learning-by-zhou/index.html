@@ -160,7 +160,7 @@
 比较好的解决方案是“自助法”（bootstrapping），它以自助采样（bootstrap sampling）为基础。
 即如果一个数据集有 m 个样本，我们对它随机重采样 m 个样本（一个样本可能多次被提取）。
 由于数据集样本在采样数据集样本中可能多次出现，因此没有被采样的样本可以作为测试集。</p>
-<p>我们可以估计样本在 m 次采样中不被采到的概率为 $$(1 - \frac{1}{m})^m$$，极限约为 0.368。</p>
+<p>我们可以估计样本在 m 次采样中不被采到的概率为 <code>$(1 - \frac{1}{m})^m$</code>，极限约为 0.368。</p>
 <p>这样我们训练集和测试集都有 m 个样本。这样的结果也称为“包外估计”（out-of-bag estimate）。</p>
 <p>自助法在数据集较少、难以有效划分训练/测试集时很有用。</p>
 <p>不过，自助法产生的数据集改变了初始数据集的分布，可能会引入估计偏差。</p>
@@ -277,7 +277,9 @@ document.addEventListener('keyup', function(e) {
 <script async src="../../../js/header-link.js"></script>
 
 
+<script src="//yihui.org/js/math-code.js"></script>
 <script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script async src="//yihui.org/js/center-img.js"></script>
 
   
 

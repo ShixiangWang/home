@@ -142,10 +142,10 @@
 
 <ul>
 <li>
-<p>样本混合物中Cancer细胞比例：alpha  (假设单染色体组monogenomic，即有同源SCNAs)</p>
+<p>样本混合物中Cancer细胞比例：<code>$\alpha$</code>  (假设单染色体组monogenomic，即有同源SCNAs)</p>
 </li>
 <li>
-<p>样本混合物中Normal细胞比例：1-alpha （染色体倍性为2）</p>
+<p>样本混合物中Normal细胞比例：<code>$1-\alpha$</code> （染色体倍性为2）</p>
 </li>
 <li>
 <p>基因组某位点：x</p>
@@ -154,13 +154,11 @@
 <p>Cancer细胞中该位点（整型）拷贝数表示为：q(x)</p>
 </li>
 <li>
-<p>Cancer细胞平均倍性为：tau，定义为整个基因组上q(x)的平均值</p>
+<p>Cancer细胞平均倍性为：<code>$\tau$</code>，定义为整个基因组上 q(x) 的平均值</p>
 </li>
 </ul>
 <p>样本混合物中位点x的平均绝对拷贝数为：</p>
-<p>$$
-\alpha q(x) + 2(1-\alpha)    \rightarrow Cancer细胞比例<em>位点拷贝数+正常细胞比例</em>位点拷贝数2
-$$</p>
+<p><code>$$ \alpha q(x) + 2(1-\alpha) \rightarrow Cancer细胞比例*位点拷贝数+正常细胞比例*位点拷贝数2 $$</code></p>
 <p>样本混合物中平均倍性D为：</p>
 <p>$$
 \alpha \tau + 2(1-\alpha) \rightarrow Cancer细胞比例 * Cancer倍性 + 正常细胞比例 * 正常细胞倍性2
@@ -175,7 +173,7 @@ $$</p>
 <p>$$
 \rightarrow 平均绝对拷贝数 / 平均倍性
 $$</p>
-<p>因为q(x)取整数值，因此R(x)必然是离散值。最小值为(2(1-\alpha)/D)，发生在<strong>纯合性缺失</strong>位点，对应正常细胞的DNA比例。</p>
+<p>因为q(x)取整数值，因此R(x)必然是离散值。最小值为<code>$(2(1-\alpha)/D)$</code>，发生在<strong>纯合性缺失</strong>位点，对应正常细胞的DNA比例。</p>
 <p><strong>Notably, if a cancer sample is not strictly clonal, copy-number alteration occurring in substantial subclonal fraction will appear as outliers from this pattern.</strong></p>
 
 
@@ -252,7 +250,9 @@ document.addEventListener('keyup', function(e) {
 <script async src="../../../js/header-link.js"></script>
 
 
+<script src="//yihui.org/js/math-code.js"></script>
 <script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script async src="//yihui.org/js/center-img.js"></script>
 
   
 
