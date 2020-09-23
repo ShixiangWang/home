@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>typora on Shixiang Wang | 王诗翔</title>
+    <link>/tags/typora/</link>
+    <description>Recent content in typora on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 23 Sep 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/typora/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Markdown 和 RMarkdown 最佳入口</title>
+      <link>/cn/post/2020-09-23-use-markdown-and-rmarkdown/</link>
+      <pubDate>Wed, 23 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2020-09-23-use-markdown-and-rmarkdown/</guid>
+      <description>特性与用途 简单 结构化-转换 Word PDF HTML &amp;hellip; 多编辑器支持 Typora RStudio Jupyter notebook VS Code &amp;hellip; Markdown 效果（以 Typora 为例） 图片： .img-container { text-align: center; display: block; } 标题： .img-container { text-align: center; display: block; } 列表： .img-container { text-align: center; display: block; } 表</description>
+    </item>
+    
+  </channel>
+</rss>

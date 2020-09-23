@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    
+    <link rel="stylesheet" href="../../../fonts/academicons-1.8.6/css/academicons.min.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../logo/bodhi.png"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    
+    <title>Markdown 和 RMarkdown 最佳入口 - 王诗翔</title>
+    
+     
+    <meta property="og:title" content="Markdown 和 RMarkdown 最佳入口 - Shixiang Wang | 王诗翔">
+    
+
+    
+      
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/Xcode.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="../../../css/style.css" />
+    <link rel="stylesheet" href="../../../css/mystyle.css" /> 
+    <link rel="stylesheet" href="../../../css/fonts.css" />
+    
+<script async src="../../../js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="../../../css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="../../../logo/ShixiangWang.png"><img src="../../../logo/ShixiangWang.png" alt="Shixiang Wang" /></a></h1>
+
+
+
+      <nav class="menu">
+        <input id="menu-check" type="checkbox" />
+        <label id="menu-label" for="menu-check" class="unselectable">
+          <span class="icon close-icon">✕</span>
+          <span class="icon open-icon">☰</span>
+          <span class="text">Menu</span>
+        </label>
+        <ul>
+        
+        
+        <li><a href="../../../">首页</a></li>
+        
+        <li><a href="../../../cn/about/">关于</a></li>
+        
+        <li><a href="../../../cn/post/">博客</a></li>
+        
+        <li><a href="../../../cn/read/">读书</a></li>
+        
+        <li><a href="../../../cn/writing">写作</a></li>
+        
+        <li><a href="../../../cn/research/">研究</a></li>
+        
+        <li><a href="../../../cn/tools/">工具</a></li>
+        
+        <li><a href="../../../cn/cv-cn/shixiang">简历</a></li>
+        
+        <li><a href="../../../logo/qrcode.jpg">公众号</a></li>
+        
+        <li><a href="https://www.zhihu.com/people/shixiangwang">知乎</a></li>
+        
+        <li><a href="../../../cn/mark">推荐阅读</a></li>
+        
+        <li><a href="../../../en/">English</a></li>
+        
+        <li><a href="../../../categories/">分类</a></li>
+        
+        <li><a href="../../../tags/">标签</a></li>
+        
+        
+
+<li class="menu-extra"></li>
+
+
+
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2020-09-23-use-markdown-and-rmarkdown.md" target="_blank">编辑</a></li>
+
+
+<li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+        </ul>
+      </nav>
+    </header>
+
+    <article class="main">
+      <header class="title">
+        
+
+<h1>Markdown 和 RMarkdown 最佳入口</h1>
+
+
+
+<h3>王诗翔 &middot 
+2020-09-23</h3> 
+
+
+<p style="text-align:right;">
+  分类:
+  
+    <a href="../../../categories/r">r</a> &nbsp
+  
+  <br>
+  标签:
+  
+    <a href="../../../tags/r">r</a> &nbsp
+  
+    <a href="../../../tags/markdown">markdown</a> &nbsp
+  
+    <a href="../../../tags/rmarkdown">rmarkdown</a> &nbsp
+  
+    <a href="../../../tags/pandoc">pandoc</a> &nbsp
+  
+    <a href="../../../tags/typora">typora</a> &nbsp
+  
+    <a href="../../../tags/bookdown">bookdown</a> &nbsp
+  
+    <a href="../../../tags/blogdown">blogdown</a> &nbsp
+  
+</p>
+
+
+
+   
+  
+
+
+      </header>
+
+
+<h3 id="特性与用途">特性与用途</h3>
+<ul>
+<li>简单</li>
+<li>结构化-转换
+<ul>
+<li>Word</li>
+<li>PDF</li>
+<li>HTML</li>
+<li>&hellip;</li>
+</ul>
+</li>
+<li>多编辑器支持
+<ul>
+<li><a href="https://typora.io/">Typora</a></li>
+<li><a href="https://rstudio.com/">RStudio</a></li>
+<li><a href="https://rstudio.com/">Jupyter notebook</a></li>
+<li><a href="https://code.visualstudio.com/">VS Code</a></li>
+<li>&hellip;</li>
+</ul>
+</li>
+</ul>
+<h3 id="markdown-效果以-typora-为例">Markdown 效果（以 Typora 为例）</h3>
+<p>图片：</p>
+<p><style>
+  .img-container {
+    text-align: center;
+    display: block;
+  }
+</style>
+
+  <img src="https://gitee.com/ShixiangWang/ImageCollection/raw/master/png/20200923214830.png" alt="image-20200923214830609">
+  </span>
+</p>
+<p>标题：</p>
+<p><style>
+  .img-container {
+    text-align: center;
+    display: block;
+  }
+</style>
+
+  <img src="https://gitee.com/ShixiangWang/ImageCollection/raw/master/png/20200923214900.png" alt="image-20200923214900003">
+  </span>
+</p>
+<p>列表：</p>
+<p><style>
+  .img-container {
+    text-align: center;
+    display: block;
+  }
+</style>
+
+  <img src="https://gitee.com/ShixiangWang/ImageCollection/raw/master/png/20200923214924.png" alt="image-20200923214924176">
+  </span>
+</p>
+<p>表格：</p>
+<p><style>
+  .img-container {
+    text-align: center;
+    display: block;
+  }
+</style>
+
+  <img src="https://gitee.com/ShixiangWang/ImageCollection/raw/master/png/20200923214945.png" alt="image-20200923214945182">
+  </span>
+</p>
+<p>代码块：</p>
+<p><style>
+  .img-container {
+    text-align: center;
+    display: block;
+  }
+</style>
+
+  <img src="https://gitee.com/ShixiangWang/ImageCollection/raw/master/png/20200923215012.png" alt="image-20200923215012642">
+  </span>
+</p>
+<p>数学公式（LaTex语法）：</p>
+<p><style>
+  .img-container {
+    text-align: center;
+    display: block;
+  }
+</style>
+
+  <img src="https://gitee.com/ShixiangWang/ImageCollection/raw/master/png/20200923215041.png" alt="image-20200923215041934">
+  </span>
+</p>
+<p>流程图：</p>
+<p><style>
+  .img-container {
+    text-align: center;
+    display: block;
+  }
+</style>
+
+  <img src="https://gitee.com/ShixiangWang/ImageCollection/raw/master/png/20200923215100.png" alt="image-20200923215100346">
+  </span>
+</p>
+<p>行内元素：</p>
+<p><style>
+  .img-container {
+    text-align: center;
+    display: block;
+  }
+</style>
+
+  <img src="https://gitee.com/ShixiangWang/ImageCollection/raw/master/png/20200923215120.png" alt="image-20200923215120900">
+  </span>
+</p>
+<p>各种格式转换：</p>
+<p><style>
+  .img-container {
+    text-align: center;
+    display: block;
+  }
+</style>
+
+  <img src="https://gitee.com/ShixiangWang/ImageCollection/raw/master/png/20200923215146.png" alt="image-20200923215146498">
+  </span>
+</p>
+<h3 id="rmarkdown-效果">RMarkdown 效果</h3>
+<p>R 包文档（knitr 和 rmarkdown）：</p>
+<p><style>
+  .img-container {
+    text-align: center;
+    display: block;
+  }
+</style>
+
+  <img src="https://gitee.com/ShixiangWang/ImageCollection/raw/master/png/20200923215621.png" alt="image-20200923215621662">
+  </span>
+</p>
+<p>博客与网站（<a href="https://bookdown.org/yihui/blogdown/">blogdown</a>）：</p>
+<p><style>
+  .img-container {
+    text-align: center;
+    display: block;
+  }
+</style>
+
+  <img src="https://gitee.com/ShixiangWang/ImageCollection/raw/master/png/20200923215240.png" alt="image-20200923215240574">
+  </span>
+</p>
+<p>用于重复分析和研究展示：</p>
+<p><style>
+  .img-container {
+    text-align: center;
+    display: block;
+  }
+</style>
+
+  <img src="https://gitee.com/ShixiangWang/ImageCollection/raw/master/png/20200923215647.png" alt="image-20200923215647007">
+  </span>
+</p>
+<p>书籍（<a href="https://bookdown.org/">bookdown</a>）：</p>
+<p><style>
+  .img-container {
+    text-align: center;
+    display: block;
+  }
+</style>
+
+  <img src="https://gitee.com/ShixiangWang/ImageCollection/raw/master/png/20200923215425.png" alt="image-20200923215425642">
+  </span>
+</p>
+<h3 id="基础语法和用法">基础语法和用法</h3>
+<p>目前对于两者的介绍网上一大堆，而且本身语法简单，上手很快，这里不会过多介绍。**本文的核心在于让读者了解这些工具以及根据需要去学习和利用它们。**这里主要为初学者提供比较有参考价值的资料：</p>
+<ul>
+<li><a href="https://rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf">RMarkdown 参考手册</a>，这里单纯的 Markdown 语法关注第一页，后续则被 RMarkdown 和其引擎 knitr 所拓展，镜像：<a href="https://www.jianguoyun.com/p/DUV0ewgQ6uuVCBjRtr4D">https://www.jianguoyun.com/p/DUV0ewgQ6uuVCBjRtr4D</a>。</li>
+<li><a href="https://www.rstudio.org/links/r_markdown_cheat_sheet">RMarkdown 小抄</a>，打印使用，镜像：<a href="https://www.jianguoyun.com/p/Da0QaqwQ6uuVCBjNtr4D">https://www.jianguoyun.com/p/Da0QaqwQ6uuVCBjNtr4D</a>。</li>
+<li>RStudio 网站介绍：https://rmarkdown.rstudio.com/lesson-1.html。</li>
+<li>yihui 的 <a href="https://bookdown.org/yihui/rmarkdown/">RMarkdown 权威指南</a>。</li>
+<li>yihui 的 <a href="https://bookdown.org/yihui/rmarkdown-cookbook/">RMarkdown cookbook</a>。</li>
+<li>yihui 的 <a href="https://bookdown.org/yihui/blogdown/">blogdown</a>。</li>
+<li>yihui 的 <a href="https://bookdown.org/yihui/bookdown/">bookdown</a>。</li>
+</ul>
+<p>仔细阅读上面的资料，其他资料基本没有学习的必要。</p>
+<p>关于 RMarkdown knitr 相关设置，yihui 的文档网站有比较好的解释：<a href="https://yihui.org/knitr/">https://yihui.org/knitr/</a>。</p>
+<p>另外有时候文章代码需要格式化，推荐下面两个 R 包</p>
+<ul>
+<li><a href="https://github.com/yihui/formatR">formatR</a></li>
+<li><a href="https://github.com/r-lib/styler">styler</a></li>
+</ul>
+<p>注意，在使用 RMarkdown 时，使用 RStudio 提供的 <code>knit</code> 按钮是非必须的，我们可以直接通过 R 命令执行这一渲染（格式转换）过程，如 rmarkdown -&gt; html：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">rmarkdown<span style="color:#f92672">::</span><span style="color:#a6e22e">render</span>(<span style="color:#e6db74">&#34;week19/example.Rmd&#34;</span>, output_format <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;html_document&#34;</span>)
+</code></pre></div><p>如果是使用 bookdown 写书，则是：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">bookdown<span style="color:#f92672">::</span><span style="color:#a6e22e">render_book</span>(<span style="color:#e6db74">&#34;index.Rmd&#34;</span>)
+</code></pre></div>
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="../../../cn/post/2020-09-19-parallel-computation-with-rush/">使用 rush 进行命令并行处理</a></span>
+  <span class="nav-next"></span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/post\/2020-09-19-parallel-computation-with-rush\/';
+    
+  } else if (e.which == 39) {  
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+
+
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+<script>
+  const gitalk = new Gitalk({
+    clientID: 'eed477936be7b88a8455',
+    clientSecret: '32b5dde22f3c95c4fad400a31632e34221b07e83',
+    repo: 'home',
+    owner: 'ShixiangWang',
+    admin: ['ShixiangWang'],
+    id: md5(window.location.pathname), 
+    distractionFreeMode: false 
+  });
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('gitalk-container').innerHTML = 'Gitalk comments not available by default when the website is previewed locally.';
+      return;
+    }
+    gitalk.render('gitalk-container');
+  })();
+</script>
+
+
+
+
+
+<script async src="../../../js/fix-toc.js"></script>
+
+<script async src="../../../js/center-img.js"></script>
+
+<script async src="../../../js/right-quote.js"></script>
+
+<script async src="../../../js/no-highlight.js"></script>
+
+<script async src="../../../js/fix-footnote.js"></script>
+
+<script async src="../../../js/math-code.js"></script>
+
+<script async src="../../../js/external-link.js"></script>
+
+<script async src="../../../js/alt-title.js"></script>
+
+<script async src="../../../js/header-link.js"></script>
+
+
+<script src="//yihui.org/js/math-code.js"></script>
+<script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script async src="//yihui.org/js/center-img.js"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+  
+  
+
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> · <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> · <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> · <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> · <a href="https://orcid.org/0000-0001-9855-7357"><i class='ai ai-orcid ai-1x'></i></a> · <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 © <a href="../../../">王诗翔</a> 2017 - 2020 </div>
+  
+  
+
+  <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56h9es09xn7&amp;m=6&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=1" async="async"></script>
+  </footer>
+  </article>
+  
+  </body>
+</html>
+
