@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>fit on Shixiang Wang | 王诗翔</title>
+    <link>/tags/fit/</link>
+    <description>Recent content in fit on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 25 Sep 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/fit/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>使用 ggplot2 进行曲线拟合</title>
+      <link>/cn/post/2020-09-25-fit-scatter-with-lm/</link>
+      <pubDate>Fri, 25 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2020-09-25-fit-scatter-with-lm/</guid>
+      <description>有读者询问如何对散点图拟合非线性的曲线。实际上我们通常看到的无论是直线拟合还是各种曲线拟合都属于广义线性模型。 这里我们构造一组数据来看看如何</description>
+    </item>
+    
+  </channel>
+</rss>

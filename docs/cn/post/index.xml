@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>使用 ggplot2 进行曲线拟合</title>
+      <link>/cn/post/2020-09-25-fit-scatter-with-lm/</link>
+      <pubDate>Fri, 25 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2020-09-25-fit-scatter-with-lm/</guid>
+      <description>有读者询问如何对散点图拟合非线性的曲线。实际上我们通常看到的无论是直线拟合还是各种曲线拟合都属于广义线性模型。 这里我们构造一组数据来看看如何</description>
+    </item>
+    
+    <item>
       <title>Markdown 和 RMarkdown 最佳入口</title>
       <link>/cn/post/2020-09-23-use-markdown-and-rmarkdown/</link>
       <pubDate>Wed, 23 Sep 2020 00:00:00 +0000</pubDate>
