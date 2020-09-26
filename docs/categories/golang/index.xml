@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>《Mastering Go》第五章笔记</title>
+      <link>/cn/read/mastering-go-book-chapter-05/</link>
+      <pubDate>Wed, 26 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/read/mastering-go-book-chapter-05/</guid>
+      <description>Go 的一些数据结构（图、树、队列等）都由标准包 container 提供。 图和顶点 图G(V,E)是顶点V(或节点)的有限非空集合和边E的集合。图有两种主要类型:循</description>
+    </item>
+    
+    <item>
       <title>《Mastering Go》第四章笔记</title>
       <link>/cn/read/mastering-go-book-chapter-04/</link>
       <pubDate>Wed, 26 Aug 2020 00:00:00 +0000</pubDate>

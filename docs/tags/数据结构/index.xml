@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>数据结构 on Shixiang Wang | 王诗翔</title>
+    <link>/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</link>
+    <description>Recent content in 数据结构 on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 26 Aug 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>《Mastering Go》第五章笔记</title>
+      <link>/cn/read/mastering-go-book-chapter-05/</link>
+      <pubDate>Wed, 26 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/read/mastering-go-book-chapter-05/</guid>
+      <description>Go 的一些数据结构（图、树、队列等）都由标准包 container 提供。 图和顶点 图G(V,E)是顶点V(或节点)的有限非空集合和边E的集合。图有两种主要类型:循</description>
+    </item>
+    
+  </channel>
+</rss>

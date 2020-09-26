@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>genomics on Shixiang Wang | 王诗翔</title>
+    <link>/tags/genomics/</link>
+    <description>Recent content in genomics on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 26 Sep 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/genomics/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>一个函数获取 TCGA/CCLE 单基因分子数据</title>
+      <link>/cn/post/2020-09-26-access-gene-level-cancer-data-from-ucsc-xena/</link>
+      <pubDate>Sat, 26 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2020-09-26-access-gene-level-cancer-data-from-ucsc-xena/</guid>
+      <description>这篇文章很久之前就想写了，但一直因为一些事情拖延了。 在开发 UCSCXenaShiny 的基础上，我将其中支持的 UCSCXena TCGA/CCLE 单基因数据下载函数进行了整理，构建了一个单一的入口。</description>
+    </item>
+    
+  </channel>
+</rss>

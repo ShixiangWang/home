@@ -1,0 +1,120 @@
+---
+title: "一个函数获取 TCGA/CCLE 单基因分子数据"
+author: "王诗翔"
+date: "2020-09-26"
+lastmod: "`r Sys.Date()`"
+slug: ""
+# All available categories:
+# bioinformatics, config, docker, golang, life, linux, ml, r, read, shell, thinking
+categories: ["r"]
+tags: ["r", "单基因分析", "Xena", "cancer", "genomics"]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, dev = "png", comment = "#>", tidy = "styler")
+#Sys.setenv("LANGUAGE"="EN") # Embed this for outputing English message
+#Sys.setlocale('LC_ALL','C') # Embed this directly in the Rmarkdown script that contains the Chinese character comment
+options(digits=3)
+options(max.print=200)
+```
+
+> 这篇文章很久之前就想写了，但一直因为一些事情拖延了。
+
+在开发 UCSCXenaShiny 的基础上，我将其中支持的 UCSCXena TCGA/CCLE 单基因数据下载函数进行了整理，构建了一个单一的入口。这样即使用户无需加载 Shiny，也能够简单自在的下载 癌症单基因数据了。
+
+> 这里单独说的 TCGA 不太全面，实际包含了 TCGA TARGET GTEx 3 个数据库，它们是个体水平的数据。而 CCLE 是细胞水平数据。
+
+## 下载安装包
+
+在国内我们统一推荐下载 Gitee 上的包：
+
+```r
+remotes::install_git("https://gitee.com/XenaShiny/UCSCXenaShiny")
+```
+
+如果你已经安装 CRAN 上的 UCSCXenaShiny，也需要进行上面的操作，否则无法使用最新的函数。
+
+## 参数说明
+
+函数就一个 `query_value()`。
+
+简单看看有哪些参数：
+
+```{r}
+library(UCSCXenaShiny)
+args(query_value)
+```
+
+非常简单哈，只有 3 个：
+
+- 第 1 个是基因名/蛋白名等。
+- 第 2 个是数据的类型，包括基因表达（gene），转录本表达（transcript）、突变（mutation）、拷贝数变异（cnv）和甲基化（methylation），默认是基因表达。
+- 第 3 个是数据库，包括 toil（包括上面提到的 TCGA 等几个个体水平数据）和 ccle。
+
+## 使用
+
+了解函数参数后，使用就根据自己所需就行了。如果还不懂，可以不断试错。
+
+我们以 TP53 基因为例下载一些数据看看。
+
+```{r}
+gene_expr <- query_value("TP53")
+```
+
+这个返回结果的结构：
+
+```{r}
+str(gene_expr)
+```
+
+
+可以查看部分数据：
+
+```{r}
+gene_expr$expression[1:5]
+```
+
+有了这个数据就可以结合病人的各种表型去做分析啦。
+
+我们再看下它的 CNV 和 突变情况。
+
+```{r}
+# CNV
+gene_cnv <- query_value("TP53", data_type = "cnv")
+gene_cnv$data[1:5]
+
+# 突变
+gene_mut <- query_value("TP53", data_type = "mutation")
+gene_mut[1:5]
+```
+
+简单利用 tidyverse 包，我们可以将几种分子数据整合到一起：
+
+```{r}
+library(tidyverse)
+
+expr <- dplyr::tibble(
+  sample = names(gene_expr$expression),
+  expr = as.numeric(gene_expr$expression)
+)
+
+cnv <- dplyr::tibble(
+  sample = names(gene_cnv$data),
+  cnv = as.numeric(gene_cnv$data)
+)
+
+mut <- dplyr::tibble(
+  sample = names(gene_mut),
+  mut = as.numeric(gene_mut)
+)
+
+tp53 <- purrr::reduce(list(expr, cnv, mut), dplyr::full_join, by = "sample")
+  
+```
+
+最后简单画个图吧：
+
+```{r}
+GGally::ggpairs(tp53[, -1])
+```
+
