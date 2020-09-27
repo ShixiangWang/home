@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>correlation on Shixiang Wang | 王诗翔</title>
+    <link>/tags/correlation/</link>
+    <description>Recent content in correlation on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 27 Sep 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/correlation/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>「分享」相关分析</title>
+      <link>/cn/post/2020-09-27-share-a-post-about-correlation/</link>
+      <pubDate>Sun, 27 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2020-09-27-share-a-post-about-correlation/</guid>
+      <description>文章链接：Correlations</description>
+    </item>
+    
+  </channel>
+</rss>
