@@ -1,0 +1,340 @@
+---
+title: "R 表格可视化 10+ 指南"
+author: "王诗翔"
+date: "2020-10-09"
+lastmod: "`r Sys.Date()`"
+slug: ""
+# All available categories:
+# bioinformatics, config, docker, golang, life, linux, ml, r, read, shell, thinking
+categories: ["r"]
+tags: ["r", "table", "可视化", "tidyverse", "gt"]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, dev = "png", comment = "#>", tidy = "styler")
+#Sys.setenv("LANGUAGE"="EN") # Embed this for outputing English message
+#Sys.setlocale('LC_ALL','C') # Embed this directly in the Rmarkdown script that contains the Chinese character comment
+options(digits=3)
+options(max.print=200)
+```
+
+原文：<https://themockup.blog/posts/2020-09-04-10-table-rules-in-r/> [Rmd](https://github.com/jthomasmock/radix_themockup/blob/master/_posts/2020-09-04-10-table-rules-in-r/10-table-rules-in-r.Rmd)
+
+> 本文根据原文翻译而成，根据实际运行测试和理解进行修改。
+
+表格和图的区别：
+
+- 表格：一般用来查询和比较单独的值，精确地展示数据。
+- 图：一般用来反应数据集的关系和整体的形状。
+
+## 表格用途分类
+
+根据下图展示的用途分类选择是否需要使用表格：
+
+![](https://themockup.blog/posts/2020-09-04-10-table-rules-in-r/table-table.png)
+
+## `gt`：表格语法
+
+`gt` 是一个 R 包，它能够通过表格语法将表格数据转换为一个表格！
+
+除了 `gt` 包，还有以下一些有用的表格相关 R 包：
+
+- [`kableExtra`](https://haozhu233.github.io/kableExtra/) - 处理 HTML/LaTex 非常好。
+- [`formattable`](https://renkun-ken.github.io/formattable/) - 处理 HTML 自定义单元格填充非常好。
+- [`DT`](https://rstudio.github.io/DT/) 或 [`reactable`](https://glin.github.io/reactable/) 处理响应表（常用于 RMarkdown 和 Shiny）。
+- [`flextable`](https://davidgohel.github.io/flextable/) - 处理 Word 基于的表格。
+- [`gtsummary`](http://www.danieldsjoberg.com/gtsummary/) - 有用的 `gt` 拓展包。
+
+以下是表格语法：
+
+![](https://gt.rstudio.com/reference/figures/gt_parts_of_a_table.svg)
+
+### 读取和预处理数据
+
+```{r}
+library(tidyverse)
+library(gt)
+
+key_crop_yields <- read_csv("../../../static/datasets/key_crop_yields.csv.gz", col_types = cols())
+
+yield_data <- key_crop_yields %>% 
+  janitor::clean_names() %>% 
+  rename_with(~str_remove(., "_tonnes_per_hectare")) %>% 
+  filter(!is.na(code)) %>% 
+  select(entity:beans, -code) %>% 
+  pivot_longer(cols = wheat:beans, names_to = "crop", values_to = "yield") %>% 
+  rename(Country = entity)
+
+country_sel <- c("China", "India", "United States", "Indonesia", "Mexico", "Pakistan")
+
+yield_data_wide <- key_crop_yields %>% 
+  janitor::clean_names() %>% 
+  rename_with(~str_remove(., "_tonnes_per_hectare")) %>% 
+  select(entity:beans, -code) %>% 
+  pivot_longer(cols = wheat:beans, names_to = "crop", values_to = "yield") %>% 
+  rename(Country = entity) %>% 
+  filter(crop %in% c("potatoes", "maize"), 
+         year %in% c(2014:2016),
+         Country %in% country_sel) %>% 
+  pivot_wider(names_from = year, values_from = yield)
+```
+
+
+### 基础 `gt` 表
+
+你可以通过向 `gt()` 传递数据来创建表，其思想是通过管道逐步向 gt 表添加层或更改。
+
+```{r}
+# This works!
+# gt(yield_data_wide)
+
+# pipe also works!
+yield_data_wide %>% 
+  gt()
+```
+
+### 添加组别
+
+我们可以通过传入一个分组 tibble 将一个表分成不同的组别：
+
+```{r}
+yield_data_wide %>% 
+  head() %>% 
+  group_by(Country) %>% # respects grouping from dplyr
+  gt(rowname_col = "crop")
+```
+
+或者直接通过参数显式指定：
+
+```{r}
+yield_data_wide %>% 
+  head() %>%
+  gt(
+    groupname_col = "crop",
+    rowname_col = "Country"
+  )
+```
+
+分组也对成组汇总行非常有用。
+
+```{r}
+# fmt_number() 用来设定浮点数
+
+yield_data_wide %>% 
+  mutate(crop = str_to_title(crop)) %>% 
+  group_by(crop) %>% 
+  gt(
+    rowname_col = "Country"
+  ) %>% 
+  fmt_number(
+    columns = 2:5, # 按位置指定列
+    decimals = 2 # 降低浮点数位
+    ) %>% 
+  summary_rows(
+    groups = TRUE,
+    columns = vars(`2014`, `2015`, `2016`), # 按名字指定列
+    fns = list(
+      avg = ~mean(.), # 添加任意多的汇总
+      sd = ~sd(.)
+    )
+  )
+```
+
+
+### 添加跨列修饰
+
+直接使用 `tab_spanner()`。
+
+```{r}
+yield_data_wide %>% 
+  head() %>%
+  gt(
+    groupname_col = "crop",
+    rowname_col = "Country"
+  ) %>% 
+  tab_spanner(
+    label = "Yield in Tonnes/Hectare", 
+    columns = 2:5
+    )
+```
+
+### 添加注释和标题
+
+`tab_footnote()` 用来添加脚注。注意下面我们使用 `locations` 参数标记要修饰的表格列，而这里并不是指在数据中的位置（2:5），另外我们还可以使用 `vars(name)`（类似上面） 设定。
+
+```{r}
+yield_data_wide %>% 
+  head() %>%
+  gt(
+    groupname_col = "crop",
+    rowname_col = "Country"
+  ) %>% 
+  tab_footnote(
+    footnote = "Yield in Tonnes/Hectare", 
+    locations = cells_column_labels(
+      columns = 1:3 # note
+      )
+    )
+```
+
+添加来源注释：
+
+```{r}
+yield_data_wide %>% 
+  head() %>%
+  gt(
+    groupname_col = "crop",
+    rowname_col = "Country"
+  ) %>% 
+  tab_footnote(
+    footnote = "Yield in Tonnes/Hectare", 
+    locations = cells_column_labels(
+      columns = 1:3 # note
+      )
+    ) %>% 
+  tab_source_note(source_note = "Data: OurWorldInData")
+```
+
+使用 `tab_header()` 为表格添加标题，利用 `md()` 或 `html()` 对文字进行修饰。
+
+```{r}
+yield_data_wide %>% 
+  head() %>%
+  gt(
+    groupname_col = "crop",
+    rowname_col = "Country"
+  ) %>%
+  tab_header(
+    title = md("**Crop Yields between 2014 and 2016**"),
+    subtitle = html("<em>Countries limited to Asia</em>")
+  )
+```
+
+### 修改展示
+
+我们可以利用 `tab_options()` 自定义表格外观。所有支持的设定请阅读[文档](https://gt.rstudio.com/reference/tab_options.html)。
+
+```{r}
+yield_data_wide %>% 
+  head() %>%
+  gt(
+    groupname_col = "crop",
+    rowname_col = "Country"
+  ) %>%
+  tab_header(
+    title = "Crop Yields between 2014 and 2016",
+    subtitle = "Countries limited to Asia"
+  ) %>% 
+  tab_options(
+    heading.subtitle.font.size = 12,
+    heading.align = "left",
+    table.border.top.color = "black",
+    column_labels.border.bottom.color = "black",
+    column_labels.border.bottom.width= px(3),
+  )
+```
+
+由于 gt 的管道特性，我们可以像 ggplot2 一样设置主题。
+
+```{r}
+my_theme <- function(data) {
+  tab_options(
+    data = data,
+    heading.subtitle.font.size = 12,
+    heading.align = "left",
+    table.border.top.color = "black",
+    column_labels.border.bottom.color = "black",
+    column_labels.border.bottom.width= px(3),
+  )
+}
+
+yield_data_wide %>% 
+  head() %>%
+  gt(
+    groupname_col = "crop",
+    rowname_col = "Country"
+  ) %>%
+  tab_header(
+    title = "Crop Yields between 2014 and 2016",
+    subtitle = "Countries limited to Asia"
+  ) %>% 
+  my_theme()
+```
+
+通过 `tab_style()` 我们可以设定特定单元格的风格。
+
+```{r}
+yield_data_wide %>% 
+  head() %>%
+  gt() %>% 
+  tab_style(
+    style = list(
+      cell_text(weight = "bold")
+    ),
+    locations = cells_column_labels(everything())
+  ) %>% 
+  tab_style(
+    style = list(
+      cell_fill(color = "black", alpha = 0.2),
+      cell_borders(
+        side = c("left", "right"), 
+        color = "black",
+        weight = px(2)
+        )
+      ),
+    locations = cells_body(
+      columns = vars(crop)
+      )
+  ) %>% 
+  tab_style(
+    style = list(
+      cell_text(color = "red", style = "italic")
+    ),
+    locations = cells_body(
+      columns = 3:5,
+      rows = Country == "China"
+    )
+  )
+```
+
+利用 `data_color()` 和 `scales::col_numeric()` 设定连续的数据颜色。
+
+```{r}
+yield_data_wide %>% 
+  head() %>%
+  gt(
+    groupname_col = "crop",
+    rowname_col = "Country"
+  ) %>% 
+  data_color(
+    columns = vars(`2014`, `2015`, `2016`),
+    colors = scales::col_numeric(
+      paletteer::paletteer_d(
+        palette = "ggsci::red_material") %>% as.character(),
+        domain = NULL
+        )
+      )
+```
+
+也可以自定义调色板：
+
+```{r}
+yield_data_wide %>% 
+  head() %>%
+  gt(
+    groupname_col = "crop",
+    rowname_col = "Country"
+  ) %>% 
+  data_color(
+    columns = vars(`2014`, `2015`, `2016`),
+    colors = scales::col_numeric(
+      c("white", "pink", "red"),
+        domain = NULL
+        )
+      )
+```
+
+> gt 会自动修改文字的颜色以增强对比度，通过 `autocolor_text = FALSE` 关闭该特性。
+
+以上就是 gt 基础了，接下来我们会学习更深刻的表格优化指南。
+

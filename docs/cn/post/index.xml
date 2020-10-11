@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>R 表格可视化 10&#43; 指南</title>
+      <link>/cn/post/2020-10-09-table-rules-in-r/</link>
+      <pubDate>Fri, 09 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2020-10-09-table-rules-in-r/</guid>
+      <description>原文：https://themockup.blog/posts/2020-09-04-10-table-rules-in-r/ Rmd 本文根据原文</description>
+    </item>
+    
+    <item>
       <title>关于 GLIBC 版本笔记</title>
       <link>/cn/post/2020-09-28-note-about-glibc/</link>
       <pubDate>Mon, 28 Sep 2020 00:00:00 +0000</pubDate>

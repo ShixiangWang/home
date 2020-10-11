@@ -6,10 +6,19 @@
     <description>Recent content in r on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 27 Sep 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 09 Oct 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/r/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>R 表格可视化 10&#43; 指南</title>
+      <link>/cn/post/2020-10-09-table-rules-in-r/</link>
+      <pubDate>Fri, 09 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2020-10-09-table-rules-in-r/</guid>
+      <description>原文：https://themockup.blog/posts/2020-09-04-10-table-rules-in-r/ Rmd 本文根据原文</description>
+    </item>
     
     <item>
       <title>「分享」相关分析</title>
