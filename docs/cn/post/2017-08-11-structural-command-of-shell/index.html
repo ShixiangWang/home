@@ -190,9 +190,9 @@ commands
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~/script_learn$ cat test3.sh
 <span style="color:#75715e">#!/bin/bash</span>
 <span style="color:#75715e"># testing multiple commands in the then section</span>
-#
+<span style="color:#75715e">#</span>
 testuser<span style="color:#f92672">=</span>wsx
-#
+<span style="color:#75715e">#</span>
 <span style="color:#66d9ef">if</span> grep $testuser /etc/passwd
 <span style="color:#66d9ef">then</span>
   echo <span style="color:#e6db74">&#34;This is my first command&#34;</span>
@@ -225,9 +225,9 @@ I can even put in other commands besides echo:
 <span style="color:#75715e">#!/bin/bash</span>
 
 <span style="color:#75715e"># Testing nested ifs</span>
-#
+<span style="color:#75715e">#</span>
 testuser<span style="color:#f92672">=</span>NoSuchUser
-#
+<span style="color:#75715e">#</span>
 <span style="color:#66d9ef">if</span> grep $testuser /etc/passwd
 <span style="color:#66d9ef">then</span>
   echo <span style="color:#e6db74">&#34;The user </span>$testuser<span style="color:#e6db74"> exits on this system.&#34;</span>
@@ -476,9 +476,9 @@ ls: 无法访问<span style="color:#e6db74">&#39;/home/NoSuchUser/&#39;</span>: 
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~/script_learn$ cat test23.sh
 <span style="color:#75715e">#!/bin/bash</span>
 <span style="color:#75715e"># using doble parenthesis</span>
-#
+<span style="color:#75715e">#</span>
 val1<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>
-#
+<span style="color:#75715e">#</span>
 <span style="color:#66d9ef">if</span> <span style="color:#f92672">((</span> $val1 ** <span style="color:#ae81ff">2</span> &gt; <span style="color:#ae81ff">90</span> <span style="color:#f92672">))</span>
 <span style="color:#66d9ef">then</span>
   <span style="color:#f92672">((</span> val2 <span style="color:#f92672">=</span> $val1 ** <span style="color:#ae81ff">2</span> <span style="color:#f92672">))</span>
@@ -497,7 +497,7 @@ The square of <span style="color:#ae81ff">10</span> is <span style="color:#ae81f
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~/script_learn$ cat test24.sh
 <span style="color:#75715e">#! /bin/bash</span>
 <span style="color:#75715e"># using pattern matching</span>
-#
+<span style="color:#75715e">#</span>
 <span style="color:#66d9ef">if</span> <span style="color:#f92672">[[</span> $USER <span style="color:#f92672">==</span> r* <span style="color:#f92672">]]</span>
 <span style="color:#66d9ef">then</span>
   echo <span style="color:#e6db74">&#34;Hello </span>$USER<span style="color:#e6db74">&#34;</span>
@@ -516,7 +516,7 @@ Sorry, I <span style="color:#66d9ef">do</span> not know you
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~/script_learn$ cat test25.sh
 <span style="color:#75715e">#!/bin/bash</span>
 <span style="color:#75715e"># looking for a possible value</span>
-#
+<span style="color:#75715e">#</span>
 <span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> $USER <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;rich&#34;</span> <span style="color:#f92672">]</span>
 <span style="color:#66d9ef">then</span>
   echo <span style="color:#e6db74">&#34;Welcome </span>$USER<span style="color:#e6db74">&#34;</span>
@@ -541,7 +541,7 @@ esac
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~/script_learn$ cat test26.sh
 <span style="color:#75715e">#!/bin/bash</span>
 <span style="color:#75715e"># using the case command</span>
-#
+<span style="color:#75715e">#</span>
 <span style="color:#66d9ef">case</span> $USER in
 rich | barbara<span style="color:#f92672">)</span>
   echo <span style="color:#e6db74">&#34;Welcome, </span>$USER<span style="color:#e6db74">&#34;</span>

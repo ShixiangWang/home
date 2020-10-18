@@ -6,11 +6,7 @@
     <description>Recent content in pubmed on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 13 Apr 2018 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/tags/pubmed/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Fri, 13 Apr 2018 00:00:00 +0000</lastBuildDate><atom:link href="/tags/pubmed/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>使用yyplot绘制pubmed研究趋势</title>
       <link>/cn/post/2019-11-20-access-pubmed-by-yyplot/</link>

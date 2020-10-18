@@ -6,11 +6,7 @@
     <description>Recent content in rush on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 19 Sep 2020 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/tags/rush/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sat, 19 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/rush/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>使用 rush 进行命令并行处理</title>
       <link>/cn/post/2020-09-19-parallel-computation-with-rush/</link>

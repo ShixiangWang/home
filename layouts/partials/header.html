@@ -34,7 +34,7 @@
     <meta property="keywords" content ="{{ delimit .Keywords ", " }}">
     {{ end }}
 
-    {{ if .RSSLink }}
+    {{ if .OutputFormats.Get "RSS" }}
     <link href="{{ .RSSLink | relURL }}" rel="alternate" type="application/rss+xml" title="{{ .Site.Title }}" />
     {{ end }}
     {{ partial "head_highlightjs" . }}

@@ -6,10 +6,42 @@
     <description>Recent content in Tags on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 09 Oct 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 18 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>poster</title>
+      <link>/tags/poster/</link>
+      <pubDate>Sun, 18 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/poster/</guid>
+      <description></description>
+    </item>
     
-	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>sigflow</title>
+      <link>/tags/sigflow/</link>
+      <pubDate>Sun, 18 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/sigflow/</guid>
+      <description></description>
+    </item>
     
+    <item>
+      <title>sigminer</title>
+      <link>/tags/sigminer/</link>
+      <pubDate>Sun, 18 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/sigminer/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>会议</title>
+      <link>/tags/%E4%BC%9A%E8%AE%AE/</link>
+      <pubDate>Sun, 18 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/%E4%BC%9A%E8%AE%AE/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>gt</title>
@@ -647,15 +679,6 @@
       <pubDate>Sun, 07 Jun 2020 00:00:00 +0000</pubDate>
       
       <guid>/tags/mutational-signature/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>sigminer</title>
-      <link>/tags/sigminer/</link>
-      <pubDate>Sun, 07 Jun 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/sigminer/</guid>
       <description></description>
     </item>
     

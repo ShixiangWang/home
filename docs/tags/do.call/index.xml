@@ -6,11 +6,7 @@
     <description>Recent content in do.call on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 21 Apr 2020 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/tags/do.call/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Tue, 21 Apr 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/do.call/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>do.call 妙用——参数更新</title>
       <link>/cn/post/2020-04-21-benefit-from-do-call/</link>

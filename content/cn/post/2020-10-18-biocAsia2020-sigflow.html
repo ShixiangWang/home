@@ -1,0 +1,37 @@
+---
+title: "Bioc Asia 2020 - Sigflow 介绍"
+author: "王诗翔"
+date: "2020-10-18"
+lastmod: "2020-10-18"
+slug: ""
+# All available categories:
+# bioinformatics, config, docker, golang, life, linux, ml, r, read, shell, thinking
+categories: ["bioinformatics"]
+tags: ["sigminer", "sigflow", "会议", "poster"]
+---
+
+<link href="/rmarkdown-libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/anchor-sections/anchor-sections.js"></script>
+
+
+<ul>
+<li>会议网址：<a href="https://biocasia2020.bioconductor.org/" class="uri">https://biocasia2020.bioconductor.org/</a></li>
+<li>会议日程：<a href="https://biocasia2020.bioconductor.org/schedule" class="uri">https://biocasia2020.bioconductor.org/schedule</a></li>
+<li>我在此次会议投的海报：<a href="https://f1000research.com/posters/9-1217" class="uri">https://f1000research.com/posters/9-1217</a></li>
+<li>我的演讲 PPT：<a href="https://www.jianguoyun.com/p/DXdgJCoQ-6yQCBiVgMYD" class="uri">https://www.jianguoyun.com/p/DXdgJCoQ-6yQCBiVgMYD</a></li>
+<li>本次介绍涉及的工具：
+<ul>
+<li>Sigminer: <a href="https://github.com/ShixiangWang/sigminer" class="uri">https://github.com/ShixiangWang/sigminer</a></li>
+<li>Sigflow: <a href="https://github.com/ShixiangWang/sigflow" class="uri">https://github.com/ShixiangWang/sigflow</a></li>
+</ul></li>
+</ul>
+<p>以下是我的演讲稿～</p>
+<hr />
+<p>Hello everyone! I am Shixiang Wang from ShanghaiTech University. I am very glad to give a lightning talk about my recent work in mutational signature for cancer genome analysis.</p>
+<p>We know that genome instability provides fuel for cancer evolution. Typically, we can find hundreds of mutations in a tumor. The mutations accumulate at different time due to different mutation processes, in the form of small scale like point mutations or large scale like copy number variations. Each tumor has different genetic background and environment context. Therefore, getting active mutation processes and their contribution will not only promote cancer precision therapy, but also help understand cancer evolution. To do this, researchers recently extract distinct and recurrent mutation patterns from mutation catalog of thousands of cancer genomes. The patterns are named mutational signatures.</p>
+<p>The basic idea to detect mutational signature is quite simple. Firstly we construct a component-by-sample matrix, and then we decompose it into two matrices, one is to represent signatures and the other is to represent the contribution of signatures. NMF algorithm is widely used here.</p>
+<p>This slide shows three mutational signatures, they are visualized as bar plots that x represents 96 types of mutation and y represents mutation probability for each mutation type. Based on data analysis or experiment validation, we now know that the first pattern is because of aging and the remaining two are due to APOBEC enzyme activity.</p>
+<p>To help study mutational signatures in cancer, in the last two years, I am developing an R package sigminer for comprehensive mutational signature analysis. This package provides many features to import data, extract mutational signatures and visualize results.</p>
+<p>As the mutational signature analysis is becoming a routine after somatic variant calling, based on sigminer, I developed a command line interface program Sigflow. Sigflow offers multiple workflows to analyze mutational signature and outputs a bunch of data and results. This table shows features supported by Sigflow and its comparison to several available tools.</p>
+<p>Basically, Sigflow takes variant records as input and then generates a component-by-sample matrix. Next, Sigflow run a specified workflow based on input options. Different data and plots are outputted for different workflows. Sigflow is R based, therefore, it can be run on any operating system. In addition, a Docker image is also constructed so Sigflow and all of its dependencies can be installed by one line code.</p>
+<p>If you are interested in mutational signature analysis, just take a try sigminer and sigflow . That’s all, thanks for your attention.</p>
