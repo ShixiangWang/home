@@ -12,10 +12,10 @@
     
     
     
-    <title>Bioc Asia 2020 - Sigflow 介绍 - 王诗翔</title>
+    <title>《技术文档规范》阅读 - 王诗翔</title>
     
      
-    <meta property="og:title" content="Bioc Asia 2020 - Sigflow 介绍 - Shixiang Wang | 王诗翔">
+    <meta property="og:title" content="《技术文档规范》阅读 - Shixiang Wang | 王诗翔">
     
 
     
@@ -91,10 +91,7 @@
 
 
 
-
-
-
-<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2020-10-18-biocAsia2020-sigflow.Rmd" target="_blank">编辑</a></li>
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2020-10-26-style-for-tech-notes.md" target="_blank">编辑</a></li>
 
 
 <li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
@@ -110,29 +107,25 @@
       <header class="title">
         
 
-<h1>Bioc Asia 2020 - Sigflow 介绍</h1>
+<h1>《技术文档规范》阅读</h1>
 
 
 
 <h3>王诗翔 &middot 
-2020-10-18</h3> 
+2020-10-26</h3> 
 
 
 <p style="text-align:right;">
   分类:
   
-    <a href="https://shixiangwang.github.io/home/categories/bioinformatics">bioinformatics</a> &nbsp
+    <a href="https://shixiangwang.github.io/home/categories/thinking">thinking</a> &nbsp
   
   <br>
   标签:
   
-    <a href="https://shixiangwang.github.io/home/tags/sigminer">sigminer</a> &nbsp
+    <a href="https://shixiangwang.github.io/home/tags/%E6%96%87%E6%A1%A3">文档</a> &nbsp
   
-    <a href="https://shixiangwang.github.io/home/tags/sigflow">sigflow</a> &nbsp
-  
-    <a href="https://shixiangwang.github.io/home/tags/%E4%BC%9A%E8%AE%AE">会议</a> &nbsp
-  
-    <a href="https://shixiangwang.github.io/home/tags/poster">poster</a> &nbsp
+    <a href="https://shixiangwang.github.io/home/tags/doc">doc</a> &nbsp
   
 </p>
 
@@ -145,39 +138,16 @@
       </header>
 
 
-
-<link href="../../../rmarkdown-libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
-<script src="../../../rmarkdown-libs/anchor-sections/anchor-sections.js"></script>
-
-
-<ul>
-<li>会议网址：<a href="https://biocasia2020.bioconductor.org/" class="uri">https://biocasia2020.bioconductor.org/</a></li>
-<li>会议日程：<a href="https://biocasia2020.bioconductor.org/schedule" class="uri">https://biocasia2020.bioconductor.org/schedule</a></li>
-<li>我在此次会议投的海报：<a href="https://f1000research.com/posters/9-1217" class="uri">https://f1000research.com/posters/9-1217</a></li>
-<li>我的演讲 PPT：<a href="https://www.jianguoyun.com/p/DXdgJCoQ-6yQCBiVgMYD" class="uri">https://www.jianguoyun.com/p/DXdgJCoQ-6yQCBiVgMYD</a></li>
-<li>本次介绍涉及的工具：
-<ul>
-<li>Sigminer: <a href="https://github.com/ShixiangWang/sigminer" class="uri">https://github.com/ShixiangWang/sigminer</a></li>
-<li>Sigflow: <a href="https://github.com/ShixiangWang/sigflow" class="uri">https://github.com/ShixiangWang/sigflow</a></li>
-</ul></li>
-</ul>
-<p>以下是我的演讲稿～</p>
-<hr />
-<p>Hello everyone! I am Shixiang Wang from ShanghaiTech University. I am very glad to give a lightning talk about my recent work in mutational signature for cancer genome analysis.</p>
-<p>We know that genome instability provides fuel for cancer evolution. Typically, we can find hundreds of mutations in a tumor. The mutations accumulate at different time due to different mutation processes, in the form of small scale like point mutations or large scale like copy number variations. Each tumor has different genetic background and environment context. Therefore, getting active mutation processes and their contribution will not only promote cancer precision therapy, but also help understand cancer evolution. To do this, researchers recently extract distinct and recurrent mutation patterns from mutation catalog of thousands of cancer genomes. The patterns are named mutational signatures.</p>
-<p>The basic idea to detect mutational signature is quite simple. Firstly we construct a component-by-sample matrix, and then we decompose it into two matrices, one is to represent signatures and the other is to represent the contribution of signatures. NMF algorithm is widely used here.</p>
-<p>This slide shows three mutational signatures, they are visualized as bar plots that x represents 96 types of mutation and y represents mutation probability for each mutation type. Based on data analysis or experiment validation, we now know that the first pattern is because of aging and the remaining two are due to APOBEC enzyme activity.</p>
-<p>To help study mutational signatures in cancer, in the last two years, I am developing an R package sigminer for comprehensive mutational signature analysis. This package provides many features to import data, extract mutational signatures and visualize results.</p>
-<p>As the mutational signature analysis is becoming a routine after somatic variant calling, based on sigminer, I developed a command line interface program Sigflow. Sigflow offers multiple workflows to analyze mutational signature and outputs a bunch of data and results. This table shows features supported by Sigflow and its comparison to several available tools.</p>
-<p>Basically, Sigflow takes variant records as input and then generates a component-by-sample matrix. Next, Sigflow run a specified workflow based on input options. Different data and plots are outputted for different workflows. Sigflow is R based, therefore, it can be run on any operating system. In addition, a Docker image is also constructed so Sigflow and all of its dependencies can be installed by one line code.</p>
-<p>If you are interested in mutational signature analysis, just take a try sigminer and sigflow . That’s all, thanks for your attention.</p>
+<p>今天把阮一峰的<a href="https://github.com/ruanyf/document-style-guide">《中文技术文档的写作规范》</a>扫读了一遍，与自己平时的写作以及写作时的操作相互验证，觉得有不少收获。其中我认为最有参考价值的属于「文档体系」和「标点符号」两节内容。</p>
+<p>虽然说规矩是死的，人是活的，我们每个人写的内容从形式上来说有各自不同的写法，但如果能够遵循一个大致的规则，写作时的基本要素容易以比较固定的格式提炼和展示出来，读者也可以比较容易获取要点，舒坦地阅读。</p>
+<p>Golang 的简洁和优雅也在此处，虽然说它限制了很多的形式创造，但规范出来了代码给人的简单美感。</p>
 
 
   <footer>
   
 <nav class="post-nav">
-  <span class="nav-prev">&larr; <a href="../../../cn/post/2020-10-09-table-rules-in-r/">R 表格可视化 10&#43; 指南</a></span>
-  <span class="nav-next"><a href="../../../cn/post/2020-10-26-style-for-tech-notes/">《技术文档规范》阅读</a> &rarr;</span>
+  <span class="nav-prev">&larr; <a href="../../../cn/post/2020-10-18-biocasia2020-sigflow/">Bioc Asia 2020 - Sigflow 介绍</a></span>
+  <span class="nav-next"></span>
 </nav>
 <script type="text/javascript">
 document.addEventListener('keyup', function(e) {
@@ -185,11 +155,9 @@ document.addEventListener('keyup', function(e) {
   var url = false;
   if (e.which == 37) {  
     
-    url = '\/cn\/post\/2020-10-09-table-rules-in-r\/';
+    url = '\/cn\/post\/2020-10-18-biocasia2020-sigflow\/';
     
   } else if (e.which == 39) {  
-    
-    url = '\/cn\/post\/2020-10-26-style-for-tech-notes\/';
     
   }
   if (url) window.location = url;

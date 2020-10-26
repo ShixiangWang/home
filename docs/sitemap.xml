@@ -3,17 +3,42 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://shixiangwang.github.io/home/categories/</loc>
+    <lastmod>2020-10-26T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shixiangwang.github.io/home/tags/doc/</loc>
+    <lastmod>2020-10-26T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shixiangwang.github.io/home/tags/</loc>
+    <lastmod>2020-10-26T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shixiangwang.github.io/home/categories/thinking/</loc>
+    <lastmod>2020-10-26T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shixiangwang.github.io/home/cn/post/2020-10-26-style-for-tech-notes/</loc>
+    <lastmod>2020-10-26T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shixiangwang.github.io/home/tags/%E6%96%87%E6%A1%A3/</loc>
+    <lastmod>2020-10-26T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://shixiangwang.github.io/home/cn/post/2020-10-18-biocasia2020-sigflow/</loc>
     <lastmod>2020-10-18T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://shixiangwang.github.io/home/categories/bioinformatics/</loc>
-    <lastmod>2020-10-18T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://shixiangwang.github.io/home/categories/</loc>
     <lastmod>2020-10-18T00:00:00+00:00</lastmod>
   </url>
   
@@ -29,11 +54,6 @@
   
   <url>
     <loc>https://shixiangwang.github.io/home/tags/sigminer/</loc>
-    <lastmod>2020-10-18T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://shixiangwang.github.io/home/tags/</loc>
     <lastmod>2020-10-18T00:00:00+00:00</lastmod>
   </url>
   
@@ -315,11 +335,6 @@
   <url>
     <loc>https://shixiangwang.github.io/home/cn/post/2020-09-14-share-r-matrix-operation/</loc>
     <lastmod>2020-09-14T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://shixiangwang.github.io/home/categories/thinking/</loc>
-    <lastmod>2020-09-13T00:00:00+00:00</lastmod>
   </url>
   
   <url>
