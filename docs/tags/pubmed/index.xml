@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>pubmed on Shixiang Wang | 王诗翔</title>
-    <link>/tags/pubmed/</link>
+    <link>https://shixiangwang.github.io/home/tags/pubmed/</link>
     <description>Recent content in pubmed on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 13 Apr 2018 00:00:00 +0000</lastBuildDate><atom:link href="/tags/pubmed/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 13 Apr 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://shixiangwang.github.io/home/tags/pubmed/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>使用yyplot绘制pubmed研究趋势</title>
-      <link>/cn/post/2019-11-20-access-pubmed-by-yyplot/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-11-20-access-pubmed-by-yyplot/</link>
       <pubDate>Fri, 13 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-11-20-access-pubmed-by-yyplot/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-11-20-access-pubmed-by-yyplot/</guid>
       <description>在准备转博报告的过程中觉得有必要给一些研究添加Pubmed研究趋势，这个功能Y叔在它的公众号推过，所以我记了一下，之前在写开题报告的时候就用</description>
     </item>
     

@@ -2,26 +2,26 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>stringr on Shixiang Wang | 王诗翔</title>
-    <link>/tags/stringr/</link>
+    <link>https://shixiangwang.github.io/home/tags/stringr/</link>
     <description>Recent content in stringr on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 17 Sep 2018 00:00:00 +0000</lastBuildDate><atom:link href="/tags/stringr/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 17 Sep 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://shixiangwang.github.io/home/tags/stringr/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>stringr——处理字符串</title>
-      <link>/cn/post/stringr-operation/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/stringr-operation/</link>
       <pubDate>Mon, 17 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/stringr-operation/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/stringr-operation/</guid>
       <description>导入包： library(tidyverse) #&amp;gt; ── Attaching packages ────────────────────────────────────────────────────────────</description>
     </item>
     
     <item>
       <title>字符串操作</title>
-      <link>/cn/post/2019-11-20-operate-string/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-11-20-operate-string/</link>
       <pubDate>Wed, 15 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-11-20-operate-string/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-11-20-operate-string/</guid>
       <description>打印 &amp;quot;Hello world!&amp;quot; #&amp;gt; [1] &amp;quot;Hello world!&amp;quot; print(&amp;quot;Hello world!&amp;quot;) #&amp;gt; [1] &amp;quot;Hello world!&amp;quot; 不带索引 cat(&amp;quot;Hello world!&amp;quot;) #&amp;gt; Hello world! message(&amp;quot;Hello world!&amp;quot;) #&amp;gt; Hello world! 连接 paste(&amp;quot;Hello&amp;quot;, &amp;quot;world!&amp;quot;) #&amp;gt; [1] &amp;quot;Hello world!&amp;quot; paste(&amp;quot;Hello&amp;quot;, &amp;quot;world&amp;quot;, sep = &amp;quot;-&amp;quot;) #&amp;gt; [1] &amp;quot;Hello-world&amp;quot; paste0(&amp;quot;Hello&amp;quot;, &amp;quot;World&amp;quot;) #&amp;gt; [1] &amp;quot;HelloWorld&amp;quot; paste(c(&amp;quot;A&amp;quot;, &amp;quot;B&amp;quot;), c(1,2)) #&amp;gt; [1] &amp;quot;A 1&amp;quot; &amp;quot;B 2&amp;quot; paste(c(&amp;quot;A&amp;quot;, &amp;quot;B&amp;quot;), c(1,2), collapse = &amp;quot;,&amp;quot;, sep = &amp;quot;&amp;quot;) #&amp;gt; [1] &amp;quot;A1,B2&amp;quot;</description>
     </item>
     

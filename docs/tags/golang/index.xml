@@ -2,71 +2,71 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>golang on Shixiang Wang | 王诗翔</title>
-    <link>/tags/golang/</link>
+    <link>https://shixiangwang.github.io/home/tags/golang/</link>
     <description>Recent content in golang on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 19 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/golang/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 19 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://shixiangwang.github.io/home/tags/golang/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>使用 rush 进行命令并行处理</title>
-      <link>/cn/post/2020-09-19-parallel-computation-with-rush/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2020-09-19-parallel-computation-with-rush/</link>
       <pubDate>Sat, 19 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-09-19-parallel-computation-with-rush/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2020-09-19-parallel-computation-with-rush/</guid>
       <description>rush 是一个类似于 GNU-parallel 的工具，提供了并行化命令的处理方案。 官方地址是：https://github.com/shenwei356/rush，该工具</description>
     </item>
     
     <item>
       <title>《Mastering Go》第五章笔记</title>
-      <link>/cn/read/mastering-go-book-chapter-05/</link>
+      <link>https://shixiangwang.github.io/home/cn/read/mastering-go-book-chapter-05/</link>
       <pubDate>Wed, 26 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/read/mastering-go-book-chapter-05/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/read/mastering-go-book-chapter-05/</guid>
       <description>Go 的一些数据结构（图、树、队列等）都由标准包 container 提供。 图和顶点 图G(V,E)是顶点V(或节点)的有限非空集合和边E的集合。图有两种主要类型:循</description>
     </item>
     
     <item>
       <title>《Mastering Go》第四章笔记</title>
-      <link>/cn/read/mastering-go-book-chapter-04/</link>
+      <link>https://shixiangwang.github.io/home/cn/read/mastering-go-book-chapter-04/</link>
       <pubDate>Wed, 26 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/read/mastering-go-book-chapter-04/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/read/mastering-go-book-chapter-04/</guid>
       <description>Go 结构体 构建结构体： package main import &amp;#34;fmt&amp;#34; func main() { type XYZ struct { X int Y int Z int } var s1 XYZ fmt.Println(s1.Y, s1.Z) p1 := XYZ{23, 12, -2} p2 := XYZ{Z: 12, Y: 13} fmt.Println(p1) fmt.Println(p2) pSlice := [4]XYZ{} pSlice[2] = p1 pSlice[0] = p2 fmt.Println(pSlice) p2 = XYZ{1, 2, 3} fmt.Println(pSlice) } 运行： $ go run ./0036-structures.go</description>
     </item>
     
     <item>
       <title>《Mastering Go》第三章笔记</title>
-      <link>/cn/read/mastering-go-book-chapter-03/</link>
+      <link>https://shixiangwang.github.io/home/cn/read/mastering-go-book-chapter-03/</link>
       <pubDate>Wed, 12 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/read/mastering-go-book-chapter-03/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/read/mastering-go-book-chapter-03/</guid>
       <description>Go 循环 for 循环 for i := 0; i &amp;lt; 100; i++ { } 可以使用 break 和 continue 关键字控制循环。 while 循环 for condition { } do...while 循环实现： for ok := true; ok; ok = anExpr { } range range 关键字可以更简单地处理元素迭</description>
     </item>
     
     <item>
       <title>《Mastering Go》第二章笔记</title>
-      <link>/cn/read/mastering-go-book-chapter-02/</link>
+      <link>https://shixiangwang.github.io/home/cn/read/mastering-go-book-chapter-02/</link>
       <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/read/mastering-go-book-chapter-02/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/read/mastering-go-book-chapter-02/</guid>
       <description>GO 编译器 Go 在编译的过程中做了大量的工作。 go tool compile xx.go 生成目标文件。 go tool compile -pack xx.go 生成存档文件 go tool compile -race xx.go 用于检测 race condition。 go tool compile -S xx.go 会生成</description>
     </item>
     
     <item>
       <title>《Mastering Go》第一章笔记</title>
-      <link>/cn/read/mastering-go-book-chapter-01/</link>
+      <link>https://shixiangwang.github.io/home/cn/read/mastering-go-book-chapter-01/</link>
       <pubDate>Mon, 03 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/read/mastering-go-book-chapter-01/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/read/mastering-go-book-chapter-01/</guid>
       <description>godoc 使用 go doc fmt.Printf go doc fmt # Open a Go doc server godoc -http=:8001 运行和编译 go 代码 package main import &amp;#34;fmt&amp;#34; func main() { fmt.Println(&amp;#34;This is a sample Go program!&amp;#34;) } 使用 go run filename 运行代码文件；使用 go buils filename 编译 go 代码形成可执行文件。 下</description>
     </item>
     
     <item>
       <title>使用 Golang 绘制爱心文本</title>
-      <link>/cn/post/golang-text-heart/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/golang-text-heart/</link>
       <pubDate>Fri, 24 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/golang-text-heart/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/golang-text-heart/</guid>
       <description>这两天利用最近所学，编写了一个 Golang 绘制爱心文本程序。 package main import ( &amp;#34;flag&amp;#34; &amp;#34;fmt&amp;#34; &amp;#34;math&amp;#34; &amp;#34;strings&amp;#34; &amp;#34;time&amp;#34; ) // Print text heart // Author: ShixiangWang // LICENSE: MIT // Reference: https://blog.csdn.net/su_bao/article/details/80355001 func main() { // MYWORD My word var head string var tail string var MYWORD string var sep string var zoom float64</description>
     </item>
     

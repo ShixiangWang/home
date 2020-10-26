@@ -2,908 +2,908 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>中文博客 on Shixiang Wang | 王诗翔</title>
-    <link>/cn/post/</link>
+    <link>https://shixiangwang.github.io/home/cn/post/</link>
     <description>Recent content in 中文博客 on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 31 Jan 2017 00:00:00 +0000</lastBuildDate><atom:link href="/cn/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 31 Jan 2017 00:00:00 +0000</lastBuildDate><atom:link href="https://shixiangwang.github.io/home/cn/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Bioc Asia 2020 - Sigflow 介绍</title>
-      <link>/cn/post/2020-10-18-biocasia2020-sigflow/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2020-10-18-biocasia2020-sigflow/</link>
       <pubDate>Sun, 18 Oct 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-10-18-biocasia2020-sigflow/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2020-10-18-biocasia2020-sigflow/</guid>
       <description>会议网址：https://biocasia2020.bioconductor.org/ 会议日程：https://biocasia2020.b</description>
     </item>
     
     <item>
       <title>R 表格可视化 10&#43; 指南</title>
-      <link>/cn/post/2020-10-09-table-rules-in-r/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2020-10-09-table-rules-in-r/</link>
       <pubDate>Fri, 09 Oct 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-10-09-table-rules-in-r/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2020-10-09-table-rules-in-r/</guid>
       <description>原文：https://themockup.blog/posts/2020-09-04-10-table-rules-in-r/ Rmd 本文根据原文</description>
     </item>
     
     <item>
       <title>关于 GLIBC 版本笔记</title>
-      <link>/cn/post/2020-09-28-note-about-glibc/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2020-09-28-note-about-glibc/</link>
       <pubDate>Mon, 28 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-09-28-note-about-glibc/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2020-09-28-note-about-glibc/</guid>
       <description>在服务器上测试代码时发现 glibc 版本不够，但我又没有 root 权限。。。。 好像常见的就是找不到 2.14 版本，centos 默认使用的 2.12，这可以通过以下方式检</description>
     </item>
     
     <item>
       <title>「分享」相关分析</title>
-      <link>/cn/post/2020-09-27-share-a-post-about-correlation/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2020-09-27-share-a-post-about-correlation/</link>
       <pubDate>Sun, 27 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-09-27-share-a-post-about-correlation/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2020-09-27-share-a-post-about-correlation/</guid>
       <description>文章链接：Correlations</description>
     </item>
     
     <item>
       <title>一个函数获取 TCGA/CCLE 单基因分子数据</title>
-      <link>/cn/post/2020-09-26-access-gene-level-cancer-data-from-ucsc-xena/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2020-09-26-access-gene-level-cancer-data-from-ucsc-xena/</link>
       <pubDate>Sat, 26 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-09-26-access-gene-level-cancer-data-from-ucsc-xena/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2020-09-26-access-gene-level-cancer-data-from-ucsc-xena/</guid>
       <description>这篇文章很久之前就想写了，但一直因为一些事情拖延了。 在开发 UCSCXenaShiny 的基础上，我将其中支持的 UCSCXena TCGA/CCLE 单基因数据下载函数进行了整理，构建了一个单一的入口。</description>
     </item>
     
     <item>
       <title>使用 ggplot2 进行曲线拟合</title>
-      <link>/cn/post/2020-09-25-fit-scatter-with-lm/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2020-09-25-fit-scatter-with-lm/</link>
       <pubDate>Fri, 25 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-09-25-fit-scatter-with-lm/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2020-09-25-fit-scatter-with-lm/</guid>
       <description>有读者询问如何对散点图拟合非线性的曲线。实际上我们通常看到的无论是直线拟合还是各种曲线拟合都属于广义线性模型。 这里我们构造一组数据来看看如何</description>
     </item>
     
     <item>
       <title>Markdown 和 RMarkdown 最佳入口</title>
-      <link>/cn/post/2020-09-23-use-markdown-and-rmarkdown/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2020-09-23-use-markdown-and-rmarkdown/</link>
       <pubDate>Wed, 23 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-09-23-use-markdown-and-rmarkdown/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2020-09-23-use-markdown-and-rmarkdown/</guid>
       <description>特性与用途 简单 结构化-转换 Word PDF HTML &amp;hellip; 多编辑器支持 Typora RStudio Jupyter notebook VS Code &amp;hellip; Markdown 效果（以 Typora 为例） 图片： .img-container { text-align: center; display: block; } 标题： .img-container { text-align: center; display: block; } 列表： .img-container { text-align: center; display: block; } 表</description>
     </item>
     
     <item>
       <title>使用 rush 进行命令并行处理</title>
-      <link>/cn/post/2020-09-19-parallel-computation-with-rush/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2020-09-19-parallel-computation-with-rush/</link>
       <pubDate>Sat, 19 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-09-19-parallel-computation-with-rush/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2020-09-19-parallel-computation-with-rush/</guid>
       <description>rush 是一个类似于 GNU-parallel 的工具，提供了并行化命令的处理方案。 官方地址是：https://github.com/shenwei356/rush，该工具</description>
     </item>
     
     <item>
       <title>「翻译」在生物信息学中使用 GNU-Parallel</title>
-      <link>/cn/post/2020-09-18-using-gnu-parallel-for-bioinformatics/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2020-09-18-using-gnu-parallel-for-bioinformatics/</link>
       <pubDate>Fri, 18 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-09-18-using-gnu-parallel-for-bioinformatics/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2020-09-18-using-gnu-parallel-for-bioinformatics/</guid>
       <description>原文出处：https://www.danielecook.com/using-gnu-parallel-for-bioinformatics</description>
     </item>
     
     <item>
       <title>「分享」R 弹性网络回归四连击</title>
-      <link>/cn/post/2020-09-14-share-r-elastic-net-regression/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2020-09-14-share-r-elastic-net-regression/</link>
       <pubDate>Mon, 14 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-09-14-share-r-elastic-net-regression/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2020-09-14-share-r-elastic-net-regression/</guid>
       <description>这里感谢珠江肿瘤公众号的制作和分享： 正则化(1)：通俗易懂的岭回归 正则化(2)：与岭回归相似的 Lasso 回归 正则化(3)：弹性网络回归 正则化(4)：</description>
     </item>
     
     <item>
       <title>「分享」R 矩阵计算</title>
-      <link>/cn/post/2020-09-14-share-r-matrix-operation/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2020-09-14-share-r-matrix-operation/</link>
       <pubDate>Mon, 14 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-09-14-share-r-matrix-operation/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2020-09-14-share-r-matrix-operation/</guid>
       <description>内容链接。</description>
     </item>
     
     <item>
       <title>碎碎念-相关与因果</title>
-      <link>/cn/post/2020-09-13-random/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2020-09-13-random/</link>
       <pubDate>Sun, 13 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-09-13-random/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2020-09-13-random/</guid>
       <description>相关用于预测。 因果用于决策。</description>
     </item>
     
     <item>
       <title>浏览器 R 搜索插件</title>
-      <link>/cn/post/2020-09-09-r-search-extension/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2020-09-09-r-search-extension/</link>
       <pubDate>Wed, 09 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-09-09-r-search-extension/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2020-09-09-r-search-extension/</guid>
       <description>r-search-extension 是一款浏览器插件，它支持搜索 R 文档/问题以及微信平台搜索。它的使用及其简单，在浏览器搜索栏输入 r 然后跟一个空格，接着输入你想要搜索的关键词</description>
     </item>
     
     <item>
       <title>Rcpp 简介：从 R 到 Rcpp</title>
-      <link>/cn/post/2020-09-08-rcpp-intro/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2020-09-08-rcpp-intro/</link>
       <pubDate>Tue, 08 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-09-08-rcpp-intro/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2020-09-08-rcpp-intro/</guid>
       <description>参考图书：《Rcpp：R 与 C++ 的无缝整合》 Rcpp 的主要目的在于使得开发 R 语言的 C++ 相关拓展变得更加容易、更少出错。 我们首先从斐波那契数列问题开始探索</description>
     </item>
     
     <item>
       <title>绘制分组排序点图</title>
-      <link>/cn/post/2020-09-04-use-grdotplot/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2020-09-04-use-grdotplot/</link>
       <pubDate>Fri, 04 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-09-04-use-grdotplot/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2020-09-04-use-grdotplot/</guid>
       <description>我在看过的一些 Nature 文章和 COSMIC 数据库中看到用点图来展示不同癌症类型下 TMB 的分布差异。在 R 包中，我有看到过 maftools 中可以绘制这样的图，用来表示新的数据队列与</description>
     </item>
     
     <item>
       <title>Commit 规范学习</title>
-      <link>/cn/post/2020-08-31-commit-standards/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2020-08-31-commit-standards/</link>
       <pubDate>Mon, 31 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-08-31-commit-standards/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2020-08-31-commit-standards/</guid>
       <description>参考： https://www.conventionalcommits.org/zh-hans/v1.0.0-beta.4/ https://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html 配置：https://github.com/commitizen/cz-cli</description>
     </item>
     
     <item>
       <title>快速理解基于 0 的索引</title>
-      <link>/cn/post/2020-08-18-understand-0-based-index/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2020-08-18-understand-0-based-index/</link>
       <pubDate>Tue, 18 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-08-18-understand-0-based-index/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2020-08-18-understand-0-based-index/</guid>
       <description>编程语法中有基于 0 或 1 两种索引机制，前面一种与计算机本质更接近，使用也更多，但对之前的我带来不少理解的困难。 例如，在 Python 中的列表和元组结构中，</description>
     </item>
     
     <item>
       <title>使用 tinyscholar 展示个人谷歌学术档案</title>
-      <link>/cn/post/2020-08-16-show-scholar-profile-with-r-tinyscholar/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2020-08-16-show-scholar-profile-with-r-tinyscholar/</link>
       <pubDate>Sun, 16 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-08-16-show-scholar-profile-with-r-tinyscholar/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2020-08-16-show-scholar-profile-with-r-tinyscholar/</guid>
       <description>谷歌学术是目前感觉最好的学术搜索引擎，谷歌学术档案提供了学者的个人学术信息，不过通常情况我们无法查看和使用这个信息。Y 叔写的 scholar 包虽然提供了齐</description>
     </item>
     
     <item>
       <title>Rprofile：R 全局设置</title>
-      <link>/cn/post/2020-08-13-set-your-rprofile/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2020-08-13-set-your-rprofile/</link>
       <pubDate>Thu, 13 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-08-13-set-your-rprofile/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2020-08-13-set-your-rprofile/</guid>
       <description>存储在 ~/.Rprofile 中的内容是一个 R 脚本，它会在 R 启动时自动运行，所以可以作为全局的配置使用。 根据我的 R 使用经验，结合 Y 叔和 Yihui 提供的一些便利函数，我构建</description>
     </item>
     
     <item>
       <title>Hugo 设置 markdown 图片的标题</title>
-      <link>/cn/post/2020-08-10-hugo-set-fig-caption/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2020-08-10-hugo-set-fig-caption/</link>
       <pubDate>Mon, 10 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-08-10-hugo-set-fig-caption/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2020-08-10-hugo-set-fig-caption/</guid>
       <description>添加文件 layouts/_default/_markup/render-image.html，hugo 会在这里寻找模板。 写入下面模板代码： {{</description>
     </item>
     
     <item>
       <title>PicGo &#43; Gitee 构建免费云图床</title>
-      <link>/cn/post/2020-08-10-build-cloud-pic-database-with-picgo-and-gitee/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2020-08-10-build-cloud-pic-database-with-picgo-and-gitee/</link>
       <pubDate>Mon, 10 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-08-10-build-cloud-pic-database-with-picgo-and-gitee/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2020-08-10-build-cloud-pic-database-with-picgo-and-gitee/</guid>
       <description>.img-container { text-align: center; display: block; } PicGo PicGo 下载链接：https://github.com/Molunerfinn/PicGo/releases/ 开源开发不易，不妨对</description>
     </item>
     
     <item>
       <title>通过公钥无法免密登录远程服务器</title>
-      <link>/cn/post/2020-08-10-linux-cannot-login-with-publickey/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2020-08-10-linux-cannot-login-with-publickey/</link>
       <pubDate>Mon, 10 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-08-10-linux-cannot-login-with-publickey/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2020-08-10-linux-cannot-login-with-publickey/</guid>
       <description>如果我们已经在服务器上配置好了公钥，那么这种问题基本上是服务器目录权限导致的。 ssh 为了保证通讯安全，设置了非常严格的目录权限。 chmod 755 ~ chmod 700 ~/.ssh chmod 600</description>
     </item>
     
     <item>
       <title>使用 Docker run 覆盖 ENTRYPOINT</title>
-      <link>/cn/post/2020-08-06-overwrite-entrypoint-with-docker-run/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2020-08-06-overwrite-entrypoint-with-docker-run/</link>
       <pubDate>Thu, 06 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-08-06-overwrite-entrypoint-with-docker-run/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2020-08-06-overwrite-entrypoint-with-docker-run/</guid>
       <description>原文：https://phoenixnap.com/kb/docker-run-override-entrypoint 分享此文的原因在于当在</description>
     </item>
     
     <item>
       <title>使用 sigminer 进行突变模式分析</title>
-      <link>/cn/post/2020-06-07-mutational-signature-analysis-with-sigminer/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2020-06-07-mutational-signature-analysis-with-sigminer/</link>
       <pubDate>Sun, 07 Jun 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-06-07-mutational-signature-analysis-with-sigminer/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2020-06-07-mutational-signature-analysis-with-sigminer/</guid>
       <description>突变模式分析（Mutational Signature Analysis）已经逐步成为变异检测后一个通用分析，这篇文章简单介绍如何使用 sigminer 进行突变模式分析，以解决</description>
     </item>
     
     <item>
       <title>事实不等于标签：关于真假 png 的找 bug 记录</title>
-      <link>/cn/post/2020-05-11-true-and-false-png/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2020-05-11-true-and-false-png/</link>
       <pubDate>Mon, 11 May 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-05-11-true-and-false-png/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2020-05-11-true-and-false-png/</guid>
       <description>这是针对今天找 bug 的记录。 我在日常更改 sigminer 手册后使用 knitr 生成网页文档时发现一直报错： Quitting from lines 42-43 (sigminer-doc.Rmd) Error in png::readPNG(path, native = TRUE, info = TRUE) : file is not in PNG format 这个报错源自于我使用</description>
     </item>
     
     <item>
       <title>ezcox 森林图中点估计方块大小设定</title>
-      <link>/cn/post/2020-05-02-ezcox-forest-set-square-size/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2020-05-02-ezcox-forest-set-square-size/</link>
       <pubDate>Sat, 02 May 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-05-02-ezcox-forest-set-square-size/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2020-05-02-ezcox-forest-set-square-size/</guid>
       <description>这篇文章与 https://github.com/ShixiangWang/MessageBoard/issues/69 与 https://github.com/ShixiangWang/ezcox/issues/12 相关。 之前开发的 ezcox 包提供了批量建模和展示森林图的功能，我自认为森林图要比 ggpubr 提供的 ggforest 好看。森林图的绘制实际是基于 forestmodel 的实现。 forestmodel 一</description>
     </item>
     
     <item>
       <title>初七小记</title>
-      <link>/cn/post/2020-05-05-birthday-2020/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2020-05-05-birthday-2020/</link>
       <pubDate>Wed, 29 Apr 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-05-05-birthday-2020/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2020-05-05-birthday-2020/</guid>
       <description>二八终添十，廿七影忘迟。 喜悲同交欢，天地浑不知。 携侣且为乐，良宵共此时。 莫道归途远，不复少年词。</description>
     </item>
     
     <item>
       <title>模型结果为什么那么占存储空间？可以缩小吗？</title>
-      <link>/cn/post/2020-04-24-can-delete-data-in-model/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2020-04-24-can-delete-data-in-model/</link>
       <pubDate>Fri, 24 Apr 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-04-24-can-delete-data-in-model/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2020-04-24-can-delete-data-in-model/</guid>
       <description>在使用 R 处理逻辑回归建模问题时发现保存的模型对象非常之大，不可思议。正常情况下，我们建模之后所需要的就是模型的系数，以此对新的数据进行预测。</description>
     </item>
     
     <item>
       <title>do.call 妙用——参数更新</title>
-      <link>/cn/post/2020-04-21-benefit-from-do-call/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2020-04-21-benefit-from-do-call/</link>
       <pubDate>Tue, 21 Apr 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-04-21-benefit-from-do-call/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2020-04-21-benefit-from-do-call/</guid>
       <description>R 中的 do.call() 是我极少用到的一个函数，不过它在很多情况下是蛮有用的，之前我也做过简单的介绍。 它可以在实际调用函数时将参数以列表的形式传入，下面是一</description>
     </item>
     
     <item>
       <title>使用 Golang 绘制爱心文本</title>
-      <link>/cn/post/golang-text-heart/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/golang-text-heart/</link>
       <pubDate>Fri, 24 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/golang-text-heart/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/golang-text-heart/</guid>
       <description>这两天利用最近所学，编写了一个 Golang 绘制爱心文本程序。 package main import ( &amp;#34;flag&amp;#34; &amp;#34;fmt&amp;#34; &amp;#34;math&amp;#34; &amp;#34;strings&amp;#34; &amp;#34;time&amp;#34; ) // Print text heart // Author: ShixiangWang // LICENSE: MIT // Reference: https://blog.csdn.net/su_bao/article/details/80355001 func main() { // MYWORD My word var head string var tail string var MYWORD string var sep string var zoom float64</description>
     </item>
     
     <item>
       <title>使用 ezcox 展示森林图</title>
-      <link>/cn/post/2020-01-13-show-forest-with-ezcox/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2020-01-13-show-forest-with-ezcox/</link>
       <pubDate>Mon, 13 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-01-13-show-forest-with-ezcox/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2020-01-13-show-forest-with-ezcox/</guid>
       <description>我之前写过一篇文章介绍最近写的一个包 ezcox，它可以用来进行批量处理 Cox 模型（支持并行计算）。那个时候我已经关注到了 forestmodel 包并修复了几个 Bug，</description>
     </item>
     
     <item>
       <title>2019 年度总结</title>
-      <link>/cn/post/2020-01-01-2019-summary/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2020-01-01-2019-summary/</link>
       <pubDate>Wed, 01 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-01-01-2019-summary/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2020-01-01-2019-summary/</guid>
       <description>2019 年过去了，我把自己的 GitHub 仓库清理了一遍，总结过去一年自己的收获和思考。 参与发表的文献 2019 年我参与发表了 5 篇科学文献，其中 4 篇 SCI，另 1 篇是我</description>
     </item>
     
     <item>
       <title>R 语言统计检验函数汇总</title>
-      <link>/cn/post/2019-12-25-r-stats-funs-summary/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-12-25-r-stats-funs-summary/</link>
       <pubDate>Wed, 25 Dec 2019 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-12-25-r-stats-funs-summary/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-12-25-r-stats-funs-summary/</guid>
       <description>资料来源：《R 语言核心技术手册》和 R 文档 数据基本来自胡编乱造 和 R 文档 本文基本囊括了常用的统计检验在 R 中的实现函数和使用方法。 连续型数据 基于正</description>
     </item>
     
     <item>
       <title>使用 ezcox 进行批量 Cox 模型处理</title>
-      <link>/cn/post/2019-10-23-ezcox-for-batch-cox-models/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-10-23-ezcox-for-batch-cox-models/</link>
       <pubDate>Wed, 23 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-10-23-ezcox-for-batch-cox-models/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-10-23-ezcox-for-batch-cox-models/</guid>
       <description>Cox 模型是我们做生存分析最常用的模型，在实际的分析工作中，我们常常想逐一查看多个变量对生存时间的影响。注意，这与多变量分析不同，后者是通常将多</description>
     </item>
     
     <item>
       <title>使用 Cascadia Code 字体</title>
-      <link>/cn/post/2019-10-18-use-cascadia-code-font/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-10-18-use-cascadia-code-font/</link>
       <pubDate>Fri, 18 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-10-18-use-cascadia-code-font/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-10-18-use-cascadia-code-font/</guid>
       <description>最近微软为 Windows Terminal 推出了具有连字特性的字体 Cascadia Code，在试用后发现确实很不错，下图是字体效果，这里结合官方的 README 介绍一下。 .img-container { text-align: center; display: block; } .img-container { text-align: center; display:</description>
     </item>
     
     <item>
       <title>简单丰富的ROC绘制与对比</title>
-      <link>/cn/post/2019-10-18-proc-for-roc-comparison/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-10-18-proc-for-roc-comparison/</link>
       <pubDate>Fri, 18 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-10-18-proc-for-roc-comparison/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-10-18-proc-for-roc-comparison/</guid>
       <description>我之前在《分析与可视化ROC——plotROC、pROC》中介绍了两个包 plotROC 和 pROC，那是一年前的事情了，现在我在处理 ROC 曲线时使用的是什么呢</description>
     </item>
     
     <item>
       <title>使用有限混合模型</title>
-      <link>/cn/post/2019-09-06-flexmix-model/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-09-06-flexmix-model/</link>
       <pubDate>Fri, 06 Sep 2019 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-09-06-flexmix-model/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-09-06-flexmix-model/</guid>
       <description>模拟数据 library(ggplot2) library(flexmix) #&amp;gt; Loading required package: lattice m1 &amp;lt;- 0 m2 &amp;lt;- 50 sd1 &amp;lt;- sd2 &amp;lt;- 5 N1 &amp;lt;- 100 N2 &amp;lt;- 10 a &amp;lt;- rnorm(n=N1, mean=m1, sd=sd1) b &amp;lt;- rnorm(n=N2, mean=m2, sd=sd2) 绘制数据图形 x &amp;lt;- c(a,b) class &amp;lt;- c(rep(&amp;#39;a&amp;#39;, N1), rep(&amp;#39;b&amp;#39;, N2)) data &amp;lt;- data.frame(cbind(x=as.numeric(x), class=as.factor(class))) library(&amp;quot;ggplot2&amp;quot;) p &amp;lt;- ggplot(data, aes(x = x)) + geom_histogram(aes(x, ..density..), binwidth = 1,</description>
     </item>
     
     <item>
       <title>读入 dbGap 的表型/注释信息</title>
-      <link>/cn/post/2019-08-23-read-dbgap-subjects-samples-info/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-08-23-read-dbgap-subjects-samples-info/</link>
       <pubDate>Fri, 23 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-08-23-read-dbgap-subjects-samples-info/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-08-23-read-dbgap-subjects-samples-info/</guid>
       <description>dbGaP 表型等信息零散地却有规律地分布在 files/ 目录下，为了理解哪些文件存储了数据，我对下载的文件类型进行了查看，包括 xml, pdf 以及 gz 文件。大致有以下整理： pdf</description>
     </item>
     
     <item>
       <title>使用RMySQL简单操作mysql数据库</title>
-      <link>/cn/post/2019-08-22-using-rmysql/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-08-22-using-rmysql/</link>
       <pubDate>Thu, 22 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-08-22-using-rmysql/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-08-22-using-rmysql/</guid>
       <description>使用 MySQL 数据库创建一个用于存储用户信息的数据表：包含 username, email, password 三个字段，并分别使用 SQL 和 Python/R 客户端插入、删除和更新一行数据，密码使用 SHA256 进行加密 library(RMySQL) con = dbConnect(MySQL(),</description>
     </item>
     
     <item>
       <title>可视化 deft 方法进行的 subgroup 分析结果</title>
-      <link>/cn/post/2019-08-22-metawho-add-deft-show-fun/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-08-22-metawho-add-deft-show-fun/</link>
       <pubDate>Thu, 22 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-08-22-metawho-add-deft-show-fun/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-08-22-metawho-add-deft-show-fun/</guid>
       <description>在文章《谁更能从治疗中获益？》中我讲过 metawho 包的开发由来，但当时遗留了一个问题，就是如何可视化 deft 元分析方法的结果。 之前我提供了使用 metafor 包绘制结果的</description>
     </item>
     
     <item>
       <title>引用UCSCXenaTools</title>
-      <link>/cn/post/2019-08-07-cite-ucscxenatools/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-08-07-cite-ucscxenatools/</link>
       <pubDate>Wed, 07 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-08-07-cite-ucscxenatools/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-08-07-cite-ucscxenatools/</guid>
       <description>UCSCXenaTools &amp;lt;https://github.com/ropensci/UCSCXenaTools&amp;gt; 是去年10月份左右开始开发的，是我写的第一个R包，目的是有效地选择和下载UCSC Xena提供的公开数据集，有利于分析的流程化和可重复性。</description>
     </item>
     
     <item>
       <title>ggplotify——连接各类R图形</title>
-      <link>/cn/post/2019-08-05-ggplotify-intro/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-08-05-ggplotify-intro/</link>
       <pubDate>Mon, 05 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-08-05-ggplotify-intro/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-08-05-ggplotify-intro/</guid>
       <description>在作图的时候想拼接不同的图形对象，如pheatmap 包的热图、ggplot2 对象以及 base 图形等。 这里找到了Y叔的ggplotify包，以下是对</description>
     </item>
     
     <item>
       <title>tidyverse 新操作符{{}}——更好的非标准计算</title>
-      <link>/cn/post/2019-08-04-rlang-operator-curly-curly/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-08-04-rlang-operator-curly-curly/</link>
       <pubDate>Sun, 04 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-08-04-rlang-operator-curly-curly/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-08-04-rlang-operator-curly-curly/</guid>
       <description>本文整理自 https://www.tidyverse.org/articles/2019/06/rlang-0-4-0/，有删改 rlang v0.4.</description>
     </item>
     
     <item>
       <title>dplyr编程</title>
-      <link>/cn/post/2019-07-08-dplyr-programming/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-07-08-dplyr-programming/</link>
       <pubDate>Mon, 08 Jul 2019 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-07-08-dplyr-programming/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-07-08-dplyr-programming/</guid>
       <description>本文首先发布于简书，本人在对相关知识有进一步理解后对本文进行修改，以便于中文更好地理解。 来源：vignettes/programming.R</description>
     </item>
     
     <item>
       <title>管道统计分析——rstatix使用指南</title>
-      <link>/cn/post/2019-07-07-use-rstatix/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-07-07-use-rstatix/</link>
       <pubDate>Sun, 07 Jul 2019 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-07-07-use-rstatix/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-07-07-use-rstatix/</guid>
       <description>原英文文档地址：https://raw.githubusercontent.com/kassambara/rstatix/master/RE</description>
     </item>
     
     <item>
       <title>Tensorflow-完整神经网络样例程序</title>
-      <link>/cn/post/2019-07-04-tensorflow-an-example/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-07-04-tensorflow-an-example/</link>
       <pubDate>Thu, 04 Jul 2019 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-07-04-tensorflow-an-example/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-07-04-tensorflow-an-example/</guid>
       <description>来源：《Tensorflow实战Google深度学习框架》第二版，第三章 略修改。 总结而言有三个步骤： 定义神经网络的结构和前向传播的输出结果 定</description>
     </item>
     
     <item>
       <title>R传统图形绘制多图</title>
-      <link>/cn/post/2019-06-21-baseplot-multiplots/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-06-21-baseplot-multiplots/</link>
       <pubDate>Fri, 21 Jun 2019 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-06-21-baseplot-multiplots/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-06-21-baseplot-multiplots/</guid>
       <description>我这里只说 2 种常用方式，它们互相排斥： 使用 par() 函数设定 mfrow 或者 mfcol 进行控制。 使用 layout() 函数。 par() 函数 mfrow 和 mfcol 都由 2 个数字指定，一个表示行数、一个表示列数。</description>
     </item>
     
     <item>
       <title>R基本绘图：创建与添加图形</title>
-      <link>/cn/post/2019-06-21-baseplot-addplot/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-06-21-baseplot-addplot/</link>
       <pubDate>Fri, 21 Jun 2019 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-06-21-baseplot-addplot/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-06-21-baseplot-addplot/</guid>
       <description>R 遵循画家模式。 高级绘图函数 + 低级绘图函数才能让图形丰富多样起来。 基本的低级绘图函数 Table 1: &amp;lt;U+5E38&amp;gt;&amp;lt;U+89C1&amp;gt;&amp;lt;U+57FA&amp;gt;&amp;lt;U+672C&amp;gt;&amp;lt;U+4F4E&amp;gt;&amp;lt;U+7EA7&amp;gt;&amp;lt;U+7ED8&amp;gt;&amp;lt;U+56FE&amp;gt;&amp;lt;U+51FD&amp;gt;&amp;lt;U+6570&amp;gt; &amp;lt;U+51FD&amp;gt;&amp;lt;U+6570&amp;gt; &amp;lt;U+63CF&amp;gt;&amp;lt;U+8FF0&amp;gt; points() &amp;lt;U+6570&amp;gt;&amp;lt;U+636E&amp;gt;&amp;lt;U+7B26&amp;gt;&amp;lt;U+53F7&amp;gt; lines() &amp;lt;U+7EBF&amp;gt;&amp;lt;U+6761&amp;gt; segments() &amp;lt;U+7EBF&amp;gt;&amp;lt;U+6BB5&amp;gt; arrows() &amp;lt;U+7BAD&amp;gt;&amp;lt;U+5934&amp;gt; xspline() &amp;lt;U+5149&amp;gt;&amp;lt;U+6ED1&amp;gt;&amp;lt;U+66F2&amp;gt;&amp;lt;U+7EBF&amp;gt; rect() &amp;lt;U+77E9&amp;gt;&amp;lt;U+5F62&amp;gt; polygon() &amp;lt;U+591A&amp;gt;&amp;lt;U+8FB9&amp;gt;&amp;lt;U+5F62&amp;gt; polypath() &amp;lt;U+591A&amp;gt;&amp;lt;U+8FB9&amp;gt;&amp;lt;U+5F62&amp;gt;&amp;lt;U+8DEF&amp;gt;&amp;lt;U+5F84&amp;gt; rasterImage() &amp;lt;U+4F4D&amp;gt;&amp;lt;U+56FE&amp;gt;&amp;lt;U+FF08&amp;gt;&amp;lt;U+5728&amp;gt;&amp;lt;U+56FE&amp;gt;&amp;lt;U+5F62&amp;gt;&amp;lt;U+4E0A&amp;gt;&amp;lt;U+53EF&amp;gt;&amp;lt;U+4EE5&amp;gt;&amp;lt;U+6DFB&amp;gt;&amp;lt;U+52A0&amp;gt;&amp;lt;U+5916&amp;gt;&amp;lt;U+90E8&amp;gt;&amp;lt;U+56FE&amp;gt;&amp;lt;U+7247&amp;gt;&amp;lt;U+FF09&amp;gt; text() &amp;lt;U+6587&amp;gt;&amp;lt;U+672C&amp;gt; 添加图</description>
     </item>
     
     <item>
       <title>使用NMF包绘制热图</title>
-      <link>/cn/post/use-nmf-aheatmap/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/use-nmf-aheatmap/</link>
       <pubDate>Thu, 20 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/use-nmf-aheatmap/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/use-nmf-aheatmap/</guid>
       <description>学习文档:https://cran.r-project.org/web/packages/NMF/vignettes/heatmaps.pd</description>
     </item>
     
     <item>
       <title>图形沟通：ggplot2</title>
-      <link>/cn/post/communicate-with-ggplot2/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/communicate-with-ggplot2/</link>
       <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/communicate-with-ggplot2/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/communicate-with-ggplot2/</guid>
       <description>准备工作 library(tidyverse) #&amp;gt; ── Attaching packages ────────────────────────────────────────────────────────────</description>
     </item>
     
     <item>
       <title>使用purrr和broom处理多个模型</title>
-      <link>/cn/post/purrr-and-broom/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/purrr-and-broom/</link>
       <pubDate>Mon, 15 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/purrr-and-broom/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/purrr-and-broom/</guid>
       <description>整理自《R for data science》 本文介绍3种方法用于处理大量模型。 使用多个简单模型更好地理解复杂数据集。 使用列表列在数据框中保存任意数据结构。</description>
     </item>
     
     <item>
       <title>modelr——基础模型实现</title>
-      <link>/cn/post/modelr-base-models/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/modelr-base-models/</link>
       <pubDate>Fri, 05 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/modelr-base-models/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/modelr-base-models/</guid>
       <description>建立模型的目的是提供一个简单的、低纬度的数据集摘要。我们使用模型的目的是将数据划分为模式和残差，借助模型探索数据集，拨开覆盖在数据集结构上的</description>
     </item>
     
     <item>
       <title>用purrr实现迭代</title>
-      <link>/cn/post/purrr-loop/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/purrr-loop/</link>
       <pubDate>Thu, 04 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/purrr-loop/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/purrr-loop/</guid>
       <description>函数有3个好处： 更容易看清代码意图 更容易对需求变化做出反应（改变） 更容易减少程序bug 除了函数，减少重复代码的另一种工具是迭代，它的作用在于</description>
     </item>
     
     <item>
       <title>模型预测与置信区间</title>
-      <link>/cn/post/linear-model-prediction/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/linear-model-prediction/</link>
       <pubDate>Sun, 30 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/linear-model-prediction/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/linear-model-prediction/</guid>
       <description>线性回归的主要目的是根据一个或多个预测变量（自变量）预测一个结果值。本文会讨论如何使用R来预测新观测值的结果。你也将学习如何展示置信区间和预</description>
     </item>
     
     <item>
       <title>showtext：在R图里面更简单地使用字体</title>
-      <link>/cn/post/showtext-pkg/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/showtext-pkg/</link>
       <pubDate>Thu, 20 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/showtext-pkg/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/showtext-pkg/</guid>
       <description>在如何修改画图使用的字体这篇文章中，我介绍了一种解决R图里字体的方案——extrafont包。今天意外看到另一个解决字体问题的包，再次推荐和</description>
     </item>
     
     <item>
       <title>R-网页爬虫：分析HTML代码</title>
-      <link>/cn/post/2019-11-20-r-crawler-2/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-11-20-r-crawler-2/</link>
       <pubDate>Mon, 17 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-11-20-r-crawler-2/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-11-20-r-crawler-2/</guid>
       <description>前一篇文章我们学习了选择器（CSS和XPath）。 我们可以从https://cran.rstudio.com/web/packages/av</description>
     </item>
     
     <item>
       <title>stringr——处理字符串</title>
-      <link>/cn/post/stringr-operation/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/stringr-operation/</link>
       <pubDate>Mon, 17 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/stringr-operation/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/stringr-operation/</guid>
       <description>导入包： library(tidyverse) #&amp;gt; ── Attaching packages ────────────────────────────────────────────────────────────</description>
     </item>
     
     <item>
       <title>R-网页爬虫：初识</title>
-      <link>/cn/post/2019-11-20-r-crawler-1/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-11-20-r-crawler-1/</link>
       <pubDate>Sun, 16 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-11-20-r-crawler-1/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-11-20-r-crawler-1/</guid>
       <description>数据处理的数据集并非立即可得，有时我们需要自己收集�数据，对很多研究领域，网页内容是一个重要的数据源。 查阅网页内容 下面是一个简单的网页，几乎</description>
     </item>
     
     <item>
       <title>Forest Plot（森林图）绘制</title>
-      <link>/cn/post/use-forestplot/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/use-forestplot/</link>
       <pubDate>Mon, 10 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/use-forestplot/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/use-forestplot/</guid>
       <description>森林图常见于元分析，但其使用绝不仅如此，比如我现在想要研究的对象有诸多HR结果，我想要汇总为一张图，森林图就是个非常好的选择。ggpubr包</description>
     </item>
     
     <item>
       <title>使用shinydashboard</title>
-      <link>/cn/post/use-shinydashboard/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/use-shinydashboard/</link>
       <pubDate>Fri, 31 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/use-shinydashboard/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/use-shinydashboard/</guid>
       <description>除了shiny包，RStudio还开发了一个shinydashboard扩展包，它呈现数据的方式就是专门用于概览或检测数据。 接下来的例子意在</description>
     </item>
     
     <item>
       <title>R 的高性能计算</title>
-      <link>/cn/post/hpc-in-r/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/hpc-in-r/</link>
       <pubDate>Wed, 29 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/hpc-in-r/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/hpc-in-r/</guid>
       <description>《R语言编程指南》 代码性能 简单看函数运行时间，用system.time()函数。 高级点，使用microbenchmark包的microben</description>
     </item>
     
     <item>
       <title>R-数据操作</title>
-      <link>/cn/post/2019-11-20-r-hight-level-data-operation/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-11-20-r-hight-level-data-operation/</link>
       <pubDate>Sat, 25 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-11-20-r-hight-level-data-operation/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-11-20-r-hight-level-data-operation/</guid>
       <description>本文内容： 基础函数操作数据框 sqldf包使用SQL查询数据框 data.table包操作数据 dplyr管道操作处理数据 rlist包处理嵌套数据</description>
     </item>
     
     <item>
       <title>R-操作数据库</title>
-      <link>/cn/post/2019-11-20-r-operate-database/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-11-20-r-operate-database/</link>
       <pubDate>Sun, 19 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-11-20-r-operate-database/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-11-20-r-operate-database/</guid>
       <description>在阅读之前我有必要进行申明,因为使用的是RMD文档,所以每次RENDER的时候都会读取数据库,所以结果显示不一样正常,有的也加了overwr</description>
     </item>
     
     <item>
       <title>R-面向对象编程（二）</title>
-      <link>/cn/post/2019-11-20-high-level-oop-two/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-11-20-high-level-oop-two/</link>
       <pubDate>Sat, 18 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-11-20-high-level-oop-two/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-11-20-high-level-oop-two/</guid>
       <description>内容： S4 引用类（Reference class, RC） R6扩展包 ## S4对象系统 在S3之后，R引入一个更正式更严谨的面向对象系统S4。这个系统允许我们使用</description>
     </item>
     
     <item>
       <title>R-面向对象编程（一）</title>
-      <link>/cn/post/2019-11-20-high-level-oop-one/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-11-20-high-level-oop-one/</link>
       <pubDate>Wed, 15 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-11-20-high-level-oop-one/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-11-20-high-level-oop-one/</guid>
       <description>内容： S3 借助面向对象的编码风格，并加以合理的抽象，我们可以简单地模仿对象的重要特性，于是，问题和模型之间的转换就变得清晰自然。 S3对象 S3对</description>
     </item>
     
     <item>
       <title>字符串操作</title>
-      <link>/cn/post/2019-11-20-operate-string/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-11-20-operate-string/</link>
       <pubDate>Wed, 15 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-11-20-operate-string/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-11-20-operate-string/</guid>
       <description>打印 &amp;quot;Hello world!&amp;quot; #&amp;gt; [1] &amp;quot;Hello world!&amp;quot; print(&amp;quot;Hello world!&amp;quot;) #&amp;gt; [1] &amp;quot;Hello world!&amp;quot; 不带索引 cat(&amp;quot;Hello world!&amp;quot;) #&amp;gt; Hello world! message(&amp;quot;Hello world!&amp;quot;) #&amp;gt; Hello world! 连接 paste(&amp;quot;Hello&amp;quot;, &amp;quot;world!&amp;quot;) #&amp;gt; [1] &amp;quot;Hello world!&amp;quot; paste(&amp;quot;Hello&amp;quot;, &amp;quot;world&amp;quot;, sep = &amp;quot;-&amp;quot;) #&amp;gt; [1] &amp;quot;Hello-world&amp;quot; paste0(&amp;quot;Hello&amp;quot;, &amp;quot;World&amp;quot;) #&amp;gt; [1] &amp;quot;HelloWorld&amp;quot; paste(c(&amp;quot;A&amp;quot;, &amp;quot;B&amp;quot;), c(1,2)) #&amp;gt; [1] &amp;quot;A 1&amp;quot; &amp;quot;B 2&amp;quot; paste(c(&amp;quot;A&amp;quot;, &amp;quot;B&amp;quot;), c(1,2), collapse = &amp;quot;,&amp;quot;, sep = &amp;quot;&amp;quot;) #&amp;gt; [1] &amp;quot;A1,B2&amp;quot;</description>
     </item>
     
     <item>
       <title>R的安装与配置</title>
-      <link>/cn/post/2018-08-10-r-installation/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2018-08-10-r-installation/</link>
       <pubDate>Fri, 10 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2018-08-10-r-installation/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2018-08-10-r-installation/</guid>
       <description>Windows R安装好后配置是本文的重点。关于Windows R的安装，百度有一大堆的教程。其中重点有3： 安装R，下载https://mirrors.tu</description>
     </item>
     
     <item>
       <title>R 的元编程</title>
-      <link>/cn/post/2019-11-20-meta-programming/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-11-20-meta-programming/</link>
       <pubDate>Fri, 03 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-11-20-meta-programming/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-11-20-meta-programming/</guid>
       <description>内容： 函数式编程：闭包（closures）与高阶函数（higher-order functions） 基于语言计算以及语言对象 非标准计算（non</description>
     </item>
     
     <item>
       <title>R的内部机制</title>
-      <link>/cn/post/2019-11-20-r-mechanism/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-11-20-r-mechanism/</link>
       <pubDate>Wed, 01 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-11-20-r-mechanism/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-11-20-r-mechanism/</guid>
       <description>内容： 惰性求值 （Lazy evaluation） 复制-修改机制 （Copy-on-modify mechanism） 词法作用域 （Lexical sc</description>
     </item>
     
     <item>
       <title>ABSOLUTE 推断框架</title>
-      <link>/cn/post/2018-07-24-absolute-inference/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2018-07-24-absolute-inference/</link>
       <pubDate>Tue, 24 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2018-07-24-absolute-inference/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2018-07-24-absolute-inference/</guid>
       <description>样本混合物中Cancer细胞比例：$\alpha$ (假设单染色体组monogenomic，即有同源SCNAs) 样本混合物中Normal细胞比</description>
     </item>
     
     <item>
       <title>metafor——元分析技术实现</title>
-      <link>/cn/post/2019-11-20-use-metafor/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-11-20-use-metafor/</link>
       <pubDate>Mon, 09 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-11-20-use-metafor/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-11-20-use-metafor/</guid>
       <description>最近在科研中使用到元分析，零零散散开始接触一些理论与实现。元分析的主要作用就是汇总某一个方面所有符合条件研究的统计结果，评估这个方向研究一个</description>
     </item>
     
     <item>
       <title>拼图包patchwork使用</title>
-      <link>/cn/post/2019-11-20-usage-of-patchwork/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-11-20-usage-of-patchwork/</link>
       <pubDate>Fri, 06 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-11-20-usage-of-patchwork/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-11-20-usage-of-patchwork/</guid>
       <description>patchwork是基于ggplot2的拼图包，因为ggplot2本身没有强大的拼图语法，而一般使用的gridExtra与cowplot的拼</description>
     </item>
     
     <item>
       <title>倾向评分匹配算法——R实例学习</title>
-      <link>/cn/post/2019-11-20-propensity-score-match/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-11-20-propensity-score-match/</link>
       <pubDate>Mon, 25 Jun 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-11-20-propensity-score-match/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-11-20-propensity-score-match/</guid>
       <description>倾向评分算法用于校正模型中的混淆因子，这里我们先使用随机生成的数据学习该算法，然后实际分析一下去教会学校和公共学校上学学生的成绩差异。 本文主</description>
     </item>
     
     <item>
       <title>使用apply函数簇</title>
-      <link>/cn/post/2019-11-20-use-apply-family/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-11-20-use-apply-family/</link>
       <pubDate>Tue, 12 Jun 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-11-20-use-apply-family/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-11-20-use-apply-family/</guid>
       <description>在实际使用R时，for循环往往是最后的选择。一般每次循环计算都是独立的，所以我们可以使用更简洁更方便的读写方式来实现同样的效果。 举例，如果使</description>
     </item>
     
     <item>
       <title>do.call的使用</title>
-      <link>/cn/post/usage-of-docall/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/usage-of-docall/</link>
       <pubDate>Thu, 07 Jun 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/usage-of-docall/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/usage-of-docall/</guid>
       <description>学习下R中一个有趣地函数，do.call。 do.call这个函数是我在搜索问题时会看到别人经常使用的一个函数，心生好奇，这次来看看它的用法。</description>
     </item>
     
     <item>
       <title>使用lattice进行高级绘图</title>
-      <link>/cn/post/2019-11-20-intro-to-lattice/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-11-20-intro-to-lattice/</link>
       <pubDate>Thu, 07 Jun 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-11-20-intro-to-lattice/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-11-20-intro-to-lattice/</guid>
       <description>使用lattice进行高级绘图是我之前在学习《R实战》这本书少有涉及的章节之一，在R里面，主要有两大底层图形系统，一是base，二是grid</description>
     </item>
     
     <item>
       <title>理解信息</title>
-      <link>/cn/post/2019-11-20-understand-information/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-11-20-understand-information/</link>
       <pubDate>Wed, 30 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-11-20-understand-information/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-11-20-understand-information/</guid>
       <description>信息是被消除的不确定性 美国电子工程专家哈特莱如是说。 消息的传递正是把信息的不确定性变成确定性。那么该如何量化信息？ 哈特莱提出初步设想： \[ I =</description>
     </item>
     
     <item>
       <title>基于ggpubr包为ggplot添加p值和显著性标记</title>
-      <link>/cn/post/ggpubr-add-pvalue-and-siglevels/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/ggpubr-add-pvalue-and-siglevels/</link>
       <pubDate>Sat, 19 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/ggpubr-add-pvalue-and-siglevels/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/ggpubr-add-pvalue-and-siglevels/</guid>
       <description>这篇文章我们将讲述 如何简单比较两组或多组的平均值 如何自动化为ggplot添加p值和显著性标记，包括箱线图、点图、条形图、线图等等 准备 安装和导</description>
     </item>
     
     <item>
       <title>贝叶斯conditioning engines</title>
-      <link>/cn/post/2019-11-20-bayesian-condition-engines/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-11-20-bayesian-condition-engines/</link>
       <pubDate>Wed, 16 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-11-20-bayesian-condition-engines/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-11-20-bayesian-condition-engines/</guid>
       <description>这里描述三种贝叶斯contioning engines： 网格逼近 二次逼近 马尔科夫链蒙特卡罗（MCMC） 网格逼近 网格逼近是最简单的一种，只适用于</description>
     </item>
     
     <item>
       <title>R应用数值计算</title>
-      <link>/cn/post/2019-11-20-r-apply-math-computation/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-11-20-r-apply-math-computation/</link>
       <pubDate>Wed, 09 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-11-20-r-apply-math-computation/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-11-20-r-apply-math-computation/</guid>
       <description>这里我们学习下有关数值计算的根查找与微积分的内置函数。 根查找 假设我们想要求解以下方程的根： \[ x^2 + x - 2 = 0 \] 若是要手动求解，我们需要先将方程</description>
     </item>
     
     <item>
       <title>识别R对象的类和类型</title>
-      <link>/cn/post/2019-11-20-r-class-and-type/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-11-20-r-class-and-type/</link>
       <pubDate>Wed, 09 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-11-20-r-class-and-type/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-11-20-r-class-and-type/</guid>
       <description>除了使用is.*()函数，我们也可以使用class()或typeof()函数来实现类型的识别。 接下来用例子展示class()和typeof(</description>
     </item>
     
     <item>
       <title>R使用switch语句</title>
-      <link>/cn/post/2019-11-20-r-switch/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-11-20-r-switch/</link>
       <pubDate>Mon, 07 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-11-20-r-switch/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-11-20-r-switch/</guid>
       <description>与常用处理TRUE和FALSE条件的if相比，switch语句主要用于处理数字或者字符串，并根据输入返回某个分支。 假设输入一个整数n，swi</description>
     </item>
     
     <item>
       <title>修改全局选项</title>
-      <link>/cn/post/2019-11-20-r-global-options/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-11-20-r-global-options/</link>
       <pubDate>Mon, 07 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-11-20-r-global-options/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-11-20-r-global-options/</guid>
       <description>R语言的选项设定可以从全局范围影响当前的会话，我们调用getOption()查看选项值，使用options()修改它。 一个常用的设定选项是输</description>
     </item>
     
     <item>
       <title>R提取向量元素[与[[区分</title>
-      <link>/cn/post/2019-11-20-r-subset-vector-notes/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-11-20-r-subset-vector-notes/</link>
       <pubDate>Sun, 06 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-11-20-r-subset-vector-notes/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-11-20-r-subset-vector-notes/</guid>
       <description>内容取自《R语言编程指南》。 []能够创建一个向量子集，[[]]可以提取向量中的元素。我们可以将一个向量比作10盒糖果，使用[]可以获取其中的</description>
     </item>
     
     <item>
       <title>使用 R 进行生存分析</title>
-      <link>/cn/post/r-survival/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/r-survival/</link>
       <pubDate>Sat, 28 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/r-survival/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/r-survival/</guid>
       <description>学习生存分析预先要求对R有所了解，基本能够操作R数据框和包的使用。要是懂ggplot2和dplyr就更好了。 资料 生存分析备查表 - 会使用到的主</description>
     </item>
     
     <item>
       <title>使用R tidyverse 进行探索性分析EDA</title>
-      <link>/cn/post/2019-11-06-eda-with-tidyverse/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-11-06-eda-with-tidyverse/</link>
       <pubDate>Tue, 24 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-11-06-eda-with-tidyverse/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-11-06-eda-with-tidyverse/</guid>
       <description>该部分学习内容来自《R for Data Science》。 这次我们学习可视化与处理数据来系统地探索数据——统计学家称之为探索性数据分析（explorato</description>
     </item>
     
     <item>
       <title>「诗」我们这座城市</title>
-      <link>/cn/post/2019-11-20-our-city-here/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-11-20-our-city-here/</link>
       <pubDate>Mon, 23 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-11-20-our-city-here/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-11-20-our-city-here/</guid>
       <description>阳光混合氧气充斥这座城市 像世界上的其他一万座城市。 看的见的光与看不见的虚无和着 输送给这座城市人口养料。 百万，千万 寥寥字眼里埋葬人口下的生活：</description>
     </item>
     
     <item>
       <title>Python机器学习基础综合实战</title>
-      <link>/cn/post/python-basic-ml-flow/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/python-basic-ml-flow/</link>
       <pubDate>Sun, 15 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/python-basic-ml-flow/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/python-basic-ml-flow/</guid>
       <description>Python机器学习实例&amp;hellip;</description>
     </item>
     
     <item>
       <title>使用yyplot绘制pubmed研究趋势</title>
-      <link>/cn/post/2019-11-20-access-pubmed-by-yyplot/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-11-20-access-pubmed-by-yyplot/</link>
       <pubDate>Fri, 13 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-11-20-access-pubmed-by-yyplot/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-11-20-access-pubmed-by-yyplot/</guid>
       <description>在准备转博报告的过程中觉得有必要给一些研究添加Pubmed研究趋势，这个功能Y叔在它的公众号推过，所以我记了一下，之前在写开题报告的时候就用</description>
     </item>
     
     <item>
       <title>使用dplyr进行数据处理</title>
-      <link>/cn/post/2019-11-06-data-processing-with-dplyr/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-11-06-data-processing-with-dplyr/</link>
       <pubDate>Wed, 21 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-11-06-data-processing-with-dplyr/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-11-06-data-processing-with-dplyr/</guid>
       <description>该部分学习内容来自《R for Data Science》。 在对数据进行可视化之前我们往往需要进行数据转换以得到可视化所需要的数据内容与格式。这里我们使用d</description>
     </item>
     
     <item>
       <title>初识sed与awk</title>
-      <link>/cn/post/2017-12-25-sed-and-gawk/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2017-12-25-sed-and-gawk/</link>
       <pubDate>Mon, 25 Dec 2017 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2017-12-25-sed-and-gawk/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2017-12-25-sed-and-gawk/</guid>
       <description>简单介绍sed与awk命令&amp;hellip;</description>
     </item>
     
     <item>
       <title>创建和使用shell函数</title>
-      <link>/cn/post/2017-11-26-shell-create-function/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2017-11-26-shell-create-function/</link>
       <pubDate>Sun, 26 Nov 2017 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2017-11-26-shell-create-function/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2017-11-26-shell-create-function/</guid>
       <description>来源： Linux命令行与shell脚本编程大全 内容 基本的脚本函数 返回值 在函数中使用变量 数组变量和函数 函数递归 创建库 在命令行上使用函数 我们可以</description>
     </item>
     
     <item>
       <title>Bioconductor分析RNA-seq数据</title>
-      <link>/cn/post/2017-10-27-rnaseq-data-analysis/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2017-10-27-rnaseq-data-analysis/</link>
       <pubDate>Fri, 27 Oct 2017 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2017-10-27-rnaseq-data-analysis/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2017-10-27-rnaseq-data-analysis/</guid>
       <description>参考学习《R语言与Bioconductor生物信息学应用》第六章 前言 Y叔的公众号biobabble发过一篇【听说你想学R？】,七月份发的但昨</description>
     </item>
     
     <item>
       <title>Bioconductor分析基因芯片数据</title>
-      <link>/cn/post/2017-10-09-microarray-data-analysis/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2017-10-09-microarray-data-analysis/</link>
       <pubDate>Mon, 09 Oct 2017 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2017-10-09-microarray-data-analysis/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2017-10-09-microarray-data-analysis/</guid>
       <description>参考学习《R语言与Bioconductor——生物信息学应用》第五章，根据自己学习有删改，欢迎分享。本文中有些预备知识或一些方法的原理没有提</description>
     </item>
     
     <item>
       <title>控制脚本</title>
-      <link>/cn/post/2017-09-04-control_shell/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2017-09-04-control_shell/</link>
       <pubDate>Mon, 04 Sep 2017 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2017-09-04-control_shell/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2017-09-04-control_shell/</guid>
       <description>如何控制脚本并实现自动化？&amp;hellip;</description>
     </item>
     
     <item>
       <title>Linux数据处理命令工具</title>
-      <link>/cn/post/2017-09-03-linux-data-analysis-tools/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2017-09-03-linux-data-analysis-tools/</link>
       <pubDate>Sun, 03 Sep 2017 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2017-09-03-linux-data-analysis-tools/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2017-09-03-linux-data-analysis-tools/</guid>
       <description>系统介绍Linux会使用到的数据处理命令&amp;hellip;</description>
     </item>
     
     <item>
       <title>Linux脚本编程——呈现数据</title>
-      <link>/cn/post/2017-08-22-shell-show-data/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2017-08-22-shell-show-data/</link>
       <pubDate>Mon, 21 Aug 2017 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2017-08-22-shell-show-data/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2017-08-22-shell-show-data/</guid>
       <description>怎么通过脚本呈现数据&amp;hellip;包括重定向与日志文件等。</description>
     </item>
     
     <item>
       <title>Shell脚本之处理用户输入</title>
-      <link>/cn/post/2017-08-19-working-with-user-input/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2017-08-19-working-with-user-input/</link>
       <pubDate>Sat, 19 Aug 2017 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2017-08-19-working-with-user-input/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2017-08-19-working-with-user-input/</guid>
       <description>学习如何处理shell的用户输入&amp;hellip;</description>
     </item>
     
     <item>
       <title>Linux结构化命令</title>
-      <link>/cn/post/2017-08-11-structural-command-of-shell/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2017-08-11-structural-command-of-shell/</link>
       <pubDate>Fri, 11 Aug 2017 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2017-08-11-structural-command-of-shell/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2017-08-11-structural-command-of-shell/</guid>
       <description>学习shell结构化命令&amp;hellip;</description>
     </item>
     
     <item>
       <title>构建基本shell脚本</title>
-      <link>/cn/post/2017-08-11-basic-shell/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2017-08-11-basic-shell/</link>
       <pubDate>Fri, 11 Aug 2017 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2017-08-11-basic-shell/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2017-08-11-basic-shell/</guid>
       <description>学习Shell脚本的基本构建方式&amp;hellip;</description>
     </item>
     

@@ -2,35 +2,35 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>forestplot on Shixiang Wang | 王诗翔</title>
-    <link>/tags/forestplot/</link>
+    <link>https://shixiangwang.github.io/home/tags/forestplot/</link>
     <description>Recent content in forestplot on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 02 May 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/forestplot/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 02 May 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://shixiangwang.github.io/home/tags/forestplot/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>ezcox 森林图中点估计方块大小设定</title>
-      <link>/cn/post/2020-05-02-ezcox-forest-set-square-size/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2020-05-02-ezcox-forest-set-square-size/</link>
       <pubDate>Sat, 02 May 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-05-02-ezcox-forest-set-square-size/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2020-05-02-ezcox-forest-set-square-size/</guid>
       <description>这篇文章与 https://github.com/ShixiangWang/MessageBoard/issues/69 与 https://github.com/ShixiangWang/ezcox/issues/12 相关。 之前开发的 ezcox 包提供了批量建模和展示森林图的功能，我自认为森林图要比 ggpubr 提供的 ggforest 好看。森林图的绘制实际是基于 forestmodel 的实现。 forestmodel 一</description>
     </item>
     
     <item>
       <title>使用 ezcox 进行批量 Cox 模型处理</title>
-      <link>/cn/post/2019-10-23-ezcox-for-batch-cox-models/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-10-23-ezcox-for-batch-cox-models/</link>
       <pubDate>Wed, 23 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-10-23-ezcox-for-batch-cox-models/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-10-23-ezcox-for-batch-cox-models/</guid>
       <description>Cox 模型是我们做生存分析最常用的模型，在实际的分析工作中，我们常常想逐一查看多个变量对生存时间的影响。注意，这与多变量分析不同，后者是通常将多</description>
     </item>
     
     <item>
       <title>Forest Plot（森林图）绘制</title>
-      <link>/cn/post/use-forestplot/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/use-forestplot/</link>
       <pubDate>Mon, 10 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/use-forestplot/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/use-forestplot/</guid>
       <description>森林图常见于元分析，但其使用绝不仅如此，比如我现在想要研究的对象有诸多HR结果，我想要汇总为一张图，森林图就是个非常好的选择。ggpubr包</description>
     </item>
     

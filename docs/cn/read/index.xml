@@ -2,98 +2,98 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>读书笔记 on Shixiang Wang | 王诗翔</title>
-    <link>/cn/read/</link>
+    <link>https://shixiangwang.github.io/home/cn/read/</link>
     <description>Recent content in 读书笔记 on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 01 Jan 2019 00:00:00 +0000</lastBuildDate><atom:link href="/cn/read/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 01 Jan 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://shixiangwang.github.io/home/cn/read/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>《机器学习》学习笔记</title>
-      <link>/cn/read/machine-learning-by-zhou/</link>
+      <link>https://shixiangwang.github.io/home/cn/read/machine-learning-by-zhou/</link>
       <pubDate>Mon, 21 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/read/machine-learning-by-zhou/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/read/machine-learning-by-zhou/</guid>
       <description>模型评估与选择 评估方法 留出法（hold-out） 将数据集划分为两个互斥的集合，其中一个作为训练集，另一个作为测试集。 在训练集上训练出模型后，</description>
     </item>
     
     <item>
       <title>《程序员的数学》（一）</title>
-      <link>/cn/read/math-for-programmer-s1/</link>
+      <link>https://shixiangwang.github.io/home/cn/read/math-for-programmer-s1/</link>
       <pubDate>Sun, 20 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/read/math-for-programmer-s1/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/read/math-for-programmer-s1/</guid>
       <description></description>
     </item>
     
     <item>
       <title>《程序员的数学》（三）：线性代数</title>
-      <link>/cn/read/math-for-programmer-s3/</link>
+      <link>https://shixiangwang.github.io/home/cn/read/math-for-programmer-s3/</link>
       <pubDate>Sun, 20 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/read/math-for-programmer-s3/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/read/math-for-programmer-s3/</guid>
       <description>用空间的语言表达向量、矩阵和行列式 向量： 字面意思：排成一列的数字。 实际意思：带有方向的线段、空间内的点。 矩阵： 字面意思：排成矩阵的数字。 实际</description>
     </item>
     
     <item>
       <title>《程序员的数学》（二）：概率统计</title>
-      <link>/cn/read/math-for-programmer-s2/</link>
+      <link>https://shixiangwang.github.io/home/cn/read/math-for-programmer-s2/</link>
       <pubDate>Sun, 20 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/read/math-for-programmer-s2/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/read/math-for-programmer-s2/</guid>
       <description></description>
     </item>
     
     <item>
       <title>《Mastering Go》第五章笔记</title>
-      <link>/cn/read/mastering-go-book-chapter-05/</link>
+      <link>https://shixiangwang.github.io/home/cn/read/mastering-go-book-chapter-05/</link>
       <pubDate>Wed, 26 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/read/mastering-go-book-chapter-05/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/read/mastering-go-book-chapter-05/</guid>
       <description>Go 的一些数据结构（图、树、队列等）都由标准包 container 提供。 图和顶点 图G(V,E)是顶点V(或节点)的有限非空集合和边E的集合。图有两种主要类型:循</description>
     </item>
     
     <item>
       <title>《Mastering Go》第四章笔记</title>
-      <link>/cn/read/mastering-go-book-chapter-04/</link>
+      <link>https://shixiangwang.github.io/home/cn/read/mastering-go-book-chapter-04/</link>
       <pubDate>Wed, 26 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/read/mastering-go-book-chapter-04/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/read/mastering-go-book-chapter-04/</guid>
       <description>Go 结构体 构建结构体： package main import &amp;#34;fmt&amp;#34; func main() { type XYZ struct { X int Y int Z int } var s1 XYZ fmt.Println(s1.Y, s1.Z) p1 := XYZ{23, 12, -2} p2 := XYZ{Z: 12, Y: 13} fmt.Println(p1) fmt.Println(p2) pSlice := [4]XYZ{} pSlice[2] = p1 pSlice[0] = p2 fmt.Println(pSlice) p2 = XYZ{1, 2, 3} fmt.Println(pSlice) } 运行： $ go run ./0036-structures.go</description>
     </item>
     
     <item>
       <title>《Mastering Go》第三章笔记</title>
-      <link>/cn/read/mastering-go-book-chapter-03/</link>
+      <link>https://shixiangwang.github.io/home/cn/read/mastering-go-book-chapter-03/</link>
       <pubDate>Wed, 12 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/read/mastering-go-book-chapter-03/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/read/mastering-go-book-chapter-03/</guid>
       <description>Go 循环 for 循环 for i := 0; i &amp;lt; 100; i++ { } 可以使用 break 和 continue 关键字控制循环。 while 循环 for condition { } do...while 循环实现： for ok := true; ok; ok = anExpr { } range range 关键字可以更简单地处理元素迭</description>
     </item>
     
     <item>
       <title>《Mastering Go》第二章笔记</title>
-      <link>/cn/read/mastering-go-book-chapter-02/</link>
+      <link>https://shixiangwang.github.io/home/cn/read/mastering-go-book-chapter-02/</link>
       <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/read/mastering-go-book-chapter-02/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/read/mastering-go-book-chapter-02/</guid>
       <description>GO 编译器 Go 在编译的过程中做了大量的工作。 go tool compile xx.go 生成目标文件。 go tool compile -pack xx.go 生成存档文件 go tool compile -race xx.go 用于检测 race condition。 go tool compile -S xx.go 会生成</description>
     </item>
     
     <item>
       <title>《Mastering Go》第一章笔记</title>
-      <link>/cn/read/mastering-go-book-chapter-01/</link>
+      <link>https://shixiangwang.github.io/home/cn/read/mastering-go-book-chapter-01/</link>
       <pubDate>Mon, 03 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/read/mastering-go-book-chapter-01/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/read/mastering-go-book-chapter-01/</guid>
       <description>godoc 使用 go doc fmt.Printf go doc fmt # Open a Go doc server godoc -http=:8001 运行和编译 go 代码 package main import &amp;#34;fmt&amp;#34; func main() { fmt.Println(&amp;#34;This is a sample Go program!&amp;#34;) } 使用 go run filename 运行代码文件；使用 go buils filename 编译 go 代码形成可执行文件。 下</description>
     </item>
     
     <item>
       <title>创作草稿：遵循标准结构</title>
-      <link>/cn/read/sci-writing-composing-a-first-draft/</link>
+      <link>https://shixiangwang.github.io/home/cn/read/sci-writing-composing-a-first-draft/</link>
       <pubDate>Thu, 20 Jun 2019 00:00:00 +0000</pubDate>
       
-      <guid>/cn/read/sci-writing-composing-a-first-draft/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/read/sci-writing-composing-a-first-draft/</guid>
       <description>本文是《Successful scientific wrting》一书的阅读笔记之一。 大部分的学术文章都遵循相似的模式，即所谓的 IMRAD 格式——它是**Introduc</description>
     </item>
     

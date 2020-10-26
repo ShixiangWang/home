@@ -2,27 +2,27 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>software on Shixiang Wang | 王诗翔</title>
-    <link>/tags/software/</link>
+    <link>https://shixiangwang.github.io/home/tags/software/</link>
     <description>Recent content in software on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 25 Aug 2019 00:00:00 +0000</lastBuildDate><atom:link href="/tags/software/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 25 Aug 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://shixiangwang.github.io/home/tags/software/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>UCSCXenaTools: Retrieve Gene Expression and Clinical Information from UCSC Xena for Survival Analysis</title>
-      <link>/en/post/ucscxenatools-201908/</link>
+      <link>https://shixiangwang.github.io/home/en/post/ucscxenatools-201908/</link>
       <pubDate>Sun, 25 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>/en/post/ucscxenatools-201908/</guid>
+      <guid>https://shixiangwang.github.io/home/en/post/ucscxenatools-201908/</guid>
       <description>I thank the edition made by Stefanie Butland.
  The UCSC Xena platform provides an unprecedented resource for public omics data from big projects like The Cancer Genome Atlas (TCGA), however, it is hard for users to incorporate multiple datasets or data types, integrate the selected data with popular analysis tools or homebrewed code, and reproduce analysis procedures. To address this issue, we developed an R package UCSCXenaTools for enabling data retrieval, analysis integration and reproducible research for omics data from the UCSC Xena platform1.</description>
     </item>
     
     <item>
       <title>引用UCSCXenaTools</title>
-      <link>/cn/post/2019-08-07-cite-ucscxenatools/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-08-07-cite-ucscxenatools/</link>
       <pubDate>Wed, 07 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-08-07-cite-ucscxenatools/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-08-07-cite-ucscxenatools/</guid>
       <description>UCSCXenaTools &amp;lt;https://github.com/ropensci/UCSCXenaTools&amp;gt; 是去年10月份左右开始开发的，是我写的第一个R包，目的是有效地选择和下载UCSC Xena提供的公开数据集，有利于分析的流程化和可重复性。</description>
     </item>
     

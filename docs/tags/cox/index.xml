@@ -2,35 +2,35 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>cox on Shixiang Wang | 王诗翔</title>
-    <link>/tags/cox/</link>
+    <link>https://shixiangwang.github.io/home/tags/cox/</link>
     <description>Recent content in cox on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 13 Jan 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/cox/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 13 Jan 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://shixiangwang.github.io/home/tags/cox/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>使用 ezcox 展示森林图</title>
-      <link>/cn/post/2020-01-13-show-forest-with-ezcox/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2020-01-13-show-forest-with-ezcox/</link>
       <pubDate>Mon, 13 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-01-13-show-forest-with-ezcox/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2020-01-13-show-forest-with-ezcox/</guid>
       <description>我之前写过一篇文章介绍最近写的一个包 ezcox，它可以用来进行批量处理 Cox 模型（支持并行计算）。那个时候我已经关注到了 forestmodel 包并修复了几个 Bug，</description>
     </item>
     
     <item>
       <title>使用 ezcox 进行批量 Cox 模型处理</title>
-      <link>/cn/post/2019-10-23-ezcox-for-batch-cox-models/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-10-23-ezcox-for-batch-cox-models/</link>
       <pubDate>Wed, 23 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-10-23-ezcox-for-batch-cox-models/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-10-23-ezcox-for-batch-cox-models/</guid>
       <description>Cox 模型是我们做生存分析最常用的模型，在实际的分析工作中，我们常常想逐一查看多个变量对生存时间的影响。注意，这与多变量分析不同，后者是通常将多</description>
     </item>
     
     <item>
       <title>使用 R 进行生存分析</title>
-      <link>/cn/post/r-survival/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/r-survival/</link>
       <pubDate>Sat, 28 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/r-survival/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/r-survival/</guid>
       <description>学习生存分析预先要求对R有所了解，基本能够操作R数据框和包的使用。要是懂ggplot2和dplyr就更好了。 资料 生存分析备查表 - 会使用到的主</description>
     </item>
     

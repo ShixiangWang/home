@@ -2,26 +2,26 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>font on Shixiang Wang | 王诗翔</title>
-    <link>/tags/font/</link>
+    <link>https://shixiangwang.github.io/home/tags/font/</link>
     <description>Recent content in font on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 18 Oct 2019 00:00:00 +0000</lastBuildDate><atom:link href="/tags/font/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 18 Oct 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://shixiangwang.github.io/home/tags/font/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>使用 Cascadia Code 字体</title>
-      <link>/cn/post/2019-10-18-use-cascadia-code-font/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-10-18-use-cascadia-code-font/</link>
       <pubDate>Fri, 18 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-10-18-use-cascadia-code-font/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-10-18-use-cascadia-code-font/</guid>
       <description>最近微软为 Windows Terminal 推出了具有连字特性的字体 Cascadia Code，在试用后发现确实很不错，下图是字体效果，这里结合官方的 README 介绍一下。 .img-container { text-align: center; display: block; } .img-container { text-align: center; display:</description>
     </item>
     
     <item>
       <title>showtext：在R图里面更简单地使用字体</title>
-      <link>/cn/post/showtext-pkg/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/showtext-pkg/</link>
       <pubDate>Thu, 20 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/showtext-pkg/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/showtext-pkg/</guid>
       <description>在如何修改画图使用的字体这篇文章中，我介绍了一种解决R图里字体的方案——extrafont包。今天意外看到另一个解决字体问题的包，再次推荐和</description>
     </item>
     

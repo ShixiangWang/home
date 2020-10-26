@@ -2,26 +2,26 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>life on Shixiang Wang | 王诗翔</title>
-    <link>/tags/life/</link>
+    <link>https://shixiangwang.github.io/home/tags/life/</link>
     <description>Recent content in life on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 29 Apr 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/life/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 29 Apr 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://shixiangwang.github.io/home/tags/life/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>初七小记</title>
-      <link>/cn/post/2020-05-05-birthday-2020/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2020-05-05-birthday-2020/</link>
       <pubDate>Wed, 29 Apr 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-05-05-birthday-2020/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2020-05-05-birthday-2020/</guid>
       <description>二八终添十，廿七影忘迟。 喜悲同交欢，天地浑不知。 携侣且为乐，良宵共此时。 莫道归途远，不复少年词。</description>
     </item>
     
     <item>
       <title>2019 年度总结</title>
-      <link>/cn/post/2020-01-01-2019-summary/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2020-01-01-2019-summary/</link>
       <pubDate>Wed, 01 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-01-01-2019-summary/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2020-01-01-2019-summary/</guid>
       <description>2019 年过去了，我把自己的 GitHub 仓库清理了一遍，总结过去一年自己的收获和思考。 参与发表的文献 2019 年我参与发表了 5 篇科学文献，其中 4 篇 SCI，另 1 篇是我</description>
     </item>
     

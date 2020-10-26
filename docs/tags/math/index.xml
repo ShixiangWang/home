@@ -2,62 +2,62 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>math on Shixiang Wang | 王诗翔</title>
-    <link>/tags/math/</link>
+    <link>https://shixiangwang.github.io/home/tags/math/</link>
     <description>Recent content in math on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 21 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/math/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 21 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://shixiangwang.github.io/home/tags/math/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>《机器学习》学习笔记</title>
-      <link>/cn/read/machine-learning-by-zhou/</link>
+      <link>https://shixiangwang.github.io/home/cn/read/machine-learning-by-zhou/</link>
       <pubDate>Mon, 21 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/read/machine-learning-by-zhou/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/read/machine-learning-by-zhou/</guid>
       <description>模型评估与选择 评估方法 留出法（hold-out） 将数据集划分为两个互斥的集合，其中一个作为训练集，另一个作为测试集。 在训练集上训练出模型后，</description>
     </item>
     
     <item>
       <title>《程序员的数学》（一）</title>
-      <link>/cn/read/math-for-programmer-s1/</link>
+      <link>https://shixiangwang.github.io/home/cn/read/math-for-programmer-s1/</link>
       <pubDate>Sun, 20 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/read/math-for-programmer-s1/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/read/math-for-programmer-s1/</guid>
       <description></description>
     </item>
     
     <item>
       <title>《程序员的数学》（三）：线性代数</title>
-      <link>/cn/read/math-for-programmer-s3/</link>
+      <link>https://shixiangwang.github.io/home/cn/read/math-for-programmer-s3/</link>
       <pubDate>Sun, 20 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/read/math-for-programmer-s3/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/read/math-for-programmer-s3/</guid>
       <description>用空间的语言表达向量、矩阵和行列式 向量： 字面意思：排成一列的数字。 实际意思：带有方向的线段、空间内的点。 矩阵： 字面意思：排成矩阵的数字。 实际</description>
     </item>
     
     <item>
       <title>《程序员的数学》（二）：概率统计</title>
-      <link>/cn/read/math-for-programmer-s2/</link>
+      <link>https://shixiangwang.github.io/home/cn/read/math-for-programmer-s2/</link>
       <pubDate>Sun, 20 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/read/math-for-programmer-s2/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/read/math-for-programmer-s2/</guid>
       <description></description>
     </item>
     
     <item>
       <title>贝叶斯conditioning engines</title>
-      <link>/cn/post/2019-11-20-bayesian-condition-engines/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-11-20-bayesian-condition-engines/</link>
       <pubDate>Wed, 16 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-11-20-bayesian-condition-engines/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-11-20-bayesian-condition-engines/</guid>
       <description>这里描述三种贝叶斯contioning engines： 网格逼近 二次逼近 马尔科夫链蒙特卡罗（MCMC） 网格逼近 网格逼近是最简单的一种，只适用于</description>
     </item>
     
     <item>
       <title>R应用数值计算</title>
-      <link>/cn/post/2019-11-20-r-apply-math-computation/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-11-20-r-apply-math-computation/</link>
       <pubDate>Wed, 09 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-11-20-r-apply-math-computation/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-11-20-r-apply-math-computation/</guid>
       <description>这里我们学习下有关数值计算的根查找与微积分的内置函数。 根查找 假设我们想要求解以下方程的根： \[ x^2 + x - 2 = 0 \] 若是要手动求解，我们需要先将方程</description>
     </item>
     

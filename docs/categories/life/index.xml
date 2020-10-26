@@ -2,35 +2,35 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>life on Shixiang Wang | 王诗翔</title>
-    <link>/categories/life/</link>
+    <link>https://shixiangwang.github.io/home/categories/life/</link>
     <description>Recent content in life on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 29 Apr 2020 00:00:00 +0000</lastBuildDate><atom:link href="/categories/life/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 29 Apr 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://shixiangwang.github.io/home/categories/life/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>初七小记</title>
-      <link>/cn/post/2020-05-05-birthday-2020/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2020-05-05-birthday-2020/</link>
       <pubDate>Wed, 29 Apr 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-05-05-birthday-2020/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2020-05-05-birthday-2020/</guid>
       <description>二八终添十，廿七影忘迟。 喜悲同交欢，天地浑不知。 携侣且为乐，良宵共此时。 莫道归途远，不复少年词。</description>
     </item>
     
     <item>
       <title>Balderdash</title>
-      <link>/en/post/2019-06-05-balderdash/</link>
+      <link>https://shixiangwang.github.io/home/en/post/2019-06-05-balderdash/</link>
       <pubDate>Wed, 05 Jun 2019 00:00:00 +0000</pubDate>
       
-      <guid>/en/post/2019-06-05-balderdash/</guid>
+      <guid>https://shixiangwang.github.io/home/en/post/2019-06-05-balderdash/</guid>
       <description>2019-06-05 Learning programming languages after serveral years, it suddenly dawned on me that they are just tools we express our ideas.</description>
     </item>
     
     <item>
       <title>「诗」我们这座城市</title>
-      <link>/cn/post/2019-11-20-our-city-here/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-11-20-our-city-here/</link>
       <pubDate>Mon, 23 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-11-20-our-city-here/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-11-20-our-city-here/</guid>
       <description>阳光混合氧气充斥这座城市 像世界上的其他一万座城市。 看的见的光与看不见的虚无和着 输送给这座城市人口养料。 百万，千万 寥寥字眼里埋葬人口下的生活：</description>
     </item>
     

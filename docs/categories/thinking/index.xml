@@ -2,44 +2,44 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>thinking on Shixiang Wang | 王诗翔</title>
-    <link>/categories/thinking/</link>
+    <link>https://shixiangwang.github.io/home/categories/thinking/</link>
     <description>Recent content in thinking on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 13 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="/categories/thinking/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 13 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://shixiangwang.github.io/home/categories/thinking/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>碎碎念-相关与因果</title>
-      <link>/cn/post/2020-09-13-random/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2020-09-13-random/</link>
       <pubDate>Sun, 13 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-09-13-random/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2020-09-13-random/</guid>
       <description>相关用于预测。 因果用于决策。</description>
     </item>
     
     <item>
       <title>快速理解基于 0 的索引</title>
-      <link>/cn/post/2020-08-18-understand-0-based-index/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2020-08-18-understand-0-based-index/</link>
       <pubDate>Tue, 18 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-08-18-understand-0-based-index/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2020-08-18-understand-0-based-index/</guid>
       <description>编程语法中有基于 0 或 1 两种索引机制，前面一种与计算机本质更接近，使用也更多，但对之前的我带来不少理解的困难。 例如，在 Python 中的列表和元组结构中，</description>
     </item>
     
     <item>
       <title>2019 年度总结</title>
-      <link>/cn/post/2020-01-01-2019-summary/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2020-01-01-2019-summary/</link>
       <pubDate>Wed, 01 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-01-01-2019-summary/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2020-01-01-2019-summary/</guid>
       <description>2019 年过去了，我把自己的 GitHub 仓库清理了一遍，总结过去一年自己的收获和思考。 参与发表的文献 2019 年我参与发表了 5 篇科学文献，其中 4 篇 SCI，另 1 篇是我</description>
     </item>
     
     <item>
       <title>理解信息</title>
-      <link>/cn/post/2019-11-20-understand-information/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-11-20-understand-information/</link>
       <pubDate>Wed, 30 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-11-20-understand-information/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-11-20-understand-information/</guid>
       <description>信息是被消除的不确定性 美国电子工程专家哈特莱如是说。 消息的传递正是把信息的不确定性变成确定性。那么该如何量化信息？ 哈特莱提出初步设想： \[ I =</description>
     </item>
     

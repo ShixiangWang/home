@@ -2,26 +2,26 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>bioinformatics on Shixiang Wang | 王诗翔</title>
-    <link>/categories/bioinformatics/</link>
+    <link>https://shixiangwang.github.io/home/categories/bioinformatics/</link>
     <description>Recent content in bioinformatics on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 18 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="/categories/bioinformatics/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 18 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://shixiangwang.github.io/home/categories/bioinformatics/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Bioc Asia 2020 - Sigflow 介绍</title>
-      <link>/cn/post/2020-10-18-biocasia2020-sigflow/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2020-10-18-biocasia2020-sigflow/</link>
       <pubDate>Sun, 18 Oct 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-10-18-biocasia2020-sigflow/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2020-10-18-biocasia2020-sigflow/</guid>
       <description>会议网址：https://biocasia2020.bioconductor.org/ 会议日程：https://biocasia2020.b</description>
     </item>
     
     <item>
       <title>UCSCXenaTools: Download Public Cancer Genomic Data from UCSC Xena Hubs</title>
-      <link>/en/tools/ucscxenatools-intro/</link>
+      <link>https://shixiangwang.github.io/home/en/tools/ucscxenatools-intro/</link>
       <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/en/tools/ucscxenatools-intro/</guid>
+      <guid>https://shixiangwang.github.io/home/en/tools/ucscxenatools-intro/</guid>
       <description>UCSCXenaTools is an R package for downloading and exploring data from UCSC Xena data hubs, which are
  a collection of UCSC-hosted public databases such as TCGA, ICGC, TARGET, GTEx, CCLE, and others. Databases are normalized so they can be combined, linked, filtered, explored and downloaded.
 – UCSC Xena
@@ -31,10 +31,10 @@ Wang, Shixiang, et al. &amp;quot;The predictive power of tumor mutational burden
     
     <item>
       <title>UCSCXenaTools: R API for UCSC Xena Hubs</title>
-      <link>/en/tools/ucscxenatools-api/</link>
+      <link>https://shixiangwang.github.io/home/en/tools/ucscxenatools-api/</link>
       <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>/en/tools/ucscxenatools-api/</guid>
+      <guid>https://shixiangwang.github.io/home/en/tools/ucscxenatools-api/</guid>
       <description>This vignette gives users the summary information of API functions provided by UCSCXenaTools for UCSC Xena.
 Before using API, user should know some concepts about Xena elements. Following description is copied from xenaPython __init__.py.
  Data rows are associated with “sample” IDs.
@@ -44,74 +44,74 @@ Datasets have associated metadata, specifying their data type and cohort.</descr
     
     <item>
       <title>Obtain RNAseq Values for a Specific Gene in Xena Database</title>
-      <link>/en/post/2020-07-22-ucscxenatools-single-gene/</link>
+      <link>https://shixiangwang.github.io/home/en/post/2020-07-22-ucscxenatools-single-gene/</link>
       <pubDate>Wed, 22 Jul 2020 00:00:00 +0000</pubDate>
       
-      <guid>/en/post/2020-07-22-ucscxenatools-single-gene/</guid>
+      <guid>https://shixiangwang.github.io/home/en/post/2020-07-22-ucscxenatools-single-gene/</guid>
       <description>When using UCSCXenaTools package, you may want to focus on single gene analysis, a typical case has been shown in my previous blog UCSCXenaTools: Retrieve Gene Expression and Clinical Information from UCSC Xena for Survival Analysis. Here I will describe how to get single gene values (especially RNAseq data) in details. Let’s load package. library(UCSCXenaTools) #&amp;gt; ========================================================================================= #&amp;gt; UCSCXenaTools version 1.3.3 #&amp;gt; Project URL: https://github.com/ropensci/UCSCXenaTools #&amp;gt;</description>
     </item>
     
     <item>
       <title>UCSCXenaTools: Retrieve Gene Expression and Clinical Information from UCSC Xena for Survival Analysis</title>
-      <link>/en/post/ucscxenatools-201908/</link>
+      <link>https://shixiangwang.github.io/home/en/post/ucscxenatools-201908/</link>
       <pubDate>Sun, 25 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>/en/post/ucscxenatools-201908/</guid>
+      <guid>https://shixiangwang.github.io/home/en/post/ucscxenatools-201908/</guid>
       <description>I thank the edition made by Stefanie Butland.
  The UCSC Xena platform provides an unprecedented resource for public omics data from big projects like The Cancer Genome Atlas (TCGA), however, it is hard for users to incorporate multiple datasets or data types, integrate the selected data with popular analysis tools or homebrewed code, and reproduce analysis procedures. To address this issue, we developed an R package UCSCXenaTools for enabling data retrieval, analysis integration and reproducible research for omics data from the UCSC Xena platform1.</description>
     </item>
     
     <item>
       <title>读入 dbGap 的表型/注释信息</title>
-      <link>/cn/post/2019-08-23-read-dbgap-subjects-samples-info/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-08-23-read-dbgap-subjects-samples-info/</link>
       <pubDate>Fri, 23 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-08-23-read-dbgap-subjects-samples-info/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-08-23-read-dbgap-subjects-samples-info/</guid>
       <description>dbGaP 表型等信息零散地却有规律地分布在 files/ 目录下，为了理解哪些文件存储了数据，我对下载的文件类型进行了查看，包括 xml, pdf 以及 gz 文件。大致有以下整理： pdf</description>
     </item>
     
     <item>
       <title>可视化 deft 方法进行的 subgroup 分析结果</title>
-      <link>/cn/post/2019-08-22-metawho-add-deft-show-fun/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-08-22-metawho-add-deft-show-fun/</link>
       <pubDate>Thu, 22 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-08-22-metawho-add-deft-show-fun/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-08-22-metawho-add-deft-show-fun/</guid>
       <description>在文章《谁更能从治疗中获益？》中我讲过 metawho 包的开发由来，但当时遗留了一个问题，就是如何可视化 deft 元分析方法的结果。 之前我提供了使用 metafor 包绘制结果的</description>
     </item>
     
     <item>
       <title>引用UCSCXenaTools</title>
-      <link>/cn/post/2019-08-07-cite-ucscxenatools/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-08-07-cite-ucscxenatools/</link>
       <pubDate>Wed, 07 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-08-07-cite-ucscxenatools/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-08-07-cite-ucscxenatools/</guid>
       <description>UCSCXenaTools &amp;lt;https://github.com/ropensci/UCSCXenaTools&amp;gt; 是去年10月份左右开始开发的，是我写的第一个R包，目的是有效地选择和下载UCSC Xena提供的公开数据集，有利于分析的流程化和可重复性。</description>
     </item>
     
     <item>
       <title>ABSOLUTE 推断框架</title>
-      <link>/cn/post/2018-07-24-absolute-inference/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2018-07-24-absolute-inference/</link>
       <pubDate>Tue, 24 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2018-07-24-absolute-inference/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2018-07-24-absolute-inference/</guid>
       <description>样本混合物中Cancer细胞比例：$\alpha$ (假设单染色体组monogenomic，即有同源SCNAs) 样本混合物中Normal细胞比</description>
     </item>
     
     <item>
       <title>Bioconductor分析RNA-seq数据</title>
-      <link>/cn/post/2017-10-27-rnaseq-data-analysis/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2017-10-27-rnaseq-data-analysis/</link>
       <pubDate>Fri, 27 Oct 2017 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2017-10-27-rnaseq-data-analysis/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2017-10-27-rnaseq-data-analysis/</guid>
       <description>参考学习《R语言与Bioconductor生物信息学应用》第六章 前言 Y叔的公众号biobabble发过一篇【听说你想学R？】,七月份发的但昨</description>
     </item>
     
     <item>
       <title>Bioconductor分析基因芯片数据</title>
-      <link>/cn/post/2017-10-09-microarray-data-analysis/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2017-10-09-microarray-data-analysis/</link>
       <pubDate>Mon, 09 Oct 2017 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2017-10-09-microarray-data-analysis/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2017-10-09-microarray-data-analysis/</guid>
       <description>参考学习《R语言与Bioconductor——生物信息学应用》第五章，根据自己学习有删改，欢迎分享。本文中有些预备知识或一些方法的原理没有提</description>
     </item>
     

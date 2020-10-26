@@ -2,80 +2,80 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>ggplot2 on Shixiang Wang | 王诗翔</title>
-    <link>/tags/ggplot2/</link>
+    <link>https://shixiangwang.github.io/home/tags/ggplot2/</link>
     <description>Recent content in ggplot2 on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 25 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/ggplot2/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 25 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://shixiangwang.github.io/home/tags/ggplot2/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>使用 ggplot2 进行曲线拟合</title>
-      <link>/cn/post/2020-09-25-fit-scatter-with-lm/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2020-09-25-fit-scatter-with-lm/</link>
       <pubDate>Fri, 25 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-09-25-fit-scatter-with-lm/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2020-09-25-fit-scatter-with-lm/</guid>
       <description>有读者询问如何对散点图拟合非线性的曲线。实际上我们通常看到的无论是直线拟合还是各种曲线拟合都属于广义线性模型。 这里我们构造一组数据来看看如何</description>
     </item>
     
     <item>
       <title>绘制分组排序点图</title>
-      <link>/cn/post/2020-09-04-use-grdotplot/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2020-09-04-use-grdotplot/</link>
       <pubDate>Fri, 04 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-09-04-use-grdotplot/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2020-09-04-use-grdotplot/</guid>
       <description>我在看过的一些 Nature 文章和 COSMIC 数据库中看到用点图来展示不同癌症类型下 TMB 的分布差异。在 R 包中，我有看到过 maftools 中可以绘制这样的图，用来表示新的数据队列与</description>
     </item>
     
     <item>
       <title>ggplotify——连接各类R图形</title>
-      <link>/cn/post/2019-08-05-ggplotify-intro/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-08-05-ggplotify-intro/</link>
       <pubDate>Mon, 05 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-08-05-ggplotify-intro/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-08-05-ggplotify-intro/</guid>
       <description>在作图的时候想拼接不同的图形对象，如pheatmap 包的热图、ggplot2 对象以及 base 图形等。 这里找到了Y叔的ggplotify包，以下是对</description>
     </item>
     
     <item>
       <title>图形沟通：ggplot2</title>
-      <link>/cn/post/communicate-with-ggplot2/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/communicate-with-ggplot2/</link>
       <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/communicate-with-ggplot2/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/communicate-with-ggplot2/</guid>
       <description>准备工作 library(tidyverse) #&amp;gt; ── Attaching packages ────────────────────────────────────────────────────────────</description>
     </item>
     
     <item>
       <title>拼图包patchwork使用</title>
-      <link>/cn/post/2019-11-20-usage-of-patchwork/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-11-20-usage-of-patchwork/</link>
       <pubDate>Fri, 06 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-11-20-usage-of-patchwork/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-11-20-usage-of-patchwork/</guid>
       <description>patchwork是基于ggplot2的拼图包，因为ggplot2本身没有强大的拼图语法，而一般使用的gridExtra与cowplot的拼</description>
     </item>
     
     <item>
       <title>基于ggpubr包为ggplot添加p值和显著性标记</title>
-      <link>/cn/post/ggpubr-add-pvalue-and-siglevels/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/ggpubr-add-pvalue-and-siglevels/</link>
       <pubDate>Sat, 19 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/ggpubr-add-pvalue-and-siglevels/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/ggpubr-add-pvalue-and-siglevels/</guid>
       <description>这篇文章我们将讲述 如何简单比较两组或多组的平均值 如何自动化为ggplot添加p值和显著性标记，包括箱线图、点图、条形图、线图等等 准备 安装和导</description>
     </item>
     
     <item>
       <title>使用R tidyverse 进行探索性分析EDA</title>
-      <link>/cn/post/2019-11-06-eda-with-tidyverse/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-11-06-eda-with-tidyverse/</link>
       <pubDate>Tue, 24 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-11-06-eda-with-tidyverse/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-11-06-eda-with-tidyverse/</guid>
       <description>该部分学习内容来自《R for Data Science》。 这次我们学习可视化与处理数据来系统地探索数据——统计学家称之为探索性数据分析（explorato</description>
     </item>
     
     <item>
       <title>使用yyplot绘制pubmed研究趋势</title>
-      <link>/cn/post/2019-11-20-access-pubmed-by-yyplot/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-11-20-access-pubmed-by-yyplot/</link>
       <pubDate>Fri, 13 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-11-20-access-pubmed-by-yyplot/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-11-20-access-pubmed-by-yyplot/</guid>
       <description>在准备转博报告的过程中觉得有必要给一些研究添加Pubmed研究趋势，这个功能Y叔在它的公众号推过，所以我记了一下，之前在写开题报告的时候就用</description>
     </item>
     

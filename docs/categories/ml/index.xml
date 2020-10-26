@@ -2,35 +2,35 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>ml on Shixiang Wang | 王诗翔</title>
-    <link>/categories/ml/</link>
+    <link>https://shixiangwang.github.io/home/categories/ml/</link>
     <description>Recent content in ml on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 21 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="/categories/ml/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 21 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://shixiangwang.github.io/home/categories/ml/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>《机器学习》学习笔记</title>
-      <link>/cn/read/machine-learning-by-zhou/</link>
+      <link>https://shixiangwang.github.io/home/cn/read/machine-learning-by-zhou/</link>
       <pubDate>Mon, 21 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/read/machine-learning-by-zhou/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/read/machine-learning-by-zhou/</guid>
       <description>模型评估与选择 评估方法 留出法（hold-out） 将数据集划分为两个互斥的集合，其中一个作为训练集，另一个作为测试集。 在训练集上训练出模型后，</description>
     </item>
     
     <item>
       <title>Tensorflow-完整神经网络样例程序</title>
-      <link>/cn/post/2019-07-04-tensorflow-an-example/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-07-04-tensorflow-an-example/</link>
       <pubDate>Thu, 04 Jul 2019 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-07-04-tensorflow-an-example/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-07-04-tensorflow-an-example/</guid>
       <description>来源：《Tensorflow实战Google深度学习框架》第二版，第三章 略修改。 总结而言有三个步骤： 定义神经网络的结构和前向传播的输出结果 定</description>
     </item>
     
     <item>
       <title>Python机器学习基础综合实战</title>
-      <link>/cn/post/python-basic-ml-flow/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/python-basic-ml-flow/</link>
       <pubDate>Sun, 15 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/python-basic-ml-flow/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/python-basic-ml-flow/</guid>
       <description>Python机器学习实例&amp;hellip;</description>
     </item>
     

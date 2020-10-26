@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>heatmap on Shixiang Wang | 王诗翔</title>
-    <link>/tags/heatmap/</link>
+    <link>https://shixiangwang.github.io/home/tags/heatmap/</link>
     <description>Recent content in heatmap on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 20 Dec 2018 00:00:00 +0000</lastBuildDate><atom:link href="/tags/heatmap/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 20 Dec 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://shixiangwang.github.io/home/tags/heatmap/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>使用NMF包绘制热图</title>
-      <link>/cn/post/use-nmf-aheatmap/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/use-nmf-aheatmap/</link>
       <pubDate>Thu, 20 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/use-nmf-aheatmap/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/use-nmf-aheatmap/</guid>
       <description>学习文档:https://cran.r-project.org/web/packages/NMF/vignettes/heatmaps.pd</description>
     </item>
     

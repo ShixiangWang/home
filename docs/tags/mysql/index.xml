@@ -2,26 +2,26 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>mysql on Shixiang Wang | 王诗翔</title>
-    <link>/tags/mysql/</link>
+    <link>https://shixiangwang.github.io/home/tags/mysql/</link>
     <description>Recent content in mysql on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 22 Aug 2019 00:00:00 +0000</lastBuildDate><atom:link href="/tags/mysql/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 22 Aug 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://shixiangwang.github.io/home/tags/mysql/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>使用RMySQL简单操作mysql数据库</title>
-      <link>/cn/post/2019-08-22-using-rmysql/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-08-22-using-rmysql/</link>
       <pubDate>Thu, 22 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-08-22-using-rmysql/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-08-22-using-rmysql/</guid>
       <description>使用 MySQL 数据库创建一个用于存储用户信息的数据表：包含 username, email, password 三个字段，并分别使用 SQL 和 Python/R 客户端插入、删除和更新一行数据，密码使用 SHA256 进行加密 library(RMySQL) con = dbConnect(MySQL(),</description>
     </item>
     
     <item>
       <title>R-操作数据库</title>
-      <link>/cn/post/2019-11-20-r-operate-database/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-11-20-r-operate-database/</link>
       <pubDate>Sun, 19 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-11-20-r-operate-database/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-11-20-r-operate-database/</guid>
       <description>在阅读之前我有必要进行申明,因为使用的是RMD文档,所以每次RENDER的时候都会读取数据库,所以结果显示不一样正常,有的也加了overwr</description>
     </item>
     

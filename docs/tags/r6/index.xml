@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>R6 on Shixiang Wang | 王诗翔</title>
-    <link>/tags/r6/</link>
+    <link>https://shixiangwang.github.io/home/tags/r6/</link>
     <description>Recent content in R6 on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 18 Aug 2018 00:00:00 +0000</lastBuildDate><atom:link href="/tags/r6/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 18 Aug 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://shixiangwang.github.io/home/tags/r6/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>R-面向对象编程（二）</title>
-      <link>/cn/post/2019-11-20-high-level-oop-two/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-11-20-high-level-oop-two/</link>
       <pubDate>Sat, 18 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-11-20-high-level-oop-two/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-11-20-high-level-oop-two/</guid>
       <description>内容： S4 引用类（Reference class, RC） R6扩展包 ## S4对象系统 在S3之后，R引入一个更正式更严谨的面向对象系统S4。这个系统允许我们使用</description>
     </item>
     

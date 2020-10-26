@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>dbGap on Shixiang Wang | 王诗翔</title>
-    <link>/tags/dbgap/</link>
+    <link>https://shixiangwang.github.io/home/tags/dbgap/</link>
     <description>Recent content in dbGap on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 23 Aug 2019 00:00:00 +0000</lastBuildDate><atom:link href="/tags/dbgap/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 23 Aug 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://shixiangwang.github.io/home/tags/dbgap/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>读入 dbGap 的表型/注释信息</title>
-      <link>/cn/post/2019-08-23-read-dbgap-subjects-samples-info/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-08-23-read-dbgap-subjects-samples-info/</link>
       <pubDate>Fri, 23 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-08-23-read-dbgap-subjects-samples-info/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-08-23-read-dbgap-subjects-samples-info/</guid>
       <description>dbGaP 表型等信息零散地却有规律地分布在 files/ 目录下，为了理解哪些文件存储了数据，我对下载的文件类型进行了查看，包括 xml, pdf 以及 gz 文件。大致有以下整理： pdf</description>
     </item>
     

@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>tensorflow on Shixiang Wang | 王诗翔</title>
-    <link>/tags/tensorflow/</link>
+    <link>https://shixiangwang.github.io/home/tags/tensorflow/</link>
     <description>Recent content in tensorflow on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 04 Jul 2019 00:00:00 +0000</lastBuildDate><atom:link href="/tags/tensorflow/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 04 Jul 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://shixiangwang.github.io/home/tags/tensorflow/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Tensorflow-完整神经网络样例程序</title>
-      <link>/cn/post/2019-07-04-tensorflow-an-example/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-07-04-tensorflow-an-example/</link>
       <pubDate>Thu, 04 Jul 2019 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-07-04-tensorflow-an-example/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-07-04-tensorflow-an-example/</guid>
       <description>来源：《Tensorflow实战Google深度学习框架》第二版，第三章 略修改。 总结而言有三个步骤： 定义神经网络的结构和前向传播的输出结果 定</description>
     </item>
     

@@ -2,35 +2,35 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>tidyverse on Shixiang Wang | 王诗翔</title>
-    <link>/tags/tidyverse/</link>
+    <link>https://shixiangwang.github.io/home/tags/tidyverse/</link>
     <description>Recent content in tidyverse on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 09 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/tidyverse/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 09 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://shixiangwang.github.io/home/tags/tidyverse/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>R 表格可视化 10&#43; 指南</title>
-      <link>/cn/post/2020-10-09-table-rules-in-r/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2020-10-09-table-rules-in-r/</link>
       <pubDate>Fri, 09 Oct 2020 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-10-09-table-rules-in-r/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2020-10-09-table-rules-in-r/</guid>
       <description>原文：https://themockup.blog/posts/2020-09-04-10-table-rules-in-r/ Rmd 本文根据原文</description>
     </item>
     
     <item>
       <title>tidyverse 新操作符{{}}——更好的非标准计算</title>
-      <link>/cn/post/2019-08-04-rlang-operator-curly-curly/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-08-04-rlang-operator-curly-curly/</link>
       <pubDate>Sun, 04 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-08-04-rlang-operator-curly-curly/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-08-04-rlang-operator-curly-curly/</guid>
       <description>本文整理自 https://www.tidyverse.org/articles/2019/06/rlang-0-4-0/，有删改 rlang v0.4.</description>
     </item>
     
     <item>
       <title>使用R tidyverse 进行探索性分析EDA</title>
-      <link>/cn/post/2019-11-06-eda-with-tidyverse/</link>
+      <link>https://shixiangwang.github.io/home/cn/post/2019-11-06-eda-with-tidyverse/</link>
       <pubDate>Tue, 24 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2019-11-06-eda-with-tidyverse/</guid>
+      <guid>https://shixiangwang.github.io/home/cn/post/2019-11-06-eda-with-tidyverse/</guid>
       <description>该部分学习内容来自《R for Data Science》。 这次我们学习可视化与处理数据来系统地探索数据——统计学家称之为探索性数据分析（explorato</description>
     </item>
     
