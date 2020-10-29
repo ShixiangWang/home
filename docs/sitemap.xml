@@ -3,17 +3,47 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://shixiangwang.github.io/home/categories/</loc>
-    <lastmod>2020-10-26T00:00:00+00:00</lastmod>
+    <loc>https://shixiangwang.github.io/home/categories/bioinformatics/</loc>
+    <lastmod>2020-10-29T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://shixiangwang.github.io/home/tags/doc/</loc>
-    <lastmod>2020-10-26T00:00:00+00:00</lastmod>
+    <loc>https://shixiangwang.github.io/home/categories/</loc>
+    <lastmod>2020-10-29T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shixiangwang.github.io/home/tags/limma/</loc>
+    <lastmod>2020-10-29T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shixiangwang.github.io/home/tags/r/</loc>
+    <lastmod>2020-10-29T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://shixiangwang.github.io/home/tags/</loc>
+    <lastmod>2020-10-29T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shixiangwang.github.io/home/tags/%E5%9F%BA%E5%9B%A0%E8%8A%AF%E7%89%87/</loc>
+    <lastmod>2020-10-29T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shixiangwang.github.io/home/tags/%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/</loc>
+    <lastmod>2020-10-29T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shixiangwang.github.io/home/cn/post/2020-10-29-what-has-been-done-when-use-limma/</loc>
+    <lastmod>2020-10-29T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shixiangwang.github.io/home/tags/doc/</loc>
     <lastmod>2020-10-26T00:00:00+00:00</lastmod>
   </url>
   
@@ -34,11 +64,6 @@
   
   <url>
     <loc>https://shixiangwang.github.io/home/cn/post/2020-10-18-biocasia2020-sigflow/</loc>
-    <lastmod>2020-10-18T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://shixiangwang.github.io/home/categories/bioinformatics/</loc>
     <lastmod>2020-10-18T00:00:00+00:00</lastmod>
   </url>
   
@@ -64,11 +89,6 @@
   
   <url>
     <loc>https://shixiangwang.github.io/home/tags/gt/</loc>
-    <lastmod>2020-10-11T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://shixiangwang.github.io/home/tags/r/</loc>
     <lastmod>2020-10-11T00:00:00+00:00</lastmod>
   </url>
   

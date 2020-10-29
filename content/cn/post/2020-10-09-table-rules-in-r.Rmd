@@ -338,3 +338,1273 @@ yield_data_wide %>%
 
 以上就是 gt 基础了，接下来我们会学习更深刻的表格优化指南。
 
+
+## `gt` 10+ 指南
+
+### 规则 1：将表头和内容分开
+
+这里的目标是将列标题与表的主体清晰地分开。一般利用粗体、分隔线将类别/标签(列标题)和值(表体)区分开来。
+
+先准备一个示例数据：
+
+```{r}
+potato_data <- yield_data %>% 
+  filter(Country %in% country_sel, crop == "potatoes", year %in% c(2013:2016)) %>% 
+  filter(crop == "potatoes") %>% 
+  pivot_wider(names_from = year, values_from = "yield")
+
+```
+
+1. 糟糕的例子
+
+
+```{r}
+potato_tb <- potato_data %>% 
+  gt() %>% 
+  cols_hide(vars(crop)) %>% 
+  opt_table_lines(extent = "none") %>% 
+  fmt_number(
+    columns = 3:6,
+    decimals = 2
+  )
+potato_tb
+```
+
+修改后的例子：
+
+```{r}
+rule1_good <- potato_tb %>% 
+  tab_style(
+    style = list(
+      cell_text(weight = "bold")
+    ),
+    locations = cells_column_labels(everything())
+  ) %>% 
+  opt_table_lines(extent = "default") %>%
+  tab_options(
+    column_labels.border.top.color = "white",
+    column_labels.border.top.width = px(3),
+    column_labels.border.bottom.color = "black",
+    table_body.hlines.color = "white",
+    table.border.bottom.color = "white",
+    table.border.bottom.width = px(3)
+  ) %>% tab_source_note(md("**Table**: @thomas_mock | **Data**: OurWorldInData.org<br>**Inspiration**: @jschwabish"))
+
+rule1_good
+```
+
+
+### 规则 2:使用细微的分隔线而不是粗网格线
+
+这里的意思是，你需要在必要时清楚地标出分割线。特别是对于许多列标签，你需要确保结构中的更改是清晰的。
+
+准备数据：
+
+```{r}
+rule2_data <- yield_data %>% 
+  filter(Country %in% country_sel, crop == "potatoes", year %in% c(2007:2016)) %>% 
+  filter(crop == "potatoes") %>% 
+  select(-crop) %>% 
+  pivot_wider(names_from = year, values_from = "yield") %>% 
+  rowwise() %>% 
+  mutate(
+    avg_07_11 = mean(`2007`:`2011`),
+    .before = `2012`
+    ) %>% 
+  mutate(
+    avg_12_16 = mean(`2012`:`2016`)
+  ) %>% 
+  ungroup()
+```
+
+1. 糟糕的例子
+
+```{r}
+rule2_tab1 <- rule2_data %>% 
+  gt(
+    rowname_col = "Country"
+  ) %>% 
+  cols_label(
+    avg_07_11 = "Avg.",
+    avg_12_16 = "Avg."
+  ) %>% 
+  cols_width(
+    1 ~ px(125)
+  ) %>% 
+  fmt_number(
+    columns = 2:last_col()
+  ) %>% 
+  tab_style(
+    style = cell_borders(
+      side = "all",
+      color = "grey",
+      weight = px(1),
+      style = "solid"
+    ),
+    locations = list(
+      cells_body(
+        everything()
+        ),
+      cells_column_labels(
+        everything()
+      )
+      )
+  ) %>% 
+  grand_summary_rows(
+    columns = 2:last_col(),
+    fns = list(
+      "Average" = ~mean(.)
+    ),
+    formatter = fmt_number
+  )
+
+rule2_tab1
+```
+
+上面这个表格你可能注意到了最下放针对每一年的均值数据，但表格中间的均值信息你会很容易忽略。
+
+2. 修改后的例子
+
+在下面的修改例子中，我们将表头与内容分开，将数据汇总与单个数据记录分析，并强调有可能会忽略的列。
+
+
+```{r}
+rule2_tab2 <- rule2_data %>% 
+  add_row(
+    rule2_data %>% 
+      summarize(
+        across(where(is.double), 
+               list(Average = mean),
+               .names = "{col}")
+      ) %>% 
+      mutate(Country = "Average")
+  ) %>% 
+  gt() %>% 
+  cols_label(
+    avg_07_11 = "Avg.",
+    avg_12_16 = "Avg."
+  ) %>%
+  fmt_number(
+    columns = 2:last_col()
+  ) %>% 
+  tab_style(
+    style = cell_fill(
+      color = "lightgrey"
+    ),
+    locations = list(
+      cells_body(
+        columns = vars(avg_07_11, avg_12_16)
+        ),
+      cells_column_labels(
+        columns = vars(avg_07_11, avg_12_16)
+      )
+      )
+  ) %>%
+  tab_style(
+    style = cell_borders(
+      sides = "top",
+      color = "black",
+      weight = px(2)
+    ),
+    locations = cells_body(
+      columns = everything(),
+      rows = Country == "Average"
+    )
+  ) %>% 
+  tab_style(
+    style = list(
+      cell_text(weight = "bold")
+    ),
+    locations = cells_column_labels(everything())
+  ) %>% 
+  tab_options(
+    column_labels.border.top.color = "black",
+    column_labels.border.top.width = px(3),
+    column_labels.border.bottom.color = "black"
+  )
+
+rule2_tab2 %>% 
+  tab_source_note(md("**Table**: @thomas_mock | **Data**: OurWorldInData.org<br>**Inspiration**:@jschwabish"))
+
+```
+
+### 规则 3：将数字和表头右对齐
+
+在这种情况下，我们希望将数字右对齐，理想情况下选择单间距或数字对齐字体，同时避免使用“旧风格”字体，这些字体的数字垂直位置不同。重要的是，在大多数情况下，gt已经自动地遵循了最佳实践，所以我们必须改变一些默认设置来获得糟糕的示例。
+
+生成数据：
+
+```{r}
+rule3_data <- yield_data %>% 
+  filter(Country == "United States", year %in% c(2016)) %>% 
+  mutate(crop = str_to_title(crop)) %>% 
+  pivot_wider(names_from = year, values_from = "yield") %>% 
+  arrange(crop) %>% 
+  select(-Country, Crop = crop)
+```
+
+注意下面生成的表格中左对齐和居中对齐都让我们很难比较数据的小数位。
+
+```{r}
+rule3_align <- rule3_data %>% 
+  mutate(`Center align` = `2016`,
+             `Right align` = `2016`) %>%
+  rename(`Left align` = 2) %>% 
+  gt() %>% 
+  tab_style(
+    style = list(
+      cell_text(weight = "bold")
+    ),
+    locations = cells_column_labels(everything())
+  ) %>% 
+  fmt_number(
+    columns = 2:4
+  ) %>% 
+  cols_align(align = "left",
+             columns = 2) %>% 
+  cols_align(align = "center",
+             columns = 3) %>% 
+  cols_align(align = "right",
+             columns = 4) %>% 
+  tab_options(
+    column_labels.border.top.color = "white",
+    column_labels.border.top.width = px(3),
+    column_labels.border.bottom.color = "black",
+    table_body.hlines.color = "white",
+    table.border.bottom.color = "white",
+    table.border.bottom.width = px(3)
+  )
+
+rule3_align
+```
+当对齐长度相等的文本(长或非常短)时，文本居中对齐可以很好，非常可取。例如，带有长标题的非常短的文本更适合居中对齐。等长的文字可以居中而不会对快速阅读产生负面影响。
+
+生成数据：
+
+```{r}
+rule3_data_addendum <- yield_data %>% 
+  filter(
+    Country %in% c("China"), 
+    year >= 2015,
+    str_length(crop) == 5
+    ) %>%
+  group_by(year) %>% 
+  mutate(
+    crop = str_to_title(crop),
+    max_yield = max(yield),
+    `Top Crop` = if_else(yield == max_yield, "Y", "N")
+    ) %>%
+  select(Year = year, Crop = crop, `Top Crop`, Yield = yield) %>% 
+  ungroup()
+
+# 将上表对比下 gt() 默认的对齐方式
+rule3_data_addendum %>% 
+  gt()
+```
+
+
+请注意，由于默认的左对齐，顶部的 Crop 列在右边有太多的空白。这会使它过多地“粘”在相邻栏上。
+
+我们可以通过居中对齐解决这一问题：
+
+```{r}
+rule3_data_addendum %>% 
+  gt() %>% 
+  gt::cols_align(
+    align = "center",
+    columns = vars(`Top Crop`, Crop)
+  )
+```
+
+另外，请注意 `pivot_wider()` 也可以改进这个表的展示，减少 `Crop` 和 `Top Crop` 的重复。同样，居中对齐有助于 `Top Crop` 列。
+
+```{r}
+rule3_data_addendum %>% 
+  pivot_wider(names_from = Year, values_from = Yield) %>% 
+  gt() %>% 
+  gt::cols_align(
+    align = "center",
+    columns = vars(`Top Crop`)
+  ) 
+```
+
+**细心选择字体**。
+
+对于下面的字体，请注意，默认的 gt 字体和等宽字体 Fira Mono 有很好的对齐的小数数位和等间距的数字。相比之下，Karla、Cabin 和 Georgia 在数字/小数水平和垂直对齐方面存在问题。我们在数字上加了下划线，所以你可以看到 Georgia 的垂直间隔问题。
+
+```{r}
+rule3_text <- rule3_data %>% 
+  mutate(Karla = `2016`,
+             Cabin = `2016`,
+             Georgia = `2016`,
+             `Fira Mono` = `2016`) %>%
+  rename(Default = 2) %>% 
+  gt() %>% 
+  tab_style(
+    style = list(
+      cell_text(font = "Default", decorate = "underline")
+    ),
+    locations = list(
+      cells_column_labels(
+        vars(Default)
+        ),
+      cells_body(
+        vars(Default)
+      )
+  )
+  ) %>% 
+  tab_style(
+    style = list(
+      cell_text(font = "Karla", decorate = "underline")
+    ),
+    locations = list(
+      cells_column_labels(
+        vars(Karla)
+      ),
+      cells_body(
+        vars(Karla)
+      )
+    )
+  )  %>% 
+  tab_style(
+    style = list(
+      cell_text(font = "Cabin", decorate = "underline")
+    ),
+    locations = list(
+      cells_column_labels(
+        vars(Cabin)
+      ),
+      cells_body(
+        vars(Cabin)
+      )
+    )
+  ) %>% 
+  tab_style(
+    style = list(
+      cell_text(font = "Georgia", decorate = "underline")
+    ),
+    locations = list(
+      cells_column_labels(
+        vars(Georgia)
+      ),
+      cells_body(
+        vars(Georgia)
+      )
+    )
+  ) %>% 
+  tab_style(
+    style = list(
+      cell_text(font = "Fira Mono", decorate = "underline")
+    ),
+    locations = list(
+      cells_column_labels(
+        vars(`Fira Mono`)
+      ),
+      cells_body(
+        vars(`Fira Mono`)
+      )
+    )
+  ) %>% 
+  fmt_number(columns = 2:6) %>% 
+  tab_spanner(
+    label = "Good",
+    columns = c(2, 6)
+  ) %>% 
+  tab_spanner(
+    "Bad",
+    3:5
+  ) %>% 
+  tab_options(
+    column_labels.border.top.color = "white",
+    column_labels.border.top.width = px(3),
+    column_labels.border.bottom.color = "black",
+    table_body.hlines.color = "white",
+    table.border.bottom.color = "white",
+    table.border.bottom.width = px(3)
+  )
+
+rule3_text
+```
+
+### 规则 4：左对齐文字和标题
+
+对于标签/字符串，左对齐通常更合适。这允许你的眼睛在一个清晰的边界垂直跟随短的和长的文本来扫描一个表格。
+
+```{r}
+country_names <- c(
+  "British Virgin Islands",
+  "Cayman Islands",
+  "Democratic Republic of Congo",
+  "Luxembourg", 
+  "United States",
+  "Germany",
+  "New Zealand",
+  "Costa Rica",
+  "Peru"
+)
+
+rule4_tab_left <- tibble(
+  right = country_names,
+  center = country_names,
+  left = country_names
+) %>% 
+  gt()  %>% 
+  cols_align(align = "left",
+             columns = 3) %>% 
+  cols_align(align = "center",
+             columns = 2) %>% 
+  cols_align(align = "right",
+             columns = 1) %>% 
+  cols_width(
+    everything() ~ px(250)
+  ) %>% 
+  tab_options(
+    column_labels.border.top.color = "white",
+    column_labels.border.top.width = px(3),
+    column_labels.border.bottom.color = "black",
+    column_labels.font.weight = "bold",
+    table_body.hlines.color = "white",
+    table.border.bottom.color = "white",
+    table.border.bottom.width = px(3),
+    data_row.padding = px(3)
+  ) %>% 
+  cols_label(
+    right = md("Right aligned and<br>hard to read"),
+    center = md("Centered and<br>even harder to read"),
+    left = md("Left-aligned and<br>easiest to read")
+  ) %>% 
+  tab_source_note(md("**Table**: @thomas_mock | **Data**: OurWorldInData.org<br>**Inspiration**: @jschwabish"))
+
+rule4_tab_left
+```
+
+### 规则 5：选择合适的数值精度
+
+虽然我们有时可以调整增加小数位数，但通常 1 或 2 位可以帮助改善表的外观。
+
+```{r}
+rule5_tab <- yield_data %>% 
+  filter(Country %in% country_sel, crop == "potatoes", year %in% c(2016)) %>% 
+  select(Country, yield) %>% 
+  mutate(few = yield, right = yield) %>% 
+  gt() %>% 
+  fmt_number(
+    columns = vars(yield),
+    decimals = 4
+  ) %>% 
+  fmt_number(
+    columns = vars(few),
+    decimals = 0
+  ) %>% 
+  fmt_number(
+    columns = vars(right),
+    decimals = 1
+  ) %>% 
+  cols_label(
+    yield = md("Too many<br>decimals"),
+    few = md("Too few<br>decimals"),
+    right = md("About<br>right")
+  ) %>% 
+  tab_source_note(md("**Table**: @thomas_mock | **Data**: OurWorldInData.org<br>**Inspiration**: @jschwabish"))
+
+rule5_tab
+```
+
+### 规则 6：用行和列之间的空间引导读者
+
+虽然间隔是一门艺术，但想想你该如何引导读者。你想让它容易地水平或垂直移动阅读取决于表的目的。此外，增加间距可以提高表格的整体可读性，尽管太多的空间会分散注意力。
+
+```{r}
+rule6_data <- yield_data %>% 
+  filter(Country %in% country_sel, crop == "potatoes", year %in% c(2014:2016)) %>% 
+  filter(crop == "potatoes") %>% 
+  pivot_wider(names_from = year, values_from = "yield") %>% 
+  select(-crop)
+
+rule6_tb <- rule6_data %>% 
+  add_row(
+    rule6_data %>% 
+      summarize(
+        across(where(is.double), 
+               list(Average = mean),
+               .names = "{col}")
+      ) %>% 
+      mutate(Country = "Average")
+  ) %>% 
+  gt() %>% 
+  fmt_number(
+    columns = 2:4,
+    decimals = 2
+  ) %>% 
+  tab_style(
+    style = list(
+      cell_text(weight = "bold")
+    ),
+    locations = cells_column_labels(everything())
+  ) %>% 
+  tab_style(
+    style = cell_borders(
+      sides = "top",
+      color = "black",
+      weight = px(2)
+    ),
+    locations = cells_body(
+      columns = everything(),
+      rows = Country == "Average"
+    )
+  ) %>% 
+  tab_options(
+    column_labels.border.top.color = "white",
+    column_labels.border.top.width = px(3),
+    column_labels.border.bottom.color = "black",
+    table_body.hlines.color = "white",
+    table.border.bottom.color = "white",
+    table.border.bottom.width = px(3)
+      ) %>% 
+  cols_width(vars(Country) ~ px(125),
+             2:4 ~ px(75))
+
+rule6_tb
+```
+
+### 规则 7：移除单元重复
+
+这里的目标是消除重复单元，以提高可读性和增加表中的信噪比。对于我们的示例，我们将在第一次出现之后删除 % 号。虽然这对于行开头的货币符号来说很容易做到，但是末尾的 % 符号会改变单元格的对齐方式。gt实际上有一个开放的 [Github Issue](https://github.com/rstudio/gt/issues/606) 来讨论这个特性，但与此同时，我有两个策略来完成这个 % 技巧，如下所示。
+
+先看下普通情况下生成的表格：
+
+```{r}
+rule6_tb %>% 
+  fmt_percent(
+    columns = 2:4,
+    rows = 1,
+    scale_values = FALSE
+  )
+```
+
+我们可以尝试为所有有相同范围的单元格左对齐)，因为数字将正确对齐，尽管单位的变化可以再次混乱对齐。
+
+```{r}
+rule6_tb %>% 
+  fmt_percent(
+    columns = 2:4,
+    rows = 1,
+    scale_values = FALSE
+  ) %>% 
+  cols_align(
+    columns = 2:4,
+    align = "left"
+  )
+```
+另外，在某些文化中，% 符号被放在左边。我们可以使用这个来保持正确的对齐，尽管我承认这看起来有点尴尬。
+
+```{r}
+rule6_tb %>% 
+  fmt_percent(
+    columns = 2:4,
+    rows = 1,
+    scale_values = FALSE,
+    placement = "left"
+  )
+```
+
+您总是可以在每个列标签中添加 % 号，这样就可以清楚地看到列实际上是百分比，而不是原始数字。
+
+```{r}
+rule6_tb %>% 
+  cols_label(
+    `2014` = "2014 (%)",
+    `2015` = "2015 (%)",
+    `2016` = "2016 (%)"
+  ) %>% 
+  cols_width(
+    2:4 ~ px(100)
+  )
+```
+
+> 译者觉得这是最舒服的一种方式。
+
+
+或者添加一个跨列栏。
+
+```{r}
+rule6_tb %>% 
+  tab_spanner(
+    label = md("**% Yield of Total**"),
+    columns = 2:4
+  )
+```
+
+最后，你也可以添加脚注来显示该信息。
+
+```{r}
+rule6_tb %>% 
+  tab_footnote(
+    footnote = md("**% Yield of Total**"),
+    locations = cells_column_labels(2:4)
+  ) 
+```
+
+### 规则 8：高亮离群值
+
+先构造数据：
+
+```{r}
+rule8_data <- yield_data %>% 
+  filter(Country %in% country_sel, crop == "potatoes", year %in% 2009:2017) %>% 
+  group_by(Country) %>% 
+  mutate(pct_change = (yield/lag(yield)-1)*100) %>% 
+  ungroup() %>% 
+  filter(between(year, 2010, 2016)) %>% 
+  select(Country, year, pct_change) %>% 
+  pivot_wider(names_from = year, values_from = pct_change)
+```
+
+先看普通的表格展示：
+
+```{r}
+rule8_tb <- rule8_data %>% 
+  gt() %>% 
+  fmt_number(2:last_col()) %>% 
+  cols_label(
+    Country = ""
+  ) %>% 
+  tab_style(
+    style = list(
+      cell_text(weight = "bold")
+    ),
+    locations = cells_column_labels(everything())
+  ) %>% 
+  tab_options(
+    column_labels.border.top.color = "white",
+    column_labels.border.top.width = px(3),
+    column_labels.border.bottom.color = "black",
+    column_labels.border.bottom.width = px(3),
+    table_body.hlines.color = "white",
+    table.border.bottom.color = "black",
+    table.border.bottom.width = px(3)
+  ) %>% 
+  cols_width(vars(Country) ~ px(125),
+             2:last_col() ~ px(75))
+
+rule8_tb
+```
+
+我们把负值高亮出来：
+
+```{r}
+rule8_color <- rule8_tb %>% 
+  tab_style(
+    style = cell_text(color = "red"),
+    locations = list(
+      cells_body(
+        columns = 2,
+        rows = `2010` < 0
+    ),
+    cells_body(
+      columns = 3,
+      rows = `2011` < 0
+    ),
+    cells_body(
+      columns = 4,
+      rows = `2012` < 0
+    ),
+    cells_body(
+      columns = 5,
+      rows = `2013` < 0
+    ),
+    cells_body(
+      columns = 6,
+      rows = `2014` < 0
+    ),
+    cells_body(
+      columns = 7,
+      rows = `2015` < 0
+    ),
+    cells_body(
+      columns = 8,
+      rows = `2016` < 0
+    )
+  )
+  )
+
+rule8_color
+```
+
+另外我们可以对背景颜色进行填充。
+
+```{r}
+rule8_fill <- rule8_tb %>% 
+  tab_style(
+    style = list(
+      cell_fill(color = scales::alpha("red", 0.7)),
+      cell_text(color = "white", weight = "bold")
+      ),
+    locations = list(
+      cells_body(
+        columns = 2,
+        rows = `2010` < 0
+      ),
+      cells_body(
+        columns = 3,
+        rows = `2011` < 0
+      ),
+      cells_body(
+        columns = 4,
+        rows = `2012` < 0
+      ),
+      cells_body(
+        columns = 5,
+        rows = `2013` < 0
+      ),
+      cells_body(
+        columns = 6,
+        rows = `2014` < 0
+      ),
+      cells_body(
+        columns = 7,
+        rows = `2015` < 0
+      ),
+      cells_body(
+        columns = 8,
+        rows = `2016` < 0
+      )
+    )
+  )
+
+rule8_fill
+```
+
+
+### 规则 9：将相似的数据分组并增加空白
+
+在这个规则中，我们希望确保对类似的类别进行分组，以便更容易地解析表。我们还可以增加空白，甚至删除重复。
+
+先构造数据：
+
+```{r}
+rule9_data <- yield_data %>% 
+  filter(Country %in% country_sel[-5], year %in% c(2015, 2016),
+         crop %in% c("wheat", "potatoes", "rice", "soybeans"),
+         !is.na(yield)) %>% 
+  pivot_wider(names_from = year, values_from = yield) %>% 
+  rowwise() %>% 
+  mutate(crop = str_to_title(crop),
+         pct_change = (`2016`/`2015`-1)*100) %>%
+  group_by(Country) %>% 
+  arrange(desc(`2015`)) %>% 
+  ungroup() 
+```
+
+
+**不好的例子**
+
+```{r}
+rule9_bad <- rule9_data %>% 
+  gt() %>% 
+  fmt_number(
+    columns = vars(`2015`, `2016`, pct_change)
+  ) %>% 
+  tab_spanner(columns = vars(`2015`, `2016`),
+              label = md("**Yield in Tonnes/Hectare**")) %>%  
+  cols_width(
+    vars(crop) ~ px(125),
+    vars(`2015`, `2016`, pct_change) ~ 100
+  )
+
+rule9_bad
+```
+
+gt 提供了按行分组，我们可以使用它来区分不同国家。
+
+```{r}
+rule9_grp <- rule9_data %>% 
+  gt(groupname_col = "Country") %>% 
+  tab_stubhead("label") %>% 
+  tab_options(
+    table.width = px(300)
+  ) %>% 
+  cols_label(
+    crop = "",
+    pct_change = md("Percent<br>Change")
+  ) %>% 
+  fmt_number(
+    columns = vars(`2015`, `2016`, pct_change)
+  ) %>% 
+  tab_style(
+    style = cell_text(color = "black", weight = "bold"),
+    locations = list(
+      cells_row_groups(),
+      cells_column_labels(everything())
+    )
+  ) %>% 
+  tab_spanner(columns = vars(`2015`, `2016`),
+              label = md("**Yield in Tonnes/Hectare**")) %>%  
+  cols_width(
+    vars(crop) ~ px(125),
+    vars(`2015`, `2016`, pct_change) ~ 100
+  ) %>% 
+  tab_options(
+    row_group.border.top.width = px(3),
+    row_group.border.top.color = "black",
+    row_group.border.bottom.color = "black",
+    table_body.hlines.color = "white",
+    table.border.top.color = "white",
+    table.border.top.width = px(3),
+    table.border.bottom.color = "white",
+    table.border.bottom.width = px(3),
+    column_labels.border.bottom.color = "black",
+    column_labels.border.bottom.width = px(2)
+  ) %>% 
+  tab_source_note(md("**Table**: @thomas_mock | **Data**: OurWorldInData.org<br>**Inspiration**: @jschwabish"))
+
+rule9_grp
+```
+
+或者，我们可以删除一些观察值以创建更多的空白。这里我们完全依赖于留白，而不是水平分隔符。我们可以使用 `gt::text_transform()` 来保存我们数据中的所有观察结果，但不在 gt 表中显示国家的重复。
+
+```{r}
+rule9_dup <- rule9_data %>% 
+  arrange(Country) %>% 
+  gt() %>% 
+  cols_label(
+    Country = "",
+    crop = "Crop",
+    pct_change = md("Percent<br>Change")
+  ) %>% 
+  tab_spanner(columns = vars(`2015`, `2016`),
+              label = md("**Yield in Tonnes/Hectare**")) %>% 
+  fmt_number(
+    columns = vars(`2015`, `2016`, pct_change)
+  ) %>% 
+  text_transform(
+    locations = cells_body(
+      columns = vars(Country),
+      rows = crop != "Potatoes"
+    ),
+    fn = function(x){
+      paste0("")
+    }
+  ) %>% 
+  tab_style(
+    style = cell_text(color = "black", weight = "bold"),
+    locations = list(
+      cells_row_groups(),
+      cells_column_labels(everything())
+    )
+  ) %>% 
+  cols_width(
+    vars(Country, crop) ~ px(125),
+    vars(`2015`, `2016`, pct_change) ~ 100
+  ) %>% 
+  tab_options(
+    column_labels.border.bottom.color = "black",
+    column_labels.border.bottom.width = px(2),
+    table_body.hlines.color = "white",
+    table.border.top.color = "white",
+    table.border.top.width = px(3),
+    table.border.bottom.color = "white",
+    table.border.bottom.width = px(3),
+  ) %>% 
+  tab_source_note(md("**Table**: @thomas_mock | **Data**: OurWorldInData.org<br>**Inspiration**: @jschwabish"))
+
+rule9_dup
+```
+### 规则 10：当适合时添加可视化
+
+虽然数据可视化和表格是不同的工具，但我们可以以更聪明的方式组合它们，以进一步吸引读者。嵌入式数据可视化可以显示趋势，而表本身则显示用于查找的原始数据。
+
+生成数据：
+
+```{r}
+rule10_data <- yield_data %>% 
+  filter(
+    year %in% c(2013,2017), 
+    crop == "potatoes", 
+    Country %in% c(
+      country_sel, "Germany", "Brazil", "Ireland", "Lebanon", "Italy", 
+      "Netherlands", "France", "Denmark", "El Salvador", "Denmark"
+      )
+    ) %>% 
+  pivot_wider(names_from = year, values_from = yield)
+```
+
+1. 火花线图
+
+例如，我们可以使用火花线来表示跨越时间的趋势。下面有相当多的代码，我们实际上使用了两个数据集。由于我们在 gt 之外创建火花线，请确保将图形+数据对齐，因为 gt 不控制整体关系。例如，如果按特定列 `arrange()` ，需要确保跨两个数据集执行此操作。
+
+```{r}
+plot_spark <- function(data){
+  data %>% 
+    mutate(
+      yield_start = if_else(year == 2013, yield, NA_real_),
+      yield_end = if_else(year == 2017, yield, NA_real_)
+    ) %>% 
+    tidyr::fill(yield_start, yield_end, .direction = "downup") %>% 
+    mutate(color = if_else(yield_end-yield_start < 0, "red", "blue")) %>% 
+    ggplot(aes(x = year, y = yield, color = color)) +
+    geom_line(size = 15) +
+    theme_void() +
+    scale_color_identity() +
+    theme(legend.position = "none")
+}
+
+# SPARKLINE
+
+yield_plots <- yield_data %>% 
+  filter(
+    year %in% c(2013:2017), 
+    crop == "potatoes", 
+    Country %in% c(
+      country_sel, "Germany", "Brazil", "Ireland", "Lebanon", "Italy", 
+      "Netherlands", "France", "Denmark", "El Salvador", "Denmark"
+    )
+  ) %>% 
+  nest(yields = c(year, yield)) %>% 
+  mutate(plot = map(yields, plot_spark))
+
+# SPARKLINES PLOT
+
+rule10_spark <- rule10_data %>% 
+  mutate(ggplot = NA) %>% 
+  select(-crop) %>% 
+  gt() %>% 
+  text_transform(
+    locations = cells_body(vars(ggplot)),
+    fn = function(x){
+      map(yield_plots$plot, ggplot_image, height = px(15), aspect_ratio = 4)
+    }
+  ) %>% 
+  cols_width(vars(ggplot) ~ px(100)) %>% 
+  cols_label(
+    ggplot = "2013-2017"
+  ) %>% 
+  fmt_number(2:3) %>% 
+  tab_spanner(
+    label = "Potato Yield in Tonnes/Hectare",
+    columns = c(2,3)
+  ) %>% 
+  tab_style(
+    style = cell_text(color = "black", weight = "bold"),
+    locations = list(
+      cells_column_spanners(everything()),
+      cells_column_labels(everything())
+    )
+  ) %>%  
+  tab_options(
+    row_group.border.top.width = px(3),
+    row_group.border.top.color = "black",
+    row_group.border.bottom.color = "black",
+    table_body.hlines.color = "white",
+    table.border.top.color = "white",
+    table.border.top.width = px(3),
+    table.border.bottom.color = "white",
+    table.border.bottom.width = px(3),
+    column_labels.border.bottom.color = "black",
+    column_labels.border.bottom.width = px(2),
+  ) %>% 
+  tab_source_note(md("**Table**: @thomas_mock | **Data**: OurWorldInData.org<br>**Inspiration**: @jschwabish"))
+
+rule10_spark
+```
+2. 条形图
+
+对于本例，我们可以使用柱状图来表示 5 年的平均值。请注意，我们不需要为每一行构建 ggplot，而是可以从 formattable R 包通过一些函数仅使用 HTML/CSS 创建一列。下面有相当多的代码，但是请注意，gt包要求使用 `gt:: HTML()` 解析 HTML。总的来说，这种方法比通过 ggplot 更“干净”，因为我们是在同一个数据集中改变列，而且它更快，因为我们只是解析 HTML，而不是创建、保存和导入几个 ggplot 图像。非常感谢 formattable 作者 Renkun Kun 和 rtjohnson12 等人，他们展示了如何使用 HTML 构建柱状图的示例!还感谢 Christophe Dervieux 在 RStudio 社区提供了一个极好的 gt +自定义 HTML 示例。
+
+```{r}
+# Example of using glue to just paste the value into pre-created HTML block
+# Example adapted from rtjohnson12 at: 
+# https://github.com/renkun-ken/formattable/issues/79#issuecomment-573165954
+
+bar_chart <- function(value, color = "red", display_value = NULL){
+  
+  # Choose to display percent of total
+  if (is.null(display_value)) {
+    display_value <- "&nbsp;"
+  } else {
+    display_value <- display_value
+  }
+  
+  # paste color and value into the html string
+  glue::glue("<span style=\"display: inline-block; direction: ltr; border-radius: 4px; padding-right: 2px; background-color: {color}; color: {color}; width: {value}%\"> {display_value} </span>")
+}
+
+# create a color palette w/ paletteer
+# note you could just pass a single color directly to the bar_chart function
+col_pal <- function(value){
+  
+  # set high and low
+  domain_range <- range(c(rule10_data$`2013`, rule10_data$`2017`))
+  
+  # create the color based of domain
+  scales::col_numeric(
+    paletteer::paletteer_d("ggsci::blue_material") %>% as.character(), 
+    domain = c(min(value), max(value))
+      )(value)
+}
+
+# BARPLOT
+
+bar_yields <- yield_data %>% 
+  filter(
+    year %in% c(2013:2017), 
+    crop == "potatoes", 
+    Country %in% c(
+      country_sel, "Germany", "Brazil", "Ireland", "Lebanon", "Italy", 
+      "Netherlands", "France", "Denmark", "El Salvador", "Denmark"
+      )
+    ) %>% 
+  pivot_wider(names_from = year, values_from = yield) %>%  
+  select(-crop) %>% 
+  rowwise() %>% 
+  mutate(
+    mean = mean(c(`2013`, `2014`, `2015`, `2016`, `2017`))
+    ) %>% 
+  ungroup() %>% 
+  select(Country, `2013`, `2017`, `mean`) %>% 
+  mutate(
+    bar = round(mean/max(mean)*100, digits = 2),
+    color = col_pal(bar),
+    bar_chart = bar_chart(bar, color = color),
+    bar_chart = map(bar_chart, ~gt::html(as.character(.x)))) %>% 
+  select(-bar, -color)
+  
+# BARPLOT
+
+rule10_bar <- bar_yields %>% 
+  gt() %>% 
+  cols_width(vars(bar_chart) ~ px(100),
+             vars(`2013`) ~ px(75),
+             vars(`2017`) ~ px(75)
+             ) %>% 
+  cols_label(
+    mean = md("Average<br>2013-17"),
+    bar_chart = ""
+  ) %>% 
+  cols_align(
+    align = "right",
+    columns = 2:4
+  ) %>% 
+  cols_align(
+    align = "left",
+    columns = vars(bar_chart)
+  ) %>% 
+  fmt_number(2:4) %>% 
+  tab_style(
+    style = cell_text(color = "black", weight = "bold"),
+    locations = list(
+      cells_column_labels(everything())
+    )
+  ) %>%  
+  tab_options(
+    row_group.border.top.width = px(3),
+    row_group.border.top.color = "black",
+    row_group.border.bottom.color = "black",
+    table_body.hlines.color = "white",
+    table.border.top.color = "white",
+    table.border.top.width = px(3),
+    table.border.bottom.color = "white",
+    table.border.bottom.width = px(3),
+    table_body.border.bottom.width = px(2),
+    table_body.border.bottom.color = "black",
+    column_labels.border.bottom.color = "black",
+    column_labels.border.bottom.width = px(3)
+  ) %>% 
+  tab_footnote(footnote = "Potato Yield in Tonnes per Hectare",
+               locations = cells_column_labels(
+                 columns =2:4
+               )) %>% 
+  tab_source_note(md("**Table**: @thomas_mock | **Data**: OurWorldInData.org<br>**Inspiration**: @jschwabish"))
+
+rule10_bar
+```
+3. 热图
+
+最后，我们可以在整个图中添加颜色，以显示不同时间和国家的数据趋势。
+
+```{r}
+rule10_wide <- yield_data %>% 
+  filter(
+    year %in% c(2013:2017), 
+    crop == "potatoes", 
+    Country %in% c(
+      country_sel, "Germany", "Brazil", "Ireland", "Lebanon", "Italy", 
+      "Netherlands", "France", "Denmark", "El Salvador", "Denmark"
+    )
+  ) %>% 
+  pivot_wider(names_from = year, values_from = yield)
+
+rule10_heat <- rule10_wide %>% 
+  arrange(desc(`2013`)) %>% 
+  select(-crop) %>% 
+  gt() %>% 
+  data_color(
+    columns = 2:6, 
+    colors = scales::col_numeric(
+      palette = paletteer::paletteer_d(
+        palette = "ggsci::blue_material"
+      ) %>% as.character(),
+      domain = NULL
+    )
+  ) %>% 
+  fmt_number(2:6) %>% 
+  tab_spanner(
+    label = "Potato Yield in Tonnes/Hectare",
+    columns = c(2:6)
+  ) %>% 
+  tab_style(
+    style = cell_text(color = "black", weight = "bold"),
+    locations = list(
+      cells_column_spanners(everything()),
+      cells_column_labels(everything())
+    )
+  ) %>%  
+  cols_width(
+    1 ~ px(125),
+    2:6 ~ px(65)
+  ) %>% 
+  tab_options(
+    row_group.border.top.width = px(3),
+    row_group.border.top.color = "black",
+    row_group.border.bottom.color = "black",
+    table_body.hlines.color = "white",
+    table.border.top.color = "white",
+    table.border.top.width = px(3),
+    table.border.bottom.color = "white",
+    table.border.bottom.width = px(3),
+    column_labels.border.bottom.color = "black",
+    column_labels.border.bottom.width = px(2),
+  )
+
+rule10_heat
+```
+
+4. 百分比改变
+
+好吧，我说谎了！还有一个例子，对一个数字列进行颜色标记。
+
+```{r}
+rule10_wide <- yield_data %>% 
+  filter(
+    year %in% c(2013:2017), 
+    crop == "potatoes", 
+    Country %in% c(
+      country_sel, "Germany", "Brazil", "Ireland", "Lebanon", "Italy", 
+      "Netherlands", "France", "Denmark", "El Salvador", "Denmark"
+    )
+  ) %>% 
+  pivot_wider(names_from = year, values_from = yield)
+
+rule10_pct <- rule10_wide %>% 
+  arrange(Country) %>% 
+  select(-crop) %>% 
+  mutate(pct_change = (`2017`/`2013`-1)*100) %>% 
+  gt()%>% 
+  fmt_number(2:7) %>% 
+  cols_label(
+    pct_change = md("Percent Change")
+  ) %>% 
+  tab_style(
+    style = list(
+      cell_text(color = "red")
+    ),
+    locations = cells_body(
+      columns = vars(pct_change),
+      rows = pct_change <= 0
+    )
+  ) %>% 
+  tab_style(
+    style = list(
+      cell_text(color = "blue")
+    ),
+    locations = cells_body(
+      columns = vars(pct_change),
+      rows = pct_change > 0
+    )
+  ) %>% 
+  tab_spanner(
+    label = "Potato Yield in Tonnes/Hectare",
+    columns = c(2:6)
+  ) %>% 
+  tab_style(
+    style = cell_text(color = "black", weight = "bold"),
+    locations = list(
+      cells_column_spanners(everything()),
+      cells_column_labels(everything())
+    )
+  ) %>%  
+  tab_options(
+    row_group.border.top.width = px(3),
+    row_group.border.top.color = "black",
+    row_group.border.bottom.color = "black",
+    table_body.hlines.color = "white",
+    table.border.top.color = "white",
+    table.border.top.width = px(3),
+    table.border.bottom.color = "white",
+    table.border.bottom.width = px(3),
+    column_labels.border.bottom.color = "black",
+    column_labels.border.bottom.width = px(2),
+  ) %>% 
+  tab_source_note(md("**Table**: @thomas_mock | **Data**: OurWorldInData.org<br>**Inspiration**: @jschwabish"))
+
+rule10_pct
+```
+### 规则 11：向表格添加上下文
+
+我将添加一个我自己的指导原则！上面我们一直介绍得非常快，没有给很多表命名，也没有提供关于表中内容的所有上下文，主要是因为我们更关心展示精心设计的和具体的例子。但是，为表命名和添加上下文非常重要。这可以用 gt 的许多不同的方法完成。
+
+1. 添加一个标题
+
+回到我们的第一个表——让我们告诉读者实际的数据是什么!
+
+```{r}
+rule1_good %>% 
+  tab_header(
+    title = md("**Potato yields in 6 major countries**"),
+    subtitle = "Yield in Tonnes/Hectare"
+    ) %>% 
+  tab_options(heading.align = "left",
+              table.border.top.color = "white",
+              table.border.top.width = px(3))
+```
+
+2. 添加一个脚注
+
+或者，我们可以添加脚本解释每一个列。
+
+```{r}
+rule1_good %>% 
+  tab_footnote(
+    footnote = "Annual Potato Yield in Tonnes/Hectare",
+    locations = cells_column_labels(2:5)
+  )
+```
+
+3. 重做一个例子
+
+在我们的规则 10 的例子中，我们添加了一些漂亮的颜色——我们可以进一步说明百分比变化，它是变化的总和吗？具体年份的变化？这只是 2013 年和 2017 年的变化。
+
+```{r}
+rule10_pct %>% 
+  tab_footnote(
+    "Percent Change: 2013 vs 2017",
+    locations = cells_column_labels(7)
+  )
+```
+
+那么我们这个既包含行和列摘要的表格呢？我们将我们的列摘要重命名为 Avg. 和 Avg. -我们可以假设读者理解它是他们最左边的列的摘要，但我们也可以帮助读者明确地告诉计算是什么。如果第二个平均数实际上是所有年份（2007 年至 2016 年）的平均值，而不仅仅是 2012 年至 2016 年的平均值会怎样？
+
+```{r}
+rule2_tab2 %>% 
+  tab_source_note(md("**Table**: @thomas_mock | **Data**: OurWorldInData.org<br>**Inspiration**: @jschwabish")) %>% 
+  tab_footnote(
+    footnote = "Average of 2007 through 2011",
+    locations = cells_column_labels(vars(avg_07_11))
+  ) %>% 
+  tab_footnote(
+    footnote = "Average of 2012 through 2016",
+    locations = cells_column_labels(vars(avg_12_16))
+  ) 
+```
+
+以上就是全部的内容，非常感谢读者的阅读，如果你有更多的需要，请查看 [gt 网站](https://gt.rstudio.com/index.html)。

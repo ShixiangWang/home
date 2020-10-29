@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    
+    <link rel="stylesheet" href="../../../fonts/academicons-1.8.6/css/academicons.min.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../logo/bodhi.png"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    
+    <title>当使用limma时，它在比较什么 - 王诗翔</title>
+    
+     
+    <meta property="og:title" content="当使用limma时，它在比较什么 - Shixiang Wang | 王诗翔">
+    
+
+    
+      
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/Xcode.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="../../../css/style.css" />
+    <link rel="stylesheet" href="../../../css/mystyle.css" /> 
+    <link rel="stylesheet" href="../../../css/fonts.css" />
+    
+<script async src="../../../js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="../../../css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="../../../logo/ShixiangWang.png"><img src="../../../logo/ShixiangWang.png" alt="Shixiang Wang" /></a></h1>
+
+
+
+      <nav class="menu">
+        <input id="menu-check" type="checkbox" />
+        <label id="menu-label" for="menu-check" class="unselectable">
+          <span class="icon close-icon">✕</span>
+          <span class="icon open-icon">☰</span>
+          <span class="text">Menu</span>
+        </label>
+        <ul>
+        
+        
+        <li><a href="../../../">首页</a></li>
+        
+        <li><a href="../../../cn/about/">关于</a></li>
+        
+        <li><a href="../../../cn/post/">博客</a></li>
+        
+        <li><a href="../../../cn/read/">读书</a></li>
+        
+        <li><a href="../../../cn/writing">写作</a></li>
+        
+        <li><a href="../../../cn/research/">研究</a></li>
+        
+        <li><a href="../../../cn/tools/">工具</a></li>
+        
+        <li><a href="../../../cn/cv-cn/shixiang">简历</a></li>
+        
+        <li><a href="../../../logo/qrcode.jpg">公众号</a></li>
+        
+        <li><a href="https://www.zhihu.com/people/shixiangwang">知乎</a></li>
+        
+        <li><a href="../../../cn/mark">推荐阅读</a></li>
+        
+        <li><a href="../../../en/">English</a></li>
+        
+        <li><a href="../../../categories/">分类</a></li>
+        
+        <li><a href="../../../tags/">标签</a></li>
+        
+        
+
+<li class="menu-extra"></li>
+
+
+
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2020-10-29-what-has-been-done-when-use-limma.md" target="_blank">编辑</a></li>
+
+
+<li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+        </ul>
+      </nav>
+    </header>
+
+    <article class="main">
+      <header class="title">
+        
+
+<h1>当使用limma时，它在比较什么</h1>
+
+
+
+<h3>王诗翔 &middot 
+2020-10-29</h3> 
+
+
+<p style="text-align:right;">
+  分类:
+  
+    <a href="https://shixiangwang.github.io/home/categories/bioinformatics">bioinformatics</a> &nbsp
+  
+  <br>
+  标签:
+  
+    <a href="https://shixiangwang.github.io/home/tags/r">r</a> &nbsp
+  
+    <a href="https://shixiangwang.github.io/home/tags/limma">limma</a> &nbsp
+  
+    <a href="https://shixiangwang.github.io/home/tags/%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90">差异分析</a> &nbsp
+  
+    <a href="https://shixiangwang.github.io/home/tags/%E5%9F%BA%E5%9B%A0%E8%8A%AF%E7%89%87">基因芯片</a> &nbsp
+  
+</p>
+
+
+
+   
+  
+
+
+      </header>
+
+
+<h2 id="差异分析流程示例与资料">差异分析流程示例与资料</h2>
+<p>基因芯片的差异表达分析主要有 构建基因表达矩阵、构建实验设计矩阵、构建对比模型（对比矩阵）、线性模型拟合、贝叶斯检验和生成结果报表 六个关键步骤。</p>
+<p>下面是模拟的一个示例：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e"># Simulate gene expression data for 100 probes and 6 microarraexprSets</span>
+<span style="color:#75715e"># MicroarraexprSet are in two groups</span>
+<span style="color:#75715e"># First two probes are differentiallexprSet expressed in second group</span>
+<span style="color:#75715e"># Std deviations varexprSet between genes with prior df=4</span>
+
+<span style="color:#75715e"># 构建模拟的表达矩阵，实际处理时换成自己的表达矩阵即可</span>
+sd <span style="color:#f92672">&lt;-</span> <span style="color:#ae81ff">0.3</span><span style="color:#f92672">*</span><span style="color:#a6e22e">sqrt</span>(<span style="color:#ae81ff">4</span><span style="color:#f92672">/</span><span style="color:#a6e22e">rchisq</span>(<span style="color:#ae81ff">100</span>,df<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span>))
+exprSet <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">matrix</span>(<span style="color:#a6e22e">rnorm</span>(<span style="color:#ae81ff">100</span><span style="color:#f92672">*</span><span style="color:#ae81ff">6</span>,sd<span style="color:#f92672">=</span>sd),<span style="color:#ae81ff">100</span>,<span style="color:#ae81ff">6</span>)
+<span style="color:#a6e22e">rownames</span>(exprSet) <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">paste</span>(<span style="color:#e6db74">&#34;Gene&#34;</span>,<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">100</span>)
+<span style="color:#a6e22e">colnames</span>(exprSet) <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(<span style="color:#a6e22e">paste0</span>(<span style="color:#e6db74">&#34;con-&#34;</span>,<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">3</span>), <span style="color:#a6e22e">paste0</span>(<span style="color:#e6db74">&#34;G3-&#34;</span>,<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">3</span>))
+exprSet[1<span style="color:#f92672">:</span><span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">4</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6</span>] <span style="color:#f92672">&lt;-</span> exprSet[1<span style="color:#f92672">:</span><span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">4</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>
+
+<span style="color:#a6e22e">library</span>(limma)
+<span style="color:#75715e"># 构建实验设计矩阵</span>
+group_list <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#a6e22e">rep</span>(<span style="color:#e6db74">&#34;con&#34;</span>,<span style="color:#ae81ff">3</span>), <span style="color:#a6e22e">rep</span>(<span style="color:#e6db74">&#34;G3&#34;</span>,<span style="color:#ae81ff">3</span>))
+<span style="color:#75715e"># 这里根据实际的情况设置（表型）分组，对应表达矩阵的列：样本</span>
+
+design <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">model.matrix</span>(<span style="color:#f92672">~</span><span style="color:#ae81ff">0</span><span style="color:#f92672">+</span><span style="color:#a6e22e">factor</span>(group_list))
+design
+
+<span style="color:#a6e22e">colnames</span>(design)<span style="color:#f92672">=</span><span style="color:#a6e22e">levels</span>(<span style="color:#a6e22e">factor</span>(group_list))
+<span style="color:#a6e22e">rownames</span>(design)<span style="color:#f92672">=</span><span style="color:#a6e22e">colnames</span>(exprSet)
+design
+<span style="color:#75715e"># 实验设计矩阵的每一行对应一个样品的编码，</span>
+<span style="color:#75715e"># 每一列对应样品的一个特征。这里只考虑了一个因素两个水平，</span>
+<span style="color:#75715e"># 如果是多因素和多水平的实验设计，会产生更多的特征，需要参考文档设计。</span>
+
+<span style="color:#75715e"># 构建对比模型，比较两个实验条件下表达数据</span>
+contrast.matrix<span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">makeContrasts</span>(G3<span style="color:#f92672">-</span>con,levels <span style="color:#f92672">=</span> design)
+<span style="color:#75715e">#contrast.matrix&lt;-makeContrasts(paste0(unique(group_list),collapse = &#34;-&#34;),levels = design)</span>
+contrast.matrix <span style="color:#75715e">##这个矩阵声明，我们要把G3组跟con组进行差异分析比较</span>
+
+
+<span style="color:#75715e">##### 差异分析</span>
+<span style="color:#75715e">##step1 线性模型拟合</span>
+fit <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">lmFit</span>(exprSet,design)
+<span style="color:#75715e">##step2 根据对比模型进行差值计算 </span>
+fit2 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">contrasts.fit</span>(fit, contrast.matrix) 
+<span style="color:#75715e">##step3 贝叶斯检验</span>
+fit2 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">eBayes</span>(fit2) 
+<span style="color:#75715e">##step4 生成所有基因的检验结果报告</span>
+tempOutput <span style="color:#f92672">=</span> <span style="color:#a6e22e">topTable</span>(fit2, coef<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, n<span style="color:#f92672">=</span><span style="color:#66d9ef">Inf</span>)
+<span style="color:#75715e">##step5 用P.Value进行筛选，得到全部差异表达基因</span>
+dif <span style="color:#f92672">&lt;-</span> tempOutput[tempOutput[, <span style="color:#e6db74">&#34;P.Value&#34;</span>]<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0.01</span>,]
+<span style="color:#75715e"># 显示一部分报告结果</span>
+<span style="color:#a6e22e">head</span>(dif)
+
+
+</code></pre></div><p>参考：</p>
+<ul>
+<li><a href="https://www.plob.org/article/9963.html">用limma对芯片数据做差异分析</a></li>
+<li><a href="https://www.shixiangwang.top/post/2017-10-09-microarray-data-analysis/#%E5%9F%BA%E5%9B%A0%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90">Bioconductor分析基因芯片数据</a></li>
+<li><code>limFit</code>函数文档 <code>?limFit()</code></li>
+</ul>
+<p>更新资料：</p>
+<ul>
+<li><a href="https://github.com/bioconductor-china/basic/blob/master/makeContrasts.md">差异分析是否需要比较矩阵</a></li>
+<li><a href="https://www.jianshu.com/p/e4daa6b4f93e">入门GEO表达芯片数据分析该读一读的一些文章</a></li>
+</ul>
+<p>相关问题请下面留言讨论。</p>
+<h2 id="差异分析比较的是什么">差异分析比较的是什么</h2>
+<p>在使用limma时，我一直对对比的事物存有疑惑，特别是当你可能看到下面这种分析结果相同时：</p>
+<p>#1:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(CLL)
+<span style="color:#a6e22e">data</span>(sCLLex)
+<span style="color:#a6e22e">library</span>(limma)
+design<span style="color:#f92672">=</span><span style="color:#a6e22e">model.matrix</span>(<span style="color:#f92672">~</span><span style="color:#a6e22e">factor</span>(sCLLex<span style="color:#f92672">$</span>Disease))
+fit<span style="color:#f92672">=</span><span style="color:#a6e22e">lmFit</span>(sCLLex,design)
+fit<span style="color:#f92672">=</span><span style="color:#a6e22e">eBayes</span>(fit)
+<span style="color:#a6e22e">options</span>(digits <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>)
+<span style="color:#75715e">#topTable(fit,coef=2,adjust=&#39;BH&#39;) </span>
+<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">topTable</span>(fit,coef<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>,adjust<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;BH&#39;</span>)
+           logFC AveExpr      t   P.Value adj.P.Val     B
+<span style="color:#ae81ff">39400</span>_at  <span style="color:#ae81ff">1.0285</span>   <span style="color:#ae81ff">5.621</span>  <span style="color:#ae81ff">5.836</span> <span style="color:#ae81ff">8.341e-06</span>   <span style="color:#ae81ff">0.03344</span> <span style="color:#ae81ff">3.234</span>
+<span style="color:#ae81ff">36131</span>_at <span style="color:#ae81ff">-0.9888</span>   <span style="color:#ae81ff">9.954</span> <span style="color:#ae81ff">-5.772</span> <span style="color:#ae81ff">9.668e-06</span>   <span style="color:#ae81ff">0.03344</span> <span style="color:#ae81ff">3.117</span>
+<span style="color:#ae81ff">33791</span>_at <span style="color:#ae81ff">-1.8302</span>   <span style="color:#ae81ff">6.951</span> <span style="color:#ae81ff">-5.736</span> <span style="color:#ae81ff">1.049e-05</span>   <span style="color:#ae81ff">0.03344</span> <span style="color:#ae81ff">3.052</span>
+<span style="color:#ae81ff">1303</span>_at   <span style="color:#ae81ff">1.3836</span>   <span style="color:#ae81ff">4.463</span>  <span style="color:#ae81ff">5.732</span> <span style="color:#ae81ff">1.060e-05</span>   <span style="color:#ae81ff">0.03344</span> <span style="color:#ae81ff">3.044</span>
+<span style="color:#ae81ff">36122</span>_at <span style="color:#ae81ff">-0.7801</span>   <span style="color:#ae81ff">7.260</span> <span style="color:#ae81ff">-5.141</span> <span style="color:#ae81ff">4.206e-05</span>   <span style="color:#ae81ff">0.10619</span> <span style="color:#ae81ff">1.935</span>
+<span style="color:#ae81ff">36939</span>_at <span style="color:#ae81ff">-2.5472</span>   <span style="color:#ae81ff">6.915</span> <span style="color:#ae81ff">-5.038</span> <span style="color:#ae81ff">5.362e-05</span>   <span style="color:#ae81ff">0.11283</span> <span style="color:#ae81ff">1.737</span>
+<span style="color:#ae81ff">41398</span>_at  <span style="color:#ae81ff">0.5187</span>   <span style="color:#ae81ff">7.602</span>  <span style="color:#ae81ff">4.879</span> <span style="color:#ae81ff">7.824e-05</span>   <span style="color:#ae81ff">0.11520</span> <span style="color:#ae81ff">1.428</span>
+<span style="color:#ae81ff">32599</span>_at  <span style="color:#ae81ff">0.8544</span>   <span style="color:#ae81ff">5.746</span>  <span style="color:#ae81ff">4.859</span> <span style="color:#ae81ff">8.207e-05</span>   <span style="color:#ae81ff">0.11520</span> <span style="color:#ae81ff">1.389</span>
+<span style="color:#ae81ff">36129</span>_at  <span style="color:#ae81ff">0.9161</span>   <span style="color:#ae81ff">8.209</span>  <span style="color:#ae81ff">4.859</span> <span style="color:#ae81ff">8.212e-05</span>   <span style="color:#ae81ff">0.11520</span> <span style="color:#ae81ff">1.389</span>
+<span style="color:#ae81ff">37636</span>_at <span style="color:#ae81ff">-1.6868</span>   <span style="color:#ae81ff">5.697</span> <span style="color:#ae81ff">-4.804</span> <span style="color:#ae81ff">9.355e-05</span>   <span style="color:#ae81ff">0.11811</span> <span style="color:#ae81ff">1.282</span>
+
+</code></pre></div><p>#2:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R"><span style="color:#a6e22e">library</span>(CLL)
+<span style="color:#a6e22e">data</span>(sCLLex)
+<span style="color:#a6e22e">library</span>(limma)
+design<span style="color:#f92672">=</span><span style="color:#a6e22e">model.matrix</span>(<span style="color:#f92672">~</span><span style="color:#ae81ff">0</span><span style="color:#f92672">+</span><span style="color:#a6e22e">factor</span>(sCLLex<span style="color:#f92672">$</span>Disease))
+<span style="color:#a6e22e">colnames</span>(design)<span style="color:#f92672">=</span><span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#39;progres&#39;</span>,<span style="color:#e6db74">&#39;stable&#39;</span>)
+fit<span style="color:#f92672">=</span><span style="color:#a6e22e">lmFit</span>(sCLLex,design)
+cont.matrix<span style="color:#f92672">=</span><span style="color:#a6e22e">makeContrasts</span>(<span style="color:#e6db74">&#39;progres-stable&#39;</span>,levels <span style="color:#f92672">=</span> design)
+fit2<span style="color:#f92672">=</span><span style="color:#a6e22e">contrasts.fit</span>(fit,cont.matrix)
+fit2<span style="color:#f92672">=</span><span style="color:#a6e22e">eBayes</span>(fit2)
+<span style="color:#a6e22e">options</span>(digits <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>)
+<span style="color:#a6e22e">topTable</span>(fit2,adjust<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;BH&#39;</span>)
+ 
+           logFC AveExpr      t   P.Value adj.P.Val     B
+<span style="color:#ae81ff">39400</span>_at <span style="color:#ae81ff">-1.0285</span>   <span style="color:#ae81ff">5.621</span> <span style="color:#ae81ff">-5.836</span> <span style="color:#ae81ff">8.341e-06</span>   <span style="color:#ae81ff">0.03344</span> <span style="color:#ae81ff">3.234</span>
+<span style="color:#ae81ff">36131</span>_at  <span style="color:#ae81ff">0.9888</span>   <span style="color:#ae81ff">9.954</span>  <span style="color:#ae81ff">5.772</span> <span style="color:#ae81ff">9.668e-06</span>   <span style="color:#ae81ff">0.03344</span> <span style="color:#ae81ff">3.117</span>
+<span style="color:#ae81ff">33791</span>_at  <span style="color:#ae81ff">1.8302</span>   <span style="color:#ae81ff">6.951</span>  <span style="color:#ae81ff">5.736</span> <span style="color:#ae81ff">1.049e-05</span>   <span style="color:#ae81ff">0.03344</span> <span style="color:#ae81ff">3.052</span>
+<span style="color:#ae81ff">1303</span>_at  <span style="color:#ae81ff">-1.3836</span>   <span style="color:#ae81ff">4.463</span> <span style="color:#ae81ff">-5.732</span> <span style="color:#ae81ff">1.060e-05</span>   <span style="color:#ae81ff">0.03344</span> <span style="color:#ae81ff">3.044</span>
+<span style="color:#ae81ff">36122</span>_at  <span style="color:#ae81ff">0.7801</span>   <span style="color:#ae81ff">7.260</span>  <span style="color:#ae81ff">5.141</span> <span style="color:#ae81ff">4.206e-05</span>   <span style="color:#ae81ff">0.10619</span> <span style="color:#ae81ff">1.935</span>
+<span style="color:#ae81ff">36939</span>_at  <span style="color:#ae81ff">2.5472</span>   <span style="color:#ae81ff">6.915</span>  <span style="color:#ae81ff">5.038</span> <span style="color:#ae81ff">5.362e-05</span>   <span style="color:#ae81ff">0.11283</span> <span style="color:#ae81ff">1.737</span>
+<span style="color:#ae81ff">41398</span>_at <span style="color:#ae81ff">-0.5187</span>   <span style="color:#ae81ff">7.602</span> <span style="color:#ae81ff">-4.879</span> <span style="color:#ae81ff">7.824e-05</span>   <span style="color:#ae81ff">0.11520</span> <span style="color:#ae81ff">1.428</span>
+<span style="color:#ae81ff">32599</span>_at <span style="color:#ae81ff">-0.8544</span>   <span style="color:#ae81ff">5.746</span> <span style="color:#ae81ff">-4.859</span> <span style="color:#ae81ff">8.207e-05</span>   <span style="color:#ae81ff">0.11520</span> <span style="color:#ae81ff">1.389</span>
+<span style="color:#ae81ff">36129</span>_at <span style="color:#ae81ff">-0.9161</span>   <span style="color:#ae81ff">8.209</span> <span style="color:#ae81ff">-4.859</span> <span style="color:#ae81ff">8.212e-05</span>   <span style="color:#ae81ff">0.11520</span> <span style="color:#ae81ff">1.389</span>
+<span style="color:#ae81ff">37636</span>_at  <span style="color:#ae81ff">1.6868</span>   <span style="color:#ae81ff">5.697</span>  <span style="color:#ae81ff">4.804</span> <span style="color:#ae81ff">9.355e-05</span>   <span style="color:#ae81ff">0.11811</span> <span style="color:#ae81ff">1.282</span>
+</code></pre></div><blockquote>
+<p>上述代码资料来自jimmy</p>
+</blockquote>
+<p>为什么第一种方式没有做对比矩阵，结果一致！</p>
+<blockquote>
+<p>大家运行一下这些代码就知道，两者结果是一模一样的。
+而差异比较矩阵的需要与否，主要看分组矩阵如何制作的！</p>
+<pre><code>design=model.matrix(~factor(sCLLex$Disease))
+design=model.matrix(~0+factor(sCLLex$Disease))
+</code></pre><p>有本质的区别！！！
+前面那种方法已经把需要比较的组做出到了一列，需要比较多次，就有多少列，第一列是截距不需要考虑，第二列开始往后用coef这个参数可以把差异分析结果一个个提取出来。
+而后面那种方法，仅仅是分组而已，组之间需要如何比较，需要自己再制作差异比较矩阵，通过makeContrasts函数来控制如何比较！
+&mdash; jimmy</p>
+</blockquote>
+<p>另一个问题：这两种方法哪一种更可取呢？</p>
+<p>在我没有实际操作之前，我觉得简单的更清爽，适用，但适用后我的结论是第二种各种可取。在前几天的一次分析中，我将差异比较的两个水平分为：<code>High</code>和<code>Low</code>，结果分析的差异基因fold change反了！在没有显式指定的情况下，我们难以真正确定我们比对的结果是<code>High-Low</code>还是<code>Low-High</code>。另外，后一种方法更利于将差异的比较过程程序化。</p>
+<p>最后，再强调一下流程：</p>
+<p><strong>基因芯片的差异表达分析主要有 构建基因表达矩阵、构建实验设计矩阵、构建对比模型（对比矩阵）、线性模型拟合、贝叶斯检验和生成结果报表 六个关键步骤。</strong></p>
+<p>其他相关资料：</p>
+<ul>
+<li><a href="http://blog.csdn.net/u014801157/article/details/24494009">基因芯片（Affymetrix）分析1：芯片质量分析</a></li>
+<li><a href="http://blog.csdn.net/u014801157/article/details/24372381">基因芯片（Affymetrix）分析2：芯片数据预处理</a></li>
+<li><a href="http://blog.csdn.net/u014801157/article/details/24372385">基因芯片（Affymetrix）分析3：获取差异表达基因</a></li>
+<li><a href="http://blog.csdn.net/u014801157/article/details/24372393">基因芯片（Affymetrix）分析4：GO和KEGG分析</a></li>
+<li><a href="http://blog.csdn.net/u014801157/article/details/24372399">基因芯片（Affymetrix）分析5：聚类分析</a></li>
+<li><a href="http://blog.csdn.net/u014801157/article/details/66974577">使用oligo软件包处理芯片数据</a></li>
+<li><a href="https://www.jianshu.com/p/1537efae5be9">如何使用GEOquery和limma完成芯片数据的差异表达分析</a></li>
+</ul>
+<p><style>
+  .img-container {
+    text-align: center;
+    display: block;
+  }
+</style>
+
+  <img src="https://upload-images.jianshu.io/upload_images/3884693-964fabc2c1b17b23.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="">
+  </span>
+</p>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="../../../cn/post/2020-10-26-style-for-tech-notes/">《技术文档规范》阅读</a></span>
+  <span class="nav-next"></span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/post\/2020-10-26-style-for-tech-notes\/';
+    
+  } else if (e.which == 39) {  
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+
+
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+<script>
+  const gitalk = new Gitalk({
+    clientID: 'eed477936be7b88a8455',
+    clientSecret: '32b5dde22f3c95c4fad400a31632e34221b07e83',
+    repo: 'home',
+    owner: 'ShixiangWang',
+    admin: ['ShixiangWang'],
+    id: md5(window.location.pathname), 
+    distractionFreeMode: false 
+  });
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('gitalk-container').innerHTML = 'Gitalk comments not available by default when the website is previewed locally.';
+      return;
+    }
+    gitalk.render('gitalk-container');
+  })();
+</script>
+
+
+
+
+
+<script async src="../../../js/fix-toc.js"></script>
+
+<script async src="../../../js/center-img.js"></script>
+
+<script async src="../../../js/right-quote.js"></script>
+
+<script async src="../../../js/no-highlight.js"></script>
+
+<script async src="../../../js/fix-footnote.js"></script>
+
+<script async src="../../../js/math-code.js"></script>
+
+<script async src="../../../js/external-link.js"></script>
+
+<script async src="../../../js/alt-title.js"></script>
+
+<script async src="../../../js/header-link.js"></script>
+
+
+<script src="//yihui.org/js/math-code.js"></script>
+<script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script async src="//yihui.org/js/center-img.js"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+  
+  
+
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> · <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> · <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> · <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> · <a href="https://orcid.org/0000-0001-9855-7357"><i class='ai ai-orcid ai-1x'></i></a> · <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 © <a href="../../../">王诗翔</a> 2017 - 2020 </div>
+  
+  
+
+  <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56h9es09xn7&amp;m=6&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=1" async="async"></script>
+  </footer>
+  </article>
+  
+  </body>
+</html>
+
