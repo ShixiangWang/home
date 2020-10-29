@@ -1,7 +1,7 @@
 ---
 title: "R 表格可视化 10+ 指南"
 author: "王诗翔"
-date: "2020-10-09"
+date: "2020-10-29"
 lastmod: "`r Sys.Date()`"
 slug: ""
 # All available categories:
