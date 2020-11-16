@@ -1,0 +1,159 @@
+---
+title: "dplyr 里的 join 与 base 里的 merge 存在差异"
+author: "王诗翔"
+date: "2020-11-16"
+lastmod: "2020-11-16"
+slug: ""
+# All available categories:
+# bioinformatics, config, docker, golang, life, linux, ml, r, read, shell, thinking
+categories: ["r"]
+tags: ["r", "dplyr"]
+---
+
+<script src="/home/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+<link href="/home/rmarkdown-libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="/home/rmarkdown-libs/anchor-sections/anchor-sections.js"></script>
+
+
+<p>今天在使用连接操作时发现：虽然都是合并操作函数，dplyr 包里的 <code>*_join()</code> 和基础包里面的 <code>merge()</code> 存在差异，不同的数据结构，结果也会存在偏差。</p>
+<div id="构造数据集" class="section level3">
+<h3>构造数据集</h3>
+<p>下面是一个可重复的例子，构造两个数据集，一个是基于 <code>data.frame</code> 的列表，另一个是就要 <code>data.table</code> 的列表：</p>
+<pre class="r"><code>x &lt;- list(
+  a = data.frame(r1 = c(&quot;S1&quot;, &quot;S2&quot;), r3 = c(&quot;S2&quot;, &quot;S1&quot;)),
+  b = data.frame(r1 = c(&quot;S1&quot;, &quot;S2&quot;), r5 = c(&quot;S2&quot;, &quot;S1&quot;)),
+  c = data.frame(r2 = c(&quot;S1&quot;, &quot;S2&quot;), r4 = c(&quot;S2&quot;, &quot;S1&quot;)),
+  d = data.frame(r4 = c(&quot;S1&quot;, &quot;S2&quot;), r5 = c(&quot;S2&quot;, &quot;S1&quot;))
+)
+
+str(x)
+#&gt; List of 4
+#&gt;  $ a:&#39;data.frame&#39;:   2 obs. of  2 variables:
+#&gt;   ..$ r1: chr [1:2] &quot;S1&quot; &quot;S2&quot;
+#&gt;   ..$ r3: chr [1:2] &quot;S2&quot; &quot;S1&quot;
+#&gt;  $ b:&#39;data.frame&#39;:   2 obs. of  2 variables:
+#&gt;   ..$ r1: chr [1:2] &quot;S1&quot; &quot;S2&quot;
+#&gt;   ..$ r5: chr [1:2] &quot;S2&quot; &quot;S1&quot;
+#&gt;  $ c:&#39;data.frame&#39;:   2 obs. of  2 variables:
+#&gt;   ..$ r2: chr [1:2] &quot;S1&quot; &quot;S2&quot;
+#&gt;   ..$ r4: chr [1:2] &quot;S2&quot; &quot;S1&quot;
+#&gt;  $ d:&#39;data.frame&#39;:   2 obs. of  2 variables:
+#&gt;   ..$ r4: chr [1:2] &quot;S1&quot; &quot;S2&quot;
+#&gt;   ..$ r5: chr [1:2] &quot;S2&quot; &quot;S1&quot;
+
+x2 &lt;- list(
+  a = data.table::data.table(r1 = c(&quot;S1&quot;, &quot;S2&quot;), r3 = c(&quot;S2&quot;, &quot;S1&quot;)),
+  b = data.table::data.table(r1 = c(&quot;S1&quot;, &quot;S2&quot;), r5 = c(&quot;S2&quot;, &quot;S1&quot;)),
+  c = data.table::data.table(r2 = c(&quot;S1&quot;, &quot;S2&quot;), r4 = c(&quot;S2&quot;, &quot;S1&quot;)),
+  d = data.table::data.table(r4 = c(&quot;S1&quot;, &quot;S2&quot;), r5 = c(&quot;S2&quot;, &quot;S1&quot;))
+)
+
+str(x2)
+#&gt; List of 4
+#&gt;  $ a:Classes &#39;data.table&#39; and &#39;data.frame&#39;:  2 obs. of  2 variables:
+#&gt;   ..$ r1: chr [1:2] &quot;S1&quot; &quot;S2&quot;
+#&gt;   ..$ r3: chr [1:2] &quot;S2&quot; &quot;S1&quot;
+#&gt;   ..- attr(*, &quot;.internal.selfref&quot;)=&lt;externalptr&gt; 
+#&gt;  $ b:Classes &#39;data.table&#39; and &#39;data.frame&#39;:  2 obs. of  2 variables:
+#&gt;   ..$ r1: chr [1:2] &quot;S1&quot; &quot;S2&quot;
+#&gt;   ..$ r5: chr [1:2] &quot;S2&quot; &quot;S1&quot;
+#&gt;   ..- attr(*, &quot;.internal.selfref&quot;)=&lt;externalptr&gt; 
+#&gt;  $ c:Classes &#39;data.table&#39; and &#39;data.frame&#39;:  2 obs. of  2 variables:
+#&gt;   ..$ r2: chr [1:2] &quot;S1&quot; &quot;S2&quot;
+#&gt;   ..$ r4: chr [1:2] &quot;S2&quot; &quot;S1&quot;
+#&gt;   ..- attr(*, &quot;.internal.selfref&quot;)=&lt;externalptr&gt; 
+#&gt;  $ d:Classes &#39;data.table&#39; and &#39;data.frame&#39;:  2 obs. of  2 variables:
+#&gt;   ..$ r4: chr [1:2] &quot;S1&quot; &quot;S2&quot;
+#&gt;   ..$ r5: chr [1:2] &quot;S2&quot; &quot;S1&quot;
+#&gt;   ..- attr(*, &quot;.internal.selfref&quot;)=&lt;externalptr&gt;</code></pre>
+<p>从存储的信息来看，这两个列表是没有任何差异的。</p>
+</div>
+<div id="相同的数据不同的操作函数存在差异" class="section level3">
+<h3>相同的数据，不同的操作函数存在差异</h3>
+<p>在进行连接操作时，我们会发现 <code>dplyr</code> 的结果会报错！</p>
+<pre class="r"><code>purrr::reduce(x, dplyr::full_join)
+#&gt; Joining, by = &quot;r1&quot;
+#&gt; Error: `by` must be supplied when `x` and `y` have no common variables.
+#&gt; ℹ use by = character()` to perform a cross-join.
+purrr::reduce(x, merge)
+#&gt;   r5 r4 r1 r3 r2
+#&gt; 1 S1 S2 S2 S1 S1
+#&gt; 2 S2 S1 S1 S2 S2</code></pre>
+<p>看起来似乎有点不可理喻，但实际上上面我构造的数据集是有点特别的：前 2 个子集和第 3 个子集是没有可以连接的列的，第 4 个子集起到桥梁作用。所以使用 <code>dplyr</code> 提供的连接函数报错是正常的，但有意思的是，基础包提供的 <code>merge()</code> 函数可以完成连接操作，真是优秀（感兴趣的朋友可以看下测试下 <code>merge</code> 函数源代码）！</p>
+<pre class="r"><code>x
+#&gt; $a
+#&gt;   r1 r3
+#&gt; 1 S1 S2
+#&gt; 2 S2 S1
+#&gt; 
+#&gt; $b
+#&gt;   r1 r5
+#&gt; 1 S1 S2
+#&gt; 2 S2 S1
+#&gt; 
+#&gt; $c
+#&gt;   r2 r4
+#&gt; 1 S1 S2
+#&gt; 2 S2 S1
+#&gt; 
+#&gt; $d
+#&gt;   r4 r5
+#&gt; 1 S1 S2
+#&gt; 2 S2 S1</code></pre>
+</div>
+<div id="data.table-不支持上述-merge-连接" class="section level3">
+<h3>data.table 不支持上述 merge 连接</h3>
+<p>我们可以再看下基于 <code>data.table</code> 构造的数据集结果：</p>
+<pre class="r"><code>purrr::reduce(x2, dplyr::full_join)
+#&gt; Joining, by = &quot;r1&quot;
+#&gt; Error: `by` must be supplied when `x` and `y` have no common variables.
+#&gt; ℹ use by = character()` to perform a cross-join.
+purrr::reduce(x2, merge)
+#&gt; Error in merge.data.table(out, elt, ...): Elements listed in `by` must be valid column names in x and y</code></pre>
+<p>两个函数操作都报错了，说明对 <code>data.table</code> 是不适用的。本质上是 <code>data.table</code> 体格的泛型函数不支持类似基础包中的操作。</p>
+</div>
+<div id="如何编写代码支持对上述数据集的连接操作" class="section level3">
+<h3>如何编写代码支持对上述数据集的连接操作？</h3>
+<p>一般工作情况下，不同的数据子集都存在可以连接的列，所以无论上述哪种方法都可以胜任工作。但特殊情况下，即类似我上述构造的数据集：数据子集不是所有但两两之间都存在共有的列，但按照一定的顺序确实能够将其合并。</p>
+<p>下面给出探索后的解决代码：</p>
+<pre class="r"><code>to_join &lt;- x2[[1]]
+be_join &lt;- x2[-1]
+
+# https://stackoverflow.com/questions/30542128/circular-shift-of-vector-by-distance-n
+shifter &lt;- function(x, n = 1) {
+  if (n == 0) x else c(tail(x, -n), head(x, n))
+}
+
+while (length(be_join) &gt; 0) {
+  col_exist &lt;- colnames(be_join[[1]]) %in% colnames(to_join)
+  if (any(col_exist)) {
+    to_join &lt;- merge(to_join, be_join[[1]], by = colnames(be_join[[1]])[col_exist])
+    be_join[[1]] &lt;- NULL
+  } else {
+    be_join &lt;- shifter(be_join)
+  }
+}</code></pre>
+<p>上述代码中执行下面的操作：</p>
+<ol style="list-style-type: decimal">
+<li><p>构造两个集合 <code>to_join</code> 和 <code>be_join</code>，<code>to_join</code> 初始化为数据集的第一个子集，而 <code>be_join</code> 为其他子集。</p></li>
+<li><p>如果 <code>be_join</code> 不为空，进行如下的循环：</p>
+<ol style="list-style-type: decimal">
+<li><p>检查 <code>be_join</code> 第一个子集的列与 <code>to_join</code> 存在共同列</p>
+<ol style="list-style-type: decimal">
+<li><p>如果存在，则将这个子集和 <code>to_join</code> 按共同列合并</p></li>
+<li><p>如果不存在，使用循环位移一位，将当前 <code>be_join</code> 的第 2 个子集移动为 第 1 个。</p></li>
+</ol></li>
+<li><p>等待循环结束</p></li>
+</ol></li>
+</ol>
+<p>我们可以查看结果：</p>
+<pre class="r"><code>to_join[, c(&quot;r1&quot;, &quot;r2&quot;, &quot;r3&quot;, &quot;r4&quot;, &quot;r5&quot;)]
+#&gt;    r1 r2 r3 r4 r5
+#&gt; 1: S1 S2 S2 S1 S2
+#&gt; 2: S2 S1 S1 S2 S1</code></pre>
+<p>对比下面结果是相同的（虽然顺序颠倒了）。</p>
+<pre class="r"><code>purrr::reduce(x, merge)[, c(&quot;r1&quot;, &quot;r2&quot;, &quot;r3&quot;, &quot;r4&quot;, &quot;r5&quot;)]
+#&gt;   r1 r2 r3 r4 r5
+#&gt; 1 S2 S1 S1 S2 S1
+#&gt; 2 S1 S2 S2 S1 S2</code></pre>
+</div>
