@@ -123,3 +123,48 @@ to_join[, c("r1", "r2", "r3", "r4", "r5")]
 ```{r}
 purrr::reduce(x, merge)[, c("r1", "r2", "r3", "r4", "r5")]
 ```
+
+### 更新
+
+在后面的一些使用过程中发现基础包的 `merge()` 函数在进行连接操作时会输出有问题的结果，所以建议使用的小伙伴仔细检查结果。下面更新了一个用于合并的函数：
+
+```{r}
+    reduceG <- function(G) {
+      # Reduce elements of G if at least two elements
+      # contain common column names
+      # G >= 2 elements here
+      if (length(G) < 2) {
+        return(G)
+      }
+      cnames <- purrr::map(G, colnames)
+      check_list <- combn(seq_along(cnames), 2, simplify = FALSE)
+      common <- purrr::map(check_list, ~intersect(cnames[[.[1]]], cnames[[.[2]]]))
+
+      # Index to reduce
+      ri <- purrr::map_lgl(common, ~length(.)!=0)
+      if (any(ri)) {
+        purrr::map2(check_list[ri], common[ri], .f = function(x, y) {
+            if (!is.na(G[x[1]]) & !is.na(G[x[2]])) {
+              # Update global G in reduceG
+              G[[min(x)]] <<- merge(G[[x[1]]], G[[x[2]]], by = y)
+              # to make sure the data is removed and the index
+              # is kept to avoid "subscript out of bounds" error
+              G[[max(x)]] <<- NA
+            }
+        })
+        # Remove elements set to NA
+        G <- G[!is.na(G)]
+        return(reduceG(G))
+      } else {
+        return(G)
+      }
+    }
+    
+```
+
+测试结果：
+
+```{r}
+reduceG(x)[[1]]
+reduceG(x2)[[1]]
+```
