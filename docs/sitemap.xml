@@ -3,13 +3,38 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://shixiangwang.github.io/home/categories/bioinformatics/</loc>
-    <lastmod>2020-10-29T00:00:00+00:00</lastmod>
+    <loc>https://shixiangwang.github.io/home/categories/</loc>
+    <lastmod>2020-11-16T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://shixiangwang.github.io/home/categories/</loc>
-    <lastmod>2020-11-04T00:00:00+00:00</lastmod>
+    <loc>https://shixiangwang.github.io/home/tags/dplyr/</loc>
+    <lastmod>2020-11-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shixiangwang.github.io/home/cn/post/2020-11-16-difference-between-merge-and-dplyr-join/</loc>
+    <lastmod>2020-11-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shixiangwang.github.io/home/tags/r/</loc>
+    <lastmod>2020-11-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shixiangwang.github.io/home/categories/r/</loc>
+    <lastmod>2020-11-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shixiangwang.github.io/home/tags/</loc>
+    <lastmod>2020-11-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shixiangwang.github.io/home/categories/bioinformatics/</loc>
+    <lastmod>2020-10-29T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -23,27 +48,12 @@
   </url>
   
   <url>
-    <loc>https://shixiangwang.github.io/home/tags/r/</loc>
-    <lastmod>2020-11-04T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://shixiangwang.github.io/home/categories/r/</loc>
-    <lastmod>2020-11-04T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://shixiangwang.github.io/home/cn/post/2020-10-09-table-rules-in-r/</loc>
     <lastmod>2020-11-04T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://shixiangwang.github.io/home/tags/table/</loc>
-    <lastmod>2020-11-04T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://shixiangwang.github.io/home/tags/</loc>
     <lastmod>2020-11-04T00:00:00+00:00</lastmod>
   </url>
   
@@ -904,11 +914,6 @@
   
   <url>
     <loc>https://shixiangwang.github.io/home/en/tools/contribution-table/</loc>
-    <lastmod>2020-08-09T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://shixiangwang.github.io/home/tags/dplyr/</loc>
     <lastmod>2020-08-09T00:00:00+00:00</lastmod>
   </url>
   
