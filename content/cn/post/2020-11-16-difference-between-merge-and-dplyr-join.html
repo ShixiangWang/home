@@ -2,7 +2,7 @@
 title: "dplyr 里的 join 与 base 里的 merge 存在差异"
 author: "王诗翔"
 date: "2020-11-16"
-lastmod: "2020-11-16"
+lastmod: "2020-11-17"
 slug: ""
 # All available categories:
 # bioinformatics, config, docker, golang, life, linux, ml, r, read, shell, thinking
@@ -156,4 +156,47 @@ while (length(be_join) &gt; 0) {
 #&gt;   r1 r2 r3 r4 r5
 #&gt; 1 S2 S1 S1 S2 S1
 #&gt; 2 S1 S2 S2 S1 S2</code></pre>
+</div>
+<div id="更新" class="section level3">
+<h3>更新</h3>
+<p>在后面的一些使用过程中发现基础包的 <code>merge()</code> 函数在进行连接操作时会输出有问题的结果，所以建议使用的小伙伴仔细检查结果。下面更新了一个用于合并的函数：</p>
+<pre class="r"><code>reduceG &lt;- function(G) {
+  # Reduce elements of G if at least two elements
+  # contain common column names
+  # G &gt;= 2 elements here
+  if (length(G) &lt; 2) {
+    return(G)
+  }
+  cnames &lt;- purrr::map(G, colnames)
+  check_list &lt;- combn(seq_along(cnames), 2, simplify = FALSE)
+  common &lt;- purrr::map(check_list, ~ intersect(cnames[[.[1]]], cnames[[.[2]]]))
+
+  # Index to reduce
+  ri &lt;- purrr::map_lgl(common, ~ length(.) != 0)
+  if (any(ri)) {
+    purrr::map2(check_list[ri], common[ri], .f = function(x, y) {
+      if (!is.na(G[x[1]]) &amp; !is.na(G[x[2]])) {
+        # Update global G in reduceG
+        G[[min(x)]] &lt;&lt;- merge(G[[x[1]]], G[[x[2]]], by = y)
+        # to make sure the data is removed and the index
+        # is kept to avoid &quot;subscript out of bounds&quot; error
+        G[[max(x)]] &lt;&lt;- NA
+      }
+    })
+    # Remove elements set to NA
+    G &lt;- G[!is.na(G)]
+    return(reduceG(G))
+  } else {
+    return(G)
+  }
+}</code></pre>
+<p>测试结果：</p>
+<pre class="r"><code>reduceG(x)[[1]]
+#&gt;   r5 r1 r3 r4 r2
+#&gt; 1 S1 S2 S1 S2 S1
+#&gt; 2 S2 S1 S2 S1 S2
+reduceG(x2)[[1]]
+#&gt;    r5 r1 r3 r4 r2
+#&gt; 1: S1 S2 S1 S2 S1
+#&gt; 2: S2 S1 S2 S1 S2</code></pre>
 </div>
