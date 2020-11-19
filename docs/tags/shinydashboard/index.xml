@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>shinydashboard on Shixiang Wang | 王诗翔</title>
-    <link>https://shixiangwang.github.io/home/tags/shinydashboard/</link>
+    <link>/tags/shinydashboard/</link>
     <description>Recent content in shinydashboard on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 31 Aug 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://shixiangwang.github.io/home/tags/shinydashboard/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 31 Aug 2018 00:00:00 +0000</lastBuildDate><atom:link href="/tags/shinydashboard/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>使用shinydashboard</title>
-      <link>https://shixiangwang.github.io/home/cn/post/use-shinydashboard/</link>
+      <link>/cn/post/use-shinydashboard/</link>
       <pubDate>Fri, 31 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/cn/post/use-shinydashboard/</guid>
+      <guid>/cn/post/use-shinydashboard/</guid>
       <description>除了shiny包，RStudio还开发了一个shinydashboard扩展包，它呈现数据的方式就是专门用于概览或检测数据。 接下来的例子意在</description>
     </item>
     

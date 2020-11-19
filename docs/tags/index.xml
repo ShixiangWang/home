@@ -2,1574 +2,1574 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Shixiang Wang | 王诗翔</title>
-    <link>https://shixiangwang.github.io/home/tags/</link>
+    <link>/tags/</link>
     <description>Recent content in Tags on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 16 Nov 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://shixiangwang.github.io/home/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 16 Nov 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>dplyr</title>
-      <link>https://shixiangwang.github.io/home/tags/dplyr/</link>
+      <link>/tags/dplyr/</link>
       <pubDate>Mon, 16 Nov 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/dplyr/</guid>
+      <guid>/tags/dplyr/</guid>
       <description></description>
     </item>
     
     <item>
       <title>r</title>
-      <link>https://shixiangwang.github.io/home/tags/r/</link>
+      <link>/tags/r/</link>
       <pubDate>Mon, 16 Nov 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/r/</guid>
+      <guid>/tags/r/</guid>
       <description></description>
     </item>
     
     <item>
       <title>gt</title>
-      <link>https://shixiangwang.github.io/home/tags/gt/</link>
+      <link>/tags/gt/</link>
       <pubDate>Thu, 29 Oct 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/gt/</guid>
+      <guid>/tags/gt/</guid>
       <description></description>
     </item>
     
     <item>
       <title>limma</title>
-      <link>https://shixiangwang.github.io/home/tags/limma/</link>
+      <link>/tags/limma/</link>
       <pubDate>Thu, 29 Oct 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/limma/</guid>
+      <guid>/tags/limma/</guid>
       <description></description>
     </item>
     
     <item>
       <title>table</title>
-      <link>https://shixiangwang.github.io/home/tags/table/</link>
+      <link>/tags/table/</link>
       <pubDate>Thu, 29 Oct 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/table/</guid>
+      <guid>/tags/table/</guid>
       <description></description>
     </item>
     
     <item>
       <title>tidyverse</title>
-      <link>https://shixiangwang.github.io/home/tags/tidyverse/</link>
+      <link>/tags/tidyverse/</link>
       <pubDate>Thu, 29 Oct 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/tidyverse/</guid>
+      <guid>/tags/tidyverse/</guid>
       <description></description>
     </item>
     
     <item>
       <title>可视化</title>
-      <link>https://shixiangwang.github.io/home/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/</link>
+      <link>/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/</link>
       <pubDate>Thu, 29 Oct 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/</guid>
+      <guid>/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/</guid>
       <description></description>
     </item>
     
     <item>
       <title>基因芯片</title>
-      <link>https://shixiangwang.github.io/home/tags/%E5%9F%BA%E5%9B%A0%E8%8A%AF%E7%89%87/</link>
+      <link>/tags/%E5%9F%BA%E5%9B%A0%E8%8A%AF%E7%89%87/</link>
       <pubDate>Thu, 29 Oct 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/%E5%9F%BA%E5%9B%A0%E8%8A%AF%E7%89%87/</guid>
+      <guid>/tags/%E5%9F%BA%E5%9B%A0%E8%8A%AF%E7%89%87/</guid>
       <description></description>
     </item>
     
     <item>
       <title>差异分析</title>
-      <link>https://shixiangwang.github.io/home/tags/%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/</link>
+      <link>/tags/%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/</link>
       <pubDate>Thu, 29 Oct 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/</guid>
+      <guid>/tags/%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/</guid>
       <description></description>
     </item>
     
     <item>
       <title>doc</title>
-      <link>https://shixiangwang.github.io/home/tags/doc/</link>
+      <link>/tags/doc/</link>
       <pubDate>Mon, 26 Oct 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/doc/</guid>
+      <guid>/tags/doc/</guid>
       <description></description>
     </item>
     
     <item>
       <title>文档</title>
-      <link>https://shixiangwang.github.io/home/tags/%E6%96%87%E6%A1%A3/</link>
+      <link>/tags/%E6%96%87%E6%A1%A3/</link>
       <pubDate>Mon, 26 Oct 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/%E6%96%87%E6%A1%A3/</guid>
+      <guid>/tags/%E6%96%87%E6%A1%A3/</guid>
       <description></description>
     </item>
     
     <item>
       <title>poster</title>
-      <link>https://shixiangwang.github.io/home/tags/poster/</link>
+      <link>/tags/poster/</link>
       <pubDate>Sun, 18 Oct 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/poster/</guid>
+      <guid>/tags/poster/</guid>
       <description></description>
     </item>
     
     <item>
       <title>sigflow</title>
-      <link>https://shixiangwang.github.io/home/tags/sigflow/</link>
+      <link>/tags/sigflow/</link>
       <pubDate>Sun, 18 Oct 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/sigflow/</guid>
+      <guid>/tags/sigflow/</guid>
       <description></description>
     </item>
     
     <item>
       <title>sigminer</title>
-      <link>https://shixiangwang.github.io/home/tags/sigminer/</link>
+      <link>/tags/sigminer/</link>
       <pubDate>Sun, 18 Oct 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/sigminer/</guid>
+      <guid>/tags/sigminer/</guid>
       <description></description>
     </item>
     
     <item>
       <title>会议</title>
-      <link>https://shixiangwang.github.io/home/tags/%E4%BC%9A%E8%AE%AE/</link>
+      <link>/tags/%E4%BC%9A%E8%AE%AE/</link>
       <pubDate>Sun, 18 Oct 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/%E4%BC%9A%E8%AE%AE/</guid>
+      <guid>/tags/%E4%BC%9A%E8%AE%AE/</guid>
       <description></description>
     </item>
     
     <item>
       <title>glibc</title>
-      <link>https://shixiangwang.github.io/home/tags/glibc/</link>
+      <link>/tags/glibc/</link>
       <pubDate>Mon, 28 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/glibc/</guid>
+      <guid>/tags/glibc/</guid>
       <description></description>
     </item>
     
     <item>
       <title>linux</title>
-      <link>https://shixiangwang.github.io/home/tags/linux/</link>
+      <link>/tags/linux/</link>
       <pubDate>Mon, 28 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/linux/</guid>
+      <guid>/tags/linux/</guid>
       <description></description>
     </item>
     
     <item>
       <title>cor</title>
-      <link>https://shixiangwang.github.io/home/tags/cor/</link>
+      <link>/tags/cor/</link>
       <pubDate>Sun, 27 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/cor/</guid>
+      <guid>/tags/cor/</guid>
       <description></description>
     </item>
     
     <item>
       <title>correlation</title>
-      <link>https://shixiangwang.github.io/home/tags/correlation/</link>
+      <link>/tags/correlation/</link>
       <pubDate>Sun, 27 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/correlation/</guid>
+      <guid>/tags/correlation/</guid>
       <description></description>
     </item>
     
     <item>
       <title>pcor</title>
-      <link>https://shixiangwang.github.io/home/tags/pcor/</link>
+      <link>/tags/pcor/</link>
       <pubDate>Sun, 27 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/pcor/</guid>
+      <guid>/tags/pcor/</guid>
       <description></description>
     </item>
     
     <item>
       <title>cancer</title>
-      <link>https://shixiangwang.github.io/home/tags/cancer/</link>
+      <link>/tags/cancer/</link>
       <pubDate>Sat, 26 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/cancer/</guid>
+      <guid>/tags/cancer/</guid>
       <description></description>
     </item>
     
     <item>
       <title>genomics</title>
-      <link>https://shixiangwang.github.io/home/tags/genomics/</link>
+      <link>/tags/genomics/</link>
       <pubDate>Sat, 26 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/genomics/</guid>
+      <guid>/tags/genomics/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Xena</title>
-      <link>https://shixiangwang.github.io/home/tags/xena/</link>
+      <link>/tags/xena/</link>
       <pubDate>Sat, 26 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/xena/</guid>
+      <guid>/tags/xena/</guid>
       <description></description>
     </item>
     
     <item>
       <title>单基因分析</title>
-      <link>https://shixiangwang.github.io/home/tags/%E5%8D%95%E5%9F%BA%E5%9B%A0%E5%88%86%E6%9E%90/</link>
+      <link>/tags/%E5%8D%95%E5%9F%BA%E5%9B%A0%E5%88%86%E6%9E%90/</link>
       <pubDate>Sat, 26 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/%E5%8D%95%E5%9F%BA%E5%9B%A0%E5%88%86%E6%9E%90/</guid>
+      <guid>/tags/%E5%8D%95%E5%9F%BA%E5%9B%A0%E5%88%86%E6%9E%90/</guid>
       <description></description>
     </item>
     
     <item>
       <title>fit</title>
-      <link>https://shixiangwang.github.io/home/tags/fit/</link>
+      <link>/tags/fit/</link>
       <pubDate>Fri, 25 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/fit/</guid>
+      <guid>/tags/fit/</guid>
       <description></description>
     </item>
     
     <item>
       <title>ggplot2</title>
-      <link>https://shixiangwang.github.io/home/tags/ggplot2/</link>
+      <link>/tags/ggplot2/</link>
       <pubDate>Fri, 25 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/ggplot2/</guid>
+      <guid>/tags/ggplot2/</guid>
       <description></description>
     </item>
     
     <item>
       <title>regression</title>
-      <link>https://shixiangwang.github.io/home/tags/regression/</link>
+      <link>/tags/regression/</link>
       <pubDate>Fri, 25 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/regression/</guid>
+      <guid>/tags/regression/</guid>
       <description></description>
     </item>
     
     <item>
       <title>blogdown</title>
-      <link>https://shixiangwang.github.io/home/tags/blogdown/</link>
+      <link>/tags/blogdown/</link>
       <pubDate>Wed, 23 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/blogdown/</guid>
+      <guid>/tags/blogdown/</guid>
       <description></description>
     </item>
     
     <item>
       <title>bookdown</title>
-      <link>https://shixiangwang.github.io/home/tags/bookdown/</link>
+      <link>/tags/bookdown/</link>
       <pubDate>Wed, 23 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/bookdown/</guid>
+      <guid>/tags/bookdown/</guid>
       <description></description>
     </item>
     
     <item>
       <title>markdown</title>
-      <link>https://shixiangwang.github.io/home/tags/markdown/</link>
+      <link>/tags/markdown/</link>
       <pubDate>Wed, 23 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/markdown/</guid>
+      <guid>/tags/markdown/</guid>
       <description></description>
     </item>
     
     <item>
       <title>pandoc</title>
-      <link>https://shixiangwang.github.io/home/tags/pandoc/</link>
+      <link>/tags/pandoc/</link>
       <pubDate>Wed, 23 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/pandoc/</guid>
+      <guid>/tags/pandoc/</guid>
       <description></description>
     </item>
     
     <item>
       <title>rmarkdown</title>
-      <link>https://shixiangwang.github.io/home/tags/rmarkdown/</link>
+      <link>/tags/rmarkdown/</link>
       <pubDate>Wed, 23 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/rmarkdown/</guid>
+      <guid>/tags/rmarkdown/</guid>
       <description></description>
     </item>
     
     <item>
       <title>typora</title>
-      <link>https://shixiangwang.github.io/home/tags/typora/</link>
+      <link>/tags/typora/</link>
       <pubDate>Wed, 23 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/typora/</guid>
+      <guid>/tags/typora/</guid>
       <description></description>
     </item>
     
     <item>
       <title>machine-learning</title>
-      <link>https://shixiangwang.github.io/home/tags/machine-learning/</link>
+      <link>/tags/machine-learning/</link>
       <pubDate>Mon, 21 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/machine-learning/</guid>
+      <guid>/tags/machine-learning/</guid>
       <description></description>
     </item>
     
     <item>
       <title>math</title>
-      <link>https://shixiangwang.github.io/home/tags/math/</link>
+      <link>/tags/math/</link>
       <pubDate>Mon, 21 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/math/</guid>
+      <guid>/tags/math/</guid>
       <description></description>
     </item>
     
     <item>
       <title>统计</title>
-      <link>https://shixiangwang.github.io/home/tags/%E7%BB%9F%E8%AE%A1/</link>
+      <link>/tags/%E7%BB%9F%E8%AE%A1/</link>
       <pubDate>Mon, 21 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/%E7%BB%9F%E8%AE%A1/</guid>
+      <guid>/tags/%E7%BB%9F%E8%AE%A1/</guid>
       <description></description>
     </item>
     
     <item>
       <title>bioinformatics</title>
-      <link>https://shixiangwang.github.io/home/tags/bioinformatics/</link>
+      <link>/tags/bioinformatics/</link>
       <pubDate>Sun, 20 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/bioinformatics/</guid>
+      <guid>/tags/bioinformatics/</guid>
       <description></description>
     </item>
     
     <item>
       <title>programmer</title>
-      <link>https://shixiangwang.github.io/home/tags/programmer/</link>
+      <link>/tags/programmer/</link>
       <pubDate>Sun, 20 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/programmer/</guid>
+      <guid>/tags/programmer/</guid>
       <description></description>
     </item>
     
     <item>
       <title>golang</title>
-      <link>https://shixiangwang.github.io/home/tags/golang/</link>
+      <link>/tags/golang/</link>
       <pubDate>Sat, 19 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/golang/</guid>
+      <guid>/tags/golang/</guid>
       <description></description>
     </item>
     
     <item>
       <title>parallel</title>
-      <link>https://shixiangwang.github.io/home/tags/parallel/</link>
+      <link>/tags/parallel/</link>
       <pubDate>Sat, 19 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/parallel/</guid>
+      <guid>/tags/parallel/</guid>
       <description></description>
     </item>
     
     <item>
       <title>rush</title>
-      <link>https://shixiangwang.github.io/home/tags/rush/</link>
+      <link>/tags/rush/</link>
       <pubDate>Sat, 19 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/rush/</guid>
+      <guid>/tags/rush/</guid>
       <description></description>
     </item>
     
     <item>
       <title>shell</title>
-      <link>https://shixiangwang.github.io/home/tags/shell/</link>
+      <link>/tags/shell/</link>
       <pubDate>Sat, 19 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/shell/</guid>
+      <guid>/tags/shell/</guid>
       <description></description>
     </item>
     
     <item>
       <title>elastic-net</title>
-      <link>https://shixiangwang.github.io/home/tags/elastic-net/</link>
+      <link>/tags/elastic-net/</link>
       <pubDate>Mon, 14 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/elastic-net/</guid>
+      <guid>/tags/elastic-net/</guid>
       <description></description>
     </item>
     
     <item>
       <title>lasso</title>
-      <link>https://shixiangwang.github.io/home/tags/lasso/</link>
+      <link>/tags/lasso/</link>
       <pubDate>Mon, 14 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/lasso/</guid>
+      <guid>/tags/lasso/</guid>
       <description></description>
     </item>
     
     <item>
       <title>matrix</title>
-      <link>https://shixiangwang.github.io/home/tags/matrix/</link>
+      <link>/tags/matrix/</link>
       <pubDate>Mon, 14 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/matrix/</guid>
+      <guid>/tags/matrix/</guid>
       <description></description>
     </item>
     
     <item>
       <title>ridge</title>
-      <link>https://shixiangwang.github.io/home/tags/ridge/</link>
+      <link>/tags/ridge/</link>
       <pubDate>Mon, 14 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/ridge/</guid>
+      <guid>/tags/ridge/</guid>
       <description></description>
     </item>
     
     <item>
       <title>因果</title>
-      <link>https://shixiangwang.github.io/home/tags/%E5%9B%A0%E6%9E%9C/</link>
+      <link>/tags/%E5%9B%A0%E6%9E%9C/</link>
       <pubDate>Sun, 13 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/%E5%9B%A0%E6%9E%9C/</guid>
+      <guid>/tags/%E5%9B%A0%E6%9E%9C/</guid>
       <description></description>
     </item>
     
     <item>
       <title>相关</title>
-      <link>https://shixiangwang.github.io/home/tags/%E7%9B%B8%E5%85%B3/</link>
+      <link>/tags/%E7%9B%B8%E5%85%B3/</link>
       <pubDate>Sun, 13 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/%E7%9B%B8%E5%85%B3/</guid>
+      <guid>/tags/%E7%9B%B8%E5%85%B3/</guid>
       <description></description>
     </item>
     
     <item>
       <title>chrome</title>
-      <link>https://shixiangwang.github.io/home/tags/chrome/</link>
+      <link>/tags/chrome/</link>
       <pubDate>Wed, 09 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/chrome/</guid>
+      <guid>/tags/chrome/</guid>
       <description></description>
     </item>
     
     <item>
       <title>extension</title>
-      <link>https://shixiangwang.github.io/home/tags/extension/</link>
+      <link>/tags/extension/</link>
       <pubDate>Wed, 09 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/extension/</guid>
+      <guid>/tags/extension/</guid>
       <description></description>
     </item>
     
     <item>
       <title>stackoverflow</title>
-      <link>https://shixiangwang.github.io/home/tags/stackoverflow/</link>
+      <link>/tags/stackoverflow/</link>
       <pubDate>Wed, 09 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/stackoverflow/</guid>
+      <guid>/tags/stackoverflow/</guid>
       <description></description>
     </item>
     
     <item>
       <title>wechat</title>
-      <link>https://shixiangwang.github.io/home/tags/wechat/</link>
+      <link>/tags/wechat/</link>
       <pubDate>Wed, 09 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/wechat/</guid>
+      <guid>/tags/wechat/</guid>
       <description></description>
     </item>
     
     <item>
       <title>c&#43;&#43;</title>
-      <link>https://shixiangwang.github.io/home/tags/c&#43;&#43;/</link>
+      <link>/tags/c&#43;&#43;/</link>
       <pubDate>Tue, 08 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/c&#43;&#43;/</guid>
+      <guid>/tags/c&#43;&#43;/</guid>
       <description></description>
     </item>
     
     <item>
       <title>rcpp</title>
-      <link>https://shixiangwang.github.io/home/tags/rcpp/</link>
+      <link>/tags/rcpp/</link>
       <pubDate>Tue, 08 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/rcpp/</guid>
+      <guid>/tags/rcpp/</guid>
       <description></description>
     </item>
     
     <item>
       <title>dotplot</title>
-      <link>https://shixiangwang.github.io/home/tags/dotplot/</link>
+      <link>/tags/dotplot/</link>
       <pubDate>Fri, 04 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/dotplot/</guid>
+      <guid>/tags/dotplot/</guid>
       <description></description>
     </item>
     
     <item>
       <title>plot</title>
-      <link>https://shixiangwang.github.io/home/tags/plot/</link>
+      <link>/tags/plot/</link>
       <pubDate>Fri, 04 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/plot/</guid>
+      <guid>/tags/plot/</guid>
       <description></description>
     </item>
     
     <item>
       <title>commit</title>
-      <link>https://shixiangwang.github.io/home/tags/commit/</link>
+      <link>/tags/commit/</link>
       <pubDate>Mon, 31 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/commit/</guid>
+      <guid>/tags/commit/</guid>
       <description></description>
     </item>
     
     <item>
       <title>git</title>
-      <link>https://shixiangwang.github.io/home/tags/git/</link>
+      <link>/tags/git/</link>
       <pubDate>Mon, 31 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/git/</guid>
+      <guid>/tags/git/</guid>
       <description></description>
     </item>
     
     <item>
       <title>datatype</title>
-      <link>https://shixiangwang.github.io/home/tags/datatype/</link>
+      <link>/tags/datatype/</link>
       <pubDate>Wed, 26 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/datatype/</guid>
+      <guid>/tags/datatype/</guid>
       <description></description>
     </item>
     
     <item>
       <title>数据结构</title>
-      <link>https://shixiangwang.github.io/home/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</link>
+      <link>/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</link>
       <pubDate>Wed, 26 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</guid>
+      <guid>/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</guid>
       <description></description>
     </item>
     
     <item>
       <title>索引</title>
-      <link>https://shixiangwang.github.io/home/tags/%E7%B4%A2%E5%BC%95/</link>
+      <link>/tags/%E7%B4%A2%E5%BC%95/</link>
       <pubDate>Tue, 18 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/%E7%B4%A2%E5%BC%95/</guid>
+      <guid>/tags/%E7%B4%A2%E5%BC%95/</guid>
       <description></description>
     </item>
     
     <item>
       <title>编程</title>
-      <link>https://shixiangwang.github.io/home/tags/%E7%BC%96%E7%A8%8B/</link>
+      <link>/tags/%E7%BC%96%E7%A8%8B/</link>
       <pubDate>Tue, 18 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/%E7%BC%96%E7%A8%8B/</guid>
+      <guid>/tags/%E7%BC%96%E7%A8%8B/</guid>
       <description></description>
     </item>
     
     <item>
       <title>google</title>
-      <link>https://shixiangwang.github.io/home/tags/google/</link>
+      <link>/tags/google/</link>
       <pubDate>Sun, 16 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/google/</guid>
+      <guid>/tags/google/</guid>
       <description></description>
     </item>
     
     <item>
       <title>学术</title>
-      <link>https://shixiangwang.github.io/home/tags/%E5%AD%A6%E6%9C%AF/</link>
+      <link>/tags/%E5%AD%A6%E6%9C%AF/</link>
       <pubDate>Sun, 16 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/%E5%AD%A6%E6%9C%AF/</guid>
+      <guid>/tags/%E5%AD%A6%E6%9C%AF/</guid>
       <description></description>
     </item>
     
     <item>
       <title>.Rprofile</title>
-      <link>https://shixiangwang.github.io/home/tags/.rprofile/</link>
+      <link>/tags/.rprofile/</link>
       <pubDate>Thu, 13 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/.rprofile/</guid>
+      <guid>/tags/.rprofile/</guid>
       <description></description>
     </item>
     
     <item>
       <title>config</title>
-      <link>https://shixiangwang.github.io/home/tags/config/</link>
+      <link>/tags/config/</link>
       <pubDate>Thu, 13 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/config/</guid>
+      <guid>/tags/config/</guid>
       <description></description>
     </item>
     
     <item>
       <title>figure</title>
-      <link>https://shixiangwang.github.io/home/tags/figure/</link>
+      <link>/tags/figure/</link>
       <pubDate>Mon, 10 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/figure/</guid>
+      <guid>/tags/figure/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Gitee</title>
-      <link>https://shixiangwang.github.io/home/tags/gitee/</link>
+      <link>/tags/gitee/</link>
       <pubDate>Mon, 10 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/gitee/</guid>
+      <guid>/tags/gitee/</guid>
       <description></description>
     </item>
     
     <item>
       <title>hugo</title>
-      <link>https://shixiangwang.github.io/home/tags/hugo/</link>
+      <link>/tags/hugo/</link>
       <pubDate>Mon, 10 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/hugo/</guid>
+      <guid>/tags/hugo/</guid>
       <description></description>
     </item>
     
     <item>
       <title>image</title>
-      <link>https://shixiangwang.github.io/home/tags/image/</link>
+      <link>/tags/image/</link>
       <pubDate>Mon, 10 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/image/</guid>
+      <guid>/tags/image/</guid>
       <description></description>
     </item>
     
     <item>
       <title>PicGo</title>
-      <link>https://shixiangwang.github.io/home/tags/picgo/</link>
+      <link>/tags/picgo/</link>
       <pubDate>Mon, 10 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/picgo/</guid>
+      <guid>/tags/picgo/</guid>
       <description></description>
     </item>
     
     <item>
       <title>ssh</title>
-      <link>https://shixiangwang.github.io/home/tags/ssh/</link>
+      <link>/tags/ssh/</link>
       <pubDate>Mon, 10 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/ssh/</guid>
+      <guid>/tags/ssh/</guid>
       <description></description>
     </item>
     
     <item>
       <title>云图床</title>
-      <link>https://shixiangwang.github.io/home/tags/%E4%BA%91%E5%9B%BE%E5%BA%8A/</link>
+      <link>/tags/%E4%BA%91%E5%9B%BE%E5%BA%8A/</link>
       <pubDate>Mon, 10 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/%E4%BA%91%E5%9B%BE%E5%BA%8A/</guid>
+      <guid>/tags/%E4%BA%91%E5%9B%BE%E5%BA%8A/</guid>
       <description></description>
     </item>
     
     <item>
       <title>公钥</title>
-      <link>https://shixiangwang.github.io/home/tags/%E5%85%AC%E9%92%A5/</link>
+      <link>/tags/%E5%85%AC%E9%92%A5/</link>
       <pubDate>Mon, 10 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/%E5%85%AC%E9%92%A5/</guid>
+      <guid>/tags/%E5%85%AC%E9%92%A5/</guid>
       <description></description>
     </item>
     
     <item>
       <title>internal</title>
-      <link>https://shixiangwang.github.io/home/tags/internal/</link>
+      <link>/tags/internal/</link>
       <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/internal/</guid>
+      <guid>/tags/internal/</guid>
       <description></description>
     </item>
     
     <item>
       <title>package</title>
-      <link>https://shixiangwang.github.io/home/tags/package/</link>
+      <link>/tags/package/</link>
       <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/package/</guid>
+      <guid>/tags/package/</guid>
       <description></description>
     </item>
     
     <item>
       <title>UCSCXenaTools</title>
-      <link>https://shixiangwang.github.io/home/tags/ucscxenatools/</link>
+      <link>/tags/ucscxenatools/</link>
       <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/ucscxenatools/</guid>
+      <guid>/tags/ucscxenatools/</guid>
       <description></description>
     </item>
     
     <item>
       <title>docker</title>
-      <link>https://shixiangwang.github.io/home/tags/docker/</link>
+      <link>/tags/docker/</link>
       <pubDate>Thu, 06 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/docker/</guid>
+      <guid>/tags/docker/</guid>
       <description></description>
     </item>
     
     <item>
       <title>entrypoint</title>
-      <link>https://shixiangwang.github.io/home/tags/entrypoint/</link>
+      <link>/tags/entrypoint/</link>
       <pubDate>Thu, 06 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/entrypoint/</guid>
+      <guid>/tags/entrypoint/</guid>
       <description></description>
     </item>
     
     <item>
       <title>os</title>
-      <link>https://shixiangwang.github.io/home/tags/os/</link>
+      <link>/tags/os/</link>
       <pubDate>Mon, 03 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/os/</guid>
+      <guid>/tags/os/</guid>
       <description></description>
     </item>
     
     <item>
       <title>mutational-signature</title>
-      <link>https://shixiangwang.github.io/home/tags/mutational-signature/</link>
+      <link>/tags/mutational-signature/</link>
       <pubDate>Sun, 07 Jun 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/mutational-signature/</guid>
+      <guid>/tags/mutational-signature/</guid>
       <description></description>
     </item>
     
     <item>
       <title>bug</title>
-      <link>https://shixiangwang.github.io/home/tags/bug/</link>
+      <link>/tags/bug/</link>
       <pubDate>Mon, 11 May 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/bug/</guid>
+      <guid>/tags/bug/</guid>
       <description></description>
     </item>
     
     <item>
       <title>png</title>
-      <link>https://shixiangwang.github.io/home/tags/png/</link>
+      <link>/tags/png/</link>
       <pubDate>Mon, 11 May 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/png/</guid>
+      <guid>/tags/png/</guid>
       <description></description>
     </item>
     
     <item>
       <title>ezcox</title>
-      <link>https://shixiangwang.github.io/home/tags/ezcox/</link>
+      <link>/tags/ezcox/</link>
       <pubDate>Sat, 02 May 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/ezcox/</guid>
+      <guid>/tags/ezcox/</guid>
       <description></description>
     </item>
     
     <item>
       <title>forestplot</title>
-      <link>https://shixiangwang.github.io/home/tags/forestplot/</link>
+      <link>/tags/forestplot/</link>
       <pubDate>Sat, 02 May 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/forestplot/</guid>
+      <guid>/tags/forestplot/</guid>
       <description></description>
     </item>
     
     <item>
       <title>life</title>
-      <link>https://shixiangwang.github.io/home/tags/life/</link>
+      <link>/tags/life/</link>
       <pubDate>Wed, 29 Apr 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/life/</guid>
+      <guid>/tags/life/</guid>
       <description></description>
     </item>
     
     <item>
       <title>poem</title>
-      <link>https://shixiangwang.github.io/home/tags/poem/</link>
+      <link>/tags/poem/</link>
       <pubDate>Wed, 29 Apr 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/poem/</guid>
+      <guid>/tags/poem/</guid>
       <description></description>
     </item>
     
     <item>
       <title>model</title>
-      <link>https://shixiangwang.github.io/home/tags/model/</link>
+      <link>/tags/model/</link>
       <pubDate>Fri, 24 Apr 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/model/</guid>
+      <guid>/tags/model/</guid>
       <description></description>
     </item>
     
     <item>
       <title>do.call</title>
-      <link>https://shixiangwang.github.io/home/tags/do.call/</link>
+      <link>/tags/do.call/</link>
       <pubDate>Tue, 21 Apr 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/do.call/</guid>
+      <guid>/tags/do.call/</guid>
       <description></description>
     </item>
     
     <item>
       <title>heart</title>
-      <link>https://shixiangwang.github.io/home/tags/heart/</link>
+      <link>/tags/heart/</link>
       <pubDate>Fri, 24 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/heart/</guid>
+      <guid>/tags/heart/</guid>
       <description></description>
     </item>
     
     <item>
       <title>cox</title>
-      <link>https://shixiangwang.github.io/home/tags/cox/</link>
+      <link>/tags/cox/</link>
       <pubDate>Mon, 13 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/cox/</guid>
+      <guid>/tags/cox/</guid>
       <description></description>
     </item>
     
     <item>
       <title>python</title>
-      <link>https://shixiangwang.github.io/home/tags/python/</link>
+      <link>/tags/python/</link>
       <pubDate>Wed, 01 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/python/</guid>
+      <guid>/tags/python/</guid>
       <description></description>
     </item>
     
     <item>
       <title>summary</title>
-      <link>https://shixiangwang.github.io/home/tags/summary/</link>
+      <link>/tags/summary/</link>
       <pubDate>Wed, 01 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/summary/</guid>
+      <guid>/tags/summary/</guid>
       <description></description>
     </item>
     
     <item>
       <title>stats</title>
-      <link>https://shixiangwang.github.io/home/tags/stats/</link>
+      <link>/tags/stats/</link>
       <pubDate>Wed, 25 Dec 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/stats/</guid>
+      <guid>/tags/stats/</guid>
       <description></description>
     </item>
     
     <item>
       <title>batch</title>
-      <link>https://shixiangwang.github.io/home/tags/batch/</link>
+      <link>/tags/batch/</link>
       <pubDate>Wed, 23 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/batch/</guid>
+      <guid>/tags/batch/</guid>
       <description></description>
     </item>
     
     <item>
       <title>font</title>
-      <link>https://shixiangwang.github.io/home/tags/font/</link>
+      <link>/tags/font/</link>
       <pubDate>Fri, 18 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/font/</guid>
+      <guid>/tags/font/</guid>
       <description></description>
     </item>
     
     <item>
       <title>ROC</title>
-      <link>https://shixiangwang.github.io/home/tags/roc/</link>
+      <link>/tags/roc/</link>
       <pubDate>Fri, 18 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/roc/</guid>
+      <guid>/tags/roc/</guid>
       <description></description>
     </item>
     
     <item>
       <title>rstudio</title>
-      <link>https://shixiangwang.github.io/home/tags/rstudio/</link>
+      <link>/tags/rstudio/</link>
       <pubDate>Fri, 18 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/rstudio/</guid>
+      <guid>/tags/rstudio/</guid>
       <description></description>
     </item>
     
     <item>
       <title>vscode</title>
-      <link>https://shixiangwang.github.io/home/tags/vscode/</link>
+      <link>/tags/vscode/</link>
       <pubDate>Fri, 18 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/vscode/</guid>
+      <guid>/tags/vscode/</guid>
       <description></description>
     </item>
     
     <item>
       <title>flexmix</title>
-      <link>https://shixiangwang.github.io/home/tags/flexmix/</link>
+      <link>/tags/flexmix/</link>
       <pubDate>Fri, 06 Sep 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/flexmix/</guid>
+      <guid>/tags/flexmix/</guid>
       <description></description>
     </item>
     
     <item>
       <title>data-access</title>
-      <link>https://shixiangwang.github.io/home/tags/data-access/</link>
+      <link>/tags/data-access/</link>
       <pubDate>Sun, 25 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/data-access/</guid>
+      <guid>/tags/data-access/</guid>
       <description></description>
     </item>
     
     <item>
       <title>software</title>
-      <link>https://shixiangwang.github.io/home/tags/software/</link>
+      <link>/tags/software/</link>
       <pubDate>Sun, 25 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/software/</guid>
+      <guid>/tags/software/</guid>
       <description></description>
     </item>
     
     <item>
       <title>survival-analysis</title>
-      <link>https://shixiangwang.github.io/home/tags/survival-analysis/</link>
+      <link>/tags/survival-analysis/</link>
       <pubDate>Sun, 25 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/survival-analysis/</guid>
+      <guid>/tags/survival-analysis/</guid>
       <description></description>
     </item>
     
     <item>
       <title>dbGap</title>
-      <link>https://shixiangwang.github.io/home/tags/dbgap/</link>
+      <link>/tags/dbgap/</link>
       <pubDate>Fri, 23 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/dbgap/</guid>
+      <guid>/tags/dbgap/</guid>
       <description></description>
     </item>
     
     <item>
       <title>database</title>
-      <link>https://shixiangwang.github.io/home/tags/database/</link>
+      <link>/tags/database/</link>
       <pubDate>Thu, 22 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/database/</guid>
+      <guid>/tags/database/</guid>
       <description></description>
     </item>
     
     <item>
       <title>meta-analysis</title>
-      <link>https://shixiangwang.github.io/home/tags/meta-analysis/</link>
+      <link>/tags/meta-analysis/</link>
       <pubDate>Thu, 22 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/meta-analysis/</guid>
+      <guid>/tags/meta-analysis/</guid>
       <description></description>
     </item>
     
     <item>
       <title>mysql</title>
-      <link>https://shixiangwang.github.io/home/tags/mysql/</link>
+      <link>/tags/mysql/</link>
       <pubDate>Thu, 22 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/mysql/</guid>
+      <guid>/tags/mysql/</guid>
       <description></description>
     </item>
     
     <item>
       <title>ggplotify</title>
-      <link>https://shixiangwang.github.io/home/tags/ggplotify/</link>
+      <link>/tags/ggplotify/</link>
       <pubDate>Mon, 05 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/ggplotify/</guid>
+      <guid>/tags/ggplotify/</guid>
       <description></description>
     </item>
     
     <item>
       <title>rlang</title>
-      <link>https://shixiangwang.github.io/home/tags/rlang/</link>
+      <link>/tags/rlang/</link>
       <pubDate>Sun, 04 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/rlang/</guid>
+      <guid>/tags/rlang/</guid>
       <description></description>
     </item>
     
     <item>
       <title>tidyeval</title>
-      <link>https://shixiangwang.github.io/home/tags/tidyeval/</link>
+      <link>/tags/tidyeval/</link>
       <pubDate>Sun, 04 Aug 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/tidyeval/</guid>
+      <guid>/tags/tidyeval/</guid>
       <description></description>
     </item>
     
     <item>
       <title>contribution</title>
-      <link>https://shixiangwang.github.io/home/tags/contribution/</link>
+      <link>/tags/contribution/</link>
       <pubDate>Sat, 13 Jul 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/contribution/</guid>
+      <guid>/tags/contribution/</guid>
       <description></description>
     </item>
     
     <item>
       <title>meta-programming</title>
-      <link>https://shixiangwang.github.io/home/tags/meta-programming/</link>
+      <link>/tags/meta-programming/</link>
       <pubDate>Mon, 08 Jul 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/meta-programming/</guid>
+      <guid>/tags/meta-programming/</guid>
       <description></description>
     </item>
     
     <item>
       <title>tensorflow</title>
-      <link>https://shixiangwang.github.io/home/tags/tensorflow/</link>
+      <link>/tags/tensorflow/</link>
       <pubDate>Thu, 04 Jul 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/tensorflow/</guid>
+      <guid>/tags/tensorflow/</guid>
       <description></description>
     </item>
     
     <item>
       <title>base-plot</title>
-      <link>https://shixiangwang.github.io/home/tags/base-plot/</link>
+      <link>/tags/base-plot/</link>
       <pubDate>Fri, 21 Jun 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/base-plot/</guid>
+      <guid>/tags/base-plot/</guid>
       <description></description>
     </item>
     
     <item>
       <title>installation</title>
-      <link>https://shixiangwang.github.io/home/tags/installation/</link>
+      <link>/tags/installation/</link>
       <pubDate>Fri, 21 Jun 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/installation/</guid>
+      <guid>/tags/installation/</guid>
       <description></description>
     </item>
     
     <item>
       <title>multiple-plots</title>
-      <link>https://shixiangwang.github.io/home/tags/multiple-plots/</link>
+      <link>/tags/multiple-plots/</link>
       <pubDate>Fri, 21 Jun 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/multiple-plots/</guid>
+      <guid>/tags/multiple-plots/</guid>
       <description></description>
     </item>
     
     <item>
       <title>logo</title>
-      <link>https://shixiangwang.github.io/home/tags/logo/</link>
+      <link>/tags/logo/</link>
       <pubDate>Thu, 20 Jun 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/logo/</guid>
+      <guid>/tags/logo/</guid>
       <description></description>
     </item>
     
     <item>
       <title>sci</title>
-      <link>https://shixiangwang.github.io/home/tags/sci/</link>
+      <link>/tags/sci/</link>
       <pubDate>Thu, 20 Jun 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/sci/</guid>
+      <guid>/tags/sci/</guid>
       <description></description>
     </item>
     
     <item>
       <title>writing</title>
-      <link>https://shixiangwang.github.io/home/tags/writing/</link>
+      <link>/tags/writing/</link>
       <pubDate>Thu, 20 Jun 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/writing/</guid>
+      <guid>/tags/writing/</guid>
       <description></description>
     </item>
     
     <item>
       <title>essay</title>
-      <link>https://shixiangwang.github.io/home/tags/essay/</link>
+      <link>/tags/essay/</link>
       <pubDate>Wed, 05 Jun 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/essay/</guid>
+      <guid>/tags/essay/</guid>
       <description></description>
     </item>
     
     <item>
       <title>thinking</title>
-      <link>https://shixiangwang.github.io/home/tags/thinking/</link>
+      <link>/tags/thinking/</link>
       <pubDate>Wed, 05 Jun 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/thinking/</guid>
+      <guid>/tags/thinking/</guid>
       <description></description>
     </item>
     
     <item>
       <title>heatmap</title>
-      <link>https://shixiangwang.github.io/home/tags/heatmap/</link>
+      <link>/tags/heatmap/</link>
       <pubDate>Thu, 20 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/heatmap/</guid>
+      <guid>/tags/heatmap/</guid>
       <description></description>
     </item>
     
     <item>
       <title>NMF</title>
-      <link>https://shixiangwang.github.io/home/tags/nmf/</link>
+      <link>/tags/nmf/</link>
       <pubDate>Thu, 20 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/nmf/</guid>
+      <guid>/tags/nmf/</guid>
       <description></description>
     </item>
     
     <item>
       <title>broom</title>
-      <link>https://shixiangwang.github.io/home/tags/broom/</link>
+      <link>/tags/broom/</link>
       <pubDate>Mon, 15 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/broom/</guid>
+      <guid>/tags/broom/</guid>
       <description></description>
     </item>
     
     <item>
       <title>iteration</title>
-      <link>https://shixiangwang.github.io/home/tags/iteration/</link>
+      <link>/tags/iteration/</link>
       <pubDate>Mon, 15 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/iteration/</guid>
+      <guid>/tags/iteration/</guid>
       <description></description>
     </item>
     
     <item>
       <title>purrr</title>
-      <link>https://shixiangwang.github.io/home/tags/purrr/</link>
+      <link>/tags/purrr/</link>
       <pubDate>Mon, 15 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/purrr/</guid>
+      <guid>/tags/purrr/</guid>
       <description></description>
     </item>
     
     <item>
       <title>modeling</title>
-      <link>https://shixiangwang.github.io/home/tags/modeling/</link>
+      <link>/tags/modeling/</link>
       <pubDate>Fri, 05 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/modeling/</guid>
+      <guid>/tags/modeling/</guid>
       <description></description>
     </item>
     
     <item>
       <title>modelr</title>
-      <link>https://shixiangwang.github.io/home/tags/modelr/</link>
+      <link>/tags/modelr/</link>
       <pubDate>Fri, 05 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/modelr/</guid>
+      <guid>/tags/modelr/</guid>
       <description></description>
     </item>
     
     <item>
       <title>loop</title>
-      <link>https://shixiangwang.github.io/home/tags/loop/</link>
+      <link>/tags/loop/</link>
       <pubDate>Thu, 04 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/loop/</guid>
+      <guid>/tags/loop/</guid>
       <description></description>
     </item>
     
     <item>
       <title>linear-regression</title>
-      <link>https://shixiangwang.github.io/home/tags/linear-regression/</link>
+      <link>/tags/linear-regression/</link>
       <pubDate>Sun, 30 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/linear-regression/</guid>
+      <guid>/tags/linear-regression/</guid>
       <description></description>
     </item>
     
     <item>
       <title>prediction</title>
-      <link>https://shixiangwang.github.io/home/tags/prediction/</link>
+      <link>/tags/prediction/</link>
       <pubDate>Sun, 30 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/prediction/</guid>
+      <guid>/tags/prediction/</guid>
       <description></description>
     </item>
     
     <item>
       <title>string</title>
-      <link>https://shixiangwang.github.io/home/tags/string/</link>
+      <link>/tags/string/</link>
       <pubDate>Mon, 17 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/string/</guid>
+      <guid>/tags/string/</guid>
       <description></description>
     </item>
     
     <item>
       <title>stringr</title>
-      <link>https://shixiangwang.github.io/home/tags/stringr/</link>
+      <link>/tags/stringr/</link>
       <pubDate>Mon, 17 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/stringr/</guid>
+      <guid>/tags/stringr/</guid>
       <description></description>
     </item>
     
     <item>
       <title>text-processing</title>
-      <link>https://shixiangwang.github.io/home/tags/text-processing/</link>
+      <link>/tags/text-processing/</link>
       <pubDate>Mon, 17 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/text-processing/</guid>
+      <guid>/tags/text-processing/</guid>
       <description></description>
     </item>
     
     <item>
       <title>爬虫</title>
-      <link>https://shixiangwang.github.io/home/tags/%E7%88%AC%E8%99%AB/</link>
+      <link>/tags/%E7%88%AC%E8%99%AB/</link>
       <pubDate>Mon, 17 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/%E7%88%AC%E8%99%AB/</guid>
+      <guid>/tags/%E7%88%AC%E8%99%AB/</guid>
       <description></description>
     </item>
     
     <item>
       <title>shiny</title>
-      <link>https://shixiangwang.github.io/home/tags/shiny/</link>
+      <link>/tags/shiny/</link>
       <pubDate>Fri, 31 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/shiny/</guid>
+      <guid>/tags/shiny/</guid>
       <description></description>
     </item>
     
     <item>
       <title>shinydashboard</title>
-      <link>https://shixiangwang.github.io/home/tags/shinydashboard/</link>
+      <link>/tags/shinydashboard/</link>
       <pubDate>Fri, 31 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/shinydashboard/</guid>
+      <guid>/tags/shinydashboard/</guid>
       <description></description>
     </item>
     
     <item>
       <title>HPC</title>
-      <link>https://shixiangwang.github.io/home/tags/hpc/</link>
+      <link>/tags/hpc/</link>
       <pubDate>Wed, 29 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/hpc/</guid>
+      <guid>/tags/hpc/</guid>
       <description></description>
     </item>
     
     <item>
       <title>data.table</title>
-      <link>https://shixiangwang.github.io/home/tags/data.table/</link>
+      <link>/tags/data.table/</link>
       <pubDate>Sat, 25 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/data.table/</guid>
+      <guid>/tags/data.table/</guid>
       <description></description>
     </item>
     
     <item>
       <title>rlist</title>
-      <link>https://shixiangwang.github.io/home/tags/rlist/</link>
+      <link>/tags/rlist/</link>
       <pubDate>Sat, 25 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/rlist/</guid>
+      <guid>/tags/rlist/</guid>
       <description></description>
     </item>
     
     <item>
       <title>sqldf</title>
-      <link>https://shixiangwang.github.io/home/tags/sqldf/</link>
+      <link>/tags/sqldf/</link>
       <pubDate>Sat, 25 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/sqldf/</guid>
+      <guid>/tags/sqldf/</guid>
       <description></description>
     </item>
     
     <item>
       <title>MongoDB</title>
-      <link>https://shixiangwang.github.io/home/tags/mongodb/</link>
+      <link>/tags/mongodb/</link>
       <pubDate>Sun, 19 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/mongodb/</guid>
+      <guid>/tags/mongodb/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Redis</title>
-      <link>https://shixiangwang.github.io/home/tags/redis/</link>
+      <link>/tags/redis/</link>
       <pubDate>Sun, 19 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/redis/</guid>
+      <guid>/tags/redis/</guid>
       <description></description>
     </item>
     
     <item>
       <title>SQL</title>
-      <link>https://shixiangwang.github.io/home/tags/sql/</link>
+      <link>/tags/sql/</link>
       <pubDate>Sun, 19 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/sql/</guid>
+      <guid>/tags/sql/</guid>
       <description></description>
     </item>
     
     <item>
       <title>SQLite</title>
-      <link>https://shixiangwang.github.io/home/tags/sqlite/</link>
+      <link>/tags/sqlite/</link>
       <pubDate>Sun, 19 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/sqlite/</guid>
+      <guid>/tags/sqlite/</guid>
       <description></description>
     </item>
     
     <item>
       <title>class</title>
-      <link>https://shixiangwang.github.io/home/tags/class/</link>
+      <link>/tags/class/</link>
       <pubDate>Sat, 18 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/class/</guid>
+      <guid>/tags/class/</guid>
       <description></description>
     </item>
     
     <item>
       <title>instance</title>
-      <link>https://shixiangwang.github.io/home/tags/instance/</link>
+      <link>/tags/instance/</link>
       <pubDate>Sat, 18 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/instance/</guid>
+      <guid>/tags/instance/</guid>
       <description></description>
     </item>
     
     <item>
       <title>R6</title>
-      <link>https://shixiangwang.github.io/home/tags/r6/</link>
+      <link>/tags/r6/</link>
       <pubDate>Sat, 18 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/r6/</guid>
+      <guid>/tags/r6/</guid>
       <description></description>
     </item>
     
     <item>
       <title>S3</title>
-      <link>https://shixiangwang.github.io/home/tags/s3/</link>
+      <link>/tags/s3/</link>
       <pubDate>Sat, 18 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/s3/</guid>
+      <guid>/tags/s3/</guid>
       <description></description>
     </item>
     
     <item>
       <title>S4</title>
-      <link>https://shixiangwang.github.io/home/tags/s4/</link>
+      <link>/tags/s4/</link>
       <pubDate>Sat, 18 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/s4/</guid>
+      <guid>/tags/s4/</guid>
       <description></description>
     </item>
     
     <item>
       <title>mechanism</title>
-      <link>https://shixiangwang.github.io/home/tags/mechanism/</link>
+      <link>/tags/mechanism/</link>
       <pubDate>Wed, 01 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/mechanism/</guid>
+      <guid>/tags/mechanism/</guid>
       <description></description>
     </item>
     
     <item>
       <title>ABSOLUTE</title>
-      <link>https://shixiangwang.github.io/home/tags/absolute/</link>
+      <link>/tags/absolute/</link>
       <pubDate>Tue, 24 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/absolute/</guid>
+      <guid>/tags/absolute/</guid>
       <description></description>
     </item>
     
     <item>
       <title>note</title>
-      <link>https://shixiangwang.github.io/home/tags/note/</link>
+      <link>/tags/note/</link>
       <pubDate>Tue, 24 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/note/</guid>
+      <guid>/tags/note/</guid>
       <description></description>
     </item>
     
     <item>
       <title>metafor</title>
-      <link>https://shixiangwang.github.io/home/tags/metafor/</link>
+      <link>/tags/metafor/</link>
       <pubDate>Mon, 09 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/metafor/</guid>
+      <guid>/tags/metafor/</guid>
       <description></description>
     </item>
     
     <item>
       <title>patchwork</title>
-      <link>https://shixiangwang.github.io/home/tags/patchwork/</link>
+      <link>/tags/patchwork/</link>
       <pubDate>Fri, 06 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/patchwork/</guid>
+      <guid>/tags/patchwork/</guid>
       <description></description>
     </item>
     
     <item>
       <title>propensity</title>
-      <link>https://shixiangwang.github.io/home/tags/propensity/</link>
+      <link>/tags/propensity/</link>
       <pubDate>Mon, 25 Jun 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/propensity/</guid>
+      <guid>/tags/propensity/</guid>
       <description></description>
     </item>
     
     <item>
       <title>apply</title>
-      <link>https://shixiangwang.github.io/home/tags/apply/</link>
+      <link>/tags/apply/</link>
       <pubDate>Tue, 12 Jun 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/apply/</guid>
+      <guid>/tags/apply/</guid>
       <description></description>
     </item>
     
     <item>
       <title>lattice</title>
-      <link>https://shixiangwang.github.io/home/tags/lattice/</link>
+      <link>/tags/lattice/</link>
       <pubDate>Thu, 07 Jun 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/lattice/</guid>
+      <guid>/tags/lattice/</guid>
       <description></description>
     </item>
     
     <item>
       <title>information</title>
-      <link>https://shixiangwang.github.io/home/tags/information/</link>
+      <link>/tags/information/</link>
       <pubDate>Wed, 30 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/information/</guid>
+      <guid>/tags/information/</guid>
       <description></description>
     </item>
     
     <item>
       <title>ggpubr</title>
-      <link>https://shixiangwang.github.io/home/tags/ggpubr/</link>
+      <link>/tags/ggpubr/</link>
       <pubDate>Sat, 19 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/ggpubr/</guid>
+      <guid>/tags/ggpubr/</guid>
       <description></description>
     </item>
     
     <item>
       <title>bayesian</title>
-      <link>https://shixiangwang.github.io/home/tags/bayesian/</link>
+      <link>/tags/bayesian/</link>
       <pubDate>Wed, 16 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/bayesian/</guid>
+      <guid>/tags/bayesian/</guid>
       <description></description>
     </item>
     
     <item>
       <title>object</title>
-      <link>https://shixiangwang.github.io/home/tags/object/</link>
+      <link>/tags/object/</link>
       <pubDate>Wed, 09 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/object/</guid>
+      <guid>/tags/object/</guid>
       <description></description>
     </item>
     
     <item>
       <title>type</title>
-      <link>https://shixiangwang.github.io/home/tags/type/</link>
+      <link>/tags/type/</link>
       <pubDate>Wed, 09 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/type/</guid>
+      <guid>/tags/type/</guid>
       <description></description>
     </item>
     
     <item>
       <title>option</title>
-      <link>https://shixiangwang.github.io/home/tags/option/</link>
+      <link>/tags/option/</link>
       <pubDate>Mon, 07 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/option/</guid>
+      <guid>/tags/option/</guid>
       <description></description>
     </item>
     
     <item>
       <title>switch</title>
-      <link>https://shixiangwang.github.io/home/tags/switch/</link>
+      <link>/tags/switch/</link>
       <pubDate>Mon, 07 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/switch/</guid>
+      <guid>/tags/switch/</guid>
       <description></description>
     </item>
     
     <item>
       <title>subset</title>
-      <link>https://shixiangwang.github.io/home/tags/subset/</link>
+      <link>/tags/subset/</link>
       <pubDate>Sun, 06 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/subset/</guid>
+      <guid>/tags/subset/</guid>
       <description></description>
     </item>
     
     <item>
       <title>survival</title>
-      <link>https://shixiangwang.github.io/home/tags/survival/</link>
+      <link>/tags/survival/</link>
       <pubDate>Sat, 28 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/survival/</guid>
+      <guid>/tags/survival/</guid>
       <description></description>
     </item>
     
     <item>
       <title>pubmed</title>
-      <link>https://shixiangwang.github.io/home/tags/pubmed/</link>
+      <link>/tags/pubmed/</link>
       <pubDate>Fri, 13 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/pubmed/</guid>
+      <guid>/tags/pubmed/</guid>
       <description></description>
     </item>
     
     <item>
       <title>awk</title>
-      <link>https://shixiangwang.github.io/home/tags/awk/</link>
+      <link>/tags/awk/</link>
       <pubDate>Mon, 25 Dec 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/awk/</guid>
+      <guid>/tags/awk/</guid>
       <description></description>
     </item>
     
     <item>
       <title>sed</title>
-      <link>https://shixiangwang.github.io/home/tags/sed/</link>
+      <link>/tags/sed/</link>
       <pubDate>Mon, 25 Dec 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/sed/</guid>
+      <guid>/tags/sed/</guid>
       <description></description>
     </item>
     
     <item>
       <title>DEG</title>
-      <link>https://shixiangwang.github.io/home/tags/deg/</link>
+      <link>/tags/deg/</link>
       <pubDate>Fri, 27 Oct 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/deg/</guid>
+      <guid>/tags/deg/</guid>
       <description></description>
     </item>
     
     <item>
       <title>RNSseq</title>
-      <link>https://shixiangwang.github.io/home/tags/rnsseq/</link>
+      <link>/tags/rnsseq/</link>
       <pubDate>Fri, 27 Oct 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/rnsseq/</guid>
+      <guid>/tags/rnsseq/</guid>
       <description></description>
     </item>
     
     <item>
       <title>GO</title>
-      <link>https://shixiangwang.github.io/home/tags/go/</link>
+      <link>/tags/go/</link>
       <pubDate>Mon, 09 Oct 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/go/</guid>
+      <guid>/tags/go/</guid>
       <description></description>
     </item>
     
     <item>
       <title>KEGG</title>
-      <link>https://shixiangwang.github.io/home/tags/kegg/</link>
+      <link>/tags/kegg/</link>
       <pubDate>Mon, 09 Oct 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/tags/kegg/</guid>
+      <guid>/tags/kegg/</guid>
       <description></description>
     </item>
     

@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>poster on Shixiang Wang | 王诗翔</title>
-    <link>https://shixiangwang.github.io/home/tags/poster/</link>
+    <link>/tags/poster/</link>
     <description>Recent content in poster on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 18 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://shixiangwang.github.io/home/tags/poster/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 18 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/poster/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Bioc Asia 2020 - Sigflow 介绍</title>
-      <link>https://shixiangwang.github.io/home/cn/post/2020-10-18-biocasia2020-sigflow/</link>
+      <link>/cn/post/2020-10-18-biocasia2020-sigflow/</link>
       <pubDate>Sun, 18 Oct 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/cn/post/2020-10-18-biocasia2020-sigflow/</guid>
+      <guid>/cn/post/2020-10-18-biocasia2020-sigflow/</guid>
       <description>会议网址：https://biocasia2020.bioconductor.org/ 会议日程：https://biocasia2020.b</description>
     </item>
     

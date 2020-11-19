@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>lasso on Shixiang Wang | 王诗翔</title>
-    <link>https://shixiangwang.github.io/home/tags/lasso/</link>
+    <link>/tags/lasso/</link>
     <description>Recent content in lasso on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 14 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://shixiangwang.github.io/home/tags/lasso/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 14 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/lasso/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>「分享」R 弹性网络回归四连击</title>
-      <link>https://shixiangwang.github.io/home/cn/post/2020-09-14-share-r-elastic-net-regression/</link>
+      <link>/cn/post/2020-09-14-share-r-elastic-net-regression/</link>
       <pubDate>Mon, 14 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/cn/post/2020-09-14-share-r-elastic-net-regression/</guid>
+      <guid>/cn/post/2020-09-14-share-r-elastic-net-regression/</guid>
       <description>这里感谢珠江肿瘤公众号的制作和分享： 正则化(1)：通俗易懂的岭回归 正则化(2)：与岭回归相似的 Lasso 回归 正则化(3)：弹性网络回归 正则化(4)：</description>
     </item>
     

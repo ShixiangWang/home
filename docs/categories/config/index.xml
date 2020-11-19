@@ -2,62 +2,62 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>config on Shixiang Wang | 王诗翔</title>
-    <link>https://shixiangwang.github.io/home/categories/config/</link>
+    <link>/categories/config/</link>
     <description>Recent content in config on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 28 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://shixiangwang.github.io/home/categories/config/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 28 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="/categories/config/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>关于 GLIBC 版本笔记</title>
-      <link>https://shixiangwang.github.io/home/cn/post/2020-09-28-note-about-glibc/</link>
+      <link>/cn/post/2020-09-28-note-about-glibc/</link>
       <pubDate>Mon, 28 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/cn/post/2020-09-28-note-about-glibc/</guid>
+      <guid>/cn/post/2020-09-28-note-about-glibc/</guid>
       <description>在服务器上测试代码时发现 glibc 版本不够，但我又没有 root 权限。。。。 好像常见的就是找不到 2.14 版本，centos 默认使用的 2.12，这可以通过以下方式检</description>
     </item>
     
     <item>
       <title>Commit 规范学习</title>
-      <link>https://shixiangwang.github.io/home/cn/post/2020-08-31-commit-standards/</link>
+      <link>/cn/post/2020-08-31-commit-standards/</link>
       <pubDate>Mon, 31 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/cn/post/2020-08-31-commit-standards/</guid>
+      <guid>/cn/post/2020-08-31-commit-standards/</guid>
       <description>参考： https://www.conventionalcommits.org/zh-hans/v1.0.0-beta.4/ https://www.ruanyifeng.com/blog/2016/01/commit_message_change_log.html 配置：https://github.com/commitizen/cz-cli</description>
     </item>
     
     <item>
       <title>Rprofile：R 全局设置</title>
-      <link>https://shixiangwang.github.io/home/cn/post/2020-08-13-set-your-rprofile/</link>
+      <link>/cn/post/2020-08-13-set-your-rprofile/</link>
       <pubDate>Thu, 13 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/cn/post/2020-08-13-set-your-rprofile/</guid>
+      <guid>/cn/post/2020-08-13-set-your-rprofile/</guid>
       <description>存储在 ~/.Rprofile 中的内容是一个 R 脚本，它会在 R 启动时自动运行，所以可以作为全局的配置使用。 根据我的 R 使用经验，结合 Y 叔和 Yihui 提供的一些便利函数，我构建</description>
     </item>
     
     <item>
       <title>Hugo 设置 markdown 图片的标题</title>
-      <link>https://shixiangwang.github.io/home/cn/post/2020-08-10-hugo-set-fig-caption/</link>
+      <link>/cn/post/2020-08-10-hugo-set-fig-caption/</link>
       <pubDate>Mon, 10 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/cn/post/2020-08-10-hugo-set-fig-caption/</guid>
+      <guid>/cn/post/2020-08-10-hugo-set-fig-caption/</guid>
       <description>添加文件 layouts/_default/_markup/render-image.html，hugo 会在这里寻找模板。 写入下面模板代码： {{</description>
     </item>
     
     <item>
       <title>PicGo &#43; Gitee 构建免费云图床</title>
-      <link>https://shixiangwang.github.io/home/cn/post/2020-08-10-build-cloud-pic-database-with-picgo-and-gitee/</link>
+      <link>/cn/post/2020-08-10-build-cloud-pic-database-with-picgo-and-gitee/</link>
       <pubDate>Mon, 10 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/cn/post/2020-08-10-build-cloud-pic-database-with-picgo-and-gitee/</guid>
+      <guid>/cn/post/2020-08-10-build-cloud-pic-database-with-picgo-and-gitee/</guid>
       <description>.img-container { text-align: center; display: block; } PicGo PicGo 下载链接：https://github.com/Molunerfinn/PicGo/releases/ 开源开发不易，不妨对</description>
     </item>
     
     <item>
       <title>使用 Cascadia Code 字体</title>
-      <link>https://shixiangwang.github.io/home/cn/post/2019-10-18-use-cascadia-code-font/</link>
+      <link>/cn/post/2019-10-18-use-cascadia-code-font/</link>
       <pubDate>Fri, 18 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/cn/post/2019-10-18-use-cascadia-code-font/</guid>
+      <guid>/cn/post/2019-10-18-use-cascadia-code-font/</guid>
       <description>最近微软为 Windows Terminal 推出了具有连字特性的字体 Cascadia Code，在试用后发现确实很不错，下图是字体效果，这里结合官方的 README 介绍一下。 .img-container { text-align: center; display: block; } .img-container { text-align: center; display:</description>
     </item>
     

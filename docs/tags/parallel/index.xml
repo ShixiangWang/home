@@ -2,26 +2,26 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>parallel on Shixiang Wang | 王诗翔</title>
-    <link>https://shixiangwang.github.io/home/tags/parallel/</link>
+    <link>/tags/parallel/</link>
     <description>Recent content in parallel on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 19 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://shixiangwang.github.io/home/tags/parallel/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 19 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/parallel/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>使用 rush 进行命令并行处理</title>
-      <link>https://shixiangwang.github.io/home/cn/post/2020-09-19-parallel-computation-with-rush/</link>
+      <link>/cn/post/2020-09-19-parallel-computation-with-rush/</link>
       <pubDate>Sat, 19 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/cn/post/2020-09-19-parallel-computation-with-rush/</guid>
+      <guid>/cn/post/2020-09-19-parallel-computation-with-rush/</guid>
       <description>rush 是一个类似于 GNU-parallel 的工具，提供了并行化命令的处理方案。 官方地址是：https://github.com/shenwei356/rush，该工具</description>
     </item>
     
     <item>
       <title>「翻译」在生物信息学中使用 GNU-Parallel</title>
-      <link>https://shixiangwang.github.io/home/cn/post/2020-09-18-using-gnu-parallel-for-bioinformatics/</link>
+      <link>/cn/post/2020-09-18-using-gnu-parallel-for-bioinformatics/</link>
       <pubDate>Fri, 18 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/cn/post/2020-09-18-using-gnu-parallel-for-bioinformatics/</guid>
+      <guid>/cn/post/2020-09-18-using-gnu-parallel-for-bioinformatics/</guid>
       <description>原文出处：https://www.danielecook.com/using-gnu-parallel-for-bioinformatics</description>
     </item>
     

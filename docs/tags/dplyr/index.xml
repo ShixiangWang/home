@@ -2,53 +2,53 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>dplyr on Shixiang Wang | 王诗翔</title>
-    <link>https://shixiangwang.github.io/home/tags/dplyr/</link>
+    <link>/tags/dplyr/</link>
     <description>Recent content in dplyr on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 16 Nov 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://shixiangwang.github.io/home/tags/dplyr/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 16 Nov 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/dplyr/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>dplyr 里的 join 与 base 里的 merge 存在差异</title>
-      <link>https://shixiangwang.github.io/home/cn/post/2020-11-16-difference-between-merge-and-dplyr-join/</link>
+      <link>/cn/post/2020-11-16-difference-between-merge-and-dplyr-join/</link>
       <pubDate>Mon, 16 Nov 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/cn/post/2020-11-16-difference-between-merge-and-dplyr-join/</guid>
+      <guid>/cn/post/2020-11-16-difference-between-merge-and-dplyr-join/</guid>
       <description>今天在使用连接操作时发现：虽然都是合并操作函数，dplyr 包里的 *_join() 和基础包里面的 merge() 存在差异，不同的数据结构，结果也会存在偏差。 构造数据集 下面</description>
     </item>
     
     <item>
       <title>dplyr编程</title>
-      <link>https://shixiangwang.github.io/home/cn/post/2019-07-08-dplyr-programming/</link>
+      <link>/cn/post/2019-07-08-dplyr-programming/</link>
       <pubDate>Mon, 08 Jul 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/cn/post/2019-07-08-dplyr-programming/</guid>
+      <guid>/cn/post/2019-07-08-dplyr-programming/</guid>
       <description>本文首先发布于简书，本人在对相关知识有进一步理解后对本文进行修改，以便于中文更好地理解。 来源：vignettes/programming.R</description>
     </item>
     
     <item>
       <title>图形沟通：ggplot2</title>
-      <link>https://shixiangwang.github.io/home/cn/post/communicate-with-ggplot2/</link>
+      <link>/cn/post/communicate-with-ggplot2/</link>
       <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/cn/post/communicate-with-ggplot2/</guid>
+      <guid>/cn/post/communicate-with-ggplot2/</guid>
       <description>准备工作 library(tidyverse) #&amp;gt; ── Attaching packages ────────────────────────────────────────────────────────────</description>
     </item>
     
     <item>
       <title>R-数据操作</title>
-      <link>https://shixiangwang.github.io/home/cn/post/2019-11-20-r-hight-level-data-operation/</link>
+      <link>/cn/post/2019-11-20-r-hight-level-data-operation/</link>
       <pubDate>Sat, 25 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/cn/post/2019-11-20-r-hight-level-data-operation/</guid>
+      <guid>/cn/post/2019-11-20-r-hight-level-data-operation/</guid>
       <description>本文内容： 基础函数操作数据框 sqldf包使用SQL查询数据框 data.table包操作数据 dplyr管道操作处理数据 rlist包处理嵌套数据</description>
     </item>
     
     <item>
       <title>使用dplyr进行数据处理</title>
-      <link>https://shixiangwang.github.io/home/cn/post/2019-11-06-data-processing-with-dplyr/</link>
+      <link>/cn/post/2019-11-06-data-processing-with-dplyr/</link>
       <pubDate>Wed, 21 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/cn/post/2019-11-06-data-processing-with-dplyr/</guid>
+      <guid>/cn/post/2019-11-06-data-processing-with-dplyr/</guid>
       <description>该部分学习内容来自《R for Data Science》。 在对数据进行可视化之前我们往往需要进行数据转换以得到可视化所需要的数据内容与格式。这里我们使用d</description>
     </item>
     

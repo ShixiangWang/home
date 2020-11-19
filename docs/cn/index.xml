@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>简介 on Shixiang Wang | 王诗翔</title>
-    <link>https://shixiangwang.github.io/home/cn/</link>
+    <link>/cn/</link>
     <description>Recent content in 简介 on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 05 May 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://shixiangwang.github.io/home/cn/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 05 May 2016 00:00:00 +0000</lastBuildDate><atom:link href="/cn/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>简历</title>
-      <link>https://shixiangwang.github.io/home/cn/cv-cn/shixiang/</link>
+      <link>/cn/cv-cn/shixiang/</link>
       <pubDate>Thu, 30 May 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/cn/cv-cn/shixiang/</guid>
+      <guid>/cn/cv-cn/shixiang/</guid>
       <description>王诗翔 地址：上海市浦东新区上海科技大学生命学院L楼A406 工作邮箱：wangshx@shanghaitech.edu.cn 个人邮箱：w_sh</description>
     </item>
     

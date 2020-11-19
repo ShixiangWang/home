@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>batch on Shixiang Wang | 王诗翔</title>
-    <link>https://shixiangwang.github.io/home/tags/batch/</link>
+    <link>/tags/batch/</link>
     <description>Recent content in batch on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 23 Oct 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://shixiangwang.github.io/home/tags/batch/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 23 Oct 2019 00:00:00 +0000</lastBuildDate><atom:link href="/tags/batch/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>使用 ezcox 进行批量 Cox 模型处理</title>
-      <link>https://shixiangwang.github.io/home/cn/post/2019-10-23-ezcox-for-batch-cox-models/</link>
+      <link>/cn/post/2019-10-23-ezcox-for-batch-cox-models/</link>
       <pubDate>Wed, 23 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/cn/post/2019-10-23-ezcox-for-batch-cox-models/</guid>
+      <guid>/cn/post/2019-10-23-ezcox-for-batch-cox-models/</guid>
       <description>Cox 模型是我们做生存分析最常用的模型，在实际的分析工作中，我们常常想逐一查看多个变量对生存时间的影响。注意，这与多变量分析不同，后者是通常将多</description>
     </item>
     

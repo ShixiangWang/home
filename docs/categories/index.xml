@@ -2,107 +2,107 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on Shixiang Wang | 王诗翔</title>
-    <link>https://shixiangwang.github.io/home/categories/</link>
+    <link>/categories/</link>
     <description>Recent content in Categories on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 16 Nov 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://shixiangwang.github.io/home/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 16 Nov 2020 00:00:00 +0000</lastBuildDate><atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>r</title>
-      <link>https://shixiangwang.github.io/home/categories/r/</link>
+      <link>/categories/r/</link>
       <pubDate>Mon, 16 Nov 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/categories/r/</guid>
+      <guid>/categories/r/</guid>
       <description></description>
     </item>
     
     <item>
       <title>bioinformatics</title>
-      <link>https://shixiangwang.github.io/home/categories/bioinformatics/</link>
+      <link>/categories/bioinformatics/</link>
       <pubDate>Thu, 29 Oct 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/categories/bioinformatics/</guid>
+      <guid>/categories/bioinformatics/</guid>
       <description></description>
     </item>
     
     <item>
       <title>thinking</title>
-      <link>https://shixiangwang.github.io/home/categories/thinking/</link>
+      <link>/categories/thinking/</link>
       <pubDate>Mon, 26 Oct 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/categories/thinking/</guid>
+      <guid>/categories/thinking/</guid>
       <description></description>
     </item>
     
     <item>
       <title>config</title>
-      <link>https://shixiangwang.github.io/home/categories/config/</link>
+      <link>/categories/config/</link>
       <pubDate>Mon, 28 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/categories/config/</guid>
+      <guid>/categories/config/</guid>
       <description></description>
     </item>
     
     <item>
       <title>ml</title>
-      <link>https://shixiangwang.github.io/home/categories/ml/</link>
+      <link>/categories/ml/</link>
       <pubDate>Mon, 21 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/categories/ml/</guid>
+      <guid>/categories/ml/</guid>
       <description></description>
     </item>
     
     <item>
       <title>read</title>
-      <link>https://shixiangwang.github.io/home/categories/read/</link>
+      <link>/categories/read/</link>
       <pubDate>Sun, 20 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/categories/read/</guid>
+      <guid>/categories/read/</guid>
       <description></description>
     </item>
     
     <item>
       <title>linux</title>
-      <link>https://shixiangwang.github.io/home/categories/linux/</link>
+      <link>/categories/linux/</link>
       <pubDate>Sat, 19 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/categories/linux/</guid>
+      <guid>/categories/linux/</guid>
       <description></description>
     </item>
     
     <item>
       <title>golang</title>
-      <link>https://shixiangwang.github.io/home/categories/golang/</link>
+      <link>/categories/golang/</link>
       <pubDate>Wed, 26 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/categories/golang/</guid>
+      <guid>/categories/golang/</guid>
       <description></description>
     </item>
     
     <item>
       <title>docker</title>
-      <link>https://shixiangwang.github.io/home/categories/docker/</link>
+      <link>/categories/docker/</link>
       <pubDate>Thu, 06 Aug 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/categories/docker/</guid>
+      <guid>/categories/docker/</guid>
       <description></description>
     </item>
     
     <item>
       <title>life</title>
-      <link>https://shixiangwang.github.io/home/categories/life/</link>
+      <link>/categories/life/</link>
       <pubDate>Wed, 29 Apr 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/categories/life/</guid>
+      <guid>/categories/life/</guid>
       <description></description>
     </item>
     
     <item>
       <title>shell</title>
-      <link>https://shixiangwang.github.io/home/categories/shell/</link>
+      <link>/categories/shell/</link>
       <pubDate>Mon, 25 Dec 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/categories/shell/</guid>
+      <guid>/categories/shell/</guid>
       <description></description>
     </item>
     

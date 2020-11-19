@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>mutational-signature on Shixiang Wang | 王诗翔</title>
-    <link>https://shixiangwang.github.io/home/tags/mutational-signature/</link>
+    <link>/tags/mutational-signature/</link>
     <description>Recent content in mutational-signature on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 07 Jun 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://shixiangwang.github.io/home/tags/mutational-signature/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 07 Jun 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/mutational-signature/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>使用 sigminer 进行突变模式分析</title>
-      <link>https://shixiangwang.github.io/home/cn/post/2020-06-07-mutational-signature-analysis-with-sigminer/</link>
+      <link>/cn/post/2020-06-07-mutational-signature-analysis-with-sigminer/</link>
       <pubDate>Sun, 07 Jun 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/cn/post/2020-06-07-mutational-signature-analysis-with-sigminer/</guid>
+      <guid>/cn/post/2020-06-07-mutational-signature-analysis-with-sigminer/</guid>
       <description>突变模式分析（Mutational Signature Analysis）已经逐步成为变异检测后一个通用分析，这篇文章简单介绍如何使用 sigminer 进行突变模式分析，以解决</description>
     </item>
     

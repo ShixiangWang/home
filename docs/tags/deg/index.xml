@@ -2,26 +2,26 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>DEG on Shixiang Wang | 王诗翔</title>
-    <link>https://shixiangwang.github.io/home/tags/deg/</link>
+    <link>/tags/deg/</link>
     <description>Recent content in DEG on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 27 Oct 2017 00:00:00 +0000</lastBuildDate><atom:link href="https://shixiangwang.github.io/home/tags/deg/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 27 Oct 2017 00:00:00 +0000</lastBuildDate><atom:link href="/tags/deg/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Bioconductor分析RNA-seq数据</title>
-      <link>https://shixiangwang.github.io/home/cn/post/2017-10-27-rnaseq-data-analysis/</link>
+      <link>/cn/post/2017-10-27-rnaseq-data-analysis/</link>
       <pubDate>Fri, 27 Oct 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/cn/post/2017-10-27-rnaseq-data-analysis/</guid>
+      <guid>/cn/post/2017-10-27-rnaseq-data-analysis/</guid>
       <description>参考学习《R语言与Bioconductor生物信息学应用》第六章 前言 Y叔的公众号biobabble发过一篇【听说你想学R？】,七月份发的但昨</description>
     </item>
     
     <item>
       <title>Bioconductor分析基因芯片数据</title>
-      <link>https://shixiangwang.github.io/home/cn/post/2017-10-09-microarray-data-analysis/</link>
+      <link>/cn/post/2017-10-09-microarray-data-analysis/</link>
       <pubDate>Mon, 09 Oct 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/cn/post/2017-10-09-microarray-data-analysis/</guid>
+      <guid>/cn/post/2017-10-09-microarray-data-analysis/</guid>
       <description>参考学习《R语言与Bioconductor——生物信息学应用》第五章，根据自己学习有删改，欢迎分享。本文中有些预备知识或一些方法的原理没有提</description>
     </item>
     

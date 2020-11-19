@@ -2,35 +2,35 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>programmer on Shixiang Wang | 王诗翔</title>
-    <link>https://shixiangwang.github.io/home/tags/programmer/</link>
+    <link>/tags/programmer/</link>
     <description>Recent content in programmer on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 20 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://shixiangwang.github.io/home/tags/programmer/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 20 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/programmer/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>《程序员的数学》（一）</title>
-      <link>https://shixiangwang.github.io/home/cn/read/math-for-programmer-s1/</link>
+      <link>/cn/read/math-for-programmer-s1/</link>
       <pubDate>Sun, 20 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/cn/read/math-for-programmer-s1/</guid>
+      <guid>/cn/read/math-for-programmer-s1/</guid>
       <description></description>
     </item>
     
     <item>
       <title>《程序员的数学》（三）：线性代数</title>
-      <link>https://shixiangwang.github.io/home/cn/read/math-for-programmer-s3/</link>
+      <link>/cn/read/math-for-programmer-s3/</link>
       <pubDate>Sun, 20 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/cn/read/math-for-programmer-s3/</guid>
+      <guid>/cn/read/math-for-programmer-s3/</guid>
       <description>用空间的语言表达向量、矩阵和行列式 向量： 字面意思：排成一列的数字。 实际意思：带有方向的线段、空间内的点。 矩阵： 字面意思：排成矩阵的数字。 实际</description>
     </item>
     
     <item>
       <title>《程序员的数学》（二）：概率统计</title>
-      <link>https://shixiangwang.github.io/home/cn/read/math-for-programmer-s2/</link>
+      <link>/cn/read/math-for-programmer-s2/</link>
       <pubDate>Sun, 20 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/cn/read/math-for-programmer-s2/</guid>
+      <guid>/cn/read/math-for-programmer-s2/</guid>
       <description></description>
     </item>
     

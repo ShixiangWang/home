@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>information on Shixiang Wang | 王诗翔</title>
-    <link>https://shixiangwang.github.io/home/tags/information/</link>
+    <link>/tags/information/</link>
     <description>Recent content in information on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 30 May 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://shixiangwang.github.io/home/tags/information/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 30 May 2018 00:00:00 +0000</lastBuildDate><atom:link href="/tags/information/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>理解信息</title>
-      <link>https://shixiangwang.github.io/home/cn/post/2019-11-20-understand-information/</link>
+      <link>/cn/post/2019-11-20-understand-information/</link>
       <pubDate>Wed, 30 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/cn/post/2019-11-20-understand-information/</guid>
+      <guid>/cn/post/2019-11-20-understand-information/</guid>
       <description>信息是被消除的不确定性 美国电子工程专家哈特莱如是说。 消息的传递正是把信息的不确定性变成确定性。那么该如何量化信息？ 哈特莱提出初步设想： \[ I =</description>
     </item>
     

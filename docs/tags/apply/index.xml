@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>apply on Shixiang Wang | 王诗翔</title>
-    <link>https://shixiangwang.github.io/home/tags/apply/</link>
+    <link>/tags/apply/</link>
     <description>Recent content in apply on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 12 Jun 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://shixiangwang.github.io/home/tags/apply/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 12 Jun 2018 00:00:00 +0000</lastBuildDate><atom:link href="/tags/apply/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>使用apply函数簇</title>
-      <link>https://shixiangwang.github.io/home/cn/post/2019-11-20-use-apply-family/</link>
+      <link>/cn/post/2019-11-20-use-apply-family/</link>
       <pubDate>Tue, 12 Jun 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/cn/post/2019-11-20-use-apply-family/</guid>
+      <guid>/cn/post/2019-11-20-use-apply-family/</guid>
       <description>在实际使用R时，for循环往往是最后的选择。一般每次循环计算都是独立的，所以我们可以使用更简洁更方便的读写方式来实现同样的效果。 举例，如果使</description>
     </item>
     

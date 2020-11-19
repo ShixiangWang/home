@@ -2,89 +2,89 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>shell on Shixiang Wang | 王诗翔</title>
-    <link>https://shixiangwang.github.io/home/tags/shell/</link>
+    <link>/tags/shell/</link>
     <description>Recent content in shell on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 19 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://shixiangwang.github.io/home/tags/shell/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 19 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/shell/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>使用 rush 进行命令并行处理</title>
-      <link>https://shixiangwang.github.io/home/cn/post/2020-09-19-parallel-computation-with-rush/</link>
+      <link>/cn/post/2020-09-19-parallel-computation-with-rush/</link>
       <pubDate>Sat, 19 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/cn/post/2020-09-19-parallel-computation-with-rush/</guid>
+      <guid>/cn/post/2020-09-19-parallel-computation-with-rush/</guid>
       <description>rush 是一个类似于 GNU-parallel 的工具，提供了并行化命令的处理方案。 官方地址是：https://github.com/shenwei356/rush，该工具</description>
     </item>
     
     <item>
       <title>初识sed与awk</title>
-      <link>https://shixiangwang.github.io/home/cn/post/2017-12-25-sed-and-gawk/</link>
+      <link>/cn/post/2017-12-25-sed-and-gawk/</link>
       <pubDate>Mon, 25 Dec 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/cn/post/2017-12-25-sed-and-gawk/</guid>
+      <guid>/cn/post/2017-12-25-sed-and-gawk/</guid>
       <description>简单介绍sed与awk命令&amp;hellip;</description>
     </item>
     
     <item>
       <title>创建和使用shell函数</title>
-      <link>https://shixiangwang.github.io/home/cn/post/2017-11-26-shell-create-function/</link>
+      <link>/cn/post/2017-11-26-shell-create-function/</link>
       <pubDate>Sun, 26 Nov 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/cn/post/2017-11-26-shell-create-function/</guid>
+      <guid>/cn/post/2017-11-26-shell-create-function/</guid>
       <description>来源： Linux命令行与shell脚本编程大全 内容 基本的脚本函数 返回值 在函数中使用变量 数组变量和函数 函数递归 创建库 在命令行上使用函数 我们可以</description>
     </item>
     
     <item>
       <title>控制脚本</title>
-      <link>https://shixiangwang.github.io/home/cn/post/2017-09-04-control_shell/</link>
+      <link>/cn/post/2017-09-04-control_shell/</link>
       <pubDate>Mon, 04 Sep 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/cn/post/2017-09-04-control_shell/</guid>
+      <guid>/cn/post/2017-09-04-control_shell/</guid>
       <description>如何控制脚本并实现自动化？&amp;hellip;</description>
     </item>
     
     <item>
       <title>Linux数据处理命令工具</title>
-      <link>https://shixiangwang.github.io/home/cn/post/2017-09-03-linux-data-analysis-tools/</link>
+      <link>/cn/post/2017-09-03-linux-data-analysis-tools/</link>
       <pubDate>Sun, 03 Sep 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/cn/post/2017-09-03-linux-data-analysis-tools/</guid>
+      <guid>/cn/post/2017-09-03-linux-data-analysis-tools/</guid>
       <description>系统介绍Linux会使用到的数据处理命令&amp;hellip;</description>
     </item>
     
     <item>
       <title>Linux脚本编程——呈现数据</title>
-      <link>https://shixiangwang.github.io/home/cn/post/2017-08-22-shell-show-data/</link>
+      <link>/cn/post/2017-08-22-shell-show-data/</link>
       <pubDate>Mon, 21 Aug 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/cn/post/2017-08-22-shell-show-data/</guid>
+      <guid>/cn/post/2017-08-22-shell-show-data/</guid>
       <description>怎么通过脚本呈现数据&amp;hellip;包括重定向与日志文件等。</description>
     </item>
     
     <item>
       <title>Shell脚本之处理用户输入</title>
-      <link>https://shixiangwang.github.io/home/cn/post/2017-08-19-working-with-user-input/</link>
+      <link>/cn/post/2017-08-19-working-with-user-input/</link>
       <pubDate>Sat, 19 Aug 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/cn/post/2017-08-19-working-with-user-input/</guid>
+      <guid>/cn/post/2017-08-19-working-with-user-input/</guid>
       <description>学习如何处理shell的用户输入&amp;hellip;</description>
     </item>
     
     <item>
       <title>Linux结构化命令</title>
-      <link>https://shixiangwang.github.io/home/cn/post/2017-08-11-structural-command-of-shell/</link>
+      <link>/cn/post/2017-08-11-structural-command-of-shell/</link>
       <pubDate>Fri, 11 Aug 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/cn/post/2017-08-11-structural-command-of-shell/</guid>
+      <guid>/cn/post/2017-08-11-structural-command-of-shell/</guid>
       <description>学习shell结构化命令&amp;hellip;</description>
     </item>
     
     <item>
       <title>构建基本shell脚本</title>
-      <link>https://shixiangwang.github.io/home/cn/post/2017-08-11-basic-shell/</link>
+      <link>/cn/post/2017-08-11-basic-shell/</link>
       <pubDate>Fri, 11 Aug 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://shixiangwang.github.io/home/cn/post/2017-08-11-basic-shell/</guid>
+      <guid>/cn/post/2017-08-11-basic-shell/</guid>
       <description>学习Shell脚本的基本构建方式&amp;hellip;</description>
     </item>
     
