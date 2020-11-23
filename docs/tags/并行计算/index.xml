@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>并行计算 on Shixiang Wang | 王诗翔</title>
+    <link>/tags/%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97/</link>
+    <description>Recent content in 并行计算 on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 23 Nov 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>安装 Rmpi 包</title>
+      <link>/cn/post/2020-11-23-install-rmpi/</link>
+      <pubDate>Mon, 23 Nov 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2020-11-23-install-rmpi/</guid>
+      <description>下载包 wget -c https://cran.r-project.org/src/contrib/Rmpi_0.6-9.tar.gz 此处可以换不同的源，最新版本也可能不同。 CentOS 下安装 # 先安装依赖库 sudo yum install openmpi-devel # 安装 # ld -lmpi --verbose R CMD INSTALL Rmpi_0.6-9.tar.gz --configure-args=&amp;#34;--with-Rmpi-include=/usr/include/openmpi-x86_64/ --with-Rmpi-libpath=/usr/lib64/openmpi/lib --with-Rmpi-type=OPENMPI&amp;#34; 如果存在编译问题，查看 http://fisher.stats.uwo.ca/faculty/yu/Rmpi/ 文档看</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -6,7 +6,11 @@
     <description>Recent content in survival on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 28 Apr 2018 00:00:00 +0000</lastBuildDate><atom:link href="/tags/survival/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 28 Apr 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/survival/index.xml" rel="self" type="application/rss+xml" />
+    
+    
     <item>
       <title>使用 R 进行生存分析</title>
       <link>/cn/post/r-survival/</link>

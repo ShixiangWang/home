@@ -6,7 +6,11 @@
     <description>Recent content in type on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 09 May 2018 00:00:00 +0000</lastBuildDate><atom:link href="/tags/type/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 09 May 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/type/index.xml" rel="self" type="application/rss+xml" />
+    
+    
     <item>
       <title>识别R对象的类和类型</title>
       <link>/cn/post/2019-11-20-r-class-and-type/</link>
