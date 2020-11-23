@@ -176,6 +176,10 @@ export LD_LIBRARY_PATH<span style="color:#f92672">=</span>/usr/lib64/openmpi/lib
 <li>输入 <code>CC=gcc</code> （如果已经存在 <code>CC=xx</code>，则进行修改）。</li>
 <li>保存文件重新安装即可。</li>
 </ol>
+<p>如果在测试使用时出现下面错误：</p>
+<pre><code>Error in mpi.comm.spawn(slave = rscript, slavearg = args, nslaves = count,  : 
+  MPI_ERR_SPAWN: could not spawn processes
+</code></pre><p>参考这篇帖子解决：<a href="https://stackoverflow.com/questions/46541301/new-install-dompi-throwing-mpi-err-spawn-error">https://stackoverflow.com/questions/46541301/new-install-dompi-throwing-mpi-err-spawn-error</a>。</p>
 <h3 id="最后">最后</h3>
 <p>Windows 安装见 <a href="http://fisher.stats.uwo.ca/faculty/yu/Rmpi/windows.htm">http://fisher.stats.uwo.ca/faculty/yu/Rmpi/windows.htm</a>。</p>
 <p>本来想利用这个包支持 HPC 跨节点计算，测试发现安装和运行效率没有我详细中的好和高，弃疗。</p>

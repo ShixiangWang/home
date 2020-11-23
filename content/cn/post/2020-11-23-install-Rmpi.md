@@ -55,6 +55,15 @@ export LD_LIBRARY_PATH=/usr/lib64/openmpi/lib:${LD_LIBRARY_PATH}
 2. 输入 `CC=gcc` （如果已经存在 `CC=xx`，则进行修改）。
 3. 保存文件重新安装即可。
 
+如果在测试使用时出现下面错误：
+
+```
+Error in mpi.comm.spawn(slave = rscript, slavearg = args, nslaves = count,  : 
+  MPI_ERR_SPAWN: could not spawn processes
+```
+
+参考这篇帖子解决：<https://stackoverflow.com/questions/46541301/new-install-dompi-throwing-mpi-err-spawn-error>。
+
 ### 最后
 
 Windows 安装见 <http://fisher.stats.uwo.ca/faculty/yu/Rmpi/windows.htm>。
