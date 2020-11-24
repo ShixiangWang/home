@@ -6,10 +6,33 @@
     <description>Recent content in Tags on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 23 Nov 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 24 Nov 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>r</title>
+      <link>/tags/r/</link>
+      <pubDate>Tue, 24 Nov 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/r/</guid>
+      <description></description>
+    </item>
     
-	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>server</title>
+      <link>/tags/server/</link>
+      <pubDate>Tue, 24 Nov 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/server/</guid>
+      <description></description>
+    </item>
     
+    <item>
+      <title>shiny</title>
+      <link>/tags/shiny/</link>
+      <pubDate>Tue, 24 Nov 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/shiny/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>MPI</title>
@@ -17,15 +40,6 @@
       <pubDate>Mon, 23 Nov 2020 00:00:00 +0000</pubDate>
       
       <guid>/tags/mpi/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>r</title>
-      <link>/tags/r/</link>
-      <pubDate>Mon, 23 Nov 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/r/</guid>
       <description></description>
     </item>
     
@@ -1241,15 +1255,6 @@
       <pubDate>Mon, 17 Sep 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/%E7%88%AC%E8%99%AB/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>shiny</title>
-      <link>/tags/shiny/</link>
-      <pubDate>Fri, 31 Aug 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/shiny/</guid>
       <description></description>
     </item>
     

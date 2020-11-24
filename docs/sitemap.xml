@@ -4,7 +4,37 @@
   
   <url>
     <loc>/categories/</loc>
-    <lastmod>2020-11-23T00:00:00+00:00</lastmod>
+    <lastmod>2020-11-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/cn/post/2020-11-24-install-and-manage-shiny-server/</loc>
+    <lastmod>2020-11-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/r/</loc>
+    <lastmod>2020-11-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/r/</loc>
+    <lastmod>2020-11-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/server/</loc>
+    <lastmod>2020-11-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/shiny/</loc>
+    <lastmod>2020-11-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2020-11-24T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -14,16 +44,6 @@
   
   <url>
     <loc>/tags/mpi/</loc>
-    <lastmod>2020-11-23T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/r/</loc>
-    <lastmod>2020-11-23T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/</loc>
     <lastmod>2020-11-23T00:00:00+00:00</lastmod>
   </url>
   
@@ -44,11 +64,6 @@
   
   <url>
     <loc>/cn/post/2020-11-16-difference-between-merge-and-dplyr-join/</loc>
-    <lastmod>2020-11-17T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/r/</loc>
     <lastmod>2020-11-17T00:00:00+00:00</lastmod>
   </url>
   
@@ -1185,11 +1200,6 @@
   <url>
     <loc>/cn/post/use-forestplot/</loc>
     <lastmod>2018-09-10T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/shiny/</loc>
-    <lastmod>2018-08-31T00:00:00+00:00</lastmod>
   </url>
   
   <url>

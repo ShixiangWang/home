@@ -6,11 +6,7 @@
     <description>Recent content in dplyr on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 16 Nov 2020 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/tags/dplyr/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Mon, 16 Nov 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/dplyr/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>dplyr 里的 join 与 base 里的 merge 存在差异</title>
       <link>/cn/post/2020-11-16-difference-between-merge-and-dplyr-join/</link>

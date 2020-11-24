@@ -6,11 +6,7 @@
     <description>Recent content in data-access on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 25 Aug 2019 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/tags/data-access/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sun, 25 Aug 2019 00:00:00 +0000</lastBuildDate><atom:link href="/tags/data-access/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>UCSCXenaTools: Retrieve Gene Expression and Clinical Information from UCSC Xena for Survival Analysis</title>
       <link>/en/post/ucscxenatools-201908/</link>
