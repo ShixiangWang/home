@@ -1,0 +1,109 @@
+---
+title: "无影腿快不过组合拳？均值计算哪家强"
+author: "王诗翔"
+date: "2020-11-27"
+lastmod: "`r Sys.Date()`"
+slug: ""
+# All available categories:
+# bioinformatics, config, docker, golang, life, linux, ml, r, read, shell, thinking
+categories: ["r"]
+tags: ["r", "计算效率"]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, dev = "png", comment = "#>", tidy = "styler")
+#Sys.setenv("LANGUAGE"="EN") # Embed this for outputing English message
+#Sys.setlocale('LC_ALL','C') # Embed this directly in the Rmarkdown script that contains the Chinese character comment
+options(digits=3)
+options(max.print=200)
+```
+
+昨天我在[公众号推文](https://mp.weixin.qq.com/s/8CXhJUhZwGTDTb5pUc4fdA)中提了一个非常有意思的问题：`mean()` 和 `sum() / length()` 哪一个更快？
+
+我在知识星球看到有朋友已经测试过了，发现后者更快，为什么呢？
+
+### 性能测试
+
+我们先通过基准测试来比对两种方法的计算效率：
+
+```{r}
+# 生成一组随机数
+x <- rnorm(1e6)
+# 测试
+microbenchmark::microbenchmark(
+  mean = mean(x),
+  comb = sum(x) / length(x)
+)
+```
+
+从 100 万数据的均值计算来看，组合拳差不多比 `mean()` 快 1倍。再问一句，为什么呢？
+
+### 性能探究
+
+想要深入理解它们的性能差异，我们有必要了解 3 个函数的结构：
+
+```{r}
+# 均值
+mean
+# 求和
+sum
+# 取长度
+length
+```
+
+不难发现 `mean()` 是一个泛型函数，而后两者都是一类 `.Primitive` 的元素，我们来了解一下它是什么。
+
+> R语言中有些函数是通过接口 `.Primitive()` 直接调用的 C 语言代码，而不是用 R 语言代码编写的。这些函数被称元函数（Primitive functions）。元函数仅在R基础包base中出现。因为元函数用底层语言写成，所以他们通常计算效率更高。但是也因为他们用C语言而不是用R语言写成。他们的行为方式也可能与 R 语言的其他函数不一样。
+>
+> 引自 [R 语言中的函数](https://likan.info/cn/read/advanced-r/ch-06/)
+
+这就正常了，C 语言毕竟是性能之王。
+
+```{r}
+microbenchmark::microbenchmark(
+  mean = .Internal(mean(x)),
+  comb = sum(x) / length(x)
+)
+```
+我们最后再看看 R 分派用来计算数值均值的函数：
+
+```{r}
+mean.default
+```
+
+我们可以看到有很多的条件判断，而最后一句是计算的核心代码，只保留它能加速吗？
+
+```{r}
+microbenchmark::microbenchmark(
+  mean = mean(x),
+  mean_internal = .Internal(mean(x)),
+  comb = sum(x) / length(x)
+)
+```
+从结果来看，只执行最后一句并没有性能提升，反而速度有所下降。从代码中查看可以看出在调用最后一句计算代码之前进行过排序操作，显然这些 R 代码是有比较大的意义的。
+
+话说这里的 `.Internal` 又是什么？查文档。
+
+> .Internal performs a call to an internal code which is built in to the R interpreter.
+>
+> Only true R wizards should even consider using this function, and only R developers can add to the list of internal functions.
+
+再看代码：
+
+```{r}
+.Internal
+```
+原来是个 C 写的函数。
+
+### 小结
+
+综上，组合拳求**数值**的均值要快一倍。
+
+细心的读者可能会问为啥 R 不默认用组合拳求均值？
+
+前面已经提到 `mean()` 是泛型函数，它支持多个数据类型的操作，使用更加广泛：
+
+```{r}
+.S3methods("mean")
+```
+
