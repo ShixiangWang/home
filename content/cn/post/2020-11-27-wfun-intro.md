@@ -91,4 +91,5 @@ dir(x)
 ```
 
 
+> 如果该包对你有用，请点个 star <https://github.com/ShixiangWang/wfun>
 
