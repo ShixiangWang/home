@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    
+    <link rel="stylesheet" href="../../../fonts/academicons-1.8.6/css/academicons.min.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../logo/bodhi.png"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    
+    <title>使用 wfun 加速 GitHub 包安装和仓库克隆 - 王诗翔</title>
+    
+     
+    <meta property="og:title" content="使用 wfun 加速 GitHub 包安装和仓库克隆 - Shixiang Wang | 王诗翔">
+    
+
+    
+      
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/Xcode.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="../../../css/style.css" />
+    <link rel="stylesheet" href="../../../css/mystyle.css" /> 
+    <link rel="stylesheet" href="../../../css/fonts.css" />
+    
+<script async src="../../../js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="../../../css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="../../../logo/ShixiangWang.png"><img src="../../../logo/ShixiangWang.png" alt="Shixiang Wang" /></a></h1>
+
+
+
+      <nav class="menu">
+        <input id="menu-check" type="checkbox" />
+        <label id="menu-label" for="menu-check" class="unselectable">
+          <span class="icon close-icon">✕</span>
+          <span class="icon open-icon">☰</span>
+          <span class="text">Menu</span>
+        </label>
+        <ul>
+        
+        
+        <li><a href="../../../">首页</a></li>
+        
+        <li><a href="../../../cn/about/">关于</a></li>
+        
+        <li><a href="../../../cn/post/">博客</a></li>
+        
+        <li><a href="../../../cn/read/">读书</a></li>
+        
+        <li><a href="../../../cn/writing">写作</a></li>
+        
+        <li><a href="../../../cn/research/">研究</a></li>
+        
+        <li><a href="../../../cn/tools/">工具</a></li>
+        
+        <li><a href="../../../cn/cv-cn/shixiang">简历</a></li>
+        
+        <li><a href="../../../logo/qrcode.jpg">公众号</a></li>
+        
+        <li><a href="https://www.zhihu.com/people/shixiangwang">知乎</a></li>
+        
+        <li><a href="../../../cn/mark">推荐阅读</a></li>
+        
+        <li><a href="../../../en/">English</a></li>
+        
+        <li><a href="../../../categories/">分类</a></li>
+        
+        <li><a href="../../../tags/">标签</a></li>
+        
+        
+
+<li class="menu-extra"></li>
+
+
+
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2020-11-27-wfun-intro.md" target="_blank">编辑</a></li>
+
+
+<li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+        </ul>
+      </nav>
+    </header>
+
+    <article class="main">
+      <header class="title">
+        
+
+<h1>使用 wfun 加速 GitHub 包安装和仓库克隆</h1>
+
+
+
+<h3>王诗翔 &middot 
+2020-11-27</h3> 
+
+
+<p style="text-align:right;">
+  分类:
+  
+    <a href="../../../categories/r">r</a> &nbsp
+  
+  <br>
+  标签:
+  
+    <a href="../../../tags/r">r</a> &nbsp
+  
+    <a href="../../../tags/github">github</a> &nbsp
+  
+    <a href="../../../tags/gitee">gitee</a> &nbsp
+  
+</p>
+
+
+
+   
+  
+
+
+      </header>
+
+
+<p>在国内下载 GitHub R 包或者克隆仓库经常失败，虽然在 Gitee 上设置镜像是一个不错的办法，但总是这么操作也挺麻烦了。今天分享一个解决的办法，就是使用我新写的 R 包啦！这个包使用了国人提供的 GitHub 镜像 <a href="https://doc.fastgit.org/zh-cn/guide.html">FastGit</a> （在此致谢），所以下载就快很多了。</p>
+<h2 id="安装">安装</h2>
+<p>使用下面命令从 Gitee 上安装该包：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">remotes<span style="color:#f92672">::</span><span style="color:#a6e22e">install_git</span>(<span style="color:#e6db74">&#34;https://gitee.com/ShixiangWang/wfun&#34;</span>)
+</code></pre></div><p>载入：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(wfun)
+</code></pre></div><h2 id="例子">例子</h2>
+<h3 id="安装-githubgitee-仓库中的-r-包">安装 GitHub/Gitee 仓库中的 R 包</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">install</span>(<span style="color:#e6db74">&#34;ShixiangWang/ezcox&#34;</span>)
+<span style="color:#a6e22e">install</span>(<span style="color:#e6db74">&#34;ShixiangWang/tinyscholar&#34;</span>, gitee <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>)
+</code></pre></div><p>为了更通用，我加了一些其他安装包的封装，所以 <code>install()</code> 也可以用来安装普通的包。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">install</span>(<span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;ggplot2&#34;</span>, <span style="color:#e6db74">&#34;Biobase&#34;</span>))
+</code></pre></div><h3 id="克隆-githubgitee-仓库">克隆 GitHub/Gitee 仓库</h3>
+<p>需要注意，克隆到的本地目录事先不能存在，一般是设定一个同名目录。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">x <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">file.path</span>(<span style="color:#a6e22e">tempdir</span>(), <span style="color:#e6db74">&#34;ezcox&#34;</span>)
+<span style="color:#a6e22e">if </span>(<span style="color:#a6e22e">dir.exists</span>(x)) <span style="color:#a6e22e">rm_paths</span>(x)
+<span style="color:#a6e22e">clone</span>(<span style="color:#e6db74">&#34;ShixiangWang/ezcox&#34;</span>, x, reset_remote <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>)
+<span style="color:#75715e">#&gt; Treat input as a GitHub repo.</span>
+<span style="color:#75715e">#&gt; cloning into &#39;/var/folders/bj/nw1w4g1j37ddpgb6zmh3sfh80000gn/T//Rtmp0sCShM/ezcox&#39;...</span>
+<span style="color:#75715e">#&gt; Receiving objects:   1% (9/814),   31 kb</span>
+<span style="color:#75715e">#&gt; Receiving objects:  11% (90/814),   31 kb</span>
+<span style="color:#75715e">#&gt; Receiving objects:  21% (171/814),   47 kb</span>
+<span style="color:#75715e">#&gt; Receiving objects:  31% (253/814),   63 kb</span>
+<span style="color:#75715e">#&gt; Receiving objects:  41% (334/814),   95 kb</span>
+<span style="color:#75715e">#&gt; Receiving objects:  51% (416/814),  143 kb</span>
+<span style="color:#75715e">#&gt; Receiving objects:  61% (497/814),  191 kb</span>
+<span style="color:#75715e">#&gt; Receiving objects:  71% (578/814), 1007 kb</span>
+<span style="color:#75715e">#&gt; Receiving objects:  81% (660/814), 1775 kb</span>
+<span style="color:#75715e">#&gt; Receiving objects:  91% (741/814), 3198 kb</span>
+<span style="color:#75715e">#&gt; Receiving objects: 100% (814/814), 3640 kb, done.</span>
+<span style="color:#75715e">#&gt; Reset remote url to https://github.com/ShixiangWang/ezcox</span>
+
+y <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">file.path</span>(<span style="color:#a6e22e">tempdir</span>(), <span style="color:#e6db74">&#34;tinyscholar&#34;</span>)
+<span style="color:#a6e22e">if </span>(<span style="color:#a6e22e">dir.exists</span>(y)) <span style="color:#a6e22e">rm_paths</span>(y)
+<span style="color:#a6e22e">clone</span>(<span style="color:#e6db74">&#34;ShixiangWang/tinyscholar&#34;</span>, y, gitee <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>)
+<span style="color:#75715e">#&gt; cloning into &#39;/var/folders/bj/nw1w4g1j37ddpgb6zmh3sfh80000gn/T//Rtmp0sCShM/tinyscholar&#39;...</span>
+<span style="color:#75715e">#&gt; Receiving objects:   1% (4/313),   19 kb</span>
+<span style="color:#75715e">#&gt; Receiving objects:  11% (35/313),   27 kb</span>
+<span style="color:#75715e">#&gt; Receiving objects:  21% (66/313),  147 kb</span>
+<span style="color:#75715e">#&gt; Receiving objects:  31% (98/313),  331 kb</span>
+<span style="color:#75715e">#&gt; Receiving objects:  41% (129/313),  411 kb</span>
+<span style="color:#75715e">#&gt; Receiving objects:  51% (160/313),  539 kb</span>
+<span style="color:#75715e">#&gt; Receiving objects:  61% (191/313),  595 kb</span>
+<span style="color:#75715e">#&gt; Receiving objects:  71% (223/313),  642 kb</span>
+<span style="color:#75715e">#&gt; Receiving objects:  81% (254/313),  650 kb</span>
+<span style="color:#75715e">#&gt; Receiving objects:  91% (285/313),  658 kb</span>
+<span style="color:#75715e">#&gt; Receiving objects: 100% (313/313),  719 kb, done.</span>
+</code></pre></div><h3 id="下载-githubgitee-仓库的发布和存档文件">下载 GitHub/Gitee 仓库的发布和存档文件</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">x <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">tempdir</span>()
+<span style="color:#a6e22e">download</span>(<span style="color:#e6db74">&#34;ShixiangWang/tinyscholar&#34;</span>, destdir <span style="color:#f92672">=</span> x)
+<span style="color:#75715e">#&gt; Downloading repo archive...</span>
+<span style="color:#a6e22e">dir</span>(x)
+<span style="color:#75715e">#&gt; [1] &#34;ezcox&#34;       &#34;master.zip&#34;  &#34;tinyscholar&#34;</span>
+</code></pre></div>
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="../../../cn/post/2020-11-27-which-is-faster-to-calc-the-mean-in-r/">无影腿快不过组合拳？均值计算哪家强</a></span>
+  <span class="nav-next"></span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/post\/2020-11-27-which-is-faster-to-calc-the-mean-in-r\/';
+    
+  } else if (e.which == 39) {  
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+
+
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+<script>
+  const gitalk = new Gitalk({
+    clientID: 'eed477936be7b88a8455',
+    clientSecret: '32b5dde22f3c95c4fad400a31632e34221b07e83',
+    repo: 'home',
+    owner: 'ShixiangWang',
+    admin: ['ShixiangWang'],
+    id: md5(window.location.pathname), 
+    distractionFreeMode: false 
+  });
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('gitalk-container').innerHTML = 'Gitalk comments not available by default when the website is previewed locally.';
+      return;
+    }
+    gitalk.render('gitalk-container');
+  })();
+</script>
+
+
+
+
+
+<script async src="../../../js/fix-toc.js"></script>
+
+<script async src="../../../js/center-img.js"></script>
+
+<script async src="../../../js/right-quote.js"></script>
+
+<script async src="../../../js/no-highlight.js"></script>
+
+<script async src="../../../js/fix-footnote.js"></script>
+
+<script async src="../../../js/math-code.js"></script>
+
+<script async src="../../../js/external-link.js"></script>
+
+<script async src="../../../js/alt-title.js"></script>
+
+<script async src="../../../js/header-link.js"></script>
+
+
+<script src="//yihui.org/js/math-code.js"></script>
+<script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script async src="//yihui.org/js/center-img.js"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+  
+  
+
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> · <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> · <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> · <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> · <a href="https://orcid.org/0000-0001-9855-7357"><i class='ai ai-orcid ai-1x'></i></a> · <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 © <a href="../../../">王诗翔</a> 2017 - 2020 </div>
+  
+  
+
+  <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56h9es09xn7&amp;m=6&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=1" async="async"></script>
+  </footer>
+  </article>
+  
+  </body>
+</html>
+

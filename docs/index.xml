@@ -8,6 +8,15 @@
     <language>en-us</language>
     <lastBuildDate>Thu, 05 May 2016 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>使用 wfun 加速 GitHub 包安装和仓库克隆</title>
+      <link>/cn/post/2020-11-27-wfun-intro/</link>
+      <pubDate>Fri, 27 Nov 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2020-11-27-wfun-intro/</guid>
+      <description>在国内下载 GitHub R 包或者克隆仓库经常失败，虽然在 Gitee 上设置镜像是一个不错的办法，但总是这么操作也挺麻烦了。今天分享一个解决的办法，就是使用我新写的</description>
+    </item>
+    
+    <item>
       <title>无影腿快不过组合拳？均值计算哪家强</title>
       <link>/cn/post/2020-11-27-which-is-faster-to-calc-the-mean-in-r/</link>
       <pubDate>Fri, 27 Nov 2020 00:00:00 +0000</pubDate>
