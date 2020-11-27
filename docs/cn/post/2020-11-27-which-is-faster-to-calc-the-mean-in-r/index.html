@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    
+    <link rel="stylesheet" href="../../../fonts/academicons-1.8.6/css/academicons.min.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../logo/bodhi.png"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    
+    <title>无影腿快不过组合拳？均值计算哪家强 - 王诗翔</title>
+    
+     
+    <meta property="og:title" content="无影腿快不过组合拳？均值计算哪家强 - Shixiang Wang | 王诗翔">
+    
+
+    
+      
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/Xcode.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="../../../css/style.css" />
+    <link rel="stylesheet" href="../../../css/mystyle.css" /> 
+    <link rel="stylesheet" href="../../../css/fonts.css" />
+    
+<script async src="../../../js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="../../../css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="../../../logo/ShixiangWang.png"><img src="../../../logo/ShixiangWang.png" alt="Shixiang Wang" /></a></h1>
+
+
+
+      <nav class="menu">
+        <input id="menu-check" type="checkbox" />
+        <label id="menu-label" for="menu-check" class="unselectable">
+          <span class="icon close-icon">✕</span>
+          <span class="icon open-icon">☰</span>
+          <span class="text">Menu</span>
+        </label>
+        <ul>
+        
+        
+        <li><a href="../../../">首页</a></li>
+        
+        <li><a href="../../../cn/about/">关于</a></li>
+        
+        <li><a href="../../../cn/post/">博客</a></li>
+        
+        <li><a href="../../../cn/read/">读书</a></li>
+        
+        <li><a href="../../../cn/writing">写作</a></li>
+        
+        <li><a href="../../../cn/research/">研究</a></li>
+        
+        <li><a href="../../../cn/tools/">工具</a></li>
+        
+        <li><a href="../../../cn/cv-cn/shixiang">简历</a></li>
+        
+        <li><a href="../../../logo/qrcode.jpg">公众号</a></li>
+        
+        <li><a href="https://www.zhihu.com/people/shixiangwang">知乎</a></li>
+        
+        <li><a href="../../../cn/mark">推荐阅读</a></li>
+        
+        <li><a href="../../../en/">English</a></li>
+        
+        <li><a href="../../../categories/">分类</a></li>
+        
+        <li><a href="../../../tags/">标签</a></li>
+        
+        
+
+<li class="menu-extra"></li>
+
+
+
+
+
+
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2020-11-27-which-is-faster-to-calc-the-mean-in-r.Rmd" target="_blank">编辑</a></li>
+
+
+<li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+        </ul>
+      </nav>
+    </header>
+
+    <article class="main">
+      <header class="title">
+        
+
+<h1>无影腿快不过组合拳？均值计算哪家强</h1>
+
+
+
+<h3>王诗翔 &middot 
+2020-11-27</h3> 
+
+
+<p style="text-align:right;">
+  分类:
+  
+    <a href="../../../categories/r">r</a> &nbsp
+  
+  <br>
+  标签:
+  
+    <a href="../../../tags/r">r</a> &nbsp
+  
+    <a href="../../../tags/%E8%AE%A1%E7%AE%97%E6%95%88%E7%8E%87">计算效率</a> &nbsp
+  
+</p>
+
+
+
+   
+  
+
+
+      </header>
+
+
+
+<script src="../../../rmarkdown-libs/header-attrs/header-attrs.js"></script>
+<link href="../../../rmarkdown-libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="../../../rmarkdown-libs/anchor-sections/anchor-sections.js"></script>
+
+
+<p>昨天我在<a href="https://mp.weixin.qq.com/s/8CXhJUhZwGTDTb5pUc4fdA">公众号推文</a>中提了一个非常有意思的问题：<code>mean()</code> 和 <code>sum() / length()</code> 哪一个更快？</p>
+<p>我在知识星球看到有朋友已经测试过了，发现后者更快，为什么呢？</p>
+<div id="性能测试" class="section level3">
+<h3>性能测试</h3>
+<p>我们先通过基准测试来比对两种方法的计算效率：</p>
+<pre class="r"><code># 生成一组随机数
+x &lt;- rnorm(1e6)
+# 测试
+microbenchmark::microbenchmark(
+  mean = mean(x),
+  comb = sum(x) / length(x)
+)
+#&gt; Unit: microseconds
+#&gt;  expr  min   lq mean median   uq  max neval cld
+#&gt;  mean 1787 1888 1976   1958 2036 2488   100   b
+#&gt;  comb  919  973 1062   1014 1057 2752   100  a</code></pre>
+<p>从 100 万数据的均值计算来看，组合拳差不多比 <code>mean()</code> 快 1倍。再问一句，为什么呢？</p>
+</div>
+<div id="性能探究" class="section level3">
+<h3>性能探究</h3>
+<p>想要深入理解它们的性能差异，我们有必要了解 3 个函数的结构：</p>
+<pre class="r"><code># 均值
+mean
+#&gt; function (x, ...) 
+#&gt; UseMethod(&quot;mean&quot;)
+#&gt; &lt;bytecode: 0x7f9db263c438&gt;
+#&gt; &lt;environment: namespace:base&gt;
+# 求和
+sum
+#&gt; function (..., na.rm = FALSE)  .Primitive(&quot;sum&quot;)
+# 取长度
+length
+#&gt; function (x)  .Primitive(&quot;length&quot;)</code></pre>
+<p>不难发现 <code>mean()</code> 是一个泛型函数，而后两者都是一类 <code>.Primitive</code> 的元素，我们来了解一下它是什么。</p>
+<blockquote>
+<p>R语言中有些函数是通过接口 <code>.Primitive()</code> 直接调用的 C 语言代码，而不是用 R 语言代码编写的。这些函数被称元函数（Primitive functions）。元函数仅在R基础包base中出现。因为元函数用底层语言写成，所以他们通常计算效率更高。但是也因为他们用C语言而不是用R语言写成。他们的行为方式也可能与 R 语言的其他函数不一样。</p>
+<p>引自 <a href="https://likan.info/cn/read/advanced-r/ch-06/">R 语言中的函数</a></p>
+</blockquote>
+<p>这就正常了，C 语言毕竟是性能之王。</p>
+<pre class="r"><code>microbenchmark::microbenchmark(
+  mean = .Internal(mean(x)),
+  comb = sum(x) / length(x)
+)
+#&gt; Unit: microseconds
+#&gt;  expr  min   lq mean median   uq  max neval cld
+#&gt;  mean 1796 1899 2079   1954 2087 3497   100   b
+#&gt;  comb  927  992 1096   1045 1125 1932   100  a</code></pre>
+<p>我们最后再看看 R 分派用来计算数值均值的函数：</p>
+<pre class="r"><code>mean.default
+#&gt; function (x, trim = 0, na.rm = FALSE, ...) 
+#&gt; {
+#&gt;     if (!is.numeric(x) &amp;&amp; !is.complex(x) &amp;&amp; !is.logical(x)) {
+#&gt;         warning(&quot;argument is not numeric or logical: returning NA&quot;)
+#&gt;         return(NA_real_)
+#&gt;     }
+#&gt;     if (na.rm) 
+#&gt;         x &lt;- x[!is.na(x)]
+#&gt;     if (!is.numeric(trim) || length(trim) != 1L) 
+#&gt;         stop(&quot;&#39;trim&#39; must be numeric of length one&quot;)
+#&gt;     n &lt;- length(x)
+#&gt;     if (trim &gt; 0 &amp;&amp; n) {
+#&gt;         if (is.complex(x)) 
+#&gt;             stop(&quot;trimmed means are not defined for complex data&quot;)
+#&gt;         if (anyNA(x)) 
+#&gt;             return(NA_real_)
+#&gt;         if (trim &gt;= 0.5) 
+#&gt;             return(stats::median(x, na.rm = FALSE))
+#&gt;         lo &lt;- floor(n * trim) + 1
+#&gt;         hi &lt;- n + 1 - lo
+#&gt;         x &lt;- sort.int(x, partial = unique(c(lo, hi)))[lo:hi]
+#&gt;     }
+#&gt;     .Internal(mean(x))
+#&gt; }
+#&gt; &lt;bytecode: 0x7f9dbb0fe550&gt;
+#&gt; &lt;environment: namespace:base&gt;</code></pre>
+<p>我们可以看到有很多的条件判断，而最后一句是计算的核心代码，只保留它能加速吗？</p>
+<pre class="r"><code>microbenchmark::microbenchmark(
+  mean = mean(x),
+  mean_internal = .Internal(mean(x)),
+  comb = sum(x) / length(x)
+)
+#&gt; Unit: microseconds
+#&gt;           expr  min   lq mean median   uq  max neval cld
+#&gt;           mean 2109 3051 3115   3128 3267 3502   100   b
+#&gt;  mean_internal 1947 3072 3120   3164 3282 3524   100   b
+#&gt;           comb  993 1565 1580   1629 1699 1764   100  a</code></pre>
+<p>从结果来看，只执行最后一句并没有性能提升，反而速度有所下降。从代码中查看可以看出在调用最后一句计算代码之前进行过排序操作，显然这些 R 代码是有比较大的意义的。</p>
+<p>话说这里的 <code>.Internal</code> 又是什么？查文档。</p>
+<blockquote>
+<p>.Internal performs a call to an internal code which is built in to the R interpreter.</p>
+<p>Only true R wizards should even consider using this function, and only R developers can add to the list of internal functions.</p>
+</blockquote>
+<p>再看代码：</p>
+<pre class="r"><code>.Internal
+#&gt; function (call)  .Primitive(&quot;.Internal&quot;)</code></pre>
+<p>原来是个 C 写的函数。</p>
+</div>
+<div id="小结" class="section level3">
+<h3>小结</h3>
+<p>综上，组合拳求<strong>数值</strong>的均值要快一倍。</p>
+<p>细心的读者可能会问为啥 R 不默认用组合拳求均值？</p>
+<p>前面已经提到 <code>mean()</code> 是泛型函数，它支持多个数据类型的操作，使用更加广泛：</p>
+<pre class="r"><code>.S3methods(&quot;mean&quot;)
+#&gt;  [1] mean.Date        mean.default     mean.difftime    mean.POSIXct    
+#&gt;  [5] mean.POSIXlt     mean.quosure*    mean.vctrs_vctr* mean.yearmon*   
+#&gt;  [9] mean.yearqtr*    mean.zoo*       
+#&gt; see &#39;?methods&#39; for accessing help and source code</code></pre>
+</div>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="../../../cn/post/2020-11-24-install-and-manage-shiny-server/">CentOS 安装和管理 Shiny Server</a></span>
+  <span class="nav-next"></span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/post\/2020-11-24-install-and-manage-shiny-server\/';
+    
+  } else if (e.which == 39) {  
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+
+
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+<script>
+  const gitalk = new Gitalk({
+    clientID: 'eed477936be7b88a8455',
+    clientSecret: '32b5dde22f3c95c4fad400a31632e34221b07e83',
+    repo: 'home',
+    owner: 'ShixiangWang',
+    admin: ['ShixiangWang'],
+    id: md5(window.location.pathname), 
+    distractionFreeMode: false 
+  });
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('gitalk-container').innerHTML = 'Gitalk comments not available by default when the website is previewed locally.';
+      return;
+    }
+    gitalk.render('gitalk-container');
+  })();
+</script>
+
+
+
+
+
+<script async src="../../../js/fix-toc.js"></script>
+
+<script async src="../../../js/center-img.js"></script>
+
+<script async src="../../../js/right-quote.js"></script>
+
+<script async src="../../../js/no-highlight.js"></script>
+
+<script async src="../../../js/fix-footnote.js"></script>
+
+<script async src="../../../js/math-code.js"></script>
+
+<script async src="../../../js/external-link.js"></script>
+
+<script async src="../../../js/alt-title.js"></script>
+
+<script async src="../../../js/header-link.js"></script>
+
+
+<script src="//yihui.org/js/math-code.js"></script>
+<script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script async src="//yihui.org/js/center-img.js"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+  
+  
+
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> · <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> · <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> · <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> · <a href="https://orcid.org/0000-0001-9855-7357"><i class='ai ai-orcid ai-1x'></i></a> · <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 © <a href="../../../">王诗翔</a> 2017 - 2020 </div>
+  
+  
+
+  <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56h9es09xn7&amp;m=6&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=1" async="async"></script>
+  </footer>
+  </article>
+  
+  </body>
+</html>
+

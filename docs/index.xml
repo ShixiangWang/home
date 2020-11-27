@@ -8,6 +8,15 @@
     <language>en-us</language>
     <lastBuildDate>Thu, 05 May 2016 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>无影腿快不过组合拳？均值计算哪家强</title>
+      <link>/cn/post/2020-11-27-which-is-faster-to-calc-the-mean-in-r/</link>
+      <pubDate>Fri, 27 Nov 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2020-11-27-which-is-faster-to-calc-the-mean-in-r/</guid>
+      <description>昨天我在公众号推文中提了一个非常有意思的问题：mean() 和 sum() / length() 哪一个更快？ 我在知识星球看到有朋友已经测试过了，发现后者更快，为什么呢？ 性</description>
+    </item>
+    
+    <item>
       <title>CentOS 安装和管理 Shiny Server</title>
       <link>/cn/post/2020-11-24-install-and-manage-shiny-server/</link>
       <pubDate>Tue, 24 Nov 2020 00:00:00 +0000</pubDate>
