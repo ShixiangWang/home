@@ -6,7 +6,16 @@
     <description>Recent content in r on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 27 Nov 2020 00:00:00 +0000</lastBuildDate><atom:link href="/categories/r/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 02 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="/categories/r/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>unlist() 和 purrr::flatten() 的区别在哪里？</title>
+      <link>/cn/post/2020-12-02-difference-between-unlist-and-flatten/</link>
+      <pubDate>Wed, 02 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2020-12-02-difference-between-unlist-and-flatten/</guid>
+      <description>最近在工作的时候有一个需求是解除对象的列表结构，但运行后发现 unlist() 并非我想要的只解除一层嵌套。 我们用个非常简单的数据来看这个问题： x &amp;lt;- list(list(a = 1, b =</description>
+    </item>
+    
     <item>
       <title>使用 wfun 加速 GitHub 包安装和仓库克隆</title>
       <link>/cn/post/2020-11-27-wfun-intro/</link>

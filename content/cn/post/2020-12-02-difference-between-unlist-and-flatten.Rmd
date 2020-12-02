@@ -1,0 +1,57 @@
+---
+title: "unlist() 和 purrr::flatten() 的区别在哪里？"
+author: "王诗翔"
+date: "2020-12-02"
+lastmod: "`r Sys.Date()`"
+slug: ""
+# All available categories:
+# bioinformatics, config, docker, golang, life, linux, ml, r, read, shell, thinking
+categories: ["r"]
+tags: ["r", "purrr"]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, dev = "png", comment = "#>", tidy = "styler")
+#Sys.setenv("LANGUAGE"="EN") # Embed this for outputing English message
+#Sys.setlocale('LC_ALL','C') # Embed this directly in the Rmarkdown script that contains the Chinese character comment
+options(digits=3)
+options(max.print=200)
+```
+
+最近在工作的时候有一个需求是解除对象的列表结构，但运行后发现 `unlist()` 并非我想要的只解除一层嵌套。
+
+我们用个非常简单的数据来看这个问题：
+
+```{r}
+x <- list(list(a=1, b=2))
+x
+str(x)
+```
+如果我们使用 `unlist()`，结果如下：
+
+```{r}
+unlist(x)
+```
+
+可能这是我们大多数想要的场景。
+
+但如果我们想要保留包含 `a` 和 `b` 的那层嵌套呢？我们可以显式地指定 `recursive = FALSE`。
+
+```{r}
+unlist(x, recursive = FALSE)
+```
+
+如果你接触过 `purrr` 包，你可能会见过 `flatten` 这个函数，它也是做类似的工作。
+
+```{r}
+purrr::flatten(x)
+```
+
+可以看到，`flatten()` 默认只解除一层嵌套！
+
+> These functions remove a level hierarchy from a list. They are similar to unlist(), but they only ever remove a single layer of hierarchy and they are type-stable, so you always know what the type of the output is.
+
+### 小结
+
+`unlist()` 和 `purr::flatten()` 都是用来解除列表的层次嵌套结构。如果我们拿拨开卷心菜作为例子，那么 `unlist()` 默认一次性拨完，而 `purrr::flatten()` 只拨开一层。 
+

@@ -6,7 +6,25 @@
     <description>Recent content in Tags on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 27 Nov 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 02 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>purrr</title>
+      <link>/tags/purrr/</link>
+      <pubDate>Wed, 02 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/purrr/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>r</title>
+      <link>/tags/r/</link>
+      <pubDate>Wed, 02 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/r/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>Gitee</title>
       <link>/tags/gitee/</link>
@@ -22,15 +40,6 @@
       <pubDate>Fri, 27 Nov 2020 00:00:00 +0000</pubDate>
       
       <guid>/tags/github/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>r</title>
-      <link>/tags/r/</link>
-      <pubDate>Fri, 27 Nov 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/r/</guid>
       <description></description>
     </item>
     
@@ -1183,15 +1192,6 @@
       <pubDate>Mon, 15 Oct 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/iteration/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>purrr</title>
-      <link>/tags/purrr/</link>
-      <pubDate>Mon, 15 Oct 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/purrr/</guid>
       <description></description>
     </item>
     
