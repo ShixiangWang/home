@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>安装 on Shixiang Wang | 王诗翔</title>
-    <link>/tags/%E5%AE%89%E8%A3%85/</link>
-    <description>Recent content in 安装 on Shixiang Wang | 王诗翔</description>
+    <title>动态库 on Shixiang Wang | 王诗翔</title>
+    <link>/tags/%E5%8A%A8%E6%80%81%E5%BA%93/</link>
+    <description>Recent content in 动态库 on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 04 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/%E5%AE%89%E8%A3%85/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 04 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/%E5%8A%A8%E6%80%81%E5%BA%93/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>安装 R 源码包时踩过的坑</title>
       <link>/cn/post/2020-12-04-set-makevars-when-install-source-pkg/</link>

@@ -4,26 +4,41 @@
   
   <url>
     <loc>/categories/</loc>
-    <lastmod>2020-12-02T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/purrr/</loc>
-    <lastmod>2020-12-02T00:00:00+00:00</lastmod>
+    <lastmod>2020-12-04T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/tags/r/</loc>
-    <lastmod>2020-12-02T00:00:00+00:00</lastmod>
+    <lastmod>2020-12-04T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/categories/r/</loc>
-    <lastmod>2020-12-02T00:00:00+00:00</lastmod>
+    <lastmod>2020-12-04T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/tags/</loc>
+    <lastmod>2020-12-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/%E5%8A%A8%E6%80%81%E5%BA%93/</loc>
+    <lastmod>2020-12-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/%E5%AE%89%E8%A3%85/</loc>
+    <lastmod>2020-12-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/cn/post/2020-12-04-set-makevars-when-install-source-pkg/</loc>
+    <lastmod>2020-12-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/purrr/</loc>
     <lastmod>2020-12-02T00:00:00+00:00</lastmod>
   </url>
   
@@ -1659,7 +1674,7 @@
   
   <url>
     <loc>/en/cv-en/shixiang/</loc>
-    <lastmod>2020-08-02T00:00:00+00:00</lastmod>
+    <lastmod>2020-12-02T00:00:00+00:00</lastmod>
   </url>
   
 </urlset>
