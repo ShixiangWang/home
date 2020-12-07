@@ -8,6 +8,15 @@
     <language>en-us</language>
     <lastBuildDate>Tue, 31 Jan 2017 00:00:00 +0000</lastBuildDate><atom:link href="/cn/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>使用 Git 存储大文件</title>
+      <link>/cn/post/2020-12-07-git-for-large-files/</link>
+      <pubDate>Mon, 07 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2020-12-07-git-for-large-files/</guid>
+      <description>如果你是一个 gitter，你可能会遇到我今天遇到的问题。 git push 文件太大报警告 当在 Git 仓库中存储大的二进制文件时（&amp;gt;50MB），比如 R 里面的</description>
+    </item>
+    
+    <item>
       <title>安装 R 源码包时踩过的坑</title>
       <link>/cn/post/2020-12-04-set-makevars-when-install-source-pkg/</link>
       <pubDate>Fri, 04 Dec 2020 00:00:00 +0000</pubDate>

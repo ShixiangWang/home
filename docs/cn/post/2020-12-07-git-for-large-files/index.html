@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    
+    <link rel="stylesheet" href="../../../fonts/academicons-1.8.6/css/academicons.min.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../logo/bodhi.png"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    
+    <title>使用 Git 存储大文件 - 王诗翔</title>
+    
+     
+    <meta property="og:title" content="使用 Git 存储大文件 - Shixiang Wang | 王诗翔">
+    
+
+    
+      
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/Xcode.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="../../../css/style.css" />
+    <link rel="stylesheet" href="../../../css/mystyle.css" /> 
+    <link rel="stylesheet" href="../../../css/fonts.css" />
+    
+<script async src="../../../js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="../../../css/custom.css" />
+
+  </head>
+
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="../../../logo/ShixiangWang.png"><img src="../../../logo/ShixiangWang.png" alt="Shixiang Wang" /></a></h1>
+
+
+
+      <nav class="menu">
+        <input id="menu-check" type="checkbox" />
+        <label id="menu-label" for="menu-check" class="unselectable">
+          <span class="icon close-icon">✕</span>
+          <span class="icon open-icon">☰</span>
+          <span class="text">Menu</span>
+        </label>
+        <ul>
+        
+        
+        <li><a href="../../../">首页</a></li>
+        
+        <li><a href="../../../cn/about/">关于</a></li>
+        
+        <li><a href="../../../cn/post/">博客</a></li>
+        
+        <li><a href="../../../cn/read/">读书</a></li>
+        
+        <li><a href="../../../cn/writing">写作</a></li>
+        
+        <li><a href="../../../cn/research/">研究</a></li>
+        
+        <li><a href="../../../cn/tools/">工具</a></li>
+        
+        <li><a href="../../../cn/cv-cn/shixiang">简历</a></li>
+        
+        <li><a href="../../../logo/qrcode.jpg">公众号</a></li>
+        
+        <li><a href="https://www.zhihu.com/people/shixiangwang">知乎</a></li>
+        
+        <li><a href="../../../cn/mark">推荐阅读</a></li>
+        
+        <li><a href="../../../en/">English</a></li>
+        
+        <li><a href="../../../categories/">分类</a></li>
+        
+        <li><a href="../../../tags/">标签</a></li>
+        
+        
+
+<li class="menu-extra"></li>
+
+
+
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2020-12-07-git-for-large-files.md" target="_blank">编辑</a></li>
+
+
+<li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+        </ul>
+      </nav>
+    </header>
+
+    <article class="main">
+      <header class="title">
+        
+
+<h1>使用 Git 存储大文件</h1>
+
+
+
+<h3>王诗翔 &middot 
+2020-12-07</h3> 
+
+
+<p style="text-align:right;">
+  分类:
+  
+    <a href="../../../categories/config">config</a> &nbsp
+  
+  <br>
+  标签:
+  
+    <a href="../../../tags/git-lfs">git-lfs</a> &nbsp
+  
+    <a href="../../../tags/gitter">gitter</a> &nbsp
+  
+</p>
+
+
+
+   
+  
+
+
+      </header>
+
+
+<p>如果你是一个 gitter，你可能会遇到我今天遇到的问题。</p>
+<h3 id="git-push-文件太大报警告">git push 文件太大报警告</h3>
+<p>当在 Git 仓库中存储大的二进制文件时（&gt;50MB），比如 R 里面的 RData 或 RDS 文件，默认的 git 提交方式无法获取二进制文件的修改，会让仓库越来越大。在这种情况下，将仓库 push 到远程会出现警告。</p>
+<pre><code>$ git push
+Counting objects: 15, done.
+Delta compression using up to 24 threads.
+Compressing objects: 100% (15/15), done.
+Writing objects: 100% (15/15), 58.66 MiB | 1.46 MiB/s, done.
+Total 15 (delta 6), reused 0 (delta 0)
+remote: Resolving deltas: 100% (6/6), completed with 4 local objects.
+remote: warning: GH001: Large files detected. You may want to try Git Large File Storage - https://git-lfs.github.com.
+remote: warning: See http://git.io/iEPt8g for more information.
+remote: warning: File xx.rds is 54.69 MB; this is larger than GitHub's recommended maximum file size of 50.00 MB
+To https://github.com/ShixiangWang/XX.git
+   9a93595..fff62d7  master -&gt; master
+</code></pre><h3 id="我之前的解决办法">我之前的解决办法</h3>
+<p>既然文件很大，那就不要将它存储在 Git 仓库中了，提前将文件名写入 <code>.gitignore</code> 可以将其忽略掉。但有时候没这么简单，我们也没那么细心，如果已经将大文件添加到 git 仓库中了怎么办呢？</p>
+<p>可以使用下面的命令将文件 <code>var/log/system.log</code> 从 git 仓库中移除：</p>
+<pre><code>git filter-branch --index-filter 'git rm --cached --ignore-unmatch var/log/system.log' --tag-name-filter cat -- --all
+</code></pre><h3 id="如果想存储文件怎么办">如果想存储文件怎么办</h3>
+<p>根据前面出现的警告我们知道有个 git-lfs 的工具可以解决这个问题。</p>
+<blockquote>
+<p>Large files detected. You may want to try Git Large File Storage - <a href="https://git-lfs.github.com">https://git-lfs.github.com</a></p>
+</blockquote>
+<p>那么 git-lfs 是什么呢？</p>
+<blockquote>
+<p>Git 大文件存储（Large File Storage，简称LFS）目的是更好地把大型二进制文件，比如音频文件、数据集、图像和视频等集成到 Git 的工作流中。我们知道，Git 存储二进制效率不高，因为它会压缩并存储二进制文件的所有完整版本，随着版本的不断增长以及二进制文件越来越多，这种存储方案并不是最优方案。而 LFS 处理大型二进制文件的方式是用文本指针替换它们，这些文本指针实际上是包含二进制文件信息的文本文件。文本指针存储在 Git 中，而大文件本身通过HTTPS托管在Git LFS服务器上。</p>
+</blockquote>
+<p>一个更清晰的简介如下：</p>
+<blockquote>
+<p>对于包涵大文件（尤其是经常被修改的大文件）的项目，初始克隆需要大量时间，因为客户端会下载每个文件的每个版本。Git LFS（Large File Storage）是由 Atlassian, GitHub 以及其他开源贡献者开发的 Git 扩展，它通过延迟地（lazily）下载大文件的相关版本来减少大文件在仓库中的影响，具体来说，大文件是在 checkout 的过程中下载的，而不是 clone 或 fetch 过程中下载的（这意味着你在后台定时 fetch 远端仓库内容到本地时，并不会下载大文件内容，而是在你 checkout 到工作区的时候才会真正去下载大文件的内容）。</p>
+</blockquote>
+<p><style>
+  .img-container {
+    text-align: center;
+    display: block;
+  }
+</style>
+
+  <img src="https://pic3.zhimg.com/80/v2-ba2b7ea48f0a48396fe656657ee19682_1440w.jpg" alt="">
+  </span>
+</p>
+<p><style>
+  .img-container {
+    text-align: center;
+    display: block;
+  }
+</style>
+
+  <img src="https://pic3.zhimg.com/80/v2-546c2213c530bb6b1e61c377d5225a16_1440w.jpg" alt="">
+  </span>
+</p>
+<p><style>
+  .img-container {
+    text-align: center;
+    display: block;
+  }
+</style>
+
+  <img src="https://pic3.zhimg.com/80/v2-805341628b82fdd7a68876d9e953aa46_1440w.jpg" alt="">
+  </span>
+</p>
+<h3 id="如何使用-git-lfs">如何使用 git-lfs</h3>
+<h4 id="安装">安装</h4>
+<p>安装很简单，我们可以上 <a href="https://github.com/git-lfs/git-lfs">https://github.com/git-lfs/git-lfs</a> 查看不同系统怎么安装。像 linux 操作系统可以直接通过包管理器安装，例如 CentOS 上是 <code>yum install git-lfs</code>。</p>
+<h4 id="使用">使用</h4>
+<blockquote>
+<p>假设你目前位于 git 仓库中。</p>
+</blockquote>
+<p>命令形如 <code>git lfs track &quot;*.rds&quot;</code>，它就可以标记和追踪所有 rds 后缀名文件，并将其通过 lfs 技术进行存储和传输。</p>
+<p>使用上面命令后，在通过下面的命令提交修改。</p>
+<pre><code>$ git add .gitattributes
+$ git commit -m &quot;track *.rds file using Git LFS&quot;
+</code></pre><p>后面就可以常规使用 <code>git add</code> 和 <code>git commit</code> 了，例如</p>
+<pre><code>$ git add xx.rds
+$ git commit -m &quot;add xx.rds&quot;
+$ git push
+</code></pre><h4 id="迁移">迁移</h4>
+<p>如果你想将仓库里已经存储的文件修改存储方式为 LFS，那么使用下面的命令进行迁移：</p>
+<pre><code>git lfs migrate import --include=&quot;*.rds&quot; --everything
+migrate: Sorting commits: ..., done.                                                                                    
+migrate: Rewriting commits: 100% (12/12), done.                                                                         
+  master	fff62d77ddfa2a58e87bb88a77857e7d73ca1f6d -&gt; 3f71d46858f3140fbe70a5d9804a3c43fd2e6dbf
+migrate: Updating refs: ..., done.                                                                                      
+migrate: checkout: ..., done.      
+</code></pre><p>如果你想要查看哪些文件格式占据的空间比较大，使用下面的命令：</p>
+<pre><code>$ git lfs migrate info
+migrate: Fetching remote refs: ..., done.                                                                               
+migrate: Sorting commits: ..., done.                                                                                    
+migrate: Examining commits: 100% (12/12), done.                                                                         
+*.xena	12 MB 	  1/1 files(s)	100%
+*.gz  	11 MB 	  3/3 files(s)	100%
+*.xlsx	9.4 MB	  7/7 files(s)	100%
+*.csv 	4.7 MB	  7/7 files(s)	100%
+*.css 	2.1 MB	21/21 files(s)	100%
+</code></pre><h4 id="git-pull-碰到拒绝合并无关历史">git pull 碰到拒绝合并无关历史</h4>
+<p>当使用 git push 后，再拉取更新可能会出现拒绝合并无关历史的情况，可以使用下面的命令解决：</p>
+<pre><code>git pull origin master --allow-unrelated-histories 
+</code></pre><p>参考：</p>
+<ul>
+<li><a href="https://zhuanlan.zhihu.com/p/146683392">https://zhuanlan.zhihu.com/p/146683392</a></li>
+<li><a href="https://blog.csdn.net/aixiaoyang168/article/details/76012094">https://blog.csdn.net/aixiaoyang168/article/details/76012094</a></li>
+<li><a href="https://stackoverflow.com/questions/22227851/error-while-pushing-to-github-repo">https://stackoverflow.com/questions/22227851/error-while-pushing-to-github-repo</a></li>
+</ul>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="../../../cn/post/2020-12-04-set-makevars-when-install-source-pkg/">安装 R 源码包时踩过的坑</a></span>
+  <span class="nav-next"></span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/post\/2020-12-04-set-makevars-when-install-source-pkg\/';
+    
+  } else if (e.which == 39) {  
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+
+
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+<script>
+  const gitalk = new Gitalk({
+    clientID: 'eed477936be7b88a8455',
+    clientSecret: '32b5dde22f3c95c4fad400a31632e34221b07e83',
+    repo: 'home',
+    owner: 'ShixiangWang',
+    admin: ['ShixiangWang'],
+    id: md5(window.location.pathname), 
+    distractionFreeMode: false 
+  });
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('gitalk-container').innerHTML = 'Gitalk comments not available by default when the website is previewed locally.';
+      return;
+    }
+    gitalk.render('gitalk-container');
+  })();
+</script>
+
+
+
+
+
+<script async src="../../../js/fix-toc.js"></script>
+
+<script async src="../../../js/center-img.js"></script>
+
+<script async src="../../../js/right-quote.js"></script>
+
+<script async src="../../../js/no-highlight.js"></script>
+
+<script async src="../../../js/fix-footnote.js"></script>
+
+<script async src="../../../js/math-code.js"></script>
+
+<script async src="../../../js/external-link.js"></script>
+
+<script async src="../../../js/alt-title.js"></script>
+
+<script async src="../../../js/header-link.js"></script>
+
+
+<script src="//yihui.org/js/math-code.js"></script>
+<script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script async src="//yihui.org/js/center-img.js"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+  
+  
+
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> · <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> · <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> · <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> · <a href="https://orcid.org/0000-0001-9855-7357"><i class='ai ai-orcid ai-1x'></i></a> · <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 © <a href="../../../">王诗翔</a> 2017 - 2020 </div>
+  
+  
+
+  <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56h9es09xn7&amp;m=6&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=1" async="async"></script>
+  </footer>
+  </article>
+  
+  </body>
+</html>
+

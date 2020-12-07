@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>git-lfs on Shixiang Wang | 王诗翔</title>
+    <link>/tags/git-lfs/</link>
+    <description>Recent content in git-lfs on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 07 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/git-lfs/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>使用 Git 存储大文件</title>
+      <link>/cn/post/2020-12-07-git-for-large-files/</link>
+      <pubDate>Mon, 07 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2020-12-07-git-for-large-files/</guid>
+      <description>如果你是一个 gitter，你可能会遇到我今天遇到的问题。 git push 文件太大报警告 当在 Git 仓库中存储大的二进制文件时（&amp;gt;50MB），比如 R 里面的</description>
+    </item>
+    
+  </channel>
+</rss>
