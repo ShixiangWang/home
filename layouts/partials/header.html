@@ -43,7 +43,6 @@
     <link rel="stylesheet" href="{{ "/css/fonts.css" | relURL }}" />
     {{ partial "head_custom.html" . }}
   </head>
-
   {{ $.Scratch.Set "section" (replaceRE "^/([^/]+)/.*" "$1" .URL) }}
   <body class="{{ if .IsHome }}home{{ else }}{{ $.Scratch.Get "section" }}{{ end }}">
     <header class="masthead">
