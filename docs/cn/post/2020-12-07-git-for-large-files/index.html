@@ -242,8 +242,10 @@ migrate: Examining commits: 100% (12/12), done.
 </code></pre><h4 id="git-pull-碰到拒绝合并无关历史">git pull 碰到拒绝合并无关历史</h4>
 <p>当使用 git push 后，再拉取更新可能会出现拒绝合并无关历史的情况，可以使用下面的命令解决：</p>
 <pre><code>git pull origin master --allow-unrelated-histories 
-</code></pre><p>参考：</p>
+</code></pre><p>如果发现仓库中的文件大小不对，使用 <code>git lfs install</code> 初始化，然后拉取 <code>git lfs pull</code>。</p>
+<p>参考：</p>
 <ul>
+<li><a href="https://jakciehoo.github.io/2017/03/18/2017-03-18-Git-LFS/">https://jakciehoo.github.io/2017/03/18/2017-03-18-Git-LFS/</a></li>
 <li><a href="https://zhuanlan.zhihu.com/p/146683392">https://zhuanlan.zhihu.com/p/146683392</a></li>
 <li><a href="https://blog.csdn.net/aixiaoyang168/article/details/76012094">https://blog.csdn.net/aixiaoyang168/article/details/76012094</a></li>
 <li><a href="https://stackoverflow.com/questions/22227851/error-while-pushing-to-github-repo">https://stackoverflow.com/questions/22227851/error-while-pushing-to-github-repo</a></li>

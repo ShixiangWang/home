@@ -124,8 +124,11 @@ migrate: Examining commits: 100% (12/12), done.
 git pull origin master --allow-unrelated-histories 
 ```
 
+如果发现仓库中的文件大小不对，使用 `git lfs install` 初始化，然后拉取 `git lfs pull`。
+
 参考：
 
+- <https://jakciehoo.github.io/2017/03/18/2017-03-18-Git-LFS/>
 - <https://zhuanlan.zhihu.com/p/146683392>
 - <https://blog.csdn.net/aixiaoyang168/article/details/76012094>
 - <https://stackoverflow.com/questions/22227851/error-while-pushing-to-github-repo>
