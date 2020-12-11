@@ -243,12 +243,19 @@ migrate: Examining commits: 100% (12/12), done.
 <p>当使用 git push 后，再拉取更新可能会出现拒绝合并无关历史的情况，可以使用下面的命令解决：</p>
 <pre><code>git pull origin master --allow-unrelated-histories 
 </code></pre><p>如果发现仓库中的文件大小不对，使用 <code>git lfs install</code> 初始化，然后拉取 <code>git lfs pull</code>。</p>
+<h4 id="取消文件最终">取消文件最终</h4>
+<pre><code>git lfs untrack '&lt;file-type&gt;'
+git rm --cached '&lt;file-type&gt;'
+git add '&lt;file-type&gt;'
+git commit -m &quot;restore '&lt;file-type&gt;' to git from lfs&quot;
+</code></pre><p>可以进一步使用 <code>git lfs prune</code> 清除本地缓存文件。</p>
 <p>参考：</p>
 <ul>
 <li><a href="https://jakciehoo.github.io/2017/03/18/2017-03-18-Git-LFS/">https://jakciehoo.github.io/2017/03/18/2017-03-18-Git-LFS/</a></li>
 <li><a href="https://zhuanlan.zhihu.com/p/146683392">https://zhuanlan.zhihu.com/p/146683392</a></li>
 <li><a href="https://blog.csdn.net/aixiaoyang168/article/details/76012094">https://blog.csdn.net/aixiaoyang168/article/details/76012094</a></li>
 <li><a href="https://stackoverflow.com/questions/22227851/error-while-pushing-to-github-repo">https://stackoverflow.com/questions/22227851/error-while-pushing-to-github-repo</a></li>
+<li><a href="https://stackoverflow.com/questions/35011366/move-git-lfs-tracked-files-under-regular-git">https://stackoverflow.com/questions/35011366/move-git-lfs-tracked-files-under-regular-git</a></li>
 </ul>
 
 
