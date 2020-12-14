@@ -1,0 +1,117 @@
+---
+title: "Hiplot Xena 镜像与官方网站下载速度测评"
+author: "王诗翔"
+date: "2020-12-14"
+lastmod: "`r Sys.Date()`"
+slug: ""
+# All available categories:
+# bioinformatics, config, docker, golang, life, linux, ml, r, read, shell, thinking
+categories: ["r"]
+tags: ["r", "UCSCXena", "UCSCXenaTools", "TCGA", "GDC", "ICGC", "PCAWG"]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, dev = "png", comment = "#>", tidy = "styler")
+#Sys.setenv("LANGUAGE"="EN") # Embed this for outputing English message
+#Sys.setlocale('LC_ALL','C') # Embed this directly in the Rmarkdown script that contains the Chinese character comment
+options(digits=3)
+options(max.print=200)
+```
+
+最近剑峰在 Hiplot 服务器上线了 UCSC Xena 的镜像，本文是对已部署镜像的下载速度情况进行一个简单的测评。
+
+### 数据集选择
+
+使用更新到 `1.4.0` 的 `UCSCXenaTools` <https://github.com/ropensci/UCSCXenaTools>。
+
+```{r}
+library(UCSCXenaTools)
+```
+看下数据类型：
+
+```{r}
+table(XenaData$Type)
+```
+
+这里随机每种数据类型选 1 个数据集。
+
+```{r}
+set.seed(1234)
+set1 <- sample(which(XenaData$Type == "clinicalMatrix"), 1)
+set.seed(1234)
+set2 <- sample(which(XenaData$Type == "genomicMatrix"), 1)
+set.seed(1234)
+set3 <- sample(which(XenaData$Type == "genomicSegment"), 1)
+set.seed(1234)
+set4 <- sample(which(XenaData$Type == "mutationVector"), 1)
+
+set1 <- XenaData[set1, ]
+set2 <- XenaData[set2, ]
+set3 <- XenaData[set3, ]
+set4 <- XenaData[set4, ]
+```
+
+我们看看随机挑出来了哪些数据集，如果太大了就不下载了。。。
+
+```{r}
+set1
+set2
+set3
+set4
+```
+
+set2 的数据集比较大，我们去掉它。有兴趣的可以单独测试。
+
+### 下载测试
+
+```{r}
+library(microbenchmark)
+```
+
+
+先编写一个下载函数：
+
+```{r, message=FALSE}
+download_test <- function(x, use_hiplot = FALSE) {
+  if (use_hiplot) {
+    options(use_hiplot = TRUE)
+    on.exit(options(use_hiplot = FALSE))
+  } else {
+    options(use_hiplot = FALSE)
+  }
+  x %>% 
+    XenaGenerate() %>% 
+    XenaQuery() %>% 
+    XenaDownload(force = TRUE)
+}
+```
+
+
+我们下载看一看，下载重复 5 次，看下平均水平：
+
+```{r, message=FALSE}
+options(use_hiplot = TRUE)
+download_stats <- microbenchmark(
+  set1_no_hiplot = download_test(set1),
+  set1_by_hiplot = download_test(set1, use_hiplot = TRUE),
+  set3_no_hiplot = download_test(set3),
+  set3_by_hiplot = download_test(set3, use_hiplot = TRUE),
+  set4_no_hiplot = download_test(set4),
+  set4_by_hiplot = download_test(set4, use_hiplot = TRUE),
+  times = 5
+)
+```
+
+### 结果可视化
+
+```{r}
+print(ggplot2::autoplot(download_stats))
+```
+
+数据值：
+
+```{r}
+print(download_stats)
+```
+
+> 本次测试通过位于上海的学校网络完成。由于网络、地理坐标的原因，读者使用的实际下载速度可能有所不同。
