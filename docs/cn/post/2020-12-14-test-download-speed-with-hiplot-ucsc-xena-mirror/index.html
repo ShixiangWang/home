@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    
+    <link rel="stylesheet" href="../../../fonts/academicons-1.8.6/css/academicons.min.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../logo/bodhi.png"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    
+    <title>Hiplot Xena 镜像与官方网站下载速度测评 - 王诗翔</title>
+    
+     
+    <meta property="og:title" content="Hiplot Xena 镜像与官方网站下载速度测评 - Shixiang Wang | 王诗翔">
+    
+
+    
+      
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/Xcode.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="../../../css/style.css" />
+    <link rel="stylesheet" href="../../../css/mystyle.css" /> 
+    <link rel="stylesheet" href="../../../css/fonts.css" />
+    
+<script async src="../../../js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="../../../css/custom.css" />
+
+  </head>
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="../../../logo/ShixiangWang.png"><img src="../../../logo/ShixiangWang.png" alt="Shixiang Wang" /></a></h1>
+<p align="right" style="margin-top:-50px;"><small>><i>上士闻道<br>勤而行之</i></small></p>
+
+
+
+
+      <nav class="menu">
+        <input id="menu-check" type="checkbox" />
+        <label id="menu-label" for="menu-check" class="unselectable">
+          <span class="icon close-icon">✕</span>
+          <span class="icon open-icon">☰</span>
+          <span class="text">Menu</span>
+        </label>
+        <ul>
+        
+        
+        <li><a href="../../../">首页</a></li>
+        
+        <li><a href="../../../cn/about/">关于</a></li>
+        
+        <li><a href="../../../cn/post/">博客</a></li>
+        
+        <li><a href="../../../cn/read/">读书</a></li>
+        
+        <li><a href="../../../cn/writing">写作</a></li>
+        
+        <li><a href="../../../cn/research/">研究</a></li>
+        
+        <li><a href="../../../cn/tools/">工具</a></li>
+        
+        <li><a href="../../../cn/cv-cn/shixiang">简历</a></li>
+        
+        <li><a href="../../../logo/qrcode.jpg">公众号</a></li>
+        
+        <li><a href="https://www.zhihu.com/people/shixiangwang">知乎</a></li>
+        
+        <li><a href="../../../cn/mark">推荐阅读</a></li>
+        
+        <li><a href="../../../en/">English</a></li>
+        
+        <li><a href="../../../categories/">分类</a></li>
+        
+        <li><a href="../../../tags/">标签</a></li>
+        
+        
+
+<li class="menu-extra"></li>
+
+
+
+
+
+
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2020-12-14-test-download-speed-with-hiplot-ucsc-xena-mirror.Rmd" target="_blank">编辑</a></li>
+
+
+<li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+        </ul>
+      </nav>
+    </header>
+
+    <article class="main">
+      <header class="title">
+        
+
+<h1>Hiplot Xena 镜像与官方网站下载速度测评</h1>
+
+
+
+<h3>王诗翔 &middot 
+2020-12-14</h3> 
+
+
+<p style="text-align:right;">
+  分类:
+  
+    <a href="../../../categories/r">r</a> &nbsp
+  
+  <br>
+  标签:
+  
+    <a href="../../../tags/r">r</a> &nbsp
+  
+    <a href="../../../tags/ucscxena">UCSCXena</a> &nbsp
+  
+    <a href="../../../tags/ucscxenatools">UCSCXenaTools</a> &nbsp
+  
+    <a href="../../../tags/tcga">TCGA</a> &nbsp
+  
+    <a href="../../../tags/gdc">GDC</a> &nbsp
+  
+    <a href="../../../tags/icgc">ICGC</a> &nbsp
+  
+    <a href="../../../tags/pcawg">PCAWG</a> &nbsp
+  
+</p>
+
+
+
+   
+  
+
+
+      </header>
+
+
+
+<script src="../../../rmarkdown-libs/header-attrs/header-attrs.js"></script>
+<link href="../../../rmarkdown-libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="../../../rmarkdown-libs/anchor-sections/anchor-sections.js"></script>
+
+
+<p>最近剑峰在 Hiplot 服务器上线了 UCSC Xena 的镜像，本文是对已部署镜像的下载速度情况进行一个简单的测评。</p>
+<div id="数据集选择" class="section level3">
+<h3>数据集选择</h3>
+<p>使用更新到 <code>1.4.0</code> 的 <code>UCSCXenaTools</code> <a href="https://github.com/ropensci/UCSCXenaTools" class="uri">https://github.com/ropensci/UCSCXenaTools</a>。</p>
+<pre class="r"><code>library(UCSCXenaTools)
+#&gt; =========================================================================================
+#&gt; UCSCXenaTools version 1.4.0
+#&gt; Project URL: https://github.com/ropensci/UCSCXenaTools
+#&gt; Usages: https://cran.r-project.org/web/packages/UCSCXenaTools/vignettes/USCSXenaTools.html
+#&gt; 
+#&gt; If you use it in published research, please cite:
+#&gt; Wang et al., (2019). The UCSCXenaTools R package: a toolkit for accessing genomics data
+#&gt;   from UCSC Xena platform, from cancer multi-omics to single-cell RNA-seq.
+#&gt;   Journal of Open Source Software, 4(40), 1627, https://doi.org/10.21105/joss.01627
+#&gt; =========================================================================================
+#&gt;                               --Enjoy it--</code></pre>
+<p>看下数据类型：</p>
+<pre class="r"><code>table(XenaData$Type)
+#&gt; 
+#&gt; clinicalMatrix  genomicMatrix genomicSegment mutationVector 
+#&gt;            349            975            152            203</code></pre>
+<p>这里随机每种数据类型选 1 个数据集。</p>
+<pre class="r"><code>set.seed(1234)
+set1 &lt;- sample(which(XenaData$Type == &quot;clinicalMatrix&quot;), 1)
+set.seed(1234)
+set2 &lt;- sample(which(XenaData$Type == &quot;genomicMatrix&quot;), 1)
+set.seed(1234)
+set3 &lt;- sample(which(XenaData$Type == &quot;genomicSegment&quot;), 1)
+set.seed(1234)
+set4 &lt;- sample(which(XenaData$Type == &quot;mutationVector&quot;), 1)
+
+set1 &lt;- XenaData[set1, ]
+set2 &lt;- XenaData[set2, ]
+set3 &lt;- XenaData[set3, ]
+set4 &lt;- XenaData[set4, ]</code></pre>
+<p>我们看看随机挑出来了哪些数据集，如果太大了就不下载了。。。</p>
+<pre class="r"><code>set1
+#&gt; # A tibble: 1 x 17
+#&gt;   XenaHosts XenaHostNames XenaCohorts XenaDatasets SampleCount DataSubtype Label
+#&gt;   &lt;chr&gt;     &lt;chr&gt;         &lt;chr&gt;       &lt;chr&gt;              &lt;int&gt; &lt;chr&gt;       &lt;chr&gt;
+#&gt; 1 https://… pcawgHub      PCAWG (spe… pcawg_speci…        3205 phenotype   tumo…
+#&gt; # … with 10 more variables: Type &lt;chr&gt;, AnatomicalOrigin &lt;chr&gt;,
+#&gt; #   SampleType &lt;chr&gt;, Tags &lt;chr&gt;, ProbeMap &lt;chr&gt;, LongTitle &lt;chr&gt;,
+#&gt; #   Citation &lt;chr&gt;, Version &lt;chr&gt;, Unit &lt;chr&gt;, Platform &lt;chr&gt;
+set2
+#&gt; # A tibble: 1 x 17
+#&gt;   XenaHosts XenaHostNames XenaCohorts XenaDatasets SampleCount DataSubtype Label
+#&gt;   &lt;chr&gt;     &lt;chr&gt;         &lt;chr&gt;       &lt;chr&gt;              &lt;int&gt; &lt;chr&gt;       &lt;chr&gt;
+#&gt; 1 https://… tcgaHub       TCGA Pheoc… TCGA.PCPG.s…         187 DNA methyl… Meth…
+#&gt; # … with 10 more variables: Type &lt;chr&gt;, AnatomicalOrigin &lt;chr&gt;,
+#&gt; #   SampleType &lt;chr&gt;, Tags &lt;chr&gt;, ProbeMap &lt;chr&gt;, LongTitle &lt;chr&gt;,
+#&gt; #   Citation &lt;chr&gt;, Version &lt;chr&gt;, Unit &lt;chr&gt;, Platform &lt;chr&gt;
+set3
+#&gt; # A tibble: 1 x 17
+#&gt;   XenaHosts XenaHostNames XenaCohorts XenaDatasets SampleCount DataSubtype Label
+#&gt;   &lt;chr&gt;     &lt;chr&gt;         &lt;chr&gt;       &lt;chr&gt;              &lt;int&gt; &lt;chr&gt;       &lt;chr&gt;
+#&gt; 1 https://… tcgaHub       TCGA Prost… TCGA.PRAD.s…         495 copy numbe… Befo…
+#&gt; # … with 10 more variables: Type &lt;chr&gt;, AnatomicalOrigin &lt;chr&gt;,
+#&gt; #   SampleType &lt;chr&gt;, Tags &lt;chr&gt;, ProbeMap &lt;chr&gt;, LongTitle &lt;chr&gt;,
+#&gt; #   Citation &lt;chr&gt;, Version &lt;chr&gt;, Unit &lt;chr&gt;, Platform &lt;chr&gt;
+set4
+#&gt; # A tibble: 1 x 17
+#&gt;   XenaHosts XenaHostNames XenaCohorts XenaDatasets SampleCount DataSubtype Label
+#&gt;   &lt;chr&gt;     &lt;chr&gt;         &lt;chr&gt;       &lt;chr&gt;              &lt;int&gt; &lt;chr&gt;       &lt;chr&gt;
+#&gt; 1 https://… tcgaHub       TCGA Lung … mc3/LUSC_mc…         480 somatic mu… MC3 …
+#&gt; # … with 10 more variables: Type &lt;chr&gt;, AnatomicalOrigin &lt;chr&gt;,
+#&gt; #   SampleType &lt;chr&gt;, Tags &lt;chr&gt;, ProbeMap &lt;chr&gt;, LongTitle &lt;chr&gt;,
+#&gt; #   Citation &lt;chr&gt;, Version &lt;chr&gt;, Unit &lt;chr&gt;, Platform &lt;chr&gt;</code></pre>
+<p>set2 的数据集比较大，我们去掉它。有兴趣的可以单独测试。</p>
+</div>
+<div id="下载测试" class="section level3">
+<h3>下载测试</h3>
+<pre class="r"><code>library(microbenchmark)</code></pre>
+<p>先编写一个下载函数：</p>
+<pre class="r"><code>download_test &lt;- function(x, use_hiplot = FALSE) {
+  if (use_hiplot) {
+    options(use_hiplot = TRUE)
+    on.exit(options(use_hiplot = FALSE))
+  } else {
+    options(use_hiplot = FALSE)
+  }
+  x %&gt;%
+    XenaGenerate() %&gt;%
+    XenaQuery() %&gt;%
+    XenaDownload(force = TRUE)
+}</code></pre>
+<p>我们下载看一看，下载重复 5 次，看下平均水平：</p>
+<pre class="r"><code>options(use_hiplot = TRUE)
+download_stats &lt;- microbenchmark(
+  set1_no_hiplot = download_test(set1),
+  set1_by_hiplot = download_test(set1, use_hiplot = TRUE),
+  set3_no_hiplot = download_test(set3),
+  set3_by_hiplot = download_test(set3, use_hiplot = TRUE),
+  set4_no_hiplot = download_test(set4),
+  set4_by_hiplot = download_test(set4, use_hiplot = TRUE),
+  times = 5
+)</code></pre>
+</div>
+<div id="结果可视化" class="section level3">
+<h3>结果可视化</h3>
+<pre class="r"><code>print(ggplot2::autoplot(download_stats))
+#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</code></pre>
+<p><img src="../../../cn/post/2020-12-14-test-download-speed-with-hiplot-ucsc-xena-mirror_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>数据值：</p>
+<pre class="r"><code>print(download_stats)
+#&gt; Unit: milliseconds
+#&gt;            expr  min    lq  mean median    uq   max neval cld
+#&gt;  set1_no_hiplot 3537  4523  4780   4708  5406  5729     5  a 
+#&gt;  set1_by_hiplot  472   495   584    506   604   842     5  a 
+#&gt;  set3_no_hiplot 9478 10504 12471  11354 11789 19229     5   b
+#&gt;  set3_by_hiplot 2703  2744  2967   2857  3053  3478     5  a 
+#&gt;  set4_no_hiplot 9998 10469 13398  12136 15663 18725     5   b
+#&gt;  set4_by_hiplot 3453  3479  3526   3490  3491  3716     5  a</code></pre>
+<blockquote>
+<p>本次测试通过位于上海的学校网络完成。由于网络、地理坐标的原因，读者使用的实际下载速度可能有所不同。</p>
+</blockquote>
+</div>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="../../../cn/post/2020-12-07-git-for-large-files/">使用 Git 存储大文件</a></span>
+  <span class="nav-next"></span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/post\/2020-12-07-git-for-large-files\/';
+    
+  } else if (e.which == 39) {  
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+
+
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+<script>
+  const gitalk = new Gitalk({
+    clientID: 'eed477936be7b88a8455',
+    clientSecret: '32b5dde22f3c95c4fad400a31632e34221b07e83',
+    repo: 'home',
+    owner: 'ShixiangWang',
+    admin: ['ShixiangWang'],
+    id: md5(window.location.pathname), 
+    distractionFreeMode: false 
+  });
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('gitalk-container').innerHTML = 'Gitalk comments not available by default when the website is previewed locally.';
+      return;
+    }
+    gitalk.render('gitalk-container');
+  })();
+</script>
+
+
+
+
+
+<script async src="../../../js/fix-toc.js"></script>
+
+<script async src="../../../js/center-img.js"></script>
+
+<script async src="../../../js/right-quote.js"></script>
+
+<script async src="../../../js/no-highlight.js"></script>
+
+<script async src="../../../js/fix-footnote.js"></script>
+
+<script async src="../../../js/math-code.js"></script>
+
+<script async src="../../../js/external-link.js"></script>
+
+<script async src="../../../js/alt-title.js"></script>
+
+<script async src="../../../js/header-link.js"></script>
+
+
+<script src="//yihui.org/js/math-code.js"></script>
+<script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script async src="//yihui.org/js/center-img.js"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+  
+  
+
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> · <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> · <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> · <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> · <a href="https://orcid.org/0000-0001-9855-7357"><i class='ai ai-orcid ai-1x'></i></a> · <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 © <a href="../../../">王诗翔</a> 2017 - 2020 </div>
+  
+  
+
+  <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56h9es09xn7&amp;m=6&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=1" async="async"></script>
+  </footer>
+  </article>
+  
+  </body>
+</html>
+

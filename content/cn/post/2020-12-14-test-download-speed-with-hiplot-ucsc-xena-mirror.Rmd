@@ -53,7 +53,7 @@ set4 <- XenaData[set4, ]
 
 我们看看随机挑出来了哪些数据集，如果太大了就不下载了。。。
 
-```{r}
+```{r, message=TRUE}
 set1
 set2
 set3

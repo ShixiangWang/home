@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>GDC on Shixiang Wang | 王诗翔</title>
+    <link>/tags/gdc/</link>
+    <description>Recent content in GDC on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 14 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/gdc/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hiplot Xena 镜像与官方网站下载速度测评</title>
+      <link>/cn/post/2020-12-14-test-download-speed-with-hiplot-ucsc-xena-mirror/</link>
+      <pubDate>Mon, 14 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2020-12-14-test-download-speed-with-hiplot-ucsc-xena-mirror/</guid>
+      <description>最近剑峰在 Hiplot 服务器上线了 UCSC Xena 的镜像，本文是对已部署镜像的下载速度情况进行一个简单的测评。 数据集选择 使用更新到 1.4.0 的 UCSCXenaTools https://githu</description>
+    </item>
+    
+  </channel>
+</rss>

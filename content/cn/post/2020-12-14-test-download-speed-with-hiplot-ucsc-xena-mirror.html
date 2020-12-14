@@ -1,0 +1,134 @@
+---
+title: "Hiplot Xena 镜像与官方网站下载速度测评"
+author: "王诗翔"
+date: "2020-12-14"
+lastmod: "2020-12-14"
+slug: ""
+# All available categories:
+# bioinformatics, config, docker, golang, life, linux, ml, r, read, shell, thinking
+categories: ["r"]
+tags: ["r", "UCSCXena", "UCSCXenaTools", "TCGA", "GDC", "ICGC", "PCAWG"]
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+<link href="/rmarkdown-libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/anchor-sections/anchor-sections.js"></script>
+
+
+<p>最近剑峰在 Hiplot 服务器上线了 UCSC Xena 的镜像，本文是对已部署镜像的下载速度情况进行一个简单的测评。</p>
+<div id="数据集选择" class="section level3">
+<h3>数据集选择</h3>
+<p>使用更新到 <code>1.4.0</code> 的 <code>UCSCXenaTools</code> <a href="https://github.com/ropensci/UCSCXenaTools" class="uri">https://github.com/ropensci/UCSCXenaTools</a>。</p>
+<pre class="r"><code>library(UCSCXenaTools)
+#&gt; =========================================================================================
+#&gt; UCSCXenaTools version 1.4.0
+#&gt; Project URL: https://github.com/ropensci/UCSCXenaTools
+#&gt; Usages: https://cran.r-project.org/web/packages/UCSCXenaTools/vignettes/USCSXenaTools.html
+#&gt; 
+#&gt; If you use it in published research, please cite:
+#&gt; Wang et al., (2019). The UCSCXenaTools R package: a toolkit for accessing genomics data
+#&gt;   from UCSC Xena platform, from cancer multi-omics to single-cell RNA-seq.
+#&gt;   Journal of Open Source Software, 4(40), 1627, https://doi.org/10.21105/joss.01627
+#&gt; =========================================================================================
+#&gt;                               --Enjoy it--</code></pre>
+<p>看下数据类型：</p>
+<pre class="r"><code>table(XenaData$Type)
+#&gt; 
+#&gt; clinicalMatrix  genomicMatrix genomicSegment mutationVector 
+#&gt;            349            975            152            203</code></pre>
+<p>这里随机每种数据类型选 1 个数据集。</p>
+<pre class="r"><code>set.seed(1234)
+set1 &lt;- sample(which(XenaData$Type == &quot;clinicalMatrix&quot;), 1)
+set.seed(1234)
+set2 &lt;- sample(which(XenaData$Type == &quot;genomicMatrix&quot;), 1)
+set.seed(1234)
+set3 &lt;- sample(which(XenaData$Type == &quot;genomicSegment&quot;), 1)
+set.seed(1234)
+set4 &lt;- sample(which(XenaData$Type == &quot;mutationVector&quot;), 1)
+
+set1 &lt;- XenaData[set1, ]
+set2 &lt;- XenaData[set2, ]
+set3 &lt;- XenaData[set3, ]
+set4 &lt;- XenaData[set4, ]</code></pre>
+<p>我们看看随机挑出来了哪些数据集，如果太大了就不下载了。。。</p>
+<pre class="r"><code>set1
+#&gt; # A tibble: 1 x 17
+#&gt;   XenaHosts XenaHostNames XenaCohorts XenaDatasets SampleCount DataSubtype Label
+#&gt;   &lt;chr&gt;     &lt;chr&gt;         &lt;chr&gt;       &lt;chr&gt;              &lt;int&gt; &lt;chr&gt;       &lt;chr&gt;
+#&gt; 1 https://… pcawgHub      PCAWG (spe… pcawg_speci…        3205 phenotype   tumo…
+#&gt; # … with 10 more variables: Type &lt;chr&gt;, AnatomicalOrigin &lt;chr&gt;,
+#&gt; #   SampleType &lt;chr&gt;, Tags &lt;chr&gt;, ProbeMap &lt;chr&gt;, LongTitle &lt;chr&gt;,
+#&gt; #   Citation &lt;chr&gt;, Version &lt;chr&gt;, Unit &lt;chr&gt;, Platform &lt;chr&gt;
+set2
+#&gt; # A tibble: 1 x 17
+#&gt;   XenaHosts XenaHostNames XenaCohorts XenaDatasets SampleCount DataSubtype Label
+#&gt;   &lt;chr&gt;     &lt;chr&gt;         &lt;chr&gt;       &lt;chr&gt;              &lt;int&gt; &lt;chr&gt;       &lt;chr&gt;
+#&gt; 1 https://… tcgaHub       TCGA Pheoc… TCGA.PCPG.s…         187 DNA methyl… Meth…
+#&gt; # … with 10 more variables: Type &lt;chr&gt;, AnatomicalOrigin &lt;chr&gt;,
+#&gt; #   SampleType &lt;chr&gt;, Tags &lt;chr&gt;, ProbeMap &lt;chr&gt;, LongTitle &lt;chr&gt;,
+#&gt; #   Citation &lt;chr&gt;, Version &lt;chr&gt;, Unit &lt;chr&gt;, Platform &lt;chr&gt;
+set3
+#&gt; # A tibble: 1 x 17
+#&gt;   XenaHosts XenaHostNames XenaCohorts XenaDatasets SampleCount DataSubtype Label
+#&gt;   &lt;chr&gt;     &lt;chr&gt;         &lt;chr&gt;       &lt;chr&gt;              &lt;int&gt; &lt;chr&gt;       &lt;chr&gt;
+#&gt; 1 https://… tcgaHub       TCGA Prost… TCGA.PRAD.s…         495 copy numbe… Befo…
+#&gt; # … with 10 more variables: Type &lt;chr&gt;, AnatomicalOrigin &lt;chr&gt;,
+#&gt; #   SampleType &lt;chr&gt;, Tags &lt;chr&gt;, ProbeMap &lt;chr&gt;, LongTitle &lt;chr&gt;,
+#&gt; #   Citation &lt;chr&gt;, Version &lt;chr&gt;, Unit &lt;chr&gt;, Platform &lt;chr&gt;
+set4
+#&gt; # A tibble: 1 x 17
+#&gt;   XenaHosts XenaHostNames XenaCohorts XenaDatasets SampleCount DataSubtype Label
+#&gt;   &lt;chr&gt;     &lt;chr&gt;         &lt;chr&gt;       &lt;chr&gt;              &lt;int&gt; &lt;chr&gt;       &lt;chr&gt;
+#&gt; 1 https://… tcgaHub       TCGA Lung … mc3/LUSC_mc…         480 somatic mu… MC3 …
+#&gt; # … with 10 more variables: Type &lt;chr&gt;, AnatomicalOrigin &lt;chr&gt;,
+#&gt; #   SampleType &lt;chr&gt;, Tags &lt;chr&gt;, ProbeMap &lt;chr&gt;, LongTitle &lt;chr&gt;,
+#&gt; #   Citation &lt;chr&gt;, Version &lt;chr&gt;, Unit &lt;chr&gt;, Platform &lt;chr&gt;</code></pre>
+<p>set2 的数据集比较大，我们去掉它。有兴趣的可以单独测试。</p>
+</div>
+<div id="下载测试" class="section level3">
+<h3>下载测试</h3>
+<pre class="r"><code>library(microbenchmark)</code></pre>
+<p>先编写一个下载函数：</p>
+<pre class="r"><code>download_test &lt;- function(x, use_hiplot = FALSE) {
+  if (use_hiplot) {
+    options(use_hiplot = TRUE)
+    on.exit(options(use_hiplot = FALSE))
+  } else {
+    options(use_hiplot = FALSE)
+  }
+  x %&gt;%
+    XenaGenerate() %&gt;%
+    XenaQuery() %&gt;%
+    XenaDownload(force = TRUE)
+}</code></pre>
+<p>我们下载看一看，下载重复 5 次，看下平均水平：</p>
+<pre class="r"><code>options(use_hiplot = TRUE)
+download_stats &lt;- microbenchmark(
+  set1_no_hiplot = download_test(set1),
+  set1_by_hiplot = download_test(set1, use_hiplot = TRUE),
+  set3_no_hiplot = download_test(set3),
+  set3_by_hiplot = download_test(set3, use_hiplot = TRUE),
+  set4_no_hiplot = download_test(set4),
+  set4_by_hiplot = download_test(set4, use_hiplot = TRUE),
+  times = 5
+)</code></pre>
+</div>
+<div id="结果可视化" class="section level3">
+<h3>结果可视化</h3>
+<pre class="r"><code>print(ggplot2::autoplot(download_stats))
+#&gt; Coordinate system already present. Adding new coordinate system, which will replace the existing one.</code></pre>
+<p><img src="/cn/post/2020-12-14-test-download-speed-with-hiplot-ucsc-xena-mirror_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>数据值：</p>
+<pre class="r"><code>print(download_stats)
+#&gt; Unit: milliseconds
+#&gt;            expr  min    lq  mean median    uq   max neval cld
+#&gt;  set1_no_hiplot 3537  4523  4780   4708  5406  5729     5  a 
+#&gt;  set1_by_hiplot  472   495   584    506   604   842     5  a 
+#&gt;  set3_no_hiplot 9478 10504 12471  11354 11789 19229     5   b
+#&gt;  set3_by_hiplot 2703  2744  2967   2857  3053  3478     5  a 
+#&gt;  set4_no_hiplot 9998 10469 13398  12136 15663 18725     5   b
+#&gt;  set4_by_hiplot 3453  3479  3526   3490  3491  3716     5  a</code></pre>
+<blockquote>
+<p>本次测试通过位于上海的学校网络完成。由于网络、地理坐标的原因，读者使用的实际下载速度可能有所不同。</p>
+</blockquote>
+</div>
