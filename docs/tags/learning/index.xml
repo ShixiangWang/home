@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>learning on Shixiang Wang | 王诗翔</title>
+    <link>/tags/learning/</link>
+    <description>Recent content in learning on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 23 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/learning/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>使用 youtube-dl 下载视频</title>
+      <link>/cn/post/2020-12-23-use-youtube-download/</link>
+      <pubDate>Wed, 23 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2020-12-23-use-youtube-download/</guid>
+      <description>使用的工具项目地址：https://github.com/ytdl-org/youtube-dl 安装： sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl sudo chmod a+rx /usr/local/bin/youtube-dl 简单下载就是命令后</description>
+    </item>
+    
+  </channel>
+</rss>
