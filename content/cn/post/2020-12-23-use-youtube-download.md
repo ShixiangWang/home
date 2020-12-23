@@ -73,6 +73,12 @@ format code  extension  resolution note
 youtube-dl -f 137 <url>
 ```
 
+还可以指定 `cookie` 和 代理：
+
+```
+youtube-dl --cookies ck.txt --proxy socks5://127.0.0.1:7891 --verbose -f 22 -cit https://www.youtube.com/watch\?v\=0SgvSPyYEHo\&list\=PLeB-Dlq-v6tY3QLdQBA7rwb4a7fK9mLpv
+```
+
 参考：
 
 <https://sachithmuhandiram.medium.com/youtube-dl-cheatsheet-bcc0782e7124>

@@ -185,6 +185,8 @@ format code  extension  resolution note
 22           mp4        1280x720   720p  507k , avc1.64001F, 30fps, mp4a.40.2@192k (44100Hz) (best)
 </code></pre><p>然后下载时通过 <code>-f</code> 进行指定，例如下载 <code>1080P</code>：</p>
 <pre><code>youtube-dl -f 137 &lt;url&gt;
+</code></pre><p>还可以指定 <code>cookie</code> 和 代理：</p>
+<pre><code>youtube-dl --cookies ck.txt --proxy socks5://127.0.0.1:7891 --verbose -f 22 -cit https://www.youtube.com/watch\?v\=0SgvSPyYEHo\&amp;list\=PLeB-Dlq-v6tY3QLdQBA7rwb4a7fK9mLpv
 </code></pre><p>参考：</p>
 <p><a href="https://sachithmuhandiram.medium.com/youtube-dl-cheatsheet-bcc0782e7124">https://sachithmuhandiram.medium.com/youtube-dl-cheatsheet-bcc0782e7124</a></p>
 
