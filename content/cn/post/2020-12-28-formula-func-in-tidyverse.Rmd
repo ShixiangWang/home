@@ -1,0 +1,206 @@
+---
+title: "tidyverse 中的公式函数"
+author: "王诗翔"
+date: "2020-12-28"
+lastmod: "`r Sys.Date()`"
+slug: ""
+# All available categories:
+# bioinformatics, config, docker, golang, life, linux, ml, r, read, shell, thinking
+categories: ["r"]
+tags: ["r", "tidyverse", "formula", "function"]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, dev = "png", comment = "#>", tidy = "styler")
+#Sys.setenv("LANGUAGE"="EN") # Embed this for outputing English message
+#Sys.setlocale('LC_ALL','C') # Embed this directly in the Rmarkdown script that contains the Chinese character comment
+options(digits=3)
+options(max.print=200)
+```
+
+本文的写作由来是知识星球一个朋友对如何在 tidyverse 系列包中使用公式函数（单侧公式）不太熟悉，所以通过本文分享一下我的心得。
+
+## 构造数据
+
+本文为了聚焦于公式函数本身的用法，我构造的示例数据会非常的简单。
+
+```{r}
+library(tidyverse)
+
+set.seed(1234)
+x <- rnorm(100, mean = 5, sd = 10)
+df <- data.frame(
+ x = x,
+ y = x + rnorm(100, mean = 0, sd = 1) 
+)
+
+head(df)
+```
+
+我们通过可视化来看下这个数据：
+
+```{r}
+library(ggplot2)
+ggplot(df, aes(x, y)) + geom_point() + geom_smooth(method = "lm")
+```
+
+## 公式保存了创建它的环境
+
+使用到 R 的朋友几乎都用过公式，它在统计建模方面给了我们极大的方便。不过，公式想比于数值、逻辑值这些数据类型，有什么特点吗？
+
+答案是可以通过你应该常用的 `str()` 函数进行窥探：
+
+```{r}
+str(y ~ x)
+```
+
+从属性部分我们可以看到公式保存了创建它的环境。
+
+
+## 公式生成匿名函数
+
+利用公式这一特点，tidyverse 系列包有很多函数支持用单侧公式替换函数。如果你仔细阅读过相关文档，例如 `?purrr::map`，你应该会看到下面一段话：
+
+```
+If a formula, e.g. ~ .x + 2, it is converted to a function. There are three ways to refer to the arguments:
+
+For a single argument function, use .
+
+For a two argument function, use .x and .y
+
+For more arguments, use ..1, ..2, ..3 etc
+
+This syntax allows you to create very compact anonymous functions.
+```
+
+> 公式的左侧内容对于构造匿名函数没有用，所以这里都是用单侧公式。
+
+这段文档不仅告诉了我们如何通过公式构造匿名函数，还提供了一些快捷方式说明。
+
+下面我们通过一些例子来进行讲解。
+
+## 公式函数用法
+
+### 核心是什么
+
+公式函数的优点在于提供了一种构造匿名函数的简洁方式。而核心在于**在同一行代码表示如何使用输入构造出输出**。
+
+例如，`~ .x + 2` 代表直接在输入的基础在加 `2`，其等价于下面这个匿名函数：
+
+```{r eval=FALSE}
+function(x) {
+  return(x + 2)
+}
+```
+
+你应该瞬间明白了公式函数多么简洁。这里值得注意的是，当匿名函数只有一个参数时，我们用 `.x` 表示函数的输入参数。如果进行拓展，2 个参数时使用 `.x` 与 `.y`，3 个参数时使用 `..1, ..2, ..3` 等。
+
+通过下面的例子，我们来学习如何基本掌握它的用法。
+
+### 基本用法
+
+假设我们要对 `df` 中的 `x` 和 `y` 列进行归一化处理，在不使用 `scale()` 函数的情况下，我们可能会手写一个函数：
+
+```{r}
+scale2 <- function(x) {
+  (x - mean(x)) / sd(x)
+}
+```
+
+把它们逐一应用起来：
+
+```{r}
+df2 <- df
+df2$x <- scale2(df$x)
+df2$y <- scale2(df$y)
+df2 <- as_tibble(df2)
+```
+
+这里完全不必要先构造一个函数再应用 2 次，使用公式函数结合 `purrr` 可以写出更简洁的代码：
+
+```{r}
+df3 <- purrr::map_df(df, ~(.x - mean(.x)) / sd(.x))
+```
+
+我们检查下两种操作是否结果相同：
+
+```{r}
+identical(df2, df3)
+```
+
+当只有一个参数时，我们还可以使用 `.` 替换 `.x` 进一步简化编写。
+
+```{r}
+identical(
+  purrr::map_df(df, ~(.x - mean(.x)) / sd(.x)),
+  purrr::map_df(df, ~(. - mean(.)) / sd(.))
+)
+```
+
+在理解了上述操作后多个参数的使用也就不难理解了，接下来我们看一个更加实际的例子。
+
+### 计算残差
+
+最开始的图形显示了 `x` 和 `y` 是一个线性关系，假设我们目前有一个任务：构建回归模型并手动计算残差，绘制结果图。
+
+我们来看看如何操作。
+
+#### 第一步：建模
+
+```{r}
+fit <- lm(y ~ x, data = df)
+```
+
+模型构建好后我们提取系数值：
+
+```{r}
+cfs <- coef(fit)
+cfs
+```
+
+#### 第二步：计算残差
+
+得到模型系数后我们就知道了如何计算预测值，将真实值与预测值相减则可以得到残差值。
+
+```{r}
+df <- df %>% 
+  mutate(
+    rs = map2_dbl(x, y, ~ .y - (cfs[2] * .x + cfs[1]))
+  )
+```
+
+理解上述代码：
+
+- `x` 和 `y` 指代 `df$x` 和 `df$y`，这里使用了 `dplyr` 包的 `mutate()` 语境，所以可以直接写列名。因此，你也完全可以这样写：
+
+```{r}
+df$rs2 <- map2_dbl(df$x, df$y, ~ .y - (cfs[2] * .x + cfs[1]))
+head(df)
+```
+
+不难想到，下面的操作也是可以的：
+
+```{r}
+map2_dbl(df$x, df$y, ~ ..2 - (cfs[2] * ..1 + cfs[1]))
+```
+
+
+- 在公式中，`.x` 指代 `x`，`.y` 指代 `y`。
+- 在公式中，我们可以直接使用前面已经定义的变量，这里是 `cfs`。 
+
+#### 第三步：简单绘制结果图
+
+```{r}
+library(ggplot2)
+ggplot(df, aes(x, rs)) + geom_point()
+```
+好的模型结果残差分布和我们实际加入的噪声分布应该是差不多的：
+
+```{r}
+mean(df$rs)
+sd(df$rs)
+```
+
+### 提醒
+
+tidyverse 中使用单侧公式简化匿名函数的构造，它并不是必需的技能，直接构造函数在大部分情况下可读性更好，读者千万不要本末倒置。

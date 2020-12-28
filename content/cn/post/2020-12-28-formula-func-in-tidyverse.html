@@ -1,0 +1,188 @@
+---
+title: "tidyverse 中的公式函数"
+author: "王诗翔"
+date: "2020-12-28"
+lastmod: "2020-12-28"
+slug: ""
+# All available categories:
+# bioinformatics, config, docker, golang, life, linux, ml, r, read, shell, thinking
+categories: ["r"]
+tags: ["r", "tidyverse", "formula", "function"]
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>本文的写作由来是知识星球一个朋友对如何在 tidyverse 系列包中使用公式函数（单侧公式）不太熟悉，所以通过本文分享一下我的心得。</p>
+<div id="构造数据" class="section level2">
+<h2>构造数据</h2>
+<p>本文为了聚焦于公式函数本身的用法，我构造的示例数据会非常的简单。</p>
+<pre class="r"><code>library(tidyverse)
+#&gt; ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──
+#&gt; ✓ ggplot2 3.3.2     ✓ purrr   0.3.4
+#&gt; ✓ tibble  3.0.4     ✓ dplyr   1.0.2
+#&gt; ✓ tidyr   1.1.2     ✓ stringr 1.4.0
+#&gt; ✓ readr   1.4.0     ✓ forcats 0.5.0
+#&gt; ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+#&gt; x dplyr::filter() masks stats::filter()
+#&gt; x dplyr::lag()    masks stats::lag()
+
+set.seed(1234)
+x &lt;- rnorm(100, mean = 5, sd = 10)
+df &lt;- data.frame(
+  x = x,
+  y = x + rnorm(100, mean = 0, sd = 1)
+)
+
+head(df)
+#&gt;        x      y
+#&gt; 1  -7.07  -6.66
+#&gt; 2   7.77   7.30
+#&gt; 3  15.84  15.91
+#&gt; 4 -18.46 -18.96
+#&gt; 5   9.29   8.47
+#&gt; 6  10.06  10.23</code></pre>
+<p>我们通过可视化来看下这个数据：</p>
+<pre class="r"><code>library(ggplot2)
+ggplot(df, aes(x, y)) +
+  geom_point() +
+  geom_smooth(method = &quot;lm&quot;)
+#&gt; `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p><img src="/cn/post/2020-12-28-formula-func-in-tidyverse_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+</div>
+<div id="公式保存了创建它的环境" class="section level2">
+<h2>公式保存了创建它的环境</h2>
+<p>使用到 R 的朋友几乎都用过公式，它在统计建模方面给了我们极大的方便。不过，公式想比于数值、逻辑值这些数据类型，有什么特点吗？</p>
+<p>答案是可以通过你应该常用的 <code>str()</code> 函数进行窥探：</p>
+<pre class="r"><code>str(y ~ x)
+#&gt; Class &#39;formula&#39;  language y ~ x
+#&gt;   ..- attr(*, &quot;.Environment&quot;)=&lt;environment: R_GlobalEnv&gt;</code></pre>
+<p>从属性部分我们可以看到公式保存了创建它的环境。</p>
+</div>
+<div id="公式生成匿名函数" class="section level2">
+<h2>公式生成匿名函数</h2>
+<p>利用公式这一特点，tidyverse 系列包有很多函数支持用单侧公式替换函数。如果你仔细阅读过相关文档，例如 <code>?purrr::map</code>，你应该会看到下面一段话：</p>
+<pre><code>If a formula, e.g. ~ .x + 2, it is converted to a function. There are three ways to refer to the arguments:
+
+For a single argument function, use .
+
+For a two argument function, use .x and .y
+
+For more arguments, use ..1, ..2, ..3 etc
+
+This syntax allows you to create very compact anonymous functions.</code></pre>
+<blockquote>
+<p>公式的左侧内容对于构造匿名函数没有用，所以这里都是用单侧公式。</p>
+</blockquote>
+<p>这段文档不仅告诉了我们如何通过公式构造匿名函数，还提供了一些快捷方式说明。</p>
+<p>下面我们通过一些例子来进行讲解。</p>
+</div>
+<div id="公式函数用法" class="section level2">
+<h2>公式函数用法</h2>
+<div id="核心是什么" class="section level3">
+<h3>核心是什么</h3>
+<p>公式函数的优点在于提供了一种构造匿名函数的简洁方式。而核心在于<strong>在同一行代码表示如何使用输入构造出输出</strong>。</p>
+<p>例如，<code>~ .x + 2</code> 代表直接在输入的基础在加 <code>2</code>，其等价于下面这个匿名函数：</p>
+<pre class="r"><code>function(x) {
+  return(x + 2)
+}</code></pre>
+<p>你应该瞬间明白了公式函数多么简洁。这里值得注意的是，当匿名函数只有一个参数时，我们用 <code>.x</code> 表示函数的输入参数。如果进行拓展，2 个参数时使用 <code>.x</code> 与 <code>.y</code>，3 个参数时使用 <code>..1, ..2, ..3</code> 等。</p>
+<p>通过下面的例子，我们来学习如何基本掌握它的用法。</p>
+</div>
+<div id="基本用法" class="section level3">
+<h3>基本用法</h3>
+<p>假设我们要对 <code>df</code> 中的 <code>x</code> 和 <code>y</code> 列进行归一化处理，在不使用 <code>scale()</code> 函数的情况下，我们可能会手写一个函数：</p>
+<pre class="r"><code>scale2 &lt;- function(x) {
+  (x - mean(x)) / sd(x)
+}</code></pre>
+<p>把它们逐一应用起来：</p>
+<pre class="r"><code>df2 &lt;- df
+df2$x &lt;- scale2(df$x)
+df2$y &lt;- scale2(df$y)
+df2 &lt;- as_tibble(df2)</code></pre>
+<p>这里完全不必要先构造一个函数再应用 2 次，使用公式函数结合 <code>purrr</code> 可以写出更简洁的代码：</p>
+<pre class="r"><code>df3 &lt;- purrr::map_df(df, ~ (.x - mean(.x)) / sd(.x))</code></pre>
+<p>我们检查下两种操作是否结果相同：</p>
+<pre class="r"><code>identical(df2, df3)
+#&gt; [1] TRUE</code></pre>
+<p>当只有一个参数时，我们还可以使用 <code>.</code> 替换 <code>.x</code> 进一步简化编写。</p>
+<pre class="r"><code>identical(
+  purrr::map_df(df, ~ (.x - mean(.x)) / sd(.x)),
+  purrr::map_df(df, ~ (. - mean(.)) / sd(.))
+)
+#&gt; [1] TRUE</code></pre>
+<p>在理解了上述操作后多个参数的使用也就不难理解了，接下来我们看一个更加实际的例子。</p>
+</div>
+<div id="计算残差" class="section level3">
+<h3>计算残差</h3>
+<p>最开始的图形显示了 <code>x</code> 和 <code>y</code> 是一个线性关系，假设我们目前有一个任务：构建回归模型并手动计算残差，绘制结果图。</p>
+<p>我们来看看如何操作。</p>
+<div id="第一步建模" class="section level4">
+<h4>第一步：建模</h4>
+<pre class="r"><code>fit &lt;- lm(y ~ x, data = df)</code></pre>
+<p>模型构建好后我们提取系数值：</p>
+<pre class="r"><code>cfs &lt;- coef(fit)
+cfs
+#&gt; (Intercept)           x 
+#&gt;      0.0502      0.9974</code></pre>
+</div>
+<div id="第二步计算残差" class="section level4">
+<h4>第二步：计算残差</h4>
+<p>得到模型系数后我们就知道了如何计算预测值，将真实值与预测值相减则可以得到残差值。</p>
+<pre class="r"><code>df &lt;- df %&gt;%
+  mutate(
+    rs = map2_dbl(x, y, ~ .y - (cfs[2] * .x + cfs[1]))
+  )</code></pre>
+<p>理解上述代码：</p>
+<ul>
+<li><code>x</code> 和 <code>y</code> 指代 <code>df$x</code> 和 <code>df$y</code>，这里使用了 <code>dplyr</code> 包的 <code>mutate()</code> 语境，所以可以直接写列名。因此，你也完全可以这样写：</li>
+</ul>
+<pre class="r"><code>df$rs2 &lt;- map2_dbl(df$x, df$y, ~ .y - (cfs[2] * .x + cfs[1]))
+head(df)
+#&gt;        x      y      rs     rs2
+#&gt; 1  -7.07  -6.66  0.3459  0.3459
+#&gt; 2   7.77   7.30 -0.5046 -0.5046
+#&gt; 3  15.84  15.91  0.0571  0.0571
+#&gt; 4 -18.46 -18.96 -0.6008 -0.6008
+#&gt; 5   9.29   8.47 -0.8520 -0.8520
+#&gt; 6  10.06  10.23  0.1430  0.1430</code></pre>
+<p>不难想到，下面的操作也是可以的：</p>
+<pre class="r"><code>map2_dbl(df$x, df$y, ~ ..2 - (cfs[2] * ..1 + cfs[1]))
+#&gt;   [1]  0.345883 -0.504636  0.057127 -0.600819 -0.851959  0.143036 -0.948411
+#&gt;   [8]  0.116772  0.303091 -0.112476 -0.245536 -0.712267 -1.167170  0.813802
+#&gt;  [15]  0.010237  0.791110 -1.294772  0.108104  0.614175 -0.000413 -0.225049
+#&gt;  [22] -0.831860  2.009516  0.725336  1.768959  0.005129 -0.653571 -1.577144
+#&gt;  [29] -0.673649  0.164733  1.005290  0.203190 -1.227608  0.618485 -1.729750
+#&gt;  [36] -0.433464 -0.410139 -2.020380  0.875227 -0.672179 -0.333381  1.330118
+#&gt;  [43]  0.577208 -0.152906  0.450671  0.336854  1.596818  0.206081  0.455455
+#&gt;  [50]  0.297438 -0.461502  0.045282  1.572665 -0.939222  0.080372  1.339664
+#&gt;  [57] -0.228792 -1.110710 -0.865048 -0.457482 -0.867377 -0.231303 -0.452480
+#&gt;  [64] -0.237672  0.369704  0.633834  1.611351 -0.070168 -0.323312  1.442629
+#&gt;  [71]  1.667355 -0.005791 -0.379372 -1.842479  1.428111 -0.878738 -1.197193
+#&gt;  [78]  2.987737  0.204604 -0.078683 -2.774011 -0.141379  0.903081  0.372182
+#&gt;  [85]  0.897346  1.964775  1.146301 -0.556396  0.662028 -0.266730 -0.576611
+#&gt;  [92] -2.886256 -0.782301  0.476785  2.117951  0.472815  0.553460 -0.980149
+#&gt;  [99]  0.150879 -2.060062</code></pre>
+<ul>
+<li>在公式中，<code>.x</code> 指代 <code>x</code>，<code>.y</code> 指代 <code>y</code>。</li>
+<li>在公式中，我们可以直接使用前面已经定义的变量，这里是 <code>cfs</code>。</li>
+</ul>
+</div>
+<div id="第三步简单绘制结果图" class="section level4">
+<h4>第三步：简单绘制结果图</h4>
+<pre class="r"><code>library(ggplot2)
+ggplot(df, aes(x, rs)) +
+  geom_point()</code></pre>
+<p><img src="/cn/post/2020-12-28-formula-func-in-tidyverse_files/figure-html/unnamed-chunk-15-1.png" width="672" />
+好的模型结果残差分布和我们实际加入的噪声分布应该是差不多的：</p>
+<pre class="r"><code>mean(df$rs)
+#&gt; [1] -1.19e-15
+sd(df$rs)
+#&gt; [1] 1.03</code></pre>
+</div>
+</div>
+<div id="提醒" class="section level3">
+<h3>提醒</h3>
+<p>tidyverse 中使用单侧公式简化匿名函数的构造，它并不是必需的技能，直接构造函数在大部分情况下可读性更好，读者千万不要本末倒置。</p>
+</div>
+</div>
