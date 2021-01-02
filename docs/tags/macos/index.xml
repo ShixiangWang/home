@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>MacOS on Shixiang Wang | 王诗翔</title>
+    <link>/tags/macos/</link>
+    <description>Recent content in MacOS on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 02 Jan 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/macos/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MacOS 置顶窗口：MacForge 和 AfloatX</title>
+      <link>/cn/post/2021-01-02-use-macforge-and-afloatx/</link>
+      <pubDate>Sat, 02 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2021-01-02-use-macforge-and-afloatx/</guid>
+      <description>MacOS 本身不支持保持窗口前置，需要第三方插件实现。搜了一下有 Afloat 可以，但最近的更新在 17 年左右。后面发现有个 AfloatX，跟 MacForge 搭配使用比较好。 参考</description>
+    </item>
+    
+  </channel>
+</rss>

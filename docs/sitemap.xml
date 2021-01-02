@@ -3,8 +3,38 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/tags/afloatx/</loc>
+    <lastmod>2021-01-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/categories/</loc>
-    <lastmod>2020-12-28T00:00:00+00:00</lastmod>
+    <lastmod>2021-01-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/config/</loc>
+    <lastmod>2021-01-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/macforge/</loc>
+    <lastmod>2021-01-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/macos/</loc>
+    <lastmod>2021-01-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/cn/post/2021-01-02-use-macforge-and-afloatx/</loc>
+    <lastmod>2021-01-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2021-01-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -28,11 +58,6 @@
   </url>
   
   <url>
-    <loc>/tags/</loc>
-    <lastmod>2020-12-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/tags/tidyverse/</loc>
     <lastmod>2020-12-28T00:00:00+00:00</lastmod>
   </url>
@@ -40,11 +65,6 @@
   <url>
     <loc>/cn/post/2020-12-28-formula-func-in-tidyverse/</loc>
     <lastmod>2020-12-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/config/</loc>
-    <lastmod>2020-12-23T00:00:00+00:00</lastmod>
   </url>
   
   <url>
