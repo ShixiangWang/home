@@ -3,17 +3,42 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>/tags/afloatx/</loc>
-    <lastmod>2021-01-02T00:00:00+00:00</lastmod>
+    <loc>/cn/post/2021-01-14-use-jetbrains/</loc>
+    <lastmod>2021-01-14T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/categories/</loc>
-    <lastmod>2021-01-02T00:00:00+00:00</lastmod>
+    <lastmod>2021-01-14T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/categories/config/</loc>
+    <lastmod>2021-01-14T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/goland/</loc>
+    <lastmod>2021-01-14T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/golang/</loc>
+    <lastmod>2021-01-14T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/jetbrains/</loc>
+    <lastmod>2021-01-14T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2021-01-14T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/afloatx/</loc>
     <lastmod>2021-01-02T00:00:00+00:00</lastmod>
   </url>
   
@@ -29,11 +54,6 @@
   
   <url>
     <loc>/cn/post/2021-01-02-use-macforge-and-afloatx/</loc>
-    <lastmod>2021-01-02T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/</loc>
     <lastmod>2021-01-02T00:00:00+00:00</lastmod>
   </url>
   
@@ -485,11 +505,6 @@
   <url>
     <loc>/cn/read/math-for-programmer-s2/</loc>
     <lastmod>2020-09-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/golang/</loc>
-    <lastmod>2020-09-19T00:00:00+00:00</lastmod>
   </url>
   
   <url>
