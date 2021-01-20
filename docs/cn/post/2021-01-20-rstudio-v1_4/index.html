@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    
+    <link rel="stylesheet" href="../../../fonts/academicons-1.8.6/css/academicons.min.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../logo/bodhi.png"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    
+    <title>RStudio v1.4 正式发布，有哪些新特性？ - 王诗翔</title>
+    
+     
+    <meta property="og:title" content="RStudio v1.4 正式发布，有哪些新特性？ - Shixiang Wang | 王诗翔">
+    
+
+    
+      
+    
+
+    
+
+    
+    
+
+    <link rel="stylesheet" href="../../../css/style.css" />
+    <link rel="stylesheet" href="../../../css/mystyle.css" /> 
+    <link rel="stylesheet" href="../../../css/fonts.css" />
+    
+<script async src="../../../js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="../../../css/custom.css" />
+
+  </head>
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="../../../logo/ShixiangWang.png"><img src="../../../logo/ShixiangWang.png" alt="Shixiang Wang" /></a></h1>
+<p align="right" style="margin-top:-50px;"><small>><i>上士闻道<br>勤而行之</i></small></p>
+
+
+
+
+      <nav class="menu">
+        <input id="menu-check" type="checkbox" />
+        <label id="menu-label" for="menu-check" class="unselectable">
+          <span class="icon close-icon">✕</span>
+          <span class="icon open-icon">☰</span>
+          <span class="text">Menu</span>
+        </label>
+        <ul>
+        
+        
+        <li><a href="../../../">首页</a></li>
+        
+        <li><a href="../../../cn/about/">关于</a></li>
+        
+        <li><a href="../../../cn/post/">博客</a></li>
+        
+        <li><a href="../../../cn/read/">读书</a></li>
+        
+        <li><a href="../../../cn/writing">写作</a></li>
+        
+        <li><a href="../../../cn/research/">研究</a></li>
+        
+        <li><a href="../../../cn/tools/">工具</a></li>
+        
+        <li><a href="../../../cn/cv-cn/shixiang">简历</a></li>
+        
+        <li><a href="../../../logo/qrcode.jpg">公众号</a></li>
+        
+        <li><a href="https://www.zhihu.com/people/shixiangwang">知乎</a></li>
+        
+        <li><a href="../../../cn/mark">推荐阅读</a></li>
+        
+        <li><a href="../../../en/">English</a></li>
+        
+        <li><a href="../../../categories/">分类</a></li>
+        
+        <li><a href="../../../tags/">标签</a></li>
+        
+        
+
+<li class="menu-extra"></li>
+
+
+
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2021-01-20-rstudio-v1_4.md" target="_blank">编辑</a></li>
+
+
+<li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+        </ul>
+      </nav>
+    </header>
+
+    <article class="main">
+      <header class="title">
+        
+
+<h1>RStudio v1.4 正式发布，有哪些新特性？</h1>
+
+
+
+<h3>王诗翔 &middot 
+2021-01-20</h3> 
+
+
+<p style="text-align:right;">
+  分类:
+  
+    <a href="../../../categories/config">config</a> &nbsp
+  
+  <br>
+  标签:
+  
+    <a href="../../../tags/rstudio">RStudio</a> &nbsp
+  
+    <a href="../../../tags/r">r</a> &nbsp
+  
+    <a href="../../../tags/news">news</a> &nbsp
+  
+</p>
+
+
+
+   
+  
+
+
+      </header>
+
+
+<p>RStudio 团队昨天正式发布了新的版本 v1.4。</p>
+<p><img src="https://gitee.com/ShixiangWang/ImageCollection/raw/master/png/20210120145216.png" alt="image-20210120145215864" style="zoom:50%;" /></p>
+<p>本次更新引入了非常多新的特性：</p>
+<ul>
+<li>可视化 Markdown 编辑器支持。A <a href="https://blog.rstudio.com/2020/09/30/rstudio-v1-4-preview-visual-markdown-editing/">visual markdown editor</a> that provides improved productivity for composing longer-form articles and analyses with R Markdown.</li>
+<li>新的 Python 支持能力。 New <a href="https://blog.rstudio.com/2020/10/07/rstudio-v1-4-preview-python-support/">Python capabilities</a>, including display of Python objects in the Environment pane, viewing of Python data frames, and tools for configuring Python versions and conda/virtual environments.</li>
+<li>多编辑窗口。The ability to add <a href="https://blog.rstudio.com/2020/10/21/rstudio-1-4-preview-multiple-source-columns/">source columns</a> to the IDE workspace for side-by-side text editing.</li>
+<li><strong>命令面板</strong>。A new <a href="https://blog.rstudio.com/2020/10/14/rstudio-v1-4-preview-command-palette/">command palette</a> (accessible via Ctrl+Shift+P) that provides easy keyboard access to all RStudio commands, add-ins, and options.</li>
+<li>彩虹括号。Support for <a href="https://blog.rstudio.com/2020/11/04/rstudio-1-4-preview-rainbow-parentheses/">rainbow parentheses</a> in the source editor (enabled via <strong>Options -&gt; Code -&gt; Display).</strong></li>
+<li>支持文献引入插入。New <a href="https://blog.rstudio.com/2020/11/09/rstudio-1-4-preview-citations/">citation support</a> that allows you to include document citations from your document bibliography, personal or group libraries, and several other sources.</li>
+<li>集成了一系列新的RStudio Server Pro特性。Integration with <a href="https://blog.rstudio.com/2020/11/16/rstudio-1-4-preview-server-pro/">a host of new RStudio Server Pro features</a> including project sharing when using Launcher, Microsoft Visual Studio Code support (currently in beta), SAML authentication, and local launcher load-balancing.</li>
+</ul>
+<p>下面具体看看这些新的特性，我只介绍重点，详情大家可以仔细阅读发布博客：<a href="https://blog.rstudio.com/2021/01/19/announcing-rstudio-1-4/">https://blog.rstudio.com/2021/01/19/announcing-rstudio-1-4/</a></p>
+<h3 id="可视化-markdown-编辑器支持">可视化 Markdown 编辑器支持</h3>
+<p>编辑 RMarkdown/Markdown 时，点击编辑窗口右上角类似 <strong>A</strong> 的按钮即可进入可视化模式，下面是一个示例，我们可以在这种可视化窗口下进行文字和代码编辑。推荐阅读全面的文档：<a href="https://rstudio.github.io/visual-markdown-editing/#/">https://rstudio.github.io/visual-markdown-editing/#/</a></p>
+<p><style>
+  .img-container {
+    text-align: center;
+    display: block;
+  }
+</style>
+
+  <img src="https://gitee.com/ShixiangWang/ImageCollection/raw/master/png/20210120145801.png" alt="img">
+  </span>
+</p>
+<h3 id="新的-python-支持">新的 Python 支持</h3>
+<p>从 Tools -&gt; Global optional 进入配置窗口，最下方可以看见 Python 栏，在这里我们可以选择使用的 Python 解释器。</p>
+<p><style>
+  .img-container {
+    text-align: center;
+    display: block;
+  }
+</style>
+
+  <img src="https://gitee.com/ShixiangWang/ImageCollection/raw/master/png/20210120150052.png" alt="The Python preferences pane.">
+  </span>
+</p>
+<p>按下选择按钮后，RStudio 会自动检索系统上所有的 Python 解释器路径。</p>
+<p><style>
+  .img-container {
+    text-align: center;
+    display: block;
+  }
+</style>
+
+  <img src="https://gitee.com/ShixiangWang/ImageCollection/raw/master/png/20210120150148.png" alt="The list of Python interpreters available on the system.">
+  </span>
+</p>
+<p><strong>RStudio 妥妥的最强 Python IDE 之一</strong>。</p>
+<h3 id="命令面板">命令面板</h3>
+<p>这个绝了！像 VSCode 和其他一些流行编辑器一大特性就是支持命令面板，现在 RStudio 也上了。</p>
+<p>快捷键：Ctrl + Shift + P (Cmd + Shift + P on macOS)</p>
+<p><style>
+  .img-container {
+    text-align: center;
+    display: block;
+  }
+</style>
+
+  <img src="https://gitee.com/ShixiangWang/ImageCollection/raw/master/png/20210120150407.png" alt="Screenshot of the RStudio IDE with the Command Palette open">
+  </span>
+</p>
+<h3 id="彩虹括号">彩虹括号🌈</h3>
+<p>写 R 的时候代码一旦复杂，括号就多了，这个新的特性可以帮助我们的眼睛更好地识别匹配项。</p>
+<p><style>
+  .img-container {
+    text-align: center;
+    display: block;
+  }
+</style>
+
+  <img src="https://gitee.com/ShixiangWang/ImageCollection/raw/master/png/20210120150629.png" alt="img">
+  </span>
+</p>
+<p>不过在新的版本中，这个功能默认是关闭的，打开方式如下：</p>
+<p><style>
+  .img-container {
+    text-align: center;
+    display: block;
+  }
+</style>
+
+  <img src="https://gitee.com/ShixiangWang/ImageCollection/raw/master/png/20210120150701.png" alt="image-20210120150701712">
+  </span>
+</p>
+<h3 id="引用支持">引用支持</h3>
+<p>可视化 Markdown 编辑模式下现在可以直接通过 RStudio 插入各种文献引用了，这势必让 RStudio 成为科学研究报告利器。</p>
+<p><style>
+  .img-container {
+    text-align: center;
+    display: block;
+  }
+</style>
+
+  <img src="https://gitee.com/ShixiangWang/ImageCollection/raw/master/png/20210120150959.png" alt="image-20210120150959063">
+  </span>
+</p>
+<p><style>
+  .img-container {
+    text-align: center;
+    display: block;
+  }
+</style>
+
+  <img src="https://gitee.com/ShixiangWang/ImageCollection/raw/master/png/20210120151235.png" alt="img">
+  </span>
+</p>
+<p>更多查看 <a href="https://blog.rstudio.com/2020/11/09/rstudio-1-4-preview-citations/">https://blog.rstudio.com/2020/11/09/rstudio-1-4-preview-citations/</a></p>
+<p>最后，下载地址：<a href="https://rstudio.com/products/rstudio/download/">https://rstudio.com/products/rstudio/download/</a></p>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="../../../cn/post/2021-01-14-use-jetbrains/">3 步免费使用 Jetbrains 产品</a></span>
+  <span class="nav-next"></span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/post\/2021-01-14-use-jetbrains\/';
+    
+  } else if (e.which == 39) {  
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+
+
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+<script>
+  const gitalk = new Gitalk({
+    clientID: 'eed477936be7b88a8455',
+    clientSecret: '32b5dde22f3c95c4fad400a31632e34221b07e83',
+    repo: 'home',
+    owner: 'ShixiangWang',
+    admin: ['ShixiangWang'],
+    id: md5(window.location.pathname), 
+    distractionFreeMode: false 
+  });
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('gitalk-container').innerHTML = 'Gitalk comments not available by default when the website is previewed locally.';
+      return;
+    }
+    gitalk.render('gitalk-container');
+  })();
+</script>
+
+
+
+
+
+<script async src="../../../js/fix-toc.js"></script>
+
+<script async src="../../../js/center-img.js"></script>
+
+<script async src="../../../js/right-quote.js"></script>
+
+<script async src="../../../js/no-highlight.js"></script>
+
+<script async src="../../../js/fix-footnote.js"></script>
+
+<script async src="../../../js/math-code.js"></script>
+
+<script async src="../../../js/external-link.js"></script>
+
+<script async src="../../../js/alt-title.js"></script>
+
+<script async src="../../../js/header-link.js"></script>
+
+
+<script src="//yihui.org/js/math-code.js"></script>
+<script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script async src="//yihui.org/js/center-img.js"></script>
+
+  
+
+
+  
+  
+  
+
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> · <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> · <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> · <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> · <a href="https://orcid.org/0000-0001-9855-7357"><i class='ai ai-orcid ai-1x'></i></a> · <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 © <a href="../../../">王诗翔</a> 2017 - 2020 </div>
+  
+  
+
+  <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56h9es09xn7&amp;m=6&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=1" async="async"></script>
+  </footer>
+  </article>
+  
+  </body>
+</html>
+

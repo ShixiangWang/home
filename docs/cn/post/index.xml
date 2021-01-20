@@ -8,6 +8,15 @@
     <language>en-us</language>
     <lastBuildDate>Tue, 31 Jan 2017 00:00:00 +0000</lastBuildDate><atom:link href="/cn/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>RStudio v1.4 正式发布，有哪些新特性？</title>
+      <link>/cn/post/2021-01-20-rstudio-v1_4/</link>
+      <pubDate>Wed, 20 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2021-01-20-rstudio-v1_4/</guid>
+      <description>RStudio 团队昨天正式发布了新的版本 v1.4。 本次更新引入了非常多新的特性： 可视化 Markdown 编辑器支持。A visual markdown editor that provides improved productivity for composing longer-form articles and analyses with R Markdown. 新的 Python 支持能力。 New</description>
+    </item>
+    
+    <item>
       <title>3 步免费使用 Jetbrains 产品</title>
       <link>/cn/post/2021-01-14-use-jetbrains/</link>
       <pubDate>Thu, 14 Jan 2021 00:00:00 +0000</pubDate>
