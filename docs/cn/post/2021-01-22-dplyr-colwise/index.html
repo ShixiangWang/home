@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    
+    <link rel="stylesheet" href="../../../fonts/academicons-1.8.6/css/academicons.min.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../logo/bodhi.png"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    
+    <title>dplyr 列式计算 - 王诗翔</title>
+    
+     
+    <meta property="og:title" content="dplyr 列式计算 - Shixiang Wang | 王诗翔">
+    
+
+    
+      
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/Xcode.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="../../../css/style.css" />
+    <link rel="stylesheet" href="../../../css/mystyle.css" /> 
+    <link rel="stylesheet" href="../../../css/fonts.css" />
+    
+<script async src="../../../js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="../../../css/custom.css" />
+
+  </head>
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="../../../logo/ShixiangWang.png"><img src="../../../logo/ShixiangWang.png" alt="Shixiang Wang" /></a></h1>
+<p align="right" style="margin-top:-50px;"><small>><i>上士闻道<br>勤而行之</i></small></p>
+
+
+
+
+      <nav class="menu">
+        <input id="menu-check" type="checkbox" />
+        <label id="menu-label" for="menu-check" class="unselectable">
+          <span class="icon close-icon">✕</span>
+          <span class="icon open-icon">☰</span>
+          <span class="text">Menu</span>
+        </label>
+        <ul>
+        
+        
+        <li><a href="../../../">首页</a></li>
+        
+        <li><a href="../../../cn/about/">关于</a></li>
+        
+        <li><a href="../../../cn/post/">博客</a></li>
+        
+        <li><a href="../../../cn/read/">读书</a></li>
+        
+        <li><a href="../../../cn/writing">写作</a></li>
+        
+        <li><a href="../../../cn/research/">研究</a></li>
+        
+        <li><a href="../../../cn/tools/">工具</a></li>
+        
+        <li><a href="../../../cn/cv-cn/shixiang">简历</a></li>
+        
+        <li><a href="../../../logo/qrcode.jpg">公众号</a></li>
+        
+        <li><a href="https://www.zhihu.com/people/shixiangwang">知乎</a></li>
+        
+        <li><a href="../../../cn/mark">推荐阅读</a></li>
+        
+        <li><a href="../../../en/">English</a></li>
+        
+        <li><a href="../../../categories/">分类</a></li>
+        
+        <li><a href="../../../tags/">标签</a></li>
+        
+        
+
+<li class="menu-extra"></li>
+
+
+
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2021-01-22-dplyr-colwise.md" target="_blank">编辑</a></li>
+
+
+<li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+        </ul>
+      </nav>
+    </header>
+
+    <article class="main">
+      <header class="title">
+        
+
+<h1>dplyr 列式计算</h1>
+
+
+
+<h3>王诗翔 &middot 
+2021-01-22</h3> 
+
+
+<p style="text-align:right;">
+  分类:
+  
+    <a href="../../../categories/r">r</a> &nbsp
+  
+  <br>
+  标签:
+  
+    <a href="../../../tags/dplyr">dplyr</a> &nbsp
+  
+    <a href="../../../tags/colwise">colwise</a> &nbsp
+  
+</p>
+
+
+
+   
+  
+
+
+      </header>
+
+
+<blockquote>
+<p>在近期使用 <strong>dplyr</strong> 进行多列选择性操作，如 <code>mutate_at()</code> 时，发现文档提示一系列的 <strong>dplyr</strong> 函数变体已经过期，看来后续要退休了，使用 <code>across()</code> 是它们的统一替代品，所以最近抽时间针对性的学习和翻译下，希望给大家带来一些帮助。</p>
+<p>本文是第一篇，介绍的是<strong>列式计算</strong>，后续还会有一篇介绍按行处理数据。</p>
+<p>原文来自 [dplyr 文档](<a href="https://dplyr.tidyverse.org/articles/colwise.html">Column-wise operations • dplyr (tidyverse.org)</a>) - 2021-01</p>
+</blockquote>
+<p>同时对数据框的多列执行相同的函数操作经常有用，但是通过拷贝和粘贴的方式进行的话既枯燥就容易产生错误。</p>
+<p>例如：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">df <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">group_by</span>(g1, g2) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">summarise</span>(a <span style="color:#f92672">=</span> <span style="color:#a6e22e">mean</span>(a), b <span style="color:#f92672">=</span> <span style="color:#a6e22e">mean</span>(b), c <span style="color:#f92672">=</span> <span style="color:#a6e22e">mean</span>(c), d <span style="color:#f92672">=</span> <span style="color:#a6e22e">mean</span>(d))
+</code></pre></div><p>（如果你想要计算每一行 <code>a, b, c, d</code> 的均值，请看行式计算一文）</p>
+<p>本文将向你介绍 <code>across()</code> 函数，它可以帮助你以更加简洁的方式重写上述代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">df <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">group_by</span>(g1, g2) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">summarise</span>(<span style="color:#a6e22e">across</span>(a<span style="color:#f92672">:</span>d, mean))
+</code></pre></div><p>我们将从讨论 <code>across()</code> 的基本用法开始，特别是将其应用于 <code>summarise()</code> 中和展示如何联合多个函数使用它。然后我们将展示一些其他动词的使用。最后我们将简要介绍一下历史，说明为什么我们更喜欢 <code>across()</code> 而不是后一种方法（即 <code>_if()</code>, <code>_at()</code>, <code>_all()</code> 变体函数）以及如何将你的旧代码转换为新的语法实现。</p>
+<p>载入包：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R"><span style="color:#a6e22e">library</span>(dplyr, warn.conflicts <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>)
+</code></pre></div><h2 id="基本用法">基本用法</h2>
+<p><code>across()</code> 有两个主要的参数：</p>
+<ul>
+<li>第一个参数是 <code>.cols</code> ，它用来选择你想要操作的列。它使用 tidy 选择语法（像 <code>select()</code> 那样），因此你可以按照位置、名字和类型来选择变量。</li>
+<li>第二个参数是 <code>.fns</code>，它是应用到数据列上的一个函数或者是一个函数列表，它也可以是像 <code>~.x/2</code> 这样 <strong>purrr</strong> 风格的公式语法。</li>
+</ul>
+<p>下面是联合 <code>across()</code> 和它最喜欢的动词函数 <code>summarise()</code>的一些例子。但你也可以联合 <code>across()</code> 和任意其他的 <strong>dplyr</strong> 动词函数，我们后面会提及。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">starwars <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">summarise</span>(<span style="color:#a6e22e">across</span>(<span style="color:#a6e22e">where</span>(is.character), <span style="color:#f92672">~</span> <span style="color:#a6e22e">length</span>(<span style="color:#a6e22e">unique</span>(.x))))
+<span style="color:#75715e">#&gt; # A tibble: 1 x 8</span>
+<span style="color:#75715e">#&gt;    name hair_color skin_color eye_color   sex gender homeworld species</span>
+<span style="color:#75715e">#&gt;   &lt;int&gt;      &lt;int&gt;      &lt;int&gt;     &lt;int&gt; &lt;int&gt;  &lt;int&gt;     &lt;int&gt;   &lt;int&gt;</span>
+<span style="color:#75715e">#&gt; 1    87         13         31        15     5      3        49      38</span>
+
+starwars <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">group_by</span>(species) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">filter</span>(<span style="color:#a6e22e">n</span>() <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">summarise</span>(<span style="color:#a6e22e">across</span>(<span style="color:#a6e22e">c</span>(sex, gender, homeworld), <span style="color:#f92672">~</span> <span style="color:#a6e22e">length</span>(<span style="color:#a6e22e">unique</span>(.x))))
+<span style="color:#75715e">#&gt; `summarise()` ungrouping output (override with `.groups` argument)</span>
+<span style="color:#75715e">#&gt; # A tibble: 9 x 4</span>
+<span style="color:#75715e">#&gt;   species    sex gender homeworld</span>
+<span style="color:#75715e">#&gt;   &lt;chr&gt;    &lt;int&gt;  &lt;int&gt;     &lt;int&gt;</span>
+<span style="color:#75715e">#&gt; 1 Droid        1      2         3</span>
+<span style="color:#75715e">#&gt; 2 Gungan       1      1         1</span>
+<span style="color:#75715e">#&gt; 3 Human        2      2        16</span>
+<span style="color:#75715e">#&gt; 4 Kaminoan     2      2         1</span>
+<span style="color:#75715e">#&gt; # … with 5 more rows</span>
+
+starwars <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">group_by</span>(homeworld) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">filter</span>(<span style="color:#a6e22e">n</span>() <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">summarise</span>(<span style="color:#a6e22e">across</span>(<span style="color:#a6e22e">where</span>(is.numeric), <span style="color:#f92672">~</span> <span style="color:#a6e22e">mean</span>(.x, na.rm <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>)))
+<span style="color:#75715e">#&gt; `summarise()` ungrouping output (override with `.groups` argument)</span>
+<span style="color:#75715e">#&gt; # A tibble: 10 x 4</span>
+<span style="color:#75715e">#&gt;   homeworld height  mass birth_year</span>
+<span style="color:#75715e">#&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;</span>
+<span style="color:#75715e">#&gt; 1 Alderaan    176.  64         43  </span>
+<span style="color:#75715e">#&gt; 2 Corellia    175   78.5       25  </span>
+<span style="color:#75715e">#&gt; 3 Coruscant   174.  50         91  </span>
+<span style="color:#75715e">#&gt; 4 Kamino      208.  83.1       31.5</span>
+<span style="color:#75715e">#&gt; # … with 6 more rows</span>
+</code></pre></div><p>因为 <code>across()</code> 通过和 <code>summarise()</code> 以及 <code>mutate()</code> 结合使用，所以它不会选择分组变量以避免意外地修改它们。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">df <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">data.frame</span>(g <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>), x <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">-1</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">3</span>), y <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">-1</span>, <span style="color:#ae81ff">-4</span>, <span style="color:#ae81ff">-9</span>))
+df <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">group_by</span>(g) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">summarise</span>(<span style="color:#a6e22e">across</span>(<span style="color:#a6e22e">where</span>(is.numeric), sum))
+<span style="color:#75715e">#&gt; `summarise()` ungrouping output (override with `.groups` argument)</span>
+<span style="color:#75715e">#&gt; # A tibble: 2 x 3</span>
+<span style="color:#75715e">#&gt;       g     x     y</span>
+<span style="color:#75715e">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span style="color:#75715e">#&gt; 1     1     0    -5</span>
+<span style="color:#75715e">#&gt; 2     2     3    -9</span>
+</code></pre></div><h3 id="多个函数">多个函数</h3>
+<p>你可以通过对第二个参数传入一个函数（包括 lambda 函数）的命名列表来对每个变量同时执行多个函数操作。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">min_max <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">list</span>(
+  min <span style="color:#f92672">=</span> <span style="color:#f92672">~</span><span style="color:#a6e22e">min</span>(.x, na.rm <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>), 
+  max <span style="color:#f92672">=</span> <span style="color:#f92672">~</span><span style="color:#a6e22e">max</span>(.x, na.rm <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>)
+)
+starwars <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">summarise</span>(<span style="color:#a6e22e">across</span>(<span style="color:#a6e22e">where</span>(is.numeric), min_max))
+<span style="color:#75715e">#&gt; # A tibble: 1 x 6</span>
+<span style="color:#75715e">#&gt;   height_min height_max mass_min mass_max birth_year_min birth_year_max</span>
+<span style="color:#75715e">#&gt;        &lt;int&gt;      &lt;int&gt;    &lt;dbl&gt;    &lt;dbl&gt;          &lt;dbl&gt;          &lt;dbl&gt;</span>
+<span style="color:#75715e">#&gt; 1         66       264       15     1358              8            896</span>
+</code></pre></div><p>你可以通过 <code>.names</code> 参数使用 <a href="https://glue.tidyverse.org/">glue</a> 规范来控制新建列名的名字：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">starwars <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">summarise</span>(<span style="color:#a6e22e">across</span>(<span style="color:#a6e22e">where</span>(is.numeric), min_max, .names <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;{.fn}.{.col}&#34;</span>))
+<span style="color:#75715e">#&gt; # A tibble: 1 x 6</span>
+<span style="color:#75715e">#&gt;   min.height max.height min.mass max.mass min.birth_year max.birth_year</span>
+<span style="color:#75715e">#&gt;        &lt;int&gt;      &lt;int&gt;    &lt;dbl&gt;    &lt;dbl&gt;          &lt;dbl&gt;          &lt;dbl&gt;</span>
+<span style="color:#75715e">#&gt; 1         66        264       15     1358              8            896</span>
+</code></pre></div><p>如果你更喜欢将所有具有相同函数的摘要放到在一起（就是下面的 <code>min</code> 结果都在左侧，而 <code>max</code> 都在右侧），你必须自己进行扩展调用：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">starwars <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">summarise</span>(
+  <span style="color:#a6e22e">across</span>(<span style="color:#a6e22e">where</span>(is.numeric), <span style="color:#f92672">~</span><span style="color:#a6e22e">min</span>(.x, na.rm <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>), .names <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;min_{.col}&#34;</span>),
+  <span style="color:#a6e22e">across</span>(<span style="color:#a6e22e">where</span>(is.numeric), <span style="color:#f92672">~</span><span style="color:#a6e22e">max</span>(.x, na.rm <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>), .names <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;max_{.col}&#34;</span>)
+)
+<span style="color:#75715e">#&gt; # A tibble: 1 x 9</span>
+<span style="color:#75715e">#&gt;   min_height min_mass min_birth_year max_height max_mass max_birth_year</span>
+<span style="color:#75715e">#&gt;        &lt;int&gt;    &lt;dbl&gt;          &lt;dbl&gt;      &lt;int&gt;    &lt;dbl&gt;          &lt;dbl&gt;</span>
+<span style="color:#75715e">#&gt; 1         66       15              8        264     1358            896</span>
+<span style="color:#75715e">#&gt; # … with 3 more variables: max_min_height &lt;int&gt;, max_min_mass &lt;dbl&gt;,</span>
+<span style="color:#75715e">#&gt; #   max_min_birth_year &lt;dbl&gt;</span>
+</code></pre></div><p>（可能有一天这种操作会通过 <code>across()</code> 的一个参数进行支持，但目前我们还没找到解决方案）</p>
+<h3 id="当前列">当前列</h3>
+<p>如果需要，你可以通过调用 <code>cur_column()</code> 来获取当前列的名字。如果你想执行一些语境依赖的相关转换，这可能会很有用：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">df <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">tibble</span>(x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">3</span>, y <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span><span style="color:#f92672">:</span><span style="color:#ae81ff">5</span>, z <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span><span style="color:#f92672">:</span><span style="color:#ae81ff">7</span>)
+mult <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">list</span>(x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, y <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, z <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>)
+
+<span style="color:#75715e"># df 每列乘以 mult 对应列的值</span>
+df <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate</span>(<span style="color:#a6e22e">across</span>(<span style="color:#a6e22e">all_of</span>(<span style="color:#a6e22e">names</span>(mult)), <span style="color:#f92672">~</span> .x <span style="color:#f92672">*</span> mult[<span style="color:#a6e22e">[cur_column</span>()]]))
+<span style="color:#75715e">#&gt; # A tibble: 3 x 3</span>
+<span style="color:#75715e">#&gt;       x     y     z</span>
+<span style="color:#75715e">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span style="color:#75715e">#&gt; 1     1    30   500</span>
+<span style="color:#75715e">#&gt; 2     2    40   600</span>
+<span style="color:#75715e">#&gt; 3     3    50   700</span>
+</code></pre></div><h3 id="陷阱">陷阱</h3>
+<p>注意组合 <code>is.numeric()</code> 和数值汇总的使用：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">df <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">data.frame</span>(x <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>), y <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">9</span>))
+
+df <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">summarise</span>(n <span style="color:#f92672">=</span> <span style="color:#a6e22e">n</span>(), <span style="color:#a6e22e">across</span>(<span style="color:#a6e22e">where</span>(is.numeric), sd))
+<span style="color:#75715e">#&gt;    n x        y</span>
+<span style="color:#75715e">#&gt; 1 NA 1 4.041452</span>
+</code></pre></div><p>这里 <code>n</code> 变成 <code>NA</code> 是因为 <code>n</code> 是数值的，所以 <code>across()</code> 会计算它的标准差，3（常量） 的标准差是 <code>NA</code>，你可以最后计算 <code>n()</code> 来解决这个问题：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">df <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">summarise</span>(<span style="color:#a6e22e">across</span>(<span style="color:#a6e22e">where</span>(is.numeric), sd), n <span style="color:#f92672">=</span> <span style="color:#a6e22e">n</span>())
+<span style="color:#75715e">#&gt;   x        y n</span>
+<span style="color:#75715e">#&gt; 1 1 4.041452 3</span>
+</code></pre></div><p>另外，你可以显式的将 <code>n</code> 排除掉来解决该问题：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">df <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">summarise</span>(n <span style="color:#f92672">=</span> <span style="color:#a6e22e">n</span>(), <span style="color:#a6e22e">across</span>(<span style="color:#a6e22e">where</span>(is.numeric) <span style="color:#f92672">&amp;</span> <span style="color:#f92672">!</span>n, sd))
+<span style="color:#75715e">#&gt;   n x        y</span>
+<span style="color:#75715e">#&gt; 1 3 1 4.041452</span>
+</code></pre></div><h3 id="其他动词">其他动词</h3>
+<p>到目前为止，我们聚焦于 <code>across()</code> 和 <code>summarise()</code> 的组合使用，但它也可以和其他 <strong>dplyr</strong> 动词函数一起工作：</p>
+<ul>
+<li>
+<p>•重新缩放所有数值变量到范围 0-1：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">rescale01 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">function</span>(x) {
+  rng <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">range</span>(x, na.rm <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>)
+  (x <span style="color:#f92672">-</span> rng[1]) <span style="color:#f92672">/</span> (rng[2] <span style="color:#f92672">-</span> rng[1])
+}
+df <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">tibble</span>(x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">4</span>, y <span style="color:#f92672">=</span> <span style="color:#a6e22e">rnorm</span>(<span style="color:#ae81ff">4</span>))
+df <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate</span>(<span style="color:#a6e22e">across</span>(<span style="color:#a6e22e">where</span>(is.numeric), rescale01))
+<span style="color:#75715e">#&gt; # A tibble: 4 x 2</span>
+<span style="color:#75715e">#&gt;       x     y</span>
+<span style="color:#75715e">#&gt;   &lt;dbl&gt; &lt;dbl&gt;</span>
+<span style="color:#75715e">#&gt; 1 0     0.385</span>
+<span style="color:#75715e">#&gt; 2 0.333 1    </span>
+<span style="color:#75715e">#&gt; 3 0.667 0    </span>
+<span style="color:#75715e">#&gt; 4 1     0.903</span>
+</code></pre></div></li>
+<li>
+<p>查找所有没有变量缺失值的行：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">starwars <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">filter</span>(<span style="color:#a6e22e">across</span>(<span style="color:#a6e22e">everything</span>(), <span style="color:#f92672">~</span> <span style="color:#f92672">!</span><span style="color:#a6e22e">is.na</span>(.x)))
+<span style="color:#75715e">#&gt; # A tibble: 29 x 14</span>
+<span style="color:#75715e">#&gt;   name  height  mass hair_color skin_color eye_color birth_year sex   gender</span>
+<span style="color:#75715e">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
+<span style="color:#75715e">#&gt; 1 Luke…    172    77 blond      fair       blue            19   male  mascu…</span>
+<span style="color:#75715e">#&gt; 2 Dart…    202   136 none       white      yellow          41.9 male  mascu…</span>
+<span style="color:#75715e">#&gt; 3 Leia…    150    49 brown      light      brown           19   fema… femin…</span>
+<span style="color:#75715e">#&gt; 4 Owen…    178   120 brown, gr… light      blue            52   male  mascu…</span>
+<span style="color:#75715e">#&gt; # … with 25 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
+<span style="color:#75715e">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span>
+</code></pre></div></li>
+</ul>
+<p>对一些像 <code>group_by()</code>、<code>count()</code> 和 <code>distinct()</code> 这样的动词，你可以省略汇总函数：</p>
+<ul>
+<li>
+<p>寻找所有的唯一值：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">starwars <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">distinct</span>(<span style="color:#a6e22e">across</span>(<span style="color:#a6e22e">contains</span>(<span style="color:#e6db74">&#34;color&#34;</span>)))
+<span style="color:#75715e">#&gt; # A tibble: 67 x 3</span>
+<span style="color:#75715e">#&gt;   hair_color skin_color  eye_color</span>
+<span style="color:#75715e">#&gt;   &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;    </span>
+<span style="color:#75715e">#&gt; 1 blond      fair        blue     </span>
+<span style="color:#75715e">#&gt; 2 &lt;NA&gt;       gold        yellow   </span>
+<span style="color:#75715e">#&gt; 3 &lt;NA&gt;       white, blue red      </span>
+<span style="color:#75715e">#&gt; 4 none       white       yellow   </span>
+<span style="color:#75715e">#&gt; # … with 63 more rows</span>
+</code></pre></div></li>
+<li>
+<p>计算给定模式下所有变量的组合数目：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">starwars <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">count</span>(<span style="color:#a6e22e">across</span>(<span style="color:#a6e22e">contains</span>(<span style="color:#e6db74">&#34;color&#34;</span>)), sort <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>)
+<span style="color:#75715e">#&gt; # A tibble: 67 x 4</span>
+<span style="color:#75715e">#&gt;   hair_color skin_color eye_color     n</span>
+<span style="color:#75715e">#&gt;   &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;     &lt;int&gt;</span>
+<span style="color:#75715e">#&gt; 1 brown      light      brown         6</span>
+<span style="color:#75715e">#&gt; 2 brown      fair       blue          4</span>
+<span style="color:#75715e">#&gt; 3 none       grey       black         4</span>
+<span style="color:#75715e">#&gt; 4 black      dark       brown         3</span>
+<span style="color:#75715e">#&gt; # … with 63 more rows</span>
+</code></pre></div></li>
+</ul>
+<p><code>across()</code> 不能与 <code>select()</code> 或者 <code>rename()</code> 一起工作，因为后面两个函数已经支持 tidy 选择语法。如果你想要通过函数转换列名，可以使用 <code>rename_with()</code>。</p>
+<h2 id="_if-_at-_all"><code>_if</code>, <code>_at</code>, <code>_all</code></h2>
+<p><strong>dplyr</strong> 以前的版本允许以不同的方式将函数应用到多个列：使用带有<code>_if</code>、<code>_at</code>和<code>_all</code>后缀的函数。这些功能解决了迫切的需求而被许多人使用，但现在被取代了。这意味着它们会一直存在，但不会获得任何新功能，只会修复关键的bug。</p>
+<h3 id="为什么我们喜欢-across">为什么我们喜欢 <code>across()</code>？</h3>
+<p>为什么我们决定从上面的函数迁移到 <code>across()</code>？理由如下：</p>
+<ol>
+<li>
+<p><code>across()</code> 使它能够表达以前不可能表达的有用的汇总：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">df <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">group_by</span>(g1, g2) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">summarise</span>(
+    <span style="color:#a6e22e">across</span>(<span style="color:#a6e22e">where</span>(is.numeric), mean), 
+    <span style="color:#a6e22e">across</span>(<span style="color:#a6e22e">where</span>(is.factor), nlevels),
+    n <span style="color:#f92672">=</span> <span style="color:#a6e22e">n</span>(), 
+  )
+</code></pre></div></li>
+<li>
+<p><code>across()</code> 减少 <strong>dplyr</strong> 需要提供的函数数量。这使 <strong>dplyr</strong> 更容易使用（因为需要记住的函数更少），也使我们更容易实现新的动词（因为我们只需要实现一个函数，而不是四个）。</p>
+</li>
+<li>
+<p><code>across()</code> 统一了 <code>_if</code> 和 <code>_at</code> 的语义让我们可以随心按照位置、名字和类型选择变量，甚至是随心所欲地组合它们，这在以前是不可能的。例如，你现在可以转换以 <code>x</code> 开头的数值列： <code>across(where(is.numeric) &amp; starts_with(&quot;x&quot;))</code>.</p>
+</li>
+<li>
+<p><code>across()</code> 不需要使用 <code>vars()</code>。<code>_at()</code> 函数是 <strong>dplyr</strong> 中唯一你需要手动引用变量名的地方，这让它们比较奇怪且难以记忆。</p>
+</li>
+</ol>
+<h3 id="为什么过了这么久才发现-across">为什么过了这么久才发现 <code>across()</code>？</h3>
+<p>令人失望的是，我们没有早点发现 <code>across()</code>，而是经历了几个错误的尝试（首先没有意识到这是一个常见的问题，然后是使用<code>_each()</code>函数，最后是使用<code>_if()/_at()/_all()</code>函数）。但是 <code>across()</code> 的开发工作离不开以下三个最新发现：</p>
+<ul>
+<li>
+<p>你可以有一个数据框的列，它本身就是一个数据框。这是由 base R 提供的，但它并没有很好的文档，我们花了一段时间才发现它是有用的，而不仅仅是理论上的好奇。</p>
+</li>
+<li>
+<p>我们可以使用数据框让汇总函数返回多列。</p>
+</li>
+<li>
+<p>我们可以使用没有外部名称作为将数据框列解包为单独列的约定。</p>
+</li>
+</ul>
+<h3 id="你如何转移已经存在的代码">你如何转移已经存在的代码？</h3>
+<p>幸运的是，将已有的代码转换为使用 <code>across()</code> 实现通常是非常直观的：</p>
+<ul>
+<li>
+<p>去掉函数 <code>_if()</code>, <code>_at()</code> and <code>_all()</code> 后缀</p>
+</li>
+<li>
+<p>调用 <code>across()</code>，第一个参数如下：</p>
+<ol>
+<li>对于 <code>_if()</code>，原来的第二个参数包裹进 <code>where()</code></li>
+<li>对于 <code>_at()</code>，原来的参数，如果有 <code>vars()</code> 包裹则移除</li>
+<li>对于 <code>_all()</code>，使用<code>everything()</code></li>
+</ol>
+<p>后面如果还有参数，保持原样即可。</p>
+</li>
+</ul>
+<p>例如：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">df <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate_if</span>(is.numeric, mean, na.rm <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>)
+<span style="color:#75715e"># -&gt;</span>
+df <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate</span>(<span style="color:#a6e22e">across</span>(<span style="color:#a6e22e">where</span>(is.numeric), mean, na.rm <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>))
+
+df <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate_at</span>(<span style="color:#a6e22e">vars</span>(<span style="color:#a6e22e">c</span>(x, <span style="color:#a6e22e">starts_with</span>(<span style="color:#e6db74">&#34;y&#34;</span>))), mean)
+<span style="color:#75715e"># -&gt;</span>
+df <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate</span>(<span style="color:#a6e22e">across</span>(<span style="color:#a6e22e">c</span>(x, <span style="color:#a6e22e">starts_with</span>(<span style="color:#e6db74">&#34;y&#34;</span>)), mean, na.rm <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>))
+
+df <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate_all</span>(mean)
+<span style="color:#75715e"># -&gt;</span>
+df <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate</span>(<span style="color:#a6e22e">across</span>(<span style="color:#a6e22e">everything</span>(), mean))
+</code></pre></div><p>这个规则有些意外情况：</p>
+<ul>
+<li>
+<p><code>rename_*()</code> 和 <code>select_*()</code> 遵循不同的模式。它们已经有选择语义，所以通常以与 <code>across()</code> 不同的方式使用，我们需要使用新的 <code>rename_with()</code> 代替。</p>
+</li>
+<li>
+<p>先前 <code>filter()</code> 和 <code>all_vars()</code> 与 <code>any_vars()</code> 帮助函数配对使用。现在，<code>across()</code> 等价于 <code>all_vars()</code>，然而没有 <code>any_vars()</code> 的直接替代品，不过你可以自己创建一个：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">df <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">tibble</span>(x <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;a&#34;</span>, <span style="color:#e6db74">&#34;b&#34;</span>), y <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>), z <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">-1</span>, <span style="color:#ae81ff">1</span>))
+  
+<span style="color:#75715e"># 找到满足每一个数值列都大于 0 的所有的行</span>
+df <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">filter</span>(<span style="color:#a6e22e">across</span>(<span style="color:#a6e22e">where</span>(is.numeric), <span style="color:#f92672">~</span> .x <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>))
+<span style="color:#75715e">#&gt; # A tibble: 1 x 3</span>
+<span style="color:#75715e">#&gt;   x         y     z</span>
+<span style="color:#75715e">#&gt;   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span style="color:#75715e">#&gt; 1 b         1     1</span>
+  
+<span style="color:#75715e"># 找到满足任何一个数值列都大于 0 的所有的行</span>
+rowAny <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">function</span>(x) <span style="color:#a6e22e">rowSums</span>(x) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>
+df <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">filter</span>(<span style="color:#a6e22e">rowAny</span>(<span style="color:#a6e22e">across</span>(<span style="color:#a6e22e">where</span>(is.numeric), <span style="color:#f92672">~</span> .x <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>)))
+<span style="color:#75715e">#&gt; # A tibble: 2 x 3</span>
+<span style="color:#75715e">#&gt;   x         y     z</span>
+<span style="color:#75715e">#&gt;   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span style="color:#75715e">#&gt; 1 a         1    -1</span>
+<span style="color:#75715e">#&gt; 2 b         1     1</span>
+</code></pre></div></li>
+<li>
+<p>当在 <code>mutate()</code> 中使用时，所有 <code>across()</code> 执行的转换都一次性完成。这与 <code>mutate_if()</code>、<code>mutate_at()</code> 和 <code>mutate_all()</code> 不同，后者一次只完成一个转换。我们希望大家不会对这种新行为感到惊讶：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">df <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">tibble</span>(x <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>, y <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>, z <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>)
+df <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate_all</span>(<span style="color:#f92672">~</span> .x <span style="color:#f92672">/</span> y)
+<span style="color:#75715e">#&gt; # A tibble: 1 x 3</span>
+<span style="color:#75715e">#&gt;       x     y     z</span>
+<span style="color:#75715e">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span style="color:#75715e">#&gt; 1   0.5     1     8</span>
+  
+df <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate</span>(<span style="color:#a6e22e">across</span>(<span style="color:#a6e22e">everything</span>(), <span style="color:#f92672">~</span> .x <span style="color:#f92672">/</span> y))
+<span style="color:#75715e">#&gt; # A tibble: 1 x 3</span>
+<span style="color:#75715e">#&gt;       x     y     z</span>
+<span style="color:#75715e">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span style="color:#75715e">#&gt; 1   0.5     1     2</span>
+</code></pre></div></li>
+</ul>
+<h3 id="小结">小结</h3>
+<p><strong>dplyr</strong> 的开发者们通过 <code>across()</code> 简化了 <strong>dplyr</strong> 对于一些数据复杂操作的处理逻辑，提高了整体的学习和使用效率，让我们使用者更关注于逻辑而非实现上。点个赞！</p>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="../../../cn/post/2021-01-22-dplyr-rowwise/">dplyr 行式计算</a></span>
+  <span class="nav-next"></span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/post\/2021-01-22-dplyr-rowwise\/';
+    
+  } else if (e.which == 39) {  
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+
+
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+<script>
+  const gitalk = new Gitalk({
+    clientID: 'eed477936be7b88a8455',
+    clientSecret: '32b5dde22f3c95c4fad400a31632e34221b07e83',
+    repo: 'home',
+    owner: 'ShixiangWang',
+    admin: ['ShixiangWang'],
+    id: md5(window.location.pathname), 
+    distractionFreeMode: false 
+  });
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('gitalk-container').innerHTML = 'Gitalk comments not available by default when the website is previewed locally.';
+      return;
+    }
+    gitalk.render('gitalk-container');
+  })();
+</script>
+
+
+
+
+
+<script async src="../../../js/fix-toc.js"></script>
+
+<script async src="../../../js/center-img.js"></script>
+
+<script async src="../../../js/right-quote.js"></script>
+
+<script async src="../../../js/no-highlight.js"></script>
+
+<script async src="../../../js/fix-footnote.js"></script>
+
+<script async src="../../../js/math-code.js"></script>
+
+<script async src="../../../js/external-link.js"></script>
+
+<script async src="../../../js/alt-title.js"></script>
+
+<script async src="../../../js/header-link.js"></script>
+
+
+<script src="//yihui.org/js/math-code.js"></script>
+<script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script async src="//yihui.org/js/center-img.js"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+  
+  
+
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> · <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> · <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> · <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> · <a href="https://orcid.org/0000-0001-9855-7357"><i class='ai ai-orcid ai-1x'></i></a> · <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 © <a href="../../../">王诗翔</a> 2017 - 2020 </div>
+  
+  
+
+  <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56h9es09xn7&amp;m=6&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=1" async="async"></script>
+  </footer>
+  </article>
+  
+  </body>
+</html>
+

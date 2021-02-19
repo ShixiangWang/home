@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>colwise on Shixiang Wang | 王诗翔</title>
+    <link>/tags/colwise/</link>
+    <description>Recent content in colwise on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 22 Jan 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/colwise/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>dplyr 列式计算</title>
+      <link>/cn/post/2021-01-22-dplyr-colwise/</link>
+      <pubDate>Fri, 22 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2021-01-22-dplyr-colwise/</guid>
+      <description>在近期使用 dplyr 进行多列选择性操作，如 mutate_at() 时，发现文档提示一系列的 dplyr 函数变体已经过期，看来后续要退休了，使用 across() 是它们的统一替代品，所以最近抽时间针</description>
+    </item>
+    
+  </channel>
+</rss>

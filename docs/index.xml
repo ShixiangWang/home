@@ -8,6 +8,24 @@
     <language>en-us</language>
     <lastBuildDate>Thu, 05 May 2016 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>dplyr 列式计算</title>
+      <link>/cn/post/2021-01-22-dplyr-colwise/</link>
+      <pubDate>Fri, 22 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2021-01-22-dplyr-colwise/</guid>
+      <description>在近期使用 dplyr 进行多列选择性操作，如 mutate_at() 时，发现文档提示一系列的 dplyr 函数变体已经过期，看来后续要退休了，使用 across() 是它们的统一替代品，所以最近抽时间针</description>
+    </item>
+    
+    <item>
+      <title>dplyr 行式计算</title>
+      <link>/cn/post/2021-01-22-dplyr-rowwise/</link>
+      <pubDate>Fri, 22 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2021-01-22-dplyr-rowwise/</guid>
+      <description>原文来自：dplyr 文档 通常 dplyr 和 R 更适合对列进行操作，而对行操作则显得更麻烦。这篇文章，我们将学习围绕rowwise() 创建的 row-wise 数据框的 dplyr 操</description>
+    </item>
+    
+    <item>
       <title>RStudio v1.4 正式发布，有哪些新特性？</title>
       <link>/cn/post/2021-01-20-rstudio-v1_4/</link>
       <pubDate>Wed, 20 Jan 2021 00:00:00 +0000</pubDate>

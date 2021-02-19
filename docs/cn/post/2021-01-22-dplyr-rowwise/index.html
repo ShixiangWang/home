@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    
+    <link rel="stylesheet" href="../../../fonts/academicons-1.8.6/css/academicons.min.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../logo/bodhi.png"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    
+    <title>dplyr 行式计算 - 王诗翔</title>
+    
+     
+    <meta property="og:title" content="dplyr 行式计算 - Shixiang Wang | 王诗翔">
+    
+
+    
+      
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/Xcode.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="../../../css/style.css" />
+    <link rel="stylesheet" href="../../../css/mystyle.css" /> 
+    <link rel="stylesheet" href="../../../css/fonts.css" />
+    
+<script async src="../../../js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="../../../css/custom.css" />
+
+  </head>
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="../../../logo/ShixiangWang.png"><img src="../../../logo/ShixiangWang.png" alt="Shixiang Wang" /></a></h1>
+<p align="right" style="margin-top:-50px;"><small>><i>上士闻道<br>勤而行之</i></small></p>
+
+
+
+
+      <nav class="menu">
+        <input id="menu-check" type="checkbox" />
+        <label id="menu-label" for="menu-check" class="unselectable">
+          <span class="icon close-icon">✕</span>
+          <span class="icon open-icon">☰</span>
+          <span class="text">Menu</span>
+        </label>
+        <ul>
+        
+        
+        <li><a href="../../../">首页</a></li>
+        
+        <li><a href="../../../cn/about/">关于</a></li>
+        
+        <li><a href="../../../cn/post/">博客</a></li>
+        
+        <li><a href="../../../cn/read/">读书</a></li>
+        
+        <li><a href="../../../cn/writing">写作</a></li>
+        
+        <li><a href="../../../cn/research/">研究</a></li>
+        
+        <li><a href="../../../cn/tools/">工具</a></li>
+        
+        <li><a href="../../../cn/cv-cn/shixiang">简历</a></li>
+        
+        <li><a href="../../../logo/qrcode.jpg">公众号</a></li>
+        
+        <li><a href="https://www.zhihu.com/people/shixiangwang">知乎</a></li>
+        
+        <li><a href="../../../cn/mark">推荐阅读</a></li>
+        
+        <li><a href="../../../en/">English</a></li>
+        
+        <li><a href="../../../categories/">分类</a></li>
+        
+        <li><a href="../../../tags/">标签</a></li>
+        
+        
+
+<li class="menu-extra"></li>
+
+
+
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2021-01-22-dplyr-rowwise.md" target="_blank">编辑</a></li>
+
+
+<li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+        </ul>
+      </nav>
+    </header>
+
+    <article class="main">
+      <header class="title">
+        
+
+<h1>dplyr 行式计算</h1>
+
+
+
+<h3>王诗翔 &middot 
+2021-01-22</h3> 
+
+
+<p style="text-align:right;">
+  分类:
+  
+    <a href="../../../categories/r">r</a> &nbsp
+  
+  <br>
+  标签:
+  
+    <a href="../../../tags/dplyr">dplyr</a> &nbsp
+  
+    <a href="../../../tags/rowwise">rowwise</a> &nbsp
+  
+</p>
+
+
+
+   
+  
+
+
+      </header>
+
+
+<p>原文来自：dplyr 文档</p>
+<p>通常 dplyr 和 R 更适合对列进行操作，而对行操作则显得更麻烦。这篇文章，我们将学习围绕<code>rowwise()</code> 创建的 row-wise 数据框的 dplyr 操作方法。</p>
+<p>本文将讨论 3 种常见的使用案例：</p>
+<ul>
+<li>按行聚合（例如，计算 x, y, z 的均值）。</li>
+<li>多次以不同的参数调用同一个函数。</li>
+<li>处理列表列。</li>
+</ul>
+<p>这些问题通常可以通过 for 循环简单地解决掉，但如果能够自然地将其流程化将是一个非常好的方案。</p>
+<blockquote>
+<p>Of course, someone has to write loops. It doesn’t have to be you. — Jenny Bryan</p>
+</blockquote>
+<p>载入包</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R"><span style="color:#a6e22e">library</span>(dplyr, warn.conflicts <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>)
+</code></pre></div><h2 id="创建">创建</h2>
+<p>行式操作需要一个特殊的分组类型，每一组简单地包含一个单一的行。你可以使用 <code>rowwise()</code> 创建它：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">df <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">tibble</span>(x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">2</span>, y <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span><span style="color:#f92672">:</span><span style="color:#ae81ff">4</span>, z <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6</span>)
+df <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">rowwise</span>()
+<span style="color:#75715e">#&gt; # A tibble: 2 x 3</span>
+<span style="color:#75715e">#&gt; # Rowwise: </span>
+<span style="color:#75715e">#&gt;       x     y     z</span>
+<span style="color:#75715e">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;</span>
+<span style="color:#75715e">#&gt; 1     1     3     5</span>
+<span style="color:#75715e">#&gt; 2     2     4     6</span>
+</code></pre></div><p>与 <code>group_by()</code> 类似， <code>rowwise()</code> 本身并不进行任何的操作，它仅改变其他动词操作如何工作。例如，比较下面 <code>mutate()</code> 的结果：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">df <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate</span>(m <span style="color:#f92672">=</span> <span style="color:#a6e22e">mean</span>(<span style="color:#a6e22e">c</span>(x, y, z)))
+<span style="color:#75715e">#&gt; # A tibble: 2 x 4</span>
+<span style="color:#75715e">#&gt;       x     y     z     m</span>
+<span style="color:#75715e">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt;</span>
+<span style="color:#75715e">#&gt; 1     1     3     5   3.5</span>
+<span style="color:#75715e">#&gt; 2     2     4     6   3.5</span>
+df <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">rowwise</span>() <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate</span>(m <span style="color:#f92672">=</span> <span style="color:#a6e22e">mean</span>(<span style="color:#a6e22e">c</span>(x, y, z)))
+<span style="color:#75715e">#&gt; # A tibble: 2 x 4</span>
+<span style="color:#75715e">#&gt; # Rowwise: </span>
+<span style="color:#75715e">#&gt;       x     y     z     m</span>
+<span style="color:#75715e">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt;</span>
+<span style="color:#75715e">#&gt; 1     1     3     5     3</span>
+<span style="color:#75715e">#&gt; 2     2     4     6     4</span>
+</code></pre></div><p>如果你使用 <code>mutate()</code> 操作一个常规的数据框，它计算所有行的 <code>x</code>, <code>y</code> 和 <code>z</code> 的均值。而如果你只应用到一个行式数据框，它计算每一行的均值。</p>
+<p>你可以在 <code>rowwise()</code> 中提供“标识符”变量，这些变量将在你调用 <code>summarise()</code> 的时候保留，因此它的行为类似于将变量传入 <code>group_by()</code>：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">df <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">tibble</span>(name <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;Mara&#34;</span>, <span style="color:#e6db74">&#34;Hadley&#34;</span>), x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">2</span>, y <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span><span style="color:#f92672">:</span><span style="color:#ae81ff">4</span>, z <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6</span>)
+
+df <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">rowwise</span>() <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">summarise</span>(m <span style="color:#f92672">=</span> <span style="color:#a6e22e">mean</span>(<span style="color:#a6e22e">c</span>(x, y, z)))
+<span style="color:#75715e">#&gt; `summarise()` ungrouping output (override with `.groups` argument)</span>
+<span style="color:#75715e">#&gt; # A tibble: 2 x 1</span>
+<span style="color:#75715e">#&gt;       m</span>
+<span style="color:#75715e">#&gt;   &lt;dbl&gt;</span>
+<span style="color:#75715e">#&gt; 1     3</span>
+<span style="color:#75715e">#&gt; 2     4</span>
+
+df <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">rowwise</span>(name) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">summarise</span>(m <span style="color:#f92672">=</span> <span style="color:#a6e22e">mean</span>(<span style="color:#a6e22e">c</span>(x, y, z)))
+<span style="color:#75715e">#&gt; `summarise()` regrouping output by &#39;name&#39; (override with `.groups` argument)</span>
+<span style="color:#75715e">#&gt; # A tibble: 2 x 2</span>
+<span style="color:#75715e">#&gt; # Groups:   name [2]</span>
+<span style="color:#75715e">#&gt;   name       m</span>
+<span style="color:#75715e">#&gt;   &lt;chr&gt;  &lt;dbl&gt;</span>
+<span style="color:#75715e">#&gt; 1 Mara       3</span>
+<span style="color:#75715e">#&gt; 2 Hadley     4</span>
+</code></pre></div><p><code>rowwise()</code> 仅是分组的一个特殊形式，因此如果你想要将其从数据框中移除，调用 <code>ungroup()</code> 即可。</p>
+<h2 id="按行汇总统计">按行汇总统计</h2>
+<p><code>dplyr::summarise()</code> 让一列多行的统计汇总变得非常简单，当它与 <code>rowwise()</code> 结合时，它也可以简便地操作汇总一行多列。为了查看它是怎样工作的，我们从创建一个小的数据框开始：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">df <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">tibble</span>(id <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6</span>, w <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span><span style="color:#f92672">:</span><span style="color:#ae81ff">15</span>, x <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span><span style="color:#f92672">:</span><span style="color:#ae81ff">25</span>, y <span style="color:#f92672">=</span> <span style="color:#ae81ff">30</span><span style="color:#f92672">:</span><span style="color:#ae81ff">35</span>, z <span style="color:#f92672">=</span> <span style="color:#ae81ff">40</span><span style="color:#f92672">:</span><span style="color:#ae81ff">45</span>)
+df
+<span style="color:#75715e">#&gt; # A tibble: 6 x 5</span>
+<span style="color:#75715e">#&gt;      id     w     x     y     z</span>
+<span style="color:#75715e">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;</span>
+<span style="color:#75715e">#&gt; 1     1    10    20    30    40</span>
+<span style="color:#75715e">#&gt; 2     2    11    21    31    41</span>
+<span style="color:#75715e">#&gt; 3     3    12    22    32    42</span>
+<span style="color:#75715e">#&gt; 4     4    13    23    33    43</span>
+<span style="color:#75715e">#&gt; # … with 2 more rows</span>
+</code></pre></div><p>假设我们想要计算每行 <code>w</code>, <code>x</code>, <code>y</code>, 和 <code>z</code> 的和，我们县创建一个行式数据框：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">rf <span style="color:#f92672">&lt;-</span> df <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">rowwise</span>(id)
+</code></pre></div><p>我们然后使用 <code>mutate()</code> 添加一个新的列，或者使用 <code>summarise()</code> 仅返回一个汇总列：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">rf <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate</span>(total <span style="color:#f92672">=</span> <span style="color:#a6e22e">sum</span>(<span style="color:#a6e22e">c</span>(w, x, y, z)))
+<span style="color:#75715e">#&gt; # A tibble: 6 x 6</span>
+<span style="color:#75715e">#&gt; # Rowwise:  id</span>
+<span style="color:#75715e">#&gt;      id     w     x     y     z total</span>
+<span style="color:#75715e">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;</span>
+<span style="color:#75715e">#&gt; 1     1    10    20    30    40   100</span>
+<span style="color:#75715e">#&gt; 2     2    11    21    31    41   104</span>
+<span style="color:#75715e">#&gt; 3     3    12    22    32    42   108</span>
+<span style="color:#75715e">#&gt; 4     4    13    23    33    43   112</span>
+<span style="color:#75715e">#&gt; # … with 2 more rows</span>
+rf <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">summarise</span>(total <span style="color:#f92672">=</span> <span style="color:#a6e22e">sum</span>(<span style="color:#a6e22e">c</span>(w, x, y, z)))
+<span style="color:#75715e">#&gt; `summarise()` regrouping output by &#39;id&#39; (override with `.groups` argument)</span>
+<span style="color:#75715e">#&gt; # A tibble: 6 x 2</span>
+<span style="color:#75715e">#&gt; # Groups:   id [6]</span>
+<span style="color:#75715e">#&gt;      id total</span>
+<span style="color:#75715e">#&gt;   &lt;int&gt; &lt;int&gt;</span>
+<span style="color:#75715e">#&gt; 1     1   100</span>
+<span style="color:#75715e">#&gt; 2     2   104</span>
+<span style="color:#75715e">#&gt; 3     3   108</span>
+<span style="color:#75715e">#&gt; 4     4   112</span>
+<span style="color:#75715e">#&gt; # … with 2 more rows</span>
+</code></pre></div><p>当然，如果你有大量的变量，键入每个变量名将非常无聊。因此，你可以使用 <code>c_across()</code> ，它支持 tidy 选择语法，因而你可以一次性选择许多变量：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">rf <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate</span>(total <span style="color:#f92672">=</span> <span style="color:#a6e22e">sum</span>(<span style="color:#a6e22e">c_across</span>(w<span style="color:#f92672">:</span>z)))
+<span style="color:#75715e">#&gt; # A tibble: 6 x 6</span>
+<span style="color:#75715e">#&gt; # Rowwise:  id</span>
+<span style="color:#75715e">#&gt;      id     w     x     y     z total</span>
+<span style="color:#75715e">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;</span>
+<span style="color:#75715e">#&gt; 1     1    10    20    30    40   100</span>
+<span style="color:#75715e">#&gt; 2     2    11    21    31    41   104</span>
+<span style="color:#75715e">#&gt; 3     3    12    22    32    42   108</span>
+<span style="color:#75715e">#&gt; 4     4    13    23    33    43   112</span>
+<span style="color:#75715e">#&gt; # … with 2 more rows</span>
+rf <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate</span>(total <span style="color:#f92672">=</span> <span style="color:#a6e22e">sum</span>(<span style="color:#a6e22e">c_across</span>(<span style="color:#a6e22e">where</span>(is.numeric))))
+<span style="color:#75715e">#&gt; # A tibble: 6 x 6</span>
+<span style="color:#75715e">#&gt; # Rowwise:  id</span>
+<span style="color:#75715e">#&gt;      id     w     x     y     z total</span>
+<span style="color:#75715e">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;</span>
+<span style="color:#75715e">#&gt; 1     1    10    20    30    40   100</span>
+<span style="color:#75715e">#&gt; 2     2    11    21    31    41   104</span>
+<span style="color:#75715e">#&gt; 3     3    12    22    32    42   108</span>
+<span style="color:#75715e">#&gt; 4     4    13    23    33    43   112</span>
+<span style="color:#75715e">#&gt; # … with 2 more rows</span>
+</code></pre></div><p>你可以结合列式操作（见前一篇文章）计算每一行的比例：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">rf <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(total <span style="color:#f92672">=</span> <span style="color:#a6e22e">sum</span>(<span style="color:#a6e22e">c_across</span>(w<span style="color:#f92672">:</span>z))) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">ungroup</span>() <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(<span style="color:#a6e22e">across</span>(w<span style="color:#f92672">:</span>z, <span style="color:#f92672">~</span> . <span style="color:#f92672">/</span> total))
+<span style="color:#75715e">#&gt; # A tibble: 6 x 6</span>
+<span style="color:#75715e">#&gt;      id     w     x     y     z total</span>
+<span style="color:#75715e">#&gt;   &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;</span>
+<span style="color:#75715e">#&gt; 1     1 0.1   0.2   0.3   0.4     100</span>
+<span style="color:#75715e">#&gt; 2     2 0.106 0.202 0.298 0.394   104</span>
+<span style="color:#75715e">#&gt; 3     3 0.111 0.204 0.296 0.389   108</span>
+<span style="color:#75715e">#&gt; 4     4 0.116 0.205 0.295 0.384   112</span>
+<span style="color:#75715e">#&gt; # … with 2 more rows</span>
+</code></pre></div><h3 id="行式汇总函数">行式汇总函数</h3>
+<p><code>rowwise()</code> 方法支持任何的汇总函数。但如果你要考虑计算的速度，寻找能够完成任务的内置的行式汇总函数非常值得。它们的效率更高，因为它们不会将数据切分为行，然后计算统计量，最后再把结果拼起来，它们将整个数据框作为一个整体进行操作。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">df <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate</span>(total <span style="color:#f92672">=</span> <span style="color:#a6e22e">rowSums</span>(<span style="color:#a6e22e">across</span>(<span style="color:#a6e22e">where</span>(is.numeric))))
+<span style="color:#75715e">#&gt; # A tibble: 6 x 6</span>
+<span style="color:#75715e">#&gt;      id     w     x     y     z total</span>
+<span style="color:#75715e">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt;</span>
+<span style="color:#75715e">#&gt; 1     1    10    20    30    40   101</span>
+<span style="color:#75715e">#&gt; 2     2    11    21    31    41   106</span>
+<span style="color:#75715e">#&gt; 3     3    12    22    32    42   111</span>
+<span style="color:#75715e">#&gt; 4     4    13    23    33    43   116</span>
+<span style="color:#75715e">#&gt; # … with 2 more rows</span>
+df <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate</span>(mean <span style="color:#f92672">=</span> <span style="color:#a6e22e">rowMeans</span>(<span style="color:#a6e22e">across</span>(<span style="color:#a6e22e">where</span>(is.numeric))))
+<span style="color:#75715e">#&gt; # A tibble: 6 x 6</span>
+<span style="color:#75715e">#&gt;      id     w     x     y     z  mean</span>
+<span style="color:#75715e">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt;</span>
+<span style="color:#75715e">#&gt; 1     1    10    20    30    40  20.2</span>
+<span style="color:#75715e">#&gt; 2     2    11    21    31    41  21.2</span>
+<span style="color:#75715e">#&gt; 3     3    12    22    32    42  22.2</span>
+<span style="color:#75715e">#&gt; 4     4    13    23    33    43  23.2</span>
+<span style="color:#75715e">#&gt; # … with 2 more rows</span>
+</code></pre></div><h2 id="列表列">列表列</h2>
+<p>当您有列表列时，<code>rowwise()</code>操作是一种自然的配对。它们允许你避免显式的循环和/或使用 <code>apply()</code> 或 <code>purrr::map</code> 家族函数。</p>
+<h3 id="动机">动机</h3>
+<p>想象你有下面这个数据框，你想要计算每个元素的长度：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">df <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">tibble</span>(
+  x <span style="color:#f92672">=</span> <span style="color:#a6e22e">list</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span><span style="color:#f92672">:</span><span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6</span>)
+)
+</code></pre></div><p>你可能会尝试 <code>length()</code>：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">df <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate</span>(l <span style="color:#f92672">=</span> <span style="color:#a6e22e">length</span>(x))
+<span style="color:#75715e">#&gt; # A tibble: 3 x 2</span>
+<span style="color:#75715e">#&gt;   x             l</span>
+<span style="color:#75715e">#&gt;   &lt;list&gt;    &lt;int&gt;</span>
+<span style="color:#75715e">#&gt; 1 &lt;dbl [1]&gt;     3</span>
+<span style="color:#75715e">#&gt; 2 &lt;int [2]&gt;     3</span>
+<span style="color:#75715e">#&gt; 3 &lt;int [3]&gt;     3</span>
+</code></pre></div><p>但是返回的是列的长度，而不是单独值的长度。如果你是一个 R 文档迷，你可能知道有一个 base R 函数就是用来处理这种情况的：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">df <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate</span>(l <span style="color:#f92672">=</span> <span style="color:#a6e22e">lengths</span>(x))
+<span style="color:#75715e">#&gt; # A tibble: 3 x 2</span>
+<span style="color:#75715e">#&gt;   x             l</span>
+<span style="color:#75715e">#&gt;   &lt;list&gt;    &lt;int&gt;</span>
+<span style="color:#75715e">#&gt; 1 &lt;dbl [1]&gt;     1</span>
+<span style="color:#75715e">#&gt; 2 &lt;int [2]&gt;     2</span>
+<span style="color:#75715e">#&gt; 3 &lt;int [3]&gt;     3</span>
+</code></pre></div><p>或者你是一个有经验的 R 编程者，你可能知道如何使用 <code>sapply()</code> 等函数将一个操作应用到每一个元素：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">df <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate</span>(l <span style="color:#f92672">=</span> <span style="color:#a6e22e">sapply</span>(x, length))
+<span style="color:#75715e">#&gt; # A tibble: 3 x 2</span>
+<span style="color:#75715e">#&gt;   x             l</span>
+<span style="color:#75715e">#&gt;   &lt;list&gt;    &lt;int&gt;</span>
+<span style="color:#75715e">#&gt; 1 &lt;dbl [1]&gt;     1</span>
+<span style="color:#75715e">#&gt; 2 &lt;int [2]&gt;     2</span>
+<span style="color:#75715e">#&gt; 3 &lt;int [3]&gt;     3</span>
+df <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate</span>(l <span style="color:#f92672">=</span> purrr<span style="color:#f92672">::</span><span style="color:#a6e22e">map_int</span>(x, length))
+<span style="color:#75715e">#&gt; # A tibble: 3 x 2</span>
+<span style="color:#75715e">#&gt;   x             l</span>
+<span style="color:#75715e">#&gt;   &lt;list&gt;    &lt;int&gt;</span>
+<span style="color:#75715e">#&gt; 1 &lt;dbl [1]&gt;     1</span>
+<span style="color:#75715e">#&gt; 2 &lt;int [2]&gt;     2</span>
+<span style="color:#75715e">#&gt; 3 &lt;int [3]&gt;     3</span>
+</code></pre></div><p>但如果只写 <code>length(x)</code> dplyr 就能算出 <code>x</code>中 元素的长度不是很好吗？既然已经到了这里，你可能已经猜到了答案：这只是行模式的另一个应用。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">df <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">rowwise</span>() <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(l <span style="color:#f92672">=</span> <span style="color:#a6e22e">length</span>(x))
+<span style="color:#75715e">#&gt; # A tibble: 3 x 2</span>
+<span style="color:#75715e">#&gt; # Rowwise: </span>
+<span style="color:#75715e">#&gt;   x             l</span>
+<span style="color:#75715e">#&gt;   &lt;list&gt;    &lt;int&gt;</span>
+<span style="color:#75715e">#&gt; 1 &lt;dbl [1]&gt;     1</span>
+<span style="color:#75715e">#&gt; 2 &lt;int [2]&gt;     2</span>
+<span style="color:#75715e">#&gt; 3 &lt;int [3]&gt;     3</span>
+</code></pre></div><h3 id="取子集">取子集</h3>
+<p>在我们继续之前，我想简单地提一下让它起作用的魔法。这不是你通常需要考虑的事情（它会工作），但知道什么时候出错是很有用的。</p>
+<p>分组数据框（每个组恰好有一行）和行数据框（每个组总是有一行）之间有一个重要的区别。以这两个数据框为例:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">df <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">tibble</span>(g <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">2</span>, y <span style="color:#f92672">=</span> <span style="color:#a6e22e">list</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">3</span>, <span style="color:#e6db74">&#34;a&#34;</span>))
+gf <span style="color:#f92672">&lt;-</span> df <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">group_by</span>(g)
+rf <span style="color:#f92672">&lt;-</span> df <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">rowwise</span>(g)
+</code></pre></div><p>如果我们计算 <code>y</code> 的一些属性，我们会发现结果有一些不同：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">gf <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate</span>(type <span style="color:#f92672">=</span> <span style="color:#a6e22e">typeof</span>(y), length <span style="color:#f92672">=</span> <span style="color:#a6e22e">length</span>(y))
+<span style="color:#75715e">#&gt; # A tibble: 2 x 4</span>
+<span style="color:#75715e">#&gt; # Groups:   g [2]</span>
+<span style="color:#75715e">#&gt;       g y         type  length</span>
+<span style="color:#75715e">#&gt;   &lt;int&gt; &lt;list&gt;    &lt;chr&gt;  &lt;int&gt;</span>
+<span style="color:#75715e">#&gt; 1     1 &lt;int [3]&gt; list       1</span>
+<span style="color:#75715e">#&gt; 2     2 &lt;chr [1]&gt; list       1</span>
+rf <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate</span>(type <span style="color:#f92672">=</span> <span style="color:#a6e22e">typeof</span>(y), length <span style="color:#f92672">=</span> <span style="color:#a6e22e">length</span>(y))
+<span style="color:#75715e">#&gt; # A tibble: 2 x 4</span>
+<span style="color:#75715e">#&gt; # Rowwise:  g</span>
+<span style="color:#75715e">#&gt;       g y         type      length</span>
+<span style="color:#75715e">#&gt;   &lt;int&gt; &lt;list&gt;    &lt;chr&gt;      &lt;int&gt;</span>
+<span style="color:#75715e">#&gt; 1     1 &lt;int [3]&gt; integer        3</span>
+<span style="color:#75715e">#&gt; 2     2 &lt;chr [1]&gt; character      1</span>
+</code></pre></div><p>关键的区别在于 <code>mutate()</code> 将列切分然后传入 <code>length(y)</code> 的时候，分组 mutate 使用 <code>[</code> 操作，而行式 mutate 使用 <code>[[</code>。下面代码通过 for 循环展示这一区别：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R"><span style="color:#75715e"># grouped</span>
+out1 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">integer</span>(<span style="color:#ae81ff">2</span>)
+<span style="color:#a6e22e">for </span>(i in <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">2</span>) {
+  out1[[i]] <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">length</span>(df<span style="color:#f92672">$</span>y[i])
+}
+out1
+<span style="color:#75715e">#&gt; [1] 1 1</span>
+
+<span style="color:#75715e"># rowwise</span>
+out2 <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">integer</span>(<span style="color:#ae81ff">2</span>)
+<span style="color:#a6e22e">for </span>(i in <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">2</span>) {
+  out2[[i]] <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">length</span>(df<span style="color:#f92672">$</span>y[[i]])
+}
+out2
+<span style="color:#75715e">#&gt; [1] 3 1</span>
+</code></pre></div><p>注意，这种魔力只适用于引用现有列时，而不适用于创建新行。这可能会让人感到困惑，但我们确信这是最差的解决方案，特别是在错误消息中给出了提示。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">gf <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate</span>(y2 <span style="color:#f92672">=</span> y)
+<span style="color:#75715e">#&gt; # A tibble: 2 x 3</span>
+<span style="color:#75715e">#&gt; # Groups:   g [2]</span>
+<span style="color:#75715e">#&gt;       g y         y2       </span>
+<span style="color:#75715e">#&gt;   &lt;int&gt; &lt;list&gt;    &lt;list&gt;   </span>
+<span style="color:#75715e">#&gt; 1     1 &lt;int [3]&gt; &lt;int [3]&gt;</span>
+<span style="color:#75715e">#&gt; 2     2 &lt;chr [1]&gt; &lt;chr [1]&gt;</span>
+rf <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate</span>(y2 <span style="color:#f92672">=</span> y)
+<span style="color:#75715e">#&gt; Error: Problem with `mutate()` input `y2`.</span>
+<span style="color:#75715e">#&gt; x Input `y2` can&#39;t be recycled to size 1.</span>
+<span style="color:#75715e">#&gt; ℹ Input `y2` is `y`.</span>
+<span style="color:#75715e">#&gt; ℹ Input `y2` must be size 1, not 3.</span>
+<span style="color:#75715e">#&gt; ℹ Did you mean: `y2 = list(y)` ?</span>
+<span style="color:#75715e">#&gt; ℹ The error occurred in row 1.</span>
+rf <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate</span>(y2 <span style="color:#f92672">=</span> <span style="color:#a6e22e">list</span>(y))
+<span style="color:#75715e">#&gt; # A tibble: 2 x 3</span>
+<span style="color:#75715e">#&gt; # Rowwise:  g</span>
+<span style="color:#75715e">#&gt;       g y         y2       </span>
+<span style="color:#75715e">#&gt;   &lt;int&gt; &lt;list&gt;    &lt;list&gt;   </span>
+<span style="color:#75715e">#&gt; 1     1 &lt;int [3]&gt; &lt;int [3]&gt;</span>
+<span style="color:#75715e">#&gt; 2     2 &lt;chr [1]&gt; &lt;chr [1]&gt;</span>
+</code></pre></div><blockquote>
+<p>译者注：第二个例子中的操作 <code>y</code> 已经被解开列表了，所以需要重新被包裹起来。</p>
+</blockquote>
+<h3 id="建模">建模</h3>
+<p><code>rowwise()</code> 数据框允许我们以一种特别优雅的方式解决很多的建模问题。让我们从创建一个嵌套数据框开始：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">by_cyl <span style="color:#f92672">&lt;-</span> mtcars <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">nest_by</span>(cyl)
+<span style="color:#75715e">#&gt; `summarise()` ungrouping output (override with `.groups` argument)</span>
+by_cyl
+<span style="color:#75715e">#&gt; # A tibble: 3 x 2</span>
+<span style="color:#75715e">#&gt; # Rowwise:  cyl</span>
+<span style="color:#75715e">#&gt;     cyl data              </span>
+<span style="color:#75715e">#&gt;   &lt;dbl&gt; &lt;list&gt;            </span>
+<span style="color:#75715e">#&gt; 1     4 &lt;tibble [11 × 12]&gt;</span>
+<span style="color:#75715e">#&gt; 2     6 &lt;tibble [7 × 12]&gt; </span>
+<span style="color:#75715e">#&gt; 3     8 &lt;tibble [14 × 12]&gt;</span>
+</code></pre></div><p>这与通常的 <code>group_by()</code> 输出有一点不同:我们明显地改变了数据的结构。现在我们有了三行（每个组一行），还有一个列表列 data，用于存储该组的数据。还要注意输出是 <code>rowwwise()</code>;这一点很重要，因为它将使处理数据框列表变得更加容易。</p>
+<p>一旦我们每一行有一个数据框，对每行创建一个模型非常直观：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">mods <span style="color:#f92672">&lt;-</span> by_cyl <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate</span>(mod <span style="color:#f92672">=</span> <span style="color:#a6e22e">list</span>(<span style="color:#a6e22e">lm</span>(mpg <span style="color:#f92672">~</span> wt, data <span style="color:#f92672">=</span> data)))
+mods
+<span style="color:#75715e">#&gt; # A tibble: 3 x 3</span>
+<span style="color:#75715e">#&gt; # Rowwise:  cyl</span>
+<span style="color:#75715e">#&gt;     cyl data               mod   </span>
+<span style="color:#75715e">#&gt;   &lt;dbl&gt; &lt;list&gt;             &lt;list&gt;</span>
+<span style="color:#75715e">#&gt; 1     4 &lt;tibble [11 × 12]&gt; &lt;lm&gt;  </span>
+<span style="color:#75715e">#&gt; 2     6 &lt;tibble [7 × 12]&gt;  &lt;lm&gt;  </span>
+<span style="color:#75715e">#&gt; 3     8 &lt;tibble [14 × 12]&gt; &lt;lm&gt;</span>
+</code></pre></div><p>用每行一组预测值来补充：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">mods <span style="color:#f92672">&lt;-</span> mods <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate</span>(pred <span style="color:#f92672">=</span> <span style="color:#a6e22e">list</span>(<span style="color:#a6e22e">predict</span>(mod, data)))
+mods
+<span style="color:#75715e">#&gt; # A tibble: 3 x 4</span>
+<span style="color:#75715e">#&gt; # Rowwise:  cyl</span>
+<span style="color:#75715e">#&gt;     cyl data               mod    pred      </span>
+<span style="color:#75715e">#&gt;   &lt;dbl&gt; &lt;list&gt;             &lt;list&gt; &lt;list&gt;    </span>
+<span style="color:#75715e">#&gt; 1     4 &lt;tibble [11 × 12]&gt; &lt;lm&gt;   &lt;dbl [11]&gt;</span>
+<span style="color:#75715e">#&gt; 2     6 &lt;tibble [7 × 12]&gt;  &lt;lm&gt;   &lt;dbl [7]&gt; </span>
+<span style="color:#75715e">#&gt; 3     8 &lt;tibble [14 × 12]&gt; &lt;lm&gt;   &lt;dbl [14]&gt;</span>
+</code></pre></div><p>然后你可以用多种方式总结这个模型：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">mods <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">summarise</span>(rmse <span style="color:#f92672">=</span> <span style="color:#a6e22e">sqrt</span>(<span style="color:#a6e22e">mean</span>((pred <span style="color:#f92672">-</span> data<span style="color:#f92672">$</span>mpg) ^ <span style="color:#ae81ff">2</span>)))
+<span style="color:#75715e">#&gt; `summarise()` regrouping output by &#39;cyl&#39; (override with `.groups` argument)</span>
+<span style="color:#75715e">#&gt; # A tibble: 3 x 2</span>
+<span style="color:#75715e">#&gt; # Groups:   cyl [3]</span>
+<span style="color:#75715e">#&gt;     cyl  rmse</span>
+<span style="color:#75715e">#&gt;   &lt;dbl&gt; &lt;dbl&gt;</span>
+<span style="color:#75715e">#&gt; 1     4 3.01 </span>
+<span style="color:#75715e">#&gt; 2     6 0.985</span>
+<span style="color:#75715e">#&gt; 3     8 1.87</span>
+mods <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">summarise</span>(rsq <span style="color:#f92672">=</span> <span style="color:#a6e22e">summary</span>(mod)<span style="color:#f92672">$</span>r.squared)
+<span style="color:#75715e">#&gt; `summarise()` regrouping output by &#39;cyl&#39; (override with `.groups` argument)</span>
+<span style="color:#75715e">#&gt; # A tibble: 3 x 2</span>
+<span style="color:#75715e">#&gt; # Groups:   cyl [3]</span>
+<span style="color:#75715e">#&gt;     cyl   rsq</span>
+<span style="color:#75715e">#&gt;   &lt;dbl&gt; &lt;dbl&gt;</span>
+<span style="color:#75715e">#&gt; 1     4 0.509</span>
+<span style="color:#75715e">#&gt; 2     6 0.465</span>
+<span style="color:#75715e">#&gt; 3     8 0.423</span>
+mods <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">summarise</span>(broom<span style="color:#f92672">::</span><span style="color:#a6e22e">glance</span>(mod))
+<span style="color:#75715e">#&gt; `summarise()` regrouping output by &#39;cyl&#39; (override with `.groups` argument)</span>
+<span style="color:#75715e">#&gt; # A tibble: 3 x 13</span>
+<span style="color:#75715e">#&gt; # Groups:   cyl [3]</span>
+<span style="color:#75715e">#&gt;     cyl r.squared adj.r.squared sigma statistic p.value    df logLik   AIC   BIC</span>
+<span style="color:#75715e">#&gt;   &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span style="color:#75715e">#&gt; 1     4     0.509         0.454  3.33      9.32  0.0137     1 -27.7   61.5  62.7</span>
+<span style="color:#75715e">#&gt; 2     6     0.465         0.357  1.17      4.34  0.0918     1  -9.83  25.7  25.5</span>
+<span style="color:#75715e">#&gt; 3     8     0.423         0.375  2.02      8.80  0.0118     1 -28.7   63.3  65.2</span>
+<span style="color:#75715e">#&gt; # … with 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;</span>
+</code></pre></div><p>或轻松访问各模型的参数：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">mods <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">summarise</span>(broom<span style="color:#f92672">::</span><span style="color:#a6e22e">tidy</span>(mod))
+<span style="color:#75715e">#&gt; `summarise()` regrouping output by &#39;cyl&#39; (override with `.groups` argument)</span>
+<span style="color:#75715e">#&gt; # A tibble: 6 x 6</span>
+<span style="color:#75715e">#&gt; # Groups:   cyl [3]</span>
+<span style="color:#75715e">#&gt;     cyl term        estimate std.error statistic    p.value</span>
+<span style="color:#75715e">#&gt;   &lt;dbl&gt; &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;</span>
+<span style="color:#75715e">#&gt; 1     4 (Intercept)    39.6       4.35      9.10 0.00000777</span>
+<span style="color:#75715e">#&gt; 2     4 wt             -5.65      1.85     -3.05 0.0137    </span>
+<span style="color:#75715e">#&gt; 3     6 (Intercept)    28.4       4.18      6.79 0.00105   </span>
+<span style="color:#75715e">#&gt; 4     6 wt             -2.78      1.33     -2.08 0.0918    </span>
+<span style="color:#75715e">#&gt; # … with 2 more rows</span>
+</code></pre></div><h2 id="重复的函数调用">重复的函数调用</h2>
+<p><code>rowwise()</code>不仅适用于返回长度为1的向量的函数（又名总结函数）；如果结果是列表，它可以与任何函数一起工作。这意味着<code>rowwise()</code>和<code>mutate()</code>提供了一种优雅的方式，可以使用不同的参数多次调用函数，并将输出与输入一起存储。</p>
+<h3 id="模拟">模拟</h3>
+<p>我认为这是执行模拟的一种特别优雅的方式，因为它允许您存储模拟值以及生成它们的参数。例如，假设你有以下数据框，描述了 3 个均匀分布样本的属性:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">df <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">tribble</span>(
+  <span style="color:#f92672">~</span> n, <span style="color:#f92672">~</span> min, <span style="color:#f92672">~</span> max,
+    <span style="color:#ae81ff">1</span>,     <span style="color:#ae81ff">0</span>,     <span style="color:#ae81ff">1</span>,
+    <span style="color:#ae81ff">2</span>,    <span style="color:#ae81ff">10</span>,   <span style="color:#ae81ff">100</span>,
+    <span style="color:#ae81ff">3</span>,   <span style="color:#ae81ff">100</span>,  <span style="color:#ae81ff">1000</span>,
+)
+</code></pre></div><p>你可以使用 <code>rowwise()</code>和<code>mutate()</code>将这些参数提供给<code>runif()</code>：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">df <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">rowwise</span>() <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(data <span style="color:#f92672">=</span> <span style="color:#a6e22e">list</span>(<span style="color:#a6e22e">runif</span>(n, min, max)))
+<span style="color:#75715e">#&gt; # A tibble: 3 x 4</span>
+<span style="color:#75715e">#&gt; # Rowwise: </span>
+<span style="color:#75715e">#&gt;       n   min   max data     </span>
+<span style="color:#75715e">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;list&gt;   </span>
+<span style="color:#75715e">#&gt; 1     1     0     1 &lt;dbl [1]&gt;</span>
+<span style="color:#75715e">#&gt; 2     2    10   100 &lt;dbl [2]&gt;</span>
+<span style="color:#75715e">#&gt; 3     3   100  1000 &lt;dbl [3]&gt;</span>
+</code></pre></div><p>注意这里使用了<code>list()</code>——<code>runif()</code>返回多个值，而<code>mutate()</code>表达式必须返回长度为1的值。<code>list()</code>意味着我们将得到一个列表列，其中每一行都是一个包含多个值的列表。如果你忘记使用<code>list()</code>， dplyr 会给你提示：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">df <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">rowwise</span>() <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(data <span style="color:#f92672">=</span> <span style="color:#a6e22e">runif</span>(n, min, max))
+<span style="color:#75715e">#&gt; Error: Problem with `mutate()` input `data`.</span>
+<span style="color:#75715e">#&gt; x Input `data` can&#39;t be recycled to size 1.</span>
+<span style="color:#75715e">#&gt; ℹ Input `data` is `runif(n, min, max)`.</span>
+<span style="color:#75715e">#&gt; ℹ Input `data` must be size 1, not 2.</span>
+<span style="color:#75715e">#&gt; ℹ Did you mean: `data = list(runif(n, min, max))` ?</span>
+<span style="color:#75715e">#&gt; ℹ The error occurred in row 2.</span>
+</code></pre></div><h3 id="重复组合">重复组合</h3>
+<p>如果您想为每个输入组合调用一个函数，该怎么办？你可以使用 <code>expand.grid()</code>或者<code>tidyr::expand_grid()</code>来生成数据帧，然后重复上面的模式：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">df <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">expand.grid</span>(mean <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">-1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>), sd <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">100</span>))
+
+df <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">rowwise</span>() <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(data <span style="color:#f92672">=</span> <span style="color:#a6e22e">list</span>(<span style="color:#a6e22e">rnorm</span>(<span style="color:#ae81ff">10</span>, mean, sd)))
+<span style="color:#75715e">#&gt; # A tibble: 9 x 3</span>
+<span style="color:#75715e">#&gt; # Rowwise: </span>
+<span style="color:#75715e">#&gt;    mean    sd data      </span>
+<span style="color:#75715e">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;list&gt;    </span>
+<span style="color:#75715e">#&gt; 1    -1     1 &lt;dbl [10]&gt;</span>
+<span style="color:#75715e">#&gt; 2     0     1 &lt;dbl [10]&gt;</span>
+<span style="color:#75715e">#&gt; 3     1     1 &lt;dbl [10]&gt;</span>
+<span style="color:#75715e">#&gt; 4    -1    10 &lt;dbl [10]&gt;</span>
+<span style="color:#75715e">#&gt; # … with 5 more rows</span>
+</code></pre></div><h3 id="不同的函数">不同的函数</h3>
+<p>在更复杂的问题中，你可能还希望改变被调用的函数。因为输入<code>tibble</code>中的列没有那么规则，所以这种方法更不适合这种方法。但这仍然是可能的，而且在这里使用<code>do.call()</code>是很自然的：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">df <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">tribble</span>(
+   <span style="color:#f92672">~</span>rng,     <span style="color:#f92672">~</span>params,
+   <span style="color:#e6db74">&#34;runif&#34;</span>,  <span style="color:#a6e22e">list</span>(n <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>), 
+   <span style="color:#e6db74">&#34;rnorm&#34;</span>,  <span style="color:#a6e22e">list</span>(n <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>),
+   <span style="color:#e6db74">&#34;rpois&#34;</span>,  <span style="color:#a6e22e">list</span>(n <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, lambda <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>),
+) <span style="color:#f92672">%&gt;%</span>
+  <span style="color:#a6e22e">rowwise</span>()
+
+df <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">mutate</span>(data <span style="color:#f92672">=</span> <span style="color:#a6e22e">list</span>(<span style="color:#a6e22e">do.call</span>(rng, params)))
+<span style="color:#75715e">#&gt; # A tibble: 3 x 3</span>
+<span style="color:#75715e">#&gt; # Rowwise: </span>
+<span style="color:#75715e">#&gt;   rng   params           data      </span>
+<span style="color:#75715e">#&gt;   &lt;chr&gt; &lt;list&gt;           &lt;list&gt;    </span>
+<span style="color:#75715e">#&gt; 1 runif &lt;named list [1]&gt; &lt;dbl [10]&gt;</span>
+<span style="color:#75715e">#&gt; 2 rnorm &lt;named list [1]&gt; &lt;dbl [20]&gt;</span>
+<span style="color:#75715e">#&gt; 3 rpois &lt;named list [2]&gt; &lt;int [10]&gt;</span>
+</code></pre></div><h2 id="以前">以前</h2>
+<h3 id="rowwise"><code>rowwise()</code></h3>
+<p><code>rowwise()</code> 也被质疑了很长一段时间，部分原因是我不明白有多少人需要通过本地能力来计算每一行的多个变量的摘要。作为替代方案，我们建议使用 purrr 的 <code>map()</code> 函数执行逐行操作。但是，这很有挑战性，因为您需要根据变化的参数数量和结果类型来选择映射函数，这需要相当多的 purrr 函数知识。</p>
+<p>我也曾抗拒 <code>rowwwise()</code>，因为我觉得自动在<code>[</code>到<code>[[</code>之间切换太神奇了，就像自动<code>list()</code>-ing结果使<code>do()</code>太神奇一样。我现在已经说服自己，行式魔法是好的魔法，部分原因是大多数人发现<code>[</code>和<code>[[</code>神秘化和<code>rowwise()</code>之间的区别意味着你不需要考虑它。</p>
+<p>由于 <code>rowwise()</code> 显然是有用的，它不再被质疑，我们希望它能够长期存在。</p>
+<h3 id="do"><code>do()</code></h3>
+<p>我们对 <code>do()</code>的必要性已经质疑了很长一段时间，因为它与其他 dplyr 动词并不太相似。它有两种主要的运作模式:</p>
+<ul>
+<li>
+<p>没有参数名：你可以调用函数来输入和输出数据框。引用“当前”组。例如，下面的代码获取每个组的第一行：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">mtcars <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">group_by</span>(cyl) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">do</span>(<span style="color:#a6e22e">head</span>(., <span style="color:#ae81ff">1</span>))
+<span style="color:#75715e">#&gt; # A tibble: 3 x 13</span>
+<span style="color:#75715e">#&gt; # Groups:   cyl [3]</span>
+<span style="color:#75715e">#&gt;     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb  cyl2  cyl4</span>
+<span style="color:#75715e">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span style="color:#75715e">#&gt; 1  22.8     4   108    93  3.85  2.32  18.6     1     1     4     1     8    16</span>
+<span style="color:#75715e">#&gt; 2  21       6   160   110  3.9   2.62  16.5     0     1     4     4    12    24</span>
+<span style="color:#75715e">#&gt; 3  18.7     8   360   175  3.15  3.44  17.0     0     0     3     2    16    32</span>
+</code></pre></div><p>这已经被 <code>cur_data()</code> 和更宽松的 <code>summarise()</code> 所取代，后者现在可以创建多列和多行。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">mtcars <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">group_by</span>(cyl) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">summarise</span>(<span style="color:#a6e22e">head</span>(<span style="color:#a6e22e">cur_data</span>(), <span style="color:#ae81ff">1</span>))
+<span style="color:#75715e">#&gt; `summarise()` ungrouping output (override with `.groups` argument)</span>
+<span style="color:#75715e">#&gt; # A tibble: 3 x 13</span>
+<span style="color:#75715e">#&gt;     cyl   mpg  disp    hp  drat    wt  qsec    vs    am  gear  carb  cyl2  cyl4</span>
+<span style="color:#75715e">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span style="color:#75715e">#&gt; 1     4  22.8   108    93  3.85  2.32  18.6     1     1     4     1     8    16</span>
+<span style="color:#75715e">#&gt; 2     6  21     160   110  3.9   2.62  16.5     0     1     4     4    12    24</span>
+<span style="color:#75715e">#&gt; 3     8  18.7   360   175  3.15  3.44  17.0     0     0     3     2    16    32</span>
+</code></pre></div></li>
+<li>
+<p>•带参数：它的工作方式类似于 <code>mutate()</code> 但会自动将每个元素包裹为列表：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">mtcars <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">group_by</span>(cyl) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">do</span>(nrows <span style="color:#f92672">=</span> <span style="color:#a6e22e">nrow</span>(.))
+<span style="color:#75715e">#&gt; # A tibble: 3 x 2</span>
+<span style="color:#75715e">#&gt; # Rowwise: </span>
+<span style="color:#75715e">#&gt;     cyl nrows    </span>
+<span style="color:#75715e">#&gt;   &lt;dbl&gt; &lt;list&gt;   </span>
+<span style="color:#75715e">#&gt; 1     4 &lt;int [1]&gt;</span>
+<span style="color:#75715e">#&gt; 2     6 &lt;int [1]&gt;</span>
+<span style="color:#75715e">#&gt; 3     8 &lt;int [1]&gt;</span>
+</code></pre></div><p>我现在觉得这个行为既太神奇又不是很有用，它可以被<code>summarise()</code>和<code>cur_data()</code>取代。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-R" data-lang="R">mtcars <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">group_by</span>(cyl) <span style="color:#f92672">%&gt;%</span> 
+  <span style="color:#a6e22e">summarise</span>(nrows <span style="color:#f92672">=</span> <span style="color:#a6e22e">nrow</span>(<span style="color:#a6e22e">cur_data</span>()))
+<span style="color:#75715e">#&gt; `summarise()` ungrouping output (override with `.groups` argument)</span>
+<span style="color:#75715e">#&gt; # A tibble: 3 x 2</span>
+<span style="color:#75715e">#&gt;     cyl nrows</span>
+<span style="color:#75715e">#&gt;   &lt;dbl&gt; &lt;int&gt;</span>
+<span style="color:#75715e">#&gt; 1     4    11</span>
+<span style="color:#75715e">#&gt; 2     6     7</span>
+<span style="color:#75715e">#&gt; 3     8    14</span>
+</code></pre></div><p>如果需要（不像这里），你可以自己将结果包装在一个列表中。</p>
+</li>
+</ul>
+<p><code>cur_data()</code>/<code>across()</code> 的添加和 <code>summarise()</code> 应用范围的增加意味着不再需要 <code>do()</code>，所以它现在被废弃了。</p>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="../../../cn/post/2021-01-20-rstudio-v1_4/">RStudio v1.4 正式发布，有哪些新特性？</a></span>
+  <span class="nav-next"><a href="../../../cn/post/2021-01-22-dplyr-colwise/">dplyr 列式计算</a> &rarr;</span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/post\/2021-01-20-rstudio-v1_4\/';
+    
+  } else if (e.which == 39) {  
+    
+    url = '\/cn\/post\/2021-01-22-dplyr-colwise\/';
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+
+
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+<script>
+  const gitalk = new Gitalk({
+    clientID: 'eed477936be7b88a8455',
+    clientSecret: '32b5dde22f3c95c4fad400a31632e34221b07e83',
+    repo: 'home',
+    owner: 'ShixiangWang',
+    admin: ['ShixiangWang'],
+    id: md5(window.location.pathname), 
+    distractionFreeMode: false 
+  });
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('gitalk-container').innerHTML = 'Gitalk comments not available by default when the website is previewed locally.';
+      return;
+    }
+    gitalk.render('gitalk-container');
+  })();
+</script>
+
+
+
+
+
+<script async src="../../../js/fix-toc.js"></script>
+
+<script async src="../../../js/center-img.js"></script>
+
+<script async src="../../../js/right-quote.js"></script>
+
+<script async src="../../../js/no-highlight.js"></script>
+
+<script async src="../../../js/fix-footnote.js"></script>
+
+<script async src="../../../js/math-code.js"></script>
+
+<script async src="../../../js/external-link.js"></script>
+
+<script async src="../../../js/alt-title.js"></script>
+
+<script async src="../../../js/header-link.js"></script>
+
+
+<script src="//yihui.org/js/math-code.js"></script>
+<script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script async src="//yihui.org/js/center-img.js"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+  
+  
+
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> · <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> · <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> · <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> · <a href="https://orcid.org/0000-0001-9855-7357"><i class='ai ai-orcid ai-1x'></i></a> · <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 © <a href="../../../">王诗翔</a> 2017 - 2020 </div>
+  
+  
+
+  <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56h9es09xn7&amp;m=6&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=1" async="async"></script>
+  </footer>
+  </article>
+  
+  </body>
+</html>
+
