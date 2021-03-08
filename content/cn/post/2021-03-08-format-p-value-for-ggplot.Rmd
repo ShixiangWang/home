@@ -1,0 +1,56 @@
+---
+title: "ggplot 图 P 值格式化"
+author: "王诗翔"
+date: "2021-03-08"
+lastmod: "`r Sys.Date()`"
+slug: ""
+# All available categories:
+# bioinformatics, config, docker, golang, life, linux, ml, r, read, shell, thinking
+categories: ["r"]
+tags: ["r", "ggplot", "p-value"]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, dev = "png", comment = "#>", tidy = "styler")
+#Sys.setenv("LANGUAGE"="EN") # Embed this for outputing English message
+#Sys.setlocale('LC_ALL','C') # Embed this directly in the Rmarkdown script that contains the Chinese character comment
+options(digits=3)
+options(max.print=200)
+```
+
+**ggpubr** 包中的 `stat_compare_means()` 函数是非常常用于对 ggplot 图形添加统计比较结果的方法，近期有粉丝问到了如何对其展示的 P 值进行格式化，这里简要地做一个记录。
+
+这里我们直接使用官方示例：
+
+```{r}
+library(ggpubr)
+data("ToothGrowth")
+head(ToothGrowth)
+
+# Two independent groups
+#:::::::::::::::::::::::::::::::::::::::::::::::::
+p <- ggboxplot(ToothGrowth, x = "supp", y = "len",
+               color = "supp", palette = "npg", add = "jitter")
+
+#  Add p-value
+p + stat_compare_means()
+```
+
+可以看到图中是以检验方法+P值的结果来展示 P 值的，那么该如何修改它呢？关键是修改函数中的 `label` 参数和掌握匿名变量 `..p.format..`，下面是一个简单的修改：
+
+```{r}
+p + stat_compare_means(aes(label = paste0("P = ", round(as.numeric(..p.format..), 1))))
+```
+
+这里需要注意的是 `..p.format..` 是一个字符串，如果我们需要修改它展示的数值位数，需要先进行转换。
+
+进一步我们还可以根据运行 `?stat_compare_means` 提供的说明修改 P 值的位置：
+
+```{r}
+p + stat_compare_means(aes(label = paste0("P = ", round(as.numeric(..p.format..), 1))),
+                       label.y = 33, label.x = 1.5)
+```
+
+大家可以想一下为什么 `label.x = 1.5` 可以将标签移动到两组的中间？
+
+

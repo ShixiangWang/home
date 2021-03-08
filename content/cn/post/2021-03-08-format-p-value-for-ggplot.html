@@ -1,0 +1,49 @@
+---
+title: "ggplot 图 P 值格式化"
+author: "王诗翔"
+date: "2021-03-08"
+lastmod: "2021-03-08"
+slug: ""
+# All available categories:
+# bioinformatics, config, docker, golang, life, linux, ml, r, read, shell, thinking
+categories: ["r"]
+tags: ["r", "ggplot", "p-value"]
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p><strong>ggpubr</strong> 包中的 <code>stat_compare_means()</code> 函数是非常常用于对 ggplot 图形添加统计比较结果的方法，近期有粉丝问到了如何对其展示的 P 值进行格式化，这里简要地做一个记录。</p>
+<p>这里我们直接使用官方示例：</p>
+<pre class="r"><code>library(ggpubr)
+#&gt; Loading required package: ggplot2
+data(&quot;ToothGrowth&quot;)
+head(ToothGrowth)
+#&gt;    len supp dose
+#&gt; 1  4.2   VC  0.5
+#&gt; 2 11.5   VC  0.5
+#&gt; 3  7.3   VC  0.5
+#&gt; 4  5.8   VC  0.5
+#&gt; 5  6.4   VC  0.5
+#&gt; 6 10.0   VC  0.5
+
+# Two independent groups
+# :::::::::::::::::::::::::::::::::::::::::::::::::
+p &lt;- ggboxplot(ToothGrowth,
+  x = &quot;supp&quot;, y = &quot;len&quot;,
+  color = &quot;supp&quot;, palette = &quot;npg&quot;, add = &quot;jitter&quot;
+)
+
+#  Add p-value
+p + stat_compare_means()</code></pre>
+<p><img src="/cn/post/2021-03-08-format-p-value-for-ggplot_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>可以看到图中是以检验方法+P值的结果来展示 P 值的，那么该如何修改它呢？关键是修改函数中的 <code>label</code> 参数和掌握匿名变量 <code>..p.format..</code>，下面是一个简单的修改：</p>
+<pre class="r"><code>p + stat_compare_means(aes(label = paste0(&quot;P = &quot;, round(as.numeric(..p.format..), 1))))</code></pre>
+<p><img src="/cn/post/2021-03-08-format-p-value-for-ggplot_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>这里需要注意的是 <code>..p.format..</code> 是一个字符串，如果我们需要修改它展示的数值位数，需要先进行转换。</p>
+<p>进一步我们还可以根据运行 <code>?stat_compare_means</code> 提供的说明修改 P 值的位置：</p>
+<pre class="r"><code>p + stat_compare_means(aes(label = paste0(&quot;P = &quot;, round(as.numeric(..p.format..), 1))),
+  label.y = 33, label.x = 1.5
+)</code></pre>
+<p><img src="/cn/post/2021-03-08-format-p-value-for-ggplot_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>大家可以想一下为什么 <code>label.x = 1.5</code> 可以将标签移动到两组的中间？</p>

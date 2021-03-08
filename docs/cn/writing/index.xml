@@ -6,6 +6,10 @@
     <description>Recent content in 翻译与写作 on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 01 Jan 2019 00:00:00 +0000</lastBuildDate><atom:link href="/cn/writing/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 01 Jan 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/cn/writing/index.xml" rel="self" type="application/rss+xml" />
+    
+    
   </channel>
 </rss>

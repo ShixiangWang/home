@@ -6,7 +6,11 @@
     <description>Recent content in cor on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 27 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/cor/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 27 Sep 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/cor/index.xml" rel="self" type="application/rss+xml" />
+    
+    
     <item>
       <title>「分享」相关分析</title>
       <link>/cn/post/2020-09-27-share-a-post-about-correlation/</link>

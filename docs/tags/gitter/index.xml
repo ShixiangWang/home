@@ -6,7 +6,11 @@
     <description>Recent content in gitter on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 07 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/gitter/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 07 Dec 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/gitter/index.xml" rel="self" type="application/rss+xml" />
+    
+    
     <item>
       <title>使用 Git 存储大文件</title>
       <link>/cn/post/2020-12-07-git-for-large-files/</link>

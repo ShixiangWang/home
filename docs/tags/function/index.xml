@@ -6,7 +6,11 @@
     <description>Recent content in function on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 28 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/function/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 28 Dec 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/function/index.xml" rel="self" type="application/rss+xml" />
+    
+    
     <item>
       <title>tidyverse 中的公式函数</title>
       <link>/cn/post/2020-12-28-formula-func-in-tidyverse/</link>

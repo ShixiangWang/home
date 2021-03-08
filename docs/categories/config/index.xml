@@ -6,7 +6,11 @@
     <description>Recent content in config on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 20 Jan 2021 00:00:00 +0000</lastBuildDate><atom:link href="/categories/config/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 20 Jan 2021 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/categories/config/index.xml" rel="self" type="application/rss+xml" />
+    
+    
     <item>
       <title>RStudio v1.4 正式发布，有哪些新特性？</title>
       <link>/cn/post/2021-01-20-rstudio-v1_4/</link>

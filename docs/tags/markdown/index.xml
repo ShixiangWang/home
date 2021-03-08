@@ -6,7 +6,11 @@
     <description>Recent content in markdown on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 23 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/markdown/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 23 Sep 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/markdown/index.xml" rel="self" type="application/rss+xml" />
+    
+    
     <item>
       <title>Markdown 和 RMarkdown 最佳入口</title>
       <link>/cn/post/2020-09-23-use-markdown-and-rmarkdown/</link>

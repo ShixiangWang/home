@@ -6,7 +6,11 @@
     <description>Recent content in base-plot on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 21 Jun 2019 00:00:00 +0000</lastBuildDate><atom:link href="/tags/base-plot/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 21 Jun 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/base-plot/index.xml" rel="self" type="application/rss+xml" />
+    
+    
     <item>
       <title>R传统图形绘制多图</title>
       <link>/cn/post/2019-06-21-baseplot-multiplots/</link>

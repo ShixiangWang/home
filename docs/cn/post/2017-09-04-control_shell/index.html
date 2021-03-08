@@ -167,51 +167,51 @@
 <table>
 <thead>
 <tr>
-<th style="text-align:center">信号</th>
-<th style="text-align:center">值</th>
-<th style="text-align:center">描述</th>
+<th align="center">信号</th>
+<th align="center">值</th>
+<th align="center">描述</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">1</td>
-<td style="text-align:center">SIGHUP</td>
-<td style="text-align:center">挂起进程</td>
+<td align="center">1</td>
+<td align="center">SIGHUP</td>
+<td align="center">挂起进程</td>
 </tr>
 <tr>
-<td style="text-align:center">2</td>
-<td style="text-align:center">SIGINT</td>
-<td style="text-align:center">终止进程</td>
+<td align="center">2</td>
+<td align="center">SIGINT</td>
+<td align="center">终止进程</td>
 </tr>
 <tr>
-<td style="text-align:center">3</td>
-<td style="text-align:center">SIGQUIT</td>
-<td style="text-align:center">停止进程</td>
+<td align="center">3</td>
+<td align="center">SIGQUIT</td>
+<td align="center">停止进程</td>
 </tr>
 <tr>
-<td style="text-align:center">9</td>
-<td style="text-align:center">SIGKILL</td>
-<td style="text-align:center">无条件终止进程</td>
+<td align="center">9</td>
+<td align="center">SIGKILL</td>
+<td align="center">无条件终止进程</td>
 </tr>
 <tr>
-<td style="text-align:center">15</td>
-<td style="text-align:center">SIGTERM</td>
-<td style="text-align:center">尽可能终止进程</td>
+<td align="center">15</td>
+<td align="center">SIGTERM</td>
+<td align="center">尽可能终止进程</td>
 </tr>
 <tr>
-<td style="text-align:center">17</td>
-<td style="text-align:center">SIGSTOP</td>
-<td style="text-align:center">无条件停止进程，但不是终止进程</td>
+<td align="center">17</td>
+<td align="center">SIGSTOP</td>
+<td align="center">无条件停止进程，但不是终止进程</td>
 </tr>
 <tr>
-<td style="text-align:center">18</td>
-<td style="text-align:center">SIGTSTP</td>
-<td style="text-align:center">停止或暂停进程，但不是终止进程</td>
+<td align="center">18</td>
+<td align="center">SIGTSTP</td>
+<td align="center">停止或暂停进程，但不是终止进程</td>
 </tr>
 <tr>
-<td style="text-align:center">19</td>
-<td style="text-align:center">SIGCONT</td>
-<td style="text-align:center">继续运行停止的进程</td>
+<td align="center">19</td>
+<td align="center">SIGCONT</td>
+<td align="center">继续运行停止的进程</td>
 </tr>
 </tbody>
 </table>
@@ -260,11 +260,11 @@ wsx@wsx-ubuntu:~$ kill -9 <span style="color:#ae81ff">5452</span>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ cat test1.sh
 <span style="color:#75715e">#!/bin/bash</span>
 <span style="color:#75715e"># Testing signal trapping</span>
-<span style="color:#75715e">#</span>
+#
 trap <span style="color:#e6db74">&#34;echo &#39; Sorry! I have trapped Ctrl-C&#39;&#34;</span> SIGINT
-<span style="color:#75715e">#</span>
+#
 echo This is a test script
-<span style="color:#75715e">#</span>
+#
 count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
 <span style="color:#66d9ef">while</span> <span style="color:#f92672">[</span> $count -le <span style="color:#ae81ff">10</span> <span style="color:#f92672">]</span>
 <span style="color:#66d9ef">do</span>
@@ -272,9 +272,9 @@ count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
     sleep <span style="color:#ae81ff">1</span>
     count<span style="color:#f92672">=</span>$<span style="color:#f92672">[</span> $count + <span style="color:#ae81ff">1</span> <span style="color:#f92672">]</span>
 <span style="color:#66d9ef">done</span>
-<span style="color:#75715e">#</span>
+#
 echo <span style="color:#e6db74">&#34;This is the end of the test script&#34;</span>
-<span style="color:#75715e">#</span>
+#
 </code></pre></div><p>来运行测试一下：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ ./test1.sh
 This is a test script
@@ -295,9 +295,9 @@ This is the end of the test script
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ cat test2.sh
 <span style="color:#75715e">#!/bin/bash</span>
 <span style="color:#75715e"># Trapping the script exit</span>
-<span style="color:#75715e">#</span>
+#
 trap <span style="color:#e6db74">&#34;echo Goodbye...&#34;</span> EXIT
-<span style="color:#75715e">#</span>
+#
 count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
 <span style="color:#66d9ef">while</span> <span style="color:#f92672">[</span> $count -le <span style="color:#ae81ff">5</span> <span style="color:#f92672">]</span>
 <span style="color:#66d9ef">do</span>
@@ -305,7 +305,7 @@ count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
     sleep <span style="color:#ae81ff">1</span>
     count<span style="color:#f92672">=</span>$<span style="color:#f92672">[</span> $count + <span style="color:#ae81ff">1</span> <span style="color:#f92672">]</span>
 <span style="color:#66d9ef">done</span>
-<span style="color:#75715e">#</span>
+#
 
 wangsx@SC-201708020022:~/tmp$ ./test2.sh
 Loop <span style="color:#75715e">#1</span>
@@ -320,9 +320,9 @@ Goodbye...
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ cat test3.sh
 <span style="color:#75715e">#!/bin/bash</span>
 <span style="color:#75715e"># Modifying a set trap</span>
-<span style="color:#75715e">#</span>
+#
 trap <span style="color:#e6db74">&#34;echo &#39; Sorry... Ctrc-C is trapped.&#39;&#34;</span> SIGINT <span style="color:#75715e"># SIGINT是退出信号</span>
-<span style="color:#75715e">#</span>
+#
 count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
 <span style="color:#66d9ef">while</span> <span style="color:#f92672">[</span> $count -le <span style="color:#ae81ff">5</span> <span style="color:#f92672">]</span>  <span style="color:#75715e"># 当count&lt;5的时候</span>
 <span style="color:#66d9ef">do</span>
@@ -331,9 +331,9 @@ count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
     count<span style="color:#f92672">=</span>$<span style="color:#f92672">[</span> $count + <span style="color:#ae81ff">1</span> <span style="color:#f92672">]</span>
 <span style="color:#66d9ef">done</span>
 
-<span style="color:#75715e">#</span>
+#
 trap <span style="color:#e6db74">&#34;echo &#39; I modified the trap!&#39;&#34;</span> SIGINT
-<span style="color:#75715e">#</span>
+#
 count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
 <span style="color:#66d9ef">while</span> <span style="color:#f92672">[</span> $count -le <span style="color:#ae81ff">5</span> <span style="color:#f92672">]</span>  <span style="color:#75715e"># 当count&lt;5的时候</span>
 <span style="color:#66d9ef">do</span>
@@ -359,9 +359,9 @@ Loop <span style="color:#75715e">#5</span>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ cat test3.sh
 <span style="color:#75715e">#!/bin/bash</span>
 <span style="color:#75715e"># Modifying a set trap</span>
-<span style="color:#75715e">#</span>
+#
 trap <span style="color:#e6db74">&#34;echo &#39; Sorry... Ctrc-C is trapped.&#39;&#34;</span> SIGINT <span style="color:#75715e"># SIGINT是退出信号  在这里设置捕获</span>
-<span style="color:#75715e">#</span>
+#
 count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
 <span style="color:#66d9ef">while</span> <span style="color:#f92672">[</span> $count -le <span style="color:#ae81ff">5</span> <span style="color:#f92672">]</span>  <span style="color:#75715e"># 当count&lt;5的时候</span>
 <span style="color:#66d9ef">do</span>
@@ -370,10 +370,10 @@ count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
     count<span style="color:#f92672">=</span>$<span style="color:#f92672">[</span> $count + <span style="color:#ae81ff">1</span> <span style="color:#f92672">]</span>
 <span style="color:#66d9ef">done</span>
 
-<span style="color:#75715e">#</span>
+#
 trap -- SIGINT <span style="color:#75715e"># 在这里删除捕获</span>
 echo <span style="color:#e6db74">&#34;I modified the trap!&#34;</span>
-<span style="color:#75715e">#</span>
+#
 count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
 <span style="color:#66d9ef">while</span> <span style="color:#f92672">[</span> $count -le <span style="color:#ae81ff">5</span> <span style="color:#f92672">]</span>  <span style="color:#75715e"># 当count&lt;5的时候</span>
 <span style="color:#66d9ef">do</span>
@@ -399,7 +399,7 @@ Loop <span style="color:#75715e">#3</span>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~$ cat test4.sh
 <span style="color:#75715e">#!/bin/bash</span>
 <span style="color:#75715e"># Testing running in the background</span>
-<span style="color:#75715e">#</span>
+#
 count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
 <span style="color:#66d9ef">while</span> <span style="color:#f92672">[</span> $count -le <span style="color:#ae81ff">10</span> <span style="color:#f92672">]</span>
 <span style="color:#66d9ef">do</span>
@@ -446,9 +446,9 @@ wangsx@SC-201708020022:~$ nohup: 忽略输入并把输出追加到<span style="c
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~$ cat test10.sh
 <span style="color:#75715e">#!/bin/bash</span>
 <span style="color:#75715e"># Test job control</span>
-<span style="color:#75715e">#</span>
+#
 echo <span style="color:#e6db74">&#34;Script Process ID: </span>$$<span style="color:#e6db74">&#34;</span>
-<span style="color:#75715e">#</span>
+#
 count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
 <span style="color:#66d9ef">while</span> <span style="color:#f92672">[</span> $count -le <span style="color:#ae81ff">10</span> <span style="color:#f92672">]</span>
 <span style="color:#66d9ef">do</span>
@@ -456,9 +456,9 @@ count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
     sleep <span style="color:#ae81ff">10</span>
     count<span style="color:#f92672">=</span>$<span style="color:#f92672">[</span> $count + <span style="color:#ae81ff">1</span> <span style="color:#f92672">]</span>
 <span style="color:#66d9ef">done</span>
-<span style="color:#75715e">#</span>
+#
 echo <span style="color:#e6db74">&#34;End of script...&#34;</span>
-<span style="color:#75715e">#</span>
+#
 wangsx@SC-201708020022:~$ ./test10.sh
 Script Process ID: <span style="color:#ae81ff">27</span>
 Loop <span style="color:#75715e">#1</span>
@@ -604,12 +604,12 @@ wangsx@SC-201708020022:~/tmp$ sudo /etc/init.d/atd start
 </code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ cat test13.sh
 <span style="color:#75715e">#!/bin/bash</span>
 <span style="color:#75715e"># Test using at command</span>
-<span style="color:#75715e">#</span>
+#
 echo <span style="color:#e6db74">&#34;This script ran at </span><span style="color:#66d9ef">$(</span>date +%B%d,%T<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
 echo
 sleep <span style="color:#ae81ff">5</span>
 echo <span style="color:#e6db74">&#34;This is the script&#39;s end...&#34;</span>
-<span style="color:#75715e">#</span>
+#
 wangsx@SC-201708020022:~/tmp$ at -f test13.sh now
 warning: commands will be executed using /bin/sh
 job <span style="color:#ae81ff">4</span> at Tue Sep <span style="color:#ae81ff">26</span> 12:12:00 <span style="color:#ae81ff">2017</span>
@@ -617,12 +617,12 @@ job <span style="color:#ae81ff">4</span> at Tue Sep <span style="color:#ae81ff">
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ cat test13b.sh
 <span style="color:#75715e">#!/bin/bash</span>
 <span style="color:#75715e"># Test using at command</span>
-<span style="color:#75715e">#</span>
+#
 echo <span style="color:#e6db74">&#34;This script ran at </span><span style="color:#66d9ef">$(</span>date +%B%d,%T<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span> &gt; test13b.out
 echo &gt;&gt; test13b.out
 sleep <span style="color:#ae81ff">5</span>
 echo <span style="color:#e6db74">&#34;This is the script&#39;s end...&#34;</span> &gt;&gt; test13b.out
-<span style="color:#75715e">#</span>
+#
 wangsx@SC-201708020022:~/tmp$ at -M -f test13b.sh now
 warning: commands will be executed using /bin/sh
 job <span style="color:#ae81ff">7</span> at Tue Sep <span style="color:#ae81ff">26</span> 12:16:00 <span style="color:#ae81ff">2017</span>

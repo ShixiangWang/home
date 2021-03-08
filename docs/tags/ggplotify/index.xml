@@ -6,7 +6,11 @@
     <description>Recent content in ggplotify on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 05 Aug 2019 00:00:00 +0000</lastBuildDate><atom:link href="/tags/ggplotify/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 05 Aug 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/ggplotify/index.xml" rel="self" type="application/rss+xml" />
+    
+    
     <item>
       <title>ggplotify——连接各类R图形</title>
       <link>/cn/post/2019-08-05-ggplotify-intro/</link>

@@ -6,7 +6,11 @@
     <description>Recent content in rcpp on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 08 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/rcpp/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 08 Sep 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/rcpp/index.xml" rel="self" type="application/rss+xml" />
+    
+    
     <item>
       <title>Rcpp 简介：从 R 到 Rcpp</title>
       <link>/cn/post/2020-09-08-rcpp-intro/</link>
