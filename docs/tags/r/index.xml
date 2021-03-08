@@ -6,10 +6,19 @@
     <description>Recent content in r on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 20 Jan 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 08 Mar 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/r/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>ggplot 图 P 值格式化</title>
+      <link>/cn/post/2021-03-08-format-p-value-for-ggplot/</link>
+      <pubDate>Mon, 08 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2021-03-08-format-p-value-for-ggplot/</guid>
+      <description>ggpubr 包中的 stat_compare_means() 函数是非常常用于对 ggplot 图形添加统计比较结果的方法，近期有粉丝问到了如何对其展示的 P 值进行格式化，这里简要地做一个记录。 这里我们直接使</description>
+    </item>
     
     <item>
       <title>RStudio v1.4 正式发布，有哪些新特性？</title>
