@@ -6,11 +6,7 @@
     <description>Recent content in stats on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 25 Dec 2019 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/tags/stats/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Wed, 25 Dec 2019 00:00:00 +0000</lastBuildDate><atom:link href="/tags/stats/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>R 语言统计检验函数汇总</title>
       <link>/cn/post/2019-12-25-r-stats-funs-summary/</link>

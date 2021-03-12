@@ -6,11 +6,7 @@
     <description>Recent content in English blog on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 31 Jan 2017 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/en/post/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Tue, 31 Jan 2017 00:00:00 +0000</lastBuildDate><atom:link href="/en/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Obtain RNAseq Values for a Specific Gene in Xena Database</title>
       <link>/en/post/2020-07-22-ucscxenatools-single-gene/</link>

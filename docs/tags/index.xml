@@ -6,10 +6,24 @@
     <description>Recent content in Tags on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 08 Mar 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 12 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>GO</title>
+      <link>/tags/go/</link>
+      <pubDate>Fri, 12 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/go/</guid>
+      <description></description>
+    </item>
     
-	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
-    
+    <item>
+      <title>godoc</title>
+      <link>/tags/godoc/</link>
+      <pubDate>Fri, 12 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/godoc/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>ggplot</title>
@@ -1817,15 +1831,6 @@
       <pubDate>Fri, 27 Oct 2017 00:00:00 +0000</pubDate>
       
       <guid>/tags/rnsseq/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>GO</title>
-      <link>/tags/go/</link>
-      <pubDate>Mon, 09 Oct 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/go/</guid>
       <description></description>
     </item>
     

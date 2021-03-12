@@ -6,11 +6,7 @@
     <description>Recent content in propensity on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 25 Jun 2018 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/tags/propensity/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Mon, 25 Jun 2018 00:00:00 +0000</lastBuildDate><atom:link href="/tags/propensity/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>倾向评分匹配算法——R实例学习</title>
       <link>/cn/post/2019-11-20-propensity-score-match/</link>

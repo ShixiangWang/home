@@ -6,11 +6,7 @@
     <description>Recent content in metafor on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 09 Jul 2018 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/tags/metafor/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Mon, 09 Jul 2018 00:00:00 +0000</lastBuildDate><atom:link href="/tags/metafor/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>metafor——元分析技术实现</title>
       <link>/cn/post/2019-11-20-use-metafor/</link>

@@ -6,18 +6,14 @@
     <description>Recent content in go on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 03 Aug 2020 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/categories/go/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Fri, 12 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="/categories/go/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>《Mastering Go》第一章笔记</title>
-      <link>/cn/post/2020-08-03-master-go-book-go-and-os/</link>
-      <pubDate>Mon, 03 Aug 2020 00:00:00 +0000</pubDate>
+      <title>godoc 查看函数文档和源代码</title>
+      <link>/cn/post/2021-03-12-use-godoc/</link>
+      <pubDate>Fri, 12 Mar 2021 00:00:00 +0000</pubDate>
       
-      <guid>/cn/post/2020-08-03-master-go-book-go-and-os/</guid>
-      <description>godoc 使用 go doc fmt.Printf go doc fmt # Open a Go doc server godoc -http=:8001 运行和编译 go 代码 package main import &amp;#34;fmt&amp;#34; func main() { fmt.Println(&amp;#34;This is a sample Go program!&amp;#34;) } 使用 go run filename 运行代码文件；使用 go buils filename 编译 go 代码形成可执行文件。 下</description>
+      <guid>/cn/post/2021-03-12-use-godoc/</guid>
+      <description>这个非常有意思，感觉和 R 的文档查看和使用完全是不一样的风格。 $ go doc runtime NumCPU $ go doc -src runtime NumCPU 查看效果： ▶ go doc runtime NumCPU package runtime // import &amp;#34;runtime&amp;#34; func NumCPU() int NumCPU returns the number of logical CPUs usable by the current</description>
     </item>
     
   </channel>
