@@ -8,6 +8,15 @@
     <language>en-us</language>
     <lastBuildDate>Tue, 31 Jan 2017 00:00:00 +0000</lastBuildDate><atom:link href="/cn/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>从斐波那契数列生成来看算法和 Rcpp 的效率</title>
+      <link>/cn/post/2021-03-14-rcpp-intro/</link>
+      <pubDate>Sun, 14 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2021-03-14-rcpp-intro/</guid>
+      <description>学习材料：《Rcpp：R与C++的无缝整合》 斐波那契数列指的是每一项都等于前两项之和的数列，定义为 F[1]=1 F[2]=1 F[n]=F[n-1]+F[n-2]（</description>
+    </item>
+    
+    <item>
       <title>godoc 查看函数文档和源代码</title>
       <link>/cn/post/2021-03-12-use-godoc/</link>
       <pubDate>Fri, 12 Mar 2021 00:00:00 +0000</pubDate>

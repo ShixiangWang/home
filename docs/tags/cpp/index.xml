@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>cpp on Shixiang Wang | 王诗翔</title>
+    <link>/tags/cpp/</link>
+    <description>Recent content in cpp on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 14 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/cpp/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>从斐波那契数列生成来看算法和 Rcpp 的效率</title>
+      <link>/cn/post/2021-03-14-rcpp-intro/</link>
+      <pubDate>Sun, 14 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2021-03-14-rcpp-intro/</guid>
+      <description>学习材料：《Rcpp：R与C++的无缝整合》 斐波那契数列指的是每一项都等于前两项之和的数列，定义为 F[1]=1 F[2]=1 F[n]=F[n-1]+F[n-2]（</description>
+    </item>
+    
+  </channel>
+</rss>

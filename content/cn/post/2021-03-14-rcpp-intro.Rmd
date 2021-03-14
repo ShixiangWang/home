@@ -1,0 +1,213 @@
+---
+title: "从斐波那契数列生成来看算法和 Rcpp 的效率"
+author: "王诗翔"
+date: "2021-03-14"
+lastmod: "`r Sys.Date()`"
+slug: ""
+# All available categories:
+# bioinformatics, config, docker, golang, life, linux, ml, r, read, shell, thinking
+categories: ["r"]
+tags: ["rcpp", "cpp"]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, dev = "png", comment = "#>", tidy = "styler")
+#Sys.setenv("LANGUAGE"="EN") # Embed this for outputing English message
+#Sys.setlocale('LC_ALL','C') # Embed this directly in the Rmarkdown script that contains the Chinese character comment
+options(digits=3)
+options(max.print=200)
+```
+
+> 学习材料：《Rcpp：R与C++的无缝整合》
+
+斐波那契数列指的是每一项都等于前两项之和的数列，定义为
+
+- F[1]=1
+- F[2]=1
+- F[n]=F[n-1]+F[n-2]（n>=3）
+
+本文主要使用它作为示例来对比算法和实现方式（R与Rcpp）对计算效率的影响，以及在 R 中如何简单使用 C++。
+
+## 方案一：对斐波那契数列公式的忠实翻译
+
+R 版本：
+
+```{r}
+fibR <- function(n) {
+    if (n == 0) return(0)
+    if (n == 1) return(1)
+    return(fibR(n - 1) + fibR(n - 2))
+}
+```
+
+运行：
+
+```{r}
+system.time(fibR(35))
+```
+
+C++ 版本：
+
+```{r}
+library(Rcpp)
+
+cppFunction(
+  'int fibonacci(const int x) {
+    if (x < 2)
+        return x;
+    else
+        return (fibonacci(x - 1)) + fibonacci(x - 2);
+}')
+```
+
+运行：
+
+```{r}
+system.time(fibonacci(35))
+```
+
+## 方案二：保留基本递归结构的同时避免对相同值的重复计算
+
+R 版本：
+
+```{r}
+fibR2 <- local(
+    {
+        memo <- c(1, 1, rep(NA, 1000))
+        f <- function(x) {
+            if (x == 0) return(0)
+            if (x < 0) return(NA)
+            if (x > length(memo)) {
+                stop("x too big for implementation")
+            }
+            if (!is.na(memo[x])) return(memo[x])
+            ans <- f(x-2) + f(x-1)
+            memo[x] <<- ans
+            ans
+        }
+    }
+)
+```
+
+运行：
+
+```{r}
+system.time(fibR2(35))
+```
+
+再运行一次：
+
+```{r}
+system.time(fibR2(35))
+```
+
+
+C++ 版本：
+
+```{r}
+library(Rcpp)
+
+cppFunction(
+  '#include <algorithm>
+#include <vector>
+#include <stdexcept>
+#include <cmath>
+#include <iostream>
+#include <Rcpp.h>
+using namespace Rcpp;
+
+// 通过 3 部分定义 C++ 类 Fib：
+// 1. 初始化时调用的构造函数
+// 2. 计算 Fn 的单一成员函数
+// 3. 用于存储结构的私有向量
+class Fib {
+    public:
+        Fib(unsigned int n = 1000) {
+            memo.resize(n); // 预留 n 个元素
+            std::fill(memo.begin(), memo.end(), NAN);
+            memo[0] = 0.0;
+            memo[1] = 1.0; // 对 n=0 和 n=1 情况进行初始化
+        }
+        double fibonacci(int x) {
+            if (x < 0) return((double) NAN);
+            if (x >= (int) memo.size())
+                throw std::range_error("x too large for implementation");
+            if (! std::isnan(memo[x])) return(memo[x]);
+            memo[x] = fibonacci(x -2) + fibonacci(x - 1);
+            return(memo[x]);
+        }
+    private:
+        std::vector<double> memo;
+};
+
+// [[Rcpp::export]]
+int fibonacci2(const int x) {
+    Fib f;
+    return f.fibonacci(x);
+}')
+```
+
+运行：
+
+```{r}
+system.time(fibonacci2(35))
+```
+
+## 方案三：使用迭代
+
+> 图书作者说这是最快的版本。
+
+R 版本：
+
+```{r}
+fibR3 <- function(n) {
+    first <- 0
+    second <- 1
+    third <- 0
+    for (i in seq_len(n)) {
+        third <- first + second
+        first <- second
+        second <- third
+    }
+    return(first)
+}
+```
+
+运行：
+
+```{r}
+system.time(fibR3(35))
+```
+
+C++ 版本：
+
+```{r}
+library(Rcpp)
+
+cppFunction(
+  '#include <Rcpp.h>
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+int fibonacci3(int n) {
+    double first = 0;
+    double second = 1;
+    double third = 0;
+    for (int i=0; i<n; i++) {
+        third = first + second;
+        first = second;
+        second = third;
+    }
+    return first;
+}')
+```
+
+运行：
+
+```{r}
+system.time(fibonacci3(35))
+```
+
+## 小结
+
+通过浏览不同的实现思路和源代码，相信每个R读者都会有自己对于算法和底层实现的新认知。

@@ -6,7 +6,25 @@
     <description>Recent content in Tags on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 12 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 14 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>cpp</title>
+      <link>/tags/cpp/</link>
+      <pubDate>Sun, 14 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/cpp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>rcpp</title>
+      <link>/tags/rcpp/</link>
+      <pubDate>Sun, 14 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/rcpp/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>GO</title>
       <link>/tags/go/</link>
@@ -805,15 +823,6 @@
       <pubDate>Tue, 08 Sep 2020 00:00:00 +0000</pubDate>
       
       <guid>/tags/c&#43;&#43;/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>rcpp</title>
-      <link>/tags/rcpp/</link>
-      <pubDate>Tue, 08 Sep 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/rcpp/</guid>
       <description></description>
     </item>
     
