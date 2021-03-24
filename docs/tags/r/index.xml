@@ -6,7 +6,20 @@
     <description>Recent content in r on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 08 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/r/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 24 Mar 2021 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/r/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>解决R包Check汇报&#39;marked UTF-8 strings&#39;问题</title>
+      <link>/cn/post/2021-03-24-solve-marked-utf8-issue-in-r-package-check/</link>
+      <pubDate>Wed, 24 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2021-03-24-solve-marked-utf8-issue-in-r-package-check/</guid>
+      <description>今天在处理 UCSCXenaShiny 的 R 包 check 时发现报出 Note: found 162 marked UTF-8 strings 这种字符串编码问题（具体 action 报告）。 ❯ checking installed package size ... NOTE installed size is 6.1Mb sub-directories of 1Mb or more: doc 1.7Mb shinyapp 3.2Mb ❯ checking data for non-ASCII characters ... NOTE Note: found 162 marked</description>
+    </item>
+    
     <item>
       <title>ggplot 图 P 值格式化</title>
       <link>/cn/post/2021-03-08-format-p-value-for-ggplot/</link>

@@ -4,7 +4,37 @@
   
   <url>
     <loc>/categories/</loc>
-    <lastmod>2021-03-14T00:00:00+00:00</lastmod>
+    <lastmod>2021-03-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/check/</loc>
+    <lastmod>2021-03-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/package/</loc>
+    <lastmod>2021-03-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/r/</loc>
+    <lastmod>2021-03-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/r/</loc>
+    <lastmod>2021-03-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2021-03-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/cn/post/2021-03-24-solve-marked-utf8-issue-in-r-package-check/</loc>
+    <lastmod>2021-03-24T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -13,17 +43,7 @@
   </url>
   
   <url>
-    <loc>/categories/r/</loc>
-    <lastmod>2021-03-14T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/tags/rcpp/</loc>
-    <lastmod>2021-03-14T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/</loc>
     <lastmod>2021-03-14T00:00:00+00:00</lastmod>
   </url>
   
@@ -64,11 +84,6 @@
   
   <url>
     <loc>/tags/p-value/</loc>
-    <lastmod>2021-03-08T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/r/</loc>
     <lastmod>2021-03-08T00:00:00+00:00</lastmod>
   </url>
   
@@ -854,11 +869,6 @@
   
   <url>
     <loc>/tags/internal/</loc>
-    <lastmod>2020-08-09T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/package/</loc>
     <lastmod>2020-08-09T00:00:00+00:00</lastmod>
   </url>
   

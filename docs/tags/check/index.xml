@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>check on Shixiang Wang | 王诗翔</title>
+    <link>/tags/check/</link>
+    <description>Recent content in check on Shixiang Wang | 王诗翔</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 24 Mar 2021 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/check/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>解决R包Check汇报&#39;marked UTF-8 strings&#39;问题</title>
+      <link>/cn/post/2021-03-24-solve-marked-utf8-issue-in-r-package-check/</link>
+      <pubDate>Wed, 24 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/cn/post/2021-03-24-solve-marked-utf8-issue-in-r-package-check/</guid>
+      <description>今天在处理 UCSCXenaShiny 的 R 包 check 时发现报出 Note: found 162 marked UTF-8 strings 这种字符串编码问题（具体 action 报告）。 ❯ checking installed package size ... NOTE installed size is 6.1Mb sub-directories of 1Mb or more: doc 1.7Mb shinyapp 3.2Mb ❯ checking data for non-ASCII characters ... NOTE Note: found 162 marked</description>
+    </item>
+    
+  </channel>
+</rss>

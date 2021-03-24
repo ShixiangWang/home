@@ -6,7 +6,11 @@
     <description>Recent content in server on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 24 Nov 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/server/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 24 Nov 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/server/index.xml" rel="self" type="application/rss+xml" />
+    
+    
     <item>
       <title>CentOS 安装和管理 Shiny Server</title>
       <link>/cn/post/2020-11-24-install-and-manage-shiny-server/</link>

@@ -6,7 +6,11 @@
     <description>Recent content in golang on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 12 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="/categories/golang/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 12 Mar 2021 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/categories/golang/index.xml" rel="self" type="application/rss+xml" />
+    
+    
     <item>
       <title>godoc 查看函数文档和源代码</title>
       <link>/cn/post/2021-03-12-use-godoc/</link>

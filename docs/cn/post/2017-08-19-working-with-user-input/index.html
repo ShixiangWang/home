@@ -173,7 +173,7 @@
 <span style="color:#75715e">#!/bin/bash</span>
 
 <span style="color:#75715e"># using one command line parameter</span>
-<span style="color:#75715e">#</span>
+#
 factorial<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
 <span style="color:#66d9ef">for</span> <span style="color:#f92672">((</span> number <span style="color:#f92672">=</span> 1; number &lt;<span style="color:#f92672">=</span> $1; number++ <span style="color:#f92672">))</span>
 <span style="color:#66d9ef">do</span>
@@ -250,9 +250,9 @@ The script name is: test5.sh
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~/script_learn$ cat test6.sh
 <span style="color:#75715e">#!/bin/bash</span>
 <span style="color:#75715e"># Testing a Multi-function script</span>
-<span style="color:#75715e">#</span>
+#
 name<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>basename $0<span style="color:#66d9ef">)</span>
-<span style="color:#75715e">#</span>
+#
 <span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> $name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;addem&#34;</span> <span style="color:#f92672">]</span>
 <span style="color:#66d9ef">then</span>
 	total<span style="color:#f92672">=</span>$<span style="color:#f92672">[</span> $1 + $2 <span style="color:#f92672">]</span>
@@ -260,7 +260,7 @@ name<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>bas
 <span style="color:#66d9ef">then</span>
 	total<span style="color:#f92672">=</span>$<span style="color:#f92672">[</span> $1 * $2 <span style="color:#f92672">]</span>
 <span style="color:#66d9ef">fi</span>
-<span style="color:#75715e">#</span>
+#
 echo
 echo The calculated value is $total.
 wsx@wsx-ubuntu:~/script_learn$ cp test6.sh addem
@@ -283,7 +283,7 @@ The calculated value is 10.
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wsx@wsx-ubuntu:~/script_learn$ cat test7.sh
 <span style="color:#75715e">#!/bin/bash</span>
 <span style="color:#75715e"># testing parameters before use</span>
-<span style="color:#75715e">#</span>
+#
 <span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> -n <span style="color:#e6db74">&#34;</span>$1<span style="color:#e6db74">&#34;</span> <span style="color:#f92672">]</span> <span style="color:#75715e"># -n 选项检查字符是否非空</span>
 <span style="color:#66d9ef">then</span>
 	echo Hello $1, glad to meet you.
@@ -303,7 +303,7 @@ Sorry, you did not identify yourself.
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ cat test9.sh
 <span style="color:#75715e">#!/bin/bash</span>
 <span style="color:#75715e"># Testing parameters</span>
-<span style="color:#75715e">#</span>
+#
 <span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> $# -ne <span style="color:#ae81ff">2</span> <span style="color:#f92672">]</span>
 <span style="color:#66d9ef">then</span>
     echo
@@ -334,7 +334,7 @@ The total is <span style="color:#ae81ff">7</span>
 <span style="color:#75715e">#!/bin/bash</span>
 
 <span style="color:#75715e"># testing grabbing last parameter</span>
-<span style="color:#75715e">#</span>
+#
 echo The last parameter was <span style="color:#e6db74">${</span>$#<span style="color:#e6db74">}</span>
 
 wangsx@SC-201708020022:~/tmp$ ./test10.sh <span style="color:#ae81ff">10</span>
@@ -345,7 +345,7 @@ The last parameter was <span style="color:#ae81ff">65</span>
 <span style="color:#75715e">#!/bin/bash</span>
 
 <span style="color:#75715e"># testing grabbing last parameter</span>
-<span style="color:#75715e">#</span>
+#
 echo The last parameter was <span style="color:#e6db74">${</span>!#<span style="color:#e6db74">}</span>
 
 wangsx@SC-201708020022:~/tmp$ ./test10.sh <span style="color:#ae81ff">10</span>
@@ -360,7 +360,7 @@ The last parameter was <span style="color:#ae81ff">5</span>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ cat test11.sh
 <span style="color:#75715e">#!/bin/bash</span>
 <span style="color:#75715e"># testing $* and $@</span>
-<span style="color:#75715e">#</span>
+#
 echo
 echo <span style="color:#e6db74">&#34;Using then \$* method: </span>$*<span style="color:#e6db74">&#34;</span>
 echo
@@ -376,16 +376,16 @@ wangsx@SC-201708020022:~/tmp$ cat test12.sh
 <span style="color:#75715e">#!/bin/bash</span>
 echo
 count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
-<span style="color:#75715e">#</span>
+#
 <span style="color:#66d9ef">for</span> param in <span style="color:#e6db74">&#34;</span>$*<span style="color:#e6db74">&#34;</span>
 <span style="color:#66d9ef">do</span>
     echo <span style="color:#e6db74">&#34;\$* Parameter #</span>$count<span style="color:#e6db74"> = </span>$param<span style="color:#e6db74">&#34;</span>
     count<span style="color:#f92672">=</span>$<span style="color:#f92672">[</span> $count + <span style="color:#ae81ff">1</span> <span style="color:#f92672">]</span>
 <span style="color:#66d9ef">done</span>
-<span style="color:#75715e">#</span>
+#
 echo
 count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
-<span style="color:#75715e">#</span>
+#
 
 <span style="color:#66d9ef">for</span> param in <span style="color:#e6db74">&#34;</span>$@<span style="color:#e6db74">&#34;</span>
 <span style="color:#66d9ef">do</span>
@@ -407,7 +407,7 @@ $@ Parameter <span style="color:#75715e">#4 = jessica</span>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ cat test13.sh
 <span style="color:#75715e">#!/bin/bash</span>
 <span style="color:#75715e"># demonstrating the shift command</span>
-<span style="color:#75715e">#</span>
+#
 echo
 count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
 <span style="color:#66d9ef">while</span> <span style="color:#f92672">[</span> -n <span style="color:#e6db74">&#34;</span>$1<span style="color:#e6db74">&#34;</span> <span style="color:#f92672">]</span>
@@ -437,7 +437,7 @@ Parameter <span style="color:#75715e">#4 = jessica</span>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ cat test15.sh
 <span style="color:#75715e">#!/bin/bash</span>
 <span style="color:#75715e"># extracting command line option as parameter</span>
-<span style="color:#75715e">#</span>
+#
 echo
 <span style="color:#66d9ef">while</span> <span style="color:#f92672">[</span> -n <span style="color:#e6db74">&#34;</span>$1<span style="color:#e6db74">&#34;</span> <span style="color:#f92672">]</span>
 <span style="color:#66d9ef">do</span>
@@ -477,7 +477,7 @@ echo
     <span style="color:#66d9ef">esac</span>
     shift
 <span style="color:#66d9ef">done</span>
-<span style="color:#75715e">#</span>
+#
 count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
 <span style="color:#66d9ef">for</span> param in $@
 <span style="color:#66d9ef">do</span>
@@ -527,7 +527,7 @@ echo
     <span style="color:#66d9ef">esac</span>
     shift
 <span style="color:#66d9ef">done</span>
-<span style="color:#75715e">#</span>
+#
 count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
 <span style="color:#66d9ef">for</span> param in <span style="color:#e6db74">&#34;</span>$@<span style="color:#e6db74">&#34;</span>
 <span style="color:#66d9ef">do</span>
@@ -580,9 +580,9 @@ wangsx@SC-201708020022:~/tmp$ getopt -q ab:cd -a -b test1 -cde test2 test3
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ cat test18.sh
 <span style="color:#75715e">#!/bin/bash</span>
 <span style="color:#75715e"># Extract command line options &amp; values with getopt</span>
-<span style="color:#75715e">#</span>
+#
 set -- <span style="color:#66d9ef">$(</span>getopt -q ab:cd <span style="color:#e6db74">&#34;</span>$@<span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">)</span>
-<span style="color:#75715e">#</span>
+#
 echo
 <span style="color:#66d9ef">while</span> <span style="color:#f92672">[</span> -n <span style="color:#e6db74">&#34;</span>$1<span style="color:#e6db74">&#34;</span> <span style="color:#f92672">]</span>
 <span style="color:#66d9ef">do</span>
@@ -598,14 +598,14 @@ echo
     <span style="color:#66d9ef">esac</span>
     shift
 <span style="color:#66d9ef">done</span>
-<span style="color:#75715e">#</span>
+#
 count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
 <span style="color:#66d9ef">for</span> param in <span style="color:#e6db74">&#34;</span>$@<span style="color:#e6db74">&#34;</span>
 <span style="color:#66d9ef">do</span>
     echo <span style="color:#e6db74">&#34;Parameter #</span>$count<span style="color:#e6db74">: </span>$param<span style="color:#e6db74">&#34;</span>
     count<span style="color:#f92672">=</span>$<span style="color:#f92672">[</span> $count + <span style="color:#ae81ff">1</span> <span style="color:#f92672">]</span>
 <span style="color:#66d9ef">done</span>
-<span style="color:#75715e">#</span>
+#
 </code></pre></div><p>可以看到它跟<code>test17.sh</code>不同的地方是加入了<code>getopt</code>命令来帮助格式化命令行参数。</p>
 <p>下面测试发现新加的功能实现了，之前的也没问题。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ ./test18.sh -ac
@@ -643,7 +643,7 @@ Parameter <span style="color:#75715e">#3: &#39;test4&#39;</span>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ cat test19.sh
 <span style="color:#75715e">#!/bin/bash</span>
 <span style="color:#75715e"># Simple demonstration of the getopts command</span>
-<span style="color:#75715e">#</span>
+#
 echo
 <span style="color:#66d9ef">while</span> getopts 🆎c opt
 <span style="color:#66d9ef">do</span>
@@ -687,7 +687,7 @@ Unknown option: ?
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ cat test20.sh
 <span style="color:#75715e">#!/bin/bash</span>
 <span style="color:#75715e"># Processing options &amp; parameters with getopts</span>
-<span style="color:#75715e">#</span>
+#
 echo
 <span style="color:#66d9ef">while</span> getopts 🆎cd opt
 <span style="color:#66d9ef">do</span>
@@ -699,9 +699,9 @@ echo
         *<span style="color:#f92672">)</span> echo <span style="color:#e6db74">&#34;Unknown option: </span>$opt<span style="color:#e6db74">&#34;</span> ;;
     <span style="color:#66d9ef">esac</span>
 <span style="color:#66d9ef">done</span>
-<span style="color:#75715e">#</span>
+#
 shift $<span style="color:#f92672">[</span> $OPTIND -1 <span style="color:#f92672">]</span>
-<span style="color:#75715e">#</span>
+#
 echo
 count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
 <span style="color:#66d9ef">for</span> param in  <span style="color:#e6db74">&#34;</span>$@<span style="color:#e6db74">&#34;</span>
@@ -726,74 +726,74 @@ Parameter 3: test4
 <table>
 <thead>
 <tr>
-<th style="text-align:center">选项</th>
-<th style="text-align:center">描述</th>
+<th align="center">选项</th>
+<th align="center">描述</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">-a</td>
-<td style="text-align:center">显示所有对象</td>
+<td align="center">-a</td>
+<td align="center">显示所有对象</td>
 </tr>
 <tr>
-<td style="text-align:center">-c</td>
-<td style="text-align:center">生成一个计数</td>
+<td align="center">-c</td>
+<td align="center">生成一个计数</td>
 </tr>
 <tr>
-<td style="text-align:center">-d</td>
-<td style="text-align:center">指定一个目录</td>
+<td align="center">-d</td>
+<td align="center">指定一个目录</td>
 </tr>
 <tr>
-<td style="text-align:center">-e</td>
-<td style="text-align:center">扩展一个对象</td>
+<td align="center">-e</td>
+<td align="center">扩展一个对象</td>
 </tr>
 <tr>
-<td style="text-align:center">-f</td>
-<td style="text-align:center">指定读入数据的文件</td>
+<td align="center">-f</td>
+<td align="center">指定读入数据的文件</td>
 </tr>
 <tr>
-<td style="text-align:center">-h</td>
-<td style="text-align:center">显示命令的帮助信息</td>
+<td align="center">-h</td>
+<td align="center">显示命令的帮助信息</td>
 </tr>
 <tr>
-<td style="text-align:center">-i</td>
-<td style="text-align:center">忽略文本大小写</td>
+<td align="center">-i</td>
+<td align="center">忽略文本大小写</td>
 </tr>
 <tr>
-<td style="text-align:center">-l</td>
-<td style="text-align:center">产生输出的长格式版本</td>
+<td align="center">-l</td>
+<td align="center">产生输出的长格式版本</td>
 </tr>
 <tr>
-<td style="text-align:center">-n</td>
-<td style="text-align:center">使用非交互模式（批处理）</td>
+<td align="center">-n</td>
+<td align="center">使用非交互模式（批处理）</td>
 </tr>
 <tr>
-<td style="text-align:center">-o</td>
-<td style="text-align:center">将所有输出重定向到指定的输出文件</td>
+<td align="center">-o</td>
+<td align="center">将所有输出重定向到指定的输出文件</td>
 </tr>
 <tr>
-<td style="text-align:center">-q</td>
-<td style="text-align:center">以安静模式运行</td>
+<td align="center">-q</td>
+<td align="center">以安静模式运行</td>
 </tr>
 <tr>
-<td style="text-align:center">-r</td>
-<td style="text-align:center">递归地处理目录和文件</td>
+<td align="center">-r</td>
+<td align="center">递归地处理目录和文件</td>
 </tr>
 <tr>
-<td style="text-align:center">-s</td>
-<td style="text-align:center">以安静模式运行</td>
+<td align="center">-s</td>
+<td align="center">以安静模式运行</td>
 </tr>
 <tr>
-<td style="text-align:center">-v</td>
-<td style="text-align:center">生成详细输出</td>
+<td align="center">-v</td>
+<td align="center">生成详细输出</td>
 </tr>
 <tr>
-<td style="text-align:center">-x</td>
-<td style="text-align:center">排除某个对象</td>
+<td align="center">-x</td>
+<td align="center">排除某个对象</td>
 </tr>
 <tr>
-<td style="text-align:center">-y</td>
-<td style="text-align:center">对所有问题答yes</td>
+<td align="center">-y</td>
+<td align="center">对所有问题答yes</td>
 </tr>
 </tbody>
 </table>
@@ -805,12 +805,12 @@ Parameter 3: test4
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ cat test21.sh
 <span style="color:#75715e">#!/bin/bash</span>
 <span style="color:#75715e"># testing the read -p option</span>
-<span style="color:#75715e">#</span>
+#
 read -p <span style="color:#e6db74">&#34;Please enter your age: &#34;</span> age
-<span style="color:#75715e">#</span>
+#
 days<span style="color:#f92672">=</span>$<span style="color:#f92672">[</span> $age * <span style="color:#ae81ff">365</span> <span style="color:#f92672">]</span>
 echo <span style="color:#e6db74">&#34;That makes you over </span>$days<span style="color:#e6db74"> days old!&#34;</span>
-<span style="color:#75715e">#</span>
+#
 wangsx@SC-201708020022:~/tmp$ ./test21.sh
 Please enter your age: <span style="color:#ae81ff">23</span>
 That makes you over <span style="color:#ae81ff">8395</span> days old!
@@ -818,7 +818,7 @@ That makes you over <span style="color:#ae81ff">8395</span> days old!
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ cat test22.sh
 <span style="color:#75715e">#!/bin/bash</span>
 <span style="color:#75715e"># entering multiple variable</span>
-<span style="color:#75715e">#</span>
+#
 read -p <span style="color:#e6db74">&#34;Enter your name: &#34;</span> first last
 echo <span style="color:#e6db74">&#34;Checking data for </span>$last<span style="color:#e6db74">, </span>$first<span style="color:#e6db74">...&#34;</span>
 
@@ -834,7 +834,7 @@ Checking data <span style="color:#66d9ef">for</span> wang hhhhh, shixiang...
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ cat test23.sh
 <span style="color:#75715e">#!/bin/bash</span>
 <span style="color:#75715e"># timing the data entry</span>
-<span style="color:#75715e">#</span>
+#
 <span style="color:#66d9ef">if</span> read -t <span style="color:#ae81ff">5</span> -p <span style="color:#e6db74">&#34;Please enter your name: &#34;</span> name
 <span style="color:#66d9ef">then</span>
     echo <span style="color:#e6db74">&#34;Hello </span>$name<span style="color:#e6db74">, welcome to my script&#34;</span>
@@ -853,7 +853,7 @@ Sorry, too slow!
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ cat test24.sh
 <span style="color:#75715e">#!/bin/bash</span>
 <span style="color:#75715e"># getting just one character of input</span>
-<span style="color:#75715e">#</span>
+#
 read -n1 -p <span style="color:#e6db74">&#34;Do you want to continue [Y/N]? &#34;</span> answer
 <span style="color:#66d9ef">case</span> $answer in
     Y | y <span style="color:#f92672">)</span> echo
@@ -876,7 +876,7 @@ OK, goodbye
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ cat test25.sh
 <span style="color:#75715e">#!/bin/bash</span>
 <span style="color:#75715e"># hiding input data from the monitor</span>
-<span style="color:#75715e">#</span>
+#
 read -s -p <span style="color:#e6db74">&#34;Enter your password: &#34;</span> pass
 echo
 echo <span style="color:#e6db74">&#34;Is your password really </span>$pass<span style="color:#e6db74">?&#34;</span>
@@ -892,7 +892,7 @@ Is your password really shixiang?
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">wangsx@SC-201708020022:~/tmp$ cat test26.sh
 <span style="color:#75715e">#!/bin/bash</span>
 <span style="color:#75715e"># reading data from a file</span>
-<span style="color:#75715e">#</span>
+#
 count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
 cat test | <span style="color:#66d9ef">while</span> read line
 <span style="color:#66d9ef">do</span>

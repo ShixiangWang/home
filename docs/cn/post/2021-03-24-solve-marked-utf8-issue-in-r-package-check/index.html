@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    
+    <link rel="stylesheet" href="../../../fonts/academicons-1.8.6/css/academicons.min.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="../../../logo/bodhi.png"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    
+    <title>解决R包Check汇报&#39;marked UTF-8 strings&#39;问题 - 王诗翔</title>
+    
+     
+    <meta property="og:title" content="解决R包Check汇报&#39;marked UTF-8 strings&#39;问题 - Shixiang Wang | 王诗翔">
+    
+
+    
+      
+    
+
+    
+
+    
+    
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.12.0/styles/Xcode.min.css' rel='stylesheet' type='text/css' />
+
+
+
+    <link rel="stylesheet" href="../../../css/style.css" />
+    <link rel="stylesheet" href="../../../css/mystyle.css" /> 
+    <link rel="stylesheet" href="../../../css/fonts.css" />
+    
+<script async src="../../../js/load-typekit.js"></script>
+
+
+<link rel="stylesheet" href="../../../css/custom.css" />
+
+  </head>
+  
+  <body class="cn">
+    <header class="masthead">
+      
+
+<h1><a href="../../../logo/ShixiangWang.png"><img src="../../../logo/ShixiangWang.png" alt="Shixiang Wang" /></a></h1>
+<p align="right" style="margin-top:-50px;"><small>><i>上士闻道<br>勤而行之</i></small></p>
+
+
+
+
+      <nav class="menu">
+        <input id="menu-check" type="checkbox" />
+        <label id="menu-label" for="menu-check" class="unselectable">
+          <span class="icon close-icon">✕</span>
+          <span class="icon open-icon">☰</span>
+          <span class="text">Menu</span>
+        </label>
+        <ul>
+        
+        
+        <li><a href="../../../">首页</a></li>
+        
+        <li><a href="../../../cn/about/">关于</a></li>
+        
+        <li><a href="../../../cn/post/">博客</a></li>
+        
+        <li><a href="../../../cn/read/">读书</a></li>
+        
+        <li><a href="../../../cn/writing">写作</a></li>
+        
+        <li><a href="../../../cn/research/">研究</a></li>
+        
+        <li><a href="../../../cn/tools/">工具</a></li>
+        
+        <li><a href="../../../cn/cv-cn/shixiang">简历</a></li>
+        
+        <li><a href="../../../logo/qrcode.jpg">公众号</a></li>
+        
+        <li><a href="https://www.zhihu.com/people/shixiangwang">知乎</a></li>
+        
+        <li><a href="../../../cn/mark">推荐阅读</a></li>
+        
+        <li><a href="../../../en/">English</a></li>
+        
+        <li><a href="../../../categories/">分类</a></li>
+        
+        <li><a href="../../../tags/">标签</a></li>
+        
+        
+
+<li class="menu-extra"></li>
+
+
+
+
+
+
+<li><a href="https://github.com/ShixiangWang/home/edit/master/content/cn/post/2021-03-24-solve-marked-UTF8-issue-in-r-package-check.Rmd" target="_blank">编辑</a></li>
+
+
+<li><a href="../../../cn/index.xml" type="application/rss+xml" title="RSS feed">订阅</a></li>
+
+<li><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="Attribution-NonCommercial-ShareAlike 4.0 International">版权</a></li>
+
+
+        </ul>
+      </nav>
+    </header>
+
+    <article class="main">
+      <header class="title">
+        
+
+<h1>解决R包Check汇报&#39;marked UTF-8 strings&#39;问题</h1>
+
+
+
+<h3>王诗翔 &middot 
+2021-03-24</h3> 
+
+
+<p style="text-align:right;">
+  分类:
+  
+    <a href="../../../categories/r">r</a> &nbsp
+  
+  <br>
+  标签:
+  
+    <a href="../../../tags/r">r</a> &nbsp
+  
+    <a href="../../../tags/package">package</a> &nbsp
+  
+    <a href="../../../tags/check">check</a> &nbsp
+  
+</p>
+
+
+
+   
+  
+
+
+      </header>
+
+
+
+<script src="../../../rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>今天在处理 UCSCXenaShiny 的 R 包 check 时发现报出 <code>Note: found 162 marked UTF-8 strings</code> 这种字符串编码问题（<a href="https://github.com/openbiox/UCSCXenaShiny/runs/2181920523">具体 action 报告</a>）。</p>
+<pre class="sh"><code>❯ checking installed package size ... NOTE
+    installed size is  6.1Mb
+    sub-directories of 1Mb or more:
+      doc        1.7Mb
+      shinyapp   3.2Mb
+
+❯ checking data for non-ASCII characters ... NOTE
+    Note: found 162 marked UTF-8 strings
+
+0 errors ✔ | 0 warnings ✔ | 2 notes ✖</code></pre>
+<p>我网上搜索了下然后确定了 DESCRIPTION 文件里已经显式指定了代码文件是 UTF-8 编码，为什么会出这种问题呢？继续搜索发现该问题是出在包中引入的数据对象上，就是我们放在包里的数据存在编码问题。</p>
+<p>目前这个我处理的包有 10 个数据集，为了锁定问题源，我采用了 <a href="https://github.com/dankelley/oce/issues/1663" class="uri">https://github.com/dankelley/oce/issues/1663</a> 提到的策略，即逐步删除 <code>data/</code> 目录下的文件，然后检查是否该问题还存在。</p>
+<p>于是，我写了下面一段代码：</p>
+<pre class="r"><code>devtools::load_all()
+data_files &lt;- dir(&quot;data&quot;)
+for (i in data_files) {
+  message(&quot;Removing file &quot;, i)
+  unlink(file.path(&quot;data&quot;, i))
+  print(tools:::.check_package_datasets(&quot;.&quot;))
+}</code></pre>
+<p>发现然并卵，for 循环一直报 <code>Note: found 162 marked UTF-8 strings</code>。我就纳闷了，最后数据文件都删完了，居然还会出这个 NOTE？</p>
+<p>我仔细思考🤔了下，是否 <code>tools:::.check_package_datasets()</code> 一直使用的是已经缓存到内存的包？也就是说，虽然我已经删除了文件，但整个包可以已经载入内存，所以无论是否删除这 10 个数据文件，函数内部依旧可以获取到这些数据的信息。通过 <code>debug(tools:::.check_package_datasets)</code> 我发现事情不是我想的这样，该函数内部会检查 <code>data/</code> 下的文件并获取文件列表用于载入，本人功底不足，加上 RStudio 对这种特别底层的调试支持不怎么爽利，我没有找到它怎么输出 <code>NOTE</code> 结果的，于是弃疗了该策略。</p>
+<p>不过在调试中我发现 <code>Encoding()</code> 函数可以获取字符串编码信息：</p>
+<pre class="r"><code>Encoding(&quot;abc&quot;)
+#&gt; [1] &quot;unknown&quot;</code></pre>
+<p>所以我尝试载入数据对它的列进行编码查询，发现都是 “unknown”。既然包检查想要的是 ASCII 编码，那我转换一下不就完了？</p>
+<p>我在网络上搜索了 3 种方法，第 1 种没有作用。</p>
+<ol style="list-style-type: decimal">
+<li>使用 <code>iconv()</code> 函数，用法如下：</li>
+</ol>
+<pre class="r"><code>nonUTF &lt;- iconv(df$TroubleVector, from=&quot;UTF-8&quot;, to=&quot;ASCII&quot;)</code></pre>
+<blockquote>
+<p>参考的<a href="https://stackoverflow.com/questions/29043932/how-to-handle-example-data-in-r-package-that-has-utf-8-marked-strings/66776929#66776929">问答</a></p>
+</blockquote>
+<p>这里的问题是 <code>from</code> 参数不支持 <code>unknown</code>，所以无用。</p>
+<ol start="2" style="list-style-type: decimal">
+<li>使用 2 次转换的方法，先转为 Raw 类型，然后再转回来。</li>
+</ol>
+<pre class="r"><code>df %&gt;%
+  mutate_if(is.character, function(x){
+    x %&gt;%
+      sapply(function(y){
+        y %&gt;%
+          charToRaw %&gt;%
+          rawToChar
+      })
+   })</code></pre>
+<blockquote>
+<p>参考的<a href="https://stackoverflow.com/questions/50843750/r-string-encoding-from-unknown-ascii-to-utf-8">问答</a></p>
+</blockquote>
+<ol start="3" style="list-style-type: decimal">
+<li>使用 stringi 包中的 <code>stringi::stri_enc_toascii()</code> 函数（推荐），配合 <code>stringi::stri_enc_isascii()</code> 使用：</li>
+</ol>
+<pre class="r"><code>a &lt;- &quot;Sympathetic\xcaNervous System&quot;
+a
+#&gt; [1] &quot;Sympathetic\xcaNervous System&quot;
+stringi::stri_enc_isascii(a)
+#&gt; [1] FALSE
+b &lt;- stringi::stri_enc_toascii(a)
+b
+#&gt; [1] &quot;Sympathetic\032Nervous System&quot;
+stringi::stri_enc_isascii(b)
+#&gt; [1] TRUE</code></pre>
+<p>利用第 3 种方法，我首先将问题锁定到了某一个数据：</p>
+<pre class="r"><code>is_asc &lt;- function(x) {
+  x &lt;- stringi::stri_enc_isascii(x)
+  if (FALSE %in% x) {
+    return(FALSE)
+  } else {
+    return(TRUE)
+  }
+}
+
+FALSE %in% sapply(TCGA.organ, is_asc)
+FALSE %in% sapply(ccle_absolute, is_asc)
+FALSE %in% sapply(ccle_info, is_asc)
+FALSE %in% sapply(tcga_clinical, is_asc)
+FALSE %in% sapply(tcga_genome_instability, is_asc)
+FALSE %in% sapply(tcga_gtex, is_asc)
+FALSE %in% sapply(tcga_purity, is_asc)
+FALSE %in% sapply(tcga_subtypes, is_asc)
+FALSE %in% sapply(tcga_surv, is_asc)
+FALSE %in% sapply(toil_info, is_asc)
+sapply(toil_info, is_asc)</code></pre>
+<p>然后锁定问题列以及检查问题字符串总数是否能对上：</p>
+<pre class="r"><code>&gt; sapply(toil_info, is_asc)
+                   sample         detailed_category primary disease or tissue             _primary_site 
+                     TRUE                      TRUE                      TRUE                     FALSE 
+             _sample_type                   _gender                    _study 
+                     TRUE                      TRUE                      TRUE 
+&gt; length(which(!stringi::stri_enc_isascii(toil_info$`_primary_site`)))
+[1] 162</code></pre>
+<p>找到具体问题位置就简单了，转换保存即可：</p>
+<pre class="r"><code>toil_info$`_primary_site` &lt;- stringi::stri_enc_toascii(toil_info$`_primary_site`)</code></pre>
+<p>提交的 gh action 也显示问题解决了：</p>
+<pre class="sh"><code>
+❯ checking installed package size ... NOTE
+    installed size is  6.1Mb
+    sub-directories of 1Mb or more:
+      doc        1.7Mb
+      shinyapp   3.2Mb
+
+0 errors ✔ | 0 warnings ✔ | 1 note ✖</code></pre>
+<p><a href="https://github.com/openbiox/UCSCXenaShiny/runs/2182335447?check_suite_focus=true">action 日志</a></p>
+<p>最后回顾一下，为什么逐步删除的方法不起作用呢？？？</p>
+<p>我还是道行太浅了～</p>
+
+
+  <footer>
+  
+<nav class="post-nav">
+  <span class="nav-prev">&larr; <a href="../../../cn/post/2021-03-14-rcpp-intro/">从斐波那契数列生成来看算法和 Rcpp 的效率</a></span>
+  <span class="nav-next"></span>
+</nav>
+<script type="text/javascript">
+document.addEventListener('keyup', function(e) {
+  if (e.target.nodeName.toUpperCase() != 'BODY') return;
+  var url = false;
+  if (e.which == 37) {  
+    
+    url = '\/cn\/post\/2021-03-14-rcpp-intro\/';
+    
+  } else if (e.which == 39) {  
+    
+  }
+  if (url) window.location = url;
+});
+</script>
+
+
+
+
+
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+<script>
+  const gitalk = new Gitalk({
+    clientID: 'eed477936be7b88a8455',
+    clientSecret: '32b5dde22f3c95c4fad400a31632e34221b07e83',
+    repo: 'home',
+    owner: 'ShixiangWang',
+    admin: ['ShixiangWang'],
+    id: md5(window.location.pathname), 
+    distractionFreeMode: false 
+  });
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('gitalk-container').innerHTML = 'Gitalk comments not available by default when the website is previewed locally.';
+      return;
+    }
+    gitalk.render('gitalk-container');
+  })();
+</script>
+
+
+
+
+
+<script async src="../../../js/fix-toc.js"></script>
+
+<script async src="../../../js/center-img.js"></script>
+
+<script async src="../../../js/right-quote.js"></script>
+
+<script async src="../../../js/no-highlight.js"></script>
+
+<script async src="../../../js/fix-footnote.js"></script>
+
+<script async src="../../../js/math-code.js"></script>
+
+<script async src="../../../js/external-link.js"></script>
+
+<script async src="../../../js/alt-title.js"></script>
+
+<script async src="../../../js/header-link.js"></script>
+
+
+<script src="//yihui.org/js/math-code.js"></script>
+<script async src="//cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script async src="//yihui.org/js/center-img.js"></script>
+
+  
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/languages/tex.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+  
+  
+  
+
+  <div class="copyright"><a href="mailto:w_shixiang@163.com"><i class='far fa-envelope fa-1x'></i></a> · <a href="https://github.com/ShixiangWang"><i class='fab fa-github fa-1x'></i></a> · <a href="https://stackoverflow.com/users/7662327/shixiang-wang"><i class='fab fa-stack-overflow fa-1x'></i></a> · <a href="https://scholar.google.com/citations?user=FvNp0NkAAAAJ&amp;hl=zh-CN"><i class='ai ai-google-scholar ai-1x'></i></a> · <a href="https://orcid.org/0000-0001-9855-7357"><i class='ai ai-orcid ai-1x'></i></a> · <a href="https://www.researchgate.net/profile/Wang_Shixiang4"><i class='ai ai-researchgate ai-1x'></i></a> <br> 本站由 <a href="https://gohugo.io">Hugo</a> 和 <a href="https://bookdown.org/yihui/blogdown/">Blogdown</a> 强力驱动 © <a href="../../../">王诗翔</a> 2017 - 2020 </div>
+  
+  
+
+  <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=56h9es09xn7&amp;m=6&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=1" async="async"></script>
+  </footer>
+  </article>
+  
+  </body>
+</html>
+

@@ -6,7 +6,11 @@
     <description>Recent content in cpp on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 14 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/cpp/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 14 Mar 2021 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/cpp/index.xml" rel="self" type="application/rss+xml" />
+    
+    
     <item>
       <title>从斐波那契数列生成来看算法和 Rcpp 的效率</title>
       <link>/cn/post/2021-03-14-rcpp-intro/</link>

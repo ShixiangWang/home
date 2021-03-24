@@ -6,7 +6,38 @@
     <description>Recent content in Tags on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 14 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 24 Mar 2021 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>check</title>
+      <link>/tags/check/</link>
+      <pubDate>Wed, 24 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/check/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>package</title>
+      <link>/tags/package/</link>
+      <pubDate>Wed, 24 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/package/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>r</title>
+      <link>/tags/r/</link>
+      <pubDate>Wed, 24 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/r/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>cpp</title>
       <link>/tags/cpp/</link>
@@ -58,15 +89,6 @@
       <pubDate>Mon, 08 Mar 2021 00:00:00 +0000</pubDate>
       
       <guid>/tags/p-value/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>r</title>
-      <link>/tags/r/</link>
-      <pubDate>Mon, 08 Mar 2021 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/r/</guid>
       <description></description>
     </item>
     
@@ -1003,15 +1025,6 @@
       <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
       
       <guid>/tags/internal/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>package</title>
-      <link>/tags/package/</link>
-      <pubDate>Sun, 09 Aug 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/package/</guid>
       <description></description>
     </item>
     

@@ -6,7 +6,11 @@
     <description>Recent content in cox on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 13 Jan 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/cox/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 13 Jan 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/cox/index.xml" rel="self" type="application/rss+xml" />
+    
+    
     <item>
       <title>使用 ezcox 展示森林图</title>
       <link>/cn/post/2020-01-13-show-forest-with-ezcox/</link>

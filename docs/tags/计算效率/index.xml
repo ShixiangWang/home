@@ -6,7 +6,11 @@
     <description>Recent content in 计算效率 on Shixiang Wang | 王诗翔</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 27 Nov 2020 00:00:00 +0000</lastBuildDate><atom:link href="/tags/%E8%AE%A1%E7%AE%97%E6%95%88%E7%8E%87/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 27 Nov 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/%E8%AE%A1%E7%AE%97%E6%95%88%E7%8E%87/index.xml" rel="self" type="application/rss+xml" />
+    
+    
     <item>
       <title>无影腿快不过组合拳？均值计算哪家强</title>
       <link>/cn/post/2020-11-27-which-is-faster-to-calc-the-mean-in-r/</link>
